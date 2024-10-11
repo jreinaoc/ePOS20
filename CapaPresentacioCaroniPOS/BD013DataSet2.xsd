@@ -1,0 +1,164 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="BD013DataSet2" targetNamespace="http://tempuri.org/BD013DataSet2.xsd" xmlns:mstns="http://tempuri.org/BD013DataSet2.xsd" xmlns="http://tempuri.org/BD013DataSet2.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="Settings" AppSettingsPropertyName="BD013ConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="BD013ConnectionString (Settings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.CapaVisual_Login.Properties.Settings.GlobalReference.Default.BD013ConnectionString" Provider="System.Data.SqlClient" />
+        </Connections>
+        <Tables>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="VW_RepAbonosTableAdapter" GeneratorDataComponentClassName="VW_RepAbonosTableAdapter" Name="VW_RepAbonos" UserDataComponentName="VW_RepAbonosTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="BD013ConnectionString (Settings)" DbObjectName="BD013.dbo.VW_RepAbonos" DbObjectType="View" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT CTE_CedIden, CTE_Nacio, Nombre, Telefono, Descripcion, RifCompania, DescripcionCompania, DescripPago, SaldoDiv, OrSer_Saldo, Tasa, Vendedor, DESART, TotalDiv, CodArticulo, Ordserv_Cant, Ordserv_PrecioDOL, NumOrdserv, ID_Abono, Abo_Fecha, Abo_Monto_Divisa, Fecha FROM dbo.VW_RepAbonos</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="CTE_CedIden" DataSetColumn="CTE_CedIden" />
+              <Mapping SourceColumn="CTE_Nacio" DataSetColumn="CTE_Nacio" />
+              <Mapping SourceColumn="Nombre" DataSetColumn="Nombre" />
+              <Mapping SourceColumn="Telefono" DataSetColumn="Telefono" />
+              <Mapping SourceColumn="Descripcion" DataSetColumn="Descripcion" />
+              <Mapping SourceColumn="RifCompania" DataSetColumn="RifCompania" />
+              <Mapping SourceColumn="DescripcionCompania" DataSetColumn="DescripcionCompania" />
+              <Mapping SourceColumn="DescripPago" DataSetColumn="DescripPago" />
+              <Mapping SourceColumn="SaldoDiv" DataSetColumn="SaldoDiv" />
+              <Mapping SourceColumn="OrSer_Saldo" DataSetColumn="OrSer_Saldo" />
+              <Mapping SourceColumn="Tasa" DataSetColumn="Tasa" />
+              <Mapping SourceColumn="Vendedor" DataSetColumn="Vendedor" />
+              <Mapping SourceColumn="DESART" DataSetColumn="DESART" />
+              <Mapping SourceColumn="TotalDiv" DataSetColumn="TotalDiv" />
+              <Mapping SourceColumn="CodArticulo" DataSetColumn="CodArticulo" />
+              <Mapping SourceColumn="Ordserv_Cant" DataSetColumn="Ordserv_Cant" />
+              <Mapping SourceColumn="Ordserv_PrecioDOL" DataSetColumn="Ordserv_PrecioDOL" />
+              <Mapping SourceColumn="NumOrdserv" DataSetColumn="NumOrdserv" />
+              <Mapping SourceColumn="ID_Abono" DataSetColumn="ID_Abono" />
+              <Mapping SourceColumn="Abo_Fecha" DataSetColumn="Abo_Fecha" />
+              <Mapping SourceColumn="Abo_Monto_Divisa" DataSetColumn="Abo_Monto_Divisa" />
+              <Mapping SourceColumn="Fecha" DataSetColumn="Fecha" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+        </Tables>
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="BD013DataSet2" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="True" msprop:Generator_DataSetName="BD013DataSet2" msprop:Generator_UserDSName="BD013DataSet2">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="VW_RepAbonos" msprop:Generator_TableClassName="VW_RepAbonosDataTable" msprop:Generator_TableVarName="tableVW_RepAbonos" msprop:Generator_TablePropName="VW_RepAbonos" msprop:Generator_RowDeletingName="VW_RepAbonosRowDeleting" msprop:Generator_RowChangingName="VW_RepAbonosRowChanging" msprop:Generator_RowEvHandlerName="VW_RepAbonosRowChangeEventHandler" msprop:Generator_RowDeletedName="VW_RepAbonosRowDeleted" msprop:Generator_UserTableName="VW_RepAbonos" msprop:Generator_RowChangedName="VW_RepAbonosRowChanged" msprop:Generator_RowEvArgName="VW_RepAbonosRowChangeEvent" msprop:Generator_RowClassName="VW_RepAbonosRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="CTE_CedIden" msprop:Generator_ColumnVarNameInTable="columnCTE_CedIden" msprop:Generator_ColumnPropNameInRow="CTE_CedIden" msprop:Generator_ColumnPropNameInTable="CTE_CedIdenColumn" msprop:Generator_UserColumnName="CTE_CedIden">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="10" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="CTE_Nacio" msprop:Generator_ColumnVarNameInTable="columnCTE_Nacio" msprop:Generator_ColumnPropNameInRow="CTE_Nacio" msprop:Generator_ColumnPropNameInTable="CTE_NacioColumn" msprop:Generator_UserColumnName="CTE_Nacio">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="1" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Nombre" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnNombre" msprop:Generator_ColumnPropNameInRow="Nombre" msprop:Generator_ColumnPropNameInTable="NombreColumn" msprop:Generator_UserColumnName="Nombre" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="76" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Telefono" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnTelefono" msprop:Generator_ColumnPropNameInRow="Telefono" msprop:Generator_ColumnPropNameInTable="TelefonoColumn" msprop:Generator_UserColumnName="Telefono" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="12" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Descripcion" msprop:Generator_ColumnVarNameInTable="columnDescripcion" msprop:Generator_ColumnPropNameInRow="Descripcion" msprop:Generator_ColumnPropNameInTable="DescripcionColumn" msprop:Generator_UserColumnName="Descripcion">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="RifCompania" msprop:Generator_ColumnVarNameInTable="columnRifCompania" msprop:Generator_ColumnPropNameInRow="RifCompania" msprop:Generator_ColumnPropNameInTable="RifCompaniaColumn" msprop:Generator_UserColumnName="RifCompania">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="25" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="DescripcionCompania" msprop:Generator_ColumnVarNameInTable="columnDescripcionCompania" msprop:Generator_ColumnPropNameInRow="DescripcionCompania" msprop:Generator_ColumnPropNameInTable="DescripcionCompaniaColumn" msprop:Generator_UserColumnName="DescripcionCompania">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="75" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="DescripPago" msprop:Generator_ColumnVarNameInTable="columnDescripPago" msprop:Generator_ColumnPropNameInRow="DescripPago" msprop:Generator_ColumnPropNameInTable="DescripPagoColumn" msprop:Generator_UserColumnName="DescripPago">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="SaldoDiv" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnSaldoDiv" msprop:Generator_ColumnPropNameInRow="SaldoDiv" msprop:Generator_ColumnPropNameInTable="SaldoDivColumn" msprop:Generator_UserColumnName="SaldoDiv" type="xs:decimal" minOccurs="0" />
+              <xs:element name="OrSer_Saldo" msprop:Generator_ColumnVarNameInTable="columnOrSer_Saldo" msprop:Generator_ColumnPropNameInRow="OrSer_Saldo" msprop:Generator_ColumnPropNameInTable="OrSer_SaldoColumn" msprop:Generator_UserColumnName="OrSer_Saldo" type="xs:decimal" />
+              <xs:element name="Tasa" msprop:Generator_ColumnVarNameInTable="columnTasa" msprop:Generator_ColumnPropNameInRow="Tasa" msprop:Generator_ColumnPropNameInTable="TasaColumn" msprop:Generator_UserColumnName="Tasa" type="xs:decimal" minOccurs="0" />
+              <xs:element name="Vendedor" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnVendedor" msprop:Generator_ColumnPropNameInRow="Vendedor" msprop:Generator_ColumnPropNameInTable="VendedorColumn" msprop:Generator_UserColumnName="Vendedor" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="51" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="DESART" msprop:Generator_ColumnVarNameInTable="columnDESART" msprop:Generator_ColumnPropNameInRow="DESART" msprop:Generator_ColumnPropNameInTable="DESARTColumn" msprop:Generator_UserColumnName="DESART" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="45" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="TotalDiv" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnTotalDiv" msprop:Generator_ColumnPropNameInRow="TotalDiv" msprop:Generator_ColumnPropNameInTable="TotalDivColumn" msprop:Generator_UserColumnName="TotalDiv" type="xs:decimal" minOccurs="0" />
+              <xs:element name="CodArticulo" msprop:Generator_ColumnVarNameInTable="columnCodArticulo" msprop:Generator_ColumnPropNameInRow="CodArticulo" msprop:Generator_ColumnPropNameInTable="CodArticuloColumn" msprop:Generator_UserColumnName="CodArticulo">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="7" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Ordserv_Cant" msprop:Generator_ColumnVarNameInTable="columnOrdserv_Cant" msprop:Generator_ColumnPropNameInRow="Ordserv_Cant" msprop:Generator_ColumnPropNameInTable="Ordserv_CantColumn" msprop:Generator_UserColumnName="Ordserv_Cant" type="xs:decimal" />
+              <xs:element name="Ordserv_PrecioDOL" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnOrdserv_PrecioDOL" msprop:Generator_ColumnPropNameInRow="Ordserv_PrecioDOL" msprop:Generator_ColumnPropNameInTable="Ordserv_PrecioDOLColumn" msprop:Generator_UserColumnName="Ordserv_PrecioDOL" type="xs:decimal" minOccurs="0" />
+              <xs:element name="NumOrdserv" msprop:Generator_ColumnVarNameInTable="columnNumOrdserv" msprop:Generator_ColumnPropNameInRow="NumOrdserv" msprop:Generator_ColumnPropNameInTable="NumOrdservColumn" msprop:Generator_UserColumnName="NumOrdserv">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="7" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="ID_Abono" msprop:Generator_ColumnVarNameInTable="columnID_Abono" msprop:Generator_ColumnPropNameInRow="ID_Abono" msprop:Generator_ColumnPropNameInTable="ID_AbonoColumn" msprop:Generator_UserColumnName="ID_Abono" type="xs:decimal" />
+              <xs:element name="Abo_Fecha" msprop:Generator_ColumnVarNameInTable="columnAbo_Fecha" msprop:Generator_ColumnPropNameInRow="Abo_Fecha" msprop:Generator_ColumnPropNameInTable="Abo_FechaColumn" msprop:Generator_UserColumnName="Abo_Fecha" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="7" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Abo_Monto_Divisa" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnAbo_Monto_Divisa" msprop:Generator_ColumnPropNameInRow="Abo_Monto_Divisa" msprop:Generator_ColumnPropNameInTable="Abo_Monto_DivisaColumn" msprop:Generator_UserColumnName="Abo_Monto_Divisa" type="xs:decimal" minOccurs="0" />
+              <xs:element name="Fecha" msprop:Generator_ColumnVarNameInTable="columnFecha" msprop:Generator_ColumnPropNameInRow="Fecha" msprop:Generator_ColumnPropNameInTable="FechaColumn" msprop:Generator_UserColumnName="Fecha" type="xs:dateTime" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

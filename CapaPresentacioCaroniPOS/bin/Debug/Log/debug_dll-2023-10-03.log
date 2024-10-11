@@ -1,0 +1,11 @@
+114713041-> OPEN PORT: COM1@9600
+114713094-> ********************** COMMAND BEGIN **********************
+114713095-> data sent to printer:
+114713095-> <2>Q<3>
+114713103-> data received from printer:
+114713260-> <21>
+114713261-> ********************** COMMAND BEGIN **********************
+114713261-> data sent to printer:
+114713262-> <2>M<3>
+114713269-> data received from printer:
+114713425-> <21>

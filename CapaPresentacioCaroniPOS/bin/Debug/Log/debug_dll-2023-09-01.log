@@ -1,0 +1,11 @@
+105711639-> OPEN PORT: COM1@9600
+105711737-> ********************** COMMAND BEGIN **********************
+105711738-> data sent to printer:
+105711738-> <2>Q<3>
+105711746-> data received from printer:
+105711903-> <21>
+105711904-> ********************** COMMAND BEGIN **********************
+105711905-> data sent to printer:
+105711905-> <2>M<3>
+105711912-> data received from printer:
+105712068-> <21>

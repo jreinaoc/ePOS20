@@ -1,0 +1,22 @@
+095819854-> OPEN PORT: COM1@9600
+095819917-> ********************** COMMAND BEGIN **********************
+095819917-> data sent to printer:
+095819918-> <2>Q<3>
+095819925-> data received from printer:
+095820081-> <21>
+095820082-> ********************** COMMAND BEGIN **********************
+095820082-> data sent to printer:
+095820082-> <2>M<3>
+095820090-> data received from printer:
+095820246-> <21>
+162242378-> OPEN PORT: COM1@9600
+162242442-> ********************** COMMAND BEGIN **********************
+162242442-> data sent to printer:
+162242442-> <2>Q<3>
+162242450-> data received from printer:
+162242615-> <21>
+162242616-> ********************** COMMAND BEGIN **********************
+162242616-> data sent to printer:
+162242617-> <2>M<3>
+162242624-> data received from printer:
+162242780-> <21>

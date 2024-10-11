@@ -1,0 +1,10 @@
+C:\Programacion\CaroniPOS1\CapaEntidades\bin\Release\CapaEntidades.dll
+C:\Programacion\CaroniPOS1\CapaEntidades\bin\Release\CapaEntidades.pdb
+C:\Programacion\CaroniPOS1\CapaEntidades\bin\Release\log4net.dll
+C:\Programacion\CaroniPOS1\CapaEntidades\bin\Release\System.ComponentModel.Annotations.dll
+C:\Programacion\CaroniPOS1\CapaEntidades\bin\Release\log4net.xml
+C:\Programacion\CaroniPOS1\CapaEntidades\obj\Release\CapaEntidades.csproj.AssemblyReference.cache
+C:\Programacion\CaroniPOS1\CapaEntidades\obj\Release\CapaEntidades.csproj.CoreCompileInputs.cache
+C:\Programacion\CaroniPOS1\CapaEntidades\obj\Release\CapaEntidades.csproj.CopyComplete
+C:\Programacion\CaroniPOS1\CapaEntidades\obj\Release\CapaEntidades.dll
+C:\Programacion\CaroniPOS1\CapaEntidades\obj\Release\CapaEntidades.pdb

@@ -1,0 +1,98 @@
+﻿using CapaVisual_Login.Reportes;
+using Microsoft.Reporting.WinForms;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Configuration;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace CapaVisual_Login
+{
+    public partial class FrmMostrarRep : Form
+    {
+        public FrmMostrarRep()
+        {
+            InitializeComponent();
+        }
+
+        private string conexion = ConfigurationManager.ConnectionStrings["Epos"].ConnectionString;
+
+        private void FrmMostrarRep_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        public void ConfigRep()
+        {
+            ReportDataSource fuente = new ReportDataSource();
+            fuente.Name = "CapaVisual_Login.Reportes.DsRepCambio"; // Nombre identico al que le di al dataset del report en tiempo de diseño
+            fuente.Value = reportViewer1.LocalReport.DataSources;
+            reportViewer1.LocalReport.DataSources.Clear();
+            reportViewer1.LocalReport.DataSources.Add(fuente);
+            reportViewer1.LocalReport.ReportEmbeddedResource = "CapaVisual_Login.Reportes.RepCambio.rdlc";
+            reportViewer1.ProcessingMode = ProcessingMode.Local;
+        }
+
+        public void imprimir(string Orden, string Factura, string correlativo, string Nombre_Sucursal, string Cliente, string telefono, string Banco, string Monto)
+        {
+
+            LocalReport rdlc = new LocalReport();   //importante
+            rdlc.ReportEmbeddedResource = "CapaVisual_Login.Reportes.RepCambio.rdlc";
+            // cierras cualquier conexion que pueda estar abierta 
+            this.SP_CPOS_RepCambioTableAdapter.Connection.Close();
+            this.SP_CPOS_RepCambioTableAdapter.Connection.ConnectionString = conexion;
+            this.SP_CPOS_RepCambioTableAdapter.Fill(this.dsCambio.SP_CPOS_RepCambio, "", "", "");
+
+            //parametro para enviar al reporte 
+            ReportParameter reportParameter = new ReportParameter("NunFactura", Factura);
+            ReportParameter reportParameter2 = new ReportParameter("NunCorrelativo", correlativo);
+            ReportParameter reportParameter3 = new ReportParameter("NunOs", Orden);
+            ReportParameter reportParameter4 = new ReportParameter("NunSucursal", Nombre_Sucursal);
+            ReportParameter reportParameter5 = new ReportParameter("NunCliente", Cliente);
+            ReportParameter reportParameter6 = new ReportParameter("NunTelefono", telefono);
+            ReportParameter reportParameter7 = new ReportParameter("NunBanco", Banco);
+            ReportParameter reportParameter8 = new ReportParameter("NunMonto", Monto);
+
+            rdlc.SetParameters(new ReportParameter[] { reportParameter, reportParameter2, reportParameter3, reportParameter4, reportParameter5, reportParameter6, reportParameter7, reportParameter8 });
+            rdlc.DataSources.Add(new ReportDataSource("DsRepCambio", bindingSource1));
+            Impresor imp = new Impresor();
+            imp.Imprime(rdlc);
+
+        }
+
+        public void Mostrar(string Orden,string Factura, string correlativo, string Nombre_Sucursal, string Cliente, string telefono, string Banco, string Monto)
+        {
+            // cierras cualquier conexion que pueda estar abierta 
+            this.SP_CPOS_RepCambioTableAdapter.Connection.Close();
+            //Abres nuevamente la conexion
+            this.SP_CPOS_RepCambioTableAdapter.Connection.ConnectionString = conexion;
+            this.SP_CPOS_RepCambioTableAdapter.Fill(this.dsCambio.SP_CPOS_RepCambio, "", "", "");
+            
+
+            //parametro para enviar al reporte 
+            ReportParameter reportParameter = new ReportParameter("NunFactura", Factura);
+            ReportParameter reportParameter2 = new ReportParameter("NunCorrelativo", correlativo);
+            ReportParameter reportParameter3 = new ReportParameter("NunOs", Orden);
+            ReportParameter reportParameter4 = new ReportParameter("NunSucursal", Nombre_Sucursal);
+            ReportParameter reportParameter5 = new ReportParameter("NunCliente", Cliente);
+            ReportParameter reportParameter6 = new ReportParameter("NunTelefono", telefono);
+            ReportParameter reportParameter7 = new ReportParameter("NunBanco", Banco);
+            ReportParameter reportParameter8 = new ReportParameter("NunMonto", Monto);
+
+            this.reportViewer1.LocalReport.SetParameters(new ReportParameter[] { reportParameter,reportParameter2,reportParameter3,reportParameter4,reportParameter5,reportParameter6,reportParameter7,reportParameter8 });
+
+            //Mostrar el reporte en el reportViwer1
+            this.reportViewer1.LocalReport.DataSources.Add(new ReportDataSource("DsRepCambio", bindingSource1));
+            this.reportViewer1.RefreshReport();
+
+        }
+
+    }
+
+ }
+

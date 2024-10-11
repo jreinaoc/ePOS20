@@ -1,0 +1,11 @@
+161803794-> OPEN PORT: COM1@9600
+161803916-> ********************** COMMAND BEGIN **********************
+161803917-> data sent to printer:
+161803918-> <2>Q<3>
+161803925-> data received from printer:
+161804090-> <21>
+161804091-> ********************** COMMAND BEGIN **********************
+161804091-> data sent to printer:
+161804092-> <2>M<3>
+161804099-> data received from printer:
+161804256-> <21>

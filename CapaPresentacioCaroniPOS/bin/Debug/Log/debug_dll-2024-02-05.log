@@ -1,0 +1,22 @@
+140721463-> OPEN PORT: COM1@9600
+140721576-> ********************** COMMAND BEGIN **********************
+140721577-> data sent to printer:
+140721577-> <2>Q<3>
+140721585-> data received from printer:
+140721738-> <21>
+140721739-> ********************** COMMAND BEGIN **********************
+140721740-> data sent to printer:
+140721740-> <2>M<3>
+140721748-> data received from printer:
+140721904-> <21>
+140815936-> OPEN PORT: COM1@9600
+140815977-> ********************** COMMAND BEGIN **********************
+140815977-> data sent to printer:
+140815977-> <2>Q<3>
+140815985-> data received from printer:
+140816160-> <21>
+140816160-> ********************** COMMAND BEGIN **********************
+140816161-> data sent to printer:
+140816161-> <2>M<3>
+140816169-> data received from printer:
+140816325-> <21>

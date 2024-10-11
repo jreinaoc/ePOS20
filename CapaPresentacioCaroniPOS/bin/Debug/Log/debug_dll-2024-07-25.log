@@ -1,0 +1,187 @@
+094835905-> OPEN PORT: COM1@9600
+094836092-> ********************** COMMAND BEGIN **********************
+094836092-> data sent to printer:
+094836092-> <2>Q<3>
+094836100-> data received from printer:
+094836254-> <21>
+094836255-> ********************** COMMAND BEGIN **********************
+094836255-> data sent to printer:
+094836256-> <2>M<3>
+094836263-> data received from printer:
+094836419-> <21>
+100756000-> OPEN PORT: COM1@9600
+100756152-> ********************** COMMAND BEGIN **********************
+100756152-> data sent to printer:
+100756153-> <2>Q<3>
+100756161-> data received from printer:
+100756338-> <21>
+100756339-> ********************** COMMAND BEGIN **********************
+100756340-> data sent to printer:
+100756340-> <2>M<3>
+100756347-> data received from printer:
+100756503-> <21>
+100835457-> OPEN PORT: COM1@9600
+100835498-> ********************** COMMAND BEGIN **********************
+100835499-> data sent to printer:
+100835499-> <2>Q<3>
+100835506-> data received from printer:
+100835658-> <21>
+100835659-> ********************** COMMAND BEGIN **********************
+100835659-> data sent to printer:
+100835659-> <2>M<3>
+100835667-> data received from printer:
+100835824-> <21>
+101228582-> OPEN PORT: COM1@9600
+101228637-> ********************** COMMAND BEGIN **********************
+101228638-> data sent to printer:
+101228638-> <2>Q<3>
+101228646-> data received from printer:
+101228802-> <21>
+101228803-> ********************** COMMAND BEGIN **********************
+101228803-> data sent to printer:
+101228804-> <2>M<3>
+101228811-> data received from printer:
+101228967-> <21>
+101625030-> OPEN PORT: COM1@9600
+101625071-> ********************** COMMAND BEGIN **********************
+101625071-> data sent to printer:
+101625071-> <2>Q<3>
+101625079-> data received from printer:
+101625235-> <21>
+101625236-> ********************** COMMAND BEGIN **********************
+101625236-> data sent to printer:
+101625237-> <2>M<3>
+101625244-> data received from printer:
+101625400-> <21>
+103152716-> OPEN PORT: COM1@9600
+103152809-> ********************** COMMAND BEGIN **********************
+103152809-> data sent to printer:
+103152809-> <2>Q<3>
+103152817-> data received from printer:
+103152968-> <21>
+103152969-> ********************** COMMAND BEGIN **********************
+103152969-> data sent to printer:
+103152970-> <2>M<3>
+103152977-> data received from printer:
+103153133-> <21>
+103431423-> OPEN PORT: COM1@9600
+103431464-> ********************** COMMAND BEGIN **********************
+103431464-> data sent to printer:
+103431465-> <2>Q<3>
+103431472-> data received from printer:
+103431634-> <21>
+103431635-> ********************** COMMAND BEGIN **********************
+103431636-> data sent to printer:
+103431636-> <2>M<3>
+103431644-> data received from printer:
+103431799-> <21>
+103942897-> OPEN PORT: COM1@9600
+103942939-> ********************** COMMAND BEGIN **********************
+103942940-> data sent to printer:
+103942940-> <2>Q<3>
+103942948-> data received from printer:
+103943099-> <21>
+103943100-> ********************** COMMAND BEGIN **********************
+103943101-> data sent to printer:
+103943101-> <2>M<3>
+103943109-> data received from printer:
+103943265-> <21>
+105050341-> OPEN PORT: COM1@9600
+105050382-> ********************** COMMAND BEGIN **********************
+105050382-> data sent to printer:
+105050382-> <2>Q<3>
+105050390-> data received from printer:
+105050542-> <21>
+105050543-> ********************** COMMAND BEGIN **********************
+105050544-> data sent to printer:
+105050544-> <2>M<3>
+105050552-> data received from printer:
+105050708-> <21>
+111006934-> OPEN PORT: COM1@9600
+111006975-> ********************** COMMAND BEGIN **********************
+111006976-> data sent to printer:
+111006976-> <2>Q<3>
+111006984-> data received from printer:
+111007140-> <21>
+111007141-> ********************** COMMAND BEGIN **********************
+111007141-> data sent to printer:
+111007142-> <2>M<3>
+111007149-> data received from printer:
+111007305-> <21>
+112654792-> OPEN PORT: COM1@9600
+112654842-> ********************** COMMAND BEGIN **********************
+112654842-> data sent to printer:
+112654842-> <2>Q<3>
+112654850-> data received from printer:
+112655007-> <21>
+112655008-> ********************** COMMAND BEGIN **********************
+112655008-> data sent to printer:
+112655009-> <2>M<3>
+112655016-> data received from printer:
+112655172-> <21>
+114732284-> OPEN PORT: COM1@9600
+114732420-> ********************** COMMAND BEGIN **********************
+114732421-> data sent to printer:
+114732422-> <2>Q<3>
+114732430-> data received from printer:
+114732595-> <21>
+114732596-> ********************** COMMAND BEGIN **********************
+114732596-> data sent to printer:
+114732597-> <2>M<3>
+114732604-> data received from printer:
+114732760-> <21>
+115359846-> OPEN PORT: COM1@9600
+115359887-> ********************** COMMAND BEGIN **********************
+115359887-> data sent to printer:
+115359887-> <2>Q<3>
+115359895-> data received from printer:
+115400054-> <21>
+115400055-> ********************** COMMAND BEGIN **********************
+115400055-> data sent to printer:
+115400056-> <2>M<3>
+115400063-> data received from printer:
+115400219-> <21>
+115948597-> OPEN PORT: COM1@9600
+115948638-> ********************** COMMAND BEGIN **********************
+115948639-> data sent to printer:
+115948639-> <2>Q<3>
+115948647-> data received from printer:
+115948797-> <21>
+115948798-> ********************** COMMAND BEGIN **********************
+115948799-> data sent to printer:
+115948799-> <2>M<3>
+115948807-> data received from printer:
+115948962-> <21>
+120520386-> OPEN PORT: COM1@9600
+120520428-> ********************** COMMAND BEGIN **********************
+120520436-> data sent to printer:
+120520437-> <2>Q<3>
+120520444-> data received from printer:
+120520608-> <21>
+120520609-> ********************** COMMAND BEGIN **********************
+120520610-> data sent to printer:
+120520610-> <2>M<3>
+120520618-> data received from printer:
+120520773-> <21>
+123950991-> OPEN PORT: COM1@9600
+123951093-> ********************** COMMAND BEGIN **********************
+123951094-> data sent to printer:
+123951094-> <2>Q<3>
+123951102-> data received from printer:
+123951260-> <21>
+123951261-> ********************** COMMAND BEGIN **********************
+123951262-> data sent to printer:
+123951262-> <2>M<3>
+123951270-> data received from printer:
+123951424-> <21>
+150527392-> OPEN PORT: COM1@9600
+150527512-> ********************** COMMAND BEGIN **********************
+150527512-> data sent to printer:
+150527512-> <2>Q<3>
+150527520-> data received from printer:
+150527679-> <21>
+150527680-> ********************** COMMAND BEGIN **********************
+150527681-> data sent to printer:
+150527681-> <2>M<3>
+150527688-> data received from printer:
+150527844-> <21>
