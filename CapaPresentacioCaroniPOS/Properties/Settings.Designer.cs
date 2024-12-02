@@ -43,5 +43,27 @@ namespace CapaVisual_Login.Properties {
                 return ((string)(this["BD_098_04_04_2024ConnectionString"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=vcaronibd1\\vcaronibd1;Initial Catalog=BD_151_2024;Persist Security In" +
+            "fo=True;User ID=interconexion;Password=interconexion")]
+        public string BD_151_2024ConnectionString {
+            get {
+                return ((string)(this["BD_151_2024ConnectionString"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=vcaronibd1\\vcaronibd1;Initial Catalog=BD_107_Epos2;Persist Security I" +
+            "nfo=True;User ID=interconexion;Password=interconexion")]
+        public string BD_107_Epos2ConnectionString {
+            get {
+                return ((string)(this["BD_107_Epos2ConnectionString"]));
+            }
+        }
     }
 }

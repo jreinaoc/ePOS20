@@ -9,3 +9,10 @@
         }
     }
 }
+
+namespace CapaVisual_Login.Reportes.DsRepOrdenTableAdapters {
+    
+    
+    public partial class SP_CPOS_REP_ORDENTableAdapter {
+    }
+}

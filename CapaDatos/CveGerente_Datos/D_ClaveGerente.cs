@@ -32,7 +32,7 @@ namespace CapaDatos.CveGerente_Datos
         {
             string a;
 
-            SqlCommand cmd = new SqlCommand("SELECT Id_especial FROM TB_USUARIO WHERE @gerente = USER_NOMBRE + ' '+ USER_APELLIDO", cn.LeerCadena());
+            SqlCommand cmd = new SqlCommand("SELECT Id_especial FROM TB_USUARIO WHERE @gerente = USER_NOMBRE + ' '+ USER_APELLIDO AND USER_ST= 'A'", cn.LeerCadena());
             cmd.Parameters.AddWithValue("gerente", Gerente);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataTable dt = new DataTable();

@@ -1,0 +1,55 @@
+123142434-> OPEN PORT: COM1@9600
+123142485-> ********************** COMMAND BEGIN **********************
+123142486-> data sent to printer:
+123142486-> <2>Q<3>
+123142494-> data received from printer:
+123142656-> <21>
+123142657-> ********************** COMMAND BEGIN **********************
+123142657-> data sent to printer:
+123142658-> <2>M<3>
+123142665-> data received from printer:
+123142821-> <21>
+123304035-> OPEN PORT: COM1@9600
+123304075-> ********************** COMMAND BEGIN **********************
+123304075-> data sent to printer:
+123304075-> <2>Q<3>
+123304083-> data received from printer:
+123304243-> <21>
+123304244-> ********************** COMMAND BEGIN **********************
+123304244-> data sent to printer:
+123304245-> <2>M<3>
+123304252-> data received from printer:
+123304409-> <21>
+143233617-> OPEN PORT: COM1@9600
+143233679-> ********************** COMMAND BEGIN **********************
+143233680-> data sent to printer:
+143233681-> <2>Q<3>
+143233689-> data received from printer:
+143233846-> <21>
+143233847-> ********************** COMMAND BEGIN **********************
+143233848-> data sent to printer:
+143233848-> <2>M<3>
+143233856-> data received from printer:
+143234012-> <21>
+143814686-> OPEN PORT: COM1@9600
+143814727-> ********************** COMMAND BEGIN **********************
+143814727-> data sent to printer:
+143814727-> <2>Q<3>
+143814735-> data received from printer:
+143814900-> <21>
+143814901-> ********************** COMMAND BEGIN **********************
+143814901-> data sent to printer:
+143814902-> <2>M<3>
+143814909-> data received from printer:
+143815065-> <21>
+154831771-> OPEN PORT: COM1@9600
+154831839-> ********************** COMMAND BEGIN **********************
+154831839-> data sent to printer:
+154831839-> <2>Q<3>
+154831847-> data received from printer:
+154832001-> <21>
+154832002-> ********************** COMMAND BEGIN **********************
+154832002-> data sent to printer:
+154832003-> <2>M<3>
+154832010-> data received from printer:
+154832167-> <21>

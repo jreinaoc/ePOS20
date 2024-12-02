@@ -2,14 +2,16 @@
 <xs:schema id="DsRepOrden" targetNamespace="http://tempuri.org/DsRepOrden.xsd" xmlns:mstns="http://tempuri.org/DsRepOrden.xsd" xmlns="http://tempuri.org/DsRepOrden.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
   <xs:annotation>
     <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
-      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="2" FunctionsComponentName="QueriesTableAdapter" GeneratorFunctionsComponentClassName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" UserFunctionsComponentName="QueriesTableAdapter" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
         <Connections>
           <Connection AppSettingsObjectName="Settings" AppSettingsPropertyName="BD013ConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="BD013ConnectionString (Settings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.CapaVisual_Login.Properties.Settings.GlobalReference.Default.BD013ConnectionString" Provider="System.Data.SqlClient" />
+          <Connection AppSettingsObjectName="Settings" AppSettingsPropertyName="BD_151_2024ConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="BD_151_2024ConnectionString (Settings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.CapaVisual_Login.Properties.Settings.GlobalReference.Default.BD_151_2024ConnectionString" Provider="System.Data.SqlClient" />
+          <Connection AppSettingsObjectName="Settings" AppSettingsPropertyName="BD_107_Epos2ConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="BD_107_Epos2ConnectionString (Settings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.CapaVisual_Login.Properties.Settings.GlobalReference.Default.BD_107_Epos2ConnectionString" Provider="System.Data.SqlClient" />
         </Connections>
         <Tables>
           <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="SP_CPOS_REP_ORDENTableAdapter" GeneratorDataComponentClassName="SP_CPOS_REP_ORDENTableAdapter" Name="SP_CPOS_REP_ORDEN" UserDataComponentName="SP_CPOS_REP_ORDENTableAdapter">
             <MainSource>
-              <DbSource ConnectionRef="BD013ConnectionString (Settings)" DbObjectName="BD013.dbo.SP_CPOS_REP_ORDEN" DbObjectType="StoredProcedure" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+              <DbSource ConnectionRef="BD_107_Epos2ConnectionString (Settings)" DbObjectName="BD_107_Epos2.dbo.SP_CPOS_REP_ORDEN" DbObjectType="StoredProcedure" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
                 <SelectCommand>
                   <DbCommand CommandType="StoredProcedure" ModifiedByUser="false">
                     <CommandText>dbo.SP_CPOS_REP_ORDEN</CommandText>
@@ -346,6 +348,11 @@
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
+              <xs:element name="Garantia" msprop:Generator_ColumnVarNameInTable="columnGarantia" msprop:Generator_ColumnPropNameInRow="Garantia" msprop:Generator_ColumnPropNameInTable="GarantiaColumn" msprop:Generator_UserColumnName="Garantia" type="xs:string" minOccurs="0" />
+              <xs:element name="Observacion" msprop:Generator_ColumnVarNameInTable="columnObservacion" msprop:Generator_ColumnPropNameInRow="Observacion" msprop:Generator_ColumnPropNameInTable="ObservacionColumn" msprop:Generator_UserColumnName="Observacion" type="xs:string" minOccurs="0" />
+              <xs:element name="NumExame" msprop:Generator_ColumnVarNameInTable="columnNumExame" msprop:Generator_ColumnPropNameInRow="NumExame" msprop:Generator_ColumnPropNameInTable="NumExameColumn" msprop:Generator_UserColumnName="NumExame" type="xs:string" minOccurs="0" />
+              <xs:element name="TipoTrabajo" msprop:Generator_ColumnVarNameInTable="columnTipoTrabajo" msprop:Generator_ColumnPropNameInRow="TipoTrabajo" msprop:Generator_ColumnPropNameInTable="TipoTrabajoColumn" msprop:Generator_UserColumnName="TipoTrabajo" type="xs:string" minOccurs="0" />
+              <xs:element name="RepGarantia" msprop:Generator_ColumnVarNameInTable="columnRepGarantia" msprop:Generator_ColumnPropNameInRow="RepGarantia" msprop:Generator_ColumnPropNameInTable="RepGarantiaColumn" msprop:Generator_UserColumnName="RepGarantia" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>

@@ -233,6 +233,8 @@ namespace CapaVisual_Login
 
             }
 
+            // Refrescar Grid Ultimas Ventas del Dia 
+            MostarOrdenes();
         }
 
 
@@ -418,7 +420,7 @@ namespace CapaVisual_Login
 
                 Grafico3.Visible = false;
                 Grafico4.Visible = false;
-                CrearGrafico("30", "", "013");
+                CrearGrafico("30", "", "075");
                 _L_Inicio.CargarTexboxDol();
                 LblTasa.Text = _L_Inicio.TasaDiaDol;
                 LblBs.Text = "Bs/$";

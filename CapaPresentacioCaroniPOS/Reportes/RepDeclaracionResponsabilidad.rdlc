@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
   <AutoRefresh>0</AutoRefresh>
-  <DataSets>
-    <DataSet Name="DataSet1ggdgdgd">
-      <Query>
-        <DataSourceName />
-        <CommandText />
-      </Query>
-    </DataSet>
-  </DataSets>
   <ReportSections>
     <ReportSection>
       <Body>
@@ -20,9 +12,10 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>Sucursal:   </Value>
+                    <Value>Sucursal: </Value>
                     <Style>
                       <FontStyle>Normal</FontStyle>
+                      <FontFamily>Calibri</FontFamily>
                       <FontWeight>Normal</FontWeight>
                       <TextDecoration>None</TextDecoration>
                     </Style>
@@ -31,14 +24,16 @@
                     <Value>=Parameters!Sucursal.Value</Value>
                     <Style>
                       <FontStyle>Normal</FontStyle>
+                      <FontFamily>Calibri</FontFamily>
                       <FontWeight>Normal</FontWeight>
                       <TextDecoration>None</TextDecoration>
                     </Style>
                   </TextRun>
                   <TextRun>
-                    <Value>                                                              Fecha:  </Value>
+                    <Value>                                                                                Fecha:  </Value>
                     <Style>
                       <FontStyle>Normal</FontStyle>
+                      <FontFamily>Calibri</FontFamily>
                       <FontWeight>Normal</FontWeight>
                       <TextDecoration>None</TextDecoration>
                     </Style>
@@ -47,6 +42,23 @@
                     <Value>=Parameters!Fecha.Value</Value>
                     <Style>
                       <FontStyle>Normal</FontStyle>
+                      <FontFamily>Calibri</FontFamily>
+                      <FontWeight>Normal</FontWeight>
+                      <TextDecoration>None</TextDecoration>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Left</TextAlign>
+                </Style>
+              </Paragraph>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value />
+                    <Style>
+                      <FontStyle>Normal</FontStyle>
+                      <FontFamily>Calibri</FontFamily>
                       <FontWeight>Normal</FontWeight>
                       <TextDecoration>None</TextDecoration>
                     </Style>
@@ -62,6 +74,7 @@
                     <Value>Nro de Orden: </Value>
                     <Style>
                       <FontStyle>Normal</FontStyle>
+                      <FontFamily>Calibri</FontFamily>
                       <FontWeight>Normal</FontWeight>
                       <TextDecoration>None</TextDecoration>
                     </Style>
@@ -70,6 +83,7 @@
                     <Value>=Parameters!NumeroOrden.Value</Value>
                     <Style>
                       <FontStyle>Normal</FontStyle>
+                      <FontFamily>Calibri</FontFamily>
                       <FontWeight>Normal</FontWeight>
                       <TextDecoration>None</TextDecoration>
                     </Style>
@@ -83,6 +97,7 @@
                     <Value />
                     <Style>
                       <FontStyle>Normal</FontStyle>
+                      <FontFamily>Calibri</FontFamily>
                       <FontWeight>Normal</FontWeight>
                       <TextDecoration>None</TextDecoration>
                     </Style>
@@ -96,6 +111,7 @@
                     <Value>Declaración</Value>
                     <Style>
                       <FontStyle>Normal</FontStyle>
+                      <FontFamily>Calibri</FontFamily>
                       <FontWeight>Normal</FontWeight>
                       <TextDecoration>None</TextDecoration>
                     </Style>
@@ -111,6 +127,7 @@
                     <Value />
                     <Style>
                       <FontStyle>Normal</FontStyle>
+                      <FontFamily>Calibri</FontFamily>
                       <FontWeight>Normal</FontWeight>
                       <TextDecoration>None</TextDecoration>
                     </Style>
@@ -121,9 +138,26 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>Yo, __________________________________, venezolano(a), mayor de edad y titular de la cédula de </Value>
+                    <Value>Yo, </Value>
                     <Style>
                       <FontStyle>Normal</FontStyle>
+                      <FontFamily>Calibri</FontFamily>
+                      <FontWeight>Normal</FontWeight>
+                      <TextDecoration>None</TextDecoration>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value>=Parameters!NombreCliente.Value</Value>
+                    <Style>
+                      <FontFamily>Calibri</FontFamily>
+                      <TextDecoration>Underline</TextDecoration>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value>_______________, venezolano(a), mayor de edad y titular de la cédula de identidad Personal </Value>
+                    <Style>
+                      <FontStyle>Normal</FontStyle>
+                      <FontFamily>Calibri</FontFamily>
                       <FontWeight>Normal</FontWeight>
                       <TextDecoration>None</TextDecoration>
                     </Style>
@@ -139,139 +173,29 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>identidad Personal No. _________________________, a través de la presente declaro:
+                    <Value>No. </Value>
+                    <Style>
+                      <FontStyle>Normal</FontStyle>
+                      <FontFamily>Calibri</FontFamily>
+                      <FontWeight>Normal</FontWeight>
+                      <TextDecoration>None</TextDecoration>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value>=Parameters!Cedula.Value</Value>
+                    <Style>
+                      <FontFamily>Calibri</FontFamily>
+                      <TextDecoration>Underline</TextDecoration>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value>_____________, a través de la presente declaro:
 
-Que los lentes que estoy dando en reparación a Óptica Caroní, cuyas especificaciones se </Value>
+Que los lentes que estoy dando en reparación a Optica Caroni, cuyas especificaciones se encuentran abajo discriminadas, poseen un desgaste natural como consecuencia del uso reiterado en el tiempo y que doy los mismos bajo mi propio riesgo. Por lo tanto eximo de responsabilidad a Optica Caroni y a su personal de cualquier daño o deterioro que sobrevenga de la reparación y/o manipulación necesaria de mis Lentes según el servicio solicitado. Igualmente declaro que he sido advertido(a) de las consecuencias que pueden ocurrirle a mis lentes según sus condiciones descritas abajo.
+Optica Caroni, se hace responsable únicamente por los daños causados por su personal los cuales deben ser perfectamente demostrables, indemnizando sólo hasta un Cincuenta (50%) del valor total de la montura y/o cristales, según la orden de trabajo, más el reembolso en caso de abonos.</Value>
                     <Style>
                       <FontStyle>Normal</FontStyle>
-                      <FontWeight>Normal</FontWeight>
-                      <TextDecoration>None</TextDecoration>
-                    </Style>
-                  </TextRun>
-                </TextRuns>
-                <LeftIndent>0cm</LeftIndent>
-                <RightIndent>0cm</RightIndent>
-                <Style>
-                  <TextAlign>Left</TextAlign>
-                  <LineHeight>13pt</LineHeight>
-                </Style>
-              </Paragraph>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value>encuentran abajo discriminadas, poseen un desgaste natural como consecuencia del uso </Value>
-                    <Style>
-                      <FontStyle>Normal</FontStyle>
-                      <FontWeight>Normal</FontWeight>
-                      <TextDecoration>None</TextDecoration>
-                    </Style>
-                  </TextRun>
-                </TextRuns>
-                <LeftIndent>0cm</LeftIndent>
-                <RightIndent>0cm</RightIndent>
-                <Style>
-                  <TextAlign>Left</TextAlign>
-                  <LineHeight>13pt</LineHeight>
-                </Style>
-              </Paragraph>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value>reiterado en el tiempo y que doy los mismos bajo mi propio riesgo. Por lo tanto eximo de </Value>
-                    <Style>
-                      <FontStyle>Normal</FontStyle>
-                      <FontWeight>Normal</FontWeight>
-                      <TextDecoration>None</TextDecoration>
-                    </Style>
-                  </TextRun>
-                </TextRuns>
-                <LeftIndent>0cm</LeftIndent>
-                <RightIndent>0cm</RightIndent>
-                <Style>
-                  <TextAlign>Left</TextAlign>
-                  <LineHeight>13pt</LineHeight>
-                </Style>
-              </Paragraph>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value>responsabilidad a Óptica Caroní y a su personal de cualquier daño o deterioro que sobrevenga </Value>
-                    <Style>
-                      <FontStyle>Normal</FontStyle>
-                      <FontWeight>Normal</FontWeight>
-                      <TextDecoration>None</TextDecoration>
-                    </Style>
-                  </TextRun>
-                </TextRuns>
-                <LeftIndent>0cm</LeftIndent>
-                <RightIndent>0cm</RightIndent>
-                <Style>
-                  <TextAlign>Left</TextAlign>
-                  <LineHeight>13pt</LineHeight>
-                </Style>
-              </Paragraph>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value>de la manipulación de esta montura o los lentes mientras tengan el servicio solicitado.
-Igualmente declaro que he sido advertido(a) de las consecuencias que pueden ocurrirle a mis </Value>
-                    <Style>
-                      <FontStyle>Normal</FontStyle>
-                      <FontWeight>Normal</FontWeight>
-                      <TextDecoration>None</TextDecoration>
-                    </Style>
-                  </TextRun>
-                </TextRuns>
-                <LeftIndent>0cm</LeftIndent>
-                <RightIndent>0cm</RightIndent>
-                <Style>
-                  <TextAlign>Left</TextAlign>
-                  <LineHeight>13pt</LineHeight>
-                </Style>
-              </Paragraph>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value>lentes en sus condiciones descritas abajo.
-Óptica Caroní, se hace responsable únicamente por los daños causados por su personal, los </Value>
-                    <Style>
-                      <FontStyle>Normal</FontStyle>
-                      <FontWeight>Normal</FontWeight>
-                      <TextDecoration>None</TextDecoration>
-                    </Style>
-                  </TextRun>
-                </TextRuns>
-                <LeftIndent>0cm</LeftIndent>
-                <RightIndent>0cm</RightIndent>
-                <Style>
-                  <TextAlign>Left</TextAlign>
-                  <LineHeight>13pt</LineHeight>
-                </Style>
-              </Paragraph>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value>cuales deben ser perfectamente demostrables, indemnizando sólo hasta un Cincuenta (50%) del </Value>
-                    <Style>
-                      <FontStyle>Normal</FontStyle>
-                      <FontWeight>Normal</FontWeight>
-                      <TextDecoration>None</TextDecoration>
-                    </Style>
-                  </TextRun>
-                </TextRuns>
-                <LeftIndent>0cm</LeftIndent>
-                <RightIndent>0cm</RightIndent>
-                <Style>
-                  <TextAlign>Left</TextAlign>
-                  <LineHeight>13pt</LineHeight>
-                </Style>
-              </Paragraph>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value>valor total de la montura y/o cristales, según la orden de trabajo, más el reembolso en caso de abonos.</Value>
-                    <Style>
-                      <FontStyle>Normal</FontStyle>
+                      <FontFamily>Calibri</FontFamily>
                       <FontWeight>Normal</FontWeight>
                       <TextDecoration>None</TextDecoration>
                     </Style>
@@ -289,12 +213,15 @@ Igualmente declaro que he sido advertido(a) de las consecuencias que pueden ocur
                   <TextRun>
                     <Value xml:space="preserve">
 </Value>
-                    <Style />
+                    <Style>
+                      <FontFamily>Calibri</FontFamily>
+                    </Style>
                   </TextRun>
                   <TextRun>
                     <Value>Tipo de trabajo:</Value>
                     <Style>
                       <FontStyle>Normal</FontStyle>
+                      <FontFamily>Calibri</FontFamily>
                       <FontWeight>Normal</FontWeight>
                       <TextDecoration>None</TextDecoration>
                     </Style>
@@ -313,6 +240,7 @@ Igualmente declaro que he sido advertido(a) de las consecuencias que pueden ocur
                     <Value>              Reparación _____</Value>
                     <Style>
                       <FontStyle>Normal</FontStyle>
+                      <FontFamily>Calibri</FontFamily>
                       <FontWeight>Normal</FontWeight>
                       <TextDecoration>None</TextDecoration>
                     </Style>
@@ -328,9 +256,26 @@ Igualmente declaro que he sido advertido(a) de las consecuencias que pueden ocur
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>              Traspaso de Cristales Usados _____</Value>
+                    <Value>              Traspaso de Cristales Usados </Value>
                     <Style>
                       <FontStyle>Normal</FontStyle>
+                      <FontFamily>Calibri</FontFamily>
+                      <FontWeight>Normal</FontWeight>
+                      <TextDecoration>None</TextDecoration>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value>=Parameters!CristalPropio.Value</Value>
+                    <Style>
+                      <FontFamily>Calibri</FontFamily>
+                      <TextDecoration>Underline</TextDecoration>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value>____</Value>
+                    <Style>
+                      <FontStyle>Normal</FontStyle>
+                      <FontFamily>Calibri</FontFamily>
                       <FontWeight>Normal</FontWeight>
                       <TextDecoration>None</TextDecoration>
                     </Style>
@@ -349,6 +294,7 @@ Igualmente declaro que he sido advertido(a) de las consecuencias que pueden ocur
                     <Value>              Ajuste de Montura _____</Value>
                     <Style>
                       <FontStyle>Normal</FontStyle>
+                      <FontFamily>Calibri</FontFamily>
                       <FontWeight>Normal</FontWeight>
                       <TextDecoration>None</TextDecoration>
                     </Style>
@@ -364,9 +310,26 @@ Igualmente declaro que he sido advertido(a) de las consecuencias que pueden ocur
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>              Colocación de Cristales Nuevos en Montura Usada _____</Value>
+                    <Value>              Colocación de Cristales Nuevos en Montura Usada </Value>
                     <Style>
                       <FontStyle>Normal</FontStyle>
+                      <FontFamily>Calibri</FontFamily>
+                      <FontWeight>Normal</FontWeight>
+                      <TextDecoration>None</TextDecoration>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value>=Parameters!MonturaPropia.Value</Value>
+                    <Style>
+                      <FontFamily>Calibri</FontFamily>
+                      <TextDecoration>Underline</TextDecoration>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value>____</Value>
+                    <Style>
+                      <FontStyle>Normal</FontStyle>
+                      <FontFamily>Calibri</FontFamily>
                       <FontWeight>Normal</FontWeight>
                       <TextDecoration>None</TextDecoration>
                     </Style>
@@ -382,9 +345,26 @@ Igualmente declaro que he sido advertido(a) de las consecuencias que pueden ocur
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>              Otros: _____</Value>
+                    <Value>              Otros: </Value>
                     <Style>
                       <FontStyle>Normal</FontStyle>
+                      <FontFamily>Calibri</FontFamily>
+                      <FontWeight>Normal</FontWeight>
+                      <TextDecoration>None</TextDecoration>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value>=Parameters!Reparacion.Value</Value>
+                    <Style>
+                      <FontFamily>Calibri</FontFamily>
+                      <TextDecoration>Underline</TextDecoration>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value>____</Value>
+                    <Style>
+                      <FontStyle>Normal</FontStyle>
+                      <FontFamily>Calibri</FontFamily>
                       <FontWeight>Normal</FontWeight>
                       <TextDecoration>None</TextDecoration>
                     </Style>
@@ -402,12 +382,15 @@ Igualmente declaro que he sido advertido(a) de las consecuencias que pueden ocur
                   <TextRun>
                     <Value xml:space="preserve">
 </Value>
-                    <Style />
+                    <Style>
+                      <FontFamily>Calibri</FontFamily>
+                    </Style>
                   </TextRun>
                   <TextRun>
                     <Value>Tipo de Montura y/o Cristales __________________________________________________________________</Value>
                     <Style>
                       <FontStyle>Normal</FontStyle>
+                      <FontFamily>Calibri</FontFamily>
                       <FontWeight>Normal</FontWeight>
                       <TextDecoration>None</TextDecoration>
                     </Style>
@@ -423,9 +406,10 @@ Igualmente declaro que he sido advertido(a) de las consecuencias que pueden ocur
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>Marca: _____________________________________________________________________________________</Value>
+                    <Value>Marca: _______________________________________________________________________________________</Value>
                     <Style>
                       <FontStyle>Normal</FontStyle>
+                      <FontFamily>Calibri</FontFamily>
                       <FontWeight>Normal</FontWeight>
                       <TextDecoration>None</TextDecoration>
                     </Style>
@@ -444,6 +428,7 @@ Igualmente declaro que he sido advertido(a) de las consecuencias que pueden ocur
                     <Value />
                     <Style>
                       <FontStyle>Normal</FontStyle>
+                      <FontFamily>Calibri</FontFamily>
                       <FontWeight>Normal</FontWeight>
                       <TextDecoration>None</TextDecoration>
                     </Style>
@@ -459,10 +444,18 @@ Igualmente declaro que he sido advertido(a) de las consecuencias que pueden ocur
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>Observación:  (Describir todas las partes de la pieza y el estado en que se encuentran):</Value>
+                    <Value>Observación:  (Describir todas las partes de la pieza y el estado en que se encuentran): </Value>
                     <Style>
                       <FontStyle>Normal</FontStyle>
+                      <FontFamily>Calibri</FontFamily>
                       <FontWeight>Normal</FontWeight>
+                      <TextDecoration>None</TextDecoration>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value>=Parameters!Observacion.Value</Value>
+                    <Style>
+                      <FontFamily>Calibri</FontFamily>
                       <TextDecoration>None</TextDecoration>
                     </Style>
                   </TextRun>
@@ -479,7 +472,7 @@ Igualmente declaro que he sido advertido(a) de las consecuencias que pueden ocur
                   <TextRun>
                     <Value />
                     <Style>
-                      <FontWeight>Normal</FontWeight>
+                      <FontFamily>Calibri</FontFamily>
                       <TextDecoration>None</TextDecoration>
                     </Style>
                   </TextRun>
@@ -494,8 +487,9 @@ Igualmente declaro que he sido advertido(a) de las consecuencias que pueden ocur
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>Cristales	                 Varilla Izq.	             Varilla Der.	             Frente	                    Terminales/Plaquetas</Value>
+                    <Value>Cristales	              Varilla Izq.	                Varilla Der.	             Frente	                     Terminales/Plaquetas</Value>
                     <Style>
+                      <FontFamily>Calibri</FontFamily>
                       <FontWeight>Bold</FontWeight>
                       <TextDecoration>None</TextDecoration>
                       <Color>#000000</Color>
@@ -503,11 +497,12 @@ Igualmente declaro que he sido advertido(a) de las consecuencias que pueden ocur
                   </TextRun>
                   <TextRun>
                     <Value>
-Bueno ___                Bueno ___                Bueno ___                Bueno ___                Bueno ___
-Regular ___              Regular ___              Regular ___               Regular ___              Regular ___
-Malo ___	                 Malo ___	                 Malo ___	                  Malo ___	                 Malo ___	</Value>
+Bueno   ___           Bueno   ___              Bueno  ___               Bueno   ___              Bueno   ___
+Regular ___          Regular ___             Regular ___              Regular ___              Regular ___
+Malo     ___	         Malo     ___	             Malo     ___	             Malo     ___	             Malo     ___	</Value>
                     <Style>
                       <FontStyle>Normal</FontStyle>
+                      <FontFamily>Calibri</FontFamily>
                       <FontWeight>Normal</FontWeight>
                       <TextDecoration>None</TextDecoration>
                       <Color>#000000</Color>
@@ -527,6 +522,7 @@ Malo ___	                 Malo ___	                 Malo ___	                  M
                     <Value xml:space="preserve"> </Value>
                     <Style>
                       <FontStyle>Normal</FontStyle>
+                      <FontFamily>Calibri</FontFamily>
                       <FontWeight>Normal</FontWeight>
                       <TextDecoration>None</TextDecoration>
                     </Style>
@@ -545,6 +541,7 @@ Malo ___	                 Malo ___	                 Malo ___	                  M
                     <Value />
                     <Style>
                       <FontStyle>Normal</FontStyle>
+                      <FontFamily>Calibri</FontFamily>
                       <FontWeight>Normal</FontWeight>
                       <TextDecoration>None</TextDecoration>
                     </Style>
@@ -560,9 +557,10 @@ Malo ___	                 Malo ___	                 Malo ___	                  M
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>Otros: ____________________________________________________________________________</Value>
+                    <Value>Otros: ____________________________________________________________________________________________</Value>
                     <Style>
                       <FontStyle>Normal</FontStyle>
+                      <FontFamily>Calibri</FontFamily>
                       <FontWeight>Normal</FontWeight>
                       <TextDecoration>None</TextDecoration>
                     </Style>
@@ -581,6 +579,7 @@ Malo ___	                 Malo ___	                 Malo ___	                  M
                     <Value />
                     <Style>
                       <FontStyle>Normal</FontStyle>
+                      <FontFamily>Calibri</FontFamily>
                       <FontWeight>Normal</FontWeight>
                       <TextDecoration>None</TextDecoration>
                     </Style>
@@ -596,23 +595,11 @@ Malo ___	                 Malo ___	                 Malo ___	                  M
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>Mediante el presente documento declaro que fuí debidamente informado por el personal de ventas de Optica Caroni C.A. </Value>
-                    <Style />
-                  </TextRun>
-                </TextRuns>
-                <LeftIndent>0cm</LeftIndent>
-                <RightIndent>0cm</RightIndent>
-                <Style>
-                  <TextAlign>Left</TextAlign>
-                  <LineHeight>13pt</LineHeight>
-                </Style>
-              </Paragraph>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value>de los riesgos existentes sobre la montura y/o cristales que dejo a sus órdenes para la elaboración del servicio solicitado
+                    <Value>Mediante el presente documento declaro que fuí debidamente informado por el personal de ventas de Optica Caroni C.A. de los riesgos existentes sobre la montura y/o cristales que dejo a sus órdenes para la elaboración del servicio solicitado.
 </Value>
-                    <Style />
+                    <Style>
+                      <FontFamily>Calibri</FontFamily>
+                    </Style>
                   </TextRun>
                 </TextRuns>
                 <LeftIndent>0cm</LeftIndent>
@@ -628,6 +615,7 @@ Malo ___	                 Malo ___	                 Malo ___	                  M
                     <Value />
                     <Style>
                       <FontStyle>Normal</FontStyle>
+                      <FontFamily>Calibri</FontFamily>
                       <FontWeight>Normal</FontWeight>
                       <TextDecoration>None</TextDecoration>
                     </Style>
@@ -645,12 +633,15 @@ Malo ___	                 Malo ___	                 Malo ___	                  M
                   <TextRun>
                     <Value xml:space="preserve">
 </Value>
-                    <Style />
+                    <Style>
+                      <FontFamily>Calibri</FontFamily>
+                    </Style>
                   </TextRun>
                   <TextRun>
                     <Value>___________________________                       </Value>
                     <Style>
                       <FontStyle>Normal</FontStyle>
+                      <FontFamily>Calibri</FontFamily>
                       <FontWeight>Normal</FontWeight>
                       <TextDecoration>None</TextDecoration>
                     </Style>
@@ -669,6 +660,7 @@ Malo ___	                 Malo ___	                 Malo ___	                  M
                     <Value>Firma del Cliente   </Value>
                     <Style>
                       <FontStyle>Normal</FontStyle>
+                      <FontFamily>Calibri</FontFamily>
                       <FontWeight>Normal</FontWeight>
                       <TextDecoration>None</TextDecoration>
                     </Style>
@@ -687,6 +679,7 @@ Malo ___	                 Malo ___	                 Malo ___	                  M
                     <Value />
                     <Style>
                       <FontStyle>Normal</FontStyle>
+                      <FontFamily>Calibri</FontFamily>
                       <FontWeight>Normal</FontWeight>
                       <TextDecoration>None</TextDecoration>
                     </Style>
@@ -705,6 +698,7 @@ Malo ___	                 Malo ___	                 Malo ___	                  M
                     <Value>___________________________</Value>
                     <Style>
                       <FontStyle>Normal</FontStyle>
+                      <FontFamily>Calibri</FontFamily>
                       <FontWeight>Normal</FontWeight>
                       <TextDecoration>None</TextDecoration>
                     </Style>
@@ -723,6 +717,7 @@ Malo ___	                 Malo ___	                 Malo ___	                  M
                     <Value>Firma del Vendedor</Value>
                     <Style>
                       <FontStyle>Normal</FontStyle>
+                      <FontFamily>Calibri</FontFamily>
                       <FontWeight>Normal</FontWeight>
                       <TextDecoration>None</TextDecoration>
                     </Style>
@@ -741,6 +736,7 @@ Malo ___	                 Malo ___	                 Malo ___	                  M
                     <Value>Código de Empleado: _________</Value>
                     <Style>
                       <FontStyle>Normal</FontStyle>
+                      <FontFamily>Calibri</FontFamily>
                       <FontWeight>Normal</FontWeight>
                       <TextDecoration>None</TextDecoration>
                     </Style>
@@ -755,10 +751,10 @@ Malo ___	                 Malo ___	                 Malo ___	                  M
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox1</rd:DefaultName>
-            <Top>0.31433cm</Top>
-            <Left>0.63183cm</Left>
-            <Height>27.01713cm</Height>
-            <Width>17.81937cm</Width>
+            <Top>0.63184cm</Top>
+            <Left>0.94933cm</Left>
+            <Height>25.77359cm</Height>
+            <Width>17.13146cm</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -777,7 +773,7 @@ Malo ___	                 Malo ___	                 Malo ___	                  M
           </Border>
         </Style>
       </Body>
-      <Width>11.68576in</Width>
+      <Width>7.26425in</Width>
       <Page>
         <PageHeight>27.94cm</PageHeight>
         <PageWidth>21.59cm</PageWidth>
@@ -796,6 +792,8 @@ Malo ___	                 Malo ___	                 Malo ___	                  M
     </ReportParameter>
     <ReportParameter Name="Fecha">
       <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
       <Prompt>ReportParameter1</Prompt>
     </ReportParameter>
     <ReportParameter Name="NumeroOrden">
@@ -816,11 +814,35 @@ Malo ___	                 Malo ___	                 Malo ___	                  M
       <AllowBlank>true</AllowBlank>
       <Prompt>ReportParameter1</Prompt>
     </ReportParameter>
+    <ReportParameter Name="Observacion">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>ReportParameter1</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="Reparacion">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>ReportParameter1</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="CristalPropio">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>ReportParameter1</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="MonturaPropia">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>ReportParameter1</Prompt>
+    </ReportParameter>
   </ReportParameters>
   <ReportParametersLayout>
     <GridLayoutDefinition>
       <NumberOfColumns>4</NumberOfColumns>
-      <NumberOfRows>2</NumberOfRows>
+      <NumberOfRows>3</NumberOfRows>
       <CellDefinitions>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
@@ -846,6 +868,26 @@ Malo ___	                 Malo ___	                 Malo ___	                  M
           <ColumnIndex>0</ColumnIndex>
           <RowIndex>1</RowIndex>
           <ParameterName>Cedula</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>1</ColumnIndex>
+          <RowIndex>1</RowIndex>
+          <ParameterName>Observacion</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>2</ColumnIndex>
+          <RowIndex>1</RowIndex>
+          <ParameterName>Reparacion</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>3</ColumnIndex>
+          <RowIndex>1</RowIndex>
+          <ParameterName>CristalPropio</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>2</RowIndex>
+          <ParameterName>MonturaPropia</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>

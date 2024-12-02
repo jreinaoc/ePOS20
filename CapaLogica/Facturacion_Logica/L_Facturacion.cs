@@ -105,10 +105,10 @@ namespace CapaLogica.DetalleOrden_Logica
         {
 
             var Valores = new List<Valor>();
-            Valores.Add(new Valor() { Index = "Cashea", Value = "024" });
+            Valores.Add(new Valor() { Index = "Cashea", Value = "021" });
             Valores.Add(new Valor() { Index = "Debito", Value = "003" });
             Valores.Add(new Valor() { Index = "Efectivo", Value = "001" });
-            Valores.Add(new Valor() { Index = "Efectivo Divisa", Value = "023" });
+            Valores.Add(new Valor() { Index = "Efectivo Divisa", Value = "022" });
             Valores.Add(new Valor() { Index = "ISLR Retenido", Value = "014" });
             Valores.Add(new Valor() { Index = "Iva Retenido", Value = "013" });
             Valores.Add(new Valor() { Index = "Nota Credito", Value = "006" });
@@ -261,8 +261,10 @@ namespace CapaLogica.DetalleOrden_Logica
             Double IgtfBs = 0;
             Double TotalAboTranferenciaDolar = 0;
             Double TopeMaxIgtf = 0;
+            string Resultado_Parametro = _D_DetalleOrden.TB_PARAMETRO("ActivaIGTF");
+            bool Cobro_IGTF= Convert.ToBoolean(Convert.ToInt32(Resultado_Parametro));
 
-            if (NunOrden.Text == TB_CAORDSER.NumOrdserv)
+            if (NunOrden.Text == TB_CAORDSER.NumOrdserv & Cobro_IGTF== true) 
             {
 
                 DataTable dt = _D_DetalleOrden.BucarTotalAbonosRealizados(NunOrden.Text);
@@ -1579,7 +1581,7 @@ namespace CapaLogica.DetalleOrden_Logica
             int DV = 0;
             int AP = 0;
             int AF = 0;
-            int DDL = 0;
+            double DDL = 0.00;
 
             //Coloracion
             String CodigoColoracion = "";
@@ -1641,7 +1643,7 @@ namespace CapaLogica.DetalleOrden_Logica
                     DV = row["T_DISTANCIAVERTICE"] == DBNull.Value ? (int)0 : Convert.ToInt32(row["T_DISTANCIAVERTICE"].ToString());
                     AP = row["T_ANGULOPANTOSCOPICO"] == DBNull.Value ? (int)0 : Convert.ToInt32(row["T_ANGULOPANTOSCOPICO"].ToString());
                     AF = row["T_ANGULOFACIAL"] == DBNull.Value ? (int)0 : Convert.ToInt32(row["T_ANGULOFACIAL"].ToString());
-                    DDL = row["T_DISTANCIADELECTURA"] == DBNull.Value ? (int)0 : Convert.ToInt32(row["T_DISTANCIADELECTURA"].ToString());
+                    DDL = row["T_DISTANCIADELECTURA"] == DBNull.Value ? (Double)0.00 : Convert.ToDouble(row["T_DISTANCIADELECTURA"].ToString());
 
                     //Coloracion 
                     CodigoColoracion = row["Cod_Coloracion"].ToString();
@@ -2249,5 +2251,7 @@ namespace CapaLogica.DetalleOrden_Logica
                 return true;
             }
         }
+ 
+
     }
 }

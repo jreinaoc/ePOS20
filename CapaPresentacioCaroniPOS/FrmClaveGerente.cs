@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CapaLogica.Colores_Logica;
 using System.Windows.Forms;
-
+using CapaDatos.Inicio_Datos;
 
 namespace CapaVisual_Login
 {
@@ -25,6 +25,7 @@ namespace CapaVisual_Login
 
         L_ClaveGerente _L_ClaveGerente = new L_ClaveGerente();
         FrmMensajes _FrmMensajes = new FrmMensajes();
+        D_Inicio _D_Inicio = new D_Inicio();
 
         public string orden;
         public bool ClaveCorrecta;
@@ -43,8 +44,9 @@ namespace CapaVisual_Login
         private void FrmClaveGerente_Load(object sender, EventArgs e)
 
         {
+            ClaveCorrecta = false;
             Limpiar();
-            CbxSelecGerentTiend.DataSource = _L_ClaveGerente.TraerGerentes(TB_USUARIO.COD_SUCURSAL, (LbIdRol.Text == "" ? (string)"003" : Convert.ToString(LbIdRol.Text)));
+            CbxSelecGerentTiend.DataSource = _L_ClaveGerente.TraerGerentes(_D_Inicio.Sucursal(), (LbIdRol.Text == "" ? (string)"003" : Convert.ToString(LbIdRol.Text)));
             CbxSelecGerentTiend.DisplayMember = "Gerente";
             CbxSelecGerentTiend.ValueMember = "CodigoEmpleado";
 
@@ -65,6 +67,8 @@ namespace CapaVisual_Login
 
         private void BtnCancelar_Click(object sender, EventArgs e)
         {
+            ClaveCorrecta = false;
+            Limpiar();
             this.Close();
         }
 

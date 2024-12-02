@@ -433,6 +433,16 @@ namespace CapaVisual_Login.Reportes {
             
             private global::System.Data.DataColumn columnRifCompania;
             
+            private global::System.Data.DataColumn columnGarantia;
+            
+            private global::System.Data.DataColumn columnObservacion;
+            
+            private global::System.Data.DataColumn columnNumExame;
+            
+            private global::System.Data.DataColumn columnTipoTrabajo;
+            
+            private global::System.Data.DataColumn columnRepGarantia;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public SP_CPOS_REP_ORDENDataTable() {
@@ -1084,6 +1094,46 @@ namespace CapaVisual_Login.Reportes {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn GarantiaColumn {
+                get {
+                    return this.columnGarantia;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn ObservacionColumn {
+                get {
+                    return this.columnObservacion;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn NumExameColumn {
+                get {
+                    return this.columnNumExame;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn TipoTrabajoColumn {
+                get {
+                    return this.columnTipoTrabajo;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn RepGarantiaColumn {
+                get {
+                    return this.columnRepGarantia;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -1196,7 +1246,12 @@ namespace CapaVisual_Login.Reportes {
                         double AVI, 
                         string COLOR, 
                         string Compania, 
-                        string RifCompania) {
+                        string RifCompania, 
+                        string Garantia, 
+                        string Observacion, 
+                        string NumExame, 
+                        string TipoTrabajo, 
+                        string RepGarantia) {
                 SP_CPOS_REP_ORDENRow rowSP_CPOS_REP_ORDENRow = ((SP_CPOS_REP_ORDENRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         Orden,
@@ -1275,7 +1330,12 @@ namespace CapaVisual_Login.Reportes {
                         AVI,
                         COLOR,
                         Compania,
-                        RifCompania};
+                        RifCompania,
+                        Garantia,
+                        Observacion,
+                        NumExame,
+                        TipoTrabajo,
+                        RepGarantia};
                 rowSP_CPOS_REP_ORDENRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowSP_CPOS_REP_ORDENRow);
                 return rowSP_CPOS_REP_ORDENRow;
@@ -1375,6 +1435,11 @@ namespace CapaVisual_Login.Reportes {
                 this.columnCOLOR = base.Columns["COLOR"];
                 this.columnCompania = base.Columns["Compania"];
                 this.columnRifCompania = base.Columns["RifCompania"];
+                this.columnGarantia = base.Columns["Garantia"];
+                this.columnObservacion = base.Columns["Observacion"];
+                this.columnNumExame = base.Columns["NumExame"];
+                this.columnTipoTrabajo = base.Columns["TipoTrabajo"];
+                this.columnRepGarantia = base.Columns["RepGarantia"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1534,6 +1599,16 @@ namespace CapaVisual_Login.Reportes {
                 base.Columns.Add(this.columnCompania);
                 this.columnRifCompania = new global::System.Data.DataColumn("RifCompania", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnRifCompania);
+                this.columnGarantia = new global::System.Data.DataColumn("Garantia", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnGarantia);
+                this.columnObservacion = new global::System.Data.DataColumn("Observacion", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnObservacion);
+                this.columnNumExame = new global::System.Data.DataColumn("NumExame", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnNumExame);
+                this.columnTipoTrabajo = new global::System.Data.DataColumn("TipoTrabajo", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTipoTrabajo);
+                this.columnRepGarantia = new global::System.Data.DataColumn("RepGarantia", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnRepGarantia);
                 this.columnOrden.ReadOnly = true;
                 this.columnOrden.MaxLength = 18;
                 this.columnCedula.ReadOnly = true;
@@ -2973,6 +3048,86 @@ namespace CapaVisual_Login.Reportes {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string Garantia {
+                get {
+                    try {
+                        return ((string)(this[this.tableSP_CPOS_REP_ORDEN.GarantiaColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'Garantia\' de la tabla \'SP_CPOS_REP_ORDEN\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSP_CPOS_REP_ORDEN.GarantiaColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string Observacion {
+                get {
+                    try {
+                        return ((string)(this[this.tableSP_CPOS_REP_ORDEN.ObservacionColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'Observacion\' de la tabla \'SP_CPOS_REP_ORDEN\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSP_CPOS_REP_ORDEN.ObservacionColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string NumExame {
+                get {
+                    try {
+                        return ((string)(this[this.tableSP_CPOS_REP_ORDEN.NumExameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'NumExame\' de la tabla \'SP_CPOS_REP_ORDEN\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSP_CPOS_REP_ORDEN.NumExameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string TipoTrabajo {
+                get {
+                    try {
+                        return ((string)(this[this.tableSP_CPOS_REP_ORDEN.TipoTrabajoColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'TipoTrabajo\' de la tabla \'SP_CPOS_REP_ORDEN\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSP_CPOS_REP_ORDEN.TipoTrabajoColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string RepGarantia {
+                get {
+                    try {
+                        return ((string)(this[this.tableSP_CPOS_REP_ORDEN.RepGarantiaColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'RepGarantia\' de la tabla \'SP_CPOS_REP_ORDEN\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSP_CPOS_REP_ORDEN.RepGarantiaColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsOrdenNull() {
                 return this.IsNull(this.tableSP_CPOS_REP_ORDEN.OrdenColumn);
             }
@@ -3894,6 +4049,66 @@ namespace CapaVisual_Login.Reportes {
             public void SetRifCompaniaNull() {
                 this[this.tableSP_CPOS_REP_ORDEN.RifCompaniaColumn] = global::System.Convert.DBNull;
             }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsGarantiaNull() {
+                return this.IsNull(this.tableSP_CPOS_REP_ORDEN.GarantiaColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetGarantiaNull() {
+                this[this.tableSP_CPOS_REP_ORDEN.GarantiaColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsObservacionNull() {
+                return this.IsNull(this.tableSP_CPOS_REP_ORDEN.ObservacionColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetObservacionNull() {
+                this[this.tableSP_CPOS_REP_ORDEN.ObservacionColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsNumExameNull() {
+                return this.IsNull(this.tableSP_CPOS_REP_ORDEN.NumExameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetNumExameNull() {
+                this[this.tableSP_CPOS_REP_ORDEN.NumExameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsTipoTrabajoNull() {
+                return this.IsNull(this.tableSP_CPOS_REP_ORDEN.TipoTrabajoColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetTipoTrabajoNull() {
+                this[this.tableSP_CPOS_REP_ORDEN.TipoTrabajoColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsRepGarantiaNull() {
+                return this.IsNull(this.tableSP_CPOS_REP_ORDEN.RepGarantiaColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetRepGarantiaNull() {
+                this[this.tableSP_CPOS_REP_ORDEN.RepGarantiaColumn] = global::System.Convert.DBNull;
+            }
         }
         
         /// <summary>
@@ -4139,7 +4354,7 @@ namespace CapaVisual_Login.Reportes.DsRepOrdenTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         private void InitConnection() {
             this._connection = new global::System.Data.SqlClient.SqlConnection();
-            this._connection.ConnectionString = global::CapaVisual_Login.Properties.Settings.Default.BD013ConnectionString;
+            this._connection.ConnectionString = global::CapaVisual_Login.Properties.Settings.Default.BD_107_Epos2ConnectionString;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]

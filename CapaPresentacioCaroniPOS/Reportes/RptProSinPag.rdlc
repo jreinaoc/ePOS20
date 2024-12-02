@@ -345,7 +345,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox13</rd:DefaultName>
-        <Top>0.42307cm</Top>
+        <Top>0.32782cm</Top>
         <Left>0.99642cm</Left>
         <Height>0.52063cm</Height>
         <Width>1.65334cm</Width>
@@ -379,7 +379,7 @@
         </Paragraphs>
         <rd:DefaultName>Textbox13</rd:DefaultName>
         <Top>0.68819cm</Top>
-        <Left>0.99642cm</Left>
+        <Left>0.96467cm</Left>
         <Height>0.52062cm</Height>
         <Width>1.82973cm</Width>
         <ZIndex>4</ZIndex>
@@ -412,7 +412,7 @@
         </Paragraphs>
         <rd:DefaultName>Textbox13</rd:DefaultName>
         <Top>1.04953cm</Top>
-        <Left>1.01406cm</Left>
+        <Left>0.98231cm</Left>
         <Height>0.54708cm</Height>
         <Width>1.91792cm</Width>
         <ZIndex>5</ZIndex>
@@ -445,7 +445,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Cedula</rd:DefaultName>
-        <Left>2.60566cm</Left>
+        <Left>2.12941cm</Left>
         <Height>0.54708cm</Height>
         <Width>6.68042cm</Width>
         <ZIndex>6</ZIndex>
@@ -479,7 +479,7 @@
         </Paragraphs>
         <rd:DefaultName>Telefono</rd:DefaultName>
         <Top>0.72347cm</Top>
-        <Left>2.96726cm</Left>
+        <Left>2.39576cm</Left>
         <Height>0.6cm</Height>
         <Width>9.53792cm</Width>
         <ZIndex>7</ZIndex>
@@ -512,8 +512,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Vendedor</rd:DefaultName>
-        <Top>0.99661cm</Top>
-        <Left>2.98489cm</Left>
+        <Top>1.06011cm</Top>
+        <Left>2.57214cm</Left>
         <Height>0.6cm</Height>
         <Width>12.60708cm</Width>
         <ZIndex>8</ZIndex>
@@ -649,9 +649,9 @@
         </Paragraphs>
         <rd:DefaultName>Saldo</rd:DefaultName>
         <Top>2.53518cm</Top>
-        <Left>13.61443cm</Left>
+        <Left>13.23872cm</Left>
         <Height>0.6cm</Height>
-        <Width>2.5cm</Width>
+        <Width>1.57396cm</Width>
         <ZIndex>12</ZIndex>
         <Style>
           <Border>
@@ -683,9 +683,9 @@
         </Paragraphs>
         <rd:DefaultName>Total</rd:DefaultName>
         <Top>3.0999cm</Top>
-        <Left>13.6479cm</Left>
+        <Left>13.68146cm</Left>
         <Height>0.6cm</Height>
-        <Width>2.5cm</Width>
+        <Width>1.13294cm</Width>
         <ZIndex>13</ZIndex>
         <Style>
           <Border>
@@ -714,8 +714,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Cliente</rd:DefaultName>
-        <Top>0.42307cm</Top>
-        <Left>2.82615cm</Left>
+        <Top>0.35957cm</Top>
+        <Left>2.3499cm</Left>
         <Height>0.6cm</Height>
         <Width>8.215cm</Width>
         <ZIndex>14</ZIndex>
@@ -746,7 +746,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Orden</rd:DefaultName>
-        <Left>15.39965cm</Left>
+        <Left>14.82815cm</Left>
         <Height>0.54708cm</Height>
         <Width>4.64312cm</Width>
         <ZIndex>15</ZIndex>
@@ -869,7 +869,7 @@
           </Paragraphs>
           <rd:DefaultName>Textbox6</rd:DefaultName>
           <Top>0.3704cm</Top>
-          <Left>1.01405cm</Left>
+          <Left>0.9823cm</Left>
           <Height>0.53364cm</Height>
           <Width>2.12959cm</Width>
           <Style>
@@ -933,8 +933,8 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox6</rd:DefaultName>
-          <Top>1.20364cm</Top>
-          <Left>1.01405cm</Left>
+          <Top>1.07664cm</Top>
+          <Left>0.9823cm</Left>
           <Height>0.56472cm</Height>
           <Width>1.86501cm</Width>
           <ZIndex>2</ZIndex>
@@ -966,10 +966,10 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox6</rd:DefaultName>
-          <Top>1.57406cm</Top>
+          <Top>1.41531cm</Top>
           <Left>1.01405cm</Left>
           <Height>0.58587cm</Height>
-          <Width>4.44028cm</Width>
+          <Width>3.91111cm</Width>
           <ZIndex>3</ZIndex>
           <Style>
             <Border>
@@ -997,8 +997,8 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Sucursal</rd:DefaultName>
-          <Top>1.23891cm</Top>
-          <Left>2.87906cm</Left>
+          <Top>1.08016cm</Top>
+          <Left>2.43456cm</Left>
           <Height>0.53826cm</Height>
           <Width>7.52677cm</Width>
           <ZIndex>4</ZIndex>
@@ -1031,8 +1031,8 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox11</rd:DefaultName>
-          <Top>1.60934cm</Top>
-          <Left>5.48961cm</Left>
+          <Top>1.38709cm</Top>
+          <Left>4.72761cm</Left>
           <Height>0.58587cm</Height>
           <Width>4.91622cm</Width>
           <ZIndex>5</ZIndex>
@@ -1065,7 +1065,7 @@
           </Paragraphs>
           <rd:DefaultName>Compania</rd:DefaultName>
           <Top>0.3704cm</Top>
-          <Left>2.60566cm</Left>
+          <Left>2.51041cm</Left>
           <Height>0.53364cm</Height>
           <Width>8.43549cm</Width>
           <ZIndex>6</ZIndex>
@@ -1096,8 +1096,8 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>RifCompania</rd:DefaultName>
-          <Top>0.74894cm</Top>
-          <Left>1.56086cm</Left>
+          <Top>0.71719cm</Top>
+          <Left>1.52911cm</Left>
           <Height>0.56472cm</Height>
           <Width>8.84497cm</Width>
           <ZIndex>7</ZIndex>

@@ -51,7 +51,7 @@ namespace CapaVisual_Login
 
         }
 
-        // FrmMuestraRep _FrmMuestraRep = new FrmMuestraRep();
+        FrmMostarDeclaracion _FrmMostarDeclaracion = new FrmMostarDeclaracion();
         FrmRepOrden _FrmRepOrden = new FrmRepOrden();
         FrmRepOrdenTContact _FrmRepOrdenTContact = new FrmRepOrdenTContact();
         FrmMostrarReporte _FrmMostrarReporte = new FrmMostrarReporte();
@@ -188,6 +188,7 @@ namespace CapaVisual_Login
             }
 
             //validar si es factura manual 
+            
             if (_L_Facturacion.ValidaFactManual() == false)
             {
                 if (_L_Facturacion.stringBuilder.ToString().Length > 2)
@@ -366,11 +367,22 @@ namespace CapaVisual_Login
                 //-----------ConvertirBolivares---------------------------
                 //txtMontoBs.Text = _L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos);
 
-                double MontoFaltanteIgtfbs = Convert.ToDouble(txtMontoBs.Text.Replace(".","")) * 0.03;
+                string Resultado_Parametro = _D_DetalleOrden.TB_PARAMETRO("ActivaIGTF");
+                bool Cobro_IGTF = Convert.ToBoolean(Convert.ToInt32(Resultado_Parametro));
+                double MontoFaltanteIgtfbs = 0.00;
+                if (Cobro_IGTF == true)
+                {
+                    MontoFaltanteIgtfbs = Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) * 0.03;
+                }
+                else
+                {
+                    MontoFaltanteIgtfbs = 0.00;
+                }
+
                 double IgtfAbonado = Convert.ToDouble(TxtIgtfOrd.Text.Replace(".", "")) + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos).Replace(".", ""));
                 if (CbxMoneda.SelectedIndex.ToString() == "0")
                 {
-                    //if (Math.Round((double)((Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) + MontoFaltanteIgtfbs) / TB_TASA_Dolar.Tasa), 2) >= (txtRef.Text == "" ? (Double)0.00 : Convert.ToDouble(txtRef.Text)))
+
                     if (Math.Round((double)((Convert.ToDouble(txtMontoBs.Text.Replace(".","")) - IgtfAbonado) / TB_TASA_Dolar.Tasa), 2) >= (txtRef.Text == "" ? (Double)0.00 : Convert.ToDouble(txtRef.Text)))
                     {
                         _L_Facturacion.ConvertirDolaresBolivares(txtRef, txtMonto2Bs, CbxMoneda.Text);
@@ -976,7 +988,7 @@ namespace CapaVisual_Login
                         if (txtTranferencia.Text.Length >= 4)
                         {
                             //CbxMetodosPago2.SelectedIndex = 10;
-                            _L_Facturacion.GuardarAbonoGrid(Dt_Abonos, CbxMetodosPago2.Text, CbxMoneda.Text, CbxBanco.Text, txtMonto2Bs.Text, txtTranferencia.Text, DtpFecha.Value.ToString(), CbxMetodosPago2.SelectedValue.ToString(), CbxBanco.SelectedValue.ToString(), "110", TxtVuelto.Text, "", "", "", "", "", "", "000");
+                            _L_Facturacion.GuardarAbonoGrid(Dt_Abonos, CbxMetodosPago2.Text, CbxMoneda.Text, "CASHEA", txtMonto2Bs.Text, txtTranferencia.Text, DtpFecha.Value.ToString(), "021", "110", "110", TxtVuelto.Text, "", "", "", "", "", "", "000");
                             
                             BolivaresConveridos(Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos)), txtMontoBs);
                             //-----------ConvertirBolivares---------------------------
@@ -1162,7 +1174,7 @@ namespace CapaVisual_Login
 
 
                         // Guardo el Abono y retotno a la pantalla principal 
-                        _L_Facturacion.GuardarAbonoGrid(Dt_Abonos, CbxMetodosPago2.Text, CbxMoneda.Text, CbxBanco.Text, txtMonto2Bs.Text, "0000", DtpFecha.Value.ToString(), CbxMetodosPago2.SelectedValue.ToString(), CbxBanco.SelectedValue.ToString(), "", TxtVuelto.Text, txtRef.Text, txtIGTF.Text);
+                        _L_Facturacion.GuardarAbonoGrid(Dt_Abonos, CbxMetodosPago2.Text, CbxMoneda.Text, CbxBanco.Text, txtMonto2Bs.Text, "0000", DtpFecha.Value.ToString(), "021", CbxBanco.SelectedValue.ToString(), "", TxtVuelto.Text, txtRef.Text, txtIGTF.Text);
                         BolivaresConveridos(Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos)), txtMontoBs);
                         //-----------ConvertirBolivares---------------------------
                         //txtMontoBs.Text = _L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos);
@@ -1380,9 +1392,10 @@ namespace CapaVisual_Login
                         return;
                     }
 
-
-
-                    if (_L_Facturacion.ValidaFactManual() == false)
+                    // Valido si el el saldo es 0 para relizar la validacion de la impresora 
+                    if (TotalAbono == Math.Round(TB_CAORDSER.OrSer_Saldo + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos)), 2))
+                    {
+                        if (_L_Facturacion.ValidaFactManual() == false)
                     {
                         if (_Impresora_Fiscal.VerficarConexionImpresoraFiscal() == false)
                         {
@@ -1396,7 +1409,8 @@ namespace CapaVisual_Login
                         }
                     }
 
-           
+                    }
+
 
                     // limpiamos TEMP_ABONO
                     _D_DetalleOrden.Limpiar_TEMP_ABONO(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision);
@@ -1563,7 +1577,7 @@ namespace CapaVisual_Login
                                     }
 
                                     // funcion para ejecutar todo el proceso de Facturacion en una sola transaccion 
-                                    if (rept == "SATISFACTORIO")
+                                        if (rept == "SATISFACTORIO" & (_FrmClaveAutorizada.ClaveCorrecta == true | _FrmClaveGerente.ClaveCorrecta == true))
                                     {
                                         // validar el numero de factura, solo para impprimir factura manual 
                                         completo = _L_Facturacion.ValidacionNumFact(TxtNumFact, TxtNroCorrelativo);
@@ -1858,8 +1872,7 @@ namespace CapaVisual_Login
                 if (TB_CAORDSER.OrSer_Status == "002" | TB_CAORDSER.OrSer_Status == "003")
                 {
                     _D_DetalleOrden.ObtenerFactura(TB_CAORDSER.NumOrdserv);
-
-                    label3.Location = new Point(11, 12);
+                    label3.Location = new Point(20, 12);
                     txtNumeroOrden.Location = new Point(24, 37);
                     label72.Visible = true;
                     txtNumeroFactura.Visible = true;
@@ -1871,7 +1884,7 @@ namespace CapaVisual_Login
                 }
                 else
                 {
-                    label3.Location = new Point(35, 18);
+                    label3.Location = new Point(44, 18);
                     txtNumeroOrden.Location = new Point(48, 37);
                     label72.Visible = false;
                     txtNumeroFactura.Visible = false;
@@ -1896,15 +1909,17 @@ namespace CapaVisual_Login
 
                     double IgtfAbonado = Convert.ToDouble(TxtIgtfOrd.Text.Replace(".", "")) + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos).Replace(".", ""));
 
-                    string saldo_bolivares = Convert.ToString(Math.Round((double)((Convert.ToDouble(TxtSaldoOrd.Text.Replace(".", "")) - IgtfAbonado)), 2));
-                    string saldo_ref = Convert.ToString(Math.Round((double)((Convert.ToDouble(TxtSaldoOrd.Text.Replace(".", "")) - IgtfAbonado) / TB_TASA_Dolar.Tasa), 2));
+                    string saldo_bolivares = Convert.ToString(Math.Round((double)((Convert.ToDouble(TxtSaldoOrd.Text.Replace(".", "")) )), 2));
+                    string saldo_ref = Convert.ToString(Math.Round((double)((Convert.ToDouble(TxtSaldoOrd.Text.Replace(".", ""))) / TB_TASA_Dolar.Tasa), 2));
                     saldo_ref = string.Format("{0:#,0.00}", Convert.ToDecimal(saldo_ref));
                     saldo_bolivares = string.Format("{0:#,0.00}", Convert.ToDecimal(saldo_bolivares));
                     // Crear un nuevo componente ToolTip
                     toolTip1.ShowAlways = true;
                     toolTip1.Active = true;
-                    toolTip1.SetToolTip(this.label12, "Saldo BS sin IGTF: " + saldo_bolivares);
-                    toolTip1.SetToolTip(this.label16, "Saldo $ sin IGTF: " + saldo_ref);
+                    //toolTip1.SetToolTip(this.label12, "Saldo BS sin IGTF: " + saldo_bolivares);
+                    //toolTip1.SetToolTip(this.label16, "Saldo $ sin IGTF: " + saldo_ref);
+                    toolTip1.SetToolTip(this.label12, "Saldo BS con IGTF: " + saldo_bolivares);
+                    toolTip1.SetToolTip(this.label16, "Saldo $ con IGTF: " + saldo_ref);
                 }
 
                 // toolTip2 para Ordenes Facturadas con clientes distinto 
@@ -1966,6 +1981,16 @@ namespace CapaVisual_Login
             TxtIgtfOrd.Text = string.Format("{0:#,0.00}", Convert.ToDecimal(TxtIgtfOrd.Text));
 
 
+            // 02/12/2024 Mostrar el saldo de la orden sin el Igtf en un nuevo Texbox y colocar el Texbox original que si tiene el salgo con Igtf Oculto 
+            double IgtfAbonado_2 = Convert.ToDouble(TxtIgtfOrd.Text.Replace(".", "")) + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos).Replace(".", ""));
+            string saldo_bolivares_2 = Convert.ToString(Math.Round((double)((Convert.ToDouble(TxtSaldoOrd.Text.Replace(".", "")) - IgtfAbonado_2)), 2));
+            saldo_bolivares_2 = string.Format("{0:#,0.00}", Convert.ToDecimal(saldo_bolivares_2));
+            string saldo_ref_2 = Convert.ToString(Math.Round((double)((Convert.ToDouble(TxtSaldoOrd.Text.Replace(".", "")) - IgtfAbonado_2) / TB_TASA_Dolar.Tasa), 2));
+            saldo_ref_2 = string.Format("{0:#,0.00}", Convert.ToDecimal(saldo_ref_2));
+            TxtSaldoRef_2.Text = saldo_ref_2;
+            TxtSaldoOrd_2.Text = saldo_bolivares_2;
+
+
 
             // nuevo 21-08-2023 llenar los texbox de vuelto en bs y dolares
             DataTable dt = _D_DetalleOrden.Buscar_Cambios_Realizados(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv);
@@ -1975,7 +2000,6 @@ namespace CapaVisual_Login
                 TxtCambioRef.Text = string.Format("{0:#,0.00}", row["TotalPagomovilDolares"].ToString() == "" ? (Decimal?)0.00 : Convert.ToDecimal(row["TotalPagomovilDolares"].ToString()));
                 return;
             }
-
 
         }
 
@@ -2022,12 +2046,23 @@ namespace CapaVisual_Login
             //-----------ConvertirBolivares---------------------------
             //txtMontoBs.Text = _L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos);
 
-            double MontoFaltanteIgtfbs = Convert.ToDouble(txtMontoBs.Text.Replace(".","")) * 0.03;
+            string Resultado_Parametro = _D_DetalleOrden.TB_PARAMETRO("ActivaIGTF");
+            bool Cobro_IGTF = Convert.ToBoolean(Convert.ToInt32(Resultado_Parametro));
+            double MontoFaltanteIgtfbs = 0.00;
+            if (Cobro_IGTF == true)
+            {
+                 MontoFaltanteIgtfbs = Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) * 0.03;
+            }
+            else
+            {
+                MontoFaltanteIgtfbs = 0.00;
+            }
+
             double IgtfAbonado = Convert.ToDouble(TxtIgtfOrd.Text.Replace(".", ""))+ Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos).Replace(".", ""));
 
             if (CbxMoneda.SelectedIndex.ToString() == "0")
             {
-                //if (Math.Round((double)((Convert.ToDouble(txtMontoBs.Text.Replace(".","")) + MontoFaltanteIgtfbs) / TB_TASA_Dolar.Tasa), 2) >= Convert.ToDouble(txtRef.Text))
+
                 if (Math.Round((double)((Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) - IgtfAbonado) / TB_TASA_Dolar.Tasa), 2) >= (txtRef.Text == "" ? (Double)0.00 : Convert.ToDouble(txtRef.Text)))
                 {
                     _L_Facturacion.ConvertirDolaresBolivares(txtRef, txtMonto2Bs, CbxMoneda.Text);
@@ -2247,9 +2282,21 @@ namespace CapaVisual_Login
                     //-----------ConvertirBolivares---------------------------
                     //txtMontoBs.Text = _L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos);
 
-                    double MontoFaltanteIgtfbs = (Convert.ToDouble(txtMontoBs.Text.Replace(".","")) - Igtf_TotalAboTranferenciaDolar) * 0.03;
+                    string Resultado_Parametro = _D_DetalleOrden.TB_PARAMETRO("ActivaIGTF");
+                    bool Cobro_IGTF = Convert.ToBoolean(Convert.ToInt32(Resultado_Parametro));
 
-                    txtRef.Text = Convert.ToString(Math.Round(((Convert.ToDouble(txtMontoBs.Text.Replace(".","")) + MontoFaltanteIgtfbs) / Convert.ToDouble(TB_TASA_Dolar.Tasa)), 2));
+                    if(Cobro_IGTF == true)
+                    {
+                        double MontoFaltanteIgtfbs = (Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) - Igtf_TotalAboTranferenciaDolar) * 0.03;
+
+                        txtRef.Text = Convert.ToString(Math.Round(((Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) + MontoFaltanteIgtfbs) / Convert.ToDouble(TB_TASA_Dolar.Tasa)), 2));
+                    }
+                    else
+                    {
+                        txtRef.Text = Convert.ToString(Math.Round((Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) / Convert.ToDouble(TB_TASA_Dolar.Tasa)), 2));
+                    }
+
+
 
                     //modificado 17-05-2023
                     txtIGTF.Text = Convert.ToString(_L_Facturacion.CalculoIgtf(txtNumeroOrden, Convert.ToString(Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) - Igtf_TotalAboTranferenciaDolar), DgvAbonos));
@@ -2374,9 +2421,20 @@ namespace CapaVisual_Login
                     //-----------ConvertirBolivares---------------------------
                     //txtMontoBs.Text = _L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos);
 
-                    double MontoFaltanteIgtfbs = (Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) - Igtf_TotalAboTranferenciaDolar) * 0.03;
+                    string Resultado_Parametro = _D_DetalleOrden.TB_PARAMETRO("ActivaIGTF");
+                    bool Cobro_IGTF = Convert.ToBoolean(Convert.ToInt32(Resultado_Parametro));
 
-                    txtRef.Text = Convert.ToString(Math.Round(((Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) + MontoFaltanteIgtfbs) / Convert.ToDouble(TB_TASA_Dolar.Tasa)), 2));
+                    if (Cobro_IGTF == true)
+                    {
+                        double MontoFaltanteIgtfbs = (Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) - Igtf_TotalAboTranferenciaDolar) * 0.03;
+
+                        txtRef.Text = Convert.ToString(Math.Round(((Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) + MontoFaltanteIgtfbs) / Convert.ToDouble(TB_TASA_Dolar.Tasa)), 2));
+                    }
+                    else
+                    {
+                        txtRef.Text = Convert.ToString(Math.Round((Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) / Convert.ToDouble(TB_TASA_Dolar.Tasa)), 2));
+                    }
+
                     txtIGTF.Text = Convert.ToString(_L_Facturacion.CalculoIgtf(txtNumeroOrden, Convert.ToString(Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) - Igtf_TotalAboTranferenciaDolar), DgvAbonos));
 
                     BolivaresConveridos(Convert.ToDouble(Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) + Convert.ToDouble(txtIGTF.Text)), txtMonto2Bs);
@@ -3863,8 +3921,8 @@ namespace CapaVisual_Login
                         objVmax.AbrirPuerto(Convert.ToString(glbPuertoCOM));
                         bool respuesta = false;
                         // ''''' ********* DATOS DEL CLIENTE ************
+                        //resp = objVmax.AbrirCF(txtNombreCliente.Text, (txtCedula.Text.Replace("-","")) , "1", "294", "12345", "", "", 40);
                         resp = objVmax.AbrirCF(txtNombreCliente.Text, txtCedula.Text, "1", "294", "12345", "", "", 40);
-
 
                         if (resp != 0)
                         {
@@ -4605,7 +4663,14 @@ namespace CapaVisual_Login
             catch (Exception ex)
             {
                 _FrmMensajes.co = 2;
-                _FrmMensajes.avisomensaje(string.Format("Error: {0}", ex.Message) + ", Error inesperado");
+                if (ex.Message  == "Violation of PRIMARY KEY constraint 'PK_TB_FACTURAS'.Cannot insert duplicate key in object")
+                {
+                    _FrmMensajes.avisomensaje("Error: Este número de factura ya existe");
+                }
+                else
+                {
+                    _FrmMensajes.avisomensaje(string.Format("Error: {0}", ex.Message) + ", Error inesperado");
+                }
                 _FrmMensajes.ShowDialog();
                 objVmax.Cancelar();
                 objVmax.Cerrar();
@@ -5254,9 +5319,21 @@ namespace CapaVisual_Login
 
                     BolivaresConveridos(Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos)), txtMontoBs);
 
-                    double MontoFaltanteIgtfbs = (Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) - Igtf_TotalAboTranferenciaDolar) * 0.03;
+                    string Resultado_Parametro = _D_DetalleOrden.TB_PARAMETRO("ActivaIGTF");
+                    bool Cobro_IGTF = Convert.ToBoolean(Convert.ToInt32(Resultado_Parametro));
 
-                    txtRef.Text = Convert.ToString(Math.Round(((Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) + MontoFaltanteIgtfbs) / Convert.ToDouble(TB_TASA_Dolar.Tasa)), 2));
+                    
+                    if (Cobro_IGTF == true)
+                    {
+                        double MontoFaltanteIgtfbs = (Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) - Igtf_TotalAboTranferenciaDolar) * 0.03;
+
+                        txtRef.Text = Convert.ToString(Math.Round(((Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) + MontoFaltanteIgtfbs) / Convert.ToDouble(TB_TASA_Dolar.Tasa)), 2));
+                    }
+                    else
+                    {
+                        txtRef.Text = Convert.ToString(Math.Round((Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) / Convert.ToDouble(TB_TASA_Dolar.Tasa)), 2));
+                    }
+
 
                     //modificado 17-05-2023
                     txtIGTF.Text = Convert.ToString(_L_Facturacion.CalculoIgtf(txtNumeroOrden, Convert.ToString(Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) - Igtf_TotalAboTranferenciaDolar), DgvAbonos));
@@ -5278,9 +5355,20 @@ namespace CapaVisual_Login
                         //-----------ConvertirBolivares---------------------------
                         //txtMontoBs.Text = _L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos);
 
-                        double MontoFaltanteIgtfbs = (Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) - Igtf_TotalAboTranferenciaDolar) * 0.03;
+                        string Resultado_Parametro = _D_DetalleOrden.TB_PARAMETRO("ActivaIGTF");
+                        bool Cobro_IGTF = Convert.ToBoolean(Convert.ToInt32(Resultado_Parametro));
 
-                        txtRef.Text = Convert.ToString(Math.Round(((Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) + MontoFaltanteIgtfbs) / Convert.ToDouble(TB_TASA_Euro.Tasa)), 2));
+                        if (Cobro_IGTF == true)
+                        {
+                            double MontoFaltanteIgtfbs = (Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) - Igtf_TotalAboTranferenciaDolar) * 0.03;
+
+                            txtRef.Text = Convert.ToString(Math.Round(((Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) + MontoFaltanteIgtfbs) / Convert.ToDouble(TB_TASA_Euro.Tasa)), 2));
+                        }
+                        else
+                        {
+                            txtRef.Text = Convert.ToString(Math.Round((Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) / Convert.ToDouble(TB_TASA_Euro.Tasa)), 2));
+                        }
+
 
                         //modificado 17-05-2023
                         txtIGTF.Text = Convert.ToString(_L_Facturacion.CalculoIgtf(txtNumeroOrden, Convert.ToString(Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) - Igtf_TotalAboTranferenciaDolar), DgvAbonos));
@@ -5658,18 +5746,53 @@ namespace CapaVisual_Login
 
                             }
                         }
-                        
+
+                        //7//// Reporte de Declaracion se imprime si se abono la orden y el status antes era por pagar 
+                        if (OrSer_Statu == "004" && (Cod_Venta == "003" | Cod_Venta == "002") && (_D_DetalleOrden.TB_PARAMETRO("ImprimeDocResp") =="1")) // Estatus PorPagar , se ejecuto la funcion es trabajo convencional o reparacion y el parametro de imprimirDeclaracion sea 1 
+                        {
+                            if (TB_CAORDSER.Cod_DetVta != "08")
+                            {
+                                ImprimirDeclaracion_CristalPropio_MonturaPropia();
+                            }
+                            else
+                            {
+                                _FrmMensajes.co = 1;
+                                _FrmMensajes.avisomensaje("El reporte de la Orden de Servicio se debe imprimir cuando se asigne el RX correspondiente");
+                                _FrmMensajes.ShowDialog();
+
+                            }
+
+                        }
 
                     }
-                    else
+                  else
+                  {
+
+                    //7//// Reporte de Declaracion se imprime si se facturo la orden y el status antes era por pagar 
+                    if (OrSer_Statu == "004" && (Cod_Venta == "003" | Cod_Venta == "002") && (_D_DetalleOrden.TB_PARAMETRO("ImprimeDocResp") == "1")) // Estatus PorPagar , se ejecuto la funcion es trabajo convencional o reparacion y el parametro de imprimirDeclaracion sea 1 
                     {
-                    //7//// Reporte de Orden y Rep Contacto
-                    if (OrSer_Statu == "004" && Cod_Venta != "001") // Estatus PorPagar , se ejecuto la funcion y es diferente de Venta directa
+                            if (TB_CAORDSER.Cod_DetVta != "08")
+                            {
+                                ImprimirDeclaracion_CristalPropio_MonturaPropia();
+                            }
+                            else
+                            {
+                                _FrmMensajes.co = 1;
+                                _FrmMensajes.avisomensaje("El reporte de la Orden de Servicio se debe imprimir cuando se asigne el RX correspondiente");
+                                _FrmMensajes.ShowDialog();
+
+                            }
+
+                    }
+
+                        //7//// Reporte de Orden y Rep Contacto
+                        if (OrSer_Statu == "004" && Cod_Venta != "001") // Estatus PorPagar , se ejecuto la funcion y es diferente de Venta directa
                     {
                         RepOrden(concat);// reporte de orden se emite cuando la orden tiene status por pagar 
                     }
 
-                    }
+                  }
+
             }
 
 
@@ -5731,32 +5854,73 @@ namespace CapaVisual_Login
         public void RepOrden(string concat)
         {
 
-            // Imprimir o mosotrar reporte de orden
-            // Trabajo convencional reservado = 08 
+            //// Imprimir o mosotrar reporte de orden
+            //// Trabajo convencional reservado = 08 
+            //if (TB_CAORDSER.Cod_DetVta != "08") // Solo se muestra o se imprime el reporte de la orden si no es trabajo convencional reservado 
+            //{
+            //    // Si es trabajo de contacto se muestra este reporte 
+            //    if (TB_CAORDSER.Cod_DetVta == "02") // Si se procesa uan orden de contacto se muestra reporte de contacto  
+            //    {
+            //        _FrmRepOrdenTContact.setParametros(concat);
+            //        _FrmRepOrdenTContact.ConfigRep();
+
+            //        if (_D_DetalleOrden.ParametroImpresion() == "1") // Si el parametro de impresion es 1 entonces imprime el reporte 
+            //        {
+            //            _FrmRepOrdenTContact.imprimir();
+
+            //        }
+            //        else
+            //        {
+            //            _FrmRepOrdenTContact.ShowDialog();
+
+            //        }
+
+            //    }
+            //    else // si es otro tipo de trabajo 
+            //    {
+            //        _FrmRepOrden.setParametros(concat);
+            //        _FrmRepOrden.ConfigRep();
+
+            //        if (_D_DetalleOrden.ParametroImpresion() == "1") // Si el parametro de impresion es 1 entonces imprime el reporte 
+            //        {
+            //            _FrmRepOrden.imprimir();
+
+            //        }
+            //        else
+            //        {
+            //            _FrmRepOrden.ShowDialog();
+
+            //        }
+
+            //    }
+
+            //}
+            // Si el codigo detalle venta es igual a 08 entonces no hace nada 
+
             if (TB_CAORDSER.Cod_DetVta != "08") // Solo se muestra o se imprime el reporte de la orden si no es trabajo convencional reservado 
             {
-                // Si es trabajo de contacto se muestra este reporte 
                 if (TB_CAORDSER.Cod_DetVta == "02") // Si se procesa uan orden de contacto se muestra reporte de contacto  
                 {
-                    _FrmRepOrdenTContact.setParametros(concat);
-                    _FrmRepOrdenTContact.ConfigRep();
+                    _FrmRepOrden.setParametros(concat);
+                    _FrmRepOrden.ConfigRep(false,true);
 
                     if (_D_DetalleOrden.ParametroImpresion() == "1") // Si el parametro de impresion es 1 entonces imprime el reporte 
                     {
-                        _FrmRepOrdenTContact.imprimir();
+                        _FrmRepOrden.imprimir();
 
                     }
                     else
                     {
-                        _FrmRepOrdenTContact.ShowDialog();
+                        _FrmRepOrden.ShowDialog();
 
                     }
 
+
                 }
-                else // si es otro tipo de trabajo 
+                else
                 {
                     _FrmRepOrden.setParametros(concat);
-                    _FrmRepOrden.ConfigRep();
+                    _FrmRepOrden.ConfigRep(true, false);
 
                     if (_D_DetalleOrden.ParametroImpresion() == "1") // Si el parametro de impresion es 1 entonces imprime el reporte 
                     {
@@ -5772,7 +5936,7 @@ namespace CapaVisual_Login
                 }
 
             }
-            // Si el codigo detalle venta es igual a 08 entonces no hace nada 
+
 
         }
 
@@ -7599,11 +7763,93 @@ namespace CapaVisual_Login
             }
         }
 
-        private void button1_Click_1(object sender, EventArgs e)
+        public void ImprimirDeclaracion_CristalPropio_MonturaPropia()
         {
-            FrmMostarDeclaracion _FrmMostarDeclaracion = new FrmMostarDeclaracion(_D_DetalleOrden.Nombre_Surculsal_PagoMovil(TB_CAORDSER.Cod_Sucursal, null), _D_Inicio.DiaActivo());
-            _FrmMostarDeclaracion.ShowDialog();
-        }
+            try
+            {
+                // Busco si esta orden tiene CristalPropio o MonturaPropia
+                if (TB_CAORDSER.MonturaPropia == true | TB_CAORDSER.cristalpropio == true)
+                {
 
+                    int numCopias = Convert.ToUInt16(_D_DetalleOrden.TB_PARAMETRO("NumCopContResp"));
+                    string Sucursal = _D_DetalleOrden.TB_PARAMETRO("SucursalId");
+                    string DiaActivo = _D_Inicio.DiaActivo().ToString("dd-MMM-yyyy").Replace(".","");
+                    string NombreCompleto = "";
+
+                    DataTable dtCliente = _D_DetalleOrden.BucarTB_CTEPPAL(TB_CAORDSER.CTE_CedIden, TB_CAORDSER.CTE_Nacio);
+
+                    if (dtCliente.Rows.Count > 0)
+                    {
+                        foreach (DataRow drItem in dtCliente.Rows)
+                        {
+                            string PrimerNombre = drItem["CTE_PNombre"].ToString();
+                            string PrimerApellido = drItem["CTE_PApellido"].ToString();
+                            NombreCompleto = PrimerNombre + " " + PrimerApellido;
+                            break;
+                        }
+
+                    }
+                    _D_DetalleOrden.Nombre_Surculsal_PagoMovil(Sucursal,null);
+                    string Sucursal_Descripcion =_D_DetalleOrden.Nombre_Surculsal_PagoMovil(Sucursal, null) ;
+
+                    _FrmMostarDeclaracion.Parametros(Sucursal_Descripcion, DiaActivo, TB_CAORDSER.NumOrdserv, NombreCompleto, TB_CAORDSER.CTE_Nacio + "-" + TB_CAORDSER.CTE_CedIden, TB_CAORDSER.OrSer_Observ, (TB_CAORDSER.Cod_Venta == "003" ? "X" : ""), (TB_CAORDSER.cristalpropio == true ? "X" : ""), (TB_CAORDSER.MonturaPropia == true ? "X" : ""));
+                    _FrmMostarDeclaracion.ConfigRep();
+                    if (_D_DetalleOrden.ParametroImpresion() == "1") // Si el parametro de impresion es 1 entonces imprime el reporte 
+                    {
+                        _FrmMostarDeclaracion.imprimir_NumeroCopia(numCopias);
+
+                    }
+                    else
+                    {
+                        _FrmMostarDeclaracion.ShowDialog();
+
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje(string.Format("Error: {0}", ex.Message) + ", Error inesperado");
+                _FrmMensajes.ShowDialog();
+            }
+        }
+        //Para Probar los reportes
+        //private void button1_Click_1(object sender, EventArgs e)
+        //{
+        //    string concat = TB_CAORDSER.Cod_Sucursal + TB_CAORDSER.NumOrdserv + TB_CAORDSER.Revision;
+        //    _FrmMostrarReporte.setParametros(concat);
+        //    _FrmMostrarReporte.ConfigRep(true, true);
+
+        //    if (_D_DetalleOrden.ParametroImpresion() == "1") // Si el parametro de impresion es 1 entonces imprime el reporte 
+        //    {
+        //        _FrmMostrarReporte.imprimir();
+
+        //    }
+        //    else
+        //    {
+        //        _FrmMostrarReporte.ShowDialog();
+
+        //    }
+        //}
+
+        //private void button2_Click(object sender, EventArgs e)
+        //{
+        //    string concat = TB_CAORDSER.Cod_Sucursal + TB_CAORDSER.NumOrdserv + TB_CAORDSER.Revision;
+
+        //    _FrmMostrarReporte.setParametros(concat);
+        //    _FrmMostrarReporte.ConfigRep(true, false);
+
+        //    if (_D_DetalleOrden.ParametroImpresion() == "1") // Si el parametro de impresion es 1 entonces imprime el reporte 
+        //    {
+        //        _FrmMostrarReporte.imprimir();
+
+        //    }
+        //    else
+        //    {
+        //        _FrmMostrarReporte.ShowDialog();
+
+        //    }
+        //}
     }
 }
