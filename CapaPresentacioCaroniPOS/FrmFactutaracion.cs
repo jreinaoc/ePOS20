@@ -1884,7 +1884,7 @@ namespace CapaVisual_Login
                 }
                 else
                 {
-                    label3.Location = new Point(44, 18);
+                    label3.Location = new Point(45, 12);
                     txtNumeroOrden.Location = new Point(48, 37);
                     label72.Visible = false;
                     txtNumeroFactura.Visible = false;
@@ -1980,6 +1980,18 @@ namespace CapaVisual_Login
             TxtAbonoRef.Text = string.Format("{0:#,0.00}", Convert.ToDecimal(TxtAbonoRef.Text));
             TxtIgtfOrd.Text = string.Format("{0:#,0.00}", Convert.ToDecimal(TxtIgtfOrd.Text));
 
+            if (TxtStatus.Text == "Facturada" || TxtStatus.Text == "Anulada")
+            {
+                double IgtfAbonado_2 = Convert.ToDouble(TxtIgtfOrd.Text.Replace(".", "")) + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos).Replace(".", ""));
+                string saldo_bolivares_2 = Convert.ToString(Math.Round((double)(Convert.ToDouble(TxtSaldoOrd.Text.Replace(".", ""))), 2));
+                saldo_bolivares_2 = string.Format("{0:#,0.00}", Convert.ToDecimal(saldo_bolivares_2));
+                string saldo_ref_2 = Convert.ToString(Math.Round((double)(Convert.ToDouble(TxtSaldoOrd.Text.Replace(".", "")) / TB_TASA_Dolar.Tasa), 2));
+                saldo_ref_2 = string.Format("{0:#,0.00}", Convert.ToDecimal(saldo_ref_2));
+                TxtSaldoRef_2.Text = saldo_ref_2;
+                TxtSaldoOrd_2.Text = saldo_bolivares_2;
+            }
+            else
+            { 
 
             // 02/12/2024 Mostrar el saldo de la orden sin el Igtf en un nuevo Texbox y colocar el Texbox original que si tiene el salgo con Igtf Oculto 
             double IgtfAbonado_2 = Convert.ToDouble(TxtIgtfOrd.Text.Replace(".", "")) + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos).Replace(".", ""));
@@ -1989,11 +2001,11 @@ namespace CapaVisual_Login
             saldo_ref_2 = string.Format("{0:#,0.00}", Convert.ToDecimal(saldo_ref_2));
             TxtSaldoRef_2.Text = saldo_ref_2;
             TxtSaldoOrd_2.Text = saldo_bolivares_2;
+            }
 
 
-
-            // nuevo 21-08-2023 llenar los texbox de vuelto en bs y dolares
-            DataTable dt = _D_DetalleOrden.Buscar_Cambios_Realizados(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv);
+        // nuevo 21-08-2023 llenar los texbox de vuelto en bs y dolares
+        DataTable dt = _D_DetalleOrden.Buscar_Cambios_Realizados(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv);
             foreach (DataRow row in dt.Rows)
             {
                 textBox8.Text = string.Format("{0:#,0.00}", row["TotalPagomovilBolivares"].ToString() == "" ? (Decimal?)0.00 : Convert.ToDecimal(row["TotalPagomovilBolivares"].ToString()));
@@ -4660,17 +4672,28 @@ namespace CapaVisual_Login
 
                 return Transaccion;
             }
-            catch (Exception ex)
+            catch (SqlException ex)
             {
                 _FrmMensajes.co = 2;
-                if (ex.Message  == "Violation of PRIMARY KEY constraint 'PK_TB_FACTURAS'.Cannot insert duplicate key in object")
+                if (ex.Number == 2627) // Código de error común para violación de clave primaria
                 {
-                    _FrmMensajes.avisomensaje("Error: Este número de factura ya existe");
-                }
+                    _FrmMensajes.avisomensaje("Este número de factura ya existe");
+                }   
                 else
                 {
                     _FrmMensajes.avisomensaje(string.Format("Error: {0}", ex.Message) + ", Error inesperado");
                 }
+                _FrmMensajes.ShowDialog();
+                objVmax.Cancelar();
+                objVmax.Cerrar();
+                objVmax.CerrarPuerto();
+                return "";
+            }
+            catch (Exception ex)
+            {
+                _FrmMensajes.co = 2;
+                // Manejar otras excepciones
+                _FrmMensajes.avisomensaje(string.Format("Error: {0}", ex.Message) + ", Error inesperado");
                 _FrmMensajes.ShowDialog();
                 objVmax.Cancelar();
                 objVmax.Cerrar();
@@ -5493,6 +5516,11 @@ namespace CapaVisual_Login
 
             }
         }
+        private string RemoveLetters(string input)
+        {
+            // Usar LINQ para filtrar solo los caracteres que son dígitos
+            return new string(input.Where(char.IsDigit).ToArray());
+        }
 
         private void txtCedula_Leave(object sender, EventArgs e)
         {
@@ -5505,7 +5533,43 @@ namespace CapaVisual_Login
 
 
             }
+            else
+            { 
+            string cedula = RemoveLetters(txtCedula.Text);
+            _L_Facturacion.BuscarCliente(cedula);
+            if (_L_Facturacion.MostrarClientePag == true)
+            {
+                txtNombreCliente.Text = _L_Facturacion.NombreCliente;
+                txtNombreCliente.Enabled = false;
+                txtCedula.Text = _L_Facturacion.CedCliente;
+                txtCedula.Enabled = false;
+                TxtTelefono.Text = _L_Facturacion.TlfCliente;
+                TxtTelefono.Enabled = false;
+                TxtCorreo.Text = _L_Facturacion.CorreoCliente;
+                TxtCorreo.Enabled = false;
+
+            }
+
+            else
+            {
+                txtNombreCliente.Text = ClienteAnterior;
+                txtNombreCliente.Enabled = false;
+                txtCedula.Text = CedulaAnterior;
+                txtCedula.Enabled = false;
+                TxtTelefono.Text = TlfAnterior;
+                TxtTelefono.Enabled = false;
+                TxtCorreo.Text = CorreoAnterior;
+                TxtCorreo.Enabled = false;
+
+                _FrmMensajes.co = 2;
+                string mensaje = "No se encontró el cliente";
+                _FrmMensajes.avisomensaje(mensaje);
+                _FrmMensajes.ShowDialog();
+
+            }
+
         }
+    }
 
         public void FuncionSaldo0()
         {

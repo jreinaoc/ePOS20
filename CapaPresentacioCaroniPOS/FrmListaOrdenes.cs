@@ -1205,66 +1205,47 @@ namespace CapaVisual_Login
 
                                 //ImprimirReporte
 
-                                string concat = DgvListadoOrdenes.CurrentRow.Cells["Cod_Sucursal"].Value.ToString() + DgvListadoOrdenes.CurrentRow.Cells["NumOrdserv"].Value.ToString() + "0";
-
-
-
-                                // Reporte de procesar sin pagos 
-
-                                _FrmRepProSinPag.setParametros(concat);
-                                _FrmRepProSinPag.ConfigRep();
-
-                                if (_D_DetalleOrden.ParametroImpresion() == "1") // Si el parametro de impresion es 1 entonces imprime el reporte 
+                                ////Reporte de Procesar sin Pagos con reporte de Orden 
+                                // Si es trabajo de contacto se muestra este reporte 
+                                 string concat = DgvListadoOrdenes.CurrentRow.Cells["Cod_Sucursal"].Value.ToString() + DgvListadoOrdenes.CurrentRow.Cells["NumOrdserv"].Value.ToString() + "0";
+                                if (TB_CAORDSER.Cod_DetVta == "02") // Si se procesa uan orden de contacto se muestra reporte de contacto  
                                 {
-                                 
-                                    _FrmRepProSinPag.imprimir();
-
-                                }
-                                else
-                                {
-                                    
-                                    _FrmRepProSinPag.ShowDialog();
-
-                                }
-
-
-                                //Reporte de orden 
-
-                                if (TB_CAORDSER.Cod_DetVta == "02") // Si se procesa  una orden de contacto se imprime reporte de orden 
-                                {
-                                    _FrmRepOrdenTContact.setParametros(concat);
-                                    _FrmRepOrdenTContact.ConfigRep();
+                                    _FrmRepProSinPag.setParametros(concat);
+                                    _FrmRepProSinPag.ConfigRep(true, true);
 
                                     if (_D_DetalleOrden.ParametroImpresion() == "1") // Si el parametro de impresion es 1 entonces imprime el reporte 
                                     {
-                                        _FrmRepOrdenTContact.imprimir();
+                                        _FrmRepProSinPag.imprimir();
 
                                     }
                                     else
                                     {
-                                        _FrmRepOrdenTContact.ShowDialog();
+                                        _FrmRepProSinPag.ShowDialog();
 
                                     }
 
                                 }
                                 else // si es otro tipo de trabajo 
                                 {
-                                    _FrmRepOrden.setParametros(concat);
-                                    _FrmRepOrden.ConfigRep();
+                                    _FrmRepProSinPag.setParametros(concat);
+                                    _FrmRepProSinPag.ConfigRep(true, false);
 
                                     if (_D_DetalleOrden.ParametroImpresion() == "1") // Si el parametro de impresion es 1 entonces imprime el reporte 
                                     {
-                                        _FrmRepOrden.imprimir();
+                                        _FrmRepProSinPag.imprimir();
 
                                     }
                                     else
                                     {
-                                        _FrmRepOrden.ShowDialog();
+                                        _FrmRepProSinPag.ShowDialog();
 
                                     }
 
 
+
                                 }
+
+
 
                             }
 
@@ -1316,62 +1297,48 @@ namespace CapaVisual_Login
 
                     //ImprimirReporte
 
+                    ////Reporte de Procesar sin Pagos con reporte de Orden 
+                    // Si es trabajo de contacto se muestra este reporte 
                     string concat = DgvListadoOrdenes.CurrentRow.Cells["Cod_Sucursal"].Value.ToString() + DgvListadoOrdenes.CurrentRow.Cells["NumOrdserv"].Value.ToString() + "0";
-
-
-
-                    // REporte de procesar sin pagos 
-                    _FrmRepProSinPag.setParametros(concat);
-                    _FrmRepProSinPag.ConfigRep();
-                    if (_D_DetalleOrden.ParametroImpresion() == "1") // Si el parametro de impresion es 1 entonces imprime el reporte 
+                    if (TB_CAORDSER.Cod_DetVta == "02") // Si se procesa uan orden de contacto se muestra reporte de contacto  
                     {
-                        _FrmRepProSinPag.imprimir();
-
-                    }
-                    else
-                    {
-                        _FrmRepProSinPag.ShowDialog();
-
-                    }
-
-                    // Reporte de orden 
-
-                    if (TB_CAORDSER.Cod_DetVta == "02") // Si se procesa sin pago una orden de contacto se imprime reporte de orden 
-                    {
-                        _FrmRepOrdenTContact.setParametros(concat);
-                        _FrmRepOrdenTContact.ConfigRep();
+                        _FrmRepProSinPag.setParametros(concat);
+                        _FrmRepProSinPag.ConfigRep(true, true);
 
                         if (_D_DetalleOrden.ParametroImpresion() == "1") // Si el parametro de impresion es 1 entonces imprime el reporte 
                         {
-                            _FrmRepOrdenTContact.imprimir();
+                            _FrmRepProSinPag.imprimir();
 
                         }
                         else
                         {
-                            _FrmRepOrdenTContact.ShowDialog();
+                            _FrmRepProSinPag.ShowDialog();
 
                         }
 
                     }
                     else // si es otro tipo de trabajo 
                     {
-                        _FrmRepOrden.setParametros(concat);
-                        _FrmRepOrden.ConfigRep();
+                        _FrmRepProSinPag.setParametros(concat);
+                        _FrmRepProSinPag.ConfigRep(true, false);
 
                         if (_D_DetalleOrden.ParametroImpresion() == "1") // Si el parametro de impresion es 1 entonces imprime el reporte 
                         {
-                            _FrmRepOrden.imprimir();
+                            _FrmRepProSinPag.imprimir();
 
                         }
                         else
                         {
-                            _FrmRepOrden.ShowDialog();
+                            _FrmRepProSinPag.ShowDialog();
 
                         }
+
+
+
                     }
 
 
-                 }
+                }
 
                 cerrar();
             }

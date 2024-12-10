@@ -31,16 +31,26 @@ namespace CapaVisual_Login
         {
             this.components = new System.ComponentModel.Container();
             Microsoft.Reporting.WinForms.ReportDataSource reportDataSource1 = new Microsoft.Reporting.WinForms.ReportDataSource();
+            this.sPCPOSReporProSinPagoBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.dsRepProSinPago = new CapaVisual_Login.Reportes.DsRepProSinPago();
             this.reportViewer1 = new Microsoft.Reporting.WinForms.ReportViewer();
             this.TxtOrden = new System.Windows.Forms.TextBox();
-            this.dsRepProSinPago = new CapaVisual_Login.Reportes.DsRepProSinPago();
             this.dsRepProSinPagoBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.sPCPOSReporProSinPagoBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.sP_CPOS_ReporProSinPagoTableAdapter = new CapaVisual_Login.Reportes.DsRepProSinPagoTableAdapters.SP_CPOS_ReporProSinPagoTableAdapter();
+            ((System.ComponentModel.ISupportInitialize)(this.sPCPOSReporProSinPagoBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dsRepProSinPago)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dsRepProSinPagoBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.sPCPOSReporProSinPagoBindingSource)).BeginInit();
             this.SuspendLayout();
+            // 
+            // sPCPOSReporProSinPagoBindingSource
+            // 
+            this.sPCPOSReporProSinPagoBindingSource.DataMember = "SP_CPOS_ReporProSinPago";
+            this.sPCPOSReporProSinPagoBindingSource.DataSource = this.dsRepProSinPago;
+            // 
+            // dsRepProSinPago
+            // 
+            this.dsRepProSinPago.DataSetName = "DsRepProSinPago";
+            this.dsRepProSinPago.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
             // 
             // reportViewer1
             // 
@@ -54,7 +64,6 @@ namespace CapaVisual_Login
             this.reportViewer1.ServerReport.BearerToken = null;
             this.reportViewer1.Size = new System.Drawing.Size(800, 450);
             this.reportViewer1.TabIndex = 0;
-            this.reportViewer1.Load += new System.EventHandler(this.reportViewer1_Load);
             // 
             // TxtOrden
             // 
@@ -63,22 +72,10 @@ namespace CapaVisual_Login
             this.TxtOrden.Size = new System.Drawing.Size(100, 20);
             this.TxtOrden.TabIndex = 1;
             this.TxtOrden.Visible = false;
-            this.TxtOrden.TextChanged += new System.EventHandler(this.TxtOrden_TextChanged);
-            // 
-            // dsRepProSinPago
-            // 
-            this.dsRepProSinPago.DataSetName = "DsRepProSinPago";
-            this.dsRepProSinPago.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
             // 
             // dsRepProSinPagoBindingSource
             // 
             this.dsRepProSinPagoBindingSource.DataSource = this.dsRepProSinPago;
-            this.dsRepProSinPagoBindingSource.Position = 0;
-            // 
-            // sPCPOSReporProSinPagoBindingSource
-            // 
-            this.sPCPOSReporProSinPagoBindingSource.DataMember = "SP_CPOS_ReporProSinPago";
-            this.sPCPOSReporProSinPagoBindingSource.DataSource = this.dsRepProSinPago;
             // 
             // sP_CPOS_ReporProSinPagoTableAdapter
             // 
@@ -93,10 +90,10 @@ namespace CapaVisual_Login
             this.Controls.Add(this.reportViewer1);
             this.Name = "FrmRepProSinPag";
             this.Text = "FrmRepProSinPag";
-            this.Load += new System.EventHandler(this.FrmRepProSinPag_Load);
+            this.Load += new System.EventHandler(this.FrmMostrarReporte_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.sPCPOSReporProSinPagoBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dsRepProSinPago)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dsRepProSinPagoBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.sPCPOSReporProSinPagoBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

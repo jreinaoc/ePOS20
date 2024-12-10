@@ -187,6 +187,8 @@ namespace CapaVisual_Login
             this.label48 = new System.Windows.Forms.Label();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.TxtSaldoRef_2 = new System.Windows.Forms.TextBox();
+            this.TxtSaldoOrd_2 = new System.Windows.Forms.TextBox();
             this.label20 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
@@ -265,8 +267,6 @@ namespace CapaVisual_Login
             this.label108 = new System.Windows.Forms.Label();
             this.label110 = new System.Windows.Forms.Label();
             this.ttMensaje = new System.Windows.Forms.ToolTip(this.components);
-            this.TxtSaldoOrd_2 = new System.Windows.Forms.TextBox();
-            this.TxtSaldoRef_2 = new System.Windows.Forms.TextBox();
             this.GbxVentasDia.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DgvListadoOrdenes)).BeginInit();
             this.PnlPrimario.SuspendLayout();
@@ -2035,6 +2035,30 @@ namespace CapaVisual_Login
             this.tabPage1.TabIndex = 0;
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // TxtSaldoRef_2
+            // 
+            this.TxtSaldoRef_2.Cursor = System.Windows.Forms.Cursors.Default;
+            this.TxtSaldoRef_2.Enabled = false;
+            this.TxtSaldoRef_2.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtSaldoRef_2.Location = new System.Drawing.Point(325, 279);
+            this.TxtSaldoRef_2.Name = "TxtSaldoRef_2";
+            this.TxtSaldoRef_2.ReadOnly = true;
+            this.TxtSaldoRef_2.Size = new System.Drawing.Size(103, 27);
+            this.TxtSaldoRef_2.TabIndex = 123;
+            this.TxtSaldoRef_2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // TxtSaldoOrd_2
+            // 
+            this.TxtSaldoOrd_2.Cursor = System.Windows.Forms.Cursors.Default;
+            this.TxtSaldoOrd_2.Enabled = false;
+            this.TxtSaldoOrd_2.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtSaldoOrd_2.Location = new System.Drawing.Point(88, 280);
+            this.TxtSaldoOrd_2.Name = "TxtSaldoOrd_2";
+            this.TxtSaldoOrd_2.ReadOnly = true;
+            this.TxtSaldoOrd_2.Size = new System.Drawing.Size(103, 27);
+            this.TxtSaldoOrd_2.TabIndex = 122;
+            this.TxtSaldoOrd_2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
             // label20
             // 
             this.label20.AutoSize = true;
@@ -3177,7 +3201,7 @@ namespace CapaVisual_Login
             this.label47.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(7)))), ((int)(((byte)(167)))), ((int)(((byte)(155)))));
             this.label47.Location = new System.Drawing.Point(-26, 28);
             this.label47.Name = "label47";
-            this.label47.Size = new System.Drawing.Size(28, 152);
+            this.label47.Size = new System.Drawing.Size(39, 149);
             this.label47.TabIndex = 96;
             // 
             // label108
@@ -3201,30 +3225,6 @@ namespace CapaVisual_Login
             this.label110.Size = new System.Drawing.Size(80, 657);
             this.label110.TabIndex = 101;
             this.label110.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // TxtSaldoOrd_2
-            // 
-            this.TxtSaldoOrd_2.Cursor = System.Windows.Forms.Cursors.Default;
-            this.TxtSaldoOrd_2.Enabled = false;
-            this.TxtSaldoOrd_2.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TxtSaldoOrd_2.Location = new System.Drawing.Point(88, 280);
-            this.TxtSaldoOrd_2.Name = "TxtSaldoOrd_2";
-            this.TxtSaldoOrd_2.ReadOnly = true;
-            this.TxtSaldoOrd_2.Size = new System.Drawing.Size(103, 27);
-            this.TxtSaldoOrd_2.TabIndex = 122;
-            this.TxtSaldoOrd_2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // TxtSaldoRef_2
-            // 
-            this.TxtSaldoRef_2.Cursor = System.Windows.Forms.Cursors.Default;
-            this.TxtSaldoRef_2.Enabled = false;
-            this.TxtSaldoRef_2.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TxtSaldoRef_2.Location = new System.Drawing.Point(325, 279);
-            this.TxtSaldoRef_2.Name = "TxtSaldoRef_2";
-            this.TxtSaldoRef_2.ReadOnly = true;
-            this.TxtSaldoRef_2.Size = new System.Drawing.Size(103, 27);
-            this.TxtSaldoRef_2.TabIndex = 123;
-            this.TxtSaldoRef_2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // FrmFacturacion
             // 
