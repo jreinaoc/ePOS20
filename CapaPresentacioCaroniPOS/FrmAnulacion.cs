@@ -21,6 +21,7 @@ using CapaLogica.Colores_Logica;
 using System.Management;
 using CapaDatos.Conexion;
 using System.Data.SqlClient;
+using System.Threading;
 
 namespace CapaVisual_Login
 {
@@ -654,7 +655,6 @@ namespace CapaVisual_Login
                                 resp = objVmax.Subtotal();
                                 resp = objVmax.TextoNoFiscal("Monto Disponible:  " + Monto.ToString());
                                 objVmax.ObtenerReporteInformativo();
-                                objVmax.AbrirDNF();
                                 SerialImpresoraNC = objVmax.RetornoMI.sSerial;
                                 FechaImpresora = objVmax.RetornoMI.sFecha;
                                 resp = objVmax.Cerrar();
@@ -712,13 +712,23 @@ namespace CapaVisual_Login
                                         NumeroNCFiscal = "000000" + NumeroNCFiscal;
                                         break;
                                     }
-                            }
-                            string Transaccionn = _D_DetalleOrden.RegistrarNCFISCAL(SucursalActual, NumeroNCFiscal, "005", TB_FACTURAS.Fact_Num, SerialImpresora, DiaActivo, SerialImpresoraNC, "", TB_FACTURAS.CTE_NacioPAG, TB_FACTURAS.CTE_CedIdenPAG, TxtObservaciones.Text.ToUpper(), Convert.ToDouble(TB_FACTURAS.Fact_MontoGravable), Convert.ToDouble(TB_FACTURAS.Fact_Total), TB_USUARIO.COD_USR, "", Convert.ToDouble(TB_FACTURAS.Fact_IGTF), Convert.ToDouble(TB_FACTURAS.Fact_AlicuotaIGTF), Convert.ToDouble(TB_FACTURAS.Fact_MontoExento),false,"",command);
+                           }
 
-                        //transaction.Rollback();
-                        //Limpiarcbx();
+                        // Esperar un tiempo para que la impresora emita el ticket
+                        Thread.Sleep(60000); // Esperar 5 segundos (ajusta el tiempo según sea necesario)
+                        objVmax.AbrirPuerto(Convert.ToString(glbPuertoCOM));
+                        objVmax.ObtenerContadores();
+                        string UltimoNumeroNotaEmitido2 = objVmax.RetornoContadores.uiUltNCAbierta.ToString().PadLeft(7, '0');
+                        string UltimoNumeroCancelado11 = objVmax.RetornoContadores.uiUltFacturaAnulada.ToString().PadLeft(7, '0');
+                        string UltimoNumeroCancelado12 = objVmax.RetornoContadores.uiUltNCAnulada.ToString().PadLeft(7, '0');
+                        objVmax.CerrarPuerto();
+                        objVmax.Cerrar();
+                        // Verificar si se emitió el ticket
+                        if (UltimoNumeroCancelado11 != NumeroNCFiscal & UltimoNumeroCancelado12 != NumeroNCFiscal)
+                        {
+                            string Transaccionn = _D_DetalleOrden.RegistrarNCFISCAL(SucursalActual, NumeroNCFiscal, "005", TB_FACTURAS.Fact_Num, SerialImpresora, DiaActivo, SerialImpresoraNC, "", TB_FACTURAS.CTE_NacioPAG, TB_FACTURAS.CTE_CedIdenPAG, TxtObservaciones.Text.ToUpper(), Convert.ToDouble(TB_FACTURAS.Fact_MontoGravable), Convert.ToDouble(TB_FACTURAS.Fact_Total), TB_USUARIO.COD_USR, "", Convert.ToDouble(TB_FACTURAS.Fact_IGTF), Convert.ToDouble(TB_FACTURAS.Fact_AlicuotaIGTF), Convert.ToDouble(TB_FACTURAS.Fact_MontoExento), false, "", command);
 
-                        if (Transaccionn == "SATISFACTORIO")
+                            if (Transaccionn == "SATISFACTORIO")
                             {
                                 StatusNoataCredito = true;
                             }
@@ -734,10 +744,27 @@ namespace CapaVisual_Login
 
                             return StatusNoataCredito;
                         }
+                        else
+                        {
+                            StatusNoataCredito = false;
+                            _FrmMensajes.co = 2;
+                            _FrmMensajes.avisomensaje("No se pudo verificar la emisión del ticket.");
+                            _FrmMensajes.ShowDialog();
+                            return StatusNoataCredito;
+
+                        }
+                    }
+
+                       
 
 
                     }
-
+                objVmax.Cancelar();
+                objVmax.Cerrar();
+                objVmax.CerrarPuerto();
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("Error inesperado al generar la NC");
+                _FrmMensajes.ShowDialog();
                 return false;
 
             }
@@ -1054,6 +1081,9 @@ namespace CapaVisual_Login
          {
             try
             {
+                // Saber el total de pagos que tiene la orden 
+                decimal Total_Pagos= _L_Anulacion.Saldo_Total_Orden(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision);
+
                 Conexion cn = new Conexion();
                 SqlConnection connection = cn.LeerCadena();
                 SqlCommand command = connection.CreateCommand();
@@ -1089,7 +1119,7 @@ namespace CapaVisual_Login
                 rept = _L_Anulacion.Anulacion(TB_CAORDSER.NumOrdserv, CodMoti, CodResp, observaciones, TB_USUARIO.COD_USR, "01", command);
                 if (rept == "SATISFACTORIO")
                     rept = MovInventario(command);
-                if (rept == "SATISFACTORIO")
+                if (rept == "SATISFACTORIO" && Total_Pagos > 0) // si el total de pagos es mayor a 0 generamos nota de Devolucion 
                     rept = _L_Anulacion.EnviarDatoaNotaDev(observaciones, command); // Genera la nota de devolucion 
                 if (rept == "SATISFACTORIO")
                 {
@@ -1113,15 +1143,34 @@ namespace CapaVisual_Login
                     rept = _L_Anulacion.EnviarMovAnulacion(command);
                 }
 
-                _FrmMensajes.co = 1;
-                _FrmMensajes.avisomensaje("El número de nota de devolución es " + _L_Anulacion.NroNota);
-                _FrmMensajes.ShowDialog();
 
-                if (rept == "SATISFACTORIO")
-                {
                     if (rept == "SATISFACTORIO")
                     {
-                        transaction.Commit();
+
+                    transaction.Commit();
+
+                    if (Total_Pagos > 0)
+                    {
+                        _FrmMensajes.co = 1;
+                        _FrmMensajes.avisomensaje("El número de nota de devolución es " + _L_Anulacion.NroNota);
+                        _FrmMensajes.ShowDialog();
+
+                        string concat = TB_CAORDSER.Cod_Sucursal + TB_CAORDSER.NumOrdserv + TB_CAORDSER.Revision;
+
+                        // Para mostrar o imprimir el reporte de nota de devolucion 
+                        _FrmRepNotaDev.setParametros(concat);
+                        _FrmRepNotaDev.ConfigRep();
+
+                        if (_D_DetalleOrden.ParametroImpresion() == "1")
+                        {
+                            _FrmRepNotaDev.imprimir(); // imprime 
+
+                        }
+                        else
+                        {
+                            _FrmRepNotaDev.ShowDialog(); // Muestra
+                        }
+                    }
                     }
 
                     else
@@ -1130,24 +1179,6 @@ namespace CapaVisual_Login
                         Limpiarcbx();
                         return;
                     }
-                }
-
-
-                string concat = TB_CAORDSER.Cod_Sucursal + TB_CAORDSER.NumOrdserv + TB_CAORDSER.Revision;
-
-                // Para mostrar o imprimir el reporte de nota de devolucion 
-                _FrmRepNotaDev.setParametros(concat);
-                _FrmRepNotaDev.ConfigRep();
-
-                if (_D_DetalleOrden.ParametroImpresion() == "1")
-                {
-                    _FrmRepNotaDev.imprimir(); // imprime 
-
-                }
-                else
-                {
-                    _FrmRepNotaDev.ShowDialog(); // Muestra
-                }
 
                 Limpiarcbx();
                 return;

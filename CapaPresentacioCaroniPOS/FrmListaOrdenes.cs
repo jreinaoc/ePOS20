@@ -822,6 +822,18 @@ namespace CapaVisual_Login
 
             }
         }
+        public string Verificar_Existencia(string Numero_orden, string Cod_DetVta, string OrSer_Statu)
+        {
+            string Resp = _LAnulacion.Verificar_Existencia_Inv(Numero_orden, Cod_DetVta, OrSer_Statu);
+            if (Resp != "SATISFACTORIO")
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje(Resp);
+                _FrmMensajes.ShowDialog();
+            }
+
+            return Resp;
+        }
 
         public void DgvListadoOrdenes_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -1158,6 +1170,16 @@ namespace CapaVisual_Login
                 if (TB_CAORDSER.OrSer_Status != "004" | TB_CAORDSER.Cod_Venta == "001") //Por pagar y /venta directa 
                 {
                     return;
+                }
+
+                //Validar que Exista existencia de inventario para empezar el proceso Solo para ordener PorPagar 
+                if (TB_CAORDSER.OrSer_Status == "004" && TB_CAORDSER.Cod_DetVta != "02")
+                {
+                    string Rep = Verificar_Existencia(TB_CAORDSER.NumOrdserv, TB_CAORDSER.Cod_DetVta, TB_CAORDSER.OrSer_Status);
+                    if (Rep != "SATISFACTORIO")
+                    {
+                        return;
+                    }
                 }
 
                 _ListaOrdenes.ValidarRequiereClave();// Valida si se requiere clave para seguir un proceso u otro 

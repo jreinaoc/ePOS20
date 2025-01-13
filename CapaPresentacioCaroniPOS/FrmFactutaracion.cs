@@ -22,6 +22,7 @@ using CapaDatos.DanaService_Datos;
 using CapaLogica.ListaOrden_Logica;
 using System.Data.SqlClient;
 using CapaDatos.Conexion;
+using System.Threading;
 
 namespace CapaVisual_Login
 {
@@ -97,7 +98,7 @@ namespace CapaVisual_Login
         private VmaxComVe.VmaxComClass objVmax = new VmaxComVe.VmaxComClass();
         private string Num_Factura = "";
         public bool ModoClaro = true;
-
+        private bool rollbackRealizado = false;
         //---------AGREGADO POR Angel Hernandez para controlar ciertas funcionalidades del btn de eliminar pagos
         public bool HabEliminarPagos = false;
 
@@ -1392,6 +1393,17 @@ namespace CapaVisual_Login
                         return;
                     }
 
+                    //Validar que Exista existencia de inventario para empezar el proceso Solo para ordener PorPagar 
+                    if(TB_CAORDSER.OrSer_Status == "004" && TB_CAORDSER.Cod_DetVta!= "02")
+                    {
+                        string Rep= Verificar_Existencia(TB_CAORDSER.NumOrdserv, TB_CAORDSER.Cod_DetVta, TB_CAORDSER.OrSer_Status);
+                        if(Rep !="SATISFACTORIO")
+                        {
+                            return;
+                        }
+                    }
+
+
                     // Valido si el el saldo es 0 para relizar la validacion de la impresora 
                     if (TotalAbono == Math.Round(TB_CAORDSER.OrSer_Saldo + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos)), 2))
                     {
@@ -1729,6 +1741,11 @@ namespace CapaVisual_Login
         {
             try
             {
+                // Actualizar la entidad TB_tasa 
+                DateTime FechaActiva = _D_Inicio.DiaActivo();
+                _D_Inicio.TasaDiaEuroEntidad(FechaActiva.ToString("yyyyMMdd"));
+                _D_Inicio.TasaDiaDolarEntidad(FechaActiva.ToString("yyyyMMdd"));
+
                 btnPrincipal.PerformClick();
                 btnExamen.Enabled = false;
                 btnDetalleOrden.Enabled = false;
@@ -1895,14 +1912,24 @@ namespace CapaVisual_Login
                 {
                     toolTip1.ShowAlways = false;
                     toolTip1.Active = false;
+
+                      if ( (TB_TASA_Dolar.Tasa is null) | (TB_TASA_Euro.Tasa is null) )
+                      {
+                        _FrmMensajes.co = 2;
+                        _FrmMensajes.avisomensaje("Debe registrar la tasa del día");
+                        _FrmMensajes.ShowDialog();
+                        return;
+                      }
+                
                 }
                 else
                 {
-                    if (TB_TASA_Dolar.Tasa is null)
+                    if ((TB_TASA_Dolar.Tasa is null) | (TB_TASA_Euro.Tasa is null))
                     {
                         _FrmMensajes.co = 2;
                         _FrmMensajes.avisomensaje("Debe registrar la tasa del día");
                         _FrmMensajes.ShowDialog();
+                        btnIngresar.Enabled = false;
                         return;
                     }
 
@@ -3851,6 +3878,7 @@ namespace CapaVisual_Login
 
         public string ImprimirFacturaFiscal(string NumeroOrden, string CedulaCliente, string NacionalidadRif, SqlCommand command)
         {
+            string SerialImpresora = "";
             try
             {
                 DataSet DtIGTF;
@@ -3863,7 +3891,6 @@ namespace CapaVisual_Login
                 string TipoTasaIVA = "1";
                 string DctoExento = "";
                 string DctoGravable = "";
-                string SerialImpresora = "";
                 string FechaImpresora = "";
                 string Transaccion = "";
                 Double Fact_MontoExento = 0;
@@ -3907,7 +3934,7 @@ namespace CapaVisual_Login
                 if (_L_Facturacion.ValidaFactManual(command) == false)
                 {
                     FacturaManual = false;
-                    ImprimirFacturaFiscall = false;
+                    ImprimirFacturaFiscall = true;
 
                     uint resp = 0;
 
@@ -3922,8 +3949,9 @@ namespace CapaVisual_Login
                         _FrmMensajes.co = 2;
                         _FrmMensajes.avisomensaje(mensaje);
                         _FrmMensajes.ShowDialog();
-
-                        NumeroComprobanteFiscal = Convert.ToString(objVmax.RetornoMF.uiUltNumZ);
+                        objVmax.Cancelar();
+                        objVmax.Cerrar();
+                        objVmax.CerrarPuerto();
                         return "Error";
                     }
 
@@ -3942,7 +3970,18 @@ namespace CapaVisual_Login
                             _FrmMensajes.co = 2;
                             _FrmMensajes.avisomensaje(mensaje);
                             _FrmMensajes.ShowDialog();
+                            ImprimirFacturaFiscall = false;
+                            objVmax.Cancelar();
+                            objVmax.Cerrar();
+                            objVmax.CerrarPuerto();
                             return "Error";
+                        }
+                        else
+                        {
+                            objVmax.ObtenerReporteInformativo();
+                            SerialImpresora = objVmax.RetornoMI.sSerial;
+                            NumeroComprobanteFiscal = objVmax.RetornoAbrirFactura.uiNumeroFactura.ToString();
+
                         }
 
 
@@ -4255,45 +4294,19 @@ namespace CapaVisual_Login
 
                                 }
 
-                                //// ******ENVIO EL SUBTOTAL DE LA FACTURA**************
-                                //if (resp == 0)
-                                //{
-                                //    if (Convert.ToInt16(DtIGTF.Tables[0].Rows[0]["ActivaIGTF"]) > 0 & DtIGTF.Tables[0].Rows[0]["Abo_Monto"].ToString() != "0")
-                                //    {
-                                //        if (DtIGTF.Tables[0].Rows[0]["IGTFCAORDSER"].ToString().Replace(".", "") == DtIGTF.Tables[0].Rows[0]["ABO_IGTF"].ToString())
-                                //            resp = objVmax.SubtotalT_sinRetorno(DtIGTF.Tables[0].Rows[0]["Abo_Monto"].ToString());
-                                //        else
-
-                                //            objVmax.Cancelar();
-                                //        objVmax.Cerrar();
-                                //        objVmax.CerrarPuerto();
-                                //        ImprimirFacturaFiscall = false;
-                                //        respuesta = false;
-                                //        return "Error";
-
-                                //    }
-                                //    else
-
-                                //    resp = objVmax.Subtotal();
-                                //    TotalFacturaFiscal = objVmax.RetornoSubtotal.ToString();
-
-                                //}
-                                //else
-                                //{
-                                //    objVmax.Cancelar();
-                                //    objVmax.Cerrar();
-                                //    objVmax.CerrarPuerto();
-                                //    ImprimirFacturaFiscall = false;
-                                //    respuesta = false;
-                                //    return "Error";
-
-                                //}
                             }
                         }
 
                         else
-
+                        {
+                            objVmax.Cancelar();
+                            objVmax.Cerrar();
+                            objVmax.CerrarPuerto();
                             ImprimirFacturaFiscall = false;
+                            respuesta = false;
+                            return "Error";
+
+                        }
 
                         // *************ENVIO LOS PAGOS***********************
                         if (resp == 0)
@@ -4315,27 +4328,27 @@ namespace CapaVisual_Login
                             TotalFacturaFiscal = objVmax.RetornoSubtotal.llSubtotal.ToString();
                             decimal Calculo = Convert.ToDecimal(TotalFacturaFiscal) - PagosEnviados;
 
-                            if (Convert.ToString(Convert.ToDecimal(TotalFacturaFiscal) - PagosEnviados) == "001")
+                            if (Convert.ToString(Convert.ToDecimal(TotalFacturaFiscal) - PagosEnviados) == "1")
                             {
                                 resp = objVmax.PagoCF("1", "EFECTIVO", 1);
                                 _D_DetalleOrden.SP_SUMOFACTURA(TB_CAORDSER.Cod_Sucursal, NumeroComprobanteFiscal, objVmax.RetornoMF.sSerial.ToString(), txtNumeroOrden.Text, TotalFacturaFiscal, DctoExento, DctoGravable);
                             }
-                            else if (Convert.ToString(Convert.ToDecimal(TotalFacturaFiscal) - PagosEnviados) == "002")
+                            else if (Convert.ToString(Convert.ToDecimal(TotalFacturaFiscal) - PagosEnviados) == "2")
                             {
                                 resp = objVmax.PagoCF("2", "EFECTIVO", 1);
                                 _D_DetalleOrden.SP_SUMOFACTURA(TB_CAORDSER.Cod_Sucursal, NumeroComprobanteFiscal, objVmax.RetornoMF.sSerial.ToString(), txtNumeroOrden.Text, TotalFacturaFiscal, DctoExento, DctoGravable);
                             }
-                            else if (Convert.ToString(Convert.ToDecimal(TotalFacturaFiscal) - PagosEnviados) == "003")
+                            else if (Convert.ToString(Convert.ToDecimal(TotalFacturaFiscal) - PagosEnviados) == "3")
                             {
                                 resp = objVmax.PagoCF("3", "EFECTIVO", 1);
                                 _D_DetalleOrden.SP_SUMOFACTURA(TB_CAORDSER.Cod_Sucursal, NumeroComprobanteFiscal, objVmax.RetornoMF.sSerial.ToString(), txtNumeroOrden.Text, TotalFacturaFiscal, DctoExento, DctoGravable);
                             }
-                            else if (Convert.ToString(Convert.ToDecimal(TotalFacturaFiscal) - PagosEnviados) == "004")
+                            else if (Convert.ToString(Convert.ToDecimal(TotalFacturaFiscal) - PagosEnviados) == "4")
                             {
                                 resp = objVmax.PagoCF("4", "EFECTIVO", 1);
                                 _D_DetalleOrden.SP_SUMOFACTURA(TB_CAORDSER.Cod_Sucursal, NumeroComprobanteFiscal, objVmax.RetornoMF.sSerial.ToString(), txtNumeroOrden.Text, TotalFacturaFiscal, DctoExento, DctoGravable);
                             }
-                            else if (Convert.ToString(Convert.ToDecimal(TotalFacturaFiscal) - PagosEnviados) == "005")
+                            else if (Convert.ToString(Convert.ToDecimal(TotalFacturaFiscal) - PagosEnviados) == "5")
                             {
                                 resp = objVmax.PagoCF("5", "EFECTIVO", 1);
                                 _D_DetalleOrden.SP_SUMOFACTURA(TB_CAORDSER.Cod_Sucursal, NumeroComprobanteFiscal, objVmax.RetornoMF.sSerial.ToString(), txtNumeroOrden.Text, TotalFacturaFiscal, DctoExento, DctoGravable);
@@ -4344,7 +4357,15 @@ namespace CapaVisual_Login
 
                         }
                         else
+                        {
+                            objVmax.Cancelar();
+                            objVmax.Cerrar();
+                            objVmax.CerrarPuerto();
                             ImprimirFacturaFiscall = false;
+                            respuesta = false;
+                            return "Error";
+
+                        }
 
 
                         if (resp == 0)
@@ -4474,7 +4495,7 @@ namespace CapaVisual_Login
 
 
                                 objVmax.ObtenerReporteInformativo();
-                                objVmax.AbrirDNF();
+                                //objVmax.AbrirDNF();
                                 SerialImpresora = objVmax.RetornoMI.sSerial;
                                 FechaImpresora = objVmax.RetornoMI.sFecha;
                                 // string Fecha2 = DateTime.Today.ToString("yyyyMMdd");
@@ -4550,17 +4571,29 @@ namespace CapaVisual_Login
                                     string cedula = txtCedula.Text;
                                     string Nacionalidad = cedula[0].ToString();
 
+                                    // Esperar un tiempo para que la impresora emita el ticket
+                                    Thread.Sleep(60000); // Esperar 5 segundos (ajusta el tiempo según sea necesario)
+                                    objVmax.AbrirPuerto(Convert.ToString(glbPuertoCOM));
+                                    objVmax.ObtenerContadores();
+                                    string UltimoNumeroFacturaCancelado2 = objVmax.RetornoContadores.uiUltFacturaAnulada.ToString().PadLeft(7, '0');
+                                    string UltimoNumeroFacturaEmitido2 = objVmax.RetornoContadores.uiUltFacturaAbierta.ToString().PadLeft(7, '0');
+                                    objVmax.CerrarPuerto();
+                                    objVmax.Cerrar();
                                     //con datos de tb_abono
-                                    if (resp == 0 && Ultimo_Tiket_Anulado != NumeroComprobanteFiscal)
+                                    if (resp == 0 && UltimoNumeroFacturaCancelado2 != NumeroComprobanteFiscal)
                                     {
                                         Transaccion = _D_DetalleOrden.GetFactura(TB_CAORDSER.Cod_Sucursal, NumeroComprobanteFiscal, Fecha2, Nacionalidad,
                                      txtCedula.Text.Substring(2, txtCedula.Text.Length - 2), TB_CAORDSER.COD_EMPLEADO, TB_CAORDSER.Cod_Venta, txtNumeroOrden.Text, Convert.ToString(TB_CAORDSER.Fec_ofrecido.ToString("yyyyMMdd")), TB_CAORDSER.Hor_ofrecido, Convert.ToDouble(String.Format(CultureInfo.InvariantCulture, "{0:0.00}", Convert.ToDouble(DtIGTF.Tables[0].Rows[0]["BaseImponible"].ToString()) / 100).Replace(".", ",")),
                                       Convert.ToDouble(String.Format(CultureInfo.InvariantCulture, "{0:0.00}", Convert.ToDouble(DtIGTF.Tables[0].Rows[0]["Alicuota"].ToString()) / 100).Replace(".", ",")), TB_CAORDSER.VtaDescuento, (totalpagos / 100), TB_USUARIO.COD_USR, 0, 0, SerialImpresora,
-                                     Fact_MontoExento, Fact_MontoGravable, 0, iGTF, command);
+                                     Fact_MontoExento, Fact_MontoGravable, 0, iGTF, "A", command);
 
                                        _D_DetalleOrden.PostFactManual(NumeroComprobanteFiscal, txtNumeroOrden.Text, SerialImpresora, "VENEZUELA", command);
                                         Num_Factura = NumeroComprobanteFiscal;
 
+                                    }
+                                    else
+                                    {
+                                        ImprimirFacturaFiscall = false;
                                     }
 
                                 }
@@ -4588,6 +4621,7 @@ namespace CapaVisual_Login
                             return "Error";
 
                         }
+                       
                         return Transaccion;
                     }
 
@@ -4653,20 +4687,19 @@ namespace CapaVisual_Login
                     Transaccion = _D_DetalleOrden.GetFactura(TB_CAORDSER.Cod_Sucursal, TxtNumFact.Text, Fecha2, Nacionalidad,
                                      txtCedula.Text.Substring(2, txtCedula.Text.Length - 2), TB_CAORDSER.COD_EMPLEADO, TB_CAORDSER.Cod_Venta, txtNumeroOrden.Text, Convert.ToString(TB_CAORDSER.Fec_ofrecido.ToString("yyyyMMdd")), TB_CAORDSER.Hor_ofrecido, Convert.ToDouble(String.Format(CultureInfo.InvariantCulture, "{0:0.00}", Convert.ToDouble(DtIGTF.Tables[0].Rows[0]["BaseImponible"].ToString()) / 100).Replace(".", ",")),
                                       Convert.ToDouble(String.Format(CultureInfo.InvariantCulture, "{0:0.00}", Convert.ToDouble(DtIGTF.Tables[0].Rows[0]["Alicuota"].ToString()) / 100).Replace(".", ",")), TB_CAORDSER.VtaDescuento, (totalpagosManual/100), TB_USUARIO.COD_USR, 0, 0, "FACTMANUAL",
-                                     Fact_MontoExento, Fact_MontoExento, 0, iGTF, command, true, _L_ListaOrdenes.Completar_Numero_Control(TxtNroCorrelativo.Text));
+                                     Fact_MontoExento, Fact_MontoExento, 0, iGTF, "A", command, true, _L_ListaOrdenes.Completar_Numero_Control(TxtNroCorrelativo.Text));
 
                     _D_DetalleOrden.PostFactManual(TxtNumFact.Text, txtNumeroOrden.Text, "FACTMANUAL", "VENEZUELA", command);
                     Num_Factura = TxtNumFact.Text;
-                    if (Transaccion == "SATISFACTORIO")
-                    {
-                        ImprimirFacturaFiscall = true;
-                    }
+                    //if (Transaccion == "SATISFACTORIO")
+                    //{
+                    //    ImprimirFacturaFiscall = true;
+                    //}
 
-                    else
-                    {
-                        ImprimirFacturaFiscall = false;
-                    }
-
+                    //else
+                    //{
+                    //    ImprimirFacturaFiscall = false;
+                    //}
 
                 }
 
@@ -4687,6 +4720,7 @@ namespace CapaVisual_Login
                 objVmax.Cancelar();
                 objVmax.Cerrar();
                 objVmax.CerrarPuerto();
+                ImprimirFacturaFiscall = false;
                 return "";
             }
             catch (Exception ex)
@@ -4698,7 +4732,36 @@ namespace CapaVisual_Login
                 objVmax.Cancelar();
                 objVmax.Cerrar();
                 objVmax.CerrarPuerto();
+                ImprimirFacturaFiscall = false;
                 return "";
+            }
+
+            finally
+            {
+              try
+              {
+                if (ImprimirFacturaFiscall == false)
+                {
+                  if (_L_Facturacion.ValidaFactManual(command) == false && NumeroComprobanteFiscal != "0" &&  SerialImpresora != "")
+                  {
+                            // Reversamos la Transacion para guardar la factura en la base de datos 
+                            command.Transaction.Rollback();
+                            rollbackRealizado = true;
+                            string Resp = _D_DetalleOrden.GetFactura(TB_CAORDSER.Cod_Sucursal, NumeroComprobanteFiscal.PadLeft(7, '0'), DateTime.Today.ToString("yyyyMMdd"), txtCedula.Text[0].ToString(),
+                                      txtCedula.Text.Substring(2, txtCedula.Text.Length - 2), TB_CAORDSER.COD_EMPLEADO, TB_CAORDSER.Cod_Venta, txtNumeroOrden.Text, Convert.ToString(TB_CAORDSER.Fec_ofrecido.ToString("yyyyMMdd")), TB_CAORDSER.Hor_ofrecido, Convert.ToDouble("0,00"),
+                                       Convert.ToDouble("0,00"), Convert.ToDouble("0,00"), Convert.ToDouble("0,00"), TB_USUARIO.COD_USR, 0, 0, SerialImpresora,
+                                        Convert.ToDouble("0,00"), Convert.ToDouble("0,00"), Convert.ToDouble("0,00"), Convert.ToDouble("0,00"), "I", null);
+                  }
+                }
+              }
+                catch (Exception ex)
+                {
+                    _FrmMensajes.co = 2;
+                    // Manejar otras excepciones
+                    _FrmMensajes.avisomensaje(string.Format("Error: {0}", ex.Message) + ", Error nivel 2");
+                    _FrmMensajes.ShowDialog();
+                    throw;
+                }
             }
 
         }
@@ -5605,6 +5668,7 @@ namespace CapaVisual_Login
             command.Parameters.Clear();
             string Correlativo = "";
             Num_Factura = "";
+            rollbackRealizado = false;
             try
             {
 
@@ -5668,13 +5732,16 @@ namespace CapaVisual_Login
                     rept = ImprimirCambio(Correlativo, Dt_PagoMovil, TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision, command);
 
 
-                }  
+                }
 
                 // Attempt to commit the transaction.
                 if (rept == "SATISFACTORIO")
                     transaction.Commit();
                 else
+                if (transaction != null && !rollbackRealizado)
+                {
                     transaction.Rollback();
+                }
 
                 //Cursor = System.Windows.Forms.Cursors.Default;
                 return rept;
@@ -6042,6 +6109,19 @@ namespace CapaVisual_Login
             }
 
             return mensaje;
+        }
+
+        public string Verificar_Existencia (string Numero_orden ,string Cod_DetVta, string OrSer_Statu, SqlCommand command= null)
+        {
+           string Resp= _LAnulacion.Verificar_Existencia_Inv(Numero_orden, Cod_DetVta, OrSer_Statu, command);
+            if (Resp!= "SATISFACTORIO")
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje(Resp);
+                _FrmMensajes.ShowDialog();
+            }
+
+            return Resp;
         }
 
         public void HabilitacionControl(string Able)

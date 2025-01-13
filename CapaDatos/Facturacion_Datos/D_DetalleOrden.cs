@@ -555,9 +555,15 @@ namespace CapaDatos.DetalleOrden_Datos
 
         public string GetFactura(string Cod_Sucursal, string Fact_Num, string Fecha, string CTE_NacioPAG, string CTE_CedIdenPAG, string COD_Empleado, string COD_VTA, string NumOrdServ, string Fact_FecOfecido,
         string Fact_HoraOfrecido, double Fact_SubTotal, double Fact_Impuesto, double Fact_Descuento, double Fact_Total, string USER_Crea, double IvaRetenido, double ISLRRetenido, string Fact_SerialImpresora,
-        double Fact_MontoExento, double Fact_MontoGravable, double MontoReintegroIva, double Fact_IGTF, SqlCommand command, bool Facturamanual= false, string Fact_NumCtrol= "")
+        double Fact_MontoExento, double Fact_MontoGravable, double MontoReintegroIva, double Fact_IGTF,string Fact_Status, SqlCommand command, bool Facturamanual= false, string Fact_NumCtrol= "")
         {
+            if (command == null)
+            {
+                SqlConnection connection = cn.LeerCadena();
+                command = connection.CreateCommand();
+            }
             SqlCommand cmd = command;
+            cmd.Parameters.Clear();
             cmd.CommandText = "SP_CPOS_GET_TbFactura";
             //SqlCommand cmd = new SqlCommand("SP_CPOS_GET_TbFactura", cn.LeerCadena());
 
@@ -584,6 +590,7 @@ namespace CapaDatos.DetalleOrden_Datos
             cmd.Parameters.AddWithValue("@Fact_MontoGravable ", Fact_MontoGravable);
             cmd.Parameters.AddWithValue("@MontoReintegroIva", MontoReintegroIva);
             cmd.Parameters.AddWithValue("@Fact_IGTF", Fact_IGTF);
+            cmd.Parameters.AddWithValue("@Fact_Status", Fact_Status);
             cmd.Parameters.AddWithValue("@FactManual", Facturamanual);
             cmd.Parameters.AddWithValue("@Fact_NumCtrol", Fact_NumCtrol);
             DataTable dt = new DataTable();
@@ -823,6 +830,33 @@ public void MovimientoInventario(string CodArticulo, string TipoDoc, string Docu
             }
         }
 
+        public DataSet Verificar_Existencia_Inventario(string NroOrden, SqlCommand command = null)
+        {
+            try
+            {
+
+                if (command == null)
+                {
+                    SqlConnection connection = cn.LeerCadena();
+                    command = connection.CreateCommand();
+                }
+                SqlCommand cmd = command;
+                cmd.CommandText = "pValidaExistenciaArticulo";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@OS", NroOrden);
+                DataSet dts = new DataSet();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dts);
+                cmd.Parameters.Clear();
+                return dts;
+            }
+            catch (Exception ex)
+            {
+                string Error = string.Format("Error: {0}", ex.Message);
+                return null;
+            }
+        }
+        
 
         public DataSet DetalleNotaCreditoFiscal(string NumeroFactura, string SerialImpresora, SqlCommand command = null)
         {

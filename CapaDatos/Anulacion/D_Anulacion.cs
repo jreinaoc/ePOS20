@@ -103,6 +103,28 @@ public DataTable TraerOrdenDet(string NumOrden , SqlCommand command = null)  // 
 
         }
 
+        public decimal Saldo_Orden(string CodSucursal, string NumeroOrden, string Revision, SqlCommand command = null)
+        {
+                if (command == null)
+                {
+                    SqlConnection connection = cn.LeerCadena();
+                    command = connection.CreateCommand();
+                }
+                SqlCommand cmd = command;
+                cmd.CommandText = " select ISNULL(CONVERT (DECIMAL (28, 2), SUM(Abo_Monto)),0) as resultado from TB_ABONO WHERE Cod_Sucursal = @CodSucursal and NumOrdserv = @NumOrden and Revision = @Revision and Anulado = 0 ";
+                cmd.CommandType = CommandType.Text;
+                cmd.Parameters.AddWithValue("@NumOrden", NumeroOrden);
+                cmd.Parameters.AddWithValue("@CodSucursal", CodSucursal);
+                cmd.Parameters.AddWithValue("@Revision", Revision);
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                decimal resultado = Convert.ToDecimal( dt.Rows[0]["resultado"]) ;
+                cmd.Parameters.Clear();
+                return resultado;
+
+        }
+
 
 
         public string CargarNotaDevolucion(string CodSucursal, string CodDoc, string NumeroOrden, string Revision, string NroControl, string CteNacionalidad, string CteCedula, string Motivo, string MontoNota, string MontoAplicado, bool Reintegro, bool Anulado, string UserCrea, string UserMod, SqlCommand command = null)

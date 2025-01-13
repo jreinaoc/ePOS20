@@ -80,20 +80,21 @@ namespace CapaLogica.Anulacion_Logica
                         //MessageBox.Show("Vamos por la condicional de si es M o L para ver si es monturaquorum");
                         if (TB_CAORDSER.MonturaEnQuorum == false)
                         {
-                            // MessageBox.Show("Montura quorum false, por lo tanto se ejecura el movimiento");
-                            _DetalleOrden.MovimientoInventario(articulo, TipoDoc, TB_CAORDSER.NumOrdserv, cantidad, costo, precio, CodMov, TB_USUARIO.COD_USR, TB_USUARIO.COD_SUCURSAL, fecha, TB_CAORDSER.NumOrdserv, command);
-                            if (_DetalleOrden.MovimientoInv == "SATISFACTORIO")
-                            {
-                                //MessageBox.Show("Movimieno satisfactorio ml ");
-                                OK = true;
-                                GuardoMovimientoArticulo = true;
-                            }
-                            else
-                            {
-                                OK = false;
-                                GuardoMovimientoArticulo = false;
-                                return null;
-                            }
+
+                                    // MessageBox.Show("Montura quorum false, por lo tanto se ejecura el movimiento");
+                                    _DetalleOrden.MovimientoInventario(articulo, TipoDoc, TB_CAORDSER.NumOrdserv, cantidad, costo, precio, CodMov, TB_USUARIO.COD_USR, _D_Inicio.Sucursal(), fecha, TB_CAORDSER.NumOrdserv, command);
+                                    if (_DetalleOrden.MovimientoInv == "SATISFACTORIO")
+                                    {
+                                        //MessageBox.Show("Movimieno satisfactorio ml ");
+                                        OK = true;
+                                        GuardoMovimientoArticulo = true;
+                                    }
+                                    else
+                                    {
+                                        OK = false;
+                                        GuardoMovimientoArticulo = false;
+                                        return null;
+                                    }                          
 
 
                         }
@@ -107,7 +108,7 @@ namespace CapaLogica.Anulacion_Logica
                     else
                     {
                         // MessageBox.Show("No es M L ES otro y por eso entra aqui ");
-                        _DetalleOrden.MovimientoInventario(articulo, TipoDoc, TB_CAORDSER.NumOrdserv, cantidad, costo, precio, CodMov, TB_USUARIO.COD_USR, TB_USUARIO.COD_SUCURSAL, fecha, TB_CAORDSER.NumOrdserv, command);
+                        _DetalleOrden.MovimientoInventario(articulo, TipoDoc, TB_CAORDSER.NumOrdserv, cantidad, costo, precio, CodMov, TB_USUARIO.COD_USR, _D_Inicio.Sucursal(), fecha, TB_CAORDSER.NumOrdserv, command);
 
                         if (_DetalleOrden.MovimientoInv == "SATISFACTORIO")
                         {
@@ -151,7 +152,7 @@ namespace CapaLogica.Anulacion_Logica
                         if (TB_CAORDSER.MonturaEnQuorum == false)
                         {
                             // MessageBox.Show("Montura quorum false, por lo tanto se ejecura el movimiento");
-                            _DetalleOrden.MovimientoInventario(articulo, TipoDoc, TB_CAORDSER.NumOrdserv, cantidad, costo, precio, CodMov, TB_USUARIO.COD_USR, TB_USUARIO.COD_SUCURSAL, fecha, TB_CAORDSER.NumOrdserv, command);
+                            _DetalleOrden.MovimientoInventario(articulo, TipoDoc, TB_CAORDSER.NumOrdserv, cantidad, costo, precio, CodMov, TB_USUARIO.COD_USR, _D_Inicio.Sucursal(), fecha, TB_CAORDSER.NumOrdserv, command);
                             if (_DetalleOrden.MovimientoInv == "SATISFACTORIO")
                             {
                                 //MessageBox.Show("Movimieno satisfactorio ml ");
@@ -176,7 +177,7 @@ namespace CapaLogica.Anulacion_Logica
                     else
                     {
                         // MessageBox.Show("No es M L ES otro y por eso entra aqui ");
-                        _DetalleOrden.MovimientoInventario(articulo, TipoDoc, TB_CAORDSER.NumOrdserv, cantidad, costo, precio, CodMov, TB_USUARIO.COD_USR, TB_USUARIO.COD_SUCURSAL, fecha, TB_CAORDSER.NumOrdserv, command);
+                        _DetalleOrden.MovimientoInventario(articulo, TipoDoc, TB_CAORDSER.NumOrdserv, cantidad, costo, precio, CodMov, TB_USUARIO.COD_USR, _D_Inicio.Sucursal(), fecha, TB_CAORDSER.NumOrdserv, command);
 
                         if (_DetalleOrden.MovimientoInv == "SATISFACTORIO")
                         {
@@ -214,6 +215,52 @@ namespace CapaLogica.Anulacion_Logica
             }
 
         }
+
+
+        public string Verificar_Existencia_Inv (string Numero_orden, string Cod_DetVta, string OrSer_Statu, SqlCommand command = null) 
+        {
+
+            DataSet DsExistencia = _DetalleOrden.Verificar_Existencia_Inventario(Numero_orden, command);
+
+            if (DsExistencia.Tables[0].Rows.Count > 0 && OrSer_Statu != "005" && Cod_DetVta != "02")
+            {
+                StringBuilder art = new StringBuilder();
+
+                for (int i = 0; i < DsExistencia.Tables[0].Rows.Count; i++)
+                {
+                    art.Append(DsExistencia.Tables[0].Rows[i]["CodArticulo"].ToString() + ", ");
+                }
+
+                if (art.Length > 2)
+                {
+                    art.Remove(art.Length - 2, 2); // Eliminar la última coma y espacio
+                }
+
+                if (art.Length > 7)
+                {
+                    string mensaje1 = "Los articulos " + art.ToString() + " NO tienen existencia";
+                    return mensaje1;
+
+
+                }
+                else
+                {
+                    string mensaje1 = "El articulo " + art.ToString() + " no tiene existencia" ;
+                    return mensaje1;
+
+                }
+
+              
+            }
+            return "SATISFACTORIO";
+        }
+
+        public decimal Saldo_Total_Orden (string Cod_Sucursal, string NumOrdserv, string Revision)
+        {
+            decimal Saldo= _D_Anulacion.Saldo_Orden(Cod_Sucursal, NumOrdserv, Revision);
+            return Saldo;
+        }
+
 
         public string EnviarDatoaNotaDev(string observaciones, SqlCommand command = null)
         {
