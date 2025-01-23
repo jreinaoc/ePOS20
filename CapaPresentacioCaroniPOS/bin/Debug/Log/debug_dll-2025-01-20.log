@@ -1,0 +1,1086 @@
+102503370-> OPEN PORT: COM1@9600
+102503442-> ********************** COMMAND BEGIN **********************
+102503443-> data sent to printer:
+102503443-> <2>Q<3>
+102503448-> data received from printer:
+102503609-> <21>
+102503610-> ********************** COMMAND BEGIN **********************
+102503611-> data sent to printer:
+102503611-> <2>M<3>
+102503616-> data received from printer:
+102503775-> <21>
+102514328-> OPEN PORT: COM1@9600
+102514394-> OPEN PORT: COM1@9600
+102514420-> ********************** COMMAND BEGIN **********************
+102514421-> data sent to printer:
+102514422-> <2>L&1<3>
+102514689-> data received from printer:
+102514859-> <2>3562*3552<3><6>
+102514860-> ********************** COMMAND BEGIN **********************
+102514860-> data sent to printer:
+102514861-> <2>VRazon Social: WILLIAM  COLMENARES<3>
+102514918-> data received from printer:
+102515070-> <6>
+102515071-> ********************** COMMAND BEGIN **********************
+102515071-> data sent to printer:
+102515071-> <2>VCI/Rif: V-21002617<3>
+102515111-> data received from printer:
+102515266-> <6>
+102515267-> ********************** COMMAND BEGIN **********************
+102515267-> data sent to printer:
+102515267-> <2>V----------------------------------------<3>
+102515334-> data received from printer:
+102515492-> <6>
+102515501-> ********************** COMMAND BEGIN **********************
+102515501-> data sent to printer:
+102515502-> <2>Y0<3>
+102515507-> data received from printer:
+102515798-> <2>SENIAT    J-001097449    1600*800*3100*2           Bs0TIU2206171200120251001*300<3><6>
+102515808-> ********************** COMMAND BEGIN **********************
+102515808-> data sent to printer:
+102515808-> <2>VC000001 VISION SENCILLA TERMINADO <3>
+102515867-> data received from printer:
+102516024-> <6>
+102516025-> ********************** COMMAND BEGIN **********************
+102516025-> data sent to printer:
+102516026-> <2>N12,000xBs595,00      00001190000<3>
+102516125-> data received from printer:
+102516279-> <6>
+102516280-> ********************** COMMAND BEGIN **********************
+102516280-> data sent to printer:
+102516281-> <2>VM145364 CMSLSTYL3435754BR<3>
+102516330-> data received from printer:
+102516490-> <6>
+102516491-> ********************** COMMAND BEGIN **********************
+102516491-> data sent to printer:
+102516491-> <2>N11,000xBs1495,00     00001495000<3>
+102516591-> data received from printer:
+102516745-> <6>
+102516796-> ********************** COMMAND BEGIN **********************
+102516797-> data sent to printer:
+102516798-> <2>O1<3>
+102516856-> data received from printer:
+102517016-> <2>268500<3><6>
+102517042-> ********************** COMMAND BEGIN **********************
+102517042-> data sent to printer:
+102517042-> <2>P120/01/2025 EFECTIVO 000000268500<3>
+102517134-> data received from printer:
+102517286-> <6>
+102517287-> ********************** COMMAND BEGIN **********************
+102517287-> data sent to printer:
+102517288-> <2>V<3>
+102517307-> data received from printer:
+102517466-> <6>
+102517467-> ********************** COMMAND BEGIN **********************
+102517467-> data sent to printer:
+102517468-> <2>VNumero Orden: 0060602<3>
+102517512-> data received from printer:
+102517662-> <6>
+102517662-> ********************** COMMAND BEGIN **********************
+102517663-> data sent to printer:
+102517663-> <2>V<3>
+102517683-> data received from printer:
+102517842-> <6>
+102517880-> ********************** COMMAND BEGIN **********************
+102517881-> data sent to printer:
+102517882-> <2>V<161><161><161>GRACIAS POR SU COMPRA!!!<3>
+102517933-> data received from printer:
+102518097-> <6>
+102518098-> ********************** COMMAND BEGIN **********************
+102518098-> data sent to printer:
+102518099-> <2>VSolo se aceptaran devoluciones<3>
+102518153-> data received from printer:
+102518308-> <6>
+102518309-> ********************** COMMAND BEGIN **********************
+102518309-> data sent to printer:
+102518310-> <2>Vpor defectos de fabrica, con la<3>
+102518366-> data received from printer:
+102518519-> <6>
+102518520-> ********************** COMMAND BEGIN **********************
+102518520-> data sent to printer:
+102518521-> <2>Vpresentacion de esta factura (original),<3>
+102518587-> data received from printer:
+102518745-> <6>
+102518746-> ********************** COMMAND BEGIN **********************
+102518746-> data sent to printer:
+102518747-> <2>Vdentro de los treinta (30) dias<3>
+102518801-> data received from printer:
+102518955-> <6>
+102518956-> ********************** COMMAND BEGIN **********************
+102518956-> data sent to printer:
+102518956-> <2>Vsiguientes a la emision de la misma.<3>
+102519017-> data received from printer:
+102519180-> <6>
+102519181-> ********************** COMMAND BEGIN **********************
+102519181-> data sent to printer:
+102519182-> <2>V <3>
+102519203-> data received from printer:
+102519361-> <6>
+102519362-> ********************** COMMAND BEGIN **********************
+102519362-> data sent to printer:
+102519363-> <2>V   * * * CONTRIBUYENTE FORMAL * * * <3>
+102519424-> data received from printer:
+102519586-> <6>
+102519587-> ********************** COMMAND BEGIN **********************
+102519587-> data sent to printer:
+102519588-> <2>V <3>
+102519608-> data received from printer:
+102519767-> <6>
+102519768-> ********************** COMMAND BEGIN **********************
+102519768-> data sent to printer:
+102519768-> <2>V          CZL-0736194-0196<3>
+102519817-> data received from printer:
+102519977-> <6>
+102519978-> ********************** COMMAND BEGIN **********************
+102519978-> data sent to printer:
+102519978-> <2>V <3>
+102520000-> data received from printer:
+102520157-> <6>
+102520158-> ********************** COMMAND BEGIN **********************
+102520158-> data sent to printer:
+102520158-> <2>Y0<3>
+102520164-> data received from printer:
+102520447-> <2>SENIAT    J-001097449    1600*800*3100*2           Bs0TIU2206171200120251001*300<3><6>
+102520468-> ********************** COMMAND BEGIN **********************
+102520468-> data sent to printer:
+102520468-> <2>M<3>
+102522366-> data received from printer:
+102522518-> <6>
+102622572-> OPEN PORT: COM1@9600
+102622640-> ********************** COMMAND BEGIN **********************
+102622641-> data sent to printer:
+102622642-> <2>Y3<3>
+102622648-> data received from printer:
+102622832-> <2>3562*3552*298*298<3><6>
+103513915-> OPEN PORT: COM1@9600
+103513982-> ********************** COMMAND BEGIN **********************
+103513982-> data sent to printer:
+103513983-> <2>Q<3>
+103513988-> data received from printer:
+103514149-> <21>
+103514150-> ********************** COMMAND BEGIN **********************
+103514150-> data sent to printer:
+103514150-> <2>M<3>
+103514155-> data received from printer:
+103514314-> <21>
+103517405-> OPEN PORT: COM1@9600
+103517469-> OPEN PORT: COM1@9600
+103517470-> ********************** COMMAND BEGIN **********************
+103517471-> data sent to printer:
+103517471-> <2>L&1<3>
+103517738-> data received from printer:
+103517906-> <2>3563*3552<3><6>
+103517907-> ********************** COMMAND BEGIN **********************
+103517907-> data sent to printer:
+103517907-> <2>VRazon Social: WILLIAM  COLMENARES<3>
+103517964-> data received from printer:
+103518117-> <6>
+103518118-> ********************** COMMAND BEGIN **********************
+103518118-> data sent to printer:
+103518118-> <2>VCI/Rif: V-21002617<3>
+103518158-> data received from printer:
+103518312-> <6>
+103518313-> ********************** COMMAND BEGIN **********************
+103518313-> data sent to printer:
+103518313-> <2>V----------------------------------------<3>
+103518379-> data received from printer:
+103518538-> <6>
+103518539-> ********************** COMMAND BEGIN **********************
+103518539-> data sent to printer:
+103518539-> <2>Y0<3>
+103518545-> data received from printer:
+103518829-> <2>SENIAT    J-001097449    1600*800*3100*2           Bs0TIU2206171200120251011*300<3><6>
+103518830-> ********************** COMMAND BEGIN **********************
+103518830-> data sent to printer:
+103518830-> <2>VC000001 VISION SENCILLA TERMINADO <3>
+103518889-> data received from printer:
+103519055-> <6>
+103519056-> ********************** COMMAND BEGIN **********************
+103519056-> data sent to printer:
+103519056-> <2>N12,000xBs595,00      00001190000<3>
+103519155-> data received from printer:
+103519310-> <6>
+103519311-> ********************** COMMAND BEGIN **********************
+103519311-> data sent to printer:
+103519312-> <2>VM145364 CMSLSTYL3435754BR<3>
+103519361-> data received from printer:
+103519520-> <6>
+103519521-> ********************** COMMAND BEGIN **********************
+103519521-> data sent to printer:
+103519522-> <2>N11,000xBs1495,00     00001495000<3>
+103519621-> data received from printer:
+103519774-> <6>
+103519823-> ********************** COMMAND BEGIN **********************
+103519824-> data sent to printer:
+103519825-> <2>O1<3>
+103519883-> data received from printer:
+103520046-> <2>268500<3><6>
+103520070-> ********************** COMMAND BEGIN **********************
+103520071-> data sent to printer:
+103520071-> <2>P120/01/2025 DEBITO   000000120000<3>
+103520162-> data received from printer:
+103520317-> <6>
+103520318-> ********************** COMMAND BEGIN **********************
+103520318-> data sent to printer:
+103520318-> <2>P120/01/2025 EFECTIVO 000000148500<3>
+103520410-> data received from printer:
+103520572-> <6>
+103520574-> ********************** COMMAND BEGIN **********************
+103520574-> data sent to printer:
+103520574-> <2>V<3>
+103520594-> data received from printer:
+103520753-> <6>
+103520754-> ********************** COMMAND BEGIN **********************
+103520754-> data sent to printer:
+103520754-> <2>VNumero Orden: 0060604<3>
+103520798-> data received from printer:
+103520963-> <6>
+103520963-> ********************** COMMAND BEGIN **********************
+103520964-> data sent to printer:
+103520964-> <2>V<3>
+103520983-> data received from printer:
+103521143-> <6>
+103521184-> ********************** COMMAND BEGIN **********************
+103521184-> data sent to printer:
+103521184-> <2>V<161><161><161>GRACIAS POR SU COMPRA!!!<3>
+103521235-> data received from printer:
+103521401-> <6>
+103521401-> ********************** COMMAND BEGIN **********************
+103521402-> data sent to printer:
+103521402-> <2>VSolo se aceptaran devoluciones<3>
+103521456-> data received from printer:
+103521611-> <6>
+103521612-> ********************** COMMAND BEGIN **********************
+103521612-> data sent to printer:
+103521612-> <2>Vpor defectos de fabrica, con la<3>
+103521667-> data received from printer:
+103521821-> <6>
+103521822-> ********************** COMMAND BEGIN **********************
+103521822-> data sent to printer:
+103521822-> <2>Vpresentacion de esta factura (original),<3>
+103521887-> data received from printer:
+103522046-> <6>
+103522047-> ********************** COMMAND BEGIN **********************
+103522047-> data sent to printer:
+103522047-> <2>Vdentro de los treinta (30) dias<3>
+103522103-> data received from printer:
+103522257-> <6>
+103522258-> ********************** COMMAND BEGIN **********************
+103522258-> data sent to printer:
+103522258-> <2>Vsiguientes a la emision de la misma.<3>
+103522319-> data received from printer:
+103522484-> <6>
+103522485-> ********************** COMMAND BEGIN **********************
+103522485-> data sent to printer:
+103522486-> <2>V <3>
+103522506-> data received from printer:
+103522665-> <6>
+103522666-> ********************** COMMAND BEGIN **********************
+103522666-> data sent to printer:
+103522666-> <2>V   * * * CONTRIBUYENTE FORMAL * * * <3>
+103522727-> data received from printer:
+103522891-> <6>
+103522892-> ********************** COMMAND BEGIN **********************
+103522892-> data sent to printer:
+103522892-> <2>V <3>
+103522914-> data received from printer:
+103523072-> <6>
+103523072-> ********************** COMMAND BEGIN **********************
+103523073-> data sent to printer:
+103523073-> <2>V          CZL-0736194-0196<3>
+103523123-> data received from printer:
+103523282-> <6>
+103523282-> ********************** COMMAND BEGIN **********************
+103523283-> data sent to printer:
+103523283-> <2>V <3>
+103523303-> data received from printer:
+103523463-> <6>
+103523464-> ********************** COMMAND BEGIN **********************
+103523464-> data sent to printer:
+103523465-> <2>Y0<3>
+103523470-> data received from printer:
+103523767-> <2>SENIAT    J-001097449    1600*800*3100*2           Bs0TIU2206171200120251011*300<3><6>
+103523767-> ********************** COMMAND BEGIN **********************
+103523768-> data sent to printer:
+103523768-> <2>M<3>
+103525695-> data received from printer:
+103525853-> <6>
+103625902-> OPEN PORT: COM1@9600
+103625969-> ********************** COMMAND BEGIN **********************
+103625970-> data sent to printer:
+103625971-> <2>Y3<3>
+103625977-> data received from printer:
+103626162-> <2>3563*3552*298*298<3><6>
+104333375-> OPEN PORT: COM1@9600
+104333439-> ********************** COMMAND BEGIN **********************
+104333440-> data sent to printer:
+104333440-> <2>Q<3>
+104333445-> data received from printer:
+104333595-> <21>
+104333596-> ********************** COMMAND BEGIN **********************
+104333596-> data sent to printer:
+104333597-> <2>M<3>
+104333601-> data received from printer:
+104333761-> <21>
+104334460-> OPEN PORT: COM1@9600
+104334524-> OPEN PORT: COM1@9600
+104334526-> ********************** COMMAND BEGIN **********************
+104334526-> data sent to printer:
+104334527-> <2>L&1<3>
+104334793-> data received from printer:
+104334971-> <2>3564*3552<3><6>
+104334972-> ********************** COMMAND BEGIN **********************
+104334972-> data sent to printer:
+104334973-> <2>VRazon Social: WILLIAM  COLMENARES<3>
+104335031-> data received from printer:
+104335182-> <6>
+104335183-> ********************** COMMAND BEGIN **********************
+104335183-> data sent to printer:
+104335183-> <2>VCI/Rif: V-21002617<3>
+104335224-> data received from printer:
+104335379-> <6>
+104335380-> ********************** COMMAND BEGIN **********************
+104335380-> data sent to printer:
+104335381-> <2>V----------------------------------------<3>
+104335446-> data received from printer:
+104335605-> <6>
+104335606-> ********************** COMMAND BEGIN **********************
+104335607-> data sent to printer:
+104335607-> <2>Y0<3>
+104335613-> data received from printer:
+104335909-> <2>SENIAT    J-001097449    1600*800*3100*2           Bs0TIU2206171200120251019*300<3><6>
+104335911-> ********************** COMMAND BEGIN **********************
+104335911-> data sent to printer:
+104335912-> <2>VC000001 VISION SENCILLA TERMINADO <3>
+104335970-> data received from printer:
+104336136-> <6>
+104336137-> ********************** COMMAND BEGIN **********************
+104336137-> data sent to printer:
+104336137-> <2>N12,000xBs595,00      00001190000<3>
+104336238-> data received from printer:
+104336391-> <6>
+104336392-> ********************** COMMAND BEGIN **********************
+104336392-> data sent to printer:
+104336392-> <2>VM145364 CMSLSTYL3435754BR<3>
+104336440-> data received from printer:
+104336602-> <6>
+104336603-> ********************** COMMAND BEGIN **********************
+104336603-> data sent to printer:
+104336603-> <2>N11,000xBs1495,00     00001495000<3>
+104336703-> data received from printer:
+104336857-> <6>
+104336906-> ********************** COMMAND BEGIN **********************
+104336906-> data sent to printer:
+104336906-> <2>O1<3>
+104336963-> data received from printer:
+104337129-> <2>268500<3><6>
+104337155-> ********************** COMMAND BEGIN **********************
+104337155-> data sent to printer:
+104337156-> <2>P120/01/2025 DEBITO   000000120000<3>
+104337246-> data received from printer:
+104337400-> <6>
+104337400-> ********************** COMMAND BEGIN **********************
+104337401-> data sent to printer:
+104337401-> <2>P120/01/2025 EFECTIVO 000000148500<3>
+104337492-> data received from printer:
+104337656-> <6>
+104337657-> ********************** COMMAND BEGIN **********************
+104337657-> data sent to printer:
+104337658-> <2>V<3>
+104337677-> data received from printer:
+104337837-> <6>
+104337838-> ********************** COMMAND BEGIN **********************
+104337838-> data sent to printer:
+104337838-> <2>VNumero Orden: 0060605<3>
+104337883-> data received from printer:
+104338047-> <6>
+104338048-> ********************** COMMAND BEGIN **********************
+104338048-> data sent to printer:
+104338048-> <2>V<3>
+104338068-> data received from printer:
+104338228-> <6>
+104338236-> ********************** COMMAND BEGIN **********************
+104338236-> data sent to printer:
+104338237-> <2>V<161><161><161>GRACIAS POR SU COMPRA!!!<3>
+104338287-> data received from printer:
+104338438-> <6>
+104338439-> ********************** COMMAND BEGIN **********************
+104338439-> data sent to printer:
+104338439-> <2>VSolo se aceptaran devoluciones<3>
+104338493-> data received from printer:
+104338648-> <6>
+104338649-> ********************** COMMAND BEGIN **********************
+104338649-> data sent to printer:
+104338649-> <2>Vpor defectos de fabrica, con la<3>
+104338705-> data received from printer:
+104338858-> <6>
+104338859-> ********************** COMMAND BEGIN **********************
+104338859-> data sent to printer:
+104338859-> <2>Vpresentacion de esta factura (original),<3>
+104338925-> data received from printer:
+104339083-> <6>
+104339084-> ********************** COMMAND BEGIN **********************
+104339084-> data sent to printer:
+104339084-> <2>Vdentro de los treinta (30) dias<3>
+104339139-> data received from printer:
+104339293-> <6>
+104339293-> ********************** COMMAND BEGIN **********************
+104339294-> data sent to printer:
+104339294-> <2>Vsiguientes a la emision de la misma.<3>
+104339355-> data received from printer:
+104339519-> <6>
+104339520-> ********************** COMMAND BEGIN **********************
+104339520-> data sent to printer:
+104339520-> <2>V <3>
+104339542-> data received from printer:
+104339700-> <6>
+104339701-> ********************** COMMAND BEGIN **********************
+104339701-> data sent to printer:
+104339702-> <2>V   * * * CONTRIBUYENTE FORMAL * * * <3>
+104339763-> data received from printer:
+104339926-> <6>
+104339927-> ********************** COMMAND BEGIN **********************
+104339927-> data sent to printer:
+104339927-> <2>V <3>
+104339948-> data received from printer:
+104340107-> <6>
+104340108-> ********************** COMMAND BEGIN **********************
+104340108-> data sent to printer:
+104340108-> <2>V          CZL-0736194-0196<3>
+104340157-> data received from printer:
+104340318-> <6>
+104340319-> ********************** COMMAND BEGIN **********************
+104340319-> data sent to printer:
+104340319-> <2>V <3>
+104340341-> data received from printer:
+104340499-> <6>
+104340500-> ********************** COMMAND BEGIN **********************
+104340500-> data sent to printer:
+104340501-> <2>Y0<3>
+104340506-> data received from printer:
+104340802-> <2>SENIAT    J-001097449    1600*800*3100*2           Bs0TIU2206171200120251019*300<3><6>
+104340803-> ********************** COMMAND BEGIN **********************
+104340803-> data sent to printer:
+104340804-> <2>M<3>
+104342730-> data received from printer:
+104342887-> <6>
+104442932-> OPEN PORT: COM1@9600
+104442997-> ********************** COMMAND BEGIN **********************
+104442997-> data sent to printer:
+104442998-> <2>Y3<3>
+104443003-> data received from printer:
+104443194-> <2>3564*3552*298*298<3><6>
+105038260-> OPEN PORT: COM1@9600
+105038324-> ********************** COMMAND BEGIN **********************
+105038325-> data sent to printer:
+105038325-> <2>Q<3>
+105038330-> data received from printer:
+105038492-> <21>
+105038493-> ********************** COMMAND BEGIN **********************
+105038493-> data sent to printer:
+105038493-> <2>M<3>
+105038498-> data received from printer:
+105038657-> <21>
+105039466-> OPEN PORT: COM1@9600
+105039530-> OPEN PORT: COM1@9600
+105039532-> ********************** COMMAND BEGIN **********************
+105039533-> data sent to printer:
+105039533-> <2>L&1<3>
+105039799-> data received from printer:
+105039970-> <2>3565*3552<3><6>
+105039983-> ********************** COMMAND BEGIN **********************
+105039983-> data sent to printer:
+105039984-> <2>VRazon Social: WILLIAM  COLMENARES<3>
+105040041-> data received from printer:
+105040195-> <6>
+105040196-> ********************** COMMAND BEGIN **********************
+105040196-> data sent to printer:
+105040196-> <2>VCI/Rif: V-21002617<3>
+105040236-> data received from printer:
+105040390-> <6>
+105040391-> ********************** COMMAND BEGIN **********************
+105040391-> data sent to printer:
+105040392-> <2>V----------------------------------------<3>
+105040458-> data received from printer:
+105040615-> <6>
+105040617-> ********************** COMMAND BEGIN **********************
+105040617-> data sent to printer:
+105040618-> <2>Y0<3>
+105040623-> data received from printer:
+105040906-> <2>SENIAT    J-001097449    1600*800*3100*2           Bs0TIU2206171200120251026*300<3><6>
+105040908-> ********************** COMMAND BEGIN **********************
+105040909-> data sent to printer:
+105040909-> <2>VC000001 VISION SENCILLA TERMINADO <3>
+105040968-> data received from printer:
+105041131-> <6>
+105041132-> ********************** COMMAND BEGIN **********************
+105041132-> data sent to printer:
+105041133-> <2>N12,000xBs595,00      00001190000<3>
+105041232-> data received from printer:
+105041387-> <6>
+105041388-> ********************** COMMAND BEGIN **********************
+105041388-> data sent to printer:
+105041388-> <2>VM145364 CMSLSTYL3435754BR<3>
+105041437-> data received from printer:
+105041596-> <6>
+105041596-> ********************** COMMAND BEGIN **********************
+105041597-> data sent to printer:
+105041597-> <2>N11,000xBs1495,00     00001495000<3>
+105041697-> data received from printer:
+105041851-> <6>
+105041905-> ********************** COMMAND BEGIN **********************
+105041906-> data sent to printer:
+105041907-> <2>OT206166<0><0><0><0><0><128>R.<3>
+105041983-> data received from printer:
+105042151-> <2>274685<3><6>
+105042163-> ********************** COMMAND BEGIN **********************
+105042163-> data sent to printer:
+105042163-> <2>P120/01/2025 EFECTIVO 000000068525<3>
+105042254-> data received from printer:
+105042405-> <6>
+105042406-> ********************** COMMAND BEGIN **********************
+105042406-> data sent to printer:
+105042406-> <2>P1DIVISAS             000000206160<3>
+105042497-> data received from printer:
+105042660-> <6>
+105042661-> ********************** COMMAND BEGIN **********************
+105042661-> data sent to printer:
+105042662-> <2>V<3>
+105042682-> data received from printer:
+105042840-> <6>
+105042841-> ********************** COMMAND BEGIN **********************
+105042841-> data sent to printer:
+105042842-> <2>VNumero Orden: 0060606<3>
+105042885-> data received from printer:
+105043049-> <6>
+105043050-> ********************** COMMAND BEGIN **********************
+105043050-> data sent to printer:
+105043051-> <2>V<3>
+105043070-> data received from printer:
+105043230-> <6>
+105043238-> ********************** COMMAND BEGIN **********************
+105043238-> data sent to printer:
+105043239-> <2>V<161><161><161>GRACIAS POR SU COMPRA!!!<3>
+105043290-> data received from printer:
+105043455-> <6>
+105043456-> ********************** COMMAND BEGIN **********************
+105043456-> data sent to printer:
+105043457-> <2>VSolo se aceptaran devoluciones<3>
+105043511-> data received from printer:
+105043664-> <6>
+105043665-> ********************** COMMAND BEGIN **********************
+105043665-> data sent to printer:
+105043665-> <2>Vpor defectos de fabrica, con la<3>
+105043720-> data received from printer:
+105043874-> <6>
+105043874-> ********************** COMMAND BEGIN **********************
+105043875-> data sent to printer:
+105043875-> <2>Vpresentacion de esta factura (original),<3>
+105043940-> data received from printer:
+105044100-> <6>
+105044101-> ********************** COMMAND BEGIN **********************
+105044101-> data sent to printer:
+105044102-> <2>Vdentro de los treinta (30) dias<3>
+105044158-> data received from printer:
+105044309-> <6>
+105044310-> ********************** COMMAND BEGIN **********************
+105044310-> data sent to printer:
+105044311-> <2>Vsiguientes a la emision de la misma.<3>
+105044372-> data received from printer:
+105044535-> <6>
+105044536-> ********************** COMMAND BEGIN **********************
+105044536-> data sent to printer:
+105044537-> <2>V <3>
+105044557-> data received from printer:
+105044715-> <6>
+105044715-> ********************** COMMAND BEGIN **********************
+105044716-> data sent to printer:
+105044716-> <2>V   * * * CONTRIBUYENTE FORMAL * * * <3>
+105044777-> data received from printer:
+105044940-> <6>
+105044941-> ********************** COMMAND BEGIN **********************
+105044941-> data sent to printer:
+105044942-> <2>V <3>
+105044962-> data received from printer:
+105045119-> <6>
+105045119-> ********************** COMMAND BEGIN **********************
+105045120-> data sent to printer:
+105045120-> <2>V          CZL-0736194-0196<3>
+105045170-> data received from printer:
+105045329-> <6>
+105045330-> ********************** COMMAND BEGIN **********************
+105045330-> data sent to printer:
+105045331-> <2>V <3>
+105045351-> data received from printer:
+105045509-> <6>
+105045510-> ********************** COMMAND BEGIN **********************
+105045510-> data sent to printer:
+105045510-> <2>Y0<3>
+105045516-> data received from printer:
+105045812-> <2>SENIAT    J-001097449    1600*800*3100*2           Bs0TIU2206171200120251026*300<3><6>
+105045813-> ********************** COMMAND BEGIN **********************
+105045813-> data sent to printer:
+105045814-> <2>M<3>
+105047812-> data received from printer:
+105047969-> <6>
+105153808-> OPEN PORT: COM1@9600
+105153873-> ********************** COMMAND BEGIN **********************
+105153873-> data sent to printer:
+105153873-> <2>Y3<3>
+105153879-> data received from printer:
+105154057-> <2>3565*3552*298*298<3><6>
+105154204-> OPEN PORT: COM1@9600
+105154268-> ********************** COMMAND BEGIN **********************
+105154269-> data sent to printer:
+105154269-> <2>S<3>
+105154486-> data received from printer:
+105154650-> <6>
+105154651-> ********************** COMMAND BEGIN **********************
+105154651-> data sent to printer:
+105154652-> <2>V----------------------------------------<3>
+105154714-> data received from printer:
+105154875-> <6>
+105154876-> ********************** COMMAND BEGIN **********************
+105154876-> data sent to printer:
+105154877-> <2>V <3>
+105154897-> data received from printer:
+105155055-> <6>
+105155055-> ********************** COMMAND BEGIN **********************
+105155056-> data sent to printer:
+105155056-> <2>VOs: 0060606<3>
+105155087-> data received from printer:
+105155250-> <6>
+105155251-> ********************** COMMAND BEGIN **********************
+105155251-> data sent to printer:
+105155251-> <2>VFactura:  0003565<3>
+105155290-> data received from printer:
+105155445-> <6>
+105155446-> ********************** COMMAND BEGIN **********************
+105155446-> data sent to printer:
+105155446-> <2>VCorrelativo: 0000006<3>
+105155487-> data received from printer:
+105155641-> <6>
+105155642-> ********************** COMMAND BEGIN **********************
+105155642-> data sent to printer:
+105155642-> <2>VNombre de la sucursal: 107-SAMBIL PARAGUANA<3>
+105155707-> data received from printer:
+105155867-> <6>
+105155868-> ********************** COMMAND BEGIN **********************
+105155868-> data sent to printer:
+105155868-> <2>VCliente: V-21002617<3>
+105155908-> data received from printer:
+105156063-> <6>
+105156063-> ********************** COMMAND BEGIN **********************
+105156064-> data sent to printer:
+105156064-> <2>VTelefono: 0424-1265113 <3>
+105156109-> data received from printer:
+105156273-> <6>
+105156274-> ********************** COMMAND BEGIN **********************
+105156274-> data sent to printer:
+105156274-> <2>VBanco: MERCANTIL<3>
+105156311-> data received from printer:
+105156468-> <6>
+105156469-> ********************** COMMAND BEGIN **********************
+105156469-> data sent to printer:
+105156469-> <2>VMonto:    257,7<3>
+105156505-> data received from printer:
+105156663-> <6>
+105156664-> ********************** COMMAND BEGIN **********************
+105156664-> data sent to printer:
+105156664-> <2>V <3>
+105156684-> data received from printer:
+105156845-> <6>
+105156846-> ********************** COMMAND BEGIN **********************
+105156846-> data sent to printer:
+105156847-> <2>V----------------------------------------<3>
+105156909-> data received from printer:
+105157070-> <6>
+105157071-> ********************** COMMAND BEGIN **********************
+105157071-> data sent to printer:
+105157071-> <2>T<3>
+105159825-> data received from printer:
+105159981-> <6>
+111221802-> OPEN PORT: COM1@9600
+111221869-> ********************** COMMAND BEGIN **********************
+111221869-> data sent to printer:
+111221869-> <2>Q<3>
+111221874-> data received from printer:
+111222030-> <21>
+111222031-> ********************** COMMAND BEGIN **********************
+111222031-> data sent to printer:
+111222032-> <2>M<3>
+111222036-> data received from printer:
+111222195-> <21>
+111223179-> OPEN PORT: COM1@9600
+111223246-> OPEN PORT: COM1@9600
+111223249-> ********************** COMMAND BEGIN **********************
+111223250-> data sent to printer:
+111223251-> <2>L&1<3>
+111223912-> data received from printer:
+111224079-> <2>6051*6050<3><6>
+111224080-> ********************** COMMAND BEGIN **********************
+111224080-> data sent to printer:
+111224081-> <2>VRazon Social: WILLIAM  COLMENARES<3>
+111224173-> data received from printer:
+111224334-> <6>
+111224334-> ********************** COMMAND BEGIN **********************
+111224335-> data sent to printer:
+111224335-> <2>VCI/Rif: V-21002617<3>
+111224411-> data received from printer:
+111224574-> <6>
+111224575-> ********************** COMMAND BEGIN **********************
+111224575-> data sent to printer:
+111224575-> <2>V----------------------------------------<3>
+111224675-> data received from printer:
+111224830-> <6>
+111224832-> ********************** COMMAND BEGIN **********************
+111224832-> data sent to printer:
+111224833-> <2>Y0<3>
+111224841-> data received from printer:
+111225090-> <2>SENIAT    J-00000000000001600*0800*3100*2          Bs.0TIS0900049200120251059<3><6>
+111225092-> ********************** COMMAND BEGIN **********************
+111225092-> data sent to printer:
+111225093-> <2>VC000001 VISION SENCILLA TERMINADO <3>
+111225185-> data received from printer:
+111225344-> <6>
+111225345-> ********************** COMMAND BEGIN **********************
+111225345-> data sent to printer:
+111225345-> <2>N12,000xBs595,00      00001190000<3>
+111225487-> data received from printer:
+111225645-> <6>
+111225646-> ********************** COMMAND BEGIN **********************
+111225646-> data sent to printer:
+111225646-> <2>VM145364 CMSLSTYL3435754BR<3>
+111225730-> data received from printer:
+111225886-> <6>
+111225887-> ********************** COMMAND BEGIN **********************
+111225887-> data sent to printer:
+111225888-> <2>N11,000xBs1495,00     00001495000<3>
+111226031-> data received from printer:
+111226187-> <6>
+111226236-> ********************** COMMAND BEGIN **********************
+111226236-> data sent to printer:
+111226236-> <2>O1<3>
+111226784-> data received from printer:
+111226957-> <2>268500<3><6>
+111226982-> ********************** COMMAND BEGIN **********************
+111226983-> data sent to printer:
+111226983-> <2>P120/01/2025 EFECTIVO 000000268500<3>
+111227178-> data received from printer:
+111227333-> <6>
+111227334-> ********************** COMMAND BEGIN **********************
+111227334-> data sent to printer:
+111227335-> <2>V<3>
+111227391-> data received from printer:
+111227543-> <6>
+111227543-> ********************** COMMAND BEGIN **********************
+111227544-> data sent to printer:
+111227544-> <2>VNumero Orden: 0060603<3>
+111227623-> data received from printer:
+111227783-> <6>
+111227784-> ********************** COMMAND BEGIN **********************
+111227784-> data sent to printer:
+111227785-> <2>V<3>
+111227841-> data received from printer:
+111227993-> <6>
+111228034-> ********************** COMMAND BEGIN **********************
+111228034-> data sent to printer:
+111228034-> <2>V<161><161><161>GRACIAS POR SU COMPRA!!!<3>
+111228120-> data received from printer:
+111228280-> <6>
+111228281-> ********************** COMMAND BEGIN **********************
+111228281-> data sent to printer:
+111228281-> <2>VSolo se aceptaran devoluciones<3>
+111228370-> data received from printer:
+111228521-> <6>
+111228522-> ********************** COMMAND BEGIN **********************
+111228522-> data sent to printer:
+111228522-> <2>Vpor defectos de fabrica, con la<3>
+111228612-> data received from printer:
+111228777-> <6>
+111228778-> ********************** COMMAND BEGIN **********************
+111228778-> data sent to printer:
+111228779-> <2>Vpresentacion de esta factura (original),<3>
+111228878-> data received from printer:
+111229032-> <6>
+111229033-> ********************** COMMAND BEGIN **********************
+111229033-> data sent to printer:
+111229033-> <2>Vdentro de los treinta (30) dias<3>
+111229123-> data received from printer:
+111229288-> <6>
+111229289-> ********************** COMMAND BEGIN **********************
+111229289-> data sent to printer:
+111229290-> <2>Vsiguientes a la emision de la misma.<3>
+111229385-> data received from printer:
+111229543-> <6>
+111229544-> ********************** COMMAND BEGIN **********************
+111229544-> data sent to printer:
+111229544-> <2>V <3>
+111229602-> data received from printer:
+111229753-> <6>
+111229754-> ********************** COMMAND BEGIN **********************
+111229754-> data sent to printer:
+111229754-> <2>V   * * * CONTRIBUYENTE FORMAL * * * <3>
+111229849-> data received from printer:
+111230009-> <6>
+111230010-> ********************** COMMAND BEGIN **********************
+111230010-> data sent to printer:
+111230010-> <2>V <3>
+111230068-> data received from printer:
+111230220-> <6>
+111230220-> ********************** COMMAND BEGIN **********************
+111230221-> data sent to printer:
+111230221-> <2>V          CZL-0736194-0196<3>
+111230306-> data received from printer:
+111230460-> <6>
+111230461-> ********************** COMMAND BEGIN **********************
+111230461-> data sent to printer:
+111230461-> <2>V <3>
+111230519-> data received from printer:
+111230670-> <6>
+111230670-> ********************** COMMAND BEGIN **********************
+111230671-> data sent to printer:
+111230671-> <2>Y0<3>
+111230679-> data received from printer:
+111230931-> <2>SENIAT    J-00000000000001600*0800*3100*2          Bs.0TIS0900049200120251059<3><6>
+111230932-> ********************** COMMAND BEGIN **********************
+111230932-> data sent to printer:
+111230932-> <2>M<3>
+111232230-> data received from printer:
+111232387-> <6>
+111302453-> OPEN PORT: COM1@9600
+111302520-> ********************** COMMAND BEGIN **********************
+111302520-> data sent to printer:
+111302521-> <2>Y3<3>
+111302528-> data received from printer:
+111302713-> <2>6051*6050*908*0*<3><6>
+113026834-> OPEN PORT: COM1@9600
+113026899-> ********************** COMMAND BEGIN **********************
+113026899-> data sent to printer:
+113026900-> <2>Q<3>
+113026904-> data received from printer:
+113027058-> <21>
+113027058-> ********************** COMMAND BEGIN **********************
+113027059-> data sent to printer:
+113027059-> <2>M<3>
+113027064-> data received from printer:
+113027224-> <21>
+113028289-> OPEN PORT: COM1@9600
+113028352-> OPEN PORT: COM1@9600
+113028355-> ********************** COMMAND BEGIN **********************
+113028355-> data sent to printer:
+113028355-> <2>L&1<3>
+113029016-> data received from printer:
+113029191-> <2>6052*6050<3><6>
+113029192-> ********************** COMMAND BEGIN **********************
+113029192-> data sent to printer:
+113029193-> <2>VRazon Social: WILLIAM  COLMENARES<3>
+113029284-> data received from printer:
+113029447-> <6>
+113029448-> ********************** COMMAND BEGIN **********************
+113029448-> data sent to printer:
+113029448-> <2>VCI/Rif: V-21002617<3>
+113029524-> data received from printer:
+113029688-> <6>
+113029688-> ********************** COMMAND BEGIN **********************
+113029689-> data sent to printer:
+113029689-> <2>V----------------------------------------<3>
+113029789-> data received from printer:
+113029943-> <6>
+113029944-> ********************** COMMAND BEGIN **********************
+113029945-> data sent to printer:
+113029945-> <2>Y0<3>
+113029953-> data received from printer:
+113030204-> <2>SENIAT    J-00000000000001600*0800*3100*2          Bs.0TIS0900049200120251117<3><6>
+113030207-> ********************** COMMAND BEGIN **********************
+113030207-> data sent to printer:
+113030208-> <2>VC000001 VISION SENCILLA TERMINADO <3>
+113030300-> data received from printer:
+113030460-> <6>
+113030461-> ********************** COMMAND BEGIN **********************
+113030461-> data sent to printer:
+113030461-> <2>N12,000xBs595,00      00001190000<3>
+113030603-> data received from printer:
+113030760-> <6>
+113030761-> ********************** COMMAND BEGIN **********************
+113030761-> data sent to printer:
+113030761-> <2>VM145364 CMSLSTYL3435754BR<3>
+113030845-> data received from printer:
+113031001-> <6>
+113031001-> ********************** COMMAND BEGIN **********************
+113031002-> data sent to printer:
+113031002-> <2>N11,000xBs1495,00     00001495000<3>
+113031144-> data received from printer:
+113031301-> <6>
+113031350-> ********************** COMMAND BEGIN **********************
+113031351-> data sent to printer:
+113031352-> <2>OT206166<0>500<0><15>JJ<3>
+113031914-> data received from printer:
+113032081-> <2>268500<3><6>
+113032088-> ********************** COMMAND BEGIN **********************
+113032088-> data sent to printer:
+113032088-> <2>P120/01/2025 EFECTIVO 000000068525<3>
+113032232-> data received from printer:
+113032383-> <6>
+113032384-> ********************** COMMAND BEGIN **********************
+113032384-> data sent to printer:
+113032385-> <2>P1DIVISAS             000000206160<3>
+113032753-> data received from printer:
+113032909-> <6>
+113032910-> ********************** COMMAND BEGIN **********************
+113032911-> data sent to printer:
+113032911-> <2>V<3>
+113032968-> data received from printer:
+113033120-> <6>
+113033121-> ********************** COMMAND BEGIN **********************
+113033121-> data sent to printer:
+113033122-> <2>VNumero Orden: 0060610<3>
+113033201-> data received from printer:
+113033361-> <6>
+113033361-> ********************** COMMAND BEGIN **********************
+113033362-> data sent to printer:
+113033362-> <2>V<3>
+113033419-> data received from printer:
+113033572-> <6>
+113033580-> ********************** COMMAND BEGIN **********************
+113033581-> data sent to printer:
+113033581-> <2>V<161><161><161>GRACIAS POR SU COMPRA!!!<3>
+113033667-> data received from printer:
+113033828-> <6>
+113033828-> ********************** COMMAND BEGIN **********************
+113033829-> data sent to printer:
+113033829-> <2>VSolo se aceptaran devoluciones<3>
+113033918-> data received from printer:
+113034069-> <6>
+113034070-> ********************** COMMAND BEGIN **********************
+113034070-> data sent to printer:
+113034070-> <2>Vpor defectos de fabrica, con la<3>
+113034160-> data received from printer:
+113034324-> <6>
+113034324-> ********************** COMMAND BEGIN **********************
+113034325-> data sent to printer:
+113034325-> <2>Vpresentacion de esta factura (original),<3>
+113034425-> data received from printer:
+113034580-> <6>
+113034580-> ********************** COMMAND BEGIN **********************
+113034581-> data sent to printer:
+113034581-> <2>Vdentro de los treinta (30) dias<3>
+113034671-> data received from printer:
+113034836-> <6>
+113034837-> ********************** COMMAND BEGIN **********************
+113034837-> data sent to printer:
+113034837-> <2>Vsiguientes a la emision de la misma.<3>
+113034932-> data received from printer:
+113035091-> <6>
+113035092-> ********************** COMMAND BEGIN **********************
+113035092-> data sent to printer:
+113035092-> <2>V <3>
+113035150-> data received from printer:
+113035302-> <6>
+113035302-> ********************** COMMAND BEGIN **********************
+113035303-> data sent to printer:
+113035303-> <2>V   * * * CONTRIBUYENTE FORMAL * * * <3>
+113035398-> data received from printer:
+113035557-> <6>
+113035558-> ********************** COMMAND BEGIN **********************
+113035558-> data sent to printer:
+113035558-> <2>V <3>
+113035616-> data received from printer:
+113035782-> <6>
+113035783-> ********************** COMMAND BEGIN **********************
+113035783-> data sent to printer:
+113035784-> <2>V          CZL-0736194-0196<3>
+113035868-> data received from printer:
+113036022-> <6>
+113036023-> ********************** COMMAND BEGIN **********************
+113036023-> data sent to printer:
+113036024-> <2>V <3>
+113036081-> data received from printer:
+113036233-> <6>
+113036234-> ********************** COMMAND BEGIN **********************
+113036234-> data sent to printer:
+113036234-> <2>Y0<3>
+113036242-> data received from printer:
+113036494-> <2>SENIAT    J-00000000000001600*0800*3100*2          Bs.0TIS0900049200120251117<3><6>
+113036494-> ********************** COMMAND BEGIN **********************
+113036494-> data sent to printer:
+113036495-> <2>M<3>
+113037793-> data received from printer:
+113037948-> <6>
+113053014-> OPEN PORT: COM1@9600
+113053081-> ********************** COMMAND BEGIN **********************
+113053081-> data sent to printer:
+113053082-> <2>Y3<3>
+113053089-> data received from printer:
+113053274-> <2>6052*6050*908*0*<3><6>
+113053410-> OPEN PORT: COM1@9600
+113053475-> ********************** COMMAND BEGIN **********************
+113053475-> data sent to printer:
+113053476-> <2>S<3>
+113053533-> data received from printer:
+113053687-> <6>
+113053688-> ********************** COMMAND BEGIN **********************
+113053688-> data sent to printer:
+113053689-> <2>V----------------------------------------<3>
+113053788-> data received from printer:
+113053942-> <6>
+113053943-> ********************** COMMAND BEGIN **********************
+113053943-> data sent to printer:
+113053943-> <2>V <3>
+113054001-> data received from printer:
+113054153-> <6>
+113054153-> ********************** COMMAND BEGIN **********************
+113054154-> data sent to printer:
+113054154-> <2>VOs: 0060610<3>
+113054222-> data received from printer:
+113054379-> <6>
+113054379-> ********************** COMMAND BEGIN **********************
+113054380-> data sent to printer:
+113054380-> <2>VFactura:  0006052<3>
+113054468-> data received from printer:
+113054621-> <6>
+113054622-> ********************** COMMAND BEGIN **********************
+113054622-> data sent to printer:
+113054622-> <2>VCorrelativo: 0000007<3>
+113054700-> data received from printer:
+113054862-> <6>
+113054863-> ********************** COMMAND BEGIN **********************
+113054863-> data sent to printer:
+113054864-> <2>VNombre de la sucursal: 107-SAMBIL PARAGUANA<3>
+113054966-> data received from printer:
+113055132-> <6>
+113055132-> ********************** COMMAND BEGIN **********************
+113055133-> data sent to printer:
+113055133-> <2>VCliente: V-21002617<3>
+113055210-> data received from printer:
+113055372-> <6>
+113055372-> ********************** COMMAND BEGIN **********************
+113055373-> data sent to printer:
+113055373-> <2>VTelefono: 0424-1265113 <3>
+113055467-> data received from printer:
+113055627-> <6>
+113055628-> ********************** COMMAND BEGIN **********************
+113055628-> data sent to printer:
+113055628-> <2>VBanco: MERCANTIL<3>
+113055702-> data received from printer:
+113055867-> <6>
+113055867-> ********************** COMMAND BEGIN **********************
+113055868-> data sent to printer:
+113055868-> <2>VMonto:    257,7<3>
+113055941-> data received from printer:
+113056093-> <6>
+113056094-> ********************** COMMAND BEGIN **********************
+113056094-> data sent to printer:
+113056094-> <2>V <3>
+113056152-> data received from printer:
+113056304-> <6>
+113056304-> ********************** COMMAND BEGIN **********************
+113056305-> data sent to printer:
+113056305-> <2>V----------------------------------------<3>
+113056418-> data received from printer:
+113056575-> <6>
+113056576-> ********************** COMMAND BEGIN **********************
+113056576-> data sent to printer:
+113056576-> <2>T<3>
+113056772-> data received from printer:
+113056937-> <6>

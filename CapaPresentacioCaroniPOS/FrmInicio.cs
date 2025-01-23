@@ -374,6 +374,14 @@ namespace CapaVisual_Login
 
         }
 
+        public void Actualizar_Tasas()
+        {
+            _L_Inicio.CargarTexboxDol();
+            LblTasa.Text = _L_Inicio.TasaDiaDol;
+            LblBs.Text = "Bs/$";
+            _L_Inicio.CargarTexboxEur();
+            LblTasaSec.Text = _L_Inicio.TasaDiaEur + " Bs/€";
+        }
 
         public void ConfigInicio()
         {

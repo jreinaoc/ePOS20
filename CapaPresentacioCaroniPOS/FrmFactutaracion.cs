@@ -4572,7 +4572,7 @@ namespace CapaVisual_Login
                                     string Nacionalidad = cedula[0].ToString();
 
                                     // Esperar un tiempo para que la impresora emita el ticket
-                                    Thread.Sleep(60000); // Esperar 5 segundos (ajusta el tiempo según sea necesario)
+                                    Thread.Sleep(15000); // Esperar 5 segundos (ajusta el tiempo según sea necesario)
                                     objVmax.AbrirPuerto(Convert.ToString(glbPuertoCOM));
                                     objVmax.ObtenerContadores();
                                     string UltimoNumeroFacturaCancelado2 = objVmax.RetornoContadores.uiUltFacturaAnulada.ToString().PadLeft(7, '0');
@@ -5666,6 +5666,7 @@ namespace CapaVisual_Login
             command.Connection = connection;
             command.Transaction = transaction;
             command.Parameters.Clear();
+            command.CommandTimeout = 120;
             string Correlativo = "";
             Num_Factura = "";
             rollbackRealizado = false;

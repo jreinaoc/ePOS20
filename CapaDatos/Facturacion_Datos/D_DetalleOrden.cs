@@ -394,6 +394,7 @@ namespace CapaDatos.DetalleOrden_Datos
             SqlCommand cmd = new SqlCommand("SELECT Valor from  TB_PARAMETRO where Parametro= @Parametro", cn.LeerCadena());
             cmd.CommandType = CommandType.Text;
             cmd.Parameters.AddWithValue("@Parametro", Parametro);
+            cmd.CommandTimeout = 120;
             DataTable dt = new DataTable();
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             da.Fill(dt);
@@ -688,6 +689,19 @@ namespace CapaDatos.DetalleOrden_Datos
 
         }
 
+        public void RecalculaOPorpagar(string Cod_Sucursal, string NumOrdserv, string Revision)
+        {
+            SqlCommand cmd = new SqlCommand("SP_CPOS_pRecalculaOSPorPagar", cn.LeerCadena());
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@CodSuc", Cod_Sucursal);
+            cmd.Parameters.AddWithValue("@NumordServ", NumOrdserv);
+            cmd.Parameters.AddWithValue("@Revision", Revision);
+            DataTable dt = new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            da.Fill(dt);
+
+        }
+
         public string RegistarNota(double Bolivares, string NumeroNota, string NumerFact, string cedulaCliente, SqlCommand command)
         {
             try
@@ -844,6 +858,7 @@ public void MovimientoInventario(string CodArticulo, string TipoDoc, string Docu
                 cmd.CommandText = "pValidaExistenciaArticulo";
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@OS", NroOrden);
+                cmd.CommandTimeout = 120;
                 DataSet dts = new DataSet();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(dts);
@@ -1075,6 +1090,7 @@ public void MovimientoInventario(string CodArticulo, string TipoDoc, string Docu
             cmd.Parameters.AddWithValue("@Sucursal", Sucursal);
             cmd.Parameters.AddWithValue("@NumeroOrden", NumeroOrden);
             cmd.Parameters.AddWithValue("@Revision", "0");
+            cmd.CommandTimeout = 120;
             DataTable dt = new DataTable();
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             da.Fill(dt);
@@ -1090,6 +1106,7 @@ public void MovimientoInventario(string CodArticulo, string TipoDoc, string Docu
             cmd.Parameters.AddWithValue("@Sucursal", Sucursal);
             cmd.Parameters.AddWithValue("@NumeroOrden", NumeroOrden);
             cmd.Parameters.AddWithValue("@Revison", "0");
+            cmd.CommandTimeout = 120;
             DataTable dt = new DataTable();
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             da.Fill(dt);
@@ -1102,7 +1119,7 @@ public void MovimientoInventario(string CodArticulo, string TipoDoc, string Docu
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@FAC", NumeroFactura);
             cmd.Parameters.AddWithValue("@SERIALFACT", SerialImpresoraFct);
-
+            cmd.CommandTimeout = 120;
             DataSet dts = new DataSet();
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             da.Fill(dts);
@@ -1634,7 +1651,7 @@ public void MovimientoInventario(string CodArticulo, string TipoDoc, string Docu
                 cmd.Parameters.AddWithValue("@Cod_Sucursal", Cod_Sucursal);
                 cmd.Parameters.AddWithValue("@NumOrdserv", NumOrdserv);
                 cmd.Parameters.AddWithValue("@Revision", Revision);
-
+                cmd.CommandTimeout = 120;
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(dt);
@@ -1658,7 +1675,7 @@ public void MovimientoInventario(string CodArticulo, string TipoDoc, string Docu
                 cmd.Parameters.AddWithValue("@Cod_Sucursal", Cod_Sucursal);
                 cmd.Parameters.AddWithValue("@NumOrdserv", NumOrdserv);
                 cmd.Parameters.AddWithValue("@Revision", Revision);
-
+                cmd.CommandTimeout = 120;
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(dt);

@@ -466,6 +466,38 @@ namespace CapaLogica.ListaOrden_Logica
 
         }
 
+        public DataSet TraerOrdenesConPagoMovil(System.Windows.Forms.DateTimePicker Fechadesde, System.Windows.Forms.DateTimePicker Fechahasta)
+        {
+            try
+            {
+                stringBuilder.Clear();
+
+                DateTime PRUE = Fechadesde.Value;
+                DateTime PRUEB = Fechahasta.Value;
+                string PeriodoDesde = PRUE.ToString("yyyyMMdd");
+                string PeriodoHasta = PRUEB.ToString("yyyyMMdd");
+
+                //Le enviamos el index asociados al valor selecionado en el combobox 
+                DataSet Ordenes = _D_ListaOrdenes.CargarOrdenesConPagoMovil(PeriodoDesde, PeriodoHasta);
+
+                if (Ordenes.Tables[0].Rows.Count > 0)
+                {
+                    return Ordenes;
+                }
+                stringBuilder.Append(Environment.NewLine + "No hay ordenes");
+                return null;
+
+            }
+            catch (Exception ex)
+            {
+                stringBuilder.Append(Environment.NewLine + string.Format("Error: {0}", ex.Message));
+                return null;
+            }
+
+        }
+
+
+
         //public bool Verificar_Comprobante_ISLR_IVA(string Cod_Sucursal, string NumOrdserv, bool Iva = false, bool ISLR = false)
         //{
         //    try 
@@ -476,7 +508,7 @@ namespace CapaLogica.ListaOrden_Logica
         //    {
         //        CodPago = "013";
         //    }
-          
+
         //    if (ISLR == true)
         //    {
         //        CodPago = "014";
@@ -492,7 +524,7 @@ namespace CapaLogica.ListaOrden_Logica
         //            else
         //                return true;
         //    }
-              
+
         //    return false;
 
         //    }
@@ -504,7 +536,7 @@ namespace CapaLogica.ListaOrden_Logica
         //    }
 
 
-//}
+        //}
 
     }
 }

@@ -260,6 +260,21 @@ namespace CapaDatos.ListaOrdenes_Datos
             }
         }
 
-       
+        public DataSet CargarOrdenesConPagoMovil(string Fechadesde, string Fechahasta)
+        {
+            SqlCommand cmd = new SqlCommand("SP_CPOS_BuscarOrdenesPagoMovil", cn.LeerCadena());
+
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@Fechadesde", Fechadesde);
+            cmd.Parameters.AddWithValue("@Fechahasta", Fechahasta);
+
+            DataSet dts = new DataSet();
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            da.Fill(dts);
+            return (dts);
+
+        }
+
     }
 }

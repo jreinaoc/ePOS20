@@ -35,7 +35,8 @@ namespace CapaVisual_Login
         FrmMostrarReporte frmMostrar = new FrmMostrarReporte();
         D_Inicio _D_Inicio = new D_Inicio();
         L_Colores _L_Colores = new L_Colores();
-        
+        FrmPagoMovil _FrmPagoMovil = new FrmPagoMovil();
+
         public bool osc;
         public string mostrarclientes;
 
@@ -96,6 +97,7 @@ namespace CapaVisual_Login
 
             else
             {
+                _FrmInicio.Actualizar_Tasas();
                 PnlListadoOrdenes.Controls.Clear();
                 addformulario(_FrmInicio);
                 _FrmInicio.Actualizar_UltimaVenta_VentasDia();
@@ -470,6 +472,13 @@ namespace CapaVisual_Login
         private void button1_Click_5(object sender, EventArgs e)
         {
            
+        }
+
+        private void btnPagoMovil_Click(object sender, EventArgs e)
+        {
+            PnlListadoOrdenes.Controls.Clear();
+            addformulario(_FrmPagoMovil);
+            Focus();
         }
     }
 }
