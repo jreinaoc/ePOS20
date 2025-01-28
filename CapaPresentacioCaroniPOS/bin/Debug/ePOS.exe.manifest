@@ -110,7 +110,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>pkqxGi3aE/8mlchCitsMHrR5RhdvQ+7rkJMzZRyJzak=</dsig:DigestValue>
+        <dsig:DigestValue>zuufsSsIJ2UUG42TmG+keXh1fvKU+o3X++Geo5KTxo8=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -903,13 +903,13 @@
       <dsig:DigestValue>V/mIEnaNA7+y6AYCdZ7ovh0pOL9ya/R1ocUuN+BTkHw=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="ePOS.exe.config" size="1816">
+  <file name="ePOS.exe.config" size="1810">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>ueREhYBQUh/RhzgW5g6bwqKeZVqIZor9k27QAfLrTAE=</dsig:DigestValue>
+      <dsig:DigestValue>rLOirEFHXd69naHXbrnIyd5WvNNAiCOXxuJzUm/B5zw=</dsig:DigestValue>
     </hash>
   </file>
   <file name="icono-puntoDeVenta.ico" size="205662">

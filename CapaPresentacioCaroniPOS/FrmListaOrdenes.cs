@@ -870,7 +870,8 @@ namespace CapaVisual_Login
                 }
                 else if (DgvListadoOrdenes.CurrentRow.Cells["Estatus"].Value.ToString() == "Por pagar")
                 {
-                    _D_DetalleOrden.RecalculaOPorpagar(DgvListadoOrdenes.CurrentRow.Cells["Cod_Sucursal"].Value.ToString(), DgvListadoOrdenes.CurrentRow.Cells["NumOrdserv"].Value.ToString(), "0");
+                    //por el mometo se comenta , esto soluciona el problema de la inconcistencia en el total de la factura 
+                    //_D_DetalleOrden.RecalculaOPorpagar(DgvListadoOrdenes.CurrentRow.Cells["Cod_Sucursal"].Value.ToString(), DgvListadoOrdenes.CurrentRow.Cells["NumOrdserv"].Value.ToString(), "0");
                 }
 
                 // Cargar el formulario de facturacion
