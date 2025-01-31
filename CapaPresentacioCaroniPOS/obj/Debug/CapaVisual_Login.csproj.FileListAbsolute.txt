@@ -13,6 +13,7 @@ C:\Programacion\CaroniPOS1\CapaPresentacioCaroniPOS\bin\Debug\log4net.dll
 C:\Programacion\CaroniPOS1\CapaPresentacioCaroniPOS\bin\Debug\Microsoft.ReportViewer.Design.dll
 C:\Programacion\CaroniPOS1\CapaPresentacioCaroniPOS\bin\Debug\Microsoft.ReportViewer.WinForms.dll
 C:\Programacion\CaroniPOS1\CapaPresentacioCaroniPOS\bin\Debug\Microsoft.SqlServer.Types.dll
+C:\Programacion\CaroniPOS1\CapaPresentacioCaroniPOS\bin\Debug\Newtonsoft.Json.dll
 C:\Programacion\CaroniPOS1\CapaPresentacioCaroniPOS\bin\Debug\EnvDTE.dll
 C:\Programacion\CaroniPOS1\CapaPresentacioCaroniPOS\bin\Debug\Microsoft.VisualStudio.Shell.Interop.dll
 C:\Programacion\CaroniPOS1\CapaPresentacioCaroniPOS\bin\Debug\Microsoft.VisualStudio.Shell.Interop.8.0.dll
@@ -29,6 +30,7 @@ C:\Programacion\CaroniPOS1\CapaPresentacioCaroniPOS\bin\Debug\CapaEntidades.pdb
 C:\Programacion\CaroniPOS1\CapaPresentacioCaroniPOS\bin\Debug\CapaLogica.pdb
 C:\Programacion\CaroniPOS1\CapaPresentacioCaroniPOS\bin\Debug\DevComponents.DotNetBar2.xml
 C:\Programacion\CaroniPOS1\CapaPresentacioCaroniPOS\bin\Debug\log4net.xml
+C:\Programacion\CaroniPOS1\CapaPresentacioCaroniPOS\bin\Debug\Newtonsoft.Json.xml
 C:\Programacion\CaroniPOS1\CapaPresentacioCaroniPOS\bin\Debug\de\Microsoft.ReportViewer.Design.resources.dll
 C:\Programacion\CaroniPOS1\CapaPresentacioCaroniPOS\bin\Debug\es\Microsoft.ReportViewer.Design.resources.dll
 C:\Programacion\CaroniPOS1\CapaPresentacioCaroniPOS\bin\Debug\fr\Microsoft.ReportViewer.Design.resources.dll

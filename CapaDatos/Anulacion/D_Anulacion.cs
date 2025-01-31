@@ -88,16 +88,22 @@ public DataTable TraerOrdenDet(string NumOrden , SqlCommand command = null)  // 
 
         }
 
-        public string TraerArt(string CodArticulo)  // Trae el detalle del articulo 
+        public string TraerArt(string CodArticulo, SqlCommand command = null)  // Trae el detalle del articulo 
         {
-            SqlCommand cmd = new SqlCommand("SP_CPOS_GET_ARTICULO", cn.LeerCadena());
+             if (command == null)
+             {
+                SqlConnection connection = cn.LeerCadena();
+                command = connection.CreateCommand();
+             }
+            SqlCommand cmd = command;
+            cmd.CommandText ="SP_CPOS_GET_ARTICULO";
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@CodArticulo", CodArticulo);
 
             DataTable dt = new DataTable();
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             da.Fill(dt);
-
+            cmd.Parameters.Clear();
             string CostoArt = dt.Rows[0]["COSTOULTI"].ToString();
             return (CostoArt);
 

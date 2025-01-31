@@ -1818,24 +1818,25 @@ public void MovimientoInventario(string CodArticulo, string TipoDoc, string Docu
             }
         }
 
-        public string ReguistarPagoMovil(string CodigoSucursal, string NroOs, string Rev, Double Tasa, Double MontoRecibidoRef, Double MontoVueltoRef, Double MontoVueltoBs, string CteNacionalidad, string CteCedula, string CodBancoReceptor, string telefono, SqlCommand command)
+        public string ReguistarPagoMovil(int IdAbono,string CodigoSucursal, string NroOs, string Rev, Double Tasa, Double MontoRecibidoRef, Double MontoVueltoRef, Double MontoVueltoBs, string CteNacionalidad, string CteCedula, string CodBancoReceptor, string telefono, SqlCommand command)
         {
             try
             {
                 SqlCommand cmd = command;
                 cmd.CommandText = ("pAddCambio_CPOS");
                 cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@idAbono", IdAbono);
                 cmd.Parameters.AddWithValue("@codSuc", CodigoSucursal);
                 cmd.Parameters.AddWithValue("@NroOs", NroOs);
                 cmd.Parameters.AddWithValue("@Rev", Rev);
-                cmd.Parameters.AddWithValue("@Tasa", Tasa);
-                cmd.Parameters.AddWithValue("@MontoRecibidoRef", MontoRecibidoRef);
+                cmd.Parameters.AddWithValue("@Tasa",Tasa);
+                cmd.Parameters.AddWithValue("@MontoRecibidoRef",MontoRecibidoRef);
                 cmd.Parameters.AddWithValue("@MontoVueltoRef", MontoVueltoRef);
                 cmd.Parameters.AddWithValue("@MontoVueltoBs", MontoVueltoBs);
                 cmd.Parameters.AddWithValue("@CteNacionalidad", CteNacionalidad);
-                cmd.Parameters.AddWithValue("@CteCedula", CteCedula);
+                cmd.Parameters.AddWithValue("@CteCedula", _D_Inicio.Encriptar(CteCedula));
                 cmd.Parameters.AddWithValue("@CodBancoReceptor", CodBancoReceptor);
-                cmd.Parameters.AddWithValue("@telefono", telefono);
+                cmd.Parameters.AddWithValue("@telefono", _D_Inicio.Encriptar(telefono));
 
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -1854,6 +1855,7 @@ public void MovimientoInventario(string CodArticulo, string TipoDoc, string Docu
                 return "";
             }
         }
+
 
         public DataSet ImprimirComprobantePagoMovil(string NumeroOrdenImprimir, string glbSucursalActual,  SqlCommand command)
         {
@@ -1887,13 +1889,13 @@ public void MovimientoInventario(string CodArticulo, string TipoDoc, string Docu
         {
             try
             {
-                SqlCommand cmd = new SqlCommand(" select isnull(sum(MontoVueltoRef), 0) as TotalPagomovilDolares, isnull(sum(MontoVueltoBs), 0) as TotalPagomovilBolivares from dbo.TB_CAMBIO where NroOrden = @NumOrden  and CodSuc = @codSuc", cn.LeerCadena());
+                SqlCommand cmd = new SqlCommand("SET ARITHABORT ON; select dbo.DecodeBase64(MontoVueltoRef) as TotalPagomovilDolares, dbo.DecodeBase64(MontoVueltoBs) as TotalPagomovilBolivares from dbo.TB_CAMBIO where NroOrden = @NumOrden  and CodSuc = @codSuc", cn.LeerCadena());
                 cmd.CommandType = CommandType.Text;
                 cmd.Parameters.AddWithValue("@codSuc", Sucursal);
                 cmd.Parameters.AddWithValue("@NumOrden", NumeroOrden);
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt); 
+                da.Fill(dt);
                 return dt;
             }
 
@@ -1903,6 +1905,7 @@ public void MovimientoInventario(string CodArticulo, string TipoDoc, string Docu
                 return null;
             }
         }
+
 
         public void Registar_ISLR_Facturacion(string ComprobRetencionISLR, string Fact_Numm, string Sucursal, string NunOrden)
         {
@@ -2173,7 +2176,26 @@ public void MovimientoInventario(string CodArticulo, string TipoDoc, string Docu
 
         }
 
-        
+        public string ActualizarPagoMovil(string Cod_Sucursal, string NumOrdserv, string Revision, string Referencia, string DetalleTransaccion, string CodigoError)
+        {
+            SqlCommand cmd = new SqlCommand("SP_CPOS_ActualizarPagoMovil", cn.LeerCadena());
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@CodSuc", Cod_Sucursal);
+            cmd.Parameters.AddWithValue("@NumordServ", NumOrdserv);
+            cmd.Parameters.AddWithValue("@Revision", Revision);
+            cmd.Parameters.AddWithValue("@Referencia", _D_Inicio.Encriptar(Referencia));
+            cmd.Parameters.AddWithValue("@DetalleTransaccion", DetalleTransaccion);
+            cmd.Parameters.AddWithValue("@CodigoError", CodigoError);
+            DataTable dt = new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            da.Fill(dt);
+            string Valor = dt.Rows[0]["Resultado"].ToString();
+            return Valor;
+
+
+        }
+
+
 
 
     }

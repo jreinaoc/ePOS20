@@ -110,12 +110,14 @@ namespace CapaVisual_Login
             this.btnPagoMovil.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnPagoMovil.ForeColor = System.Drawing.Color.Black;
             this.btnPagoMovil.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.btnPagoMovil.Location = new System.Drawing.Point(3, 318);
+            this.btnPagoMovil.Location = new System.Drawing.Point(43, 147);
             this.btnPagoMovil.Name = "btnPagoMovil";
-            this.btnPagoMovil.Size = new System.Drawing.Size(43, 34);
+            this.btnPagoMovil.Size = new System.Drawing.Size(140, 34);
             this.btnPagoMovil.TabIndex = 21;
+            this.btnPagoMovil.Text = "Pago Móvil";
             this.btnPagoMovil.TextAlign = System.Drawing.ContentAlignment.TopLeft;
             this.btnPagoMovil.UseVisualStyleBackColor = false;
+            this.btnPagoMovil.Visible = false;
             this.btnPagoMovil.Click += new System.EventHandler(this.btnPagoMovil_Click);
             // 
             // BtnClaro

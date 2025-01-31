@@ -412,10 +412,10 @@ namespace CapaLogica.DetalleOrden_Logica
         }
 
 
-        public void GuardarAbonoGrid(DataTable Dt_Abonos, string MedioPago, string Moneda, string Banco, string Bolivares, string NunTranferencia, string Fecha, string CodPago = "", string CodBanco = "",  string Cod_BancoRecep = "",string Vuelto = "", string Ref = "", string Igtf = "", string CVC = "", string Vence = "", string TipoTrajeta = "", string Abo_CVCNROCHEQUE = "", string Tipo_Punto = "000")
+        public void GuardarAbonoGrid(int idAbono,DataTable Dt_Abonos, string MedioPago, string Moneda, string Banco, string Bolivares, string NunTranferencia, string Fecha, string CodPago = "", string CodBanco = "",  string Cod_BancoRecep = "",string Vuelto = "", string Ref = "", string Igtf = "", string CVC = "", string Vence = "", string TipoTrajeta = "", string Abo_CVCNROCHEQUE = "", string Tipo_Punto = "000")
         {
             stringBuilder.Clear();
-            Dt_Abonos.Rows.Add(MedioPago, Moneda, Ref, Banco, Igtf, Bolivares, NunTranferencia, Fecha, CodPago, CodBanco, Vuelto, CVC, Vence, TipoTrajeta, Abo_CVCNROCHEQUE, Tipo_Punto,Cod_BancoRecep);
+            Dt_Abonos.Rows.Add(idAbono , MedioPago, Moneda, Ref, Banco, Igtf, Bolivares, NunTranferencia, Fecha, CodPago, CodBanco, Vuelto, CVC, Vence, TipoTrajeta, Abo_CVCNROCHEQUE, Tipo_Punto,Cod_BancoRecep);
 
         }
 
@@ -423,6 +423,7 @@ namespace CapaLogica.DetalleOrden_Logica
         {
 
             //************crear Tabla*****************
+            DataColumn column0 = new DataColumn("IdAbono");
             DataColumn column1 = new DataColumn("TipoPago");
             DataColumn column2 = new DataColumn("Moneda");
             DataColumn column3 = new DataColumn("Ref");
@@ -441,6 +442,7 @@ namespace CapaLogica.DetalleOrden_Logica
             DataColumn column16 = new DataColumn("Tipo_Punto");
             DataColumn column17 = new DataColumn("Cod_BancoRecep");
 
+            Dt_Abonos.Columns.Add(column0);
             Dt_Abonos.Columns.Add(column1);
             Dt_Abonos.Columns.Add(column2);
             Dt_Abonos.Columns.Add(column3);
@@ -466,6 +468,7 @@ namespace CapaLogica.DetalleOrden_Logica
         {
 
             //************crear Tabla*****************
+            DataColumn column0 = new DataColumn("IdAbonoPagoMovil");
             DataColumn column1 = new DataColumn("Nacionalidad");
             DataColumn column2 = new DataColumn("Cedula");
             DataColumn column3 = new DataColumn("PrefijoCelular");
@@ -476,7 +479,7 @@ namespace CapaLogica.DetalleOrden_Logica
             DataColumn column8 = new DataColumn("MontoVueltoRef");
             DataColumn column9 = new DataColumn("Moneda");
 
-
+            Dt_PagoMovil.Columns.Add(column0);
             Dt_PagoMovil.Columns.Add(column1);
             Dt_PagoMovil.Columns.Add(column2);
             Dt_PagoMovil.Columns.Add(column3);
@@ -491,10 +494,10 @@ namespace CapaLogica.DetalleOrden_Logica
             //*************************************************
         }
 
-        public void GuardarPagoMovilTabla(DataTable Dt_PagoMovil, string Nacionalidad, string Cedula, string PrefijoCelular, string Celular, string MontoVueltoBs, string Banco, string MontoRecibidoRef, string MontoVueltoRef, string Moneda)
+        public void GuardarPagoMovilTabla(int idAbonoPagoMovil,DataTable Dt_PagoMovil, string Nacionalidad, string Cedula, string PrefijoCelular, string Celular, string MontoVueltoBs, string Banco, string MontoRecibidoRef, string MontoVueltoRef, string Moneda)
         {
             stringBuilder.Clear();
-            Dt_PagoMovil.Rows.Add(Nacionalidad, Cedula, PrefijoCelular, Celular, MontoVueltoBs, Banco, MontoRecibidoRef, MontoVueltoRef, Moneda);
+            Dt_PagoMovil.Rows.Add(idAbonoPagoMovil,Nacionalidad, Cedula, PrefijoCelular, Celular, MontoVueltoBs, Banco, MontoRecibidoRef, MontoVueltoRef, Moneda);
 
 
         }
@@ -2153,6 +2156,7 @@ namespace CapaLogica.DetalleOrden_Logica
             try
             {
 
+                int idAbonoPagoMovil;
             Double MontoRecibidoRef = 0;
             Double MontoVueltoRef = 0;
             Double MontoVueltoBs = 0;
@@ -2164,7 +2168,8 @@ namespace CapaLogica.DetalleOrden_Logica
             Double Tasa_Abono = 0;
             foreach (DataRow Row in PagoMovilRealizados.Rows)
             {
-                MontoRecibidoRef= Convert.ToDouble(Row["MontoRecibidoRef"].ToString());
+                    idAbonoPagoMovil = Convert.ToInt16(Row["idAbonoPagoMovil"].ToString());
+                    MontoRecibidoRef = Convert.ToDouble(Row["MontoRecibidoRef"].ToString());
                 MontoVueltoRef = Convert.ToDouble(Row["MontoVueltoRef"].ToString().Replace(".",","));
                 MontoVueltoBs = Convert.ToDouble(Row["MontoVueltoBs"].ToString().Replace(".", ","));
                 CteNacionalidad = Row["Nacionalidad"].ToString();
@@ -2182,7 +2187,7 @@ namespace CapaLogica.DetalleOrden_Logica
                     Tasa_Abono = Convert.ToDouble(TB_TASA_Dolar.Tasa);
                 }
 
-                Respuesta = _D_DetalleOrden.ReguistarPagoMovil(CodigoSucursal, NumeroOrden, Revision, Tasa_Abono, MontoRecibidoRef, MontoVueltoRef, MontoVueltoBs, CteNacionalidad, Cedula, CodBancoReceptor, Telefono, command);
+                Respuesta = _D_DetalleOrden.ReguistarPagoMovil(idAbonoPagoMovil, CodigoSucursal, NumeroOrden, Revision, Tasa_Abono, MontoRecibidoRef, MontoVueltoRef, MontoVueltoBs, CteNacionalidad, Cedula, CodBancoReceptor, Telefono, command);
                 
                 Tasa_Abono = 0;
                 MontoRecibidoRef = 0;

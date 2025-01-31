@@ -3,6 +3,7 @@ C:\Programacion\CaroniPOS1\CapaLogica\bin\Debug\CapaLogica.pdb
 C:\Programacion\CaroniPOS1\CapaLogica\bin\Debug\CapaDatos.dll
 C:\Programacion\CaroniPOS1\CapaLogica\bin\Debug\CapaEntidades.dll
 C:\Programacion\CaroniPOS1\CapaLogica\bin\Debug\log4net.dll
+C:\Programacion\CaroniPOS1\CapaLogica\bin\Debug\Newtonsoft.Json.dll
 C:\Programacion\CaroniPOS1\CapaLogica\bin\Debug\System.Configuration.ConfigurationManager.dll
 C:\Programacion\CaroniPOS1\CapaLogica\bin\Debug\System.Security.AccessControl.dll
 C:\Programacion\CaroniPOS1\CapaLogica\bin\Debug\System.Security.Permissions.dll
@@ -11,6 +12,7 @@ C:\Programacion\CaroniPOS1\CapaLogica\bin\Debug\VmaxComVe.dll
 C:\Programacion\CaroniPOS1\CapaLogica\bin\Debug\CapaDatos.pdb
 C:\Programacion\CaroniPOS1\CapaLogica\bin\Debug\CapaEntidades.pdb
 C:\Programacion\CaroniPOS1\CapaLogica\bin\Debug\log4net.xml
+C:\Programacion\CaroniPOS1\CapaLogica\bin\Debug\Newtonsoft.Json.xml
 C:\Programacion\CaroniPOS1\CapaLogica\bin\Debug\System.Configuration.ConfigurationManager.xml
 C:\Programacion\CaroniPOS1\CapaLogica\bin\Debug\System.Security.AccessControl.xml
 C:\Programacion\CaroniPOS1\CapaLogica\bin\Debug\System.Security.Permissions.xml

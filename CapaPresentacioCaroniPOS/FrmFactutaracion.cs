@@ -104,8 +104,11 @@ namespace CapaVisual_Login
 
         ToolTip toolTip1 = new ToolTip();
         ToolTip toolTip2 = new ToolTip();
+        public int CantAbonosPrevios = 0;
+        public int idAbonoPagoMovil = 0;
         private void FrmDetalleOrden_Load(object sender, EventArgs e)
         {
+            idAbonoPagoMovil = 0;
             tabControl.SelectTab(0);
 
             LimpiarGrid();
@@ -174,7 +177,7 @@ namespace CapaVisual_Login
         private void btnIngresar_Click(object sender, EventArgs e)
         {
 
-
+            idAbonoPagoMovil = 0;
             //Validacion del dia activo 
             string DiaActual = (DateTime.Now.ToString("dd/MM/yyyy"));
             string DiaActivo = _D_Inicio.DiaActivo().ToShortDateString();
@@ -738,6 +741,7 @@ namespace CapaVisual_Login
 
         private void btnCancelar2_Click(object sender, EventArgs e)
         {
+            idAbonoPagoMovil = 0; 
             VisualizarPanel("MostrarPanelPrincipal");
             LimpiarTxbox();
         }
@@ -837,6 +841,7 @@ namespace CapaVisual_Login
         {
             try
             {
+                idAbonoPagoMovil = 0;
                 Double Bolivares = 0.00;
                 Double TotalAbono = 0.00;
                 Bolivares = (txtMonto2Bs.Text == "" ? (Double)0.00 : Convert.ToDouble(txtMonto2Bs.Text.Replace(".", "")));
@@ -858,7 +863,7 @@ namespace CapaVisual_Login
 
                         }
 
-                        _L_Facturacion.GuardarAbonoGrid(Dt_Abonos, CbxMetodosPago2.Text, CbxMoneda.Text, CbxBanco.Text, txtMonto2Bs.Text, txtTranferencia.Text, DtpFecha.Value.ToString(), CbxMetodosPago2.SelectedValue.ToString(), CbxBanco.SelectedValue.ToString(), "", TxtVuelto.Text, txtRef.Text, txtIGTF.Text);
+                        _L_Facturacion.GuardarAbonoGrid(CantAbonosPrevios + Dt_Abonos.Rows.Count + 1, Dt_Abonos, CbxMetodosPago2.Text, CbxMoneda.Text, CbxBanco.Text, txtMonto2Bs.Text, txtTranferencia.Text, DtpFecha.Value.ToString(), CbxMetodosPago2.SelectedValue.ToString(), CbxBanco.SelectedValue.ToString(), "", TxtVuelto.Text, txtRef.Text, txtIGTF.Text);
                         
                         BolivaresConveridos(Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos)), txtMontoBs);
                         //-----------ConvertirBolivares---------------------------
@@ -898,7 +903,7 @@ namespace CapaVisual_Login
                             return;
                         }
 
-                        _L_Facturacion.GuardarAbonoGrid(Dt_Abonos, CbxMetodosPago2.Text, CbxMoneda.Text, CbxBanco.Text, txtMonto2Bs.Text, txtTranferencia.Text, DtpFecha.Value.ToString(), CbxMetodosPago2.SelectedValue.ToString(), CbxBanco.SelectedValue.ToString(), CbxBancoRecp.SelectedValue.ToString(), TxtVuelto.Text);
+                        _L_Facturacion.GuardarAbonoGrid(2,Dt_Abonos, CbxMetodosPago2.Text, CbxMoneda.Text, CbxBanco.Text, txtMonto2Bs.Text, txtTranferencia.Text, DtpFecha.Value.ToString(), CbxMetodosPago2.SelectedValue.ToString(), CbxBanco.SelectedValue.ToString(), CbxBancoRecp.SelectedValue.ToString(), TxtVuelto.Text);
                         
                         BolivaresConveridos(Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos)), txtMontoBs);
                         //-----------ConvertirBolivares---------------------------
@@ -937,7 +942,7 @@ namespace CapaVisual_Login
 
                         if (txtTranferencia.Text.Length >= 4)
                         {
-                            _L_Facturacion.GuardarAbonoGrid(Dt_Abonos, CbxMetodosPago2.Text, CbxMoneda.Text, CbxBanco.Text, txtMonto2Bs.Text, txtTranferencia.Text, DtpFecha.Value.ToString(), CbxMetodosPago2.SelectedValue.ToString(), CbxBanco.SelectedValue.ToString(), "", TxtVuelto.Text, "", "", txtCVC.Text, txtVence.Text, "", "", CbxPunto_Venta.SelectedValue.ToString());
+                            _L_Facturacion.GuardarAbonoGrid(2,Dt_Abonos, CbxMetodosPago2.Text, CbxMoneda.Text, CbxBanco.Text, txtMonto2Bs.Text, txtTranferencia.Text, DtpFecha.Value.ToString(), CbxMetodosPago2.SelectedValue.ToString(), CbxBanco.SelectedValue.ToString(), "", TxtVuelto.Text, "", "", txtCVC.Text, txtVence.Text, "", "", CbxPunto_Venta.SelectedValue.ToString());
                             BolivaresConveridos(Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos)), txtMontoBs);
                             //-----------ConvertirBolivares---------------------------
                             //txtMontoBs.Text = _L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos);
@@ -989,7 +994,7 @@ namespace CapaVisual_Login
                         if (txtTranferencia.Text.Length >= 4)
                         {
                             //CbxMetodosPago2.SelectedIndex = 10;
-                            _L_Facturacion.GuardarAbonoGrid(Dt_Abonos, CbxMetodosPago2.Text, CbxMoneda.Text, "CASHEA", txtMonto2Bs.Text, txtTranferencia.Text, DtpFecha.Value.ToString(), "021", "110", "110", TxtVuelto.Text, "", "", "", "", "", "", "000");
+                            _L_Facturacion.GuardarAbonoGrid(2,Dt_Abonos, CbxMetodosPago2.Text, CbxMoneda.Text, "CASHEA", txtMonto2Bs.Text, txtTranferencia.Text, DtpFecha.Value.ToString(), "021", "110", "110", TxtVuelto.Text, "", "", "", "", "", "", "000");
                             
                             BolivaresConveridos(Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos)), txtMontoBs);
                             //-----------ConvertirBolivares---------------------------
@@ -1046,7 +1051,7 @@ namespace CapaVisual_Login
                         }
 
                         //CbxMetodosPago2.SelectedIndex = 10;
-                        _L_Facturacion.GuardarAbonoGrid(Dt_Abonos, CbxMetodosPago2.Text, CbxMoneda.Text, CbxBanco.Text, txtMonto2Bs.Text, txtTranferencia.Text, DtpFecha.Value.ToString(), CbxMetodosPago2.SelectedValue.ToString(), CbxBanco.SelectedValue.ToString(), CbxBancoRecp.SelectedValue.ToString(), TxtVuelto.Text);
+                        _L_Facturacion.GuardarAbonoGrid(2,Dt_Abonos, CbxMetodosPago2.Text, CbxMoneda.Text, CbxBanco.Text, txtMonto2Bs.Text, txtTranferencia.Text, DtpFecha.Value.ToString(), CbxMetodosPago2.SelectedValue.ToString(), CbxBanco.SelectedValue.ToString(), CbxBancoRecp.SelectedValue.ToString(), TxtVuelto.Text);
                         
                         BolivaresConveridos(Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos)), txtMontoBs);
                         //-----------ConvertirBolivares---------------------------
@@ -1086,6 +1091,16 @@ namespace CapaVisual_Login
                             return;
                         }
 
+                        DataTable Pagos = _L_Facturacion.MostarPagosGrid(TB_CAORDSER.Cod_Sucursal, txtNumeroOrden.Text, TB_CAORDSER.Revision);
+
+                        if (Pagos.Rows.Count > 0)
+                        {
+                            CantAbonosPrevios = Pagos.Rows.Count;
+                          
+                        }
+                        idAbonoPagoMovil = CantAbonosPrevios + Dt_Abonos.Rows.Count + 1;
+                        // Guardo el Abono y retotno a la pantalla principal 
+                        _L_Facturacion.GuardarAbonoGrid(idAbonoPagoMovil, Dt_Abonos, CbxMetodosPago2.Text, CbxMoneda.Text, CbxBanco.Text, txtMonto2Bs.Text, "0000", DtpFecha.Value.ToString(), "021", CbxBanco.SelectedValue.ToString(), "", TxtVuelto.Text, txtRef.Text, txtIGTF.Text);
 
                         //'Valido que recibido ref no este vacio para guardar el pago si no continuo mi proceso normal 
                         if (TxtRecibidoREF.Text != "" && TxtRecibidoREF.Text != "0.00")
@@ -1159,7 +1174,7 @@ namespace CapaVisual_Login
                                 }
 
                                 //Guardo el Pago Movil 
-                                _L_Facturacion.GuardarPagoMovilTabla(Dt_PagoMovil, CbxNacionalidadPagoMovil.Text, TxtCedulaPagoMovil.Text, CbxCelularPagoMovil.Text, TxtCedularPagoMovil.Text, TxtMontoPagoMovil.Text, CbxBancoPagoMovil.SelectedValue.ToString(), TxtRecibidoREF.Text, TxtVuelto.Text, CbxMoneda.Text);
+                                _L_Facturacion.GuardarPagoMovilTabla(idAbonoPagoMovil, Dt_PagoMovil, CbxNacionalidadPagoMovil.Text, TxtCedulaPagoMovil.Text, CbxCelularPagoMovil.Text, TxtCedularPagoMovil.Text, TxtMontoPagoMovil.Text, CbxBancoPagoMovil.SelectedValue.ToString(), TxtRecibidoREF.Text, TxtVuelto.Text, CbxMoneda.Text);
 
                             }
 
@@ -1174,8 +1189,6 @@ namespace CapaVisual_Login
                         }
 
 
-                        // Guardo el Abono y retotno a la pantalla principal 
-                        _L_Facturacion.GuardarAbonoGrid(Dt_Abonos, CbxMetodosPago2.Text, CbxMoneda.Text, CbxBanco.Text, txtMonto2Bs.Text, "0000", DtpFecha.Value.ToString(), "021", CbxBanco.SelectedValue.ToString(), "", TxtVuelto.Text, txtRef.Text, txtIGTF.Text);
                         BolivaresConveridos(Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos)), txtMontoBs);
                         //-----------ConvertirBolivares---------------------------
                         //txtMontoBs.Text = _L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos);
@@ -1239,7 +1252,7 @@ namespace CapaVisual_Login
                             // Si es de 12 digitos se valida el comienzo de la tarjeta dependiendo del tipo de tarjeta
                             if (_L_Facturacion.ValidoNumeroTarjeta_Credito(txtTranferencia.Text, CbxTarjeta.Text) == true)
                             {
-                                _L_Facturacion.GuardarAbonoGrid(Dt_Abonos, CbxTarjeta.Text, CbxMoneda.Text, CbxBanco.Text, txtMonto2Bs.Text, txtTranferencia.Text, DtpFecha.Value.ToString(), CbxMetodosPago2.SelectedValue.ToString(), CbxBanco.SelectedValue.ToString(), "", TxtVuelto.Text, "", "", txtCVC.Text, txtVence.Text, "", "", CbxPunto_Venta.SelectedValue.ToString());
+                                _L_Facturacion.GuardarAbonoGrid(2,Dt_Abonos, CbxTarjeta.Text, CbxMoneda.Text, CbxBanco.Text, txtMonto2Bs.Text, txtTranferencia.Text, DtpFecha.Value.ToString(), CbxMetodosPago2.SelectedValue.ToString(), CbxBanco.SelectedValue.ToString(), "", TxtVuelto.Text, "", "", txtCVC.Text, txtVence.Text, "", "", CbxPunto_Venta.SelectedValue.ToString());
                                 
                                 BolivaresConveridos(Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos)), txtMontoBs);
                                 //-----------ConvertirBolivares---------------------------
@@ -1267,7 +1280,7 @@ namespace CapaVisual_Login
                                     {
                                         //if (_L_Facturacion.ValidoNumeroTarjeta_Credito(txtTranferencia.Text, CbxTarjeta.Text) == true)
                                         //{
-                                        _L_Facturacion.GuardarAbonoGrid(Dt_Abonos, CbxTarjeta.Text, CbxMoneda.Text, CbxBanco.Text, txtMonto2Bs.Text, txtTranferencia.Text, DtpFecha.Value.ToString(), CbxMetodosPago2.SelectedValue.ToString(), CbxBanco.SelectedValue.ToString(), "", TxtVuelto.Text, "", "", txtCVC.Text, txtVence.Text, "", "", CbxPunto_Venta.SelectedValue.ToString());
+                                        _L_Facturacion.GuardarAbonoGrid(2,Dt_Abonos, CbxTarjeta.Text, CbxMoneda.Text, CbxBanco.Text, txtMonto2Bs.Text, txtTranferencia.Text, DtpFecha.Value.ToString(), CbxMetodosPago2.SelectedValue.ToString(), CbxBanco.SelectedValue.ToString(), "", TxtVuelto.Text, "", "", txtCVC.Text, txtVence.Text, "", "", CbxPunto_Venta.SelectedValue.ToString());
                                         
                                         BolivaresConveridos(Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos)), txtMontoBs);
                                         //-----------ConvertirBolivares---------------------------
@@ -1343,7 +1356,7 @@ namespace CapaVisual_Login
         private void btnProcesar1_Click(object sender, EventArgs e)
 
         {
-
+            idAbonoPagoMovil = 0;
             Cursor.Current = new Cursor(Properties.Resources.relojArena__1_.Handle);
             //Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
 
@@ -1704,6 +1717,7 @@ namespace CapaVisual_Login
 
                 if (Pagos.Rows.Count > 0)
                 {
+                    CantAbonosPrevios = Pagos.Rows.Count;
                     DgvListadoOrdenes.DataSource = Pagos;
                     CrearObjetos();
                 }
@@ -2060,6 +2074,7 @@ namespace CapaVisual_Login
 
         private void btnCancelar1_Click(object sender, EventArgs e)
         {
+            idAbonoPagoMovil = 0; 
             VisualizarPanel("MostrarFormulario");
             LimpiarNotasCredito();
             TxtNumFact.Text = _D_DetalleOrden.ParametroSerieManual();
@@ -2208,7 +2223,7 @@ namespace CapaVisual_Login
                         {
                             if (Bolivares > 0)
                             {
-                                _L_Facturacion.GuardarAbonoGrid(Dt_Abonos, CbxMetodosPago.Text, "Bolivares", "", txtMontoBs.Text, "", DtpFecha.Value.ToString(), CbxMetodosPago.SelectedValue.ToString());
+                                _L_Facturacion.GuardarAbonoGrid(2,Dt_Abonos, CbxMetodosPago.Text, "Bolivares", "", txtMontoBs.Text, "", DtpFecha.Value.ToString(), CbxMetodosPago.SelectedValue.ToString());
                                 
                                 BolivaresConveridos(Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos)), txtMontoBs);
                                 //-----------ConvertirBolivares---------------------------
@@ -2233,7 +2248,7 @@ namespace CapaVisual_Login
                         {
                             if (Bolivares > 0)
                             {
-                                _L_Facturacion.GuardarAbonoGrid(Dt_Abonos, CbxMetodosPago.Text, "Bolivares", "", txtMontoBs.Text, "", DtpFecha.Value.ToString(), CbxMetodosPago.SelectedValue.ToString(), "000");
+                                _L_Facturacion.GuardarAbonoGrid(2,Dt_Abonos, CbxMetodosPago.Text, "Bolivares", "", txtMontoBs.Text, "", DtpFecha.Value.ToString(), CbxMetodosPago.SelectedValue.ToString(), "000");
                                 BolivaresConveridos(Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos)), txtMontoBs);
                                 //-----------ConvertirBolivares---------------------------
                                 //txtMontoBs.Text = _L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos);
@@ -2257,7 +2272,7 @@ namespace CapaVisual_Login
                         {
                             if (Bolivares > 0)
                             {
-                                _L_Facturacion.GuardarAbonoGrid(Dt_Abonos, CbxMetodosPago.Text, "Bolivares", "", txtMontoBs.Text, "", DtpFecha.Value.ToString(), CbxMetodosPago.SelectedValue.ToString(), "000");
+                                _L_Facturacion.GuardarAbonoGrid(2,Dt_Abonos, CbxMetodosPago.Text, "Bolivares", "", txtMontoBs.Text, "", DtpFecha.Value.ToString(), CbxMetodosPago.SelectedValue.ToString(), "000");
                                 BolivaresConveridos(Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos)), txtMontoBs);
                                 //-----------ConvertirBolivares---------------------------
                                 //txtMontoBs.Text = _L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos);
@@ -3358,7 +3373,7 @@ namespace CapaVisual_Login
                         {
                             if (Bolivares > 0)
                             {
-                                _L_Facturacion.GuardarAbonoGrid(Dt_Abonos, CbxMetodosPago.Text, "Bolivares", "", Bolivares.ToString(), "", DtpFecha.Value.ToString(), CbxMetodosPago.SelectedValue.ToString(), "000");
+                                _L_Facturacion.GuardarAbonoGrid(2,Dt_Abonos, CbxMetodosPago.Text, "Bolivares", "", Bolivares.ToString(), "", DtpFecha.Value.ToString(), CbxMetodosPago.SelectedValue.ToString(), "000");
                                 BolivaresConveridos(Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos)), txtMontoBs);
                                 //-----------ConvertirBolivares---------------------------
                                 //txtMontoBs.Text = _L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos);
@@ -3520,7 +3535,7 @@ namespace CapaVisual_Login
                 DgvAbonos.Columns["Tipo_Punto"].Width = 50;
                 //Bloquear Columna 
 
-
+                
                 DgvAbonos.Columns["TipoPago"].ReadOnly = true;
                 DgvAbonos.Columns["Moneda"].ReadOnly = true;
                 DgvAbonos.Columns["Ref"].ReadOnly = true;
@@ -3538,6 +3553,7 @@ namespace CapaVisual_Login
                 DgvAbonos.Columns["Abo_CVCNROCHEQUE"].ReadOnly = true;
                 DgvAbonos.Columns["Tipo_Punto"].ReadOnly = true;
 
+                DgvAbonos.Columns["IdAbono"].Visible = false;
                 DgvAbonos.Columns["TipoPago"].Visible = true;
                 DgvAbonos.Columns["Moneda"].Visible = true;
                 DgvAbonos.Columns["Ref"].Visible = false;
@@ -3814,6 +3830,7 @@ namespace CapaVisual_Login
 
         private void btnCancelar3_Click(object sender, EventArgs e)
         {
+            idAbonoPagoMovil = 0;
             LimpiarNotasCredito();
             VisualizarPanel("MostrarPanelPrincipal");
             LimpiarTxbox();
@@ -4914,7 +4931,7 @@ namespace CapaVisual_Login
 
         private void btnProcesar3_Click(object sender, EventArgs e)
         {
-
+            idAbonoPagoMovil = 0;
             double TotalNota = 0.00;
             double TotalOrden;
             TotalOrden = Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos));
@@ -4939,7 +4956,7 @@ namespace CapaVisual_Login
                 if (TotalNota >= (txtBsNotaCredito.Text == "" ? (Double)0.00 : Convert.ToDouble(txtBsNotaCredito.Text.Replace(".", ""))) && (txtBsNotaCredito.Text == "" ? (Double)0.00 : Convert.ToDouble(txtBsNotaCredito.Text.Replace(".", ""))) > 0)
                 {
 
-                    _L_Facturacion.GuardarAbonoGrid(Dt_Abonos, CbxMetodosPago.Text, "Bolivares", "", txtBsNotaCredito.Text, "", DtpFecha.Value.ToString(), CbxMetodosPago.SelectedValue.ToString(), "000", "", "", "", "", "", "", "", NotaNumNota);
+                    _L_Facturacion.GuardarAbonoGrid(2,Dt_Abonos, CbxMetodosPago.Text, "Bolivares", "", txtBsNotaCredito.Text, "", DtpFecha.Value.ToString(), CbxMetodosPago.SelectedValue.ToString(), "000", "", "", "", "", "", "", "", NotaNumNota);
                     BolivaresConveridos(Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos)), txtMontoBs);
                     //-----------ConvertirBolivares---------------------------
                     //txtMontoBs.Text = _L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos);
@@ -5150,6 +5167,7 @@ namespace CapaVisual_Login
 
                                 if (Pagos.Rows.Count > 0)
                                 {
+                                    CantAbonosPrevios = Pagos.Rows.Count;
                                     DgvListadoOrdenes.DataSource = Pagos;
                                     CrearObjetos();
                                 }
@@ -5722,15 +5740,15 @@ namespace CapaVisual_Login
                     rept = ImprimirFacturaFiscal(txtNumeroOrden.Text, txtCedula.Text, txtNombreCliente.Text, command);
                     
                     // Imprimo el Pago Movil 
-                    if (rept == "SATISFACTORIO")
-                    rept = ImprimirCambio(Correlativo, Dt_PagoMovil, TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision, command);
+                    //if (rept == "SATISFACTORIO")
+                    //rept = ImprimirCambio(Correlativo, Dt_PagoMovil, TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision, command);
 
                 }
                 else
                 {
                     // Imprimo el Pago Movil 
-                    if (rept == "SATISFACTORIO")
-                    rept = ImprimirCambio(Correlativo, Dt_PagoMovil, TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision, command);
+                    //if (rept == "SATISFACTORIO")
+                    //rept = ImprimirCambio(Correlativo, Dt_PagoMovil, TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision, command);
 
 
                 }
@@ -6276,6 +6294,7 @@ namespace CapaVisual_Login
         //Comentar
         private void btnCancelar4_Click(object sender, EventArgs e)
         {
+            idAbonoPagoMovil = 0;
             LimpiarNotasDevolucion();
             VisualizarPanel("MostrarPanelPrincipal");
             LimpiarTxbox();
@@ -6377,6 +6396,7 @@ namespace CapaVisual_Login
 
         private void btnProcesar4_Click(object sender, EventArgs e)
         {
+            idAbonoPagoMovil = 0;
             double TotalNota = 0.00;
             double TotalOrden;
             TotalOrden = Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos));
@@ -6401,7 +6421,7 @@ namespace CapaVisual_Login
                 if (TotalNota >= (txtBsNotaDevolucion.Text == "" ? (Double)0.00 : Convert.ToDouble(txtBsNotaDevolucion.Text.Replace(".",""))) && (txtBsNotaDevolucion.Text.Replace(".", "") == "" ? (Double)0.00 : Convert.ToDouble(txtBsNotaDevolucion.Text.Replace(".", ""))) > 0)
                 {
 
-                    _L_Facturacion.GuardarAbonoGrid(Dt_Abonos, CbxMetodosPago.Text, "Bolivares", "", txtBsNotaDevolucion.Text, "", DtpFecha.Value.ToString(), CbxMetodosPago.SelectedValue.ToString(), "000", "", "", "", "", "", "", "", NotaNumNotaDevolucion);
+                    _L_Facturacion.GuardarAbonoGrid(2,Dt_Abonos, CbxMetodosPago.Text, "Bolivares", "", txtBsNotaDevolucion.Text, "", DtpFecha.Value.ToString(), CbxMetodosPago.SelectedValue.ToString(), "000", "", "", "", "", "", "", "", NotaNumNotaDevolucion);
                     BolivaresConveridos(Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos)), txtMontoBs);
                     //-----------ConvertirBolivares---------------------------
                     //txtMontoBs.Text = _L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos);
@@ -7414,11 +7434,16 @@ namespace CapaVisual_Login
                             CbxNacionalidadPagoMovil.SelectedIndex = i;
                         else
                             break;
-                    else
-                    if (txtCedula.Text.Substring(0, txtCedula.Text.Length - 9) != CbxNacionalidadPagoMovil.Text)
+                    else if (txtCedula.Text.Length == 10)
+                        if (txtCedula.Text.Substring(0, txtCedula.Text.Length - 9) != CbxNacionalidadPagoMovil.Text)
                         CbxNacionalidadPagoMovil.SelectedIndex = i;
                     else
-                        break;
+                            break;
+                    else
+                   if (txtCedula.Text.Substring(0, txtCedula.Text.Length - 10) != CbxNacionalidadPagoMovil.Text)
+                            CbxNacionalidadPagoMovil.SelectedIndex = i;
+                        else
+                            break;
 
                 }
 
@@ -7433,13 +7458,16 @@ namespace CapaVisual_Login
                         break;
                     }
 
-                    if (d != CbxCelularPagoMovil.Text)           
-                        CbxCelularPagoMovil.SelectedIndex = i;                 
-                    else 
-                    break;
-                    
 
-                
+                    if (d != CbxCelularPagoMovil.Text)
+                    {
+                        CbxCelularPagoMovil.SelectedIndex = i;
+                    }
+                    else
+                    { 
+                        break;
+                    }
+
                 }
 
    
@@ -7649,102 +7677,102 @@ namespace CapaVisual_Login
             }
         }
 
-        private string ImprimirCambio(string Correlativo, DataTable PagoMovilRealizados, string CodigoSucursal, string NumeroOrden, string Revision, SqlCommand command)
+        public string ImprimirCambio(string Correlativo, DataTable PagoMovilRealizados, string CodigoSucursal, string NumeroOrden, string Revision, string NumeroFactura, SqlCommand command)
         {
             uint resp = 0;
             try
             {
-            //'''''' * ********DATOS DEL VUELTO PAGO MOVIL ************
-            string Respuesta = "SATISFACTORIO";
-            Double MontoRecibidoRef1 = 0;
-            Double MontoVueltoRef1 = 0;
-            Double MontoVueltoBs1 = 0;
-            string CteNacionalidad1 = "";
-            string Cedula1 = "";
-            string CodBancoReceptor1 = "";
-            string Telefono1 = "";
-            string Nombre_Sucursal = _D_DetalleOrden.Nombre_Surculsal_PagoMovil(CodigoSucursal, command);
+                //'''''' * ********DATOS DEL VUELTO PAGO MOVIL ************
+                string Respuesta = "SATISFACTORIO";
+                Double MontoRecibidoRef1 = 0;
+                Double MontoVueltoRef1 = 0;
+                Double MontoVueltoBs1 = 0;
+                string CteNacionalidad1 = "";
+                string Cedula1 = "";
+                string CodBancoReceptor1 = "";
+                string Telefono1 = "";
+                string Nombre_Sucursal = _D_DetalleOrden.Nombre_Surculsal_PagoMovil(CodigoSucursal, command);
                 if (PagoMovilRealizados != null)
-             {
-                if (PagoMovilRealizados.Rows.Count > 0)
                 {
-                     foreach (DataRow Row in PagoMovilRealizados.Rows)
-                     {
+                    if (PagoMovilRealizados.Rows.Count > 0)
+                    {
+                        foreach (DataRow Row in PagoMovilRealizados.Rows)
+                        {
 
 
-                      MontoRecibidoRef1 = Convert.ToDouble(Row["MontoRecibidoRef"].ToString());
-                      MontoVueltoRef1 = Convert.ToDouble(Row["MontoVueltoRef"].ToString().Replace(".", ","));
-                      MontoVueltoBs1 = Convert.ToDouble(Row["MontoVueltoBs"].ToString().Replace(".", ","));
-                      CteNacionalidad1 = Row["Nacionalidad"].ToString();
-                      Cedula1 = Row["Cedula"].ToString();
-                      CodBancoReceptor1 = Row["Banco"].ToString();
-                      Telefono1 = Row["PrefijoCelular"].ToString() + "-" + Row["Celular"].ToString();
-                      string NombreBanco_PagoMovil = _D_DetalleOrden.NombreBanco_PagoMovil(CodBancoReceptor1, command);
+                            MontoRecibidoRef1 = Convert.ToDouble(Row["MontoRecibidoRef"].ToString());
+                            MontoVueltoRef1 = Convert.ToDouble(Row["MontoVueltoRef"].ToString().Replace(".", ","));
+                            MontoVueltoBs1 = Convert.ToDouble(Row["MontoVueltoBs"].ToString().Replace(".", ","));
+                            CteNacionalidad1 = Row["Nacionalidad"].ToString();
+                            Cedula1 = Row["Cedula"].ToString();
+                            CodBancoReceptor1 = Row["Banco"].ToString();
+                            Telefono1 = Row["PrefijoCelular"].ToString() + "-" + Row["Celular"].ToString();
+                            string NombreBanco_PagoMovil = _D_DetalleOrden.NombreBanco_PagoMovil(CodBancoReceptor1, command);
 
                             switch (Correlativo.Length)
                             {
-                            case 7:
-                                {
-                                    Correlativo = Correlativo;
-                                    break;
-                                }
+                                case 7:
+                                    {
+                                        Correlativo = Correlativo;
+                                        break;
+                                    }
 
-                            case 6:
-                                {
-                                    Correlativo = "0" + Correlativo;
-                                    break;
-                                }
+                                case 6:
+                                    {
+                                        Correlativo = "0" + Correlativo;
+                                        break;
+                                    }
 
-                            case 5:
-                                {
-                                    Correlativo = "00" + Correlativo;
-                                    break;
-                                }
+                                case 5:
+                                    {
+                                        Correlativo = "00" + Correlativo;
+                                        break;
+                                    }
 
-                            case 4:
-                                {
-                                    Correlativo = "000" + Correlativo;
-                                    break;
-                                }
+                                case 4:
+                                    {
+                                        Correlativo = "000" + Correlativo;
+                                        break;
+                                    }
 
-                            case 3:
-                                {
-                                    Correlativo = "0000" + Correlativo;
-                                    break;
-                                }
+                                case 3:
+                                    {
+                                        Correlativo = "0000" + Correlativo;
+                                        break;
+                                    }
 
-                            case 2:
-                                {
-                                    Correlativo = "00000" + Correlativo;
-                                    break;
-                                }
+                                case 2:
+                                    {
+                                        Correlativo = "00000" + Correlativo;
+                                        break;
+                                    }
 
-                            case 1:
-                                {
-                                    Correlativo = "000000" + Correlativo;
-                                    break;
-                                }
+                                case 1:
+                                    {
+                                        Correlativo = "000000" + Correlativo;
+                                        break;
+                                    }
                             }
 
                             //Factura Automatica
                             if (_L_Facturacion.ValidaFactManual(command) == false)
                             {
                                 objVmax.AbrirPuerto(Convert.ToString(glbPuertoCOM));
-                                 resp = objVmax.AbrirDNF();
-                                  resp = objVmax.TextoNoFiscal("----------------------------------------");
-                                  resp = objVmax.TextoNoFiscal(" ");
-                                  resp = objVmax.TextoNoFiscal("Os: " + TB_CAORDSER.NumOrdserv);
-                                  resp = objVmax.TextoNoFiscal("Factura:  " + Num_Factura);
-                                    resp = objVmax.TextoNoFiscal("Correlativo: " + Correlativo);
-                                    resp = objVmax.TextoNoFiscal("Nombre de la sucursal: " + Nombre_Sucursal);
-                                  resp = objVmax.TextoNoFiscal("Cliente: " + CteNacionalidad1 + "-" + Cedula1);
-                                 resp = objVmax.TextoNoFiscal("Telefono: " + Telefono1);
-                                  resp = objVmax.TextoNoFiscal("Banco: " + NombreBanco_PagoMovil);
-                                   resp = objVmax.TextoNoFiscal("Monto:    " + MontoVueltoBs1);
-                                   resp = objVmax.TextoNoFiscal(" ");
-                                    resp = objVmax.TextoNoFiscal("----------------------------------------");
-                                  resp = objVmax.CerrarDNF();
-                                  resp = objVmax.CerrarPuerto();
+                                resp = objVmax.AbrirDNF();
+                                resp = objVmax.TextoNoFiscal("----------------------------------------");
+                                resp = objVmax.TextoNoFiscal(" ");
+                                resp = objVmax.TextoNoFiscal("Os: " + NumeroOrden);
+                                resp = objVmax.TextoNoFiscal("Factura:  " + NumeroFactura);
+                                resp = objVmax.TextoNoFiscal("Correlativo: " + Correlativo);
+                                resp = objVmax.TextoNoFiscal("Nombre de la sucursal: " + Nombre_Sucursal);
+                                resp = objVmax.TextoNoFiscal("Cliente: " + CteNacionalidad1 + "-" + Cedula1);
+                                resp = objVmax.TextoNoFiscal("Telefono: " + Telefono1);
+                                resp = objVmax.TextoNoFiscal("Banco: " + NombreBanco_PagoMovil);
+                                resp = objVmax.TextoNoFiscal("Monto:    " + MontoVueltoBs1);
+                                resp = objVmax.TextoNoFiscal(" ");
+                                resp = objVmax.TextoNoFiscal("----------------------------------------");
+                                resp = objVmax.CerrarDNF();
+                                resp = objVmax.CerrarPuerto();
                             }
 
                             //Factura Manual
@@ -7754,9 +7782,9 @@ namespace CapaVisual_Login
 
                                 if (_D_DetalleOrden.ParametroImpresion() == "1") // Si el parametro de impresion es 1 entonces imprime el reporte 
                                 {
-                                    _FrmMostrarRep.imprimir(TB_CAORDSER.NumOrdserv,Num_Factura, Correlativo, Nombre_Sucursal, CteNacionalidad1 + "-" + Cedula1, Telefono1, NombreBanco_PagoMovil, Convert.ToString(MontoVueltoBs1));
+                                    _FrmMostrarRep.imprimir(TB_CAORDSER.NumOrdserv, Num_Factura, Correlativo, Nombre_Sucursal, CteNacionalidad1 + "-" + Cedula1, Telefono1, NombreBanco_PagoMovil, Convert.ToString(MontoVueltoBs1));
 
-                                                                                                                                                                                                                                                                                                                                                                             }
+                                }
                                 else
                                 {
                                     _FrmMostrarRep.Mostrar(TB_CAORDSER.NumOrdserv, Num_Factura, Correlativo, Nombre_Sucursal, CteNacionalidad1 + "-" + Cedula1, Telefono1, NombreBanco_PagoMovil, Convert.ToString(MontoVueltoBs1));
@@ -7766,14 +7794,14 @@ namespace CapaVisual_Login
 
                             }
 
-                        MontoRecibidoRef1 = 0;
-                        MontoVueltoRef1 = 0;
-                        MontoVueltoBs1 = 0;
-                        CteNacionalidad1 = "";
-                        Cedula1 = "";
-                        CodBancoReceptor1 = "";
-                        Telefono1 = "";
-                        Correlativo = Convert.ToString( Convert.ToInt64(Correlativo) + 1);
+                            MontoRecibidoRef1 = 0;
+                            MontoVueltoRef1 = 0;
+                            MontoVueltoBs1 = 0;
+                            CteNacionalidad1 = "";
+                            Cedula1 = "";
+                            CodBancoReceptor1 = "";
+                            Telefono1 = "";
+                            Correlativo = Convert.ToString(Convert.ToInt64(Correlativo) + 1);
 
                             if (resp != 0)
                             {
@@ -7783,16 +7811,16 @@ namespace CapaVisual_Login
                                 ImprimirFacturaFiscall = false;
                                 return "Error";
                             }
-                    
-                            
-                      
 
 
 
-                     }
+
+
+
+                        }
                     }
-            }
-             return Respuesta;
+                }
+                return Respuesta;
             }
 
             catch (Exception ex)

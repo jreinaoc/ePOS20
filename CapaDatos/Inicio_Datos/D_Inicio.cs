@@ -686,6 +686,17 @@ namespace CapaDatos.Inicio_Datos
             return (dt);
         }
 
+         public string Encriptar(string plainText)
+        {
+            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
+            return System.Convert.ToBase64String(plainTextBytes);
+        }
+
+        public string DesEncriptar(string _cadenaADesencriptar)
+        {
+            var base64EncodedBytes = System.Convert.FromBase64String(_cadenaADesencriptar);
+            return System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
+        }
 
 
     }

@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using CapaLogica.Inicio_Logica;
 using CapaLogica.Colores_Logica;
 using CapaDatos.Inicio_Datos;
+using EnvioPagoMovil;
 
 namespace CapaVisual_Login
 {
@@ -66,6 +67,7 @@ namespace CapaVisual_Login
                 btnconfiguracion.BackColor = col2;
                 BtnListadoOrdenes.BackColor = col2;
                 btnClienteEspera.BackColor = col2;
+                btnPagoMovil.BackColor = col2;
 
 
             }
@@ -75,6 +77,7 @@ namespace CapaVisual_Login
                 btnconfiguracion.BackColor = Color.White;
                 BtnListadoOrdenes.BackColor = Color.White;
                 btnClienteEspera.BackColor = Color.White;
+                btnPagoMovil.BackColor = Color.White;
             }
 
 
@@ -120,6 +123,7 @@ namespace CapaVisual_Login
                 BtnInicio.BackColor = col2;
                 btnconfiguracion.BackColor = col2;
                 btnClienteEspera.BackColor = col2;
+                btnPagoMovil.BackColor = col2;
 
 
             }
@@ -129,6 +133,7 @@ namespace CapaVisual_Login
                 BtnInicio.BackColor = Color.White;
                 btnconfiguracion.BackColor = Color.White;
                 btnClienteEspera.BackColor = Color.White;
+                btnPagoMovil.BackColor = Color.White;
             }
 
 
@@ -153,6 +158,15 @@ namespace CapaVisual_Login
             LblFechday.Text = DiaActivo;
             Btnosc.Visible = true;
             BtnClaro.Visible = false;
+
+            if (Envio.validarPermisos() == true)
+            {
+                btnPagoMovil.Visible = true;
+            }
+            else
+            {
+                btnPagoMovil.Visible = false;
+            }
 
         }
 
@@ -300,6 +314,7 @@ namespace CapaVisual_Login
                 BtnInicio.BackColor = col2;
                 BtnListadoOrdenes.BackColor = col2;
                 btnClienteEspera.BackColor = col2;
+                btnPagoMovil.BackColor = col2;
 
 
             }
@@ -309,6 +324,7 @@ namespace CapaVisual_Login
                 BtnInicio.BackColor = Color.White;
                 BtnListadoOrdenes.BackColor = Color.White;
                 btnClienteEspera.BackColor = Color.White;
+                btnPagoMovil.BackColor = Color.White;
             }
 
 
@@ -412,6 +428,7 @@ namespace CapaVisual_Login
                 btnconfiguracion.BackColor = col2;
                 BtnInicio.BackColor = col2;
                 BtnListadoOrdenes.BackColor = col2;
+                btnPagoMovil.BackColor = col2;
 
 
             }
@@ -421,6 +438,7 @@ namespace CapaVisual_Login
                 btnconfiguracion.BackColor = Color.White;
                 BtnInicio.BackColor = Color.White;
                 BtnListadoOrdenes.BackColor = Color.White;
+                btnPagoMovil.BackColor = Color.White;
             }
 
             // _FrmClienteEspera.ShowDialog();
@@ -476,6 +494,27 @@ namespace CapaVisual_Login
 
         private void btnPagoMovil_Click(object sender, EventArgs e)
         {
+            System.Drawing.Color col2 = System.Drawing.ColorTranslator.FromHtml("#257b78");
+
+            if (this.BackColor == col2)
+            {
+                btnPagoMovil.BackColor = Color.FromArgb(4, 185, 166);
+                BtnListadoOrdenes.BackColor = col2;
+                BtnInicio.BackColor = col2;
+                btnconfiguracion.BackColor = col2;
+                btnClienteEspera.BackColor = col2;
+                
+
+
+            }
+            else
+            {
+                btnPagoMovil.BackColor = Color.FromArgb(4, 185, 166);
+                BtnInicio.BackColor = Color.White;
+                btnconfiguracion.BackColor = Color.White;
+                btnClienteEspera.BackColor = Color.White;
+                BtnListadoOrdenes.BackColor = Color.White;
+            }
             PnlListadoOrdenes.Controls.Clear();
             addformulario(_FrmPagoMovil);
             Focus();

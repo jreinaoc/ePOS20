@@ -3,6 +3,7 @@ C:\Programacion\CaroniPOS1\CapaDatos\bin\Debug\CapaDatos.pdb
 C:\Programacion\CaroniPOS1\CapaDatos\bin\Debug\CapaEntidades.dll
 C:\Programacion\CaroniPOS1\CapaDatos\bin\Debug\Dapper.dll
 C:\Programacion\CaroniPOS1\CapaDatos\bin\Debug\log4net.dll
+C:\Programacion\CaroniPOS1\CapaDatos\bin\Debug\Newtonsoft.Json.dll
 C:\Programacion\CaroniPOS1\CapaDatos\bin\Debug\System.Configuration.ConfigurationManager.dll
 C:\Programacion\CaroniPOS1\CapaDatos\bin\Debug\System.Security.AccessControl.dll
 C:\Programacion\CaroniPOS1\CapaDatos\bin\Debug\System.Security.Permissions.dll
@@ -10,6 +11,7 @@ C:\Programacion\CaroniPOS1\CapaDatos\bin\Debug\System.Security.Principal.Windows
 C:\Programacion\CaroniPOS1\CapaDatos\bin\Debug\CapaEntidades.pdb
 C:\Programacion\CaroniPOS1\CapaDatos\bin\Debug\Dapper.xml
 C:\Programacion\CaroniPOS1\CapaDatos\bin\Debug\log4net.xml
+C:\Programacion\CaroniPOS1\CapaDatos\bin\Debug\Newtonsoft.Json.xml
 C:\Programacion\CaroniPOS1\CapaDatos\bin\Debug\System.Configuration.ConfigurationManager.xml
 C:\Programacion\CaroniPOS1\CapaDatos\bin\Debug\System.Security.AccessControl.xml
 C:\Programacion\CaroniPOS1\CapaDatos\bin\Debug\System.Security.Permissions.xml
