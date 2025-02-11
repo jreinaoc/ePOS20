@@ -112,6 +112,7 @@ namespace CapaVisual_Login
                 Btacept.Visible = false;
                 BtnNo.Visible = true;
                 BtnSi.Visible = true;
+                BtnSi.Enabled = true;
             }
 
         }

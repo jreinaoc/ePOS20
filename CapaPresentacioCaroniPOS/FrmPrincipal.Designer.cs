@@ -52,6 +52,7 @@ namespace CapaVisual_Login
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.BtnMinimizar = new System.Windows.Forms.Button();
+            this.pictBoxPagoMovil = new System.Windows.Forms.PictureBox();
             this.GbxMenuPrincipal.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicBoxConfigClaro)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicBoxClientClaro)).BeginInit();
@@ -61,6 +62,7 @@ namespace CapaVisual_Login
             ((System.ComponentModel.ISupportInitialize)(this.PicBoxListOsc)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicBoxClientOsc)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicBoxConfigOsc)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictBoxPagoMovil)).BeginInit();
             this.SuspendLayout();
             // 
             // PnlListadoOrdenes
@@ -75,6 +77,7 @@ namespace CapaVisual_Login
             // GbxMenuPrincipal
             // 
             this.GbxMenuPrincipal.BackColor = System.Drawing.Color.White;
+            this.GbxMenuPrincipal.Controls.Add(this.pictBoxPagoMovil);
             this.GbxMenuPrincipal.Controls.Add(this.btnPagoMovil);
             this.GbxMenuPrincipal.Controls.Add(this.BtnClaro);
             this.GbxMenuPrincipal.Controls.Add(this.Btnosc);
@@ -372,6 +375,17 @@ namespace CapaVisual_Login
             this.BtnMinimizar.UseVisualStyleBackColor = false;
             this.BtnMinimizar.Click += new System.EventHandler(this.BtnMinimizar_Click);
             // 
+            // pictBoxPagoMovil
+            // 
+            this.pictBoxPagoMovil.Image = ((System.Drawing.Image)(resources.GetObject("pictBoxPagoMovil.Image")));
+            this.pictBoxPagoMovil.Location = new System.Drawing.Point(9, 150);
+            this.pictBoxPagoMovil.Name = "pictBoxPagoMovil";
+            this.pictBoxPagoMovil.Size = new System.Drawing.Size(28, 31);
+            this.pictBoxPagoMovil.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictBoxPagoMovil.TabIndex = 22;
+            this.pictBoxPagoMovil.TabStop = false;
+            this.pictBoxPagoMovil.Visible = false;
+            // 
             // FrmPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -400,6 +414,7 @@ namespace CapaVisual_Login
             ((System.ComponentModel.ISupportInitialize)(this.PicBoxListOsc)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicBoxClientOsc)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicBoxConfigOsc)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictBoxPagoMovil)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -429,5 +444,6 @@ namespace CapaVisual_Login
         private System.Windows.Forms.PictureBox PicBoxListOsc;
         private System.Windows.Forms.PictureBox PicBoxInicOsc;
         internal System.Windows.Forms.Button btnPagoMovil;
+        private System.Windows.Forms.PictureBox pictBoxPagoMovil;
     }
 }

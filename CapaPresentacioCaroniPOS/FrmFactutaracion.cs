@@ -108,7 +108,7 @@ namespace CapaVisual_Login
         public int idAbonoPagoMovil = 0;
         private void FrmDetalleOrden_Load(object sender, EventArgs e)
         {
-            idAbonoPagoMovil = 0;
+            LimpiaVariablesIdAbonoPagoMovil();
             tabControl.SelectTab(0);
 
             LimpiarGrid();
@@ -177,11 +177,12 @@ namespace CapaVisual_Login
         private void btnIngresar_Click(object sender, EventArgs e)
         {
 
-            idAbonoPagoMovil = 0;
+            LimpiaVariablesIdAbonoPagoMovil();
             //Validacion del dia activo 
             string DiaActual = (DateTime.Now.ToString("dd/MM/yyyy"));
             string DiaActivo = _D_Inicio.DiaActivo().ToShortDateString();
 
+            
             if (DiaActivo != DiaActual)
             {
                 _FrmMensajes.co = 2;
@@ -706,6 +707,8 @@ namespace CapaVisual_Login
 
             if (e.KeyChar >= 44 && e.KeyChar <= 57)
                 e.Handled = false;
+            ///46 = .
+            ///46 = ,
             else if (e.KeyChar == 46)
                 e.Handled = (IsDec) ? true : false;
             else
@@ -741,7 +744,7 @@ namespace CapaVisual_Login
 
         private void btnCancelar2_Click(object sender, EventArgs e)
         {
-            idAbonoPagoMovil = 0; 
+            LimpiaVariablesIdAbonoPagoMovil();
             VisualizarPanel("MostrarPanelPrincipal");
             LimpiarTxbox();
         }
@@ -841,7 +844,7 @@ namespace CapaVisual_Login
         {
             try
             {
-                idAbonoPagoMovil = 0;
+                LimpiaVariablesIdAbonoPagoMovil();
                 Double Bolivares = 0.00;
                 Double TotalAbono = 0.00;
                 Bolivares = (txtMonto2Bs.Text == "" ? (Double)0.00 : Convert.ToDouble(txtMonto2Bs.Text.Replace(".", "")));
@@ -1086,120 +1089,157 @@ namespace CapaVisual_Login
                         if (Bolivares > (Math.Round((TB_CAORDSER.OrSer_Saldo + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos)) + Convert.ToDouble(txtIGTF.Text.Replace(".", ","))) - TotalAbono, 2)))
                         {
                             _FrmMensajes.co = 2;
-                            _FrmMensajes.avisomensaje("El Monto debe ser igual o menor al saldo de la orden, Verifique");
+                            _FrmMensajes.avisomensaje("El Monto debe ser igual o menor al saldo de la orden.");
                             _FrmMensajes.ShowDialog();
                             return;
                         }
 
-                        DataTable Pagos = _L_Facturacion.MostarPagosGrid(TB_CAORDSER.Cod_Sucursal, txtNumeroOrden.Text, TB_CAORDSER.Revision);
-
-                        if (Pagos.Rows.Count > 0)
-                        {
-                            CantAbonosPrevios = Pagos.Rows.Count;
-                          
-                        }
-                        idAbonoPagoMovil = CantAbonosPrevios + Dt_Abonos.Rows.Count + 1;
-                        // Guardo el Abono y retotno a la pantalla principal 
-                        _L_Facturacion.GuardarAbonoGrid(idAbonoPagoMovil, Dt_Abonos, CbxMetodosPago2.Text, CbxMoneda.Text, CbxBanco.Text, txtMonto2Bs.Text, "0000", DtpFecha.Value.ToString(), "021", CbxBanco.SelectedValue.ToString(), "", TxtVuelto.Text, txtRef.Text, txtIGTF.Text);
-
-                        //'Valido que recibido ref no este vacio para guardar el pago si no continuo mi proceso normal 
                         if (TxtRecibidoREF.Text != "" && TxtRecibidoREF.Text != "0.00")
                         {
+                            _FrmMensajes.co = 3;
+                            _FrmMensajes.avisomensaje("¿Está seguro que estos son los datos para realizar el pago móvil de la orden " + txtNumeroOrden.Text + "?");
+                            _FrmMensajes.ShowDialog();
 
-                            if (Convert.ToDouble(TxtRecibidoREF.Text) <= Convert.ToDouble(txtRef.Text))
+                            //Preguta
+                            if (_FrmMensajes.DialogResult == DialogResult.OK)
                             {
-                                _FrmMensajes.co = 2;
-                                _FrmMensajes.avisomensaje("El Monto recibido debe ser mayor a: " + txtRef.Text + " .Verifique");
-                                _FrmMensajes.ShowDialog();
-                                TxtRecibidoREF.Text = "";
-                                TxtRecibidoREF.Focus();
-                                return;
+                                DataTable Pagos = _L_Facturacion.MostarPagosGrid(TB_CAORDSER.Cod_Sucursal, txtNumeroOrden.Text, TB_CAORDSER.Revision);
 
-                            }
-
-                            if (TxtCedulaPagoMovil.Text != "" && TxtCedulaPagoMovil.TextLength > 6 && (TxtCedulaPagoMovil.Text.Replace(" ", "")).Length > 6 && TxtMontoPagoMovil.Text != "0.00"
-                            && TxtCedularPagoMovil.Text != "" && TxtCedularPagoMovil.TextLength > 6 && (TxtCedularPagoMovil.Text.Replace(" ", "")).Length > 6 && TxtMontoPagoMovil.Text != "" && CbxCelularPagoMovil.Text != "")
-                            {
-
-                                if (CbxMoneda.SelectedIndex.ToString() == "1")
+                                if (Pagos.Rows.Count > 0)
                                 {
-                                    if (Convert.ToDouble(TxtMontoPagoMovil.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtMontoPagoMovil.Text.Replace(".", ","))) >= Math.Round(19 * Convert.ToDouble(TB_TASA_Euro.Tasa), 2) |
-                                        Convert.ToDouble(TxtMontoPagoMovil.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtMontoPagoMovil.Text.Replace(".", ","))) >= Math.Round(Convert.ToDouble(_D_DetalleOrden.LimitePagoMovil(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv) == "" ? (Double)0.00 : Convert.ToDouble(_D_DetalleOrden.LimitePagoMovil(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv))) * Convert.ToDouble(TB_TASA_Euro.Tasa), 2)
-                                        | Convert.ToDouble(TxtMontoPagoMovil.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtMontoPagoMovil.Text.Replace(".", ","))) >= Math.Round(_L_Facturacion.RecorrerPagoMovil_dt(Dt_PagoMovil) * Convert.ToDouble(TB_TASA_Dolar.Tasa), 2))
+                                    CantAbonosPrevios = Pagos.Rows.Count;
+
+                                }
+                                idAbonoPagoMovil = CantAbonosPrevios + Dt_Abonos.Rows.Count + 1;
+                                // Guardo el Abono y retotno a la pantalla principal 
+                                _L_Facturacion.GuardarAbonoGrid(idAbonoPagoMovil, Dt_Abonos, CbxMetodosPago2.Text, CbxMoneda.Text, CbxBanco.Text, txtMonto2Bs.Text, "0000", DtpFecha.Value.ToString(), "021", CbxBanco.SelectedValue.ToString(), "", TxtVuelto.Text, txtRef.Text, txtIGTF.Text);
+
+                                //'Valido que recibido ref no este vacio para guardar el pago si no continuo mi proceso normal 
+                                if (TxtRecibidoREF.Text != "" && TxtRecibidoREF.Text != "0.00")
+                                {
+
+                                    if (Convert.ToDouble(TxtRecibidoREF.Text) <= Convert.ToDouble(txtRef.Text))
                                     {
                                         _FrmMensajes.co = 2;
-                                        _FrmMensajes.avisomensaje("El limite diario de pago móvil es de 19$ .Verifique");
+                                        _FrmMensajes.avisomensaje("El Monto recibido debe ser mayor a: " + txtRef.Text + ".");
                                         _FrmMensajes.ShowDialog();
+                                        TxtRecibidoREF.Text = "";
                                         TxtRecibidoREF.Focus();
                                         return;
 
                                     }
-                                }
-                                else
-                                {
-                                    if (Convert.ToDouble(TxtMontoPagoMovil.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtMontoPagoMovil.Text.Replace(".", ","))) >= Math.Round(19 * Convert.ToDouble(TB_TASA_Dolar.Tasa), 2) |
-                                        Convert.ToDouble(TxtMontoPagoMovil.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtMontoPagoMovil.Text.Replace(".", ","))) >= Math.Round(Convert.ToDouble(_D_DetalleOrden.LimitePagoMovil(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv) == "" ? (Double)0.00 : Convert.ToDouble(_D_DetalleOrden.LimitePagoMovil(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv))) * Convert.ToDouble(TB_TASA_Dolar.Tasa), 2)
-                                        | Convert.ToDouble(TxtMontoPagoMovil.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtMontoPagoMovil.Text.Replace(".", ","))) >= Math.Round(_L_Facturacion.RecorrerPagoMovil_dt(Dt_PagoMovil) * Convert.ToDouble(TB_TASA_Dolar.Tasa), 2))
+
+                                    if (TxtCedulaPagoMovil.Text != "" && TxtCedulaPagoMovil.TextLength > 6 && (TxtCedulaPagoMovil.Text.Replace(" ", "")).Length > 6 && TxtMontoPagoMovil.Text != "0.00"
+                                    && TxtCedularPagoMovil.Text != "" && TxtCedularPagoMovil.TextLength > 6 && (TxtCedularPagoMovil.Text.Replace(" ", "")).Length > 6 && TxtMontoPagoMovil.Text != "" && CbxCelularPagoMovil.Text != "")
                                     {
-                                        _FrmMensajes.co = 2;
-                                        _FrmMensajes.avisomensaje("El limite diario de pago móvil es de 19$ .Verifique");
-                                        _FrmMensajes.ShowDialog();
-                                        TxtRecibidoREF.Focus();
-                                        return;
 
-                                    }
-                                }
-
-                                if ((CbxNacionalidadPagoMovil.Text + "-"+ TxtCedulaPagoMovil.Text).Replace(" ","") != (txtCedula.Text).Replace(" ", "") | (TxtTelefono.Text).Replace(" ", "") != (CbxCelularPagoMovil.Text + "-"+ TxtCedularPagoMovil.Text).Replace(" ", ""))
-                                {
-                                    _FrmClaveAutorizada.ShowDialog();
-
-                                    if (_FrmClaveAutorizada.DialogResult == DialogResult.OK)
-                                    {
-                                        if (_FrmClaveAutorizada.ClaveCorrecta == true)
+                                        if (CbxMoneda.SelectedIndex.ToString() == "1")
                                         {
-                                            string Autorizaa = _FrmClaveAutorizada.RetornoNombreUsuario();
-                                            string DescripAuditorAbono = "OS: " + TB_CAORDSER.NumOrdserv + ", Autorizado por: " + Autorizaa;
-                                            _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "086", TB_USUARIO.COD_EMPLEADO, DescripAuditorAbono);
+                                            if (Convert.ToDouble(TxtMontoPagoMovil.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtMontoPagoMovil.Text.Replace(".", ","))) >= Math.Round(19 * Convert.ToDouble(TB_TASA_Euro.Tasa), 2) |
+                                                Convert.ToDouble(TxtMontoPagoMovil.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtMontoPagoMovil.Text.Replace(".", ","))) >= Math.Round(Convert.ToDouble(_D_DetalleOrden.LimitePagoMovil(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv) == "" ? (Double)0.00 : Convert.ToDouble(_D_DetalleOrden.LimitePagoMovil(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv))) * Convert.ToDouble(TB_TASA_Euro.Tasa), 2)
+                                                | Convert.ToDouble(TxtMontoPagoMovil.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtMontoPagoMovil.Text.Replace(".", ","))) >= Math.Round(_L_Facturacion.RecorrerPagoMovil_dt(Dt_PagoMovil) * Convert.ToDouble(TB_TASA_Dolar.Tasa), 2))
+                                            {
+                                                _FrmMensajes.co = 2;
+                                                _FrmMensajes.avisomensaje("El limite diario de pago móvil es de 19$ .");
+                                                _FrmMensajes.ShowDialog();
+                                                TxtRecibidoREF.Focus();
+                                                return;
+
+                                            }
                                         }
                                         else
                                         {
-                                            return;
+                                            if (Convert.ToDouble(TxtMontoPagoMovil.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtMontoPagoMovil.Text.Replace(".", ","))) >= Math.Round(19 * Convert.ToDouble(TB_TASA_Dolar.Tasa), 2) |
+                                                Convert.ToDouble(TxtMontoPagoMovil.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtMontoPagoMovil.Text.Replace(".", ","))) >= Math.Round(Convert.ToDouble(_D_DetalleOrden.LimitePagoMovil(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv) == "" ? (Double)0.00 : Convert.ToDouble(_D_DetalleOrden.LimitePagoMovil(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv))) * Convert.ToDouble(TB_TASA_Dolar.Tasa), 2)
+                                                | Convert.ToDouble(TxtMontoPagoMovil.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtMontoPagoMovil.Text.Replace(".", ","))) >= Math.Round(_L_Facturacion.RecorrerPagoMovil_dt(Dt_PagoMovil) * Convert.ToDouble(TB_TASA_Dolar.Tasa), 2))
+                                            {
+                                                _FrmMensajes.co = 2;
+                                                _FrmMensajes.avisomensaje("El limite diario de pago móvil es de 19$ .");
+                                                _FrmMensajes.ShowDialog();
+                                                TxtRecibidoREF.Focus();
+                                                return;
+
+                                            }
                                         }
+
+                                        if ((CbxNacionalidadPagoMovil.Text + "-" + TxtCedulaPagoMovil.Text).Replace(" ", "") != (txtCedula.Text).Replace(" ", "") | (TxtTelefono.Text).Replace(" ", "") != (CbxCelularPagoMovil.Text + "-" + TxtCedularPagoMovil.Text).Replace(" ", ""))
+                                        {
+                                            _FrmClaveAutorizada.ShowDialog();
+
+                                            if (_FrmClaveAutorizada.DialogResult == DialogResult.OK)
+                                            {
+                                                if (_FrmClaveAutorizada.ClaveCorrecta == true)
+                                                {
+                                                    string Autorizaa = _FrmClaveAutorizada.RetornoNombreUsuario();
+                                                    string DescripAuditorAbono = "OS: " + TB_CAORDSER.NumOrdserv + ", Autorizado por: " + Autorizaa;
+                                                    _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "086", TB_USUARIO.COD_EMPLEADO, DescripAuditorAbono);
+                                                }
+                                                else
+                                                {
+                                                    return;
+                                                }
+                                            }
+                                            else
+                                            {
+                                                return;
+                                            }
+                                        }
+
+                                        //Guardo el Pago Movil 
+                                        _L_Facturacion.GuardarPagoMovilTabla(idAbonoPagoMovil, Dt_PagoMovil, CbxNacionalidadPagoMovil.Text, TxtCedulaPagoMovil.Text, CbxCelularPagoMovil.Text, TxtCedularPagoMovil.Text, TxtMontoPagoMovil.Text, CbxBancoPagoMovil.SelectedValue.ToString(), TxtRecibidoREF.Text, TxtVuelto.Text, CbxMoneda.Text);
+
                                     }
+
                                     else
                                     {
+                                        _FrmMensajes.co = 2;
+                                        _FrmMensajes.avisomensaje("Debe llenar todos los campos para continuar");
+                                        _FrmMensajes.ShowDialog();
                                         return;
+
                                     }
                                 }
 
-                                //Guardo el Pago Movil 
-                                _L_Facturacion.GuardarPagoMovilTabla(idAbonoPagoMovil, Dt_PagoMovil, CbxNacionalidadPagoMovil.Text, TxtCedulaPagoMovil.Text, CbxCelularPagoMovil.Text, TxtCedularPagoMovil.Text, TxtMontoPagoMovil.Text, CbxBancoPagoMovil.SelectedValue.ToString(), TxtRecibidoREF.Text, TxtVuelto.Text, CbxMoneda.Text);
 
+                                BolivaresConveridos(Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos)), txtMontoBs);
+                                //-----------ConvertirBolivares---------------------------
+                                //txtMontoBs.Text = _L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos);
+
+                                lbMinAbo.Text = Convert.ToString(Convert.ToDouble(lbMinAbo.Text) + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos)));
+                                VisualizarPanel("MostrarPanelPrincipal");
+                                LimpiarTxbox();
+                                CbxMetodosPago.SelectedIndex = 2;
                             }
-
                             else
                             {
-                                _FrmMensajes.co = 2;
-                                _FrmMensajes.avisomensaje("Debe llenar todos los campos para continuar");
-                                _FrmMensajes.ShowDialog();
                                 return;
+                            }
+                        } 
+                        else
+                        {
+                            //Guarda abono
+                            DataTable Pagos = _L_Facturacion.MostarPagosGrid(TB_CAORDSER.Cod_Sucursal, txtNumeroOrden.Text, TB_CAORDSER.Revision);
+
+                            if (Pagos.Rows.Count > 0)
+                            {
+                                CantAbonosPrevios = Pagos.Rows.Count;
 
                             }
+                            idAbonoPagoMovil = CantAbonosPrevios + Dt_Abonos.Rows.Count + 1;
+                            // Guardo el Abono y retotno a la pantalla principal 
+                            _L_Facturacion.GuardarAbonoGrid(idAbonoPagoMovil, Dt_Abonos, CbxMetodosPago2.Text, CbxMoneda.Text, CbxBanco.Text, txtMonto2Bs.Text, "0000", DtpFecha.Value.ToString(), "021", CbxBanco.SelectedValue.ToString(), "", TxtVuelto.Text, txtRef.Text, txtIGTF.Text);
+
+                            BolivaresConveridos(Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos)), txtMontoBs);
+                            //-----------ConvertirBolivares---------------------------
+                            //txtMontoBs.Text = _L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos);
+
+                            lbMinAbo.Text = Convert.ToString(Convert.ToDouble(lbMinAbo.Text) + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos)));
+                            VisualizarPanel("MostrarPanelPrincipal");
+                            LimpiarTxbox();
+                            CbxMetodosPago.SelectedIndex = 2;
                         }
 
-
-                        BolivaresConveridos(Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos)), txtMontoBs);
-                        //-----------ConvertirBolivares---------------------------
-                        //txtMontoBs.Text = _L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos);
-
-                        lbMinAbo.Text = Convert.ToString(Convert.ToDouble(lbMinAbo.Text) + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos)));
-                        VisualizarPanel("MostrarPanelPrincipal");
-                        LimpiarTxbox();
-                        CbxMetodosPago.SelectedIndex = 2;
-
                     }
-
                     else
                     {
                         _FrmMensajes.co = 2;
@@ -1356,7 +1396,7 @@ namespace CapaVisual_Login
         private void btnProcesar1_Click(object sender, EventArgs e)
 
         {
-            idAbonoPagoMovil = 0;
+            LimpiaVariablesIdAbonoPagoMovil();
             Cursor.Current = new Cursor(Properties.Resources.relojArena__1_.Handle);
             //Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
 
@@ -2074,7 +2114,7 @@ namespace CapaVisual_Login
 
         private void btnCancelar1_Click(object sender, EventArgs e)
         {
-            idAbonoPagoMovil = 0; 
+            LimpiaVariablesIdAbonoPagoMovil();
             VisualizarPanel("MostrarFormulario");
             LimpiarNotasCredito();
             TxtNumFact.Text = _D_DetalleOrden.ParametroSerieManual();
@@ -3830,7 +3870,7 @@ namespace CapaVisual_Login
 
         private void btnCancelar3_Click(object sender, EventArgs e)
         {
-            idAbonoPagoMovil = 0;
+            LimpiaVariablesIdAbonoPagoMovil();
             LimpiarNotasCredito();
             VisualizarPanel("MostrarPanelPrincipal");
             LimpiarTxbox();
@@ -4348,27 +4388,27 @@ namespace CapaVisual_Login
                             if (Convert.ToString(Convert.ToDecimal(TotalFacturaFiscal) - PagosEnviados) == "1")
                             {
                                 resp = objVmax.PagoCF("1", "EFECTIVO", 1);
-                                _D_DetalleOrden.SP_SUMOFACTURA(TB_CAORDSER.Cod_Sucursal, NumeroComprobanteFiscal, objVmax.RetornoMF.sSerial.ToString(), txtNumeroOrden.Text, TotalFacturaFiscal, DctoExento, DctoGravable);
+                                _D_DetalleOrden.SP_SUMOFACTURA(TB_CAORDSER.Cod_Sucursal, NumeroComprobanteFiscal, SerialImpresora, txtNumeroOrden.Text, TotalFacturaFiscal, DctoExento, DctoGravable,command);
                             }
                             else if (Convert.ToString(Convert.ToDecimal(TotalFacturaFiscal) - PagosEnviados) == "2")
                             {
                                 resp = objVmax.PagoCF("2", "EFECTIVO", 1);
-                                _D_DetalleOrden.SP_SUMOFACTURA(TB_CAORDSER.Cod_Sucursal, NumeroComprobanteFiscal, objVmax.RetornoMF.sSerial.ToString(), txtNumeroOrden.Text, TotalFacturaFiscal, DctoExento, DctoGravable);
+                                _D_DetalleOrden.SP_SUMOFACTURA(TB_CAORDSER.Cod_Sucursal, NumeroComprobanteFiscal, SerialImpresora, txtNumeroOrden.Text, TotalFacturaFiscal, DctoExento, DctoGravable, command);
                             }
                             else if (Convert.ToString(Convert.ToDecimal(TotalFacturaFiscal) - PagosEnviados) == "3")
                             {
                                 resp = objVmax.PagoCF("3", "EFECTIVO", 1);
-                                _D_DetalleOrden.SP_SUMOFACTURA(TB_CAORDSER.Cod_Sucursal, NumeroComprobanteFiscal, objVmax.RetornoMF.sSerial.ToString(), txtNumeroOrden.Text, TotalFacturaFiscal, DctoExento, DctoGravable);
+                                _D_DetalleOrden.SP_SUMOFACTURA(TB_CAORDSER.Cod_Sucursal, NumeroComprobanteFiscal, SerialImpresora, txtNumeroOrden.Text, TotalFacturaFiscal, DctoExento, DctoGravable, command);
                             }
                             else if (Convert.ToString(Convert.ToDecimal(TotalFacturaFiscal) - PagosEnviados) == "4")
                             {
                                 resp = objVmax.PagoCF("4", "EFECTIVO", 1);
-                                _D_DetalleOrden.SP_SUMOFACTURA(TB_CAORDSER.Cod_Sucursal, NumeroComprobanteFiscal, objVmax.RetornoMF.sSerial.ToString(), txtNumeroOrden.Text, TotalFacturaFiscal, DctoExento, DctoGravable);
+                                _D_DetalleOrden.SP_SUMOFACTURA(TB_CAORDSER.Cod_Sucursal, NumeroComprobanteFiscal, SerialImpresora, txtNumeroOrden.Text, TotalFacturaFiscal, DctoExento, DctoGravable, command);
                             }
                             else if (Convert.ToString(Convert.ToDecimal(TotalFacturaFiscal) - PagosEnviados) == "5")
                             {
                                 resp = objVmax.PagoCF("5", "EFECTIVO", 1);
-                                _D_DetalleOrden.SP_SUMOFACTURA(TB_CAORDSER.Cod_Sucursal, NumeroComprobanteFiscal, objVmax.RetornoMF.sSerial.ToString(), txtNumeroOrden.Text, TotalFacturaFiscal, DctoExento, DctoGravable);
+                                _D_DetalleOrden.SP_SUMOFACTURA(TB_CAORDSER.Cod_Sucursal, NumeroComprobanteFiscal, SerialImpresora, txtNumeroOrden.Text, TotalFacturaFiscal, DctoExento, DctoGravable, command);
 
                             }
 
@@ -4931,7 +4971,7 @@ namespace CapaVisual_Login
 
         private void btnProcesar3_Click(object sender, EventArgs e)
         {
-            idAbonoPagoMovil = 0;
+            LimpiaVariablesIdAbonoPagoMovil();
             double TotalNota = 0.00;
             double TotalOrden;
             TotalOrden = Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos));
@@ -4991,41 +5031,42 @@ namespace CapaVisual_Login
 
         private void txtBsNotaCredito_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar == 8)
-            {
-                e.Handled = false;
-                return;
-            }
+            //if (e.KeyChar == 20)
+            //{
+            //    e.Handled = false;
+            //    return;
+            //}
+
 
 
             bool IsDec = false;
             int nroDec = 0;
 
-            if (txtBsNotaCredito.SelectionLength <= 0)
-            {
+            //if (txtBsNotaCredito.SelectionLength <= 0)
+            //{
 
 
 
-                for (int i = 0; i < txtBsNotaCredito.Text.Length; i++)
-                {
-                    if (txtBsNotaCredito.Text[i] == ',')
-                        IsDec = true;
+            //    for (int i = 0; i < txtBsNotaCredito.Text.Length; i++)
+            //    {
+            //        if (txtBsNotaCredito.Text[i] == ',')
+            //            IsDec = true;
 
-                    if (IsDec && nroDec++ >= 2)
-                    {
-                        e.Handled = true;
-                        return;
-                    }
+            //        if (IsDec && nroDec++ >= 2)
+            //        {
+            //            e.Handled = true;
+            //            return;
+            //        }
 
 
-                }
-            }
-            if (e.KeyChar >= 44 && e.KeyChar <= 57)
-                e.Handled = false;
-            else if (e.KeyChar == 46)
-                e.Handled = (IsDec) ? true : false;
-            else
-                e.Handled = true;
+            //    }
+            //}
+            //if (e.KeyChar >= 44 && e.KeyChar <= 57)
+            //    e.Handled = false;
+            //else if (e.KeyChar == 46)
+            //    e.Handled = (IsDec) ? true : false;
+            //else
+            //    e.Handled = true;
 
 
             //para que solo acepte numeros y una sola coma
@@ -5732,25 +5773,25 @@ namespace CapaVisual_Login
 
                 }
 
+                string PMAutomatico = _D_DetalleOrden.TB_PARAMETRO("PMAutomatico");
+
                 // Verifico si esta lista Para Facturar 
                 if (TotalAbono == TotalSaldoOrdenConIgtf)
                 {
                     // Imprimo La Factura
                     if (rept == "SATISFACTORIO" )
                     rept = ImprimirFacturaFiscal(txtNumeroOrden.Text, txtCedula.Text, txtNombreCliente.Text, command);
-                    
+
                     // Imprimo el Pago Movil 
-                    //if (rept == "SATISFACTORIO")
-                    //rept = ImprimirCambio(Correlativo, Dt_PagoMovil, TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision, command);
+                    if (rept == "SATISFACTORIO" && PMAutomatico == "0")
+                     rept = ImprimirCambio(Correlativo, Dt_PagoMovil, TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision,"", command);
 
                 }
                 else
                 {
                     // Imprimo el Pago Movil 
-                    //if (rept == "SATISFACTORIO")
-                    //rept = ImprimirCambio(Correlativo, Dt_PagoMovil, TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision, command);
-
-
+                    if (rept == "SATISFACTORIO" && PMAutomatico == "0")
+                        rept = ImprimirCambio(Correlativo, Dt_PagoMovil, TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision, "", command);
                 }
 
                 // Attempt to commit the transaction.
@@ -6294,7 +6335,7 @@ namespace CapaVisual_Login
         //Comentar
         private void btnCancelar4_Click(object sender, EventArgs e)
         {
-            idAbonoPagoMovil = 0;
+            LimpiaVariablesIdAbonoPagoMovil();
             LimpiarNotasDevolucion();
             VisualizarPanel("MostrarPanelPrincipal");
             LimpiarTxbox();
@@ -6396,7 +6437,7 @@ namespace CapaVisual_Login
 
         private void btnProcesar4_Click(object sender, EventArgs e)
         {
-            idAbonoPagoMovil = 0;
+            LimpiaVariablesIdAbonoPagoMovil();
             double TotalNota = 0.00;
             double TotalOrden;
             TotalOrden = Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos));
@@ -7424,29 +7465,6 @@ namespace CapaVisual_Login
                 CbxCelularPagoMovil.Enabled = true;
                 String d = _L_Facturacion.TlfCliente.Substring(0, _L_Facturacion.TlfCliente.Length - 11);
 
-
-
-                //Recorrer el combobox  Nacionalidad 
-                for (int i = 0; i <= CbxNacionalidadPagoMovil.Items.Count; i++)
-                {
-                    if(txtCedula.Text.Length == 9)
-                        if (txtCedula.Text.Substring(0, txtCedula.Text.Length - 8) != CbxNacionalidadPagoMovil.Text)
-                            CbxNacionalidadPagoMovil.SelectedIndex = i;
-                        else
-                            break;
-                    else if (txtCedula.Text.Length == 10)
-                        if (txtCedula.Text.Substring(0, txtCedula.Text.Length - 9) != CbxNacionalidadPagoMovil.Text)
-                        CbxNacionalidadPagoMovil.SelectedIndex = i;
-                    else
-                            break;
-                    else
-                   if (txtCedula.Text.Substring(0, txtCedula.Text.Length - 10) != CbxNacionalidadPagoMovil.Text)
-                            CbxNacionalidadPagoMovil.SelectedIndex = i;
-                        else
-                            break;
-
-                }
-
                 //Recorrer el combobox  Prefijos
                 for (int i = 0; i <= CbxCelularPagoMovil.Items.Count; i++)
                 {
@@ -7464,11 +7482,34 @@ namespace CapaVisual_Login
                         CbxCelularPagoMovil.SelectedIndex = i;
                     }
                     else
-                    { 
+                    {
                         break;
                     }
 
                 }
+
+                //Recorrer el combobox  Nacionalidad 
+                for (int i = 0; i <= CbxNacionalidadPagoMovil.Items.Count; i++)
+                {
+                    if(txtCedula.Text.Length >= 7)
+                        if (txtCedula.Text.Substring(0, txtCedula.Text.Length - 8) != CbxNacionalidadPagoMovil.Text)
+                            CbxNacionalidadPagoMovil.SelectedIndex = i;
+                        else
+                            break;
+                    else if (txtCedula.Text.Length == 10)
+                        if (txtCedula.Text.Substring(0, txtCedula.Text.Length - 9) != CbxNacionalidadPagoMovil.Text)
+                        CbxNacionalidadPagoMovil.SelectedIndex = i;
+                    else
+                            break;
+                    else
+                   if (txtCedula.Text.Substring(0, txtCedula.Text.Length - 10) != CbxNacionalidadPagoMovil.Text)
+                            CbxNacionalidadPagoMovil.SelectedIndex = i;
+                        else
+                            break;
+
+                }
+
+               
 
    
             }
@@ -7709,50 +7750,7 @@ namespace CapaVisual_Login
                             Telefono1 = Row["PrefijoCelular"].ToString() + "-" + Row["Celular"].ToString();
                             string NombreBanco_PagoMovil = _D_DetalleOrden.NombreBanco_PagoMovil(CodBancoReceptor1, command);
 
-                            switch (Correlativo.Length)
-                            {
-                                case 7:
-                                    {
-                                        Correlativo = Correlativo;
-                                        break;
-                                    }
-
-                                case 6:
-                                    {
-                                        Correlativo = "0" + Correlativo;
-                                        break;
-                                    }
-
-                                case 5:
-                                    {
-                                        Correlativo = "00" + Correlativo;
-                                        break;
-                                    }
-
-                                case 4:
-                                    {
-                                        Correlativo = "000" + Correlativo;
-                                        break;
-                                    }
-
-                                case 3:
-                                    {
-                                        Correlativo = "0000" + Correlativo;
-                                        break;
-                                    }
-
-                                case 2:
-                                    {
-                                        Correlativo = "00000" + Correlativo;
-                                        break;
-                                    }
-
-                                case 1:
-                                    {
-                                        Correlativo = "000000" + Correlativo;
-                                        break;
-                                    }
-                            }
+                            
 
                             //Factura Automatica
                             if (_L_Facturacion.ValidaFactManual(command) == false)
@@ -7782,12 +7780,12 @@ namespace CapaVisual_Login
 
                                 if (_D_DetalleOrden.ParametroImpresion() == "1") // Si el parametro de impresion es 1 entonces imprime el reporte 
                                 {
-                                    _FrmMostrarRep.imprimir(TB_CAORDSER.NumOrdserv, Num_Factura, Correlativo, Nombre_Sucursal, CteNacionalidad1 + "-" + Cedula1, Telefono1, NombreBanco_PagoMovil, Convert.ToString(MontoVueltoBs1));
+                                    _FrmMostrarRep.imprimir(NumeroOrden, NumeroFactura, Correlativo, Nombre_Sucursal, CteNacionalidad1 + "-" + Cedula1, Telefono1, NombreBanco_PagoMovil, Convert.ToString(MontoVueltoBs1));
 
                                 }
                                 else
                                 {
-                                    _FrmMostrarRep.Mostrar(TB_CAORDSER.NumOrdserv, Num_Factura, Correlativo, Nombre_Sucursal, CteNacionalidad1 + "-" + Cedula1, Telefono1, NombreBanco_PagoMovil, Convert.ToString(MontoVueltoBs1));
+                                    _FrmMostrarRep.Mostrar(NumeroOrden, NumeroFactura, Correlativo, Nombre_Sucursal, CteNacionalidad1 + "-" + Cedula1, Telefono1, NombreBanco_PagoMovil, Convert.ToString(MontoVueltoBs1));
                                     _FrmMostrarRep.ShowDialog();
 
                                 }
@@ -7987,7 +7985,17 @@ namespace CapaVisual_Login
                 _FrmMensajes.ShowDialog();
             }
         }
+        public void LimpiaVariablesIdAbonoPagoMovil()
+        {
+            idAbonoPagoMovil = 0;
+            CantAbonosPrevios = 0;
+            textBox8.Text = "0,00";
+            TxtCambioRef.Text = "0,00";
+            return;
+        }
+
         //Para Probar los reportes
+
         //private void button1_Click_1(object sender, EventArgs e)
         //{
         //    string concat = TB_CAORDSER.Cod_Sucursal + TB_CAORDSER.NumOrdserv + TB_CAORDSER.Revision;

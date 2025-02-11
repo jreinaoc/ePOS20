@@ -11,6 +11,7 @@ using CapaLogica.Inicio_Logica;
 using CapaLogica.Colores_Logica;
 using CapaDatos.Inicio_Datos;
 using EnvioPagoMovil;
+using CapaDatos.DetalleOrden_Datos;
 
 namespace CapaVisual_Login
 {
@@ -37,6 +38,7 @@ namespace CapaVisual_Login
         D_Inicio _D_Inicio = new D_Inicio();
         L_Colores _L_Colores = new L_Colores();
         FrmPagoMovil _FrmPagoMovil = new FrmPagoMovil();
+        private D_DetalleOrden _D_DetalleOrden = new D_DetalleOrden();
 
         public bool osc;
         public string mostrarclientes;
@@ -159,13 +161,16 @@ namespace CapaVisual_Login
             Btnosc.Visible = true;
             BtnClaro.Visible = false;
 
-            if (Envio.validarPermisos() == true)
+            string PMAutomatico = _D_DetalleOrden.TB_PARAMETRO("PMAutomatico");
+            if (Envio.validarPermisos() == true && PMAutomatico  == "1")
             {
                 btnPagoMovil.Visible = true;
+                pictBoxPagoMovil.Visible = true;
             }
             else
             {
                 btnPagoMovil.Visible = false;
+                pictBoxPagoMovil.Visible = false;
             }
 
         }
@@ -515,8 +520,10 @@ namespace CapaVisual_Login
                 btnClienteEspera.BackColor = Color.White;
                 BtnListadoOrdenes.BackColor = Color.White;
             }
+
             PnlListadoOrdenes.Controls.Clear();
             addformulario(_FrmPagoMovil);
+            _FrmPagoMovil.btnlupa_Click_1(this, EventArgs.Empty);
             Focus();
         }
     }
