@@ -129,8 +129,10 @@ namespace CapaVisual_Login
                 SqlCommand cmd = new SqlCommand("SP_CPOS_REP_ORDEN", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@Orden", ordenId);
+                cmd.CommandTimeout = 120;
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(dt);
+                cmd.Parameters.Clear();
             }
             return dt;
         }

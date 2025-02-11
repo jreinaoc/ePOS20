@@ -496,12 +496,36 @@ namespace CapaDatos.Inicio_Datos
 
         public DateTime DiaActivo()
         {
-            SqlDataAdapter da = new SqlDataAdapter("select top (1) FECHA from TB_CAJA ORDER BY FECHA DESC", cn.LeerCadena());
-            da.SelectCommand.CommandType = CommandType.Text;
-            DataTable dt = new DataTable();
-            da.Fill(dt);
-            DateTime FechaActiva = Convert.ToDateTime(dt.Rows[0]["FECHA"].ToString());
-            return FechaActiva;
+            //SqlDataAdapter da = new SqlDataAdapter("select top (1) FECHA from TB_CAJA ORDER BY FECHA DESC", cn.LeerCadena());
+            //da.SelectCommand.CommandType = CommandType.Text;
+            //DataTable dt = new DataTable();
+            //da.Fill(dt);
+            //DateTime FechaActiva = Convert.ToDateTime(dt.Rows[0]["FECHA"].ToString());
+            //return FechaActiva;
+
+
+            using (SqlConnection connection = cn.LeerCadena())
+            {
+                string query = "select top (1) FECHA from TB_CAJA ORDER BY FECHA DESC";
+                SqlDataAdapter da = new SqlDataAdapter(query, connection);
+
+                // Establecer el tiempo de espera en 120 segundos
+                da.SelectCommand.CommandTimeout = 120;
+
+                da.SelectCommand.CommandType = CommandType.Text;
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+
+                if (dt.Rows.Count > 0)
+                {
+                    DateTime FechaActiva = Convert.ToDateTime(dt.Rows[0]["FECHA"].ToString());
+                    return FechaActiva;
+                }
+                else
+                {
+                    throw new Exception("No se encontraron registros en la tabla TB_CAJA.");
+                }
+            }
 
         }
 

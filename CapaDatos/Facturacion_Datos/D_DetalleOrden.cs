@@ -504,9 +504,11 @@ namespace CapaDatos.DetalleOrden_Datos
             SqlCommand cmd = new SqlCommand("SELECT Valor from  TB_PARAMETROSPGE where ParametroPGE= @Parametro", cn.LeerCadena());
             cmd.CommandType = CommandType.Text;
             cmd.Parameters.AddWithValue("@Parametro", Parametro);
+            cmd.CommandTimeout = 120;
             DataTable dt = new DataTable();
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             da.Fill(dt);
+            cmd.Parameters.Clear();
             string Valor = dt.Rows[0]["Valor"].ToString();
             return Valor;
 
@@ -517,9 +519,11 @@ namespace CapaDatos.DetalleOrden_Datos
             SqlCommand cmd = new SqlCommand("SELECT Valor from  TB_PARAMETRO where Parametro= @Parametro", cn.LeerCadena());
             cmd.CommandType = CommandType.Text;
             cmd.Parameters.AddWithValue("@Parametro", Parametro);
+            cmd.CommandTimeout = 120;
             DataTable dt = new DataTable();
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             da.Fill(dt);
+            cmd.Parameters.Clear();
             string Valor = dt.Rows[0]["Valor"].ToString();
             return Valor;
 
@@ -536,9 +540,15 @@ namespace CapaDatos.DetalleOrden_Datos
 
         }
 
-        public void SP_SUMOFACTURA(string CodSuc, string NumFactura, string Fact_SerialImpresora, string NumOs, string MontoFactImpreso, string MontoDescExento, string MontoDescGravable)
+        public void SP_SUMOFACTURA(string CodSuc, string NumFactura, string Fact_SerialImpresora, string NumOs, string MontoFactImpreso, string MontoDescExento, string MontoDescGravable, SqlCommand command = null)
         {
-            SqlCommand cmd = new SqlCommand("SP_SUMOFACTURA", cn.LeerCadena());
+            if (command == null)
+            {
+                SqlConnection connection = cn.LeerCadena();
+                command = connection.CreateCommand();
+            }
+            SqlCommand cmd = command;
+            cmd.CommandText = ("SP_SUMOFACTURA");
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@CodSuc", CodSuc);
             cmd.Parameters.AddWithValue("@NumFactura ", NumFactura);
@@ -550,7 +560,7 @@ namespace CapaDatos.DetalleOrden_Datos
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataTable dt = new DataTable();
             da.Fill(dt);
-
+            cmd.Parameters.Clear();
 
         }
 
@@ -769,6 +779,7 @@ namespace CapaDatos.DetalleOrden_Datos
             }
             SqlCommand cmd = command;
             cmd.CommandText =" SELECT* from TB_CTEPPAL where CTE_CedIden= @CTE_CedIden and CTE_Nacio= @CTE_Nacio";
+            cmd.CommandTimeout = 120;
             cmd.CommandType = CommandType.Text;
             cmd.Parameters.AddWithValue("@CTE_CedIden", CTE_CedIden);
             cmd.Parameters.AddWithValue("@CTE_Nacio", CTE_Nacio);
@@ -924,6 +935,7 @@ public void MovimientoInventario(string CodArticulo, string TipoDoc, string Docu
                 cmd.CommandType = CommandType.Text;
                 cmd.Parameters.AddWithValue("@Sucursal", Sucursal);
                 cmd.Parameters.AddWithValue("@NumeroOrden", NumeroOrden);
+                cmd.CommandTimeout = 120;
                 SqlDataReader dataReader = cmd.ExecuteReader();
 
                 if (dataReader.HasRows)
@@ -1362,13 +1374,13 @@ public void MovimientoInventario(string CodArticulo, string TipoDoc, string Docu
                 cmd.Parameters.AddWithValue("@Orden", NroOrdenServicio);
                 cmd.Parameters.AddWithValue("@Revision", Revision);
                 cmd.Parameters.AddWithValue("@FechaMaxVenta", FechaMaxVenta);
-
+                cmd.CommandTimeout = 120;
                 //DateTime.UtcNow.ToString("yyyy/MM/dd H:mm:00 ")
 
                 DataSet FechaOfre = new DataSet();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(FechaOfre);
-
+                cmd.Parameters.Clear();
                 return FechaOfre;
             }
 
@@ -2081,6 +2093,7 @@ public void MovimientoInventario(string CodArticulo, string TipoDoc, string Docu
                 SqlCommand cmd = command;
                 cmd.CommandText = ("Select CodSucursal +'-' + Descripcion as Descripcion from TB_SUCURSALES where CodSucursal= @CodSucursal");
                 cmd.Parameters.AddWithValue("@CodSucursal", CodSucursal);
+                cmd.CommandTimeout = 120;
                 cmd.CommandType = CommandType.Text;
                 DataTable PagoMovil = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);

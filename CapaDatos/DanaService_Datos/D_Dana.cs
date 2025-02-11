@@ -26,11 +26,11 @@ namespace CapaDatos.DanaService_Datos
                 SqlCommand cmd = new SqlCommand(" select * from TB_CONFIGDANA where ParametroDana LIKE @Parametro ", cn.LeerCadena());
                 cmd.CommandType = CommandType.Text;
                 cmd.Parameters.AddWithValue("@Parametro", Parametro);
-
+                cmd.CommandTimeout = 120;
                 DataSet Dana = new DataSet();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(Dana);
-
+                cmd.Parameters.Clear();
                 return Dana;
             }
 
@@ -153,11 +153,11 @@ namespace CapaDatos.DanaService_Datos
                 cmd.Parameters.AddWithValue("@numOrdServ", NumOrden);
                 cmd.Parameters.AddWithValue("@Revision", Revision);
                 cmd.Parameters.AddWithValue("@Status", StatusEnvio);
-
+                cmd.CommandTimeout = 120;
                 DataSet Dana = new DataSet();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(Dana);
-
+                cmd.Parameters.Clear();
                 return true;
             }
 
@@ -179,11 +179,11 @@ namespace CapaDatos.DanaService_Datos
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@NumFactura", NumeroFactura);
                 cmd.Parameters.AddWithValue("@SerialImpresora", SerialImpresora);
-
+                cmd.CommandTimeout = 120;
                 DataSet fact = new DataSet();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(fact);
-
+                cmd.Parameters.Clear();
                 return fact;
             }
 

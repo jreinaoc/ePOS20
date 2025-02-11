@@ -1353,7 +1353,7 @@ namespace CapaVisual_Login
             }
         }
 
-        private void btnProcesar1_Click(object sender, EventArgs e)
+        private void btnProcesar1_Click(object sender, EventArgs e) 
 
         {
             idAbonoPagoMovil = 0;
@@ -1711,7 +1711,9 @@ namespace CapaVisual_Login
 
             finally
             {
-                LimpiarGrid();
+                try
+                {
+                 LimpiarGrid();
 
                 DataTable Pagos = _L_Facturacion.MostarPagosGrid(TB_CAORDSER.Cod_Sucursal, txtNumeroOrden.Text, TB_CAORDSER.Revision);
 
@@ -1748,7 +1750,18 @@ namespace CapaVisual_Login
                 }
 
                 Cursor = System.Windows.Forms.Cursors.Default;
+
+                }
+
+                catch (Exception ex)
+                {
+                    // Manejo de excepciones dentro del bloque finally
+                    Console.WriteLine("Ocurrió un error en el boton btnProcesar1, bloque finally: " + ex.Message);
+                    // Puedes registrar el error o mostrar un mensaje al usuario
+                }
             }
+
+
         }
 
         public void CargarDatosOrden(string NumeroOrden, String NombreCliente, string Revison)
@@ -4348,27 +4361,27 @@ namespace CapaVisual_Login
                             if (Convert.ToString(Convert.ToDecimal(TotalFacturaFiscal) - PagosEnviados) == "1")
                             {
                                 resp = objVmax.PagoCF("1", "EFECTIVO", 1);
-                                _D_DetalleOrden.SP_SUMOFACTURA(TB_CAORDSER.Cod_Sucursal, NumeroComprobanteFiscal, objVmax.RetornoMF.sSerial.ToString(), txtNumeroOrden.Text, TotalFacturaFiscal, DctoExento, DctoGravable);
+                                _D_DetalleOrden.SP_SUMOFACTURA(TB_CAORDSER.Cod_Sucursal, NumeroComprobanteFiscal, SerialImpresora, txtNumeroOrden.Text, TotalFacturaFiscal, DctoExento, DctoGravable, command);
                             }
                             else if (Convert.ToString(Convert.ToDecimal(TotalFacturaFiscal) - PagosEnviados) == "2")
                             {
                                 resp = objVmax.PagoCF("2", "EFECTIVO", 1);
-                                _D_DetalleOrden.SP_SUMOFACTURA(TB_CAORDSER.Cod_Sucursal, NumeroComprobanteFiscal, objVmax.RetornoMF.sSerial.ToString(), txtNumeroOrden.Text, TotalFacturaFiscal, DctoExento, DctoGravable);
+                                _D_DetalleOrden.SP_SUMOFACTURA(TB_CAORDSER.Cod_Sucursal, NumeroComprobanteFiscal, SerialImpresora, txtNumeroOrden.Text, TotalFacturaFiscal, DctoExento, DctoGravable, command);
                             }
                             else if (Convert.ToString(Convert.ToDecimal(TotalFacturaFiscal) - PagosEnviados) == "3")
                             {
                                 resp = objVmax.PagoCF("3", "EFECTIVO", 1);
-                                _D_DetalleOrden.SP_SUMOFACTURA(TB_CAORDSER.Cod_Sucursal, NumeroComprobanteFiscal, objVmax.RetornoMF.sSerial.ToString(), txtNumeroOrden.Text, TotalFacturaFiscal, DctoExento, DctoGravable);
+                                _D_DetalleOrden.SP_SUMOFACTURA(TB_CAORDSER.Cod_Sucursal, NumeroComprobanteFiscal, SerialImpresora, txtNumeroOrden.Text, TotalFacturaFiscal, DctoExento, DctoGravable, command);
                             }
                             else if (Convert.ToString(Convert.ToDecimal(TotalFacturaFiscal) - PagosEnviados) == "4")
                             {
                                 resp = objVmax.PagoCF("4", "EFECTIVO", 1);
-                                _D_DetalleOrden.SP_SUMOFACTURA(TB_CAORDSER.Cod_Sucursal, NumeroComprobanteFiscal, objVmax.RetornoMF.sSerial.ToString(), txtNumeroOrden.Text, TotalFacturaFiscal, DctoExento, DctoGravable);
+                                _D_DetalleOrden.SP_SUMOFACTURA(TB_CAORDSER.Cod_Sucursal, NumeroComprobanteFiscal, SerialImpresora , txtNumeroOrden.Text, TotalFacturaFiscal, DctoExento, DctoGravable, command);
                             }
                             else if (Convert.ToString(Convert.ToDecimal(TotalFacturaFiscal) - PagosEnviados) == "5")
                             {
                                 resp = objVmax.PagoCF("5", "EFECTIVO", 1);
-                                _D_DetalleOrden.SP_SUMOFACTURA(TB_CAORDSER.Cod_Sucursal, NumeroComprobanteFiscal, objVmax.RetornoMF.sSerial.ToString(), txtNumeroOrden.Text, TotalFacturaFiscal, DctoExento, DctoGravable);
+                                _D_DetalleOrden.SP_SUMOFACTURA(TB_CAORDSER.Cod_Sucursal, NumeroComprobanteFiscal, SerialImpresora, txtNumeroOrden.Text, TotalFacturaFiscal, DctoExento, DctoGravable, command);
 
                             }
 
@@ -5789,7 +5802,9 @@ namespace CapaVisual_Login
 
             finally
             {
-                btnCancelar1.PerformClick();
+                try
+                {
+                 btnCancelar1.PerformClick();
                 LimpiarNotasCredito();
                 _D_DetalleOrden.Limpiar_TEMP_ABONO(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision);
                 Dt_PagoMovil.Clear();
@@ -5943,11 +5958,18 @@ namespace CapaVisual_Login
 
                   }
 
+                }
+
+                }
+                catch (Exception ex)
+                {
+                    // Manejo de excepciones dentro del bloque finally
+                    Console.WriteLine("Ocurrió un error en la funcion ProcesarPagos, bloque finally: " + ex.Message);
+                    // Puedes registrar el error o mostrar un mensaje al usuario
+                }
             }
 
 
-
-            }
         }
 
 
