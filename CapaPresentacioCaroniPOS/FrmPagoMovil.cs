@@ -35,6 +35,7 @@ namespace CapaVisual_Login
         private D_DetalleOrden _D_DetalleOrden = new D_DetalleOrden();
         private L_ListaOrdenes _ListaOrdenes = new L_ListaOrdenes();
         private L_Facturacion _L_Facturacion = new L_Facturacion();
+        private FrmMensajes _FrmMensajes = new FrmMensajes();
         //string macAddress;
         private void FrmPagoMovil_Load(object sender, EventArgs e)
         {
@@ -133,6 +134,7 @@ namespace CapaVisual_Login
             System.Drawing.Color colporp = System.Drawing.ColorTranslator.FromHtml("#e9e9e9");
             System.Drawing.Color colanul = System.Drawing.ColorTranslator.FromHtml("#ff353a");
             System.Drawing.Color IVAS_ISLR = System.Drawing.ColorTranslator.FromHtml("#1881b0");
+            System.Drawing.Color colfall = System.Drawing.ColorTranslator.FromHtml("#00008B");
 
 
             try
@@ -165,7 +167,7 @@ namespace CapaVisual_Login
 
                     if (Status == "BLOQUEADO")
                     {
-                        Fila.Cells["Estado"].Style.BackColor = colanul;
+                        Fila.Cells["Estado"].Style.BackColor = colfall;
                         //Fila.Cells["Estatus"].Style.Padding = newPadding;
                         DgvListadoOrdenes.Columns["Estado"].DefaultCellStyle.Format = "C";
                         Fila.Cells["Estado"].Style.ForeColor = Color.White;
@@ -175,9 +177,19 @@ namespace CapaVisual_Login
                     {
                         Fila.Cells["Estado"].Style.BackColor = colfact;
                         //Fila.Cells["Estatus"].Style.Padding = newPadding;
-                        DgvListadoOrdenes.Columns["Estado" +
-                            ""].DefaultCellStyle.Format = "C";
-                        Fila.Cells["Estado"].Style.ForeColor = Color.FromArgb(89, 190, 186);
+                        DgvListadoOrdenes.Columns["Estado"].DefaultCellStyle.Format = "C";
+                        Fila.Cells["Estado"].Style.ForeColor = Color.White;
+                        //Fila.Cells["Estado"].Style.ForeColor = Color.FromArgb(89, 190, 186);
+
+                    }
+
+                    if (Status == "FALLIDO")
+                    {
+                        Fila.Cells["Estado"].Style.BackColor = colanul;
+                        //Fila.Cells["Estatus"].Style.Padding = newPadding;
+                        DgvListadoOrdenes.Columns["Estado"].DefaultCellStyle.Format = "C";
+                        Fila.Cells["Estado"].Style.ForeColor = Color.White;
+                        //Fila.Cells["Estado"].Style.ForeColor = Color.FromArgb(89, 190, 186);
 
                     }
 
@@ -208,7 +220,7 @@ namespace CapaVisual_Login
 
                 //asignar Nombres a cada columna 
                 DgvListadoOrdenes.Columns["Fecha"].HeaderText = "Fecha";
-                DgvListadoOrdenes.Columns["NroOrden"].HeaderText = "N° de orden";
+                DgvListadoOrdenes.Columns["NroOrden"].HeaderText = "Orden";
                 DgvListadoOrdenes.Columns["Nombre"].HeaderText = "Nombre";
                 DgvListadoOrdenes.Columns["Nacionalidad"].HeaderText = "Nacionalidad";
                 DgvListadoOrdenes.Columns["Cedula"].HeaderText = "Cédula";
@@ -222,19 +234,22 @@ namespace CapaVisual_Login
                 DgvListadoOrdenes.Columns["Referencia"].HeaderText = "Referencia";
                 DgvListadoOrdenes.Columns["Estado"].HeaderText = "Estado";
                 DgvListadoOrdenes.Columns["NroFactura"].HeaderText = "NroFactura";
+                DgvListadoOrdenes.Columns["IdAbono"].HeaderText = "IdAbono";
+                DgvListadoOrdenes.Columns["Correlativo"].HeaderText = "IdAbono";
                 DgvListadoOrdenes.Columns["Btn"].HeaderText = "Btn";
                 DgvListadoOrdenes.Columns["Btn2"].HeaderText = "Btn2";
 
                 //Ancho de columna
-                DgvListadoOrdenes.Columns["Fecha"].Width = 80;
-                DgvListadoOrdenes.Columns["NroOrden"].Width = 60;
-                DgvListadoOrdenes.Columns["Nombre"].Width = 130;
-                DgvListadoOrdenes.Columns["Cedula"].Width = 80;
-                DgvListadoOrdenes.Columns["Telefono"].Width = 100;
-                DgvListadoOrdenes.Columns["BancoReceptor"].Width = 100;
-                DgvListadoOrdenes.Columns["MontoVueltoBs"].Width = 70;
-                DgvListadoOrdenes.Columns["Referencia"].Width = 55;
-                DgvListadoOrdenes.Columns["Estado"].Width = 60;
+                DgvListadoOrdenes.Columns["Fecha"].Width = 27;
+                DgvListadoOrdenes.Columns["NroOrden"].Width = 24;
+                DgvListadoOrdenes.Columns["Nombre"].Width = 58;
+                DgvListadoOrdenes.Columns["Cedula"].Width = 30;
+                DgvListadoOrdenes.Columns["Telefono"].Width = 33;
+                DgvListadoOrdenes.Columns["BancoReceptor"].Width = 47;
+
+                DgvListadoOrdenes.Columns["MontoVueltoBs"].Width = 25;
+                DgvListadoOrdenes.Columns["Referencia"].Width = 34;
+                DgvListadoOrdenes.Columns["Estado"].Width = 35;
 
                 DgvListadoOrdenes.Columns["Btn"].Width = 80;
                 DgvListadoOrdenes.Columns["Btn2"].Width = 80;
@@ -254,14 +269,17 @@ namespace CapaVisual_Login
                 DgvListadoOrdenes.Columns["Btn2"].ReadOnly = true;
 
                 DgvListadoOrdenes.Columns["Nacionalidad"].Visible = false;
-                DgvListadoOrdenes.Columns["Cedula"].Visible = false;
-                DgvListadoOrdenes.Columns["Telefono"].Visible = false;
+                //DgvListadoOrdenes.Columns["NroOrden"].Visible = false;
+                //DgvListadoOrdenes.Columns["Cedula"].Visible = false;
+                // DgvListadoOrdenes.Columns["Telefono"].Visible = false;
                 DgvListadoOrdenes.Columns["CodBancoReceptor"].Visible = false;
-                DgvListadoOrdenes.Columns["BancoReceptor"].Visible = false;
+                //DgvListadoOrdenes.Columns["BancoReceptor"].Visible = false;
                 DgvListadoOrdenes.Columns["MontoVueltoRef"].Visible = false;
                 DgvListadoOrdenes.Columns["MontoRecibidoRef"].Visible = false;
                 DgvListadoOrdenes.Columns["CodBancoReceptorEpos"].Visible = false;
                 DgvListadoOrdenes.Columns["NroFactura"].Visible = false;
+                DgvListadoOrdenes.Columns["IdAbono"].Visible = false;
+                DgvListadoOrdenes.Columns["Correlativo"].Visible = false;
 
 
                 //ordenar las colunmnas del grid 
@@ -281,6 +299,12 @@ namespace CapaVisual_Login
 
                 // nuevo 21-08-2023 
                 DgvListadoOrdenes.Columns["MontoVueltoBs"].DefaultCellStyle.Format = "##,##0.00";
+
+                // Configura el DataGridView para ajustar la altura de las filas automáticamente
+                DgvListadoOrdenes.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+
+                // Configura el modo de ajuste de tamaño de las celdas para que ajuste el contenido
+                DgvListadoOrdenes.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
 
             }
 
@@ -408,6 +432,7 @@ namespace CapaVisual_Login
 
 
         public void DgvListadoOrdenes_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        
         {
             try
             {
@@ -421,100 +446,127 @@ namespace CapaVisual_Login
                     lblMensaje.Text = "";
                     //Btnlupa.Visible = false;
                     //DgvListadoOrdenes.Visible = false;
-                    string MaxDiaPagoMovil = _D_DetalleOrden.TB_PARAMETRO("MaxDiaPagoMovil");
+                    string MaxDiaPagoMovil = _D_DetalleOrden.TB_PARAMETRO("PM");
                     Convert.ToDouble(DgvListadoOrdenes.CurrentRow.Cells["MontoVueltoBs"].Value.ToString());
-                    if (DgvListadoOrdenes.CurrentRow.Cells["Estado"].Value.ToString() == "PENDIENTE" & Convert.ToDouble(MaxDiaPagoMovil) > Convert.ToDouble(DgvListadoOrdenes.CurrentRow.Cells["MontoVueltoBs"].Value.ToString()))
+                    if ((DgvListadoOrdenes.CurrentRow.Cells["Estado"].Value.ToString() == "PENDIENTE" || DgvListadoOrdenes.CurrentRow.Cells["Estado"].Value.ToString() == "FALLIDO") & Convert.ToDouble(MaxDiaPagoMovil) > Convert.ToDouble(DgvListadoOrdenes.CurrentRow.Cells["MontoVueltoBs"].Value.ToString()))
                     {
-                        DataTable Dt_PagoMovil = new DataTable();
-                        string codSucursal;
-                        string sucursal;
-                        string nac;
-                        string cedula;
-                        string telefono;
-                        string monto;
-                        string montoRef;
-                        string montoRecibidoRef;
-                        string bancoEmisor = "0114";
-                        string bancoReceptor;
-                        string bancoReceptorEpos;
-                        string concepto;
-                        string referencia;
-                        string nroOrden;
-                        string nroFactura;
-                        string revision;
+                        _FrmMensajes.co = 3;
+                        _FrmMensajes.avisomensaje("¿Está seguro de procesar el pago móvil de la orden " + DgvListadoOrdenes.CurrentRow.Cells["NroOrden"].Value.ToString() +"?");
+                        _FrmMensajes.ShowDialog();
 
-                        codSucursal = _D_DetalleOrden.TB_PARAMETRO("SucursalId");
-                        //sucursal = cbSucursales.Text; ;
-                        nac = DgvListadoOrdenes.CurrentRow.Cells["Nacionalidad"].Value.ToString();
-                        cedula = nac + _D_Inicio.DesEncriptar(DgvListadoOrdenes.CurrentRow.Cells["Cedula"].Value.ToString());
-                        telefono = _D_Inicio.DesEncriptar(DgvListadoOrdenes.CurrentRow.Cells["Telefono"].Value.ToString().Replace("-", ""));
-                        monto = DgvListadoOrdenes.CurrentRow.Cells["MontoVueltoBs"].Value.ToString();
-                        montoRef = DgvListadoOrdenes.CurrentRow.Cells["MontoVueltoRef"].Value.ToString();
-                        montoRecibidoRef = DgvListadoOrdenes.CurrentRow.Cells["montoRecibidoRef"].Value.ToString();
-                        bancoEmisor = "0114";
-                        bancoReceptor = DgvListadoOrdenes.CurrentRow.Cells["CodBancoReceptor"].Value.ToString();
-                        nroOrden = DgvListadoOrdenes.CurrentRow.Cells["NroOrden"].Value.ToString();
-                        bancoReceptorEpos = DgvListadoOrdenes.CurrentRow.Cells["CodBancoReceptorEpos"].Value.ToString();
-                        revision = "0";
-                        nroFactura = DgvListadoOrdenes.CurrentRow.Cells["NroFactura"].Value.ToString();
-                        concepto = "";
-
-
-                        //macAddress = _D_Inicio.ObtenerMacAddress();
-                        // string responseToken = Envio.getToken();
-
-                        string responseToken = Envio.getToken();
-
-                        if ((responseToken != "Permisos no válidos"))
+                        //Preguta
+                        if (_FrmMensajes.DialogResult == DialogResult.OK)
                         {
-                            ResponseToken oModelToken = JsonConvert.DeserializeObject<ResponseToken>(responseToken);
-                            string token = oModelToken.access_token;
+                            _FrmMensajes.BtnSi.Enabled = false;
+                            DataTable Dt_PagoMovil = new DataTable();
+                            string codSucursal;
+                            string sucursal;
+                            string nac;
+                            string cedula;
+                            string telefono;
+                            string monto;
+                            string montoRef;
+                            string montoRecibidoRef;
+                            string bancoEmisor = "0114";
+                            string bancoReceptor;
+                            string bancoReceptorEpos;
+                            string concepto;
+                            string referencia;
+                            string nroOrden;
+                            string nroFactura;
+                            string revision;
+                            string idAbono;
+                            string correlativo;
+                            string cedula1;
+
+                            codSucursal = _D_DetalleOrden.TB_PARAMETRO("SucursalId");
+                            //sucursal = cbSucursales.Text; ;
+                            nac = DgvListadoOrdenes.CurrentRow.Cells["Nacionalidad"].Value.ToString();
+                            cedula = nac + DgvListadoOrdenes.CurrentRow.Cells["Cedula"].Value.ToString();
+                            cedula1 = DgvListadoOrdenes.CurrentRow.Cells["Cedula"].Value.ToString();
+                            telefono = DgvListadoOrdenes.CurrentRow.Cells["Telefono"].Value.ToString().Replace("-", "");
+                            monto = DgvListadoOrdenes.CurrentRow.Cells["MontoVueltoBs"].Value.ToString().Replace(",", ".");
+                            montoRef = DgvListadoOrdenes.CurrentRow.Cells["MontoVueltoRef"].Value.ToString();
+
+                            montoRecibidoRef = DgvListadoOrdenes.CurrentRow.Cells["montoRecibidoRef"].Value.ToString();
+                            bancoEmisor = "0114";
+                            bancoReceptor = DgvListadoOrdenes.CurrentRow.Cells["CodBancoReceptor"].Value.ToString();
+                            nroOrden = DgvListadoOrdenes.CurrentRow.Cells["NroOrden"].Value.ToString();
+                            bancoReceptorEpos = DgvListadoOrdenes.CurrentRow.Cells["CodBancoReceptorEpos"].Value.ToString();
+                            revision = "0";
+                            idAbono = DgvListadoOrdenes.CurrentRow.Cells["IdAbono"].Value.ToString();
+                            nroFactura = DgvListadoOrdenes.CurrentRow.Cells["NroFactura"].Value.ToString();
+                            concepto = "";
+                            correlativo = DgvListadoOrdenes.CurrentRow.Cells["Correlativo"].Value.ToString();
 
 
+                            //macAddress = _D_Inicio.ObtenerMacAddress();
+                            // string responseToken = Envio.getToken();
 
-                            //string responseSendPaymentB2P = Envio.sendPaymentB2P(token, cedula, telefono, monto, "", bancoEmisor, bancoReceptor, codSucursal, codSucursal, concepto);
-                            string responseSendPaymentB2P = "";
-                            ResponseSendPaymentB2P oModelsendPaymentB2P = JsonConvert.DeserializeObject<ResponseSendPaymentB2P>(responseSendPaymentB2P);
+                            string responseToken = Envio.getToken();
 
-
-                            if (oModelsendPaymentB2P.success == "true")
+                            if ((responseToken != "Permisos no válidos"))
                             {
-                                if (oModelsendPaymentB2P.codigoConfirmacion != "0" & oModelsendPaymentB2P.codigoConfirmacion != "-1" & oModelsendPaymentB2P.codigoError == "0")
+                                ResponseToken oModelToken = JsonConvert.DeserializeObject<ResponseToken>(responseToken);
+                                string token = oModelToken.access_token;
+
+                                string responseSendPaymentB2P = Envio.sendPaymentB2P(token, cedula, telefono, monto, "", bancoEmisor, bancoReceptor, codSucursal, codSucursal, concepto);
+                                // responseSendPaymentB2P = "";
+                                ResponseSendPaymentB2P oModelsendPaymentB2P = JsonConvert.DeserializeObject<ResponseSendPaymentB2P>(responseSendPaymentB2P);
+
+
+                                if (oModelsendPaymentB2P.success == "true")
                                 {
-                                    string rep = _D_DetalleOrden.ActualizarPagoMovil(codSucursal, nroOrden, revision, oModelsendPaymentB2P.codigoConfirmacion, oModelsendPaymentB2P.descripcionError, oModelsendPaymentB2P.codigoError);
+                                    if (oModelsendPaymentB2P.codigoConfirmacion != "0" & oModelsendPaymentB2P.codigoConfirmacion != "-1" & oModelsendPaymentB2P.codigoError == "0")
+                                    {
+                                        string rep = _D_DetalleOrden.ActualizarPagoMovil(codSucursal, nroOrden, revision, idAbono, oModelsendPaymentB2P.codigoConfirmacion, "Transacción Exitosa", oModelsendPaymentB2P.codigoError);
 
 
-                                    lblMensaje.ForeColor = Color.Black;
-                                    lblMensaje.Text = "Transacción Exitosa: " + oModelsendPaymentB2P.codigoConfirmacion;
-                                    _L_Facturacion.CrearTablaPagoMovil(Dt_PagoMovil);
-                                    _L_Facturacion.GuardarPagoMovilTabla(1,Dt_PagoMovil, nac, cedula, telefono.Substring(1, 4), telefono.Substring(4, 7), monto, bancoReceptorEpos, montoRecibidoRef, montoRef, "");
+                                        lblMensaje.ForeColor = Color.DarkGreen;
+                                        lblMensaje.Text = "Transacción Exitosa: " + oModelsendPaymentB2P.codigoConfirmacion;
+                                        _L_Facturacion.CrearTablaPagoMovil(Dt_PagoMovil);
+                                        _L_Facturacion.GuardarPagoMovilTabla(1, Dt_PagoMovil, nac, cedula1, telefono.Substring(0, 4), telefono.Substring(4, 7), monto.Replace(".", ","), bancoReceptorEpos, montoRecibidoRef, montoRef, "");
 
-                                    string Correlativo = _D_DetalleOrden.ID_PagoMovil(nroOrden, codSucursal, command);
+                                        //string Correlativo = _D_DetalleOrden.ID_PagoMovil(nroOrden, codSucursal, command);
 
-                                    string rept = _FrmFacturacion.ImprimirCambio(Correlativo, Dt_PagoMovil, codSucursal, nroOrden, revision, nroFactura, command);
+                                        string rept = _FrmFacturacion.ImprimirCambio(correlativo, Dt_PagoMovil, codSucursal, nroOrden, revision, nroFactura, command);
 
+                                        btnlupa_Click_1(this, EventArgs.Empty);
+                                    }
+                                    else
+                                    {
+                                        string rep = _D_DetalleOrden.ActualizarPagoMovil(codSucursal, nroOrden, revision, idAbono, oModelsendPaymentB2P.codigoConfirmacion, oModelsendPaymentB2P.descripcionError, oModelsendPaymentB2P.codigoError);
+                                        btnlupa_Click_1(this, EventArgs.Empty);
+                                        lblMensaje.ForeColor = Color.Red;
+                                        lblMensaje.Text = "Transacción Fallida: Intente de nuevo";
+                                        //lblMensaje.Text = "Transacción Fallida: " + oModelsendPaymentB2P.descripcionError;
+                                    }
+                                    //contador = 0;
                                 }
                                 else
                                 {
+                                    string rep = _D_DetalleOrden.ActualizarPagoMovil(codSucursal, nroOrden, revision, idAbono, oModelsendPaymentB2P.codigoConfirmacion, oModelsendPaymentB2P.descripcionError, oModelsendPaymentB2P.codigoError);
+                                    btnlupa_Click_1(this, EventArgs.Empty);
+                                    //progressBar1.Value = 100;
                                     lblMensaje.ForeColor = Color.Red;
-                                    lblMensaje.Text = "Transacción Fallida: " + oModelsendPaymentB2P.descripcionError;
+                                    lblMensaje.Text = "Transacción Fallida: Intente de nuevo";
+                                    //lblMensaje.Text = "Transacción Fallida: " + oModelsendPaymentB2P.descripcionError;
+
+                                    //contador = 0;
                                 }
-                                //contador = 0;
                             }
                             else
                             {
-                                //progressBar1.Value = 100;
                                 lblMensaje.ForeColor = Color.Red;
-                                lblMensaje.Text = "Transacción Fallida: " + oModelsendPaymentB2P.descripcionError;
-                                //contador = 0;
+                                lblMensaje.Text = "No tiene permisos para realizar esta acción";
+                                lblMensaje.Visible = true;
                             }
                         }
                         else
                         {
-                            lblMensaje.ForeColor = Color.Red;
-                            lblMensaje.Text = "No tiene permisos para realizar esta acción";
-                            lblMensaje.Visible = true;
                         }
+
+                        
 
 
 
@@ -523,7 +575,7 @@ namespace CapaVisual_Login
                     else
                     {
                         lblMensaje.ForeColor = Color.Red;
-                        lblMensaje.Text = "No se puede realizar un pago móvil en estado : " + DgvListadoOrdenes.CurrentRow.Cells["Estado"].Value.ToString();
+                        lblMensaje.Text = "No se puede realizar un pago móvil en estado: " + DgvListadoOrdenes.CurrentRow.Cells["Estado"].Value.ToString();
                         lblMensaje.Visible = true;
                     }
                 }
@@ -555,12 +607,47 @@ namespace CapaVisual_Login
 
         private void DgvListadoOrdenes_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
+            try
+            {
+                DataGridViewCell cell = this.DgvListadoOrdenes.Rows[e.RowIndex].Cells[e.ColumnIndex];
 
+                // Detalle de orden
+                if (this.DgvListadoOrdenes.Columns[e.ColumnIndex].Name == "Btn")
+                {
+                    // comprobar si la celda tiene contenido válido
+                    if (e.Value != System.DBNull.Value)
+                    {
+                        cell.ToolTipText = "Pago Móvil";
+                    }
+                }
+
+
+                // Anular orden
+                if (this.DgvListadoOrdenes.Columns[e.ColumnIndex].Name == "Btn2")
+                {
+                    // comprobar si la celda tiene contenido válido
+                    if (e.Value != System.DBNull.Value)
+                    {
+                        cell.ToolTipText = "Enviar email";
+                    }
+                }
+
+
+               
+
+            }
+            catch (Exception ex)
+
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje(string.Format("Error: {0}", ex.Message) + ", Error inesperado");
+                _FrmMensajes.ShowDialog();
+            }
         }
 
 
 
-        private void btnlupa_Click_1(object sender, EventArgs e)
+        public void btnlupa_Click_1(object sender, EventArgs e)
         {
             LimpiarGrid();
 
@@ -645,8 +732,8 @@ namespace CapaVisual_Login
 
                     //DgvListadoOrdenes.Rows[i].Cells["MontoVueltoBs"].Value = _D_Inicio.DesEncriptar(DgvListadoOrdenes.Rows[i].Cells["MontoVueltoBs"].Value.ToString());
                     DgvListadoOrdenes.Rows[i].Cells["Referencia"].Value = _D_Inicio.DesEncriptar(DgvListadoOrdenes.Rows[i].Cells["Referencia"].Value.ToString());
-                    //DgvListadoOrdenes.Rows[i].Cells["Cedula"].Value = _D_Inicio.DesEncriptar(DgvListadoOrdenes.Rows[i].Cells["Cedula"].Value.ToString());
-                    //DgvListadoOrdenes.Rows[i].Cells["Telefono"].Value = _D_Inicio.DesEncriptar(DgvListadoOrdenes.Rows[i].Cells["Telefono"].Value.ToString());
+                    DgvListadoOrdenes.Rows[i].Cells["Cedula"].Value = _D_Inicio.DesEncriptar(DgvListadoOrdenes.Rows[i].Cells["Cedula"].Value.ToString());
+                    DgvListadoOrdenes.Rows[i].Cells["Telefono"].Value = _D_Inicio.DesEncriptar(DgvListadoOrdenes.Rows[i].Cells["Telefono"].Value.ToString());
                 }
 
 

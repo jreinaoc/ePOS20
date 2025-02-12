@@ -98,6 +98,7 @@ namespace CapaLogica.ListaOrden_Logica
                 stringBuilder.Clear();
 
                 //Le enviamos el index asociados al valor selecionado en el combobox 
+                
                 DataSet Ordenes = _D_ListaOrdenes.CargarOrdenes(Dias.SelectedValue.ToString(), Status.SelectedValue.ToString(), NunOrden, NumCedula,Inicio,Final);
 
                 if (Ordenes.Tables[0].Rows.Count > 0)

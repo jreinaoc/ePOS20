@@ -860,7 +860,7 @@ namespace CapaVisual_Login
                 BtnCancelar.Location = new Point(985, 469);
                 BtnCancelar.Visible = true;
                 PnlLSecundario.Controls.Clear();
-                _FrmFacturacion.idAbonoPagoMovil = 0;
+                _FrmFacturacion.LimpiaVariablesIdAbonoPagoMovil();
                 AbrirForm(_FrmFacturacion);
                 Paginado_Habilitar(false);
                 // _FrmFacturacion.LimpiarGrid();

@@ -835,7 +835,7 @@ namespace CapaVisual_Login
             this.txtMontoBs.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtMontoBs.ForeColor = System.Drawing.Color.Black;
             this.txtMontoBs.Location = new System.Drawing.Point(249, 77);
-            this.txtMontoBs.MaxLength = 7;
+            this.txtMontoBs.MaxLength = 12;
             this.txtMontoBs.Name = "txtMontoBs";
             this.txtMontoBs.Size = new System.Drawing.Size(137, 21);
             this.txtMontoBs.TabIndex = 16;
@@ -3234,7 +3234,7 @@ namespace CapaVisual_Login
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(1507, 943);
+            this.ClientSize = new System.Drawing.Size(1386, 788);
             this.Controls.Add(this.PnlNotaCredito);
             this.Controls.Add(this.PnlNotaDevolucion);
             this.Controls.Add(this.PnlSecundario);

@@ -1901,7 +1901,7 @@ public void MovimientoInventario(string CodArticulo, string TipoDoc, string Docu
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("SET ARITHABORT ON; select dbo.DecodeBase64(MontoVueltoRef) as TotalPagomovilDolares, dbo.DecodeBase64(MontoVueltoBs) as TotalPagomovilBolivares from dbo.TB_CAMBIO where NroOrden = @NumOrden  and CodSuc = @codSuc", cn.LeerCadena());
+                SqlCommand cmd = new SqlCommand("select sum(MontoVueltoRef) as TotalPagomovilDolares, sum(MontoVueltoBs) as TotalPagomovilBolivares from dbo.TB_CAMBIO where NroOrden = @NumOrden  and CodSuc = @codSuc", cn.LeerCadena());
                 cmd.CommandType = CommandType.Text;
                 cmd.Parameters.AddWithValue("@codSuc", Sucursal);
                 cmd.Parameters.AddWithValue("@NumOrden", NumeroOrden);
@@ -2189,20 +2189,23 @@ public void MovimientoInventario(string CodArticulo, string TipoDoc, string Docu
 
         }
 
-        public string ActualizarPagoMovil(string Cod_Sucursal, string NumOrdserv, string Revision, string Referencia, string DetalleTransaccion, string CodigoError)
+        public string ActualizarPagoMovil(string Cod_Sucursal, string NumOrdserv, string Revision, string idAbono , string Referencia, string DetalleTransaccion, string CodigoError)
         {
             SqlCommand cmd = new SqlCommand("SP_CPOS_ActualizarPagoMovil", cn.LeerCadena());
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@CodSuc", Cod_Sucursal);
-            cmd.Parameters.AddWithValue("@NumordServ", NumOrdserv);
+            cmd.Parameters.AddWithValue("@NroOrd", NumOrdserv);
             cmd.Parameters.AddWithValue("@Revision", Revision);
+            cmd.Parameters.AddWithValue("@IdAbono", idAbono);
             cmd.Parameters.AddWithValue("@Referencia", _D_Inicio.Encriptar(Referencia));
             cmd.Parameters.AddWithValue("@DetalleTransaccion", DetalleTransaccion);
             cmd.Parameters.AddWithValue("@CodigoError", CodigoError);
+            cmd.Parameters.AddWithValue("@Usuario", TB_USUARIO.COD_EMPLEADO);
+
             DataTable dt = new DataTable();
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             da.Fill(dt);
-            string Valor = dt.Rows[0]["Resultado"].ToString();
+            string Valor = dt.Rows[0][0].ToString();
             return Valor;
 
 

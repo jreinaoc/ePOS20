@@ -2175,7 +2175,7 @@ namespace CapaLogica.DetalleOrden_Logica
                 CteNacionalidad = Row["Nacionalidad"].ToString();
                 Cedula = Row["Cedula"].ToString();
                 CodBancoReceptor = Row["Banco"].ToString();
-                Telefono = Row["PrefijoCelular"].ToString() + "-" + Row["Celular"].ToString();
+                Telefono = Row["PrefijoCelular"].ToString() + Row["Celular"].ToString();
 
 
                 if (Row["Moneda"].ToString() == "Euros")
@@ -2187,7 +2187,7 @@ namespace CapaLogica.DetalleOrden_Logica
                     Tasa_Abono = Convert.ToDouble(TB_TASA_Dolar.Tasa);
                 }
 
-                Respuesta = _D_DetalleOrden.ReguistarPagoMovil(idAbonoPagoMovil, CodigoSucursal, NumeroOrden, Revision, Tasa_Abono, MontoRecibidoRef, MontoVueltoRef, MontoVueltoBs, CteNacionalidad, Cedula, CodBancoReceptor, Telefono, command);
+                Respuesta = _D_DetalleOrden.ReguistarPagoMovil(idAbonoPagoMovil, CodigoSucursal, NumeroOrden, Revision, Tasa_Abono, MontoRecibidoRef, MontoVueltoRef, MontoVueltoBs, CteNacionalidad, Cedula, CodBancoReceptor, Telefono.Trim(), command);
                 
                 Tasa_Abono = 0;
                 MontoRecibidoRef = 0;

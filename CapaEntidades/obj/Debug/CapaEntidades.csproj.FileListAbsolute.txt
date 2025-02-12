@@ -9,3 +9,14 @@ C:\Programacion\CaroniPOS1\CapaEntidades\obj\Debug\CapaEntidades.csproj.CoreComp
 C:\Programacion\CaroniPOS1\CapaEntidades\obj\Debug\CapaEntidades.csproj.CopyComplete
 C:\Programacion\CaroniPOS1\CapaEntidades\obj\Debug\CapaEntidades.dll
 C:\Programacion\CaroniPOS1\CapaEntidades\obj\Debug\CapaEntidades.pdb
+C:\Users\jreina\source\repos\CaroniPOS3\CapaEntidades\bin\Debug\CapaEntidades.dll
+C:\Users\jreina\source\repos\CaroniPOS3\CapaEntidades\bin\Debug\CapaEntidades.pdb
+C:\Users\jreina\source\repos\CaroniPOS3\CapaEntidades\bin\Debug\log4net.dll
+C:\Users\jreina\source\repos\CaroniPOS3\CapaEntidades\bin\Debug\Newtonsoft.Json.dll
+C:\Users\jreina\source\repos\CaroniPOS3\CapaEntidades\bin\Debug\System.ComponentModel.Annotations.dll
+C:\Users\jreina\source\repos\CaroniPOS3\CapaEntidades\bin\Debug\log4net.xml
+C:\Users\jreina\source\repos\CaroniPOS3\CapaEntidades\bin\Debug\Newtonsoft.Json.xml
+C:\Users\jreina\source\repos\CaroniPOS3\CapaEntidades\obj\Debug\CapaEntidades.csproj.CoreCompileInputs.cache
+C:\Users\jreina\source\repos\CaroniPOS3\CapaEntidades\obj\Debug\CapaEntidades.csproj.CopyComplete
+C:\Users\jreina\source\repos\CaroniPOS3\CapaEntidades\obj\Debug\CapaEntidades.dll
+C:\Users\jreina\source\repos\CaroniPOS3\CapaEntidades\obj\Debug\CapaEntidades.pdb
