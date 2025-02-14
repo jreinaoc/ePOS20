@@ -133,6 +133,12 @@
     <Compile Include="CustomControls\ControlsTextbox.Designer.cs">
       <DependentUpon>ControlsTextbox.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmListaFactura.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmListaFactura.Designer.cs">
+      <DependentUpon>FrmListaFactura.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmMostarDeclaracion.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -306,6 +312,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FrmInicio.resx">
       <DependentUpon>FrmInicio.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmListaFactura.resx">
+      <DependentUpon>FrmListaFactura.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmListaOrdenes.resx">
       <DependentUpon>FrmListaOrdenes.cs</DependentUpon>

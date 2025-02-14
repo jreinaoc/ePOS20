@@ -38,8 +38,9 @@ namespace CapaVisual_Login
         D_Inicio _D_Inicio = new D_Inicio();
         L_Colores _L_Colores = new L_Colores();
         FrmPagoMovil _FrmPagoMovil = new FrmPagoMovil();
-        private D_DetalleOrden _D_DetalleOrden = new D_DetalleOrden();
+        FrmListaFactura _FrmListaFactura = new FrmListaFactura();
 
+        private D_DetalleOrden _D_DetalleOrden = new D_DetalleOrden();
         public bool osc;
         public string mostrarclientes;
 
@@ -70,7 +71,7 @@ namespace CapaVisual_Login
                 BtnListadoOrdenes.BackColor = col2;
                 btnClienteEspera.BackColor = col2;
                 btnPagoMovil.BackColor = col2;
-
+                btnListaFactura.BackColor = col2;
 
             }
             else
@@ -80,6 +81,7 @@ namespace CapaVisual_Login
                 BtnListadoOrdenes.BackColor = Color.White;
                 btnClienteEspera.BackColor = Color.White;
                 btnPagoMovil.BackColor = Color.White;
+                btnListaFactura.BackColor = Color.White;
             }
 
 
@@ -126,7 +128,7 @@ namespace CapaVisual_Login
                 btnconfiguracion.BackColor = col2;
                 btnClienteEspera.BackColor = col2;
                 btnPagoMovil.BackColor = col2;
-
+                btnListaFactura.BackColor = col2;
 
             }
             else
@@ -136,6 +138,7 @@ namespace CapaVisual_Login
                 btnconfiguracion.BackColor = Color.White;
                 btnClienteEspera.BackColor = Color.White;
                 btnPagoMovil.BackColor = Color.White;
+                btnListaFactura.BackColor = Color.White;
             }
 
 
@@ -211,21 +214,25 @@ namespace CapaVisual_Login
             _FrmListaOrdenes.FormatoDataGrid2(col2, col3, col4);
             _FrmConfiguracion.FormatoConfig2(col2, col3, col4);
             _FrmFacturacion.FormatoFacturacion2(col2, col3, col4);
-            
+            _FrmListaFactura.FormatoDataGrid_Oscuro_ListaFact(col2, col3, col4);
 
 
             BtnListadoOrdenes.BackColor = col2;
             BtnInicio.BackColor = col2;
             btnconfiguracion.BackColor = col2;
             btnClienteEspera.BackColor = col2;
-
+            btnListaFactura.BackColor = col2;
+            btnPagoMovil.BackColor = col2;
 
             BtnInicio.ForeColor = Color.White;
             BtnListadoOrdenes.ForeColor = Color.White;
             btnClienteEspera.ForeColor = Color.White;
             btnconfiguracion.ForeColor = Color.White;
             LblFechday.ForeColor = Color.White;
+            btnListaFactura.ForeColor = Color.White;
+            btnPagoMovil.ForeColor = Color.White;
             BackColor = col2;
+
 
             //FrmListaOrdenes frmListaOrdenes = new FrmListaOrdenes();
             //frmListaOrdenes.BackColor = col2;
@@ -251,8 +258,6 @@ namespace CapaVisual_Login
             PicBoxConfigOsc.Visible = true;
 
 
-
-
         }
 
         private void BtnClaro_Click(object sender, EventArgs e)
@@ -271,7 +276,8 @@ namespace CapaVisual_Login
             BtnInicio.BackColor = Color.White;
             btnconfiguracion.BackColor = Color.White;
             btnClienteEspera.BackColor = Color.White;
-
+            btnListaFactura.BackColor = Color.White;
+            btnPagoMovil.BackColor = Color.White;
 
 
             BtnInicio.ForeColor = Color.Black;
@@ -279,11 +285,16 @@ namespace CapaVisual_Login
             btnClienteEspera.ForeColor = Color.Black;
             btnconfiguracion.ForeColor = Color.Black;
             LblFechday.ForeColor = Color.Black;
+            btnListaFactura.ForeColor = Color.Black;
+            btnPagoMovil.ForeColor = Color.Black;
+
             _FrmInicio.ConfigClara(col1, col3);
             _FrmListaOrdenes.FormatoDataGrid1(col1, col3);
             _FrmConfiguracion.FormatoConfig1(col1, col3);
             _FrmFacturacion.FormatoFacturacion1(col1, col3);
-            
+            _FrmListaFactura.FormatoDataGrid_Claro_ListaFact(col1, col3);
+
+
             //_FrmListaOrdenes.EstructuraGrid();
             foreach (var form in Application.OpenForms.Cast<Form>())
             {
@@ -320,7 +331,7 @@ namespace CapaVisual_Login
                 BtnListadoOrdenes.BackColor = col2;
                 btnClienteEspera.BackColor = col2;
                 btnPagoMovil.BackColor = col2;
-
+                btnListaFactura.BackColor = col2;
 
             }
             else
@@ -330,6 +341,7 @@ namespace CapaVisual_Login
                 BtnListadoOrdenes.BackColor = Color.White;
                 btnClienteEspera.BackColor = Color.White;
                 btnPagoMovil.BackColor = Color.White;
+                btnListaFactura.BackColor = Color.White;
             }
 
 
@@ -434,7 +446,7 @@ namespace CapaVisual_Login
                 BtnInicio.BackColor = col2;
                 BtnListadoOrdenes.BackColor = col2;
                 btnPagoMovil.BackColor = col2;
-
+                btnListaFactura.BackColor = col2;
 
             }
             else
@@ -444,6 +456,7 @@ namespace CapaVisual_Login
                 BtnInicio.BackColor = Color.White;
                 BtnListadoOrdenes.BackColor = Color.White;
                 btnPagoMovil.BackColor = Color.White;
+                btnListaFactura.BackColor = Color.White;
             }
 
             // _FrmClienteEspera.ShowDialog();
@@ -508,7 +521,7 @@ namespace CapaVisual_Login
                 BtnInicio.BackColor = col2;
                 btnconfiguracion.BackColor = col2;
                 btnClienteEspera.BackColor = col2;
-                
+                btnListaFactura.BackColor = col2;
 
 
             }
@@ -519,12 +532,44 @@ namespace CapaVisual_Login
                 btnconfiguracion.BackColor = Color.White;
                 btnClienteEspera.BackColor = Color.White;
                 BtnListadoOrdenes.BackColor = Color.White;
+                btnListaFactura.BackColor = Color.White;
             }
 
             PnlListadoOrdenes.Controls.Clear();
             addformulario(_FrmPagoMovil);
             _FrmPagoMovil.btnlupa_Click_1(this, EventArgs.Empty);
             Focus();
+        }
+
+        private void btnListaFactura_Click(object sender, EventArgs e)
+        {
+            System.Drawing.Color col2 = System.Drawing.ColorTranslator.FromHtml("#257b78");
+
+            if (this.BackColor == col2)
+            {
+                btnListaFactura.BackColor = Color.FromArgb(4, 185, 166);
+                BtnListadoOrdenes.BackColor = col2;
+                BtnInicio.BackColor = col2;
+                btnconfiguracion.BackColor = col2;
+                btnClienteEspera.BackColor = col2;
+
+
+
+            }
+            else
+            {
+                btnListaFactura.BackColor = Color.FromArgb(4, 185, 166);
+                BtnListadoOrdenes.BackColor = Color.White;
+                btnconfiguracion.BackColor = Color.White;
+                btnClienteEspera.BackColor = Color.White;
+                BtnListadoOrdenes.BackColor = Color.White;
+                btnPagoMovil.BackColor = Color.White;
+            }
+
+            PnlListadoOrdenes.Controls.Clear();
+            addformulario(_FrmListaFactura);
+            Focus();
+
         }
     }
 }

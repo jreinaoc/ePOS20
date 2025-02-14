@@ -92,6 +92,7 @@
     <Compile Include="Facturacion_Logica\L_Facturacion.cs" />
     <Compile Include="Impresora_Fiscal\Impresora_Fiscal.cs" />
     <Compile Include="Inicio_Logica\L_Inicio.cs" />
+    <Compile Include="ListaFactura_Logica\L_ListaFacturas.cs" />
     <Compile Include="ListaOrden_Logica\L_ListaOrdenes.cs" />
     <Compile Include="Login_Logica\L_EncriptarDesEscriptar.cs" />
     <Compile Include="Login_Logica\L_Login.cs" />

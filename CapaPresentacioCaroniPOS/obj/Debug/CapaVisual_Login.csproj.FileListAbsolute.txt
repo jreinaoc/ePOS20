@@ -222,3 +222,4 @@ C:\Users\jreina\source\repos\CaroniPOS3\CapaPresentacioCaroniPOS\obj\Debug\ePOS.
 C:\Users\jreina\source\repos\CaroniPOS3\CapaPresentacioCaroniPOS\obj\Debug\CapaVisual_Login.csproj.CopyComplete
 C:\Users\jreina\source\repos\CaroniPOS3\CapaPresentacioCaroniPOS\obj\Debug\ePOS.exe
 C:\Users\jreina\source\repos\CaroniPOS3\CapaPresentacioCaroniPOS\obj\Debug\ePOS.pdb
+C:\Programacion\CaroniPOS1\CapaPresentacioCaroniPOS\obj\Debug\CapaVisual_Login.FrmListaFactura.resources
