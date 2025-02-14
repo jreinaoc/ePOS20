@@ -20,3 +20,4 @@ C:\Users\jreina\source\repos\CaroniPOS3\CapaEntidades\obj\Debug\CapaEntidades.cs
 C:\Users\jreina\source\repos\CaroniPOS3\CapaEntidades\obj\Debug\CapaEntidades.csproj.CopyComplete
 C:\Users\jreina\source\repos\CaroniPOS3\CapaEntidades\obj\Debug\CapaEntidades.dll
 C:\Users\jreina\source\repos\CaroniPOS3\CapaEntidades\obj\Debug\CapaEntidades.pdb
+C:\Users\jreina\source\repos\CaroniPOS3\CapaEntidades\obj\Debug\CapaEntidades.csproj.AssemblyReference.cache
