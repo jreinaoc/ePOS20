@@ -17,6 +17,10 @@ using System.Data.SqlClient;
 using CapaDatos.Conexion;
 using System.Net.NetworkInformation;
 using System.Diagnostics;
+using System.IO;
+using System.Drawing.Text;
+using CapaEntidades;
+
 
 
 namespace CapaVisual_Login
@@ -441,9 +445,55 @@ namespace CapaVisual_Login
                 SqlConnection connection = cn.LeerCadena();
                 SqlCommand command = connection.CreateCommand();
 
+                string codSucursal;
+                codSucursal = _D_DetalleOrden.TB_PARAMETRO("SucursalId");
+                string sucursal;
+                string nac;
+                string cedula;
+                string telefono;
+                string monto;
+                string montoRef;
+                string montoRecibidoRef;
+                string bancoEmisor = "0114";
+                string bancoReceptor;
+                string bancoReceptorEpos;
+                string concepto;
+                string referencia;
+                string nroOrden;
+                string nroFactura;
+                string revision;
+                string idAbono;
+                string correlativo;
+                string cedula1;
+                string nombreBeneficiario;
+                string nombreBancoReceptor;
+
+                //sucursal = cbSucursales.Text; ;
+                nac = DgvListadoOrdenes.CurrentRow.Cells["Nacionalidad"].Value.ToString();
+                cedula = nac + DgvListadoOrdenes.CurrentRow.Cells["Cedula"].Value.ToString();
+                cedula1 = DgvListadoOrdenes.CurrentRow.Cells["Cedula"].Value.ToString();
+                telefono = DgvListadoOrdenes.CurrentRow.Cells["Telefono"].Value.ToString().Replace("-", "");
+                monto = DgvListadoOrdenes.CurrentRow.Cells["MontoVueltoBs"].Value.ToString().Replace(",", ".");
+                montoRef = DgvListadoOrdenes.CurrentRow.Cells["MontoVueltoRef"].Value.ToString();
+
+                montoRecibidoRef = DgvListadoOrdenes.CurrentRow.Cells["montoRecibidoRef"].Value.ToString();
+                bancoEmisor = "0114";
+                bancoReceptor = DgvListadoOrdenes.CurrentRow.Cells["CodBancoReceptor"].Value.ToString();
+                nroOrden = DgvListadoOrdenes.CurrentRow.Cells["NroOrden"].Value.ToString();
+                bancoReceptorEpos = DgvListadoOrdenes.CurrentRow.Cells["CodBancoReceptorEpos"].Value.ToString();
+                revision = "0";
+                idAbono = DgvListadoOrdenes.CurrentRow.Cells["IdAbono"].Value.ToString();
+                nroFactura = DgvListadoOrdenes.CurrentRow.Cells["NroFactura"].Value.ToString();
+                concepto = "";
+                correlativo = DgvListadoOrdenes.CurrentRow.Cells["Correlativo"].Value.ToString();
+                nombreBeneficiario = DgvListadoOrdenes.CurrentRow.Cells["Nombre"].Value.ToString();
+                nombreBancoReceptor = DgvListadoOrdenes.CurrentRow.Cells["BancoReceptor"].Value.ToString();
+
+
                 if (DgvListadoOrdenes.Columns[e.ColumnIndex].Name == "Btn") //  PARA FACTURAR
                 {
                     lblMensaje.Text = "";
+                 
                     //Btnlupa.Visible = false;
                     //DgvListadoOrdenes.Visible = false;
                     string MaxDiaPagoMovil = _D_DetalleOrden.TB_PARAMETRO("PM");
@@ -459,47 +509,8 @@ namespace CapaVisual_Login
                         {
                             _FrmMensajes.BtnSi.Enabled = false;
                             DataTable Dt_PagoMovil = new DataTable();
-                            string codSucursal;
-                            string sucursal;
-                            string nac;
-                            string cedula;
-                            string telefono;
-                            string monto;
-                            string montoRef;
-                            string montoRecibidoRef;
-                            string bancoEmisor = "0114";
-                            string bancoReceptor;
-                            string bancoReceptorEpos;
-                            string concepto;
-                            string referencia;
-                            string nroOrden;
-                            string nroFactura;
-                            string revision;
-                            string idAbono;
-                            string correlativo;
-                            string cedula1;
-
-                            codSucursal = _D_DetalleOrden.TB_PARAMETRO("SucursalId");
-                            //sucursal = cbSucursales.Text; ;
-                            nac = DgvListadoOrdenes.CurrentRow.Cells["Nacionalidad"].Value.ToString();
-                            cedula = nac + DgvListadoOrdenes.CurrentRow.Cells["Cedula"].Value.ToString();
-                            cedula1 = DgvListadoOrdenes.CurrentRow.Cells["Cedula"].Value.ToString();
-                            telefono = DgvListadoOrdenes.CurrentRow.Cells["Telefono"].Value.ToString().Replace("-", "");
-                            monto = DgvListadoOrdenes.CurrentRow.Cells["MontoVueltoBs"].Value.ToString().Replace(",", ".");
-                            montoRef = DgvListadoOrdenes.CurrentRow.Cells["MontoVueltoRef"].Value.ToString();
-
-                            montoRecibidoRef = DgvListadoOrdenes.CurrentRow.Cells["montoRecibidoRef"].Value.ToString();
-                            bancoEmisor = "0114";
-                            bancoReceptor = DgvListadoOrdenes.CurrentRow.Cells["CodBancoReceptor"].Value.ToString();
-                            nroOrden = DgvListadoOrdenes.CurrentRow.Cells["NroOrden"].Value.ToString();
-                            bancoReceptorEpos = DgvListadoOrdenes.CurrentRow.Cells["CodBancoReceptorEpos"].Value.ToString();
-                            revision = "0";
-                            idAbono = DgvListadoOrdenes.CurrentRow.Cells["IdAbono"].Value.ToString();
-                            nroFactura = DgvListadoOrdenes.CurrentRow.Cells["NroFactura"].Value.ToString();
-                            concepto = "";
-                            correlativo = DgvListadoOrdenes.CurrentRow.Cells["Correlativo"].Value.ToString();
-
-
+                            
+                           
                             //macAddress = _D_Inicio.ObtenerMacAddress();
                             // string responseToken = Envio.getToken();
 
@@ -584,9 +595,25 @@ namespace CapaVisual_Login
                     // Para anular una orden abonada 
                     if (DgvListadoOrdenes.CurrentRow.Cells["Estado"].Value.ToString() == "BLOQUEADO")
                     {
+                        string Sucursal_Descripcion = _D_DetalleOrden.Nombre_Surculsal_PagoMovil(codSucursal, null);
+                        //DataTable dtOrden = _D_DetalleOrden.Datos_de_la_Orden(nroOrden, "0");
+                        _L_Facturacion.DatosOrden(nroOrden, "0");
+                        DataTable dtCliente = _D_DetalleOrden.BucarTB_CTEPPAL(TB_CAORDSER.CTE_CedIden, TB_CAORDSER.CTE_Nacio);
+
+                        string NombrePaciente = dtCliente.Rows[0][2].ToString() + " " + dtCliente.Rows[0][4].ToString();
+                        //if (dtCliente.Rows.Count > 0)
+                        //{
+                        //    foreach (DataRow drItem in dtCliente.Rows)
+                        //    {
+                        //        string PrimerNombre = drItem["CTE_PNombre"].ToString();
+                        //        string PrimerApellido = drItem["CTE_PApellido"].ToString();
+                        //        //txtNombreCliente.Text = PrimerNombre + " " + PrimerApellido;
+                        //        break;
+                        //    }
+
+                        //}
                         // EnviarMail
-
-
+                        FormatoCorreo(codSucursal, Sucursal_Descripcion, nroOrden, NombrePaciente , nombreBeneficiario, cedula, telefono, nombreBancoReceptor,monto,montoRef, TB_CAORDSER.Fecha);
                     }
                     else
                     {
@@ -742,6 +769,68 @@ namespace CapaVisual_Login
             {
                 MessageBox.Show(string.Format("Error: {0}", ex.Message), "Error inesperado");
             }
+        }
+
+        public void FormatoCorreo(string codSucursal, string Sucursal_Descripcion, string nroOrden, string nombrePaciente , string nombreBeneficiario, string cedula, string telefono, string nombreBancoReceptor, string monto, string montoRef, DateTime  fecha)
+        {
+            Font fuente = new Font("Arial", 11, FontStyle.Regular, GraphicsUnit.Point);
+            // Creamos fuente
+            //Font fuente = new Font(Font.FontFamily.COURIER, 11, Font.NORMAL, BaseColor.BLACK);
+            //Cuerpo del mensaje
+            string FechaActual = DateTime.Now.ToString("dd/MM/yyyy");
+
+            string parte1 = "FORMATO SOLICITUD DE VUELTO" + "\n\n";
+
+            //string parte1 = "Buenas tardes, " + Sucursal + "-" + Nonmbre_Sucursal + ". <br/><br/>Reporte: ";
+            //string parte2 = Asunto1 + " generada el (" + FechaActual + ")<br/><br/><br/>";
+
+            string parte3 = "<br/></blockquote></blockquote>";
+            string parte4 = "<br/><table>";
+            parte4 += "<tr><td><strong>N° DE FACTURA / N° DE ANTICIPO:</strong></td><td>" + nroOrden + "</td></tr>";
+            parte4 += "<tr><td><strong>NOMBRE DEL PACIENTE:</strong></td><td>" + nombrePaciente + "</td></tr>";
+            parte4 += "<tr><td><strong>BENEFICIARIO:</strong></td><td>" + nombreBeneficiario + "</td></tr>";
+            parte4 += "<tr><td><strong>CEDULA O RIF DE LA PERSONA</strong></td><td></td></tr>";
+            parte4 += "<tr><td><strong>QUE SOLICITA EL VUELTO:</strong></td><td>" + cedula + "</td></tr>";
+            parte4 += "<tr><td><strong>NUMERO CELULAR DE LA</strong></td><td></td></tr>";
+            parte4 += "<tr><td><strong>PERSONA QUE SOLICITA EL VUELTO:</strong></td><td>" + telefono  + "</td></tr>";
+            parte4 += "<tr><td><strong>BANCO RECEPTOR DEL VUELTO:</strong></td><td>Mercantil</td></tr>";
+            parte4 += "<tr><td><strong>MONTO DEL VUELTO EN BOLIVARES:</strong></td><td>" + monto.Replace(".",",") + "</td></tr>";
+            parte4 += "<tr><td><strong>MONTO DEL VUELTO EN DOLARES:</strong></td><td>" + montoRef.Replace(".", ",") + "</td></tr>";
+            parte4 += "<tr><td><strong>FECHA:</strong></td><td>" + fecha.ToShortDateString() + "</td></tr>";
+            parte4 += "</table>";
+               // string cuerpoMensaje = parte3 + parte4;
+
+
+          //     string parte11 = "<br/><br/> <b> Nota: </b> " + "Gracias por la atención prestada.";
+            //string parteXI = "<br/> Automáticamente por EposFFt";
+
+            //Llamado a variables de config.
+            string urlApp = _D_DetalleOrden.TB_PARAMETRO("RutaEnvioEmail") + "AppEnvioEmail.exe";
+            var Orig = _D_DetalleOrden.TB_PARAMETRO("UserEnvioEmail");
+
+            var DestinatariosP = _D_DetalleOrden.TB_PARAMETRO("UserDestEmailPM"); ;
+
+            //Buscamos Los detinatarios que estan en Tb_Parametros parametro= CopiaEnvioMail
+            var DestinatariosC = "";  
+            var Asunto = Sucursal_Descripcion +  "-Solicitud de Vuelto";
+            var User = _D_DetalleOrden.TB_PARAMETRO("UserEnvioEmail");
+            var pass = _D_DetalleOrden.TB_PARAMETRO("PassEnvioEmail");
+
+            string CuerpoMensaje = parte1 +  parte3 + parte4 ;
+
+            //var word1 = new Chunk(CuerpoMensaje, fuente);
+
+
+            string adj = "";
+
+            var HostEnvioMail = _D_DetalleOrden.TB_PARAMETRO("HostEnvioMail");
+            //string strComand = ruta + Orig + ";" + DestinatariosP + ";" + DestinatariosC + ";" + Asunto + ";" + User + ";" + pass + ";" + CuerpoMensaje + ";" + adj + ";" + HostEnvioMail + ";1";
+            string strComand = ";" + Orig + ";" + DestinatariosP + ";" + DestinatariosC + ";" + Asunto + ";" + User + ";" + pass + ";" + CuerpoMensaje + ";" + adj + ";" + "CARONI" + ";1";
+            //Ejecutar app externa con parametros
+            Process.Start(urlApp, strComand);
+            //FuncionDelay();
+            //Console.Write("Proceso culminado.\n");
+            return;
         }
     }
 }
