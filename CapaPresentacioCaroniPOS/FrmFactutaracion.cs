@@ -1129,8 +1129,8 @@ namespace CapaVisual_Login
 
                                     }
 
-                                    if (TxtCedulaPagoMovil.Text != "" && TxtCedulaPagoMovil.TextLength > 6 && (TxtCedulaPagoMovil.Text.Replace(" ", "")).Length > 6 && TxtMontoPagoMovil.Text != "0.00"
-                                    && TxtCedularPagoMovil.Text != "" && TxtCedularPagoMovil.TextLength > 6 && (TxtCedularPagoMovil.Text.Replace(" ", "")).Length > 6 && TxtMontoPagoMovil.Text != "" && CbxCelularPagoMovil.Text != "")
+                                    if (TxtCedulaPagoMovil.Text != "" && TxtCedulaPagoMovil.TextLength > 1 && (TxtCedulaPagoMovil.Text.Replace(" ", "")).Length > 1 && TxtMontoPagoMovil.Text != "0.00"
+                                    && TxtCedularPagoMovil.Text != "" && TxtCedularPagoMovil.TextLength > 1 && (TxtCedularPagoMovil.Text.Replace(" ", "")).Length > 1 && TxtMontoPagoMovil.Text != "" && CbxCelularPagoMovil.Text != "")
                                     {
 
                                         if (CbxMoneda.SelectedIndex.ToString() == "1")
@@ -1396,11 +1396,13 @@ namespace CapaVisual_Login
         private void btnProcesar1_Click(object sender, EventArgs e) 
 
         {
+            this.Enabled = false;
             LimpiaVariablesIdAbonoPagoMovil();
             Cursor.Current = new Cursor(Properties.Resources.relojArena__1_.Handle);
             //Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
 
             string rept = "";
+
             bool completo;
             string concat = TB_CAORDSER.Cod_Sucursal + TB_CAORDSER.NumOrdserv + TB_CAORDSER.Revision;
 
@@ -1753,7 +1755,9 @@ namespace CapaVisual_Login
             {
                 try
                 {
-                 LimpiarGrid();
+                    
+
+                    LimpiarGrid();
 
                 DataTable Pagos = _L_Facturacion.MostarPagosGrid(TB_CAORDSER.Cod_Sucursal, txtNumeroOrden.Text, TB_CAORDSER.Revision);
 
@@ -1766,7 +1770,7 @@ namespace CapaVisual_Login
 
                 CargarDatosOrden(txtNumeroOrden.Text, txtNombreCliente.Text, TB_CAORDSER.Revision);
 
-
+                    this.Enabled = true;
                 if (rept == "SATISFACTORIO" || rept == "" || rept == "Error")
                 {
                     btnCancelar1.PerformClick();
@@ -1801,7 +1805,7 @@ namespace CapaVisual_Login
                 }
             }
 
-
+           
         }
 
         public void CargarDatosOrden(string NumeroOrden, String NombreCliente, string Revison)
@@ -2091,7 +2095,8 @@ namespace CapaVisual_Login
             double IgtfAbonado_2 = Convert.ToDouble(TxtIgtfOrd.Text.Replace(".", "")) + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos).Replace(".", ""));
             string saldo_bolivares_2 = Convert.ToString(Math.Round((double)((Convert.ToDouble(TxtSaldoOrd.Text.Replace(".", "")) - IgtfAbonado_2)), 2));
             saldo_bolivares_2 = string.Format("{0:#,0.00}", Convert.ToDecimal(saldo_bolivares_2));
-            string saldo_ref_2 = Convert.ToString(Math.Round((double)((Convert.ToDouble(TxtSaldoOrd.Text.Replace(".", "")) - IgtfAbonado_2) / TB_TASA_Dolar.Tasa), 2));
+            
+                string saldo_ref_2 = Convert.ToString(Math.Round((double)((Convert.ToDouble(TxtSaldoOrd.Text.Replace(".", "")) - IgtfAbonado_2) / TB_TASA_Dolar.Tasa), 2));
             saldo_ref_2 = string.Format("{0:#,0.00}", Convert.ToDecimal(saldo_ref_2));
             TxtSaldoRef_2.Text = saldo_ref_2;
             TxtSaldoOrd_2.Text = saldo_bolivares_2;
@@ -4640,9 +4645,10 @@ namespace CapaVisual_Login
 
                                     string cedula = txtCedula.Text;
                                     string Nacionalidad = cedula[0].ToString();
+                                    int tiempoImpTermica = Convert.ToInt32(_D_DetalleOrden.TB_PARAMETRO("TiempoImpTerm"));
 
                                     // Esperar un tiempo para que la impresora emita el ticket
-                                    Thread.Sleep(15000); // Esperar 5 segundos (ajusta el tiempo según sea necesario)
+                                    Thread.Sleep(tiempoImpTermica); // Esperar 5 segundos (ajusta el tiempo según sea necesario)
                                     objVmax.AbrirPuerto(Convert.ToString(glbPuertoCOM));
                                     objVmax.ObtenerContadores();
                                     string UltimoNumeroFacturaCancelado2 = objVmax.RetornoContadores.uiUltFacturaAnulada.ToString().PadLeft(7, '0');
@@ -4659,6 +4665,9 @@ namespace CapaVisual_Login
 
                                        _D_DetalleOrden.PostFactManual(NumeroComprobanteFiscal, txtNumeroOrden.Text, SerialImpresora, "VENEZUELA", command);
                                         Num_Factura = NumeroComprobanteFiscal;
+
+                                        _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "071", TB_USUARIO.COD_EMPLEADO, "OS: " + txtNumeroOrden.Text + ", Factura: " + NumeroComprobanteFiscal + ", Serial: " + SerialImpresora);
+
 
                                     }
                                     else
@@ -4703,7 +4712,7 @@ namespace CapaVisual_Login
                     NroControl = NroControl.Replace("_", "");
 
                     // Se valida que el numero de control tenga 11 caracteres y el numero de factura 11
-                    if (NroControl.Length != 11 & TxtNumFact.Text.Length != 7)
+                    if (NroControl.Trim().Length < 11 | TxtNumFact.Text.Trim().Length != 7)
                     {
                         _FrmMensajes.co = 2;
                         _FrmMensajes.avisomensaje("El número de factura debe tener 7 dígitos y el número de control 10 dígitos");
@@ -4759,6 +4768,9 @@ namespace CapaVisual_Login
                                       Convert.ToDouble(String.Format(CultureInfo.InvariantCulture, "{0:0.00}", Convert.ToDouble(DtIGTF.Tables[0].Rows[0]["Alicuota"].ToString()) / 100).Replace(".", ",")), TB_CAORDSER.VtaDescuento, (totalpagosManual/100), TB_USUARIO.COD_USR, 0, 0, "FACTMANUAL",
                                      Fact_MontoExento, Fact_MontoExento, 0, iGTF, "A", command, true, _L_ListaOrdenes.Completar_Numero_Control(TxtNroCorrelativo.Text));
 
+                    _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "071", TB_USUARIO.COD_EMPLEADO, "OS: " + txtNumeroOrden.Text + ", Factura: " + TxtNumFact.Text + ", Serial: " + "FACTMANUAL");
+
+
                     _D_DetalleOrden.PostFactManual(TxtNumFact.Text, txtNumeroOrden.Text, "FACTMANUAL", "VENEZUELA", command);
                     Num_Factura = TxtNumFact.Text;
                     //if (Transaccion == "SATISFACTORIO")
@@ -4806,6 +4818,7 @@ namespace CapaVisual_Login
                 return "";
             }
 
+
             finally
             {
               try
@@ -4821,13 +4834,15 @@ namespace CapaVisual_Login
                                       txtCedula.Text.Substring(2, txtCedula.Text.Length - 2), TB_CAORDSER.COD_EMPLEADO, TB_CAORDSER.Cod_Venta, txtNumeroOrden.Text, Convert.ToString(TB_CAORDSER.Fec_ofrecido.ToString("yyyyMMdd")), TB_CAORDSER.Hor_ofrecido, Convert.ToDouble("0,00"),
                                        Convert.ToDouble("0,00"), Convert.ToDouble("0,00"), Convert.ToDouble("0,00"), TB_USUARIO.COD_USR, 0, 0, SerialImpresora,
                                         Convert.ToDouble("0,00"), Convert.ToDouble("0,00"), Convert.ToDouble("0,00"), Convert.ToDouble("0,00"), "I", null);
-                  }
+
+                            _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "071", TB_USUARIO.COD_EMPLEADO, "OS: " + txtNumeroOrden.Text + ", Factura: " + NumeroComprobanteFiscal + ", Serial: " + SerialImpresora);
+                        }
                 }
               }
                 catch (Exception ex)
                 {
                     _FrmMensajes.co = 2;
-                    // Manejar otras excepciones
+                    // Manejar otras excepcionesDEBE LLENAR TODOS
                     _FrmMensajes.avisomensaje(string.Format("Error: {0}", ex.Message) + ", Error nivel 2");
                     _FrmMensajes.ShowDialog();
                     throw;
@@ -5797,14 +5812,14 @@ namespace CapaVisual_Login
 
                     // Imprimo el Pago Movil 
                     if (rept == "SATISFACTORIO" && PMAutomatico == "0")
-                     rept = ImprimirCambio(Correlativo, Dt_PagoMovil, TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision,"", command);
+                     rept = ImprimirCambio(Correlativo, Dt_PagoMovil, TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision, Num_Factura, command);
 
                 }
                 else
                 {
                     // Imprimo el Pago Movil 
                     if (rept == "SATISFACTORIO" && PMAutomatico == "0")
-                        rept = ImprimirCambio(Correlativo, Dt_PagoMovil, TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision, "", command);
+                        rept = ImprimirCambio(Correlativo, Dt_PagoMovil, TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision, Num_Factura, command);
                 }
 
                 // Attempt to commit the transaction.
@@ -7984,8 +7999,9 @@ namespace CapaVisual_Login
                     }
                     _D_DetalleOrden.Nombre_Surculsal_PagoMovil(Sucursal,null);
                     string Sucursal_Descripcion =_D_DetalleOrden.Nombre_Surculsal_PagoMovil(Sucursal, null) ;
+                    string compania = _D_DetalleOrden.TB_PARAMETRO("Compania");
 
-                    _FrmMostarDeclaracion.Parametros(Sucursal_Descripcion, DiaActivo, TB_CAORDSER.NumOrdserv, NombreCompleto, TB_CAORDSER.CTE_Nacio + "-" + TB_CAORDSER.CTE_CedIden, TB_CAORDSER.OrSer_Observ, (TB_CAORDSER.Cod_Venta == "003" ? "X" : ""), (TB_CAORDSER.cristalpropio == true ? "X" : ""), (TB_CAORDSER.MonturaPropia == true ? "X" : ""));
+                    _FrmMostarDeclaracion.Parametros(Sucursal_Descripcion, DiaActivo, TB_CAORDSER.NumOrdserv, NombreCompleto, TB_CAORDSER.CTE_Nacio + "-" + TB_CAORDSER.CTE_CedIden, TB_CAORDSER.OrSer_Observ, (TB_CAORDSER.Cod_Venta == "003" ? "X" : ""), (TB_CAORDSER.cristalpropio == true ? "X" : ""), (TB_CAORDSER.MonturaPropia == true ? "X" : ""), compania);
                     _FrmMostarDeclaracion.ConfigRep();
                     if (_D_DetalleOrden.ParametroImpresion() == "1") // Si el parametro de impresion es 1 entonces imprime el reporte 
                     {
@@ -8014,6 +8030,11 @@ namespace CapaVisual_Login
             textBox8.Text = "0,00";
             TxtCambioRef.Text = "0,00";
             return;
+        }
+
+        private void label110_Click(object sender, EventArgs e)
+        {
+
         }
 
         //Para Probar los reportes

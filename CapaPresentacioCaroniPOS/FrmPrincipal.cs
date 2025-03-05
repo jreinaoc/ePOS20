@@ -167,6 +167,7 @@ namespace CapaVisual_Login
             string PMAutomatico = _D_DetalleOrden.TB_PARAMETRO("PMAutomatico");
             if (Envio.validarPermisos() == true && PMAutomatico  == "1")
             {
+                
                 btnPagoMovil.Visible = true;
                 pictBoxPagoMovil.Visible = true;
             }
@@ -251,16 +252,31 @@ namespace CapaVisual_Login
             PicBoxClientClaro.Visible = false;
             PicBoxListClaro.Visible = false;
             PicBoxConfigClaro.Visible = false;
+            pictBoxPagoMovil.Visible = false;
+            pictBoxListaFactura.Visible = false;
 
             PicBoxInicOsc.Visible = true;
             PicBoxListOsc.Visible = true;
             PicBoxClientOsc.Visible = true;
             PicBoxConfigOsc.Visible = true;
+           // pictBoxPagoMovilOsc.Visible = true;
+            pictureBox2.Visible = true;
 
-
+            string PMAutomatico = _D_DetalleOrden.TB_PARAMETRO("PMAutomatico");
+            if (Envio.validarPermisos() == true && PMAutomatico == "1")
+            {
+                btnPagoMovil.Visible = true;
+                pictBoxPagoMovilOsc.Visible = true;
+            }
+            else
+            {
+                btnPagoMovil.Visible = false;
+                pictBoxPagoMovilOsc.Visible = false;
+            }
         }
 
-        private void BtnClaro_Click(object sender, EventArgs e)
+        private void 
+            BtnClaro_Click(object sender, EventArgs e)
         {
             //En esta funcion se configuran los colores para el fondo y para grid de listado de ordenes 
             //col 1 es blanco, col 3 es azul agua claro 
@@ -312,11 +328,27 @@ namespace CapaVisual_Login
             PicBoxClientClaro.Visible = true;
             PicBoxListClaro.Visible = true;
             PicBoxConfigClaro.Visible = true;
+            //pictBoxPagoMovil.Visible = true;
+            pictBoxListaFactura.Visible = true;
 
             PicBoxInicOsc.Visible = false;
             PicBoxListOsc.Visible = false;
             PicBoxClientOsc.Visible = false;
             PicBoxConfigOsc.Visible = false;
+            //pictBoxPagoMovil.Visible = false;
+            pictureBox2.Visible = false;
+
+            string PMAutomatico = _D_DetalleOrden.TB_PARAMETRO("PMAutomatico");
+            if (Envio.validarPermisos() == true && PMAutomatico == "1")
+            {
+                btnPagoMovil.Visible = true;
+                pictBoxPagoMovil.Visible = true;
+            }
+            else
+            {
+                btnPagoMovil.Visible = false;
+                pictBoxPagoMovil.Visible = false;
+            }
 
         }
 

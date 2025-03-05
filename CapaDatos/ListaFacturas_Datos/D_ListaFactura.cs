@@ -31,6 +31,24 @@ namespace CapaDatos.ListaFacturas_Datos
 
         }
 
+        public DataSet CargarNotas(string Fecha_inicio = "", string Fecha_fin = "", int Inicio = 1, int Final = 12)
+        {
+            SqlCommand cmd = new SqlCommand("SP_CPOS_BuscarFacturasListNC", cn.LeerCadena());
+
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@Fecha_inicio", Fecha_inicio);
+            cmd.Parameters.AddWithValue("@Fecha_fin", Fecha_fin);
+            cmd.Parameters.AddWithValue("@Inicio", Inicio);
+            cmd.Parameters.AddWithValue("@Final", Final);
+
+            DataSet dts = new DataSet();
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            da.Fill(dts);
+            return (dts);
+
+        }
+
 
 
     }

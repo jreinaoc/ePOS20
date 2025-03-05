@@ -548,7 +548,7 @@ namespace CapaVisual_Login
             // 
             this.LblVersion.AutoSize = true;
             this.LblVersion.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LblVersion.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.LblVersion.ForeColor = System.Drawing.SystemColors.ControlDark;
             this.LblVersion.Location = new System.Drawing.Point(29, 580);
             this.LblVersion.Name = "LblVersion";
             this.LblVersion.Size = new System.Drawing.Size(83, 20);

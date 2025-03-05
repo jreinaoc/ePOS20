@@ -139,6 +139,7 @@ namespace CapaVisual_Login
             System.Drawing.Color colanul = System.Drawing.ColorTranslator.FromHtml("#ff353a");
             System.Drawing.Color IVAS_ISLR = System.Drawing.ColorTranslator.FromHtml("#1881b0");
             System.Drawing.Color colfall = System.Drawing.ColorTranslator.FromHtml("#00008B");
+            System.Drawing.Color cole = System.Drawing.ColorTranslator.FromHtml("#48BED9");
 
 
             try
@@ -180,6 +181,16 @@ namespace CapaVisual_Login
                     if (Status == "REALIZADO")
                     {
                         Fila.Cells["Estado"].Style.BackColor = colfact;
+                        //Fila.Cells["Estatus"].Style.Padding = newPadding;
+                        DgvListadoOrdenes.Columns["Estado"].DefaultCellStyle.Format = "C";
+                        Fila.Cells["Estado"].Style.ForeColor = Color.White;
+                        //Fila.Cells["Estado"].Style.ForeColor = Color.FromArgb(89, 190, 186);
+
+                    }
+
+                    if (Status == "REALIZADO E")
+                    {
+                        Fila.Cells["Estado"].Style.BackColor = cole;
                         //Fila.Cells["Estatus"].Style.Padding = newPadding;
                         DgvListadoOrdenes.Columns["Estado"].DefaultCellStyle.Format = "C";
                         Fila.Cells["Estado"].Style.ForeColor = Color.White;
@@ -593,7 +604,7 @@ namespace CapaVisual_Login
                 if (DgvListadoOrdenes.Columns[e.ColumnIndex].Name == "Btn2") // PARA ANULAR
                 {
                     // Para anular una orden abonada 
-                    if (DgvListadoOrdenes.CurrentRow.Cells["Estado"].Value.ToString() == "BLOQUEADO")
+                    if (DgvListadoOrdenes.CurrentRow.Cells["Estado"].Value.ToString() == "FALLIDO" || DgvListadoOrdenes.CurrentRow.Cells["Estado"].Value.ToString() == "BLOQUEADO")
                     {
                         string Sucursal_Descripcion = _D_DetalleOrden.Nombre_Surculsal_PagoMovil(codSucursal, null);
                         //DataTable dtOrden = _D_DetalleOrden.Datos_de_la_Orden(nroOrden, "0");
@@ -618,7 +629,7 @@ namespace CapaVisual_Login
                     else
                     {
                         lblMensaje.ForeColor = Color.Red;
-                        lblMensaje.Text = "No se puede realizar";
+                        lblMensaje.Text = "No se puede realizar la acción";
                     }
                 }
 
@@ -773,40 +784,87 @@ namespace CapaVisual_Login
 
         public void FormatoCorreo(string codSucursal, string Sucursal_Descripcion, string nroOrden, string nombrePaciente , string nombreBeneficiario, string cedula, string telefono, string nombreBancoReceptor, string monto, string montoRef, DateTime  fecha)
         {
-            Font fuente = new Font("Arial", 11, FontStyle.Regular, GraphicsUnit.Point);
+            Font fuente = new Font("Century Gothic", 10, FontStyle.Regular, GraphicsUnit.Point);
             // Creamos fuente
             //Font fuente = new Font(Font.FontFamily.COURIER, 11, Font.NORMAL, BaseColor.BLACK);
             //Cuerpo del mensaje
             string FechaActual = DateTime.Now.ToString("dd/MM/yyyy");
 
-            string parte1 = "FORMATO SOLICITUD DE VUELTO" + "\n\n";
+            //string parte1 = "FORMATO SOLICITUD DE VUELTO" + "\n\n";
+
+            string parte1 = "<br/><font face='Calibri'><strong><u>Formato Solicitud de Vuelto</u></strong></font>";
 
             //string parte1 = "Buenas tardes, " + Sucursal + "-" + Nonmbre_Sucursal + ". <br/><br/>Reporte: ";
             //string parte2 = Asunto1 + " generada el (" + FechaActual + ")<br/><br/><br/>";
 
-            string parte3 = "<br/></blockquote></blockquote>";
-            string parte4 = "<br/><table>";
-            parte4 += "<tr><td><strong>N° DE FACTURA / N° DE ANTICIPO:</strong></td><td>" + nroOrden + "</td></tr>";
-            parte4 += "<tr><td><strong>NOMBRE DEL PACIENTE:</strong></td><td>" + nombrePaciente + "</td></tr>";
-            parte4 += "<tr><td><strong>BENEFICIARIO:</strong></td><td>" + nombreBeneficiario + "</td></tr>";
-            parte4 += "<tr><td><strong>CEDULA O RIF DE LA PERSONA</strong></td><td></td></tr>";
-            parte4 += "<tr><td><strong>QUE SOLICITA EL VUELTO:</strong></td><td>" + cedula + "</td></tr>";
-            parte4 += "<tr><td><strong>NUMERO CELULAR DE LA</strong></td><td></td></tr>";
-            parte4 += "<tr><td><strong>PERSONA QUE SOLICITA EL VUELTO:</strong></td><td>" + telefono  + "</td></tr>";
-            parte4 += "<tr><td><strong>BANCO RECEPTOR DEL VUELTO:</strong></td><td>Mercantil</td></tr>";
-            parte4 += "<tr><td><strong>MONTO DEL VUELTO EN BOLIVARES:</strong></td><td>" + monto.Replace(".",",") + "</td></tr>";
-            parte4 += "<tr><td><strong>MONTO DEL VUELTO EN DOLARES:</strong></td><td>" + montoRef.Replace(".", ",") + "</td></tr>";
-            parte4 += "<tr><td><strong>FECHA:</strong></td><td>" + fecha.ToShortDateString() + "</td></tr>";
+            //string parte3 = "<br/></blockquote></blockquote>";
+            //string parte4 = "<br/><table>";
+            //parte4 += "<tr><td><strong>N° de Factura / N° de Anticipo:</strong></td><td>" + nroOrden + "</td></tr>";
+            //parte4 += "<tr><td><strong>Paciente:</strong></td><td>" + nombrePaciente + "</td></tr>";
+            //parte4 += "<tr><td><strong>Beneficiario:</strong></td><td>" + nombreBeneficiario + "</td></tr>";
+            //parte4 += "<tr><td><strong>Cédula o RIF:</strong></td><td>" + cedula + "</td></tr>";
+            //parte4 += "<tr><td><strong>N° Celular:</strong></td><td>" + telefono + "</td></tr>";
+            //parte4 += "<tr><td><strong>Banco Receptor</strong></td><td>" + nombreBancoReceptor + "</td></tr>";
+            //parte4 += "<tr><td><strong>Monto en Bolívares:</strong></td><td>" + monto.Replace(".", ",") + "</td></tr>";
+            //parte4 += "<tr><td><strong>Monto en Dólares:</strong></td><td>" + montoRef.Replace(".", ",") + "</td></tr>";
+            //parte4 += "<tr><td><strong>Fecha:</strong></td><td>" + fecha.ToShortDateString() + "</td></tr>";
+
+            string parte3 = "";
+            string parte4 = "<br/>";
+
+            //parte4 = "<br/><font face='Calibri Black'>Beneficiario:" + nroOrden + ": </font>";
+
+            //parte4 = "<font face='arial'>Buen día, <br/><br/>Secuencia válida hasta el día  : </font>";
+            //parte4 = "<font face='arial black'>";
+            //parte4 = "</font><br/><br/><br/>";
+            //parte4 = "<font face='arial'><blockquote> Tasa del día: </blockquote><br/><br/><blockquote><blockquote> 1 US   </font>";
+            //parte4 = "<font face='arial black'>   $ ";
+            //parte4 = "</font></blockquote></blockquote><br/>";
+
+            //parte4 = "<blockquote><blockquote><font face='arial'>1 Euro</font>";
+            //parte4 = "<font face='arial black'> € ";
+            //parte4 = "</font><br/><br/></blockquote></blockquote>";
+            //string tituloCedula = "<br/><font face='Calibri Black'>Cédula o RIF: </font>" ;
+            parte4 += "<br/><table>";
+            
+            parte4 += "<tr><td><font face='Calibri'><strong>N° de Factura / N° de Anticipo:</strong></font>" + "</td><td><font face='Calibri'>" + nroOrden + "</font></td></tr>";
+            parte4 += "<tr><td><font face='Calibri'><strong>Paciente:</strong></font>" + "</td><td><font face='Calibri'>" + nombrePaciente + "</font></td></tr>";
+            parte4 += "<tr><td><font face='Calibri'><strong>Beneficiario:</strong></font>" + "</td><td><font face='Calibri'>" + nombreBeneficiario + "</font></td></tr>";
+            parte4 += "<tr><td><font face='Calibri'><strong>Cédula o RIF:</strong></font>" + "</td><td><font face='Calibri'>" + cedula + "</font></td></tr>";
+            parte4 += "<tr><td><font face='Calibri'><strong>N° Celular:</strong></font>" + "</td><td><font face='Calibri'>" + telefono + "</font></td></tr>";
+            parte4 += "<tr><td><font face='Calibri'><strong>Banco Receptor:</strong></font>" + "</td><td><font face='Calibri'>" + nombreBancoReceptor + "</font></td></tr>";
+            parte4 += "<tr><td><font face='Calibri'><strong>Monto en Bolívares:</strong></font>" + "</td><td><font face='Calibri'>" + monto.Replace(".", ",") + "</font></td></tr>";
+            parte4 += "<tr><td><font face='Calibri'><strong>Monto en Dólares:</strong></font>" + "</td><td><font face='Calibri'>" + montoRef.Replace(".", ",") + "</font></td></tr>";
+            parte4 += "<tr><td><font face='Calibri'><strong>Fecha:</strong></font>" + "</td><td><font face='Calibri'>" + fecha.ToShortDateString() + "</font></td></tr>";
+
+
+            //parte4 += "<br/><font face='Calibri'><strong>N° de Factura / N° de Anticipo:</strong> " + nroOrden + "</font>";
+            //parte4 += "<br/><font face='Calibri'><strong>Paciente:</strong> " + nombrePaciente + "</font>";
+
+            //parte4 += "<br/><font face='Calibri'><strong>Beneficiario:</strong> " + nombreBeneficiario + "</font>";
+            //parte4 += "<br/><font face='Calibri'><strong>Cédula o RIF:</strong> " + cedula + "</font>";
+            //parte4 += "<br/><font face='Calibri'><strong>N° Celular:</strong> " + telefono + "</font>";
+            //parte4 += "<br/><font face='Calibri'><strong>Banco Receptor:</strong> " + nombreBancoReceptor + "</font>";
+            //parte4 += "<br/><font face='Calibri'><strong>Monto en Bolívares:</strong> "+ monto.Replace(".", ",") + "</font>";
+            //parte4 += "<br/><font face='Calibri'><strong>Monto en Dólares:</strong> " + montoRef.Replace(".", ",") + "</font>";
+            //parte4 += "<br/><font face='Calibri'><strong>Fecha:</strong> " + fecha.ToShortDateString()  + "</font>";
             parte4 += "</table>";
-               // string cuerpoMensaje = parte3 + parte4;
+            //
+            //parte4 = "<br/><font face='Calibri Light'>N° de Factura / N° de Anticipo:" + nroOrden + "</font>";
+            //parte4 += "<br/><font face='Calibri Light'>Paciente:" + nombrePaciente + "</font>";
+            //parte4 = "<br/><font face='Calibri Black'>Prueba:</font>" + "<font face='Calibri Black'>Textovalor:</font>";
+            //parte4 = "<br/><font face='Calibri Black'>N° de Factura / N° de Anticipo:" + nroOrden + "</font>";
+            //parte4 += "</table>";
+            // string cuerpoMensaje = parte3 + parte4;
 
 
-          //     string parte11 = "<br/><br/> <b> Nota: </b> " + "Gracias por la atención prestada.";
+            //     string parte11 = "<br/><br/> <b> Nota: </b> " + "Gracias por la atención prestada.";
             //string parteXI = "<br/> Automáticamente por EposFFt";
 
             //Llamado a variables de config.
             string urlApp = _D_DetalleOrden.TB_PARAMETRO("RutaEnvioEmail") + "AppEnvioEmail.exe";
             var Orig = _D_DetalleOrden.TB_PARAMETRO("UserEnvioEmail");
+
 
             var DestinatariosP = _D_DetalleOrden.TB_PARAMETRO("UserDestEmailPM"); ;
 
@@ -816,7 +874,7 @@ namespace CapaVisual_Login
             var User = _D_DetalleOrden.TB_PARAMETRO("UserEnvioEmail");
             var pass = _D_DetalleOrden.TB_PARAMETRO("PassEnvioEmail");
 
-            string CuerpoMensaje = parte1 +  parte3 + parte4 ;
+            string CuerpoMensaje = parte1 + parte3 + parte4 ;
 
             //var word1 = new Chunk(CuerpoMensaje, fuente);
 
@@ -831,6 +889,11 @@ namespace CapaVisual_Login
             //FuncionDelay();
             //Console.Write("Proceso culminado.\n");
             return;
+        }
+
+        private void LblListadoOrdenes_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

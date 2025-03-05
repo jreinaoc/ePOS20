@@ -191,8 +191,62 @@
                   <TextRun>
                     <Value>_____________, a través de la presente declaro:
 
-Que los lentes que estoy dando en reparación a Optica Caroni, cuyas especificaciones se encuentran abajo discriminadas, poseen un desgaste natural como consecuencia del uso reiterado en el tiempo y que doy los mismos bajo mi propio riesgo. Por lo tanto eximo de responsabilidad a Optica Caroni y a su personal de cualquier daño o deterioro que sobrevenga de la reparación y/o manipulación necesaria de mis Lentes según el servicio solicitado. Igualmente declaro que he sido advertido(a) de las consecuencias que pueden ocurrirle a mis lentes según sus condiciones descritas abajo.
-Optica Caroni, se hace responsable únicamente por los daños causados por su personal los cuales deben ser perfectamente demostrables, indemnizando sólo hasta un Cincuenta (50%) del valor total de la montura y/o cristales, según la orden de trabajo, más el reembolso en caso de abonos.</Value>
+Que los lentes que estoy dando en reparación a </Value>
+                    <Style>
+                      <FontStyle>Normal</FontStyle>
+                      <FontFamily>Calibri</FontFamily>
+                      <FontWeight>Normal</FontWeight>
+                      <TextDecoration>None</TextDecoration>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value>=Parameters!Compania.Value</Value>
+                    <Style>
+                      <FontStyle>Normal</FontStyle>
+                      <FontFamily>Calibri</FontFamily>
+                      <FontWeight>Normal</FontWeight>
+                      <TextDecoration>None</TextDecoration>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value>, cuyas especificaciones se encuentran abajo discriminadas, poseen un desgaste natural como consecuencia del uso reiterado en el tiempo y que doy los mismos bajo mi propio riesgo. Por lo tanto eximo de responsabilidad a </Value>
+                    <Style>
+                      <FontStyle>Normal</FontStyle>
+                      <FontFamily>Calibri</FontFamily>
+                      <FontWeight>Normal</FontWeight>
+                      <TextDecoration>None</TextDecoration>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value>=Parameters!Compania.Value</Value>
+                    <Style>
+                      <FontStyle>Normal</FontStyle>
+                      <FontFamily>Calibri</FontFamily>
+                      <FontWeight>Normal</FontWeight>
+                      <TextDecoration>None</TextDecoration>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value> y a su personal de cualquier daño o deterioro que sobrevenga de la reparación y/o manipulación necesaria de mis Lentes según el servicio solicitado. Igualmente declaro que he sido advertido(a) de las consecuencias que pueden ocurrirle a mis lentes según sus condiciones descritas abajo.
+</Value>
+                    <Style>
+                      <FontStyle>Normal</FontStyle>
+                      <FontFamily>Calibri</FontFamily>
+                      <FontWeight>Normal</FontWeight>
+                      <TextDecoration>None</TextDecoration>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value>=Parameters!Compania.Value</Value>
+                    <Style>
+                      <FontStyle>Normal</FontStyle>
+                      <FontFamily>Calibri</FontFamily>
+                      <FontWeight>Normal</FontWeight>
+                      <TextDecoration>None</TextDecoration>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value>, se hace responsable únicamente por los daños causados por su personal los cuales deben ser perfectamente demostrables, indemnizando sólo hasta un Cincuenta (50%) del valor total de la montura y/o cristales, según la orden de trabajo, más el reembolso en caso de abonos.</Value>
                     <Style>
                       <FontStyle>Normal</FontStyle>
                       <FontFamily>Calibri</FontFamily>
@@ -595,7 +649,19 @@ Malo     ___	         Malo     ___	             Malo     ___	             Malo  
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>Mediante el presente documento declaro que fuí debidamente informado por el personal de ventas de Optica Caroni C.A. de los riesgos existentes sobre la montura y/o cristales que dejo a sus órdenes para la elaboración del servicio solicitado.
+                    <Value>Mediante el presente documento declaro que fuí debidamente informado por el personal de ventas de </Value>
+                    <Style>
+                      <FontFamily>Calibri</FontFamily>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value>=Parameters!Compania.Value</Value>
+                    <Style>
+                      <FontFamily>Calibri</FontFamily>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value> de los riesgos existentes sobre la montura y/o cristales que dejo a sus órdenes para la elaboración del servicio solicitado.
 </Value>
                     <Style>
                       <FontFamily>Calibri</FontFamily>
@@ -838,6 +904,10 @@ Malo     ___	         Malo     ___	             Malo     ___	             Malo  
       <AllowBlank>true</AllowBlank>
       <Prompt>ReportParameter1</Prompt>
     </ReportParameter>
+    <ReportParameter Name="Compania">
+      <DataType>String</DataType>
+      <Prompt>ReportParameter1</Prompt>
+    </ReportParameter>
   </ReportParameters>
   <ReportParametersLayout>
     <GridLayoutDefinition>
@@ -888,6 +958,11 @@ Malo     ___	         Malo     ___	             Malo     ___	             Malo  
           <ColumnIndex>0</ColumnIndex>
           <RowIndex>2</RowIndex>
           <ParameterName>MonturaPropia</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>1</ColumnIndex>
+          <RowIndex>2</RowIndex>
+          <ParameterName>Compania</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>

@@ -24,6 +24,7 @@ namespace CapaVisual_Login
         private string Reparacion = "";
         private string CristalPropio = "";
         private string MonturaPropia = "";
+        private string Compania = "";
 
         public FrmMostarDeclaracion()
         {
@@ -31,7 +32,7 @@ namespace CapaVisual_Login
         }
 
         // Constructor con parámetros
-        public void Parametros(string sucursal, string fecha, string numeroOrden, string nombreCliente, string cedula, string Observacion, string Reparacion, string CristalPropio, string MonturaPropia)
+        public void Parametros(string sucursal, string fecha, string numeroOrden, string nombreCliente, string cedula, string Observacion, string Reparacion, string CristalPropio, string MonturaPropia, string Compania)
         {
             this.sucursal = sucursal;
             this.fecha = fecha;
@@ -42,6 +43,7 @@ namespace CapaVisual_Login
             this.Reparacion = Reparacion;
             this.CristalPropio = CristalPropio;
             this.MonturaPropia = MonturaPropia;
+            this.Compania = Compania;
             reportViewer1.RefreshReport();
         }
 
@@ -57,7 +59,8 @@ namespace CapaVisual_Login
                 new ReportParameter("Cedula", this.cedula),
                 new ReportParameter("Observacion", this.Observacion),
                 new ReportParameter("CristalPropio", this.CristalPropio),
-                new ReportParameter("MonturaPropia", this.MonturaPropia)
+                new ReportParameter("MonturaPropia", this.MonturaPropia),
+                new ReportParameter("Compania", this.Compania)
             };
 
             this.reportViewer1.LocalReport.SetParameters(reportParameters);
@@ -107,7 +110,8 @@ namespace CapaVisual_Login
                 new ReportParameter("Cedula", this.cedula),
                 new ReportParameter("Observacion", this.Observacion),
                 new ReportParameter("CristalPropio", this.CristalPropio),
-                new ReportParameter("MonturaPropia", this.MonturaPropia)
+                new ReportParameter("MonturaPropia", this.MonturaPropia),
+                new ReportParameter("Compania", this.Compania)
             };
 
             // Establecer los parámetros en el reporte

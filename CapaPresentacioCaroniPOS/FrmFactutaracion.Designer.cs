@@ -1582,7 +1582,7 @@ namespace CapaVisual_Login
             this.LbePagoMovil.Name = "LbePagoMovil";
             this.LbePagoMovil.Size = new System.Drawing.Size(619, 35);
             this.LbePagoMovil.TabIndex = 83;
-            this.LbePagoMovil.Text = "Cambio";
+            this.LbePagoMovil.Text = "Vuelto";
             this.LbePagoMovil.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.LbePagoMovil.Visible = false;
             // 
@@ -3225,6 +3225,7 @@ namespace CapaVisual_Login
             this.label110.Size = new System.Drawing.Size(80, 657);
             this.label110.TabIndex = 101;
             this.label110.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label110.Click += new System.EventHandler(this.label110_Click);
             // 
             // FrmFacturacion
             // 

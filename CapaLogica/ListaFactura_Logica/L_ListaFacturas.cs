@@ -83,5 +83,35 @@ namespace CapaLogica.ListaFactura_Logica
             }
         }
 
+        public DataSet TraerNotasRango(System.Windows.Forms.DateTimePicker Fechadesde, System.Windows.Forms.DateTimePicker Fechahasta, int Inicio = 1, int Final = 12)
+        {
+            try
+            {
+                stringBuilder.Clear();
+
+
+                DateTime PRUE = Fechadesde.Value;
+                DateTime PRUEB = Fechahasta.Value;
+                string PeriodoDesde = PRUE.ToString("yyyyMMdd");
+                string PeriodoHasta = PRUEB.ToString("yyyyMMdd");
+
+                //Le enviamos el index asociados al valor selecionado en el combobox 
+                DataSet Ordenesrango = _D_ListaFactura.CargarNotas(PeriodoDesde, PeriodoHasta, Inicio, Final);
+
+                if (Ordenesrango.Tables[0].Rows.Count > 0)
+                {
+                    return Ordenesrango;
+                }
+                stringBuilder.Append(Environment.NewLine + "No hay ordenes");
+                return null;
+
+            }
+            catch (Exception ex)
+            {
+                stringBuilder.Append(Environment.NewLine + string.Format("Error: {0}", ex.Message));
+                return null;
+            }
+        }
+
     }
 }
