@@ -12,7 +12,7 @@ namespace CapaDatos.Anulacion
         D_Inicio _D_Inicio = new D_Inicio();
         public string MovimientoInv;
         public string NroNota;
-
+        public string MontoNota;
         public DataTable TraerResponsables(string CodSucursal)
         {
             SqlCommand cmd = new SqlCommand("SP_CPOS_RESPONSAB_ANUL", cn.LeerCadena());
@@ -252,6 +252,8 @@ public DataTable TraerOrdenDet(string NumOrden , SqlCommand command = null)  // 
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             da.Fill(dt);
             NroNota = dt.Rows[0]["NRONOTA"].ToString();
+            MontoNota = dt.Rows[0]["MontoNota"].ToString();
+
             cmd.Parameters.Clear();
             return "SATISFACTORIO";
         }
@@ -261,7 +263,7 @@ public DataTable TraerOrdenDet(string NumOrden , SqlCommand command = null)  // 
                 return Error;
             }
 
-}
+        }
 
 public string EjecMovAnulacion(string NroOrden, string CodSuc, string TipoDoc, string CodDoc, string DiaAct, string NotaAc, string CodUser, SqlCommand command = null)
         {

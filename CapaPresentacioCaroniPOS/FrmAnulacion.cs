@@ -294,7 +294,7 @@ namespace CapaVisual_Login
                             }
 
 
-                            _D_Anulacion.CaragarAuditor(TB_USUARIO.COD_SUCURSAL, "029", TB_USUARIO.COD_EMPLEADO, TB_CAORDSER.NumOrdserv + ", Monto: " + Convert.ToString(MontoAnulacion) + " Autoriza: " + GerenteAutoriza);
+                            _D_Anulacion.CaragarAuditor(TB_USUARIO.COD_SUCURSAL, "029", TB_USUARIO.COD_EMPLEADO, "OS: "+ TB_CAORDSER.NumOrdserv + ", Monto: " + Convert.ToString(MontoAnulacion) + " Autoriza: " + GerenteAutoriza);
                             _FrmMensajes.co = 1;
                             _FrmMensajes.avisomensaje("La orden y sus pagos han sido eliminados");
                             _FrmMensajes.ShowDialog();
@@ -456,7 +456,7 @@ namespace CapaVisual_Login
                             {
                                 transaction.Commit();
                                 ResultadoNCManual = "SATISFACTORIO";
-                                _D_Anulacion.CaragarAuditor(TB_USUARIO.COD_SUCURSAL, "016", TB_USUARIO.COD_EMPLEADO, "Factura:" + TB_FACTURAS.Fact_Num + ", Cliente: " + TB_FACTURAS.CTE_NacioPAG + "-" + TB_FACTURAS.CTE_CedIdenPAG + ", Nº Nota: " + NroNotaCredito + ", Monto: " + TB_FACTURAS.Fact_Total + ", Autoriza: " + GerenteAutoriza);
+                                _D_Anulacion.CaragarAuditor(TB_USUARIO.COD_SUCURSAL, "016", TB_USUARIO.COD_EMPLEADO, "Factura: " + TB_FACTURAS.Fact_Num + ", Cliente: " + TB_FACTURAS.CTE_NacioPAG + "-" + TB_FACTURAS.CTE_CedIdenPAG + ", Nº Nota: " + NroNotaCredito + ", Monto: " + TB_FACTURAS.Fact_Total + ", Autoriza: " + GerenteAutoriza);
 
                                 if (_D_DetalleOrden.TB_PARAMETRO("LCManejaExist") == "1" & TB_CAORDSER.Cod_Venta.ToString() == "02")
                                 {
@@ -1042,7 +1042,7 @@ namespace CapaVisual_Login
                 string observaciones = TxtObservaciones.Text;
                 rept = _L_Anulacion.Anulacion(TB_CAORDSER.NumOrdserv, CodMoti, CodResp, observaciones, TB_USUARIO.COD_USR, "00", command);
                 if (rept == "SATISFACTORIO")
-                    _L_Anulacion.EnviarAuditor("012", command);
+                    _L_Anulacion.EnviarAuditor("012", VariablesGlobales.UsuarioAutorizado_FrmClaveGerente, command);
 
                 if (rept == "SATISFACTORIO")
                 {
@@ -1125,7 +1125,7 @@ namespace CapaVisual_Login
                 if (rept == "SATISFACTORIO")
                 {
                     rept = _L_Anulacion.EnviarGarantia();
-                    _L_Anulacion.EnviarAuditor("015", command);
+                    _L_Anulacion.EnviarAuditor_Nota("015", VariablesGlobales.UsuarioAutorizado_FrmClaveAutorizada, _L_Anulacion.NroNota, _L_Anulacion.MontoNota, command);
                 }
 
                 //Nuevo Orden Antiguas con Lentes de contacto 02-06-2023

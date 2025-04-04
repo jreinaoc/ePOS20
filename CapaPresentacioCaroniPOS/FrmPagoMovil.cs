@@ -140,6 +140,7 @@ namespace CapaVisual_Login
             System.Drawing.Color IVAS_ISLR = System.Drawing.ColorTranslator.FromHtml("#1881b0");
             System.Drawing.Color colfall = System.Drawing.ColorTranslator.FromHtml("#00008B");
             System.Drawing.Color cole = System.Drawing.ColorTranslator.FromHtml("#48BED9");
+            System.Drawing.Color colexc = System.Drawing.ColorTranslator.FromHtml("#8B008B");
 
 
             try
@@ -201,6 +202,16 @@ namespace CapaVisual_Login
                     if (Status == "FALLIDO")
                     {
                         Fila.Cells["Estado"].Style.BackColor = colanul;
+                        //Fila.Cells["Estatus"].Style.Padding = newPadding;
+                        DgvListadoOrdenes.Columns["Estado"].DefaultCellStyle.Format = "C";
+                        Fila.Cells["Estado"].Style.ForeColor = Color.White;
+                        //Fila.Cells["Estado"].Style.ForeColor = Color.FromArgb(89, 190, 186);
+
+                    }
+
+                    if (Status == "EXCEDIDO")
+                    {
+                        Fila.Cells["Estado"].Style.BackColor = colexc;
                         //Fila.Cells["Estatus"].Style.Padding = newPadding;
                         DgvListadoOrdenes.Columns["Estado"].DefaultCellStyle.Format = "C";
                         Fila.Cells["Estado"].Style.ForeColor = Color.White;
@@ -509,91 +520,94 @@ namespace CapaVisual_Login
                     //DgvListadoOrdenes.Visible = false;
                     string MaxDiaPagoMovil = _D_DetalleOrden.TB_PARAMETRO("PM");
                     Convert.ToDouble(DgvListadoOrdenes.CurrentRow.Cells["MontoVueltoBs"].Value.ToString());
-                    if ((DgvListadoOrdenes.CurrentRow.Cells["Estado"].Value.ToString() == "PENDIENTE" || DgvListadoOrdenes.CurrentRow.Cells["Estado"].Value.ToString() == "FALLIDO") & Convert.ToDouble(MaxDiaPagoMovil) > Convert.ToDouble(DgvListadoOrdenes.CurrentRow.Cells["MontoVueltoBs"].Value.ToString()))
+                    if ((DgvListadoOrdenes.CurrentRow.Cells["Estado"].Value.ToString() == "PENDIENTE" || DgvListadoOrdenes.CurrentRow.Cells["Estado"].Value.ToString() == "FALLIDO"))
                     {
-                        _FrmMensajes.co = 3;
-                        _FrmMensajes.avisomensaje("¿Está seguro de procesar el pago móvil de la orden " + DgvListadoOrdenes.CurrentRow.Cells["NroOrden"].Value.ToString() +"?");
-                        _FrmMensajes.ShowDialog();
-
-                        //Preguta
-                        if (_FrmMensajes.DialogResult == DialogResult.OK)
+                        if (Convert.ToDouble(MaxDiaPagoMovil) > Convert.ToDouble(DgvListadoOrdenes.CurrentRow.Cells["MontoVueltoRef"].Value.ToString()))
                         {
-                            _FrmMensajes.BtnSi.Enabled = false;
-                            DataTable Dt_PagoMovil = new DataTable();
-                            
-                           
-                            //macAddress = _D_Inicio.ObtenerMacAddress();
-                            // string responseToken = Envio.getToken();
+                            _FrmMensajes.co = 3;
+                            _FrmMensajes.avisomensaje("¿Está seguro de procesar el pago móvil de la orden " + DgvListadoOrdenes.CurrentRow.Cells["NroOrden"].Value.ToString() + "?");
+                            _FrmMensajes.ShowDialog();
 
-                            string responseToken = Envio.getToken();
-
-                            if ((responseToken != "Permisos no válidos"))
+                            //Preguta
+                            if (_FrmMensajes.DialogResult == DialogResult.OK)
                             {
-                                ResponseToken oModelToken = JsonConvert.DeserializeObject<ResponseToken>(responseToken);
-                                string token = oModelToken.access_token;
-
-                                string responseSendPaymentB2P = Envio.sendPaymentB2P(token, cedula, telefono, monto, "", bancoEmisor, bancoReceptor, codSucursal, codSucursal, concepto);
-                                // responseSendPaymentB2P = "";
-                                ResponseSendPaymentB2P oModelsendPaymentB2P = JsonConvert.DeserializeObject<ResponseSendPaymentB2P>(responseSendPaymentB2P);
+                                _FrmMensajes.BtnSi.Enabled = false;
+                                DataTable Dt_PagoMovil = new DataTable();
 
 
-                                if (oModelsendPaymentB2P.success == "true")
+                                //macAddress = _D_Inicio.ObtenerMacAddress();
+                                // string responseToken = Envio.getToken();
+
+                                string responseToken = Envio.getToken();
+
+                                if ((responseToken != "Permisos no válidos"))
                                 {
-                                    if (oModelsendPaymentB2P.codigoConfirmacion != "0" & oModelsendPaymentB2P.codigoConfirmacion != "-1" & oModelsendPaymentB2P.codigoError == "0")
+                                    ResponseToken oModelToken = JsonConvert.DeserializeObject<ResponseToken>(responseToken);
+                                    string token = oModelToken.access_token;
+
+                                    string responseSendPaymentB2P = Envio.sendPaymentB2P(token, cedula, telefono, monto, "", bancoEmisor, bancoReceptor, codSucursal, codSucursal, concepto);
+                                    // responseSendPaymentB2P = "";
+                                    ResponseSendPaymentB2P oModelsendPaymentB2P = JsonConvert.DeserializeObject<ResponseSendPaymentB2P>(responseSendPaymentB2P);
+
+
+                                    if (oModelsendPaymentB2P.success == "true")
                                     {
-                                        string rep = _D_DetalleOrden.ActualizarPagoMovil(codSucursal, nroOrden, revision, idAbono, oModelsendPaymentB2P.codigoConfirmacion, "Transacción Exitosa", oModelsendPaymentB2P.codigoError);
+                                        if (oModelsendPaymentB2P.codigoConfirmacion != "0" & oModelsendPaymentB2P.codigoConfirmacion != "-1" & oModelsendPaymentB2P.codigoError == "0")
+                                        {
+                                            string rep = _D_DetalleOrden.ActualizarPagoMovil(codSucursal, nroOrden, revision, idAbono, oModelsendPaymentB2P.codigoConfirmacion, "Transacción Exitosa", oModelsendPaymentB2P.codigoError);
 
 
-                                        lblMensaje.ForeColor = Color.DarkGreen;
-                                        lblMensaje.Text = "Transacción Exitosa: " + oModelsendPaymentB2P.codigoConfirmacion;
-                                        _L_Facturacion.CrearTablaPagoMovil(Dt_PagoMovil);
-                                        _L_Facturacion.GuardarPagoMovilTabla(1, Dt_PagoMovil, nac, cedula1, telefono.Substring(0, 4), telefono.Substring(4, 7), monto.Replace(".", ","), bancoReceptorEpos, montoRecibidoRef, montoRef, "");
+                                            lblMensaje.ForeColor = Color.DarkGreen;
+                                            lblMensaje.Text = "Transacción Exitosa: " + oModelsendPaymentB2P.codigoConfirmacion;
+                                            _L_Facturacion.CrearTablaPagoMovil(Dt_PagoMovil);
+                                            _L_Facturacion.GuardarPagoMovilTabla(1, Dt_PagoMovil, nac, cedula1, telefono.Substring(0, 4), telefono.Substring(4, 7), monto.Replace(".", ","), bancoReceptorEpos, montoRecibidoRef, montoRef, "");
 
-                                        //string Correlativo = _D_DetalleOrden.ID_PagoMovil(nroOrden, codSucursal, command);
+                                            //string Correlativo = _D_DetalleOrden.ID_PagoMovil(nroOrden, codSucursal, command);
 
-                                        string rept = _FrmFacturacion.ImprimirCambio(correlativo, Dt_PagoMovil, codSucursal, nroOrden, revision, nroFactura, command);
+                                            string rept = _FrmFacturacion.ImprimirCambio(correlativo, Dt_PagoMovil, codSucursal, nroOrden, revision, nroFactura, command);
 
-                                        btnlupa_Click_1(this, EventArgs.Empty);
+                                            btnlupa_Click_1(this, EventArgs.Empty);
+                                        }
+                                        else
+                                        {
+                                            string rep = _D_DetalleOrden.ActualizarPagoMovil(codSucursal, nroOrden, revision, idAbono, oModelsendPaymentB2P.codigoConfirmacion, oModelsendPaymentB2P.descripcionError, oModelsendPaymentB2P.codigoError);
+                                            btnlupa_Click_1(this, EventArgs.Empty);
+                                            lblMensaje.ForeColor = Color.Red;
+                                            lblMensaje.Text = "Transacción Fallida: Intente de nuevo";
+                                            //lblMensaje.Text = "Transacción Fallida: " + oModelsendPaymentB2P.descripcionError;
+                                        }
+                                        //contador = 0;
                                     }
                                     else
                                     {
                                         string rep = _D_DetalleOrden.ActualizarPagoMovil(codSucursal, nroOrden, revision, idAbono, oModelsendPaymentB2P.codigoConfirmacion, oModelsendPaymentB2P.descripcionError, oModelsendPaymentB2P.codigoError);
                                         btnlupa_Click_1(this, EventArgs.Empty);
+                                        //progressBar1.Value = 100;
                                         lblMensaje.ForeColor = Color.Red;
                                         lblMensaje.Text = "Transacción Fallida: Intente de nuevo";
                                         //lblMensaje.Text = "Transacción Fallida: " + oModelsendPaymentB2P.descripcionError;
+
+                                        //contador = 0;
                                     }
-                                    //contador = 0;
                                 }
                                 else
                                 {
-                                    string rep = _D_DetalleOrden.ActualizarPagoMovil(codSucursal, nroOrden, revision, idAbono, oModelsendPaymentB2P.codigoConfirmacion, oModelsendPaymentB2P.descripcionError, oModelsendPaymentB2P.codigoError);
-                                    btnlupa_Click_1(this, EventArgs.Empty);
-                                    //progressBar1.Value = 100;
                                     lblMensaje.ForeColor = Color.Red;
-                                    lblMensaje.Text = "Transacción Fallida: Intente de nuevo";
-                                    //lblMensaje.Text = "Transacción Fallida: " + oModelsendPaymentB2P.descripcionError;
-
-                                    //contador = 0;
+                                    lblMensaje.Text = "No tiene permisos para realizar esta acción";
+                                    lblMensaje.Visible = true;
                                 }
                             }
                             else
                             {
-                                lblMensaje.ForeColor = Color.Red;
-                                lblMensaje.Text = "No tiene permisos para realizar esta acción";
-                                lblMensaje.Visible = true;
                             }
-                        }
-                        else
-                        {
-                        }
-
-                        
-
-
-
-
                     }
+                    else
+                    {
+                        lblMensaje.ForeColor = Color.Red;
+                        lblMensaje.Text = "El monto del pago móvil excede el limite diario";
+                        lblMensaje.Visible = true;
+                    }
+                }
                     else
                     {
                         lblMensaje.ForeColor = Color.Red;
@@ -604,7 +618,7 @@ namespace CapaVisual_Login
                 if (DgvListadoOrdenes.Columns[e.ColumnIndex].Name == "Btn2") // PARA ANULAR
                 {
                     // Para anular una orden abonada 
-                    if (DgvListadoOrdenes.CurrentRow.Cells["Estado"].Value.ToString() == "FALLIDO" || DgvListadoOrdenes.CurrentRow.Cells["Estado"].Value.ToString() == "BLOQUEADO")
+                    if (DgvListadoOrdenes.CurrentRow.Cells["Estado"].Value.ToString() == "FALLIDO" || DgvListadoOrdenes.CurrentRow.Cells["Estado"].Value.ToString() == "BLOQUEADO" || DgvListadoOrdenes.CurrentRow.Cells["Estado"].Value.ToString() == "EXCEDIDO")
                     {
                         string Sucursal_Descripcion = _D_DetalleOrden.Nombre_Surculsal_PagoMovil(codSucursal, null);
                         //DataTable dtOrden = _D_DetalleOrden.Datos_de_la_Orden(nroOrden, "0");

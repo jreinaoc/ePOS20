@@ -4,7 +4,7 @@
   <description asmv2:iconFile="icono-puntoDeVenta.ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <application />
   <entryPoint>
-    <assemblyIdentity name="ePOS" version="1.0.2.2" language="neutral" processorArchitecture="msil" />
+    <assemblyIdentity name="ePOS" version="1.0.2.4" language="neutral" processorArchitecture="msil" />
     <commandLine file="ePOS.exe" parameters="" />
   </entryPoint>
   <trustInfo>
@@ -43,38 +43,38 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CapaDatos.dll" size="91648">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CapaDatos.dll" size="92160">
       <assemblyIdentity name="CapaDatos" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>/Jt9ozfpj0SiFCxHGGK8d10TjbVgjWVxIFEXMySslmw=</dsig:DigestValue>
+        <dsig:DigestValue>ZKUSftBZE4TUDmZ8fhf69qI50jpQ97GGLmzhICLBN+M=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CapaEntidades.dll" size="33792">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CapaEntidades.dll" size="34304">
       <assemblyIdentity name="CapaEntidades" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>PydjG1m5EHaPfrT58LzJ0DvmzllBQDmBgtxwyjxQBZo=</dsig:DigestValue>
+        <dsig:DigestValue>S5Gn7sRdvicQ5FdpzCoh/0nLX/Inp768bPscEhsJAQM=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CapaLogica.dll" size="86528">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CapaLogica.dll" size="87552">
       <assemblyIdentity name="CapaLogica" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>lNRcHLV9ZQVaAdIj4FZo1JbjoIHk9wDPhVkZQPboLL0=</dsig:DigestValue>
+        <dsig:DigestValue>FT4OX1QpjvnT3zrlZj+AA0tQUkkCp64Cpd5DLTaViw8=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -127,14 +127,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ePOS.exe" size="1553408">
-      <assemblyIdentity name="ePOS" version="1.0.2.2" language="neutral" processorArchitecture="msil" />
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ePOS.exe" size="1552896">
+      <assemblyIdentity name="ePOS" version="1.0.2.4" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>3YNq8sFaO64F+YyVbcWs86d1DB7Mxkyk40AAWjm4MPg=</dsig:DigestValue>
+        <dsig:DigestValue>szRISp4+zJ//oYgfQ/wCcJvhb8opbD4VmWCnNSyt3ts=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -939,13 +939,13 @@
       <dsig:DigestValue>V/mIEnaNA7+y6AYCdZ7ovh0pOL9ya/R1ocUuN+BTkHw=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="ePOS.exe.config" size="1761">
+  <file name="ePOS.exe.config" size="1800">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>ifjPfH3nuMF+rRp3qBg3q5I+jSAtJXsNLQF8kD+Lnas=</dsig:DigestValue>
+      <dsig:DigestValue>ZyramiyOlDjMXLlujqGmXzGPGVvjzgHkT0QwZS7edkA=</dsig:DigestValue>
     </hash>
   </file>
   <file name="icono-puntoDeVenta.ico" size="205662">

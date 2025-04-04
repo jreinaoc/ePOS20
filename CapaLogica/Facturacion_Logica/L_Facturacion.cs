@@ -13,6 +13,7 @@ using System.Globalization;
 using CapaLogica.Login_Logica;
 using System.Data.SqlClient;
 using System.Drawing;
+using CapaDatos.Anulacion;
 
 namespace CapaLogica.DetalleOrden_Logica
 {
@@ -25,7 +26,7 @@ namespace CapaLogica.DetalleOrden_Logica
 
         private D_DetalleOrden _D_DetalleOrden = new D_DetalleOrden();
         private D_Inicio _D_Inicio = new D_Inicio();
-
+        private D_Anulacion _D_Anulacion= new D_Anulacion();
         public double IgtfNOT;
         public double BsNOT;
         public bool MostrarClientePag = false;
@@ -2256,7 +2257,31 @@ namespace CapaLogica.DetalleOrden_Logica
                 return true;
             }
         }
- 
+
+
+        public bool RegistarAbonoAuditor(string CodAccion, string Orden, string MontoAbono ,SqlCommand command = null)
+        {
+
+            try
+            {
+                stringBuilder.Clear();
+
+
+                string detalles = "OS: " + Orden + " ," + " Monto Abono: " + MontoAbono;
+                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), CodAccion, TB_USUARIO.COD_EMPLEADO, detalles, command);
+
+
+                return true;
+            }
+
+            catch (Exception ex)
+            {
+
+                string Error = string.Format("Error: {0}", ex.Message);
+                stringBuilder.Append(Environment.NewLine + string.Format("Error: {0}", ex.Message));
+                return false;
+            }
+        }
 
     }
-}
+} 

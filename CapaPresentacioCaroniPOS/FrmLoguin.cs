@@ -137,7 +137,10 @@ namespace CapaVisual_Login
             {
                 if (e.KeyChar == 13)
                 {
-                    btnIngresar.PerformClick();
+                    if (txtNombreUsuario.Text != "" && txtClaveUsuario.Text != "")
+                    {
+                        btnIngresar.PerformClick();
+                    }
                 }
             }
             catch (Exception ex)
@@ -150,20 +153,20 @@ namespace CapaVisual_Login
         {
             try
             {
-                //para que solo acepte numeros
-                if (!(char.IsNumber(e.KeyChar)) && (e.KeyChar != (char)Keys.Back))
-                {
-                    e.Handled = true;
-                }
+                ////para que solo acepte numeros
+                //if (!(char.IsNumber(e.KeyChar)) && (e.KeyChar != (char)Keys.Back))
+                //{
+                //    e.Handled = true;
+                //}
 
-                //validar que no sea la tecla de borrar 
-                if (e.KeyChar != (char)8 )
-                {
-                    if (txtNombreUsuario.Text.Length == 4 )
-                    {
-                    txtClaveUsuario.Focus();
-                    }
-                }
+                ////validar que no sea la tecla de borrar 
+                //if (e.KeyChar != (char)8 )
+                //{
+                //    if (txtNombreUsuario.Text.Length == 4 )
+                //    {
+                //    txtClaveUsuario.Focus();
+                //    }
+                //}
 
                 if (e.KeyChar == 13)
                 {

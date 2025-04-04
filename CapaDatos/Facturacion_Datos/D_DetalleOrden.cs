@@ -2212,7 +2212,39 @@ public void MovimientoInventario(string CodArticulo, string TipoDoc, string Docu
         }
 
 
+        public string RegistarAuditorAbono(string CodSucursal, SqlCommand command)
+        {
 
+            try
+            {
+                if (command == null)
+                {
+                    SqlConnection connection = cn.LeerCadena();
+                    command = connection.CreateCommand();
+                }
+                SqlCommand cmd = command;
+                cmd.CommandText = ("Select CodSucursal +'-' + Descripcion as Descripcion from TB_SUCURSALES where CodSucursal= @CodSucursal");
+                cmd.Parameters.AddWithValue("@CodSucursal", CodSucursal);
+                cmd.CommandTimeout = 120;
+                cmd.CommandType = CommandType.Text;
+                DataTable PagoMovil = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(PagoMovil);
+                cmd.Parameters.Clear();
+                string Valor = PagoMovil.Rows[0]["Descripcion"].ToString();
+                return Valor;
+
+            }
+
+            catch (Exception ex)
+            {
+
+                string Error = string.Format("Error: {0}", ex.Message);
+                return null;
+            }
+
+
+        }
 
     }
 }

@@ -860,7 +860,7 @@ namespace CapaVisual_Login
                         if (Bolivares > (Math.Round((TB_CAORDSER.OrSer_Saldo + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos)) + Convert.ToDouble(txtIGTF.Text.Replace(".", ","))) - TotalAbono, 2)))
                         {
                             _FrmMensajes.co = 2;
-                            _FrmMensajes.avisomensaje("El Monto debe ser igual o menor al saldo de la orden, Verifique");
+                            _FrmMensajes.avisomensaje("El monto debe ser igual o menor al saldo de la orden");
                             _FrmMensajes.ShowDialog();
                             return;
 
@@ -901,7 +901,7 @@ namespace CapaVisual_Login
                         if (Bolivares > (Math.Round((TB_CAORDSER.OrSer_Saldo + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos))) - TotalAbono, 2)))
                         {
                             _FrmMensajes.co = 2;
-                            _FrmMensajes.avisomensaje("El Monto debe ser igual o menor al saldo de la orden, Verifique");
+                            _FrmMensajes.avisomensaje("El monto debe ser igual o menor al saldo de la orden");
                             _FrmMensajes.ShowDialog();
                             return;
                         }
@@ -938,7 +938,7 @@ namespace CapaVisual_Login
                         if (Bolivares > (Math.Round((TB_CAORDSER.OrSer_Saldo + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos))) - TotalAbono, 2)))
                         {
                             _FrmMensajes.co = 2;
-                            _FrmMensajes.avisomensaje("El Monto debe ser igual o menor al saldo de la orden, Verifique");
+                            _FrmMensajes.avisomensaje("El monto debe ser igual o menor al saldo de la orden");
                             _FrmMensajes.ShowDialog();
                             return;
                         }
@@ -987,7 +987,7 @@ namespace CapaVisual_Login
                         if (Bolivares > (Math.Round((TB_CAORDSER.OrSer_Saldo + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos))) - TotalAbono, 2)))
                         {
                             _FrmMensajes.co = 2;
-                            _FrmMensajes.avisomensaje("El Monto debe ser igual o menor al saldo de la orden, Verifique");
+                            _FrmMensajes.avisomensaje("El monto debe ser igual o menor al saldo de la orden");
                             _FrmMensajes.ShowDialog();
                             txtMonto2Bs.Focus();
                             return;
@@ -1033,7 +1033,7 @@ namespace CapaVisual_Login
                     if (Bolivares > (Math.Round((TB_CAORDSER.OrSer_Saldo + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos))) - TotalAbono, 2)))
                     {
                         _FrmMensajes.co = 2;
-                        _FrmMensajes.avisomensaje("El Monto debe ser igual o menor al saldo de la orden, Verifique");
+                        _FrmMensajes.avisomensaje("El monto debe ser igual o menor al saldo de la orden");
                         _FrmMensajes.ShowDialog();
                         return;
                     }
@@ -1048,7 +1048,7 @@ namespace CapaVisual_Login
                         if (Bolivares > (Math.Round((TB_CAORDSER.OrSer_Saldo + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos))) - TotalAbono, 2)))
                         {
                             _FrmMensajes.co = 2;
-                            _FrmMensajes.avisomensaje("El Monto debe ser igual o menor al saldo de la orden, Verifique");
+                            _FrmMensajes.avisomensaje("El monto debe ser igual o menor al saldo de la orden");
                             _FrmMensajes.ShowDialog();
                             return;
                         }
@@ -1089,7 +1089,7 @@ namespace CapaVisual_Login
                         if (Bolivares > (Math.Round((TB_CAORDSER.OrSer_Saldo + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos)) + Convert.ToDouble(txtIGTF.Text.Replace(".", ","))) - TotalAbono, 2)))
                         {
                             _FrmMensajes.co = 2;
-                            _FrmMensajes.avisomensaje("El Monto debe ser igual o menor al saldo de la orden.");
+                            _FrmMensajes.avisomensaje("El monto debe ser igual o menor al saldo de la orden");
                             _FrmMensajes.ShowDialog();
                             return;
                         }
@@ -1133,34 +1133,34 @@ namespace CapaVisual_Login
                                     && TxtCedularPagoMovil.Text != "" && TxtCedularPagoMovil.TextLength > 1 && (TxtCedularPagoMovil.Text.Replace(" ", "")).Length > 1 && TxtMontoPagoMovil.Text != "" && CbxCelularPagoMovil.Text != "")
                                     {
 
-                                        if (CbxMoneda.SelectedIndex.ToString() == "1")
-                                        {
-                                            if (Convert.ToDouble(TxtMontoPagoMovil.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtMontoPagoMovil.Text.Replace(".", ","))) >= Math.Round(19 * Convert.ToDouble(TB_TASA_Euro.Tasa), 2) |
-                                                Convert.ToDouble(TxtMontoPagoMovil.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtMontoPagoMovil.Text.Replace(".", ","))) >= Math.Round(Convert.ToDouble(_D_DetalleOrden.LimitePagoMovil(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv) == "" ? (Double)0.00 : Convert.ToDouble(_D_DetalleOrden.LimitePagoMovil(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv))) * Convert.ToDouble(TB_TASA_Euro.Tasa), 2)
-                                                | Convert.ToDouble(TxtMontoPagoMovil.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtMontoPagoMovil.Text.Replace(".", ","))) >= Math.Round(_L_Facturacion.RecorrerPagoMovil_dt(Dt_PagoMovil) * Convert.ToDouble(TB_TASA_Dolar.Tasa), 2))
-                                            {
-                                                _FrmMensajes.co = 2;
-                                                _FrmMensajes.avisomensaje("El limite diario de pago móvil es de 19$ .");
-                                                _FrmMensajes.ShowDialog();
-                                                TxtRecibidoREF.Focus();
-                                                return;
+                                        //if (CbxMoneda.SelectedIndex.ToString() == "1")
+                                        //{
+                                        //    if (Convert.ToDouble(TxtMontoPagoMovil.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtMontoPagoMovil.Text.Replace(".", ","))) >= Math.Round(19 * Convert.ToDouble(TB_TASA_Euro.Tasa), 2) |
+                                        //        Convert.ToDouble(TxtMontoPagoMovil.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtMontoPagoMovil.Text.Replace(".", ","))) >= Math.Round(Convert.ToDouble(_D_DetalleOrden.LimitePagoMovil(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv) == "" ? (Double)0.00 : Convert.ToDouble(_D_DetalleOrden.LimitePagoMovil(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv))) * Convert.ToDouble(TB_TASA_Euro.Tasa), 2)
+                                        //        | Convert.ToDouble(TxtMontoPagoMovil.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtMontoPagoMovil.Text.Replace(".", ","))) >= Math.Round(_L_Facturacion.RecorrerPagoMovil_dt(Dt_PagoMovil) * Convert.ToDouble(TB_TASA_Dolar.Tasa), 2))
+                                        //    {
+                                        //        _FrmMensajes.co = 2;
+                                        //        _FrmMensajes.avisomensaje("El limite diario de pago móvil es de 19$ .");
+                                        //        _FrmMensajes.ShowDialog();
+                                        //        TxtRecibidoREF.Focus();
+                                        //        return;
 
-                                            }
-                                        }
-                                        else
-                                        {
-                                            if (Convert.ToDouble(TxtMontoPagoMovil.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtMontoPagoMovil.Text.Replace(".", ","))) >= Math.Round(19 * Convert.ToDouble(TB_TASA_Dolar.Tasa), 2) |
-                                                Convert.ToDouble(TxtMontoPagoMovil.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtMontoPagoMovil.Text.Replace(".", ","))) >= Math.Round(Convert.ToDouble(_D_DetalleOrden.LimitePagoMovil(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv) == "" ? (Double)0.00 : Convert.ToDouble(_D_DetalleOrden.LimitePagoMovil(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv))) * Convert.ToDouble(TB_TASA_Dolar.Tasa), 2)
-                                                | Convert.ToDouble(TxtMontoPagoMovil.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtMontoPagoMovil.Text.Replace(".", ","))) >= Math.Round(_L_Facturacion.RecorrerPagoMovil_dt(Dt_PagoMovil) * Convert.ToDouble(TB_TASA_Dolar.Tasa), 2))
-                                            {
-                                                _FrmMensajes.co = 2;
-                                                _FrmMensajes.avisomensaje("El limite diario de pago móvil es de 19$ .");
-                                                _FrmMensajes.ShowDialog();
-                                                TxtRecibidoREF.Focus();
-                                                return;
+                                        //    }
+                                        //}
+                                        //else
+                                        //{
+                                        //    if (Convert.ToDouble(TxtMontoPagoMovil.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtMontoPagoMovil.Text.Replace(".", ","))) >= Math.Round(19 * Convert.ToDouble(TB_TASA_Dolar.Tasa), 2) |
+                                        //        Convert.ToDouble(TxtMontoPagoMovil.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtMontoPagoMovil.Text.Replace(".", ","))) >= Math.Round(Convert.ToDouble(_D_DetalleOrden.LimitePagoMovil(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv) == "" ? (Double)0.00 : Convert.ToDouble(_D_DetalleOrden.LimitePagoMovil(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv))) * Convert.ToDouble(TB_TASA_Dolar.Tasa), 2)
+                                        //        | Convert.ToDouble(TxtMontoPagoMovil.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtMontoPagoMovil.Text.Replace(".", ","))) >= Math.Round(_L_Facturacion.RecorrerPagoMovil_dt(Dt_PagoMovil) * Convert.ToDouble(TB_TASA_Dolar.Tasa), 2))
+                                        //    {
+                                        //        _FrmMensajes.co = 2;
+                                        //        _FrmMensajes.avisomensaje("El limite diario de pago móvil es de 19$ .");
+                                        //        _FrmMensajes.ShowDialog();
+                                        //        TxtRecibidoREF.Focus();
+                                        //        return;
 
-                                            }
-                                        }
+                                        //    }
+                                        //}
 
                                         if ((CbxNacionalidadPagoMovil.Text + "-" + TxtCedulaPagoMovil.Text).Replace(" ", "") != (txtCedula.Text).Replace(" ", "") | (TxtTelefono.Text).Replace(" ", "") != (CbxCelularPagoMovil.Text + "-" + TxtCedularPagoMovil.Text).Replace(" ", ""))
                                         {
@@ -1170,7 +1170,7 @@ namespace CapaVisual_Login
                                             {
                                                 if (_FrmClaveAutorizada.ClaveCorrecta == true)
                                                 {
-                                                    string Autorizaa = _FrmClaveAutorizada.RetornoNombreUsuario();
+                                                    string Autorizaa = VariablesGlobales.UsuarioAutorizado_FrmClaveAutorizada;
                                                     string DescripAuditorAbono = "OS: " + TB_CAORDSER.NumOrdserv + ", Autorizado por: " + Autorizaa;
                                                     _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "086", TB_USUARIO.COD_EMPLEADO, DescripAuditorAbono);
                                                 }
@@ -1375,7 +1375,7 @@ namespace CapaVisual_Login
                     if (Bolivares > (Math.Round((TB_CAORDSER.OrSer_Saldo + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos))) - TotalAbono, 2)))
                     {
                         _FrmMensajes.co = 2;
-                        _FrmMensajes.avisomensaje("El Monto debe ser igual o menor al saldo de la orden, Verifique");
+                        _FrmMensajes.avisomensaje("El monto debe ser igual o menor al saldo de la orden");
                         _FrmMensajes.ShowDialog();
                         return;
                     }
@@ -1614,7 +1614,7 @@ namespace CapaVisual_Login
                                         if (_FrmClaveGerente.ClaveCorrecta == true)
 
                                         {
-                                            Autoriza = _FrmClaveGerente.RetornoNombreUsuario();
+                                            Autoriza = VariablesGlobales.UsuarioAutorizado_FrmClaveGerente;
                                             //Autoriza = _FrmClaveAutorizada.RetornoNombreUsuario();
 
                                             //Registro los pagos en una tabla temporal 
@@ -1633,7 +1633,7 @@ namespace CapaVisual_Login
                                         if (_FrmClaveAutorizada.ClaveCorrecta == true)
                                         {
                                             //Autoriza = _FrmClaveGerente.RetornoNombreUsuario();
-                                            Autoriza = _FrmClaveAutorizada.RetornoNombreUsuario();
+                                            Autoriza = VariablesGlobales.UsuarioAutorizado_FrmClaveAutorizada;
 
                                             //Registro los pagos en una tabla temporal 
                                             rept = _L_Facturacion.LLenadoParametros(DgvAbonos);
@@ -2091,7 +2091,8 @@ namespace CapaVisual_Login
             else
             { 
 
-            // 02/12/2024 Mostrar el saldo de la orden sin el Igtf en un nuevo Texbox y colocar el Texbox original que si tiene el salgo con Igtf Oculto 
+            // 02/12/2024 Mostrar el saldo de la orden sin el Igtf en un nuevo Texbox y colocar el Texbox orig
+            // inal que si tiene el salgo con Igtf Oculto 
             double IgtfAbonado_2 = Convert.ToDouble(TxtIgtfOrd.Text.Replace(".", "")) + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos).Replace(".", ""));
             string saldo_bolivares_2 = Convert.ToString(Math.Round((double)((Convert.ToDouble(TxtSaldoOrd.Text.Replace(".", "")) - IgtfAbonado_2)), 2));
             saldo_bolivares_2 = string.Format("{0:#,0.00}", Convert.ToDecimal(saldo_bolivares_2));
@@ -2293,7 +2294,7 @@ namespace CapaVisual_Login
                         else
                         {
                             _FrmMensajes.co = 2;
-                            _FrmMensajes.avisomensaje("El Monto debe ser igual o menor al saldo de la orden, Verifique");
+                            _FrmMensajes.avisomensaje("El monto debe ser igual o menor al saldo de la orden");
                             _FrmMensajes.ShowDialog();
 
                         }
@@ -2318,7 +2319,7 @@ namespace CapaVisual_Login
                         else
                         {
                             _FrmMensajes.co = 2;
-                            _FrmMensajes.avisomensaje("El Monto debe ser igual o menor al saldo de la orden, Verifique");
+                            _FrmMensajes.avisomensaje("El monto debe ser igual o menor al saldo de la orden");
                             _FrmMensajes.ShowDialog();
                         }
 
@@ -2341,7 +2342,7 @@ namespace CapaVisual_Login
                         else
                         {
                             _FrmMensajes.co = 2;
-                            _FrmMensajes.avisomensaje("El Monto debe ser igual o menor al saldo de la orden, Verifique");
+                            _FrmMensajes.avisomensaje("El monto debe ser igual o menor al saldo de la orden");
                             _FrmMensajes.ShowDialog();
                         }
 
@@ -4066,6 +4067,7 @@ namespace CapaVisual_Login
 
                         foreach (DataRow drItem in dt.Rows)
                         {
+
                             // EL DESCUENTO DE LOS ARTICULOS SE ENVIARA AL FINAL, ANTES DE CERRAR EL CF
 
                             if (Convert.ToInt64(drItem["Ordserv_Dto"]) > 0)
@@ -4225,6 +4227,7 @@ namespace CapaVisual_Login
                                 // ******ENVIO EL SUBTOTAL DE LA FACTURA**************
                                 if (resp == 0)
                                 {
+
                                     foreach (DataRow drIgtf in DtIGTF.Tables[0].Rows)
                                     {
 
@@ -4268,6 +4271,7 @@ namespace CapaVisual_Login
 
                             if (sumo01 == true)
                             {
+
                                 // ****ENVIO LOS DESCUENTOS DE ESTA FACTURA******
                                 if (DctoFactura == true)
                                 {
@@ -4326,6 +4330,7 @@ namespace CapaVisual_Login
                                 // ******ENVIO EL SUBTOTAL DE LA FACTURA**************
                                 if (resp == 0)
                                 {
+   
                                     Double subtotal = 0.00;
                                     Double subtotalIgtf = 0.00;
 
@@ -4387,44 +4392,48 @@ namespace CapaVisual_Login
                         if (resp == 0)
                         {
                             DataTable dtPago = _D_DetalleOrden.Pasgos(TB_CAORDSER.Cod_Sucursal, txtNumeroOrden.Text, TB_CAORDSER.Revision, command);
-                            TotalFacturaFiscal = objVmax.RetornoSubtotal.llSubtotal.ToString();
+                            TotalFacturaFiscal = objVmax.RetornoSubtotal.llSubtotal.ToString(); 
                             decimal PagosEnviados = 0;
-
                             foreach (DataRow drPago in dtPago.Rows)
                             {
                                 if (Convert.ToDecimal(drPago["Abo_Monto"].ToString()) > 0)
                                 {
-                                    int NumeroMaximoCaracteres = Convert.ToInt32(drPago["Abo_Tipo"].ToString().Length);
+                                    int NumeroMaximoCaracteres = Convert.ToInt32(drPago["Abo_Tipo"].ToString().Length); 
                                     resp = objVmax.PagoCF(drPago["Abo_Monto"].ToString(), drPago["Abo_Tipo"].ToString(), 1);
                                     PagosEnviados = PagosEnviados + Convert.ToDecimal(drPago["Abo_Monto"].ToString());
                                 }
                             }
 
-                            TotalFacturaFiscal = objVmax.RetornoSubtotal.llSubtotal.ToString();
+                            TotalFacturaFiscal = objVmax.RetornoSubtotal.llSubtotal.ToString();                      
                             decimal Calculo = Convert.ToDecimal(TotalFacturaFiscal) - PagosEnviados;
 
                             if (Convert.ToString(Convert.ToDecimal(TotalFacturaFiscal) - PagosEnviados) == "1")
                             {
+                             
                                 resp = objVmax.PagoCF("1", "EFECTIVO", 1);
-                                _D_DetalleOrden.SP_SUMOFACTURA(TB_CAORDSER.Cod_Sucursal, NumeroComprobanteFiscal, objVmax.RetornoMF.sSerial.ToString(), txtNumeroOrden.Text, TotalFacturaFiscal, DctoExento, DctoGravable);
+                                _D_DetalleOrden.SP_SUMOFACTURA(TB_CAORDSER.Cod_Sucursal, NumeroComprobanteFiscal, SerialImpresora, txtNumeroOrden.Text, TotalFacturaFiscal, DctoExento, DctoGravable, command);
                             }
                             else if (Convert.ToString(Convert.ToDecimal(TotalFacturaFiscal) - PagosEnviados) == "2")
                             {
+                               
                                 resp = objVmax.PagoCF("2", "EFECTIVO", 1);
                                 _D_DetalleOrden.SP_SUMOFACTURA(TB_CAORDSER.Cod_Sucursal, NumeroComprobanteFiscal, SerialImpresora, txtNumeroOrden.Text, TotalFacturaFiscal, DctoExento, DctoGravable, command);
                             }
                             else if (Convert.ToString(Convert.ToDecimal(TotalFacturaFiscal) - PagosEnviados) == "3")
                             {
+                              
                                 resp = objVmax.PagoCF("3", "EFECTIVO", 1);
                                 _D_DetalleOrden.SP_SUMOFACTURA(TB_CAORDSER.Cod_Sucursal, NumeroComprobanteFiscal, SerialImpresora, txtNumeroOrden.Text, TotalFacturaFiscal, DctoExento, DctoGravable, command);
                             }
                             else if (Convert.ToString(Convert.ToDecimal(TotalFacturaFiscal) - PagosEnviados) == "4")
                             {
+                                
                                 resp = objVmax.PagoCF("4", "EFECTIVO", 1);
                                 _D_DetalleOrden.SP_SUMOFACTURA(TB_CAORDSER.Cod_Sucursal, NumeroComprobanteFiscal, SerialImpresora , txtNumeroOrden.Text, TotalFacturaFiscal, DctoExento, DctoGravable, command);
                             }
                             else if (Convert.ToString(Convert.ToDecimal(TotalFacturaFiscal) - PagosEnviados) == "5")
                             {
+                                
                                 resp = objVmax.PagoCF("5", "EFECTIVO", 1);
                                 _D_DetalleOrden.SP_SUMOFACTURA(TB_CAORDSER.Cod_Sucursal, NumeroComprobanteFiscal, SerialImpresora, txtNumeroOrden.Text, TotalFacturaFiscal, DctoExento, DctoGravable, command);
 
@@ -4445,6 +4454,8 @@ namespace CapaVisual_Login
 
                         if (resp == 0)
                         {
+                            
+
                             // Si la impresora devuelve true imprimo los comentarios y cierro el CF
 
                             resp = objVmax.TextoNoFiscal("");
@@ -4579,6 +4590,8 @@ namespace CapaVisual_Login
 
                                 if (resp == 0)
                                 {
+                                   
+
                                     ImprimirFacturaFiscall = true;
                                     NumeroComprobanteFiscal = objVmax.RetornoAbrirFactura.uiNumeroFactura.ToString();
                                     string Ultimo_Tiket_Anulado = objVmax.RetornoAbrirFactura.uiUltNumeroCancelado.ToString();
@@ -4658,6 +4671,8 @@ namespace CapaVisual_Login
                                     //con datos de tb_abono
                                     if (resp == 0 && UltimoNumeroFacturaCancelado2 != NumeroComprobanteFiscal)
                                     {
+                                        
+
                                         Transaccion = _D_DetalleOrden.GetFactura(TB_CAORDSER.Cod_Sucursal, NumeroComprobanteFiscal, Fecha2, Nacionalidad,
                                      txtCedula.Text.Substring(2, txtCedula.Text.Length - 2), TB_CAORDSER.COD_EMPLEADO, TB_CAORDSER.Cod_Venta, txtNumeroOrden.Text, Convert.ToString(TB_CAORDSER.Fec_ofrecido.ToString("yyyyMMdd")), TB_CAORDSER.Hor_ofrecido, Convert.ToDouble(String.Format(CultureInfo.InvariantCulture, "{0:0.00}", Convert.ToDouble(DtIGTF.Tables[0].Rows[0]["BaseImponible"].ToString()) / 100).Replace(".", ",")),
                                       Convert.ToDouble(String.Format(CultureInfo.InvariantCulture, "{0:0.00}", Convert.ToDouble(DtIGTF.Tables[0].Rows[0]["Alicuota"].ToString()) / 100).Replace(".", ",")), TB_CAORDSER.VtaDescuento, (totalpagos / 100), TB_USUARIO.COD_USR, 0, 0, SerialImpresora,
@@ -5218,7 +5233,7 @@ namespace CapaVisual_Login
                                     _FrmAnulacion.IdAbono = Convert.ToInt32(DgvListadoOrdenes.CurrentRow.Cells["ID_Abono"].Value.ToString());
                                     _FrmAnulacion.MontoAnulacion = Convert.ToDouble(DgvListadoOrdenes.CurrentRow.Cells["Abo_Monto"].Value.ToString());
                                     _FrmAnulacion.TipoPagoAnular = DgvListadoOrdenes.CurrentRow.Cells["Tipo_Pago"].Value.ToString();
-                                    _FrmAnulacion.GerenteAutoriza = _FrmClaveAutorizada.RetornoNombreUsuario();
+                                    _FrmAnulacion.GerenteAutoriza = VariablesGlobales.UsuarioAutorizado_FrmClaveAutorizada;
                                     _FrmAnulacion.ShowDialog();
 
                                 }
@@ -5740,6 +5755,11 @@ namespace CapaVisual_Login
 
         }
 
+        public void RegistroAbono_Auditor(string MontoAbonado)
+        {
+               _L_Facturacion.RegistarAbonoAuditor("013",TB_CAORDSER.NumOrdserv, MontoAbonado);
+     
+        }
 
         public string ProcesarPagos(double TotalAbono, double TotalSaldoOrdenConIgtf)
         {
@@ -6512,7 +6532,7 @@ namespace CapaVisual_Login
                 else
                 {
                     _FrmMensajes.co = 2;
-                    _FrmMensajes.avisomensaje(" El monto debe ser igual o menor que el saldo total de la nota, verifique");
+                    _FrmMensajes.avisomensaje("El monto debe ser igual o menor que el saldo total de la nota");
                     _FrmMensajes.ShowDialog();
 
                 }
@@ -6524,7 +6544,7 @@ namespace CapaVisual_Login
             else
             {
                 _FrmMensajes.co = 2;
-                _FrmMensajes.avisomensaje(" El monto debe ser menor o igual al saldo de la orden, verifique");
+                _FrmMensajes.avisomensaje("El monto debe ser igual o menor al saldo de la orden");
                 _FrmMensajes.ShowDialog();
 
             }

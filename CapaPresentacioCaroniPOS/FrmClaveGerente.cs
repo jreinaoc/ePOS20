@@ -79,10 +79,14 @@ namespace CapaVisual_Login
             if (_L_ClaveGerente.ValidarClave(TxtClave.Text) == true)
             {
                 ClaveCorrecta = true;
+                // Asignar el valor del usuario autorizado a la propiedad estática
+                VariablesGlobales.UsuarioAutorizado_FrmClaveGerente = CbxSelecGerentTiend.Text;
             }
             else
             {
                 ClaveCorrecta = false;
+                // Asignar el valor del usuario autorizado a la propiedad estática
+                VariablesGlobales.UsuarioAutorizado_FrmClaveGerente = "";
                 string mensajer = "La clave ingresada es invalida";
                 _FrmMensajes.co = 2;
                 _FrmMensajes.avisomensaje(mensajer);

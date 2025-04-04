@@ -21,6 +21,7 @@ namespace CapaLogica.Anulacion_Logica
         public bool MontRecib;
         public bool ElimineOrden = false;
         public string NroNota;
+        public string MontoNota;
         D_Anulacion _D_Anulacion = new D_Anulacion();
         D_Inicio _D_Inicio = new D_Inicio();
         D_DetalleOrden _DetalleOrden = new D_DetalleOrden();
@@ -276,7 +277,7 @@ namespace CapaLogica.Anulacion_Logica
                 if (rept == "SATISFACTORIO")
                 rept = _D_Anulacion.ObtenerNroNota(TB_CAORDSER.NumOrdserv, TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.Revision, command);
                 NroNota = _D_Anulacion.NroNota;
-
+                MontoNota = _D_Anulacion.MontoNota;
                 return rept; 
             }
 
@@ -294,11 +295,20 @@ namespace CapaLogica.Anulacion_Logica
             return "SATISFACTORIO";
         }
 
-        public void EnviarAuditor(string CodAccion, SqlCommand command = null)
+        public void EnviarAuditor(string CodAccion, string Autoriza,SqlCommand command = null)
         {
 
 
-            string detalles = "OS: " + TB_CAORDSER.NumOrdserv + " ," + "Cliente: " + TB_CAORDSER.CTE_Nacio + "-" + TB_CAORDSER.CTE_CedIden;
+            string detalles = "OS: " + TB_CAORDSER.NumOrdserv + ", " + "Cliente: " + TB_CAORDSER.CTE_Nacio + "-" + TB_CAORDSER.CTE_CedIden + ", "+  "Autorizado por: "+ Autoriza;
+            _D_Anulacion.CaragarAuditor(TB_USUARIO.COD_SUCURSAL, CodAccion, TB_USUARIO.COD_EMPLEADO, detalles, command);
+
+        }
+
+        public void EnviarAuditor_Nota(string CodAccion, string Autoriza, string Numero_Nota, string Monto , SqlCommand command = null)
+        {
+
+
+            string detalles = "OS: " + TB_CAORDSER.NumOrdserv + ", " + "Cliente: " + TB_CAORDSER.CTE_Nacio + "-" + TB_CAORDSER.CTE_CedIden + ", " + "Autorizado por: " + Autoriza + ", " + "Nº Nota: " + Numero_Nota + ", "+ "Monto: " + Monto;
             _D_Anulacion.CaragarAuditor(TB_USUARIO.COD_SUCURSAL, CodAccion, TB_USUARIO.COD_EMPLEADO, detalles, command);
 
         }
@@ -306,6 +316,7 @@ namespace CapaLogica.Anulacion_Logica
         public string EnviarMovAnulacion(SqlCommand command = null)
         {
             NroNota = _D_Anulacion.ObtenerNroNota(TB_CAORDSER.NumOrdserv, TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.Revision, command);
+            MontoNota = _D_Anulacion.MontoNota;
             DateTime FechaActiva = _D_Inicio.DiaActivo();
             string resp= _D_Anulacion.EjecMovAnulacion(TB_CAORDSER.NumOrdserv, TB_USUARIO.COD_SUCURSAL, "003", "N", FechaActiva.ToString(), NroNota, TB_USUARIO.COD_USR, command);
             return resp;

@@ -985,7 +985,7 @@ namespace CapaVisual_Login
 
                                         if (_FrmClaveAutorizada.ClaveCorrecta == true)
                                         {
-                                            string Nombre = _FrmClaveAutorizada.RetornoNombreUsuario();
+                                            string Nombre = VariablesGlobales.UsuarioAutorizado_FrmClaveAutorizada;
 
                                             if (TB_FACTURAS.Fact_Num != "" & TB_FACTURAS.Fact_Num != null && _L_Facturacion.ValidaFactManual() == false)
                                             {
@@ -1019,7 +1019,7 @@ namespace CapaVisual_Login
 
                                         if (_FrmClaveAutorizada.ClaveCorrecta == true)
                                         {
-                                            string Nombre = _FrmClaveAutorizada.RetornoNombreUsuario();
+                                            string Nombre = VariablesGlobales.UsuarioAutorizado_FrmClaveAutorizada;
 
                                             if (TB_FACTURAS.Fact_Num != "" & TB_FACTURAS.Fact_Num != null && _L_Facturacion.ValidaFactManual() == false)
                                             {
@@ -1054,7 +1054,7 @@ namespace CapaVisual_Login
 
                                     if (_FrmClaveAutorizada.ClaveCorrecta == true)
                                     {
-                                        string Nombre = _FrmClaveAutorizada.RetornoNombreUsuario();
+                                        string Nombre = VariablesGlobales.UsuarioAutorizado_FrmClaveAutorizada;
 
                                         if (TB_FACTURAS.Fact_Num != "" & TB_FACTURAS.Fact_Num != null && _L_Facturacion.ValidaFactManual() == false)
                                         {
@@ -1230,7 +1230,7 @@ namespace CapaVisual_Login
                                 }
 
                                 //Guardo en el auditor 
-                                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "011", TB_USUARIO.COD_EMPLEADO, "OS: " + TB_CAORDSER.NumOrdserv + ", Autorizado por: " + _FrmClaveAutorizada.RetornoNombreUsuario());
+                                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "011", TB_USUARIO.COD_EMPLEADO, "OS: " + TB_CAORDSER.NumOrdserv + ", Autorizado por: " + VariablesGlobales.UsuarioAutorizado_FrmClaveAutorizada);
 
                                 //ImprimirReporte
 
@@ -1322,7 +1322,7 @@ namespace CapaVisual_Login
                     }
 
                     //Guardo en el auditor 
-                    _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "011", TB_USUARIO.COD_EMPLEADO, "OS: " + TB_CAORDSER.NumOrdserv + ", Autorizado por: " + _FrmClaveAutorizada.RetornoNombreUsuario());
+                    _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "011", TB_USUARIO.COD_EMPLEADO, "OS: " + TB_CAORDSER.NumOrdserv + ", Autorizado por: " + VariablesGlobales.UsuarioAutorizado_FrmClaveAutorizada);
 
                     //ImprimirReporte
 
@@ -2079,14 +2079,14 @@ namespace CapaVisual_Login
                     {
                         if (PAGOS_IVA == "1" & DgvListadoOrdenes.CurrentRow.Cells["Comprobante_IVA"].Value.ToString() == "0")
                         {
-                            _D_Anulacion.CaragarAuditor(TB_USUARIO.COD_SUCURSAL, "086", TB_USUARIO.COD_EMPLEADO, "OS: " + NumeroOrdenRetencion + ", Factura: " + TxtRetencionFactura.Text + ", ComprobanteIVA: " + TxtRetencionIVA.Text + ", Autoriza: " + _FrmClaveGerente.RetornoNombreUsuario());
+                            _D_Anulacion.CaragarAuditor(TB_USUARIO.COD_SUCURSAL, "086", TB_USUARIO.COD_EMPLEADO, "OS: " + NumeroOrdenRetencion + ", Factura: " + TxtRetencionFactura.Text + ", ComprobanteIVA: " + TxtRetencionIVA.Text + ", Autoriza: " + VariablesGlobales.UsuarioAutorizado_FrmClaveGerente);
                             _D_DetalleOrden.Registar_IVA_Facturacion(TxtRetencionIVA.Text, TxtRetencionFactura.Text, DgvListadoOrdenes.CurrentRow.Cells["Cod_Sucursal"].Value.ToString(), DgvListadoOrdenes.CurrentRow.Cells["NumOrdserv"].Value.ToString());
 
                         }
 
                         if (PAGOS_ISLR == "1" & DgvListadoOrdenes.CurrentRow.Cells["Comprobante_ISLR"].Value.ToString() == "0")
                         {
-                            _D_Anulacion.CaragarAuditor(TB_USUARIO.COD_SUCURSAL, "087", TB_USUARIO.COD_EMPLEADO, "OS: " + NumeroOrdenRetencion + ", Factura: " + TxtRetencionFactura.Text + ", ComprobanteISRL: " + TxtRetencionISRL.Text + ", Autoriza: " + _FrmClaveGerente.RetornoNombreUsuario());
+                            _D_Anulacion.CaragarAuditor(TB_USUARIO.COD_SUCURSAL, "087", TB_USUARIO.COD_EMPLEADO, "OS: " + NumeroOrdenRetencion + ", Factura: " + TxtRetencionFactura.Text + ", ComprobanteISRL: " + TxtRetencionISRL.Text + ", Autoriza: " + VariablesGlobales.UsuarioAutorizado_FrmClaveGerente);
                             _D_DetalleOrden.Registar_ISLR_Facturacion(TxtRetencionISRL.Text, TxtRetencionFactura.Text, DgvListadoOrdenes.CurrentRow.Cells["Cod_Sucursal"].Value.ToString(), DgvListadoOrdenes.CurrentRow.Cells["NumOrdserv"].Value.ToString());
                         }
 
