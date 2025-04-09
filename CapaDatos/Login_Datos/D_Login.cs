@@ -68,5 +68,14 @@ namespace CapaDatos.Login_Datos
             return HASH;
             
         }
+
+        public void BloquearUsuario(string IdUsuario)
+        {
+            SqlCommand cmd = new SqlCommand("UPDATE TB_USUARIO SET Bloqueado=1 where COD_EMPLEADO= @usuario", cn.LeerCadena());
+            cmd.CommandType = CommandType.Text;
+            cmd.Parameters.AddWithValue("@usuario", IdUsuario);
+            cmd.ExecuteNonQuery();
+        }
+
     }
 }

@@ -41,6 +41,22 @@ namespace CapaLogica.Login_Logica
 
         }
 
+        public bool BloquearUsuario(string IdUsuario)
+        {
+            try
+            {
+                stringBuilder.Clear();
+
+                _usuario.BloquearUsuario(IdUsuario);
+                return stringBuilder.Length == 0;
+            }
+            catch (Exception ex)
+            {
+                stringBuilder.Append(Environment.NewLine + string.Format("Error: {0}", ex.Message));
+                return false;
+            }
+        }
+
         // enviar un textbox como parámetro nota: se debe definir el  using System.Windows.Forms; en el proyecto
         public bool ComprobarCampos(System.Windows.Forms.TextBox TxtLogin, System.Windows.Forms.TextBox TxtClave)
         {
