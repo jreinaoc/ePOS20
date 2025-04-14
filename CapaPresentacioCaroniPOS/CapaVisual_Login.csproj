@@ -137,6 +137,12 @@
     <Compile Include="CustomControls\ControlsTextbox.Designer.cs">
       <DependentUpon>ControlsTextbox.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmCargarOrden.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmCargarOrden.Designer.cs">
+      <DependentUpon>FrmCargarOrden.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmListaFactura.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -301,6 +307,9 @@
     <Compile Include="Reportes\Impresor.cs" />
     <EmbeddedResource Include="FrmAnulacion.resx">
       <DependentUpon>FrmAnulacion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmCargarOrden.resx">
+      <DependentUpon>FrmCargarOrden.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmClaveAutorizada.resx">
       <DependentUpon>FrmClaveAutorizada.cs</DependentUpon>

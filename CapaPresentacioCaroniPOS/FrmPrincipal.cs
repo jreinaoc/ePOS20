@@ -39,6 +39,7 @@ namespace CapaVisual_Login
         L_Colores _L_Colores = new L_Colores();
         FrmPagoMovil _FrmPagoMovil = new FrmPagoMovil();
         FrmListaFactura _FrmListaFactura = new FrmListaFactura();
+        FrmCargarOrden _FrmCargarOrden = new FrmCargarOrden();
 
         private D_DetalleOrden _D_DetalleOrden = new D_DetalleOrden();
         public bool osc;
@@ -72,7 +73,7 @@ namespace CapaVisual_Login
                 btnClienteEspera.BackColor = col2;
                 btnPagoMovil.BackColor = col2;
                 btnListaFactura.BackColor = col2;
-
+                btnCargarOrdenes.BackColor = col2;
             }
             else
             {
@@ -82,6 +83,7 @@ namespace CapaVisual_Login
                 btnClienteEspera.BackColor = Color.White;
                 btnPagoMovil.BackColor = Color.White;
                 btnListaFactura.BackColor = Color.White;
+                btnCargarOrdenes.BackColor = Color.White;
             }
 
 
@@ -129,7 +131,7 @@ namespace CapaVisual_Login
                 btnClienteEspera.BackColor = col2;
                 btnPagoMovil.BackColor = col2;
                 btnListaFactura.BackColor = col2;
-
+                btnCargarOrdenes.BackColor = col2;
             }
             else
             {
@@ -139,6 +141,7 @@ namespace CapaVisual_Login
                 btnClienteEspera.BackColor = Color.White;
                 btnPagoMovil.BackColor = Color.White;
                 btnListaFactura.BackColor = Color.White;
+                btnCargarOrdenes.BackColor = Color.White;
             }
 
 
@@ -216,7 +219,7 @@ namespace CapaVisual_Login
             _FrmConfiguracion.FormatoConfig2(col2, col3, col4);
             _FrmFacturacion.FormatoFacturacion2(col2, col3, col4);
             _FrmListaFactura.FormatoDataGrid_Oscuro_ListaFact(col2, col3, col4);
-
+            _FrmCargarOrden.FormatoDataGrid_Oscuro_Dgv_Tap3_Articulo(col2, col3, col4);
 
             BtnListadoOrdenes.BackColor = col2;
             BtnInicio.BackColor = col2;
@@ -224,6 +227,7 @@ namespace CapaVisual_Login
             btnClienteEspera.BackColor = col2;
             btnListaFactura.BackColor = col2;
             btnPagoMovil.BackColor = col2;
+            btnCargarOrdenes.BackColor = col2;
 
             BtnInicio.ForeColor = Color.White;
             BtnListadoOrdenes.ForeColor = Color.White;
@@ -232,6 +236,7 @@ namespace CapaVisual_Login
             LblFechday.ForeColor = Color.White;
             btnListaFactura.ForeColor = Color.White;
             btnPagoMovil.ForeColor = Color.White;
+            btnCargarOrdenes.ForeColor = Color.White;
             BackColor = col2;
 
 
@@ -294,7 +299,7 @@ namespace CapaVisual_Login
             btnClienteEspera.BackColor = Color.White;
             btnListaFactura.BackColor = Color.White;
             btnPagoMovil.BackColor = Color.White;
-
+            btnCargarOrdenes.BackColor = Color.White;
 
             BtnInicio.ForeColor = Color.Black;
             BtnListadoOrdenes.ForeColor = Color.Black;
@@ -303,12 +308,14 @@ namespace CapaVisual_Login
             LblFechday.ForeColor = Color.Black;
             btnListaFactura.ForeColor = Color.Black;
             btnPagoMovil.ForeColor = Color.Black;
+            btnCargarOrdenes.ForeColor = Color.Black;
 
             _FrmInicio.ConfigClara(col1, col3);
             _FrmListaOrdenes.FormatoDataGrid1(col1, col3);
             _FrmConfiguracion.FormatoConfig1(col1, col3);
             _FrmFacturacion.FormatoFacturacion1(col1, col3);
             _FrmListaFactura.FormatoDataGrid_Claro_ListaFact(col1, col3);
+            _FrmCargarOrden.FormatoDataGrid_Claro_Dgv_Tap3_Articulo(col1, col3);
 
 
             //_FrmListaOrdenes.EstructuraGrid();
@@ -364,7 +371,7 @@ namespace CapaVisual_Login
                 btnClienteEspera.BackColor = col2;
                 btnPagoMovil.BackColor = col2;
                 btnListaFactura.BackColor = col2;
-
+                btnCargarOrdenes.BackColor = col2;
             }
             else
             {
@@ -374,6 +381,7 @@ namespace CapaVisual_Login
                 btnClienteEspera.BackColor = Color.White;
                 btnPagoMovil.BackColor = Color.White;
                 btnListaFactura.BackColor = Color.White;
+                btnCargarOrdenes.BackColor = Color.White;
             }
 
 
@@ -479,7 +487,7 @@ namespace CapaVisual_Login
                 BtnListadoOrdenes.BackColor = col2;
                 btnPagoMovil.BackColor = col2;
                 btnListaFactura.BackColor = col2;
-
+                btnCargarOrdenes.BackColor = col2;
             }
             else
             {
@@ -489,6 +497,7 @@ namespace CapaVisual_Login
                 BtnListadoOrdenes.BackColor = Color.White;
                 btnPagoMovil.BackColor = Color.White;
                 btnListaFactura.BackColor = Color.White;
+                btnCargarOrdenes.BackColor = Color.White;
             }
 
             // _FrmClienteEspera.ShowDialog();
@@ -554,7 +563,7 @@ namespace CapaVisual_Login
                 btnconfiguracion.BackColor = col2;
                 btnClienteEspera.BackColor = col2;
                 btnListaFactura.BackColor = col2;
-
+                btnCargarOrdenes.BackColor = col2;
 
             }
             else
@@ -565,6 +574,7 @@ namespace CapaVisual_Login
                 btnClienteEspera.BackColor = Color.White;
                 BtnListadoOrdenes.BackColor = Color.White;
                 btnListaFactura.BackColor = Color.White;
+                btnCargarOrdenes.BackColor = Color.White;
             }
 
             PnlListadoOrdenes.Controls.Clear();
@@ -584,7 +594,7 @@ namespace CapaVisual_Login
                 BtnInicio.BackColor = col2;
                 btnconfiguracion.BackColor = col2;
                 btnClienteEspera.BackColor = col2;
-
+                btnCargarOrdenes.BackColor = col2;
 
 
             }
@@ -596,11 +606,55 @@ namespace CapaVisual_Login
                 btnClienteEspera.BackColor = Color.White;
                 BtnListadoOrdenes.BackColor = Color.White;
                 btnPagoMovil.BackColor = Color.White;
+                btnCargarOrdenes.BackColor = Color.White;
             }
 
             PnlListadoOrdenes.Controls.Clear();
             addformulario(_FrmListaFactura);
             Focus();
+
+        }
+
+        private void btnCargarOrdenes_Click(object sender, EventArgs e)
+        {
+            System.Drawing.Color col2 = System.Drawing.ColorTranslator.FromHtml("#257b78");
+
+
+
+            if (this.BackColor == col2)
+            {
+                btnCargarOrdenes.BackColor = Color.FromArgb(4, 185, 166);
+                BtnListadoOrdenes.BackColor = col2;
+                BtnInicio.BackColor = col2;
+                btnconfiguracion.BackColor = col2;
+                btnClienteEspera.BackColor = col2;
+                btnPagoMovil.BackColor = col2;
+                btnListaFactura.BackColor = col2;
+
+            }
+            else
+            {
+                btnCargarOrdenes.BackColor = Color.FromArgb(4, 185, 166);
+                BtnListadoOrdenes.BackColor = Color.White;
+                BtnInicio.BackColor = Color.White;
+                btnconfiguracion.BackColor = Color.White;
+                btnClienteEspera.BackColor = Color.White;
+                btnPagoMovil.BackColor = Color.White;
+                btnListaFactura.BackColor = Color.White;
+            }
+
+
+
+
+
+
+
+
+            PnlListadoOrdenes.Controls.Clear();
+            addformulario(_FrmCargarOrden);
+            Focus();
+            //_FrmListaOrdenes.cerrar();
+            //_FrmListaOrdenes.ListadoOrdenosRebot();
 
         }
     }

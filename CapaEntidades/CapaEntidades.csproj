@@ -57,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TB_ARTICULO.cs" />
     <Compile Include="TB_CAORDSER.cs" />
     <Compile Include="TB_FACTURAS.cs" />
     <Compile Include="TB_TASA.cs" />

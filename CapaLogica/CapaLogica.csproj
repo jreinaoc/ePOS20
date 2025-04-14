@@ -84,6 +84,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Anulacion_Logica\L_Anulacion.cs" />
+    <Compile Include="CargarOrdenes\L_Articulo.cs" />
     <Compile Include="ClaveAutorizada_Logica\L_ClaveAutorizada.cs" />
     <Compile Include="ClaveGerente_Logica\L_ClaveGerente.cs" />
     <Compile Include="Colores_Logica\L_Colores.cs" />
