@@ -88,6 +88,9 @@
     <Compile Include="Login_Datos\D_Login.cs" />
     <Compile Include="Conexion\Conexion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RepositorioExcel\FiltroFechas_LibroVenta.cs" />
+    <Compile Include="RepositorioExcel\repositorioLibro_Venta.cs" />
+    <Compile Include="RepositorioExcel\TB_LIBRO_VENTA.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CapaEntidades\CapaEntidades.csproj">
