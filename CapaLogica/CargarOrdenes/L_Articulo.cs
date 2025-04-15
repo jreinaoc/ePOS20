@@ -107,7 +107,211 @@ namespace CapaLogica.CargarOrdenes
             Dgv_Pnl3_Articulo.DataSource = datosFiltrados;
         }
 
+        public bool CargarArticulo_ValidarTexbox(System.Windows.Forms.TextBox Codigo, System.Windows.Forms.TextBox Descripcion, System.Windows.Forms.TextBox Precio, System.Windows.Forms.TextBox Cantidad)
+        {
+            // Validar si el campo Código está vacío
+            if (string.IsNullOrWhiteSpace(Codigo.Text))
+            {
+                Codigo.Focus(); // Establecer el foco en el campo Código
+                return true;
+            }
+
+            // Validar si el campo Descripción está vacío
+            if (string.IsNullOrWhiteSpace(Descripcion.Text))
+            {
+                Descripcion.Focus(); // Establecer el foco en el campo Descripción
+                return true;
+            }
+
+            // Validar si el campo Precio está vacío
+            if (string.IsNullOrWhiteSpace(Precio.Text))
+            {
+                Precio.Focus(); // Establecer el foco en el campo Precio
+                return true;
+            }
+
+            // Validar si el campo Cantidad está vacío
+            if (string.IsNullOrWhiteSpace(Cantidad.Text))
+            {
+                Cantidad.Focus(); // Establecer el foco en el campo Cantidad
+                return true;
+            }
+
+            // Si todos los campos tienen valores, devolver false
+            return false;
+
+        }
+
+        public bool CargarArticulo_EvitarDuplicado(System.Windows.Forms.DataGridView Dgv_Tap3_Articulo, System.Windows.Forms.TextBox Codigo)
+        {
+            foreach (DataGridViewRow row in Dgv_Tap3_Articulo.Rows)
+            {
+                if (row.Cells["CodArticulo"].Value?.ToString() == Codigo.Text)
+                {
+                    MessageBox.Show("El artículo ya está agregado.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public string ValidarExistenciaProducto(string codigoProducto, int cantidadIngresada, List<TB_ARTICULO> listaArticulos)
+        {
+            // Buscar el producto en la lista por su código
+            var articulo = listaArticulos.FirstOrDefault(a => a.CodArticulo == codigoProducto);
+
+            // Verificar si el producto existe en la lista
+            if (articulo == null)
+            {
+                return "El producto no existe en la lista.";
+            }
+
+            // Verificar si el producto maneja existencia
+            if (!articulo.MANEJAEXISTENCIA)
+            {
+                return "El producto no tiene existencia.";
+            }
+
+            // Comparar la cantidad ingresada con la existencia disponible
+            if (cantidadIngresada > articulo.ART_EXIST)
+            {
+                return $"La cantidad ingresada ({cantidadIngresada}) excede la existencia disponible ({articulo.ART_EXIST}).";
+            }
+
+            // Si todo es válido, devolver true
+            return "";
+        }
+
+        public string ValidarCantidadMaximaPermitida(string codigoProducto, int cantidadIngresada)
+        {
+            DataTable DT_ValorMaximo = _D_Articulos.BucarArticuloMaximoPorVenta(codigoProducto.Substring(0, 1));
+
+            foreach (DataRow row in DT_ValorMaximo.Rows)
+            {
+                int ValorMaximoPorArticulo = Convert.ToInt32(row["Max_Vta"].ToString());
+                if(cantidadIngresada > ValorMaximoPorArticulo)
+                {
+                    return "El articulo " + codigoProducto + " tiene una cantidad a vender mayor que el maximo permitido.";
+                }
+            }
+            return "";
+        }
+
+        public void FormatearCampo7Digitos(System.Windows.Forms.TextBox CodigoArticulo)
+        {
+            // Validar que el TextBox no sea nulo y que tenga texto
+            if (CodigoArticulo == null || string.IsNullOrWhiteSpace(CodigoArticulo.Text))
+            {
+                return; // Salir si el TextBox está vacío o es nulo
+            }
+
+            if (CodigoArticulo.Text.StartsWith("C", StringComparison.OrdinalIgnoreCase))
+            {
+                switch (CodigoArticulo.Text.Length)
+                {
+                    case 1:
+                        CodigoArticulo.Text = CodigoArticulo.Text + "000000";
+                        break;
+                    case 2:
+                        CodigoArticulo.Text = CodigoArticulo.Text.Substring(0, 1) + "00000" + CodigoArticulo.Text.Substring(1, 1);
+                        break;
+                    case 3:
+                        CodigoArticulo.Text = CodigoArticulo.Text.Substring(0, 1) + "0000" + CodigoArticulo.Text.Substring(1, 2);
+                        break;
+                    case 4:
+                        CodigoArticulo.Text = CodigoArticulo.Text.Substring(0, 1) + "000" + CodigoArticulo.Text.Substring(1, 3);
+                        break;
+                    case 5:
+                        CodigoArticulo.Text = CodigoArticulo.Text.Substring(0, 1) + "00" + CodigoArticulo.Text.Substring(1, 4);
+                        break;
+                    case 6:
+                        CodigoArticulo.Text = CodigoArticulo.Text.Substring(0, 1) + "0" + CodigoArticulo.Text.Substring(1, 5);
+                        break;
+                }
+            }
+        }
+
+        public bool VerificoCantidadCristales(string codigoProducto, int cantidadIngresada, List<TB_TRABAJO> trabajos)
+        {
+            // Validar que la lista no sea nula o vacía
+            if (trabajos == null || trabajos.Count == 0)
+            {
+                throw new ArgumentException("La lista de trabajos no puede estar vacía.");
+            }
+
+            // Iterar sobre los trabajos para verificar las condiciones
+            foreach (var trabajo in trabajos)
+            {
+                // Verificar si el trabajo es "CONVENCIONAL" y el código comienza con "C"
+                if (trabajo.T_TIPOTRABAJO == "CONVENCIONAL" && codigoProducto.StartsWith("C", StringComparison.OrdinalIgnoreCase))
+                {
+                    int cristal = trabajo.T_OJO == "Ambos" ? 2 : 1;
+
+                    // Validar la cantidad ingresada
+                    if (cantidadIngresada > cristal)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                }
+                // Verificar si el trabajo es "CONTACTO" y el código comienza con "W"
+                else if (trabajo.T_TIPOTRABAJO == "CONTACTO" && codigoProducto.StartsWith("W", StringComparison.OrdinalIgnoreCase))
+                {
+                    int cantc = trabajo.T_OJO == "Ambos" ? 2 : 1;
+
+                    // Validar la cantidad ingresada
+                    if (cantidadIngresada > cantc)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            // Si no se cumple ninguna condición, devolver false por defecto
+            return false;
+        }
+
+        public void LlenarTB_Trbajo( List<TB_TRABAJO> _TRABAJO, string sucursal, string NacioNalidad, string Cedula)
+        {
+          try 
+          { 
+
+                // Obtener los artículos desde la base de datos
+                var TRABAJOS = _D_Articulos.ObtenerTrabajo(sucursal, NacioNalidad, Cedula);
+
+                 // Limpiar la lista pasada como parámetro y llenarla con los nuevos datos
+                _TRABAJO.Clear(); // Limpiar la lista para evitar duplicados
+                _TRABAJO.AddRange(TRABAJOS); // Agregar los datos obtenidos
+          }
+            catch (Exception ex)
+            {
+                stringBuilder.Append(Environment.NewLine + string.Format("Error: {0}", ex.Message));
+            }
+        }
+
+        public int BuscarIva (string Codigo_Iva)
+        {
+            DataTable DT_Iva = _D_Articulos.BucarIva(Codigo_Iva);
+
+            foreach (DataRow row in DT_Iva.Rows)
+            {
+                int Iva = Convert.ToInt32(row["Porcentaje"].ToString());
+                return Iva; 
+            }
+
+            return 0;
+        }
 
 
     }
+
 }
+

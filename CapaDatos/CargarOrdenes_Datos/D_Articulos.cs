@@ -106,5 +106,149 @@ namespace CapaDatos.CargarOrdenes_Datos
                 return null;
            }
         }
+
+        public List<TB_TRABAJO> ObtenerTrabajo(string sucursal, string nacio, string cediden, SqlCommand command = null)  // Trae el detalle del articulo 
+        {
+            // Declarar la lista para almacenar los resultados
+            List<TB_TRABAJO> T_Trabajo = new List<TB_TRABAJO>();
+            stringBuilder.Clear();
+            try
+            {
+                if (command == null)
+                {
+                    SqlConnection connection = cn.LeerCadena();
+                    command = connection.CreateCommand();
+                }
+
+
+                SqlCommand cmd = command;
+                cmd.CommandText = "SP_CPOS_BucarTrabajo";
+                cmd.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@T_SUCURSAL", sucursal);
+                command.Parameters.AddWithValue("@T_NACIO", nacio);
+                command.Parameters.AddWithValue("@T_CEDIDEN", cediden);
+
+                // Ejecutar el comando y leer los resultados
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        // Mapear cada fila a un objeto TB_ARTICULO
+                        TB_TRABAJO TRABAJO = new TB_TRABAJO
+                        {
+                            T_SUCURSAL = reader["T_SUCURSAL"].ToString(),
+                            T_NumOrdserv = reader["T_NumOrdserv"]?.ToString(),
+                            T_Revision = reader["T_Revision"].ToString(),
+                            T_CEDIDEN = reader["T_CEDIDEN"].ToString(),
+                            T_NACIO = reader["T_NACIO"].ToString(),
+                            T_TIPOTRABAJO = reader["T_TIPOTRABAJO"]?.ToString(),
+                            T_EXAMEN = reader["T_EXAMEN"] != DBNull.Value ? (int?)Convert.ToInt32(reader["T_EXAMEN"]) : null,
+                            T_HORIZONTAL = reader["T_HORIZONTAL"] != DBNull.Value ? (float?)Convert.ToSingle(reader["T_HORIZONTAL"]) : null,
+                            T_VERTICAL = reader["T_VERTICAL"] != DBNull.Value ? (float?)Convert.ToSingle(reader["T_VERTICAL"]) : null,
+                            T_MAXIMA = reader["T_MAXIMA"] != DBNull.Value ? (float?)Convert.ToSingle(reader["T_MAXIMA"]) : null,
+                            T_PUENTE = reader["T_PUENTE"] != DBNull.Value ? (float?)Convert.ToSingle(reader["T_PUENTE"]) : null,
+                            T_ALTD = reader["T_ALTD"] != DBNull.Value ? (float?)Convert.ToSingle(reader["T_ALTD"]) : null,
+                            T_ALTI = reader["T_ALTI"] != DBNull.Value ? (float?)Convert.ToSingle(reader["T_ALTI"]) : null,
+                            T_OJO = reader["T_OJO"]?.ToString(),
+                            T_TIPOVISIOND = reader["T_TIPOVISIOND"]?.ToString(),
+                            T_TIPOVISIONI = reader["T_TIPOVISIONI"]?.ToString(),
+                            T_LABORATORIO = reader["T_LABORATORIO"].ToString(),
+                            T_SERVICIO = reader["T_SERVICIO"]?.ToString(),
+                            T_HORAOFRECIDO = reader["T_HORAOFRECIDO"]?.ToString(),
+                            T_TIPORX = reader["T_TIPORX"]?.ToString(),
+                            T_FECHAOFRECIDO = reader["T_FECHAOFRECIDO"]?.ToString(),
+                            T_FECCREA = Convert.ToDateTime(reader["T_FECCREA"]),
+                            T_FECMOD = reader["T_FECMOD"] != DBNull.Value ? (DateTime?)Convert.ToDateTime(reader["T_FECMOD"]) : null,
+                            USER_CREA = reader["USER_CREA"].ToString(),
+                            USER_MOD = reader["USER_MOD"]?.ToString(),
+                            Cod_DetVta = reader["Cod_DetVta"]?.ToString(),
+                            TipoExamen = reader["TipoExamen"]?.ToString(),
+                            T_DISTANCIAVERTICE = reader["T_DISTANCIAVERTICE"] != DBNull.Value ? (float?)Convert.ToSingle(reader["T_DISTANCIAVERTICE"]) : null,
+                            T_ANGULOPANTOSCOPICO = reader["T_ANGULOPANTOSCOPICO"] != DBNull.Value ? (float?)Convert.ToSingle(reader["T_ANGULOPANTOSCOPICO"]) : null,
+                            T_ANGULOFACIAL = reader["T_ANGULOFACIAL"] != DBNull.Value ? (float?)Convert.ToSingle(reader["T_ANGULOFACIAL"]) : null,
+                            Correlativo = Convert.ToDecimal(reader["Correlativo"]),
+                            T_DISTANCIADELECTURA = reader["T_DISTANCIADELECTURA"] != DBNull.Value ? (float?)Convert.ToSingle(reader["T_DISTANCIADELECTURA"]) : null
+                        };
+
+
+                        // Agregar el objeto a la lista
+                        T_Trabajo.Add(TRABAJO);
+                    }
+                }
+
+                return T_Trabajo;
+            }
+            catch (Exception ex)
+            {
+                stringBuilder.Append(Environment.NewLine + string.Format("Error: {0}", ex.Message));
+                return null;
+            }
+        }
+
+        public DataTable BucarArticuloMaximoPorVenta(string Inicial_Articulo, SqlCommand command = null)
+        {
+            try
+            {
+                if (command == null)
+                {
+                    SqlConnection connection = cn.LeerCadena();
+                    command = connection.CreateCommand();
+                }
+                SqlCommand cmd = command;
+                cmd.Parameters.Clear();
+
+                cmd.CommandText = "SP_CPOS_ArticuloMaximo";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Código", Inicial_Articulo);
+
+
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                cmd.Parameters.Clear();
+                return dt;
+
+            }
+            catch (Exception ex)
+            {
+                string Error = string.Format("Error: {0}", ex.Message);
+                return null;
+            }
+
+
+        }
+
+        public DataTable BucarIva(string Codigo_Iva, SqlCommand command = null)
+        {
+            try
+            {
+                if (command == null)
+                {
+                    SqlConnection connection = cn.LeerCadena();
+                    command = connection.CreateCommand();
+                }
+                SqlCommand cmd = command;
+                cmd.Parameters.Clear();
+
+                cmd.CommandText = "SP_CPOS_BuscarIva";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Codigo", Codigo_Iva);
+
+
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                cmd.Parameters.Clear();
+                return dt;
+
+            }
+            catch (Exception ex)
+            {
+                string Error = string.Format("Error: {0}", ex.Message);
+                return null;
+            }
+
+
+        }
     }
 }

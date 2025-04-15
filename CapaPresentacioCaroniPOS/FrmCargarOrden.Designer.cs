@@ -152,13 +152,13 @@ namespace CapaVisual_Login
             this.Txt_Tap3_Articulo_Codigo = new System.Windows.Forms.TextBox();
             this.Lbl_Tap3_Articulo1 = new System.Windows.Forms.Label();
             this.Pnl_3_Lista_Articulo = new System.Windows.Forms.Panel();
+            this.Pnl_3_RadioButon = new System.Windows.Forms.Panel();
+            this.Rd_Pnl3_Descripcion = new System.Windows.Forms.RadioButton();
+            this.Rd_Pnl3_Codigo = new System.Windows.Forms.RadioButton();
             this.Dgv_Pnl3_Articulo = new System.Windows.Forms.DataGridView();
             this.Txt_Pnl3_Articulo = new System.Windows.Forms.TextBox();
             this.Lbl_Pnl3_Carga_Articulo = new System.Windows.Forms.Label();
             this.btnCancelar3 = new System.Windows.Forms.Button();
-            this.Pnl_3_RadioButon = new System.Windows.Forms.Panel();
-            this.Rd_Pnl3_Codigo = new System.Windows.Forms.RadioButton();
-            this.Rd_Pnl3_Descripcion = new System.Windows.Forms.RadioButton();
             this.Pnl_1.SuspendLayout();
             this.Pnl_2.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -173,8 +173,8 @@ namespace CapaVisual_Login
             ((System.ComponentModel.ISupportInitialize)(this.Dgv_Tap3_Articulo)).BeginInit();
             this.Pnl_1_Tap3.SuspendLayout();
             this.Pnl_3_Lista_Articulo.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Dgv_Pnl3_Articulo)).BeginInit();
             this.Pnl_3_RadioButon.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Dgv_Pnl3_Articulo)).BeginInit();
             this.SuspendLayout();
             // 
             // Pnl_1
@@ -1489,6 +1489,8 @@ namespace CapaVisual_Login
             this.Dgv_Tap3_Articulo.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.Dgv_Tap3_Articulo.Size = new System.Drawing.Size(1036, 150);
             this.Dgv_Tap3_Articulo.TabIndex = 303;
+            this.Dgv_Tap3_Articulo.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_Tap3_Articulo_CellContentClick);
+            this.Dgv_Tap3_Articulo.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.Dgv_Tap3_Articulo_CellPainting);
             // 
             // Lbl_Tap3_Articulo2
             // 
@@ -1540,6 +1542,7 @@ namespace CapaVisual_Login
             this.Txt_Tap3_Articulo_Cantidad.TabIndex = 308;
             this.Txt_Tap3_Articulo_Cantidad.Text = "Cantidad";
             this.Txt_Tap3_Articulo_Cantidad.Enter += new System.EventHandler(this.Txt_Tap3_Articulo_Cantidad_Enter);
+            this.Txt_Tap3_Articulo_Cantidad.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Txt_Tap3_Articulo_Cantidad_KeyDown);
             this.Txt_Tap3_Articulo_Cantidad.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Txt_Tap3_Articulo_Cantidad_KeyPress);
             this.Txt_Tap3_Articulo_Cantidad.Leave += new System.EventHandler(this.Txt_Tap3_Articulo_Cantidad_Leave);
             // 
@@ -1596,6 +1599,39 @@ namespace CapaVisual_Login
             this.Pnl_3_Lista_Articulo.Visible = false;
             this.Pnl_3_Lista_Articulo.Paint += new System.Windows.Forms.PaintEventHandler(this.Pnl_3_Lista_Articulo_Paint);
             // 
+            // Pnl_3_RadioButon
+            // 
+            this.Pnl_3_RadioButon.Controls.Add(this.Rd_Pnl3_Descripcion);
+            this.Pnl_3_RadioButon.Controls.Add(this.Rd_Pnl3_Codigo);
+            this.Pnl_3_RadioButon.Location = new System.Drawing.Point(310, 43);
+            this.Pnl_3_RadioButon.Name = "Pnl_3_RadioButon";
+            this.Pnl_3_RadioButon.Size = new System.Drawing.Size(139, 48);
+            this.Pnl_3_RadioButon.TabIndex = 164;
+            // 
+            // Rd_Pnl3_Descripcion
+            // 
+            this.Rd_Pnl3_Descripcion.AutoSize = true;
+            this.Rd_Pnl3_Descripcion.Font = new System.Drawing.Font("Century Gothic", 11.25F);
+            this.Rd_Pnl3_Descripcion.Location = new System.Drawing.Point(3, 21);
+            this.Rd_Pnl3_Descripcion.Name = "Rd_Pnl3_Descripcion";
+            this.Rd_Pnl3_Descripcion.Size = new System.Drawing.Size(114, 24);
+            this.Rd_Pnl3_Descripcion.TabIndex = 1;
+            this.Rd_Pnl3_Descripcion.TabStop = true;
+            this.Rd_Pnl3_Descripcion.Text = "Descripción";
+            this.Rd_Pnl3_Descripcion.UseVisualStyleBackColor = true;
+            // 
+            // Rd_Pnl3_Codigo
+            // 
+            this.Rd_Pnl3_Codigo.AutoSize = true;
+            this.Rd_Pnl3_Codigo.Font = new System.Drawing.Font("Century Gothic", 11.25F);
+            this.Rd_Pnl3_Codigo.Location = new System.Drawing.Point(3, 1);
+            this.Rd_Pnl3_Codigo.Name = "Rd_Pnl3_Codigo";
+            this.Rd_Pnl3_Codigo.Size = new System.Drawing.Size(82, 24);
+            this.Rd_Pnl3_Codigo.TabIndex = 0;
+            this.Rd_Pnl3_Codigo.TabStop = true;
+            this.Rd_Pnl3_Codigo.Text = "Código";
+            this.Rd_Pnl3_Codigo.UseVisualStyleBackColor = true;
+            // 
             // Dgv_Pnl3_Articulo
             // 
             this.Dgv_Pnl3_Articulo.AllowUserToAddRows = false;
@@ -1638,6 +1674,7 @@ namespace CapaVisual_Login
             this.Dgv_Pnl3_Articulo.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.Dgv_Pnl3_Articulo.Size = new System.Drawing.Size(418, 187);
             this.Dgv_Pnl3_Articulo.TabIndex = 54;
+            this.Dgv_Pnl3_Articulo.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_Pnl3_Articulo_CellClick);
             // 
             // Txt_Pnl3_Articulo
             // 
@@ -1679,39 +1716,6 @@ namespace CapaVisual_Login
             this.btnCancelar3.UseVisualStyleBackColor = false;
             this.btnCancelar3.Click += new System.EventHandler(this.btnCancelar3_Click);
             // 
-            // Pnl_3_RadioButon
-            // 
-            this.Pnl_3_RadioButon.Controls.Add(this.Rd_Pnl3_Descripcion);
-            this.Pnl_3_RadioButon.Controls.Add(this.Rd_Pnl3_Codigo);
-            this.Pnl_3_RadioButon.Location = new System.Drawing.Point(310, 43);
-            this.Pnl_3_RadioButon.Name = "Pnl_3_RadioButon";
-            this.Pnl_3_RadioButon.Size = new System.Drawing.Size(139, 48);
-            this.Pnl_3_RadioButon.TabIndex = 164;
-            // 
-            // Rd_Pnl3_Codigo
-            // 
-            this.Rd_Pnl3_Codigo.AutoSize = true;
-            this.Rd_Pnl3_Codigo.Font = new System.Drawing.Font("Century Gothic", 11.25F);
-            this.Rd_Pnl3_Codigo.Location = new System.Drawing.Point(3, 1);
-            this.Rd_Pnl3_Codigo.Name = "Rd_Pnl3_Codigo";
-            this.Rd_Pnl3_Codigo.Size = new System.Drawing.Size(82, 24);
-            this.Rd_Pnl3_Codigo.TabIndex = 0;
-            this.Rd_Pnl3_Codigo.TabStop = true;
-            this.Rd_Pnl3_Codigo.Text = "Código";
-            this.Rd_Pnl3_Codigo.UseVisualStyleBackColor = true;
-            // 
-            // Rd_Pnl3_Descripcion
-            // 
-            this.Rd_Pnl3_Descripcion.AutoSize = true;
-            this.Rd_Pnl3_Descripcion.Font = new System.Drawing.Font("Century Gothic", 11.25F);
-            this.Rd_Pnl3_Descripcion.Location = new System.Drawing.Point(3, 21);
-            this.Rd_Pnl3_Descripcion.Name = "Rd_Pnl3_Descripcion";
-            this.Rd_Pnl3_Descripcion.Size = new System.Drawing.Size(114, 24);
-            this.Rd_Pnl3_Descripcion.TabIndex = 1;
-            this.Rd_Pnl3_Descripcion.TabStop = true;
-            this.Rd_Pnl3_Descripcion.Text = "Descripción";
-            this.Rd_Pnl3_Descripcion.UseVisualStyleBackColor = true;
-            // 
             // FrmCargarOrden
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1749,9 +1753,9 @@ namespace CapaVisual_Login
             this.Pnl_1_Tap3.PerformLayout();
             this.Pnl_3_Lista_Articulo.ResumeLayout(false);
             this.Pnl_3_Lista_Articulo.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Dgv_Pnl3_Articulo)).EndInit();
             this.Pnl_3_RadioButon.ResumeLayout(false);
             this.Pnl_3_RadioButon.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Dgv_Pnl3_Articulo)).EndInit();
             this.ResumeLayout(false);
 
         }
