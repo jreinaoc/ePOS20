@@ -102,11 +102,14 @@ namespace CapaVisual_Login
                                  if (Respuesta == false) 
                                  {
                                         intentosFallidos++;
-                                        if (intentosFallidos >= 3)
+
+                                        int intentosMaximos = _Login.IntentoLogInMax();
+                                        
+                                        if (intentosFallidos >= intentosMaximos)
                                         {
                                             _Login.BloquearUsuario(IdUsuario);
 
-                                    MessageBox.Show("Usuario bloqueado por múltiples intentos fallidos.", "Usuario Bloqueado", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                            MessageBox.Show("Usuario bloqueado por múltiples intentos fallidos.", "Usuario Bloqueado", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                         }
                                         else
                                         {

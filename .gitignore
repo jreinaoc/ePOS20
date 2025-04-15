@@ -26,6 +26,3 @@ obj/
 
 # Archivos de índice de contenido de Visual Studio
 .vs/**/FileContentIndex/
-
-# Config local
-appsettings*.json

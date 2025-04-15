@@ -77,5 +77,21 @@ namespace CapaDatos.Login_Datos
             cmd.ExecuteNonQuery();
         }
 
+        public int IntentoLogInMax()
+        {
+            int intentosPermitidos = 3; 
+
+            SqlCommand cmd = new SqlCommand("SELECT Valor FROM TB_PARAMETRO WHERE Parametro = 'IntentoLoginMax'", cn.LeerCadena());
+               
+            object result = cmd.ExecuteScalar();
+                   if (result != null && int.TryParse(result.ToString(), out int valorDB))
+                   {
+                      intentosPermitidos = valorDB;
+                   }
+
+            return intentosPermitidos;
+
+        }
+
     }
 }
