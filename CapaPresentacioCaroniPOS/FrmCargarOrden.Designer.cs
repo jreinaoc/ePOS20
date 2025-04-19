@@ -30,14 +30,14 @@ namespace CapaVisual_Login
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmCargarOrden));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle51 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle52 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle53 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle49 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle50 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle54 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle55 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle56 = new System.Windows.Forms.DataGridViewCellStyle();
             this.Pnl_1 = new System.Windows.Forms.Panel();
             this.Pnl_2 = new System.Windows.Forms.Panel();
             this.Lbl_Pnl2_Num_Examen = new System.Windows.Forms.Label();
@@ -180,7 +180,6 @@ namespace CapaVisual_Login
             // Pnl_1
             // 
             this.Pnl_1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(2)))), ((int)(((byte)(127)))), ((int)(((byte)(121)))));
-            this.Pnl_1.Controls.Add(this.Pnl_2);
             this.Pnl_1.Controls.Add(this.Lbl_Pnl1_TituloExamen);
             this.Pnl_1.Controls.Add(this.Lbl_Pnl1_Nombre);
             this.Pnl_1.Controls.Add(this.Txt_Pnl1_Nombre);
@@ -210,7 +209,7 @@ namespace CapaVisual_Login
             this.Pnl_2.Controls.Add(this.Lbl_Pnl2_Cedula);
             this.Pnl_2.Controls.Add(this.Txt_Pnl2_Cedula);
             this.Pnl_2.Controls.Add(this.Lbl_Pnl2_Carga_Art);
-            this.Pnl_2.Location = new System.Drawing.Point(0, 0);
+            this.Pnl_2.Location = new System.Drawing.Point(1060, 0);
             this.Pnl_2.Name = "Pnl_2";
             this.Pnl_2.Size = new System.Drawing.Size(1051, 122);
             this.Pnl_2.TabIndex = 102;
@@ -226,7 +225,6 @@ namespace CapaVisual_Login
             this.Lbl_Pnl2_Num_Examen.Size = new System.Drawing.Size(73, 19);
             this.Lbl_Pnl2_Num_Examen.TabIndex = 307;
             this.Lbl_Pnl2_Num_Examen.Text = "Examen";
-            this.Lbl_Pnl2_Num_Examen.Visible = false;
             // 
             // Txt_Pnl2_Examen
             // 
@@ -240,7 +238,6 @@ namespace CapaVisual_Login
             this.Txt_Pnl2_Examen.Size = new System.Drawing.Size(75, 20);
             this.Txt_Pnl2_Examen.TabIndex = 306;
             this.Txt_Pnl2_Examen.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.Txt_Pnl2_Examen.Visible = false;
             // 
             // Cbx_Pnl2_Servicio
             // 
@@ -263,7 +260,6 @@ namespace CapaVisual_Login
             this.Lbl_Pnl2_Servicio.Size = new System.Drawing.Size(69, 19);
             this.Lbl_Pnl2_Servicio.TabIndex = 304;
             this.Lbl_Pnl2_Servicio.Text = "Servicio";
-            this.Lbl_Pnl2_Servicio.Visible = false;
             // 
             // Cbx_Pnl2_Laboratorio
             // 
@@ -286,7 +282,6 @@ namespace CapaVisual_Login
             this.Lbl_Pnl2_Laboratorio.Size = new System.Drawing.Size(97, 19);
             this.Lbl_Pnl2_Laboratorio.TabIndex = 302;
             this.Lbl_Pnl2_Laboratorio.Text = "Laboratorio";
-            this.Lbl_Pnl2_Laboratorio.Visible = false;
             // 
             // Cbx_Pnl2_Trbajo
             // 
@@ -309,7 +304,6 @@ namespace CapaVisual_Login
             this.Lbl_Pnl2_Trabajo.Size = new System.Drawing.Size(129, 19);
             this.Lbl_Pnl2_Trabajo.TabIndex = 42;
             this.Lbl_Pnl2_Trabajo.Text = "Tipo de Trabajo";
-            this.Lbl_Pnl2_Trabajo.Visible = false;
             // 
             // Lbl_Pnl2_Fecha_Ofre
             // 
@@ -335,7 +329,6 @@ namespace CapaVisual_Login
             this.Txt_Pnl2_Fecha_Ofre.Size = new System.Drawing.Size(124, 20);
             this.Txt_Pnl2_Fecha_Ofre.TabIndex = 40;
             this.Txt_Pnl2_Fecha_Ofre.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.Txt_Pnl2_Fecha_Ofre.Visible = false;
             // 
             // Lbl_Pnl2_Nombre
             // 
@@ -347,7 +340,6 @@ namespace CapaVisual_Login
             this.Lbl_Pnl2_Nombre.Size = new System.Drawing.Size(73, 19);
             this.Lbl_Pnl2_Nombre.TabIndex = 36;
             this.Lbl_Pnl2_Nombre.Text = "Nombre";
-            this.Lbl_Pnl2_Nombre.Visible = false;
             // 
             // Txt_Pnl2_Nombre
             // 
@@ -359,7 +351,6 @@ namespace CapaVisual_Login
             this.Txt_Pnl2_Nombre.Size = new System.Drawing.Size(402, 20);
             this.Txt_Pnl2_Nombre.TabIndex = 35;
             this.Txt_Pnl2_Nombre.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.Txt_Pnl2_Nombre.Visible = false;
             // 
             // Lbl_Pnl2_Cedula
             // 
@@ -371,7 +362,6 @@ namespace CapaVisual_Login
             this.Lbl_Pnl2_Cedula.Size = new System.Drawing.Size(67, 19);
             this.Lbl_Pnl2_Cedula.TabIndex = 34;
             this.Lbl_Pnl2_Cedula.Text = "Cédula";
-            this.Lbl_Pnl2_Cedula.Visible = false;
             // 
             // Txt_Pnl2_Cedula
             // 
@@ -384,8 +374,8 @@ namespace CapaVisual_Login
             this.Txt_Pnl2_Cedula.Name = "Txt_Pnl2_Cedula";
             this.Txt_Pnl2_Cedula.Size = new System.Drawing.Size(124, 20);
             this.Txt_Pnl2_Cedula.TabIndex = 33;
+            this.Txt_Pnl2_Cedula.Text = "V-26218996";
             this.Txt_Pnl2_Cedula.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.Txt_Pnl2_Cedula.Visible = false;
             // 
             // Lbl_Pnl2_Carga_Art
             // 
@@ -538,6 +528,7 @@ namespace CapaVisual_Login
             this.tabControl.SelectedIndex = 0;
             this.tabControl.Size = new System.Drawing.Size(1051, 505);
             this.tabControl.TabIndex = 101;
+            this.tabControl.SelectedIndexChanged += new System.EventHandler(this.tabControl_SelectedIndexChanged);
             // 
             // tabPage1
             // 
@@ -1407,36 +1398,36 @@ namespace CapaVisual_Login
             this.Dgv_Tap3_Medidas_Montura.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.Dgv_Tap3_Medidas_Montura.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             this.Dgv_Tap3_Medidas_Montura.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(2)))), ((int)(((byte)(185)))), ((int)(((byte)(171)))));
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Dgv_Tap3_Medidas_Montura.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle51.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle51.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(2)))), ((int)(((byte)(185)))), ((int)(((byte)(171)))));
+            dataGridViewCellStyle51.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle51.ForeColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle51.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle51.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle51.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Dgv_Tap3_Medidas_Montura.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle51;
             this.Dgv_Tap3_Medidas_Montura.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(241)))), ((int)(((byte)(233)))));
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.Dgv_Tap3_Medidas_Montura.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle52.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle52.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(241)))), ((int)(((byte)(233)))));
+            dataGridViewCellStyle52.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle52.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle52.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle52.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle52.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.Dgv_Tap3_Medidas_Montura.DefaultCellStyle = dataGridViewCellStyle52;
             this.Dgv_Tap3_Medidas_Montura.EnableHeadersVisualStyles = false;
             this.Dgv_Tap3_Medidas_Montura.GridColor = System.Drawing.SystemColors.ControlLightLight;
             this.Dgv_Tap3_Medidas_Montura.Location = new System.Drawing.Point(1, 31);
             this.Dgv_Tap3_Medidas_Montura.Name = "Dgv_Tap3_Medidas_Montura";
             this.Dgv_Tap3_Medidas_Montura.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Dgv_Tap3_Medidas_Montura.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle53.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle53.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle53.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle53.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle53.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle53.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle53.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Dgv_Tap3_Medidas_Montura.RowHeadersDefaultCellStyle = dataGridViewCellStyle53;
             this.Dgv_Tap3_Medidas_Montura.RowHeadersVisible = false;
             this.Dgv_Tap3_Medidas_Montura.RowHeadersWidth = 51;
             this.Dgv_Tap3_Medidas_Montura.ScrollBars = System.Windows.Forms.ScrollBars.None;
@@ -1462,23 +1453,23 @@ namespace CapaVisual_Login
             this.Dgv_Tap3_Articulo.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.Dgv_Tap3_Articulo.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             this.Dgv_Tap3_Articulo.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(2)))), ((int)(((byte)(185)))), ((int)(((byte)(171)))));
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold);
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Dgv_Tap3_Articulo.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle49.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle49.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(2)))), ((int)(((byte)(185)))), ((int)(((byte)(171)))));
+            dataGridViewCellStyle49.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold);
+            dataGridViewCellStyle49.ForeColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle49.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle49.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle49.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Dgv_Tap3_Articulo.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle49;
             this.Dgv_Tap3_Articulo.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle5.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Century Gothic", 11.25F);
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.Dgv_Tap3_Articulo.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle50.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle50.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle50.Font = new System.Drawing.Font("Century Gothic", 11.25F);
+            dataGridViewCellStyle50.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle50.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle50.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle50.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.Dgv_Tap3_Articulo.DefaultCellStyle = dataGridViewCellStyle50;
             this.Dgv_Tap3_Articulo.EnableHeadersVisualStyles = false;
             this.Dgv_Tap3_Articulo.GridColor = System.Drawing.SystemColors.ControlLightLight;
             this.Dgv_Tap3_Articulo.Location = new System.Drawing.Point(3, 113);
@@ -1570,6 +1561,7 @@ namespace CapaVisual_Login
             this.Txt_Tap3_Articulo_Codigo.TabIndex = 306;
             this.Txt_Tap3_Articulo_Codigo.Text = "Código";
             this.Txt_Tap3_Articulo_Codigo.Enter += new System.EventHandler(this.Txt_Tap3_Articulo_Codigo_Enter);
+            this.Txt_Tap3_Articulo_Codigo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Txt_Tap3_Articulo_Codigo_KeyDown);
             this.Txt_Tap3_Articulo_Codigo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Txt_Tap3_Articulo_Codigo_KeyPress);
             this.Txt_Tap3_Articulo_Codigo.Leave += new System.EventHandler(this.Txt_Tap3_Articulo_Codigo_Leave);
             // 
@@ -1592,7 +1584,7 @@ namespace CapaVisual_Login
             this.Pnl_3_Lista_Articulo.Controls.Add(this.Txt_Pnl3_Articulo);
             this.Pnl_3_Lista_Articulo.Controls.Add(this.Lbl_Pnl3_Carga_Articulo);
             this.Pnl_3_Lista_Articulo.Controls.Add(this.btnCancelar3);
-            this.Pnl_3_Lista_Articulo.Location = new System.Drawing.Point(1060, 0);
+            this.Pnl_3_Lista_Articulo.Location = new System.Drawing.Point(1067, 227);
             this.Pnl_3_Lista_Articulo.Name = "Pnl_3_Lista_Articulo";
             this.Pnl_3_Lista_Articulo.Size = new System.Drawing.Size(480, 331);
             this.Pnl_3_Lista_Articulo.TabIndex = 102;
@@ -1639,36 +1631,36 @@ namespace CapaVisual_Login
             this.Dgv_Pnl3_Articulo.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.Dgv_Pnl3_Articulo.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
             this.Dgv_Pnl3_Articulo.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
-            dataGridViewCellStyle6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(2)))), ((int)(((byte)(185)))), ((int)(((byte)(171)))));
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Century Gothic", 9.75F);
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Dgv_Pnl3_Articulo.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle54.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
+            dataGridViewCellStyle54.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(2)))), ((int)(((byte)(185)))), ((int)(((byte)(171)))));
+            dataGridViewCellStyle54.Font = new System.Drawing.Font("Century Gothic", 9.75F);
+            dataGridViewCellStyle54.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle54.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle54.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle54.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Dgv_Pnl3_Articulo.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle54;
             this.Dgv_Pnl3_Articulo.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.Dgv_Pnl3_Articulo.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle55.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle55.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle55.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle55.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle55.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle55.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle55.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.Dgv_Pnl3_Articulo.DefaultCellStyle = dataGridViewCellStyle55;
             this.Dgv_Pnl3_Articulo.EnableHeadersVisualStyles = false;
             this.Dgv_Pnl3_Articulo.GridColor = System.Drawing.SystemColors.ControlLightLight;
             this.Dgv_Pnl3_Articulo.Location = new System.Drawing.Point(31, 97);
             this.Dgv_Pnl3_Articulo.Name = "Dgv_Pnl3_Articulo";
             this.Dgv_Pnl3_Articulo.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Dgv_Pnl3_Articulo.RowHeadersDefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle56.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle56.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle56.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle56.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle56.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle56.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle56.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Dgv_Pnl3_Articulo.RowHeadersDefaultCellStyle = dataGridViewCellStyle56;
             this.Dgv_Pnl3_Articulo.RowHeadersVisible = false;
             this.Dgv_Pnl3_Articulo.RowHeadersWidth = 51;
             this.Dgv_Pnl3_Articulo.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -1725,6 +1717,7 @@ namespace CapaVisual_Login
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1549, 788);
+            this.Controls.Add(this.Pnl_2);
             this.Controls.Add(this.Pnl_3_Lista_Articulo);
             this.Controls.Add(this.tabControl);
             this.Controls.Add(this.panel1);

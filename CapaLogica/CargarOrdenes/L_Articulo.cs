@@ -68,6 +68,7 @@ namespace CapaLogica.CargarOrdenes
 
         }
 
+
         public void FiltrarArticulos(string filtro, System.Windows.Forms.RadioButton Rd_Pnl3_Descripcion, System.Windows.Forms.RadioButton Rd_Pnl3_Codigo, System.Windows.Forms.DataGridView Dgv_Pnl3_Articulo, List<TB_ARTICULO> listaArticulos, List<TB_ARTICULO> listaTemporal)
         {
 
@@ -105,6 +106,50 @@ namespace CapaLogica.CargarOrdenes
 
             // Actualizar la fuente de datos del DataGridView con los resultados filtrados
             Dgv_Pnl3_Articulo.DataSource = datosFiltrados;
+        }
+
+        public void FiltrarArticulos_Tap3(string filtro, List<TB_ARTICULO> listaArticulos, List<TB_ARTICULO> listaTemporal, System.Windows.Forms.TextBox Codigo, System.Windows.Forms.TextBox Descripcion, System.Windows.Forms.TextBox Precio, System.Windows.Forms.TextBox Cantidad)
+        {
+            // Verificar si el filtro está vacío
+            if (string.IsNullOrWhiteSpace(filtro))
+            {
+                // Restablecer la información original en la lista temporal
+                listaTemporal.Clear();
+                listaTemporal.AddRange(listaArticulos); // Restaurar desde la lista original
+                return;
+            }
+
+            // Convertir el filtro a minúsculas para una búsqueda insensible a mayúsculas
+            filtro = filtro.ToLower();
+
+            // Crear una lista para almacenar los resultados filtrados
+            var datosFiltrados = new List<TB_ARTICULO>();
+
+            // Recorrer la lista original (listaArticulos) para aplicar el filtro
+            foreach (var articulo in listaArticulos)
+            {
+                // Filtrar EXACTAMENTE la opción seleccionada
+                if (articulo.CodArticulo != null && articulo.CodArticulo.Equals(filtro, StringComparison.OrdinalIgnoreCase))
+                {
+                    datosFiltrados.Add(articulo);
+
+                    // Actualizar los TextBox con los datos del artículo filtrado
+                    Codigo.Text = articulo.CodArticulo;
+                    Descripcion.Text = articulo.DESART;
+                    Precio.Text = articulo.ART_PVP.ToString("F2"); // Formato de 2 decimales
+                    Cantidad.Text = string.Empty; // Limpiar el campo de cantidad
+
+                    // Establecer el foco en el TextBox de cantidad
+                    Cantidad.Focus();
+
+                    // Salir del bucle después de encontrar el artículo
+                    break;
+                }
+            }
+
+            // Actualizar la lista temporal con los datos filtrados
+            listaTemporal.Clear();
+            listaTemporal.AddRange(datosFiltrados);
         }
 
         public bool CargarArticulo_ValidarTexbox(System.Windows.Forms.TextBox Codigo, System.Windows.Forms.TextBox Descripcion, System.Windows.Forms.TextBox Precio, System.Windows.Forms.TextBox Cantidad)

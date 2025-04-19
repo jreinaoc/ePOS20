@@ -180,6 +180,7 @@ namespace CapaVisual_Login
         {
             VisualizarPanel("MostrarCabezeraSecundaria");
             HabilitacionControl("Bloquear_Lista_Articulo");
+            LimpiarControles("Motro_Busqueda_Articulos");
             LimpiarControles("Carga_Articulos");
         }
 
@@ -187,7 +188,7 @@ namespace CapaVisual_Login
         {
             switch (Case)
             {
-                case "Carga_Articulos":
+                case "Motro_Busqueda_Articulos":
                     this.Txt_Pnl3_Articulo.Text = "";
                     Txt_Tap3_Articulo_Descripcion.Text = "";
                     Txt_Tap3_Articulo_Cantidad.Text = "";
@@ -197,9 +198,18 @@ namespace CapaVisual_Login
                     Dgv_Pnl3_Articulo.DataSource = null;
                     break;
 
+                case "Carga_Articulos":
+                    this.Txt_Tap3_Articulo_Codigo.Text = "";
+                    Txt_Tap3_Articulo_Descripcion.Text = "";
+                    Txt_Tap3_Articulo_Cantidad.Text = "";
+                    Txt_Tap3_Articulo_Precio.Text = "";
+                    break;
+
                 default:
                     break;
             }
+
+
         }
 
         public void VisualizarPanel(string Case)
@@ -224,6 +234,7 @@ namespace CapaVisual_Login
                     this.Pnl_1.Enabled = false;
                     this.Pnl_3_Lista_Articulo.Enabled = false;
                     this.Pnl_3_Lista_Articulo.Visible = false;
+                    this.Pnl_2.Location = new Point(0, 0); // Establecer posición en (0, 0)
 
                     break;
 
@@ -290,24 +301,7 @@ namespace CapaVisual_Login
         {
             if (e.KeyChar == 13)
             {
-                VisualizarPanel("Lista_Articulo");
-                HabilitacionControl("Habilitar_Lista_Articulo");
-                _L_Articulo.CargarArticulos(Dgv_Pnl3_Articulo, listaArticulos);
-                if (_L_Articulo.stringBuilder.Length> 0)
-                {
-                    _FrmMensajes.co = 2;
-                    _FrmMensajes.avisomensaje(_L_Articulo.stringBuilder.ToString());
-                    _FrmMensajes.ShowDialog();
-                }
-                else
-                {
-
-                    listaTemporal = new List<TB_ARTICULO>(listaArticulos);
-                    Dgv_Pnl3_Articulo.DataSource = listaTemporal;
-                    Formato_Dgv_Busqueda_Articulo();
-                }
-
-                _L_Articulo.stringBuilder.Clear();
+               
             }
         }
 
@@ -337,6 +331,13 @@ namespace CapaVisual_Login
                 //Centrar todas las colucnas 
                 Dgv_Pnl3_Articulo.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
                 Dgv_Pnl3_Articulo.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+
+
+                // Quitar la flecha del selector de fila
+                Dgv_Pnl3_Articulo.RowHeadersVisible = false;
+
+                // Deshabilitar el redimensionamiento de filas
+                Dgv_Pnl3_Articulo.AllowUserToResizeRows = false;
 
                 //asignar Nombres a cada colucna 
                 Dgv_Pnl3_Articulo.Columns["CodArticulo"].HeaderText = "Código";
@@ -425,139 +426,83 @@ namespace CapaVisual_Login
             }
         }
 
+        private void CargarArticulos_Girdvew()
+        {
+            // Validar que los campos no estén vacíos
+            if (_L_Articulo.CargarArticulo_ValidarTexbox(Txt_Tap3_Articulo_Codigo, Txt_Tap3_Articulo_Descripcion, Txt_Tap3_Articulo_Precio, Txt_Tap3_Articulo_Cantidad))
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("Por favor, complete todos los campos antes de agregar el artículo.");
+                _FrmMensajes.ShowDialog();
+                return;
+            }
+
+            //Formatear los caracteres a 7 Digitos cuando es un cristal 
+            _L_Articulo.FormatearCampo7Digitos(Txt_Tap3_Articulo_Codigo);
+
+            // Verifica si el articulo ya fue Agregado
+            if (_L_Articulo.CargarArticulo_EvitarDuplicado(Dgv_Tap3_Articulo, Txt_Tap3_Articulo_Codigo))
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("El artículo ya fue agregado al listado");
+                _FrmMensajes.ShowDialog();
+                return;
+            }
+
+            // Validar la existencia del producto
+            string mensaje = _L_Articulo.ValidarExistenciaProducto(Txt_Tap3_Articulo_Codigo.Text, Convert.ToInt16(Txt_Tap3_Articulo_Cantidad.Text), listaArticulos);
+
+            if (!string.IsNullOrEmpty(mensaje)) // Si hay un mensaje de error
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje(mensaje);
+                _FrmMensajes.ShowDialog();
+                return; // Salir 
+            }
+
+            //Validar Cantidad Maxima Permitida Para venta
+            mensaje = _L_Articulo.ValidarCantidadMaximaPermitida(Txt_Tap3_Articulo_Codigo.Text, Convert.ToInt16(Txt_Tap3_Articulo_Cantidad.Text));
+
+            if (!string.IsNullOrEmpty(mensaje)) // Si hay un mensaje de error
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje(mensaje);
+                _FrmMensajes.ShowDialog();
+                return; // Salir 
+            }
+
+            // LLenar Tb_Trabajo
+            _L_Articulo.LlenarTB_Trbajo(_TRABAJO, _D_Inicio.Sucursal(), Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2));
+
+            if (_L_Articulo.stringBuilder.Length > 0)
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje(_L_Articulo.stringBuilder.ToString());
+                _FrmMensajes.ShowDialog();
+                return;
+            }
+
+
+            if (_L_Articulo.VerificoCantidadCristales(Txt_Tap3_Articulo_Codigo.Text, Convert.ToInt16(Txt_Tap3_Articulo_Cantidad.Text), _TRABAJO))
+            {
+                // Definir Accion
+            }
+
+
+            AgregarArticuloAlGrid();
+
+            // Limpiar los TextBox
+            LimpiarControles("Motro_Busqueda_Articulos");
+
+            // Establecer el foco en el TextBox de código
+            Txt_Tap3_Articulo_Codigo.Focus();
+        }
+
         private void Txt_Tap3_Articulo_Cantidad_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
-                // Validar que los campos no estén vacíos
-                if (_L_Articulo.CargarArticulo_ValidarTexbox(Txt_Tap3_Articulo_Codigo, Txt_Tap3_Articulo_Descripcion, Txt_Tap3_Articulo_Precio, Txt_Tap3_Articulo_Cantidad))
-                {
-                    _FrmMensajes.co = 2;
-                    _FrmMensajes.avisomensaje("Por favor, complete todos los campos antes de agregar el artículo.");
-                    _FrmMensajes.ShowDialog();
-                    return;
-                }
-
-                //Formatear los caracteres a 7 Digitos cuando es un cristal 
-                _L_Articulo.FormatearCampo7Digitos(Txt_Tap3_Articulo_Codigo);
-
-                // Verifica si el articulo ya fue Agregado
-                if (_L_Articulo.CargarArticulo_EvitarDuplicado(Dgv_Tap3_Articulo, Txt_Tap3_Articulo_Codigo))
-                {
-                    _FrmMensajes.co = 2;
-                    _FrmMensajes.avisomensaje("El artículo ya fue agregado al listado");
-                    _FrmMensajes.ShowDialog();
-                    return;
-                }
-
-                // Validar la existencia del producto
-                string mensaje = _L_Articulo.ValidarExistenciaProducto(Txt_Tap3_Articulo_Codigo.Text, Convert.ToInt16(Txt_Tap3_Articulo_Cantidad.Text), listaArticulos);
-
-                if (!string.IsNullOrEmpty(mensaje)) // Si hay un mensaje de error
-                {
-                    _FrmMensajes.co = 2;
-                    _FrmMensajes.avisomensaje(mensaje);
-                    _FrmMensajes.ShowDialog();
-                    return; // Salir 
-                }
-
-                //Validar Cantidad Maxima Permitida Para venta
-                mensaje = _L_Articulo.ValidarCantidadMaximaPermitida(Txt_Tap3_Articulo_Codigo.Text, Convert.ToInt16(Txt_Tap3_Articulo_Cantidad.Text));
-
-                if (!string.IsNullOrEmpty(mensaje)) // Si hay un mensaje de error
-                {
-                    _FrmMensajes.co = 2;
-                    _FrmMensajes.avisomensaje(mensaje);
-                    _FrmMensajes.ShowDialog();
-                    return; // Salir 
-                }
-
-                // LLenar Tb_Trabajo
-                _L_Articulo.LlenarTB_Trbajo(_TRABAJO, _D_Inicio.Sucursal(), Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2));
-
-                if (_L_Articulo.stringBuilder.Length > 0)
-                {
-                    _FrmMensajes.co = 2;
-                    _FrmMensajes.avisomensaje(_L_Articulo.stringBuilder.ToString());
-                    _FrmMensajes.ShowDialog();
-                    return;
-                }
-
-
-                if (_L_Articulo.VerificoCantidadCristales(Txt_Tap3_Articulo_Codigo.Text, Convert.ToInt16(Txt_Tap3_Articulo_Cantidad.Text), _TRABAJO))
-                {
-                   // Definir Accion
-                }
-
-
-                // Buscar el artículo en la listaArticulos por el código
-                var articulo = listaArticulos.FirstOrDefault(a => a.CodArticulo == Txt_Tap3_Articulo_Codigo.Text);
-
-                if (articulo == null)
-                {
-                    MessageBox.Show("El artículo no existe en la lista.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
-                // Agregar el artículo al DataGridView con los valores de los TextBox
-                Dgv_Tap3_Articulo.Rows.Add(
-                    articulo.CodArticulo,
-                    articulo.DESART,
-                    articulo.TIPART,
-                    articulo.CODGRUPO,
-                    articulo.MARCA,
-                    articulo.MODELO,
-                    articulo.PROVEEDOR,
-                    articulo.CODPRO,
-                        //articulo.ART_EXIST,
-                        //articulo.MANEJAEXISTENCIA,
-                        //articulo.ART_CANTRESERVA,
-                    articulo.ART_PVP,
-                    articulo.PORCTDESCUENTO,
-                    //articulo.ART_STOCKMIN,
-                    //articulo.ART_STOCKMAX,
-                    //articulo.CODUBI,
-                    //articulo.COSTOULTI,
-                    //articulo.COSTOPROME,
-                    articulo.ART_ACTIVO,
-                    articulo.PROMO,
-                    articulo.NOELIMINA,
-                    articulo.ART_EXENTO,
-                    //articulo.Fec_Crea,
-                    //articulo.Fec_Modif,
-                    //articulo.USER_CREA,
-                    //articulo.USER_MOD,
-                    articulo.ServicioVisual,
-                    articulo.MHorizontal,
-                    articulo.MVertical,
-                    articulo.MMaxima,
-                    articulo.MPuente,
-                    articulo.CristalAlturaMin,
-                    articulo.CristalAlturaMax,
-                    articulo.CristalEsfMin,
-                    articulo.CristalEsfMax,
-                    articulo.CristalCilMin,
-                    articulo.CristalCilMax,
-                    articulo.CristalRangoMin,
-                    articulo.CristalRangoMax,
-                    articulo.CristalAdicionMin,
-                    articulo.CristalAdicionMax,
-                    articulo.CodRango,
-                    articulo.CodGrupoRango,
-                    articulo.DescripcionColor,
-                    articulo.tieneTraza,
-                    articulo.permiteTraza,
-                    articulo.tamano,
-                    articulo.codColor,
-                    Txt_Tap3_Articulo_Precio.Text, // Precio desde el TextBox
-                    Txt_Tap3_Articulo_Cantidad.Text // Cantidad desde el TextBox
-                );
-
-                // Limpiar los TextBox
-                LimpiarControles("Carga_Articulos");
-
-                // Establecer el foco en el TextBox de código
-                Txt_Tap3_Articulo_Codigo.Focus();
+                CargarArticulos_Girdvew();
             }
         }
 
@@ -587,6 +532,11 @@ namespace CapaVisual_Login
                     return;
                 }
 
+                // Buscar el artículo en la listaArticulos por el código
+                var _Trabajo = _TRABAJO.FirstOrDefault(a => a.T_CEDIDEN == Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2) & a.T_NACIO == Txt_Pnl2_Cedula.Text.Substring(0, 1));
+
+
+
                 // Calcular el total
                 decimal total = precio * cantidad;
 
@@ -602,6 +552,8 @@ namespace CapaVisual_Login
                 }
 
 
+
+
                 // Agregar el artículo al DataGridView
                 Dgv_Tap3_Articulo.Rows.Add(
                     articulo.CodArticulo,
@@ -610,8 +562,8 @@ namespace CapaVisual_Login
                     precio,   // Precio desde el TextBox
                     articulo.PORCTDESCUENTO,
                     total,    // Total calculado
-                    impuesto
-                    //,articulo.Ojo
+                    impuesto,
+                    _Trabajo.T_OJO
                 );
 
                 // Limpiar los TextBox después de agregar el artículo
@@ -636,6 +588,12 @@ namespace CapaVisual_Login
                 //Centrar todas las colucnas 
                 Dgv_Tap3_Articulo.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
                 Dgv_Tap3_Articulo.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+
+                // Quitar la flecha del selector de fila
+                Dgv_Tap3_Articulo.RowHeadersVisible = false;
+
+                // Deshabilitar el redimensionamiento de filas
+                Dgv_Tap3_Articulo.AllowUserToResizeRows = false;
 
                 //asignar Nombres a cada colucna 
                 Dgv_Tap3_Articulo.Columns["CodArticulo"].HeaderText = "Código";
@@ -795,6 +753,59 @@ namespace CapaVisual_Login
             }
 
             Dgv_Tap3_Articulo.Size = new Size(1059, 150);
+        }
+
+        private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Verificar si la pestaña seleccionada es la pestaña 3
+            if (tabControl.SelectedIndex == 2) // El índice es 0-based, por lo que la pestaña 3 tiene índice 2
+            {
+                VisualizarPanel("MostrarCabezeraSecundaria");
+            }
+        }
+
+        private void Txt_Tap3_Articulo_Codigo_KeyDown(object sender, KeyEventArgs e)
+        {
+            // Verificar si se presionó la tecla F2
+            if (e.KeyCode == Keys.F2)
+            {
+                VisualizarPanel("Lista_Articulo");
+                HabilitacionControl("Habilitar_Lista_Articulo");
+                _L_Articulo.CargarArticulos(Dgv_Pnl3_Articulo, listaArticulos);
+                if (_L_Articulo.stringBuilder.Length > 0)
+                {
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje(_L_Articulo.stringBuilder.ToString());
+                    _FrmMensajes.ShowDialog();
+                }
+                else
+                {
+
+                    listaTemporal = new List<TB_ARTICULO>(listaArticulos);
+                    Dgv_Pnl3_Articulo.DataSource = listaTemporal;
+                    Formato_Dgv_Busqueda_Articulo();
+                }
+
+                _L_Articulo.stringBuilder.Clear();
+
+                // Evitar que el evento se propague
+                e.Handled = true;
+            }
+
+            else if (e.KeyCode == Keys.Enter)
+            {
+                // Acción para Enter
+                _L_Articulo.CargarArticulos(Dgv_Pnl3_Articulo, listaArticulos);
+
+                //Formatear los caracteres a 7 Digitos cuando es un cristal 
+                _L_Articulo.FormatearCampo7Digitos(Txt_Tap3_Articulo_Codigo);
+
+                // Buscar el articulo 
+                _L_Articulo.FiltrarArticulos_Tap3(Txt_Tap3_Articulo_Codigo.Text ,listaArticulos, listaTemporal, Txt_Tap3_Articulo_Codigo, Txt_Tap3_Articulo_Descripcion, Txt_Tap3_Articulo_Cantidad , Txt_Tap3_Articulo_Precio);
+
+                // Evitar que el evento se propague
+                e.Handled = true;
+            }
         }
     }
 }
