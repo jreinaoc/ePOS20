@@ -68,10 +68,11 @@ namespace CapaLogica.DetalleOrden_Logica
             Moneda.DataSource = Valores;
             Moneda.DisplayMember = "Value";
             Moneda.ValueMember = "Index";
+
         }
 
 
-        public void ComboboxTipoMonedaTranferenciaDivisa(System.Windows.Forms.ComboBox Moneda)
+        public void ComboboxTipoMonedaTranferenciaDivisa(System.Windows.Forms.ComboBox Moneda, System.Windows.Forms.TextBox txtTasaFact)
         {
 
             var Valores = new List<Valor>();
@@ -82,6 +83,9 @@ namespace CapaLogica.DetalleOrden_Logica
             Moneda.DataSource = Valores;
             Moneda.DisplayMember = "Value";
             Moneda.ValueMember = "Index";
+
+            txtTasaFact.Text = string.Format("{0:#,0.00}", Convert.ToDecimal(TB_TASA_Dolar.Tasa.ToString()));
+
         }
 
         public void ComboboxTipoTarjeta(System.Windows.Forms.ComboBox Moneda)
@@ -413,10 +417,10 @@ namespace CapaLogica.DetalleOrden_Logica
         }
 
 
-        public void GuardarAbonoGrid(int idAbono,DataTable Dt_Abonos, string MedioPago, string Moneda, string Banco, string Bolivares, string NunTranferencia, string Fecha, string CodPago = "", string CodBanco = "",  string Cod_BancoRecep = "",string Vuelto = "", string Ref = "", string Igtf = "", string CVC = "", string Vence = "", string TipoTrajeta = "", string Abo_CVCNROCHEQUE = "", string Tipo_Punto = "000")
+        public void GuardarAbonoGrid(int idAbono,DataTable Dt_Abonos, string MedioPago, string Moneda, string Banco, string Bolivares, string NunTranferencia, string Fecha, string CodPago = "", string CodBanco = "",  string Cod_BancoRecep = "",string Vuelto = "", string Ref = "", string Igtf = "", string CVC = "", string Vence = "", string TipoTrajeta = "", string Abo_CVCNROCHEQUE = "", string Tipo_Punto = "000", string recibidoREF = "0")
         {
             stringBuilder.Clear();
-            Dt_Abonos.Rows.Add(idAbono , MedioPago, Moneda, Ref, Banco, Igtf, Bolivares, NunTranferencia, Fecha, CodPago, CodBanco, Vuelto, CVC, Vence, TipoTrajeta, Abo_CVCNROCHEQUE, Tipo_Punto,Cod_BancoRecep);
+            Dt_Abonos.Rows.Add(idAbono , MedioPago, Moneda, Ref, Banco, Igtf, Bolivares, NunTranferencia, Fecha, CodPago, CodBanco, Vuelto, CVC, Vence, TipoTrajeta, Abo_CVCNROCHEQUE, Tipo_Punto,Cod_BancoRecep,recibidoREF);
 
         }
 
@@ -442,6 +446,7 @@ namespace CapaLogica.DetalleOrden_Logica
             DataColumn column15 = new DataColumn("Abo_CVCNROCHEQUE");
             DataColumn column16 = new DataColumn("Tipo_Punto");
             DataColumn column17 = new DataColumn("Cod_BancoRecep");
+            DataColumn column18 = new DataColumn("RecibidoREF");
 
             Dt_Abonos.Columns.Add(column0);
             Dt_Abonos.Columns.Add(column1);
@@ -461,6 +466,8 @@ namespace CapaLogica.DetalleOrden_Logica
             Dt_Abonos.Columns.Add(column15);
             Dt_Abonos.Columns.Add(column16);
             Dt_Abonos.Columns.Add(column17);
+            Dt_Abonos.Columns.Add(column18);
+
 
             //*************************************************
         }
@@ -680,6 +687,7 @@ namespace CapaLogica.DetalleOrden_Logica
             string Abo_Monto_SinIGTF = "";
             string Abo_IGTF = "";
             string OrSer_Tipo_Mon = "01";
+            Double recibidoREF = 0;
 
             foreach (DataGridViewRow Row in Dt_Abono.Rows)
             {
@@ -823,7 +831,9 @@ namespace CapaLogica.DetalleOrden_Logica
                     Tasa_Abono = Convert.ToDouble(TB_TASA_Dolar.Tasa);
                 }
 
-                rep = _D_DetalleOrden.GetAbono(Cod_Sucursal, NumOrdserv, Revision, Tipo_Pago, Cod_Banco, Abo_CTATARJETA, Abo_CVCNROCHEQUE, Abo_Fecha, Abo_Monto, (Abo_Tipo.ToUpper(new CultureInfo("tr-TR", false))), Tipo_Pto, CodPunto, Anulado, Fec_Crea, Fec_Mod, USER_Crea, USER_Mod, _D_Inicio.DiaActivo().ToString("yyyyMMdd"), Fecha_Abono, Cod_BancoRecep, Tasa_Abono, Abo_Monto_Divisa, Abo_Monto_SinIGTF, Abo_IGTF, OrSer_Tipo_Mon, Tasa_Dolar);
+                recibidoREF = Convert.ToDouble(Row.Cells["recibidoREF"].Value);
+
+                rep = _D_DetalleOrden.GetAbono(Cod_Sucursal, NumOrdserv, Revision, Tipo_Pago, Cod_Banco, Abo_CTATARJETA, Abo_CVCNROCHEQUE, Abo_Fecha, Abo_Monto, (Abo_Tipo.ToUpper(new CultureInfo("tr-TR", false))), Tipo_Pto, CodPunto, Anulado, Fec_Crea, Fec_Mod, USER_Crea, USER_Mod, _D_Inicio.DiaActivo().ToString("yyyyMMdd"), Fecha_Abono, Cod_BancoRecep, Tasa_Abono, Abo_Monto_Divisa, Abo_Monto_SinIGTF, Abo_IGTF, OrSer_Tipo_Mon, Tasa_Dolar, recibidoREF);
 
                 Tipo_Pto = "XX";
                 // CodPunto = "000";
