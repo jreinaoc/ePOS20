@@ -501,6 +501,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icono-puntoDeVenta.ico" />
+    <None Include="Resources\LogoCaroni.png" />
     <None Include="Resources\icons8-salir-96.png" />
     <None Include="Resources\icons8-verificar-100.png" />
     <None Include="Resources\icons8-eye-test-100.1.png" />

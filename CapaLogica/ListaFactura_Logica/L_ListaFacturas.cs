@@ -9,6 +9,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace CapaLogica.ListaFactura_Logica
 {
@@ -112,6 +113,21 @@ namespace CapaLogica.ListaFactura_Logica
                 return null;
             }
         }
+
+        public DataSet TraerFacturasSinPaginado(DateTimePicker desde, DateTimePicker hasta)
+        {
+            string inicio = desde.Value.ToString("yyyyMMdd");
+            string fin = hasta.Value.ToString("yyyyMMdd");
+            return _D_ListaFactura.CargarFacturas(inicio, fin, 1, int.MaxValue); 
+        }
+
+        public DataSet TraerNotasSinPaginado(DateTimePicker desde, DateTimePicker hasta)
+        {
+            string inicio = desde.Value.ToString("yyyyMMdd");
+            string fin = hasta.Value.ToString("yyyyMMdd");
+            return _D_ListaFactura.CargarNotas(inicio, fin, 1, int.MaxValue); 
+        }
+
 
     }
 }

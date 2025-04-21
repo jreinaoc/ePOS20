@@ -355,3 +355,7 @@ C:\projects\EPOS20\CapaPresentacioCaroniPOS\bin\Debug\System.Buffers.xml
 C:\projects\EPOS20\CapaPresentacioCaroniPOS\bin\Debug\RBush.xml
 C:\projects\EPOS20\CapaPresentacioCaroniPOS\bin\Debug\System.Numerics.Vectors.xml
 C:\projects\EPOS20\CapaPresentacioCaroniPOS\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
+C:\projects\EPOS20\CapaPresentacioCaroniPOS\bin\Debug\itextsharp.dll
+C:\projects\EPOS20\CapaPresentacioCaroniPOS\bin\Debug\BouncyCastle.Cryptography.dll
+C:\projects\EPOS20\CapaPresentacioCaroniPOS\bin\Debug\itextsharp.xml
+C:\projects\EPOS20\CapaPresentacioCaroniPOS\bin\Debug\BouncyCastle.Cryptography.xml

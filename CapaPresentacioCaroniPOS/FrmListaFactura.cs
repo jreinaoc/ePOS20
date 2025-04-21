@@ -10,6 +10,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using classUtilities;
+using CapaEntidades;
+using CapaLogica.ExportarArchivos;
+using System.IO;
 
 namespace CapaVisual_Login
 {
@@ -228,7 +231,7 @@ namespace CapaVisual_Login
                 DgvListaFacturas1.Columns["FactImpuesto"].HeaderText = "Impuesto";
                 DgvListaFacturas1.Columns["FactIGTF"].HeaderText = "IGTF";
                 DgvListaFacturas1.Columns["FactTotal"].HeaderText = "Total";
-
+                DgvListaFacturas1.Columns["Fecha"].HeaderText = "Fecha";
 
                 //Ancho de columna
                 DgvListaFacturas1.Columns["NumeroFactura"].Width = 110;
@@ -237,7 +240,7 @@ namespace CapaVisual_Login
                 DgvListaFacturas1.Columns["FactImpuesto"].Width = 110;
                 DgvListaFacturas1.Columns["FactIGTF"].Width = 110;
                 DgvListaFacturas1.Columns["FactTotal"].Width = 110;
-
+                DgvListaFacturas1.Columns["Fecha"].Width = 110;
 
                 //Bloquear Columna 
                 DgvListaFacturas1.Columns["NumeroFactura"].ReadOnly = true;
@@ -246,7 +249,7 @@ namespace CapaVisual_Login
                 DgvListaFacturas1.Columns["FactImpuesto"].ReadOnly = true;
                 DgvListaFacturas1.Columns["FactIGTF"].ReadOnly = true;
                 DgvListaFacturas1.Columns["FactTotal"].ReadOnly = true;
-
+                DgvListaFacturas1.Columns["Fecha"].ReadOnly = true;
 
                 //ordenar las colunmnas del grid 
                 DgvListaFacturas1.Columns["NumeroFactura"].DisplayIndex = 0;
@@ -255,8 +258,10 @@ namespace CapaVisual_Login
                 DgvListaFacturas1.Columns["FactImpuesto"].DisplayIndex = 3;
                 DgvListaFacturas1.Columns["FactIGTF"].DisplayIndex = 4;
                 DgvListaFacturas1.Columns["FactTotal"].DisplayIndex = 5;
+                DgvListaFacturas1.Columns["Fecha"].DisplayIndex = 6;
 
                 DgvListaFacturas1.Columns["Numero"].Visible = false;
+                DgvListaFacturas1.Columns["NombreCliente"].Visible = false;
 
 
                 DgvListaFacturas1.Columns["NumeroFactura"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
@@ -265,13 +270,15 @@ namespace CapaVisual_Login
                 DgvListaFacturas1.Columns["FactImpuesto"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
                 DgvListaFacturas1.Columns["FactIGTF"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
                 DgvListaFacturas1.Columns["FactTotal"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                DgvListaFacturas1.Columns["Fecha"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
                 // nuevo 21-08-2023 
                 DgvListaFacturas1.Columns["FactSub"].DefaultCellStyle.Format = "##,##0.00";
                 DgvListaFacturas1.Columns["FactImpuesto"].DefaultCellStyle.Format = "##,##0.00";
                 DgvListaFacturas1.Columns["FactIGTF"].DefaultCellStyle.Format = "##,##0.00";
                 DgvListaFacturas1.Columns["FactTotal"].DefaultCellStyle.Format = "##,##0.00";
-                
+                DgvListaFacturas1.Columns["Fecha"].DefaultCellStyle.Format = "dd/MM/yyyy";
+
                 //// Deshabilitar el ajuste automático de la altura de las filas
                 //DgvListaFacturas.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
                 //// Establecer la altura de las filas
@@ -301,6 +308,138 @@ namespace CapaVisual_Login
             DgvListaFacturas1.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
             DgvListaFacturas1.DefaultCellStyle.ForeColor = Color.White;
           
+        }
+
+        private async void btnPDF_Click(object sender, EventArgs e)
+        {
+            ExportarPDF ExportarPDF = new ExportarPDF();
+
+            var facturas = ObtenerFacturasDesdeConsultaCompleta();
+
+            var encabezado = new DatosEncabezado(); 
+
+            if (!facturas.Any())
+            {
+                MessageBox.Show("No hay datos para exportar.");
+                return;
+            }
+            var logoBytes = (byte[])(new System.Drawing.ImageConverter())
+            .ConvertTo(Properties.Resources.LogoCaroni, typeof(byte[]));
+
+            var encabezadoPDF = new FormatoPdfDTO
+            {
+                FechaInicio = DtpDesde.Value,
+                FechaFin = DtpHasta.Value,
+                LogoBytes = logoBytes
+            };
+
+            var archivo = await ExportarPDF.ExportWithFormatAsync(facturas, encabezadoPDF);
+
+            // Guardar el archivo
+            using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+            {
+                saveFileDialog.Filter = "PDF files (*.pdf)|*.pdf";
+                saveFileDialog.FileName = "ReporteFacturas_" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".pdf";
+
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    File.WriteAllBytes(saveFileDialog.FileName, archivo.Content);
+                    MessageBox.Show("PDF exportado exitosamente.");
+                }
+            }
+
+
+        }
+
+        //private List<FacturaDTO> ObtenerFacturasDesdeGrid()
+        //{
+        //    var lista = new List<FacturaDTO>();
+
+        //    foreach (DataGridViewRow row in DgvListaFacturas1.Rows)
+        //    {
+        //        if (row.IsNewRow) continue;
+
+        //        lista.Add(new FacturaDTO
+        //        {
+        //            NumeroFactura = row.Cells["NumeroFactura"].Value?.ToString(),
+        //            CedulaCliente = row.Cells["CedulaCliente"].Value?.ToString(),
+        //            FactSub = Convert.ToDecimal(row.Cells["FactSub"].Value ?? 0),
+        //            FactImpuesto = Convert.ToDecimal(row.Cells["FactImpuesto"].Value ?? 0),
+        //            FactIGTF = Convert.ToDecimal(row.Cells["FactIGTF"].Value ?? 0),
+        //            FactTotal = Convert.ToDecimal(row.Cells["FactTotal"].Value ?? 0),
+        //            Fecha = Convert.ToDateTime(row.Cells["Fecha"].Value).ToString("dd/MM/yyyy")
+        //        });
+        //    }
+
+        //    return lista;
+        //}
+
+        //private List<FacturaDTO> ObtenerFacturasDesdeDataSet()
+        //{
+        //    var lista = new List<FacturaDTO>();
+
+        //    if (Dts == null || Dts.Tables.Count == 0 || Dts.Tables[0].Rows.Count == 0)
+        //        return lista;
+
+        //    foreach (DataRow row in Dts.Tables[0].Rows)
+        //    {
+        //        lista.Add(new FacturaDTO
+        //        {
+        //            NumeroFactura = row["NumeroFactura"]?.ToString(),
+        //            CedulaCliente = row["CedulaCliente"]?.ToString(),
+        //            FactSub = Convert.ToDecimal(row["FactSub"] ?? 0),
+        //            FactImpuesto = Convert.ToDecimal(row["FactImpuesto"] ?? 0),
+        //            FactIGTF = Convert.ToDecimal(row["FactIGTF"] ?? 0),
+        //            FactTotal = Convert.ToDecimal(row["FactTotal"] ?? 0),
+        //            Fecha = Convert.ToDateTime(row["Fecha"]).ToString("dd/MM/yyyy")
+        //        });
+        //    }
+
+        //    return lista;
+        //}
+
+        private List<FacturaDTO> ObtenerFacturasDesdeConsultaCompleta()
+        {
+            var lista = new List<FacturaDTO>();
+            DataSet ds;
+
+            bool esNotaCredito = CbxEstatus.SelectedIndex > 0;
+
+            ds = esNotaCredito
+                ? _L_ListaFacturas.TraerNotasSinPaginado(DtpDesde, DtpHasta)
+                : _L_ListaFacturas.TraerFacturasSinPaginado(DtpDesde, DtpHasta);
+
+            //if (CbxEstatus.SelectedIndex <= 0)
+            //{
+            //    ds = _L_ListaFacturas.TraerFacturasSinPaginado(DtpDesde, DtpHasta);
+            //}
+            //else
+            //{
+            //    ds = _L_ListaFacturas.TraerNotasSinPaginado(DtpDesde, DtpHasta);
+            //}
+
+            if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
+            {
+                return lista;
+            }
+
+            foreach (DataRow row in ds.Tables[0].Rows)
+            {
+                lista.Add(new FacturaDTO
+                {
+                    NumeroFactura = row["NumeroFactura"]?.ToString(),
+                    NotaCredito = esNotaCredito ? row["NotaCredito"]?.ToString() : null,
+                    CedulaCliente = row["CedulaCliente"]?.ToString(),
+                    NombreCliente = row["NombreCliente"]?.ToString(),
+                    FactSub = Convert.ToDecimal(row["FactSub"] ?? 0),
+                    FactImpuesto = Convert.ToDecimal(row["FactImpuesto"] ?? 0),
+                    FactIGTF = Convert.ToDecimal(row["FactIGTF"] ?? 0),
+                    FactTotal = Convert.ToDecimal(row["FactTotal"] ?? 0),
+                    Fecha = Convert.ToDateTime(row["Fecha"]).ToString("dd/MM/yyyy")
+                });
+            }
+
+            return lista;
         }
 
         public void FormatoDataGrid_Claro_ListaFact(System.Drawing.Color col1, System.Drawing.Color col3)
@@ -364,5 +503,11 @@ namespace CapaVisual_Login
             //    txtNumeroOrden.ForeColor = Color.Gray;
             //}
         }
+
+        private void DgvListaFacturas1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        { }
+
+
+
     }
 }

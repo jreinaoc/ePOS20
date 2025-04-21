@@ -100,3 +100,7 @@ C:\projects\EPOS20\CapaLogica\bin\Debug\System.Buffers.xml
 C:\projects\EPOS20\CapaLogica\bin\Debug\System.Memory.xml
 C:\projects\EPOS20\CapaLogica\bin\Debug\System.Numerics.Vectors.xml
 C:\projects\EPOS20\CapaLogica\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
+C:\projects\EPOS20\CapaLogica\bin\Debug\BouncyCastle.Cryptography.dll
+C:\projects\EPOS20\CapaLogica\bin\Debug\itextsharp.dll
+C:\projects\EPOS20\CapaLogica\bin\Debug\BouncyCastle.Cryptography.xml
+C:\projects\EPOS20\CapaLogica\bin\Debug\itextsharp.xml

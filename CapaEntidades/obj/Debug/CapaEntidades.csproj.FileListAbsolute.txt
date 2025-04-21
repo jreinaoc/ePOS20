@@ -33,3 +33,6 @@ C:\projects\EPOS20\CapaEntidades\obj\Debug\CapaEntidades.csproj.CoreCompileInput
 C:\projects\EPOS20\CapaEntidades\obj\Debug\CapaEnti.0B779BCD.Up2Date
 C:\projects\EPOS20\CapaEntidades\obj\Debug\CapaEntidades.dll
 C:\projects\EPOS20\CapaEntidades\obj\Debug\CapaEntidades.pdb
+C:\projects\EPOS20\CapaEntidades\bin\Debug\System.Drawing.Common.dll
+C:\projects\EPOS20\CapaEntidades\bin\Debug\System.Drawing.Common.pdb
+C:\projects\EPOS20\CapaEntidades\bin\Debug\System.Drawing.Common.xml
