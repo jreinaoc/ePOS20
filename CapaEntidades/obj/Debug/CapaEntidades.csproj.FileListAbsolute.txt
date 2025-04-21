@@ -21,6 +21,7 @@ C:\Programacion\CaroniPOS1\CapaEntidades\obj\Debug\CapaEntidades.csproj.CoreComp
 C:\Programacion\CaroniPOS1\CapaEntidades\obj\Debug\CapaEntidades.csproj.CopyComplete
 C:\Programacion\CaroniPOS1\CapaEntidades\obj\Debug\CapaEntidades.dll
 C:\Programacion\CaroniPOS1\CapaEntidades\obj\Debug\CapaEntidades.pdb
+<<<<<<< HEAD
 C:\Desarrollo2022\CaroniPOS1\CapaEntidades\bin\Debug\CapaEntidades.dll
 C:\Desarrollo2022\CaroniPOS1\CapaEntidades\bin\Debug\CapaEntidades.pdb
 C:\Desarrollo2022\CaroniPOS1\CapaEntidades\bin\Debug\log4net.dll
@@ -32,3 +33,20 @@ C:\Desarrollo2022\CaroniPOS1\CapaEntidades\obj\Debug\CapaEntidades.csproj.CoreCo
 C:\Desarrollo2022\CaroniPOS1\CapaEntidades\obj\Debug\CapaEntidades.csproj.CopyComplete
 C:\Desarrollo2022\CaroniPOS1\CapaEntidades\obj\Debug\CapaEntidades.dll
 C:\Desarrollo2022\CaroniPOS1\CapaEntidades\obj\Debug\CapaEntidades.pdb
+=======
+C:\projects\EPOS20\CapaEntidades\bin\Debug\CapaEntidades.dll
+C:\projects\EPOS20\CapaEntidades\bin\Debug\CapaEntidades.pdb
+C:\projects\EPOS20\CapaEntidades\bin\Debug\log4net.dll
+C:\projects\EPOS20\CapaEntidades\bin\Debug\Newtonsoft.Json.dll
+C:\projects\EPOS20\CapaEntidades\bin\Debug\System.ComponentModel.Annotations.dll
+C:\projects\EPOS20\CapaEntidades\bin\Debug\log4net.xml
+C:\projects\EPOS20\CapaEntidades\bin\Debug\Newtonsoft.Json.xml
+C:\projects\EPOS20\CapaEntidades\obj\Debug\CapaEntidades.csproj.AssemblyReference.cache
+C:\projects\EPOS20\CapaEntidades\obj\Debug\CapaEntidades.csproj.CoreCompileInputs.cache
+C:\projects\EPOS20\CapaEntidades\obj\Debug\CapaEnti.0B779BCD.Up2Date
+C:\projects\EPOS20\CapaEntidades\obj\Debug\CapaEntidades.dll
+C:\projects\EPOS20\CapaEntidades\obj\Debug\CapaEntidades.pdb
+C:\projects\EPOS20\CapaEntidades\bin\Debug\System.Drawing.Common.dll
+C:\projects\EPOS20\CapaEntidades\bin\Debug\System.Drawing.Common.pdb
+C:\projects\EPOS20\CapaEntidades\bin\Debug\System.Drawing.Common.xml
+>>>>>>> feature/epos20

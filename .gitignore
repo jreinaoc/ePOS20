@@ -1,0 +1,28 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+
+# Compilación
+bin/
+obj/
+*.exe
+*.dll
+*.pdb
+*.cache
+*.log
+
+# Publicación ClickOnce
+*.application
+*.manifest
+
+# Archivos de usuario de Rider o ReSharper
+.idea/
+*.DotSettings
+
+# Archivos temporales
+*.tmp
+*.bak
+
+# Archivos de índice de contenido de Visual Studio
+.vs/**/FileContentIndex/

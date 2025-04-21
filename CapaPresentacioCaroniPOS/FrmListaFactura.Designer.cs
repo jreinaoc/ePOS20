@@ -30,9 +30,9 @@ namespace CapaVisual_Login
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmListaFactura));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             this.LblListadoFactura = new System.Windows.Forms.Label();
             this.DtpHasta = new System.Windows.Forms.DateTimePicker();
             this.DtpDesde = new System.Windows.Forms.DateTimePicker();
@@ -41,9 +41,10 @@ namespace CapaVisual_Login
             this.label12 = new System.Windows.Forms.Label();
             this.cbPagina_Ini = new System.Windows.Forms.ComboBox();
             this.label11 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btn = new System.Windows.Forms.Button();
             this.DgvListaFacturas1 = new System.Windows.Forms.DataGridView();
             this.CbxEstatus = new System.Windows.Forms.ComboBox();
+            this.btnPDF = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.DgvListaFacturas1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -145,16 +146,21 @@ namespace CapaVisual_Login
             this.label11.Text = "Página";
             this.label11.Visible = false;
             // 
-            // button1
+            // btn
             // 
-            this.button1.Location = new System.Drawing.Point(991, 89);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 60;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Visible = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btn.BackColor = System.Drawing.SystemColors.Window;
+            this.btn.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btn.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.btn.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn.ForeColor = System.Drawing.Color.Gray;
+            this.btn.Location = new System.Drawing.Point(886, 18);
+            this.btn.Name = "btn";
+            this.btn.Size = new System.Drawing.Size(102, 30);
+            this.btn.TabIndex = 60;
+            this.btn.Text = "PDF";
+            this.btn.UseVisualStyleBackColor = false;
+            this.btn.Visible = false;
+            this.btn.Click += new System.EventHandler(this.button1_Click);
             // 
             // DgvListaFacturas1
             // 
@@ -165,41 +171,42 @@ namespace CapaVisual_Login
             this.DgvListaFacturas1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.DgvListaFacturas1.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.RaisedVertical;
             this.DgvListaFacturas1.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(2)))), ((int)(((byte)(185)))), ((int)(((byte)(171)))));
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.DgvListaFacturas1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle10.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(2)))), ((int)(((byte)(185)))), ((int)(((byte)(171)))));
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle10.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.DgvListaFacturas1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle10;
             this.DgvListaFacturas1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle5.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.DgvListaFacturas1.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle11.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle11.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle11.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.DgvListaFacturas1.DefaultCellStyle = dataGridViewCellStyle11;
             this.DgvListaFacturas1.EnableHeadersVisualStyles = false;
             this.DgvListaFacturas1.GridColor = System.Drawing.Color.Indigo;
             this.DgvListaFacturas1.Location = new System.Drawing.Point(16, 151);
             this.DgvListaFacturas1.Margin = new System.Windows.Forms.Padding(4);
             this.DgvListaFacturas1.Name = "DgvListaFacturas1";
             this.DgvListaFacturas1.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.DgvListaFacturas1.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle12.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle12.Font = new System.Drawing.Font("Bahnschrift SemiCondensed", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle12.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle12.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle12.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.DgvListaFacturas1.RowHeadersDefaultCellStyle = dataGridViewCellStyle12;
             this.DgvListaFacturas1.RowHeadersVisible = false;
             this.DgvListaFacturas1.RowHeadersWidth = 51;
             this.DgvListaFacturas1.Size = new System.Drawing.Size(1032, 429);
             this.DgvListaFacturas1.TabIndex = 61;
+            this.DgvListaFacturas1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvListaFacturas1_CellContentClick);
             // 
             // CbxEstatus
             // 
@@ -217,6 +224,25 @@ namespace CapaVisual_Login
             this.CbxEstatus.SelectionChangeCommitted += new System.EventHandler(this.CbxEstatus_SelectionChangeCommitted);
             this.CbxEstatus.Enter += new System.EventHandler(this.CbxEstatus_Enter);
             // 
+            // btnPDF
+            // 
+            this.btnPDF.BackColor = System.Drawing.Color.Transparent;
+            this.btnPDF.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnPDF.BackgroundImage")));
+            this.btnPDF.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnPDF.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnPDF.FlatAppearance.BorderSize = 0;
+            this.btnPDF.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(4)))), ((int)(((byte)(185)))), ((int)(((byte)(166)))));
+            this.btnPDF.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(4)))), ((int)(((byte)(185)))), ((int)(((byte)(166)))));
+            this.btnPDF.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnPDF.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPDF.ForeColor = System.Drawing.Color.Gray;
+            this.btnPDF.Location = new System.Drawing.Point(978, 83);
+            this.btnPDF.Name = "btnPDF";
+            this.btnPDF.Size = new System.Drawing.Size(70, 30);
+            this.btnPDF.TabIndex = 63;
+            this.btnPDF.UseVisualStyleBackColor = false;
+            this.btnPDF.Click += new System.EventHandler(this.btnPDF_Click);
+            // 
             // FrmListaFactura
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -225,9 +251,10 @@ namespace CapaVisual_Login
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1173, 749);
+            this.Controls.Add(this.btnPDF);
             this.Controls.Add(this.CbxEstatus);
             this.Controls.Add(this.DgvListaFacturas1);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btn);
             this.Controls.Add(this.txtPagina_Fin);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.cbPagina_Ini);
@@ -256,8 +283,9 @@ namespace CapaVisual_Login
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.ComboBox cbPagina_Ini;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btn;
         private System.Windows.Forms.DataGridView DgvListaFacturas1;
         private System.Windows.Forms.ComboBox CbxEstatus;
+        private System.Windows.Forms.Button btnPDF;
     }
 }

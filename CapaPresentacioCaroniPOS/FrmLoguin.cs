@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -26,6 +27,7 @@ namespace CapaVisual_Login
         string pass = "";
         string mensaje;
         string Prueba;
+        int intentosFallidos = 0;
 
         public FrmLoguin()
         {
@@ -47,7 +49,28 @@ namespace CapaVisual_Login
 
         private void btnIngresar_Click(object sender, EventArgs e)
         {
+
+            bool usuarioExiste = _Login.TraerUsuario(txtNombreUsuario.Text);
+
+            if (!usuarioExiste || TB_USUARIO.COD_EMPLEADO == null || TB_USUARIO.COD_EMPLEADO == "")
+            {
+                MessageBox.Show("Usuario no encontrado.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (TB_USUARIO.Bloqueado)
+            {
+                MessageBox.Show("Este usuario se encuentra bloqueado. Por favor, contacte al departamento de sistemas.", "Usuario Bloqueado", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             ValidarUsuario(txtNombreUsuario.Text, txtClaveUsuario.Text);
+
+            //if (_Login.BloquearUsuario(txtNombreUsuario.Text))
+            //{
+            //    MessageBox.Show("Usuario bloqueado. Por favor, contacte al departamento de sistemas.", "Usuario Bloqueado");
+            //    return;
+            //}
 
         }
 
@@ -58,59 +81,77 @@ namespace CapaVisual_Login
             {
                if (_Login.ComprobarCampos(txtNombreUsuario, txtClaveUsuario))
                {
-                _Login.TraerUsuario(IdUsuario);
+                    _Login.TraerUsuario(IdUsuario);
 
-               if (TB_USUARIO.COD_EMPLEADO != null && TB_USUARIO.COD_EMPLEADO != "")
-               {
-
-                  if (TB_USUARIO.COD_EMPLEADO == "99999")
-                  {
-                   var HASH = _Login.UsuarioSistema();
-                    TB_USUARIO.USER_HASH = HASH;
-                    _FrmMensajes.co = 2;
-                  }
-
-                  bool Respuesta = _Login.ValidarClave(IdUsuario + Contraseña);
-                  //mensaje = _Login.stringBuilder.ToString();
-                  _FrmMensajes.avisomensaje(mensaje);
-                        
-
-                   if (_Login.stringBuilder.Length != 0)
-
+                   if (TB_USUARIO.COD_EMPLEADO != null && TB_USUARIO.COD_EMPLEADO != "")
                    {
-                     if (Respuesta== false) {
-                                LblIncorrect.Text = mensaje;
-                                LblIncorrect.Visible = true;
-                                vald.SetHighlightColor(txtNombreUsuario, DevComponents.DotNetBar.Validator.eHighlightColor.Red);
-                                //DialogResult result = _FrmMensajes.ShowDialog();
-                      }
+
+                          if (TB_USUARIO.COD_EMPLEADO == "99999")
+                          {
+                           var HASH = _Login.UsuarioSistema();
+                            TB_USUARIO.USER_HASH = HASH;
+                            _FrmMensajes.co = 2;
+                          }
+
+                        bool Respuesta = _Login.ValidarClave(IdUsuario + Contraseña);
+                          //mensaje = _Login.stringBuilder.ToString();
+                          _FrmMensajes.avisomensaje(mensaje);
+
+                           if (_Login.stringBuilder.Length != 0)
+                           {
+                                 if (Respuesta == false) 
+                                 {
+                                        intentosFallidos++;
+
+                                        int intentosMaximos = _Login.IntentoLogInMax();
+                                        
+                                        if (intentosFallidos >= intentosMaximos)
+                                        {
+                                            _Login.BloquearUsuario(IdUsuario);
+
+                                            MessageBox.Show("Usuario bloqueado por múltiples intentos fallidos.", "Usuario Bloqueado", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        }
+                                        else
+                                        {
+                                            LblIncorrect.Text = mensaje;
+                                            LblIncorrect.Visible = true;
+                                            vald.SetHighlightColor(txtNombreUsuario, DevComponents.DotNetBar.Validator.eHighlightColor.Red);
+                                            //DialogResult result = _FrmMensajes.ShowDialog();
+                                        }
+
+                                 }
+                                 else if (Respuesta == true)
+                                 {
+                                        intentosFallidos = 0;
+                                        this.Visible = false;
+                                        _FrmPrincipal.Show();
+                                 }
+
+                           }
 
 
-                     else if (Respuesta == true)
-                      {
-                      
-                      this.Visible = false;
-                      _FrmPrincipal.Show();
-                      }
-                            
-                    }
-
-               }
-               else { 
-                 LblIncorrect.Text = mensaje;
+                   }
+                   else 
+                   { 
+                        LblIncorrect.Text = mensaje;
                         LblIncorrect.Visible = true;
                         vald.SetHighlightColor(txtNombreUsuario, DevComponents.DotNetBar.Validator.eHighlightColor.Red);
                         //_FrmMensajes.co = 2;
                         //_FrmMensajes.avisomensaje(mensaje);
                         //_FrmMensajes.ShowDialog();
-                    }
+
+                   }
                }
-               else { 
+               else 
+               { 
+
                 mensaje = _Login.stringBuilder.ToString();
                 _FrmMensajes.co = 2;
                 _FrmMensajes.avisomensaje(mensaje);
                 _FrmMensajes.ShowDialog();
-                }
+
+               }
+
             }
             catch (Exception ex)
             {
@@ -122,7 +163,6 @@ namespace CapaVisual_Login
                 txtClaveUsuario.Text = "";
                 txtNombreUsuario.Text = "";
                 txtNombreUsuario.Focus();
-
             }
         }
 
