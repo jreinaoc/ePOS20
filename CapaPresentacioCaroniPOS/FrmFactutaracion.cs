@@ -4667,9 +4667,9 @@ namespace CapaVisual_Login
                                 resp = objVmax.TextoNoFiscal("Numero Orden: " + txtNumeroOrden.Text);
                                 resp = objVmax.TextoNoFiscal("");
 
-                                bool ImpTextNoFiscal = Convert.ToBoolean(_D_DetalleOrden.TB_PARAMETRO("ImpTextNoFiscal"));
+                                string ImpTextNoFiscal = _D_DetalleOrden.TB_PARAMETRO("ImpTextNoFiscal");
                                 
-                                if (ImpTextNoFiscal)
+                                if (ImpTextNoFiscal == "1")
                                 {
                                     //// Texto de GRACIAS POR SU COMPRA
                                     DataTable DtTexto = _D_DetalleOrden.TB_INUTILIZADO();
