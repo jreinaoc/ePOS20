@@ -184,18 +184,18 @@ namespace CapaVisual_Login
             string DiaActual = (DateTime.Now.ToString("dd/MM/yyyy"));
             string DiaActivo = _D_Inicio.DiaActivo().ToShortDateString();
 
-            
-            //if (DiaActivo != DiaActual)
-            //{
-            //    _FrmMensajes.co = 2;
-            //    _FrmMensajes.avisomensaje("Debe cerrar caja del día anterior para continuar");
-            //    _FrmMensajes.ShowDialog();
-            //    return;
 
-            //}
+            if (DiaActivo != DiaActual)
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("Debe cerrar caja del día anterior para continuar");
+                _FrmMensajes.ShowDialog();
+                return;
+
+            }
 
             //validar si es factura manual 
-            
+
             if (_L_Facturacion.ValidaFactManual() == false)
             {
                 if (_L_Facturacion.stringBuilder.ToString().Length > 2)
@@ -4193,6 +4193,7 @@ namespace CapaVisual_Login
                             }
 
                             // ----CONSULTO LOS DESCUENTOS DE LA FACTURA 
+                            
                             DataSet dsDcto = _D_DetalleOrden.DESCUENTOSFACTURAFISCAL(txtNumeroOrden.Text, command);
                             DataTable dtcto = dsDcto.Tables[0];
                             Double DescuentoExento = Math.Round(Convert.ToDouble(dtcto.Rows[0]["DescuentoExento"].ToString()), 2);
@@ -5862,9 +5863,9 @@ namespace CapaVisual_Login
             SqlConnection connection = cn.LeerCadena();
             SqlCommand command = connection.CreateCommand();
             SqlTransaction transaction;
-            //transaction = connection.BeginTransaction();
+            transaction = connection.BeginTransaction();
             command.Connection = connection;
-            //command.Transaction = transaction;
+            command.Transaction = transaction;
             command.Parameters.Clear();
             command.CommandTimeout = 120;
             string Correlativo = "";
@@ -5924,7 +5925,7 @@ namespace CapaVisual_Login
                     if (rept == "SATISFACTORIO" )
                         if (_Impresora_Fiscal.VerficarConexionImpresoraFiscal() == false)
                         {
-                            //transaction.Rollback();
+                            transaction.Rollback();
                             mensaje = _Impresora_Fiscal.stringBuilder.ToString();
                             rept = "Error";
                             _FrmMensajes.co = 2;
@@ -5948,14 +5949,14 @@ namespace CapaVisual_Login
                         rept = ImprimirCambio(Correlativo, Dt_PagoMovil, TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision, Num_Factura, command);
                 }
 
-                // Attempt to commit the transaction.
-                //if (rept == "SATISFACTORIO")
-                //    transaction.Commit();
-                //else
-                //if (transaction != null && !rollbackRealizado)
-                //{
-                //    transaction.Rollback();
-                //}
+                //Attempt to commit the transaction.
+                if (rept == "SATISFACTORIO")
+                    transaction.Commit();
+                else
+                if (transaction != null && !rollbackRealizado)
+                {
+                    transaction.Rollback();
+                }
 
                 //Cursor = System.Windows.Forms.Cursors.Default;
                 return rept;
