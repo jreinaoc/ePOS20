@@ -135,8 +135,10 @@
     <Compile Include="ExportarArchivos\DatosEncabezado.cs" />
     <Compile Include="ExportarArchivos\ExportarArchivo.cs" />
     <Compile Include="ExportarArchivos\ExportarArchivoPdf_Facturas.cs" />
+    <Compile Include="ExportarArchivos\ExportarArchivoXLSX_ReporteGlobal.cs" />
     <Compile Include="ExportarArchivos\ExportarPDF.cs" />
     <Compile Include="ExportarArchivos\ExportarXLSX.cs" />
+    <Compile Include="ExportarArchivos\ExportarXLSX_ReporteGlobal.cs" />
     <Compile Include="ExportarArchivos\FormatoDeArchivo.cs" />
     <Compile Include="Facturacion_Logica\L_Facturacion.cs" />
     <Compile Include="Impresora_Fiscal\Impresora_Fiscal.cs" />
@@ -146,6 +148,7 @@
     <Compile Include="Login_Logica\L_EncriptarDesEscriptar.cs" />
     <Compile Include="Login_Logica\L_Login.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Servicios\CierreCaja_Servicio.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CapaDatos\CapaDatos.csproj">

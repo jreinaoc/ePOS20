@@ -326,7 +326,6 @@ C:\projects\EPOS20\CapaPresentacioCaroniPOS\obj\Debug\CapaVisual_Login.csproj.Ge
 C:\projects\EPOS20\CapaPresentacioCaroniPOS\obj\Debug\CapaVisual_Login.csproj.CoreCompileInputs.cache
 C:\projects\EPOS20\CapaPresentacioCaroniPOS\obj\Debug\ePOS.exe.manifest
 C:\projects\EPOS20\CapaPresentacioCaroniPOS\obj\Debug\ePOS.application
-C:\projects\EPOS20\CapaPresentacioCaroniPOS\obj\Debug\CapaVisu.DDE87448.Up2Date
 C:\projects\EPOS20\CapaPresentacioCaroniPOS\obj\Debug\ePOS.exe
 C:\projects\EPOS20\CapaPresentacioCaroniPOS\obj\Debug\ePOS.pdb
 C:\projects\EPOS20\CapaPresentacioCaroniPOS\bin\Debug\ClosedXML.dll
@@ -359,3 +358,9 @@ C:\projects\EPOS20\CapaPresentacioCaroniPOS\bin\Debug\itextsharp.dll
 C:\projects\EPOS20\CapaPresentacioCaroniPOS\bin\Debug\BouncyCastle.Cryptography.dll
 C:\projects\EPOS20\CapaPresentacioCaroniPOS\bin\Debug\itextsharp.xml
 C:\projects\EPOS20\CapaPresentacioCaroniPOS\bin\Debug\BouncyCastle.Cryptography.xml
+C:\projects\EPOS20\CapaPresentacioCaroniPOS\bin\Debug\Microsoft.VisualStudio.Shell.Interop.dll
+C:\projects\EPOS20\CapaPresentacioCaroniPOS\bin\Debug\Microsoft.VisualStudio.Shell.Interop.8.0.dll
+C:\projects\EPOS20\CapaPresentacioCaroniPOS\bin\Debug\Microsoft.VisualStudio.OLE.Interop.dll
+C:\projects\EPOS20\CapaPresentacioCaroniPOS\bin\Debug\Microsoft.VisualStudio.TextManager.Interop.dll
+C:\projects\EPOS20\CapaPresentacioCaroniPOS\bin\Debug\Microsoft.VisualStudio.TextManager.Interop.8.0.dll
+C:\projects\EPOS20\CapaPresentacioCaroniPOS\obj\Debug\CapaVisual_Login.csproj.CopyComplete
