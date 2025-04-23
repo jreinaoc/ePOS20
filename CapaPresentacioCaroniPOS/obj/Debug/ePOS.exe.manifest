@@ -146,7 +146,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>oLbuW92/j3Yh86a32+IBAxEy9nl6SfL76pgNzbaybms=</dsig:DigestValue>
+        <dsig:DigestValue>NyQiykOT4HNfw9OEQHUBhGXQ9Su8INEYiXsYoE/5+fI=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -969,7 +969,7 @@
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>JouRn7lOJTQVNEuyEmzrVCaZbxXv/BHFLEsKdK7DB/M=</dsig:DigestValue>
+      <dsig:DigestValue>QKLm0EC2Rq7gnrRevU5MVmZR4YAlK2IQB+VSr1Zybes=</dsig:DigestValue>
     </hash>
   </file>
   <file name="icono-puntoDeVenta.ico" size="205662">

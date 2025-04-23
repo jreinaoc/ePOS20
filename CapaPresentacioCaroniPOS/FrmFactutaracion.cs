@@ -2386,7 +2386,19 @@ namespace CapaVisual_Login
         {
             if (CbxMetodosPago.SelectedIndex != -1)
             {
-
+                if (_L_Facturacion.ValidaFactManual() == false)
+                {
+                    if (_Impresora_Fiscal.VerficarConexionImpresoraFiscal() == false)
+                    {
+                        mensaje = _Impresora_Fiscal.stringBuilder.ToString();
+                        //rept = "Error";
+                        _FrmMensajes.co = 2;
+                        _FrmMensajes.avisomensaje(mensaje);
+                        _FrmMensajes.ShowDialog();
+                        //btnCancelar1.PerformClick();
+                        //return;
+                    }
+                }
                 if (CbxMetodosPago.Text == "Transferencia Divisa")
                 {
                     _L_Facturacion.LLenarComboboxBancos(CbxBanco, true);
@@ -4655,12 +4667,17 @@ namespace CapaVisual_Login
                                 resp = objVmax.TextoNoFiscal("Numero Orden: " + txtNumeroOrden.Text);
                                 resp = objVmax.TextoNoFiscal("");
 
-                                //// Texto de GRACIAS POR SU COMPRA
-                                DataTable DtTexto = _D_DetalleOrden.TB_INUTILIZADO();
-
-                                foreach (DataRow row in DtTexto.Rows)
+                                bool ImpTextNoFiscal = Convert.ToBoolean(_D_DetalleOrden.TB_PARAMETRO("ImpTextNoFiscal"));
+                                
+                                if (ImpTextNoFiscal)
                                 {
-                                    resp = objVmax.TextoNoFiscal(row["texto"].ToString());
+                                    //// Texto de GRACIAS POR SU COMPRA
+                                    DataTable DtTexto = _D_DetalleOrden.TB_INUTILIZADO();
+
+                                    foreach (DataRow row in DtTexto.Rows)
+                                    {
+                                        resp = objVmax.TextoNoFiscal(row["texto"].ToString());
+                                    }
                                 }
 
 
