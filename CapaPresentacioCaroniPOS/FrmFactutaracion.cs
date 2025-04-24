@@ -184,18 +184,18 @@ namespace CapaVisual_Login
             string DiaActual = (DateTime.Now.ToString("dd/MM/yyyy"));
             string DiaActivo = _D_Inicio.DiaActivo().ToShortDateString();
 
-            
-            //if (DiaActivo != DiaActual)
-            //{
-            //    _FrmMensajes.co = 2;
-            //    _FrmMensajes.avisomensaje("Debe cerrar caja del día anterior para continuar");
-            //    _FrmMensajes.ShowDialog();
-            //    return;
 
-            //}
+            if (DiaActivo != DiaActual)
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("Debe cerrar caja del día anterior para continuar");
+                _FrmMensajes.ShowDialog();
+                return;
+
+            }
 
             //validar si es factura manual 
-            
+
             if (_L_Facturacion.ValidaFactManual() == false)
             {
                 if (_L_Facturacion.stringBuilder.ToString().Length > 2)
@@ -2386,7 +2386,19 @@ namespace CapaVisual_Login
         {
             if (CbxMetodosPago.SelectedIndex != -1)
             {
-
+                if (_L_Facturacion.ValidaFactManual() == false)
+                {
+                    if (_Impresora_Fiscal.VerficarConexionImpresoraFiscal() == false)
+                    {
+                        mensaje = _Impresora_Fiscal.stringBuilder.ToString();
+                        //rept = "Error";
+                        _FrmMensajes.co = 2;
+                        _FrmMensajes.avisomensaje(mensaje);
+                        _FrmMensajes.ShowDialog();
+                        //btnCancelar1.PerformClick();
+                        //return;
+                    }
+                }
                 if (CbxMetodosPago.Text == "Transferencia Divisa")
                 {
                     _L_Facturacion.LLenarComboboxBancos(CbxBanco, true);
@@ -4193,6 +4205,7 @@ namespace CapaVisual_Login
                             }
 
                             // ----CONSULTO LOS DESCUENTOS DE LA FACTURA 
+                            
                             DataSet dsDcto = _D_DetalleOrden.DESCUENTOSFACTURAFISCAL(txtNumeroOrden.Text, command);
                             DataTable dtcto = dsDcto.Tables[0];
                             Double DescuentoExento = Math.Round(Convert.ToDouble(dtcto.Rows[0]["DescuentoExento"].ToString()), 2);
@@ -4654,12 +4667,17 @@ namespace CapaVisual_Login
                                 resp = objVmax.TextoNoFiscal("Numero Orden: " + txtNumeroOrden.Text);
                                 resp = objVmax.TextoNoFiscal("");
 
-                                //// Texto de GRACIAS POR SU COMPRA
-                                DataTable DtTexto = _D_DetalleOrden.TB_INUTILIZADO();
-
-                                foreach (DataRow row in DtTexto.Rows)
+                                string ImpTextNoFiscal = _D_DetalleOrden.TB_PARAMETRO("ImpTextNoFiscal");
+                                
+                                if (ImpTextNoFiscal == "1")
                                 {
-                                    resp = objVmax.TextoNoFiscal(row["texto"].ToString());
+                                    //// Texto de GRACIAS POR SU COMPRA
+                                    DataTable DtTexto = _D_DetalleOrden.TB_INUTILIZADO();
+
+                                    foreach (DataRow row in DtTexto.Rows)
+                                    {
+                                        resp = objVmax.TextoNoFiscal(row["texto"].ToString());
+                                    }
                                 }
 
 
@@ -5862,9 +5880,9 @@ namespace CapaVisual_Login
             SqlConnection connection = cn.LeerCadena();
             SqlCommand command = connection.CreateCommand();
             SqlTransaction transaction;
-            //transaction = connection.BeginTransaction();
+            transaction = connection.BeginTransaction();
             command.Connection = connection;
-            //command.Transaction = transaction;
+            command.Transaction = transaction;
             command.Parameters.Clear();
             command.CommandTimeout = 120;
             string Correlativo = "";
@@ -5885,6 +5903,13 @@ namespace CapaVisual_Login
                 {
                     rept = MovInventario(command);
                     MovInventarioo = true;
+
+                    if (rept != "SATISFACTORIO")
+                    {
+                        transaction.Rollback();
+                        return "";
+                    }
+
 
                     // Cuando la orden es lentes de contacto rebajo la reserva; ejecuto la modificacion en TB_LENTESCONTACTO y RelacionMovimientosLC
                     if (TB_CAORDSER.Cod_DetVta == "02" & _D_DetalleOrden.TB_PARAMETRO("LCManejaExist") == "1")
@@ -5924,7 +5949,7 @@ namespace CapaVisual_Login
                     if (rept == "SATISFACTORIO" )
                         if (_Impresora_Fiscal.VerficarConexionImpresoraFiscal() == false)
                         {
-                            //transaction.Rollback();
+                            transaction.Rollback();
                             mensaje = _Impresora_Fiscal.stringBuilder.ToString();
                             rept = "Error";
                             _FrmMensajes.co = 2;
@@ -5948,14 +5973,14 @@ namespace CapaVisual_Login
                         rept = ImprimirCambio(Correlativo, Dt_PagoMovil, TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision, Num_Factura, command);
                 }
 
-                // Attempt to commit the transaction.
-                //if (rept == "SATISFACTORIO")
-                //    transaction.Commit();
-                //else
-                //if (transaction != null && !rollbackRealizado)
-                //{
-                //    transaction.Rollback();
-                //}
+                //Attempt to commit the transaction.
+                if (rept == "SATISFACTORIO")
+                    transaction.Commit();
+                else
+                if (transaction != null && !rollbackRealizado)
+                {
+                    transaction.Rollback();
+                }
 
                 //Cursor = System.Windows.Forms.Cursors.Default;
                 return rept;

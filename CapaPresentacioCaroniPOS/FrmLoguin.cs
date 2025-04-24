@@ -12,6 +12,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using CapaDatos.Anulacion;
+using CapaDatos.Inicio_Datos;
 
 
 namespace CapaVisual_Login
@@ -22,6 +24,8 @@ namespace CapaVisual_Login
         private readonly L_Login _Login = new L_Login();
         FrmPrincipal _FrmPrincipal = new FrmPrincipal();
         FrmMensajes _FrmMensajes = new FrmMensajes();
+        D_Anulacion _D_Anulacion = new D_Anulacion();
+        D_Inicio _D_Inicio = new D_Inicio();
 
         string user = "";
         string pass = "";
@@ -95,6 +99,8 @@ namespace CapaVisual_Login
                            {
                                  if (Respuesta == false) 
                                  {
+                                        _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "089", TB_USUARIO.COD_EMPLEADO, "Usuario con clave Errada");
+                                        
                                         intentosFallidos++;
 
                                         int intentosMaximos = _Login.IntentoLogInMax();
@@ -119,9 +125,11 @@ namespace CapaVisual_Login
                                         intentosFallidos = 0;
                                         this.Visible = false;
                                         _FrmPrincipal.Show();
-                                 }
+                                        _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "001", TB_USUARIO.COD_EMPLEADO, "Usuario Ingreso al sistema");
 
-                           }
+                            }
+
+                        }
 
 
                    }

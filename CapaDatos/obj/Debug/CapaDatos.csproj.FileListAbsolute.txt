@@ -44,7 +44,6 @@ C:\Users\jreina\source\repos\CaroniPOS3\CapaDatos\obj\Debug\CapaDatos.csproj.Cor
 C:\Users\jreina\source\repos\CaroniPOS3\CapaDatos\obj\Debug\CapaDatos.csproj.CopyComplete
 C:\Users\jreina\source\repos\CaroniPOS3\CapaDatos\obj\Debug\CapaDatos.dll
 C:\Users\jreina\source\repos\CaroniPOS3\CapaDatos\obj\Debug\CapaDatos.pdb
-<<<<<<< HEAD
 C:\Desarrollo2022\CaroniPOS1\CapaDatos\bin\Debug\CapaDatos.dll
 C:\Desarrollo2022\CaroniPOS1\CapaDatos\bin\Debug\CapaDatos.pdb
 C:\Desarrollo2022\CaroniPOS1\CapaDatos\bin\Debug\CapaEntidades.dll
@@ -68,28 +67,3 @@ C:\Desarrollo2022\CaroniPOS1\CapaDatos\obj\Debug\CapaDatos.csproj.CoreCompileInp
 C:\Desarrollo2022\CaroniPOS1\CapaDatos\obj\Debug\CapaDatos.csproj.CopyComplete
 C:\Desarrollo2022\CaroniPOS1\CapaDatos\obj\Debug\CapaDatos.dll
 C:\Desarrollo2022\CaroniPOS1\CapaDatos\obj\Debug\CapaDatos.pdb
-=======
-C:\projects\EPOS20\CapaDatos\bin\Debug\CapaDatos.dll
-C:\projects\EPOS20\CapaDatos\bin\Debug\CapaDatos.pdb
-C:\projects\EPOS20\CapaDatos\bin\Debug\CapaEntidades.dll
-C:\projects\EPOS20\CapaDatos\bin\Debug\Dapper.dll
-C:\projects\EPOS20\CapaDatos\bin\Debug\log4net.dll
-C:\projects\EPOS20\CapaDatos\bin\Debug\Newtonsoft.Json.dll
-C:\projects\EPOS20\CapaDatos\bin\Debug\System.Configuration.ConfigurationManager.dll
-C:\projects\EPOS20\CapaDatos\bin\Debug\System.Security.AccessControl.dll
-C:\projects\EPOS20\CapaDatos\bin\Debug\System.Security.Permissions.dll
-C:\projects\EPOS20\CapaDatos\bin\Debug\System.Security.Principal.Windows.dll
-C:\projects\EPOS20\CapaDatos\bin\Debug\CapaEntidades.pdb
-C:\projects\EPOS20\CapaDatos\bin\Debug\Dapper.xml
-C:\projects\EPOS20\CapaDatos\bin\Debug\log4net.xml
-C:\projects\EPOS20\CapaDatos\bin\Debug\Newtonsoft.Json.xml
-C:\projects\EPOS20\CapaDatos\bin\Debug\System.Configuration.ConfigurationManager.xml
-C:\projects\EPOS20\CapaDatos\bin\Debug\System.Security.AccessControl.xml
-C:\projects\EPOS20\CapaDatos\bin\Debug\System.Security.Permissions.xml
-C:\projects\EPOS20\CapaDatos\bin\Debug\System.Security.Principal.Windows.xml
-C:\projects\EPOS20\CapaDatos\obj\Debug\CapaDatos.csproj.AssemblyReference.cache
-C:\projects\EPOS20\CapaDatos\obj\Debug\CapaDatos.csproj.CoreCompileInputs.cache
-C:\projects\EPOS20\CapaDatos\obj\Debug\CapaDatos.csproj.Up2Date
-C:\projects\EPOS20\CapaDatos\obj\Debug\CapaDatos.dll
-C:\projects\EPOS20\CapaDatos\obj\Debug\CapaDatos.pdb
->>>>>>> feature/epos20
