@@ -66,12 +66,6 @@ namespace CapaVisual_Login
 
             ValidarUsuario(txtNombreUsuario.Text, txtClaveUsuario.Text);
 
-            //if (_Login.BloquearUsuario(txtNombreUsuario.Text))
-            //{
-            //    MessageBox.Show("Usuario bloqueado. Por favor, contacte al departamento de sistemas.", "Usuario Bloqueado");
-            //    return;
-            //}
-
         }
 
         private void ValidarUsuario(string IdUsuario, string Contraseña)

@@ -61,7 +61,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FacturaDTO.cs" />
+    <Compile Include="FormatoLibroVentasDTO.cs" />
     <Compile Include="FormatoPdfDTO.cs" />
+    <Compile Include="ReporteGlobal_CierreCaja.cs" />
+    <Compile Include="ReporteGlobal_Facturas.cs" />
+    <Compile Include="ReporteGlobal_HojasExcels.cs" />
+    <Compile Include="ReporteGlobal_NotasDia.cs" />
+    <Compile Include="ReporteGlobal_PagosDia.cs" />
+    <Compile Include="ReporteGlobal_VueltosDia.cs" />
+    <Compile Include="tbLibroVentas_Reporte.cs" />
     <Compile Include="TB_CAORDSER.cs" />
     <Compile Include="TB_FACTURAS.cs" />
     <Compile Include="TB_TASA.cs" />

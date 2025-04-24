@@ -54,8 +54,8 @@ namespace CapaVisual_Login
         FrmMostrarReporte _FrmMostrarReporte = new FrmMostrarReporte();
         D_Anulacion _D_Anulacion = new D_Anulacion();
         FrmRepProSinPag _FrmRepProSinPag = new FrmRepProSinPag();
-        FrmRepOrden _FrmRepOrden = new FrmRepOrden();
-        FrmRepOrdenTContact _FrmRepOrdenTContact = new FrmRepOrdenTContact();
+        //FrmRepOrden _FrmRepOrden = new FrmRepOrden();
+        //FrmRepOrdenTContact _FrmRepOrdenTContact = new FrmRepOrdenTContact();
         public string NombreNCManual = "";
         int PaginaInico = 1, Indice = 0, NUmeroFilas = 12, PaginaFinal;
 
