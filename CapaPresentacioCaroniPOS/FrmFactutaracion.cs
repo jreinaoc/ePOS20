@@ -5904,6 +5904,13 @@ namespace CapaVisual_Login
                     rept = MovInventario(command);
                     MovInventarioo = true;
 
+                    if (rept != "SATISFACTORIO")
+                    {
+                        transaction.Rollback();
+                        return "";
+                    }
+
+
                     // Cuando la orden es lentes de contacto rebajo la reserva; ejecuto la modificacion en TB_LENTESCONTACTO y RelacionMovimientosLC
                     if (TB_CAORDSER.Cod_DetVta == "02" & _D_DetalleOrden.TB_PARAMETRO("LCManejaExist") == "1")
                     {
