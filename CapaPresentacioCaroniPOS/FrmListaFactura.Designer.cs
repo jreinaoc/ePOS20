@@ -302,9 +302,11 @@ namespace CapaVisual_Login
             this.Btn_LibroVentas.Size = new System.Drawing.Size(60, 35);
             this.Btn_LibroVentas.TabIndex = 66;
             this.Btn_LibroVentas.UseVisualStyleBackColor = false;
+            this.Btn_LibroVentas.Click += new System.EventHandler(this.Btn_LibroVentas_Click);
             // 
             // panel_ReporteGlobal
             // 
+            this.panel_ReporteGlobal.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel_ReporteGlobal.Controls.Add(this.lbl_Fecha_ReporteGlobal);
             this.panel_ReporteGlobal.Controls.Add(this.dtp_ReporteGlobal);
             this.panel_ReporteGlobal.Controls.Add(this.Lbl_ReporteGlobal);
@@ -350,6 +352,7 @@ namespace CapaVisual_Login
             this.Lbl_ReporteGlobal.Text = "Reporte Global";
             this.Lbl_ReporteGlobal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.Lbl_ReporteGlobal.Click += new System.EventHandler(this.label1_Click);
+            this.Lbl_ReporteGlobal.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Lbl_ReporteGlobal_MouseDown);
             // 
             // btnCancelar_ReporteGlobal
             // 

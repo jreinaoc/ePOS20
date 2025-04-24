@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,5 +19,13 @@ namespace CapaEntidades
         public decimal Fact_Impuesto { get; set; }
         public decimal Fact_IGTF { get; set; }
         public decimal Fact_Total { get; set; }
+
+
+        public bool EsTotal { get; set; } = false;
+        public decimal TotalOrden { get; set; }
+        public decimal TotalSubtotal { get; set; }
+        public decimal TotalImpuesto { get; set; }
+        public decimal TotalIGTF { get; set; }
+        public decimal Totaltotal { get; set; }
     }
 }

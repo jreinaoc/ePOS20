@@ -11,5 +11,16 @@ namespace CapaEntidades
         public static string UsuarioAutorizado_FrmClaveAutorizada { get; set; }
 
         public static string UsuarioAutorizado_FrmClaveGerente { get; set; }
+
+
+        /////
+
+
+        public static string CodSucursal { get; set; }
+        public static string Sucursal { get; set; }
+        public static string Compania { get; set; }
+        public static string Rif { get; set; }
+
+
     }
 }

@@ -1,10 +1,13 @@
-﻿using System;
+﻿using CapaDatos.Inicio_Datos;
+using log4net;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace CapaDatos.ListaFacturas_Datos
@@ -129,21 +132,92 @@ namespace CapaDatos.ListaFacturas_Datos
             }
         }
 
+        public DataSet PagosDia_ReporteGlobal(DateTime fecha)
+        {
+            using (SqlCommand cmd = new SqlCommand())
+            {
+                cmd.Connection = cn.LeerCadena();
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                StringBuilder query = new StringBuilder("SP_CPOS_ReporteGlobal_PagosDelDia");
+
+                cmd.Parameters.AddWithValue("@Fecha", fecha.Date);
+                cmd.CommandText = query.ToString();
+
+                DataSet dts = new DataSet();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dts);
+                return dts;
+            }
+        }
+
+        public DataSet VueltosDia_ReporteGlobal(DateTime fecha)
+        {
+            using (SqlCommand cmd = new SqlCommand())
+            {
+                cmd.Connection = cn.LeerCadena();
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                StringBuilder query = new StringBuilder("SP_CPOS_ReporteGlobal_VueltosDelDia");
+
+                cmd.Parameters.AddWithValue("@Fecha", fecha.Date);
+                cmd.CommandText = query.ToString();
+
+                DataSet dts = new DataSet();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dts);
+                return dts;
+            }
+        }
+
+        public DataSet NotasDia_ReporteGlobal(DateTime fecha)
+        {
+            using (SqlCommand cmd = new SqlCommand())
+            {
+                cmd.Connection = cn.LeerCadena();
+                cmd.CommandType = CommandType.Text;
+
+                StringBuilder query = new StringBuilder(@"
+                SELECT 
+                    ISNULL(NRONOTA, '') AS Numero, 
+                    ISNULL(NROCONTROL, '') AS NumeroControl, 
+                    ISNULL(CTE_CedIden, 0) AS Cedula, 
+                    ISNULL(Fact_Num, '') AS Factura, 
+                    ISNULL(MontoNota, 0) AS Monto, 
+                    ISNULL(MontoAplicado, 0) AS Aplicado, 
+                    ISNULL(SaldoNota, 0) AS Saldo
+
+                FROM TB_NOTASCREDITODEBITO
+                WHERE CAST(Fecha AS DATE) = @Fecha
+                ");
+
+                cmd.Parameters.AddWithValue("@Fecha", fecha.Date);
+                cmd.CommandText = query.ToString();
+
+                DataSet dts = new DataSet();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dts);
+                return dts;
+            }
+        }
 
 
+        //Reporte Libro Ventas
+        public DataSet CargarLibroVentas(string Fecha_inicio = "", string Fecha_fin = "")
+        {
+            SqlCommand cmd = new SqlCommand("SP_CPOS_LibroVentas_Datos", cn.LeerCadena());
 
+            cmd.CommandType = CommandType.StoredProcedure;
 
+            cmd.Parameters.AddWithValue("@Fecha_inicio", Fecha_inicio);
+            cmd.Parameters.AddWithValue("@Fecha_fin", Fecha_fin);
 
+            DataSet dts = new DataSet();
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            da.Fill(dts);
+            return (dts);
 
-
-
-
-
-
-
-
-
-
+        }
 
 
 

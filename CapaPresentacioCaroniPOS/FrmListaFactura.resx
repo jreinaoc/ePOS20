@@ -121,7 +121,7 @@
   <data name="Btnlupa.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAYAAAD0eNT6AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        wQAADsEBuJFr7QAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAACyJSURBVHhe7d15
+        vwAADr8BOAVTJAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAACyJSURBVHhe7d15
         3K7VvPjx3ax2806liKJEA5WpRCglZM5so+igyHSoOCRUHBoQZUypVCia0GlAhR9KSqVZaZ7H3Xx+n6/d
         PrXru/f1DPdzP9da6/N+vT7/nOMcdF3XutdzDWtNkRqyHK1Nr6B30na0I+1O36ID6Ug6gf5MF9BFD+tS
         unEOXU3xr/kr/ZGOp/j/dSjtR3vTbvQRejttQmtS/GealyRJ0hgsQxvQdNqBvkY/pVPpn3Q3/W9Pu4+u
@@ -318,7 +318,7 @@
   <data name="btnPDF.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAYAAAD0eNT6AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        wQAADsEBuJFr7QAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAACpESURBVHhe7d15
+        vwAADr8BOAVTJAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAACpESURBVHhe7d15
         0C5lfebxl4MiYNCIuCNbxmhUiIkZy7BZpsyYco0DWpVkXEstK1oiQRDjGAmBsKOJW/mPSf4Sxw1Qykoy
         QVEIVmayDBOi0YiyRFlkXwRUZq4fKHmF63DOebv7eu6++/up+v7THKC737vvfs/z9LIGTGwv9Vz1OnWs
         +gv1OXWh+rq6Vl2nblH/j2gB1VivMV9jv46BOhbqmKhjo46R16o6ZvZUADALT1E1eX1IfVndoNwESERb
@@ -1454,7 +1454,7 @@
   <data name="BtnReporteGlobal.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAYAAAD0eNT6AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        wwAADsMBx2+oZAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAI5lSURBVHhe7d0F
+        wQAADsEBuJFr7QAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAI5lSURBVHhe7d0F
         mFXV1wbwb7pgGLoZuru7u2voGLq7pUOxO7ARMLAVRDoUxQAVUUJKREIR278J+1vr6ijMeWc455689673
         eX6Pj8zM6Xv2uif2/j+JZ5Kb1Ca9yBSyjDxAnic7yMfkODlBvv3HL0SR36/4ty8I/95B8iZ5mTxKbiLT
         yUDSkBQk4UQiuVaiSCpZR06TPwgfd4GCl5eXm5ef14PXRyKRSBxNJClPepMbyCvkE/IzQScuu3Hh8BnZ
@@ -2068,7 +2068,7 @@
   <data name="Btn_LibroVentas.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAYAAAD0eNT6AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        wwAADsMBx2+oZAAAVC1JREFUeF7t3QmYVOWZ8P04yfvN+r0zk3Um+2TmTSYTQBMQWQRZG2j2pVl6ZRdB
+        wQAADsEBuJFr7QAAVC1JREFUeF7t3QmYVOWZ8P04yfvN+r0zk3Um+2TmTSYTQBMQWQRZG2j2pVl6ZRdB
         QVlUlN0NjcZEjDGi4hp3xX3fd8FdFER6QQXigrhG0K77fZ6iO2+d6rtOV/V5quvUOf/7un5XJtEuipo6
         5/7X2l9hsp/dncsO+HOn8r/b2an8W7s6TvrRzo7l/7OrQ0WPnR0rKsz/faL5z3PNf67f2XHSI+Y/Nxlv
         GXuMD41GQ3K1u2/ljn1Tq3c3HlkjQLrElUMaE/f3SyQe7Ctoo7NGSGOJuT0RxNam0yTDRGd2dar6mlny
