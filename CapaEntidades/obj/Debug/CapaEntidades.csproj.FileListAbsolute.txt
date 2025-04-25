@@ -17,8 +17,8 @@ C:\Programacion\CaroniPOS1\CapaEntidades\bin\Debug\Newtonsoft.Json.dll
 C:\Programacion\CaroniPOS1\CapaEntidades\bin\Debug\System.ComponentModel.Annotations.dll
 C:\Programacion\CaroniPOS1\CapaEntidades\bin\Debug\log4net.xml
 C:\Programacion\CaroniPOS1\CapaEntidades\bin\Debug\Newtonsoft.Json.xml
+C:\Programacion\CaroniPOS1\CapaEntidades\obj\Debug\CapaEntidades.csproj.AssemblyReference.cache
 C:\Programacion\CaroniPOS1\CapaEntidades\obj\Debug\CapaEntidades.csproj.CoreCompileInputs.cache
 C:\Programacion\CaroniPOS1\CapaEntidades\obj\Debug\CapaEntidades.csproj.CopyComplete
 C:\Programacion\CaroniPOS1\CapaEntidades\obj\Debug\CapaEntidades.dll
 C:\Programacion\CaroniPOS1\CapaEntidades\obj\Debug\CapaEntidades.pdb
-C:\Programacion\CaroniPOS1\CapaEntidades\obj\Debug\CapaEntidades.csproj.AssemblyReference.cache

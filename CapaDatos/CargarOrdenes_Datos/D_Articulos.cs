@@ -15,7 +15,7 @@ namespace CapaDatos.CargarOrdenes_Datos
         //El uso de la clase StringBuilder nos ayudara a devolver los mensajes 
         public readonly StringBuilder stringBuilder = new StringBuilder();
 
-        public List <TB_ARTICULO> ObtenerArticulos(SqlCommand command = null)  // Trae el detalle del articulo 
+        public List <TB_ARTICULO> ObtenerArticulos(string TipoTrabajo, string CodArticulo = "", SqlCommand command = null)  // Trae el detalle del articulo 
         {
             // Declarar la lista para almacenar los resultados
             List<TB_ARTICULO> listaArticulos = new List<TB_ARTICULO>();
@@ -31,9 +31,11 @@ namespace CapaDatos.CargarOrdenes_Datos
             SqlCommand cmd = command;
             cmd.CommandText = "SP_CPOS_GET_ARTICULO";
             cmd.CommandType = CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("@CodArticulo", CodArticulo);
+            command.Parameters.AddWithValue("@TipoTrabajo", TipoTrabajo);
 
-            // Ejecutar el comando y leer los resultados
-            using (SqlDataReader reader = command.ExecuteReader())
+                // Ejecutar el comando y leer los resultados
+                using (SqlDataReader reader = command.ExecuteReader())
             {
                 while (reader.Read())
                 {
@@ -250,5 +252,286 @@ namespace CapaDatos.CargarOrdenes_Datos
 
 
         }
+
+        public DataSet ValidarExamenConPrisma(int numExamen, string cteNacio, string cteCedula, SqlCommand command = null)
+        {
+
+                SqlDataAdapter da = new SqlDataAdapter();
+                DataSet ds = new DataSet();
+
+                try
+                {
+                    if (command == null)
+                    {
+                        SqlConnection connection = cn.LeerCadena();
+                        command = connection.CreateCommand();
+                    }
+                    SqlCommand cmd = command;
+
+                cmd.Parameters.Clear();
+                cmd.CommandText = "pGetExamenconPrisma";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@numExamen", numExamen);
+                cmd.Parameters.AddWithValue("@cteNacio", cteNacio);
+                cmd.Parameters.AddWithValue("@cteCedula", cteCedula);
+
+                // Llenar el DataSet con los resultados del procedimiento almacenado
+                da = new SqlDataAdapter(cmd);
+                da.Fill(ds);
+
+                // Cerrar la conexión
+                cmd.Connection.Close();
+
+                // Verificar si el DataSet tiene datos
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    return ds;
+                }
+                else
+                {
+                    return null; // Retornar null si no hay datos
+                }
+            }
+            catch (Exception ex)
+            {
+                string Error = string.Format("Error: {0}", ex.Message);
+                return null;
+            }
+        }
+
+        public DataSet BucarServicioAgregado( SqlCommand command = null)
+        {
+            try
+            {
+                if (command == null)
+                {
+                    SqlConnection connection = cn.LeerCadena();
+                    command = connection.CreateCommand();
+                }
+                SqlCommand cmd = command;
+                cmd.Parameters.Clear();
+
+                cmd.CommandText = "SP_CPOS_ObtenerServiciosAgregados";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                DataSet ds = new DataSet();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(ds);
+                cmd.Parameters.Clear();
+                // Verificar si el DataSet tiene datos
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    return ds;
+                }
+                else
+                {
+                    return null; // Retornar null si no hay datos
+                }
+
+            }
+            catch (Exception ex)
+            {
+                string Error = string.Format("Error: {0}", ex.Message);
+                return null;
+            }
+
+
+        }
+
+        public List<TB_FICCONV> ObtenerRx(string nacionalidad, string cedulaCliente, string sucursalActual, int numeroExamen, SqlCommand command = null)
+        {
+            stringBuilder.Clear();
+            try
+            {
+                // Crear la lista para almacenar los resultados
+                List<TB_FICCONV> listaFicConv = new List<TB_FICCONV>();
+
+                // Configurar el comando SQL para ejecutar el procedimiento almacenado
+                if (command == null)
+                {
+                    SqlConnection connection = cn.LeerCadena();
+                    command = connection.CreateCommand();
+                }
+                SqlCommand cmd = command;
+                cmd.Parameters.Clear();
+
+                cmd.CommandText = "SP_CPOS_ObtenerRx";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                // Agregar los parámetros al comando
+                cmd.Parameters.AddWithValue("@Nacionalidad", nacionalidad);
+                cmd.Parameters.AddWithValue("@CedulaCliente", cedulaCliente);
+                cmd.Parameters.AddWithValue("@SucursalActual", sucursalActual);
+                cmd.Parameters.AddWithValue("@NumeroExamen", numeroExamen);
+
+                    // Ejecutar el comando y leer los resultados
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            // Crear un nuevo objeto TB_FICCONV y llenarlo con los datos del lector
+                            TB_FICCONV ficConv = new TB_FICCONV
+                            {
+                                CTE_Nacio = reader["CTE_Nacio"].ToString()[0],
+                                CTE_CedIden = reader["CTE_CedIden"].ToString(),
+                                COD_Sucursal = reader["COD_Sucursal"].ToString(),
+                                NUM_Examen = Convert.ToInt32(reader["NUM_Examen"]),
+                                DPDL = reader["DPDL"] as float?,
+                                DPDC = reader["DPDC"] as float?,
+                                DPIL = reader["DPIL"] as float?,
+                                DPIC = reader["DPIC"] as float?,
+                                ALTD = reader["ALTD"] as float?,
+                                ALTI = reader["ALTI"] as float?,
+                                PRISMAD = reader["PRISMAD"] as float?,
+                                PRISMAI = reader["PRISMAI"] as float?,
+                                PBASED = reader["PBASED"] as string,
+                                PBASEI = reader["PBASEI"] as string,
+                                OFTI = reader["OFTI"] as string,
+                                OFTD = reader["OFTD"] as string,
+                                AVD = reader["AVD"] as float?,
+                                AVI = reader["AVI"] as float?,
+                                RETI = reader["RETI"] as string,
+                                RETD = reader["RETD"] as string,
+                                PRISMAD2 = reader["PRISMAD2"] as float?,
+                                PRISMAI2 = reader["PRISMAI2"] as float?,
+                                PBASED2 = reader["PBASED2"] as string,
+                                PBASEI2 = reader["PBASEI2"] as string,
+                                PROGVISIONLEJOSDISTD = reader["PROGVISIONLEJOSDISTD"] as float?,
+                                PROGVISIONLEJOSDISTI = reader["PROGVISIONLEJOSDISTI"] as float?,
+                                PROGVISIONCERCADISTD = reader["PROGVISIONCERCADISTD"] as float?,
+                                PROGVISIONCERCADISTI = reader["PROGVISIONCERCADISTI"] as float?,
+                                PROGVISIONMEDIADISTD = reader["PROGVISIONMEDIADISTD"] as float?,
+                                PROGVISIONMEDIADISTI = reader["PROGVISIONMEDIADISTI"] as float?
+                            };
+
+                            // Agregar el objeto a la lista
+                            listaFicConv.Add(ficConv);
+                        }
+
+                    }
+                // Retornar la lista con los resultados
+                return listaFicConv;
+            }
+            catch (Exception ex)
+            {
+                stringBuilder.Append(Environment.NewLine + string.Format("Error: {0}", ex.Message));
+                return null;
+            }
+        }
+
+        public List<TB_Examen> ObtenerExamen(string nacionalidad, string cedulaCliente, string sucursalActual, int numeroExamen, SqlCommand command = null)
+        {
+            stringBuilder.Clear();
+            try
+            {
+                // Crear una instancia de TB_Examen para almacenar los resultados
+                // Crear la lista para almacenar los resultados
+                List<TB_Examen> _TB_Examen= new List<TB_Examen>();
+                    
+                    // Configurar el comando SQL para ejecutar el procedimiento almacenado
+                    if (command == null)
+                    {
+                        SqlConnection connection = cn.LeerCadena();
+                        command = connection.CreateCommand();
+                    }
+                    SqlCommand cmd = command;
+                    cmd.Parameters.Clear();
+
+                    cmd.CommandText = "SP_CPOS_ObtenerExamen";
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    // Agregar los parámetros al comando
+                    cmd.Parameters.AddWithValue("@Nacionalidad", nacionalidad);
+                    cmd.Parameters.AddWithValue("@CedulaCliente", cedulaCliente);
+                    cmd.Parameters.AddWithValue("@SucursalActual", sucursalActual);
+                    cmd.Parameters.AddWithValue("@NumeroExamen", numeroExamen);
+
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                        // Crear un nuevo objeto TB_Examen y llenarlo con los datos del lector
+                        TB_Examen  examen = new TB_Examen
+                               {
+                            CTE_Nacio = reader["CTE_Nacio"].ToString()[0],
+                            CTE_CedIden = reader["CTE_CedIden"].ToString(),
+                            COD_Sucursal = reader["COD_Sucursal"].ToString(),
+                            NUM_Examen = reader["NUM_Examen"] != DBNull.Value ? Convert.ToInt32(reader["NUM_Examen"]) : 0,
+                            FEC_Examen = reader["FEC_Examen"] != DBNull.Value ? (DateTime?)reader["FEC_Examen"] : null,
+                            ESFD = reader["ESFD"] != DBNull.Value ? (float?)Convert.ToSingle(reader["ESFD"]) : null,
+                            ESFI = reader["ESFI"] != DBNull.Value ? (float?)Convert.ToSingle(reader["ESFI"]) : null,
+                            CILD = reader["CILD"] != DBNull.Value ? (float?)Convert.ToSingle(reader["CILD"]) : null,
+                            CILI = reader["CILI"] != DBNull.Value ? (float?)Convert.ToSingle(reader["CILI"]) : null,
+                            EJED = reader["EJED"] != DBNull.Value ? (float?)Convert.ToSingle(reader["EJED"]) : null,
+                            EJEI = reader["EJEI"] != DBNull.Value ? (float?)Convert.ToSingle(reader["EJEI"]) : null,
+                            ADDD = reader["ADDD"] != DBNull.Value ? (float?)Convert.ToSingle(reader["ADDD"]) : null,
+                            ADDI = reader["ADDI"] != DBNull.Value ? (float?)Convert.ToSingle(reader["ADDI"]) : null,
+                            OBSERVACIONES = reader["OBSERVACIONES"] as string,
+                            TIPO_Optm = reader["TIPO_Optm"] as string,
+                            NOM_Optm = reader["NOM_Optm"] as string,
+                            EXA_Feccreacion = Convert.ToDateTime(reader["EXA_Feccreacion"]),
+                            EXA_Fecmod = reader["EXA_Fecmod"] as DateTime?,
+                            USER_CREA = reader["USER_CREA"].ToString(),
+                            USER_MOD = reader["USER_MOD"] as string,
+                            TIPOEXAMEN = reader["TIPOEXAMEN"] as string,
+                            NOMBRE_CLINICA_OPTM = reader["NOMBRE_CLINICA_OPTM"] as string,
+                            TLF_TIPO = reader["TLF_TIPO"] as string,
+                            TLF_COD = reader["TLF_COD"] as string,
+                            TLF_NUMERO = reader["TLF_NUMERO"] as string,
+                            TLF_EXT = reader["TLF_EXT"] as string,
+                            ESFD2 = reader["ESFD2"] != DBNull.Value ? (float?)Convert.ToSingle(reader["ESFD2"]) : null,
+                            ESFI2 = reader["ESFI2"] != DBNull.Value ? (float?)Convert.ToSingle(reader["ESFI2"]) : null,
+                            CILD2 = reader["CILD2"] != DBNull.Value ? (float?)Convert.ToSingle(reader["CILD2"]) : null,
+                            CILI2 = reader["CILI2"] != DBNull.Value ? (float?)Convert.ToSingle(reader["CILI2"]) : null,
+                            EJED2 = reader["EJED2"] != DBNull.Value ? (float?)Convert.ToSingle(reader["EJED2"]) : null,
+                            EJEI2 = reader["EJEI2"] != DBNull.Value ? (float?)Convert.ToSingle(reader["EJEI2"]) : null,
+                            CodigoMimesys = reader["CodigoMimesys"] as string
+                        };
+
+                        // Agregar el objeto a la lista
+                        _TB_Examen.Add(examen);
+
+                        }
+                    }
+
+                // Retornar la lista con los resultados
+                return _TB_Examen; 
+            }
+            catch (Exception ex)
+            {
+                stringBuilder.Append(Environment.NewLine + string.Format("Error: {0}", ex.Message));
+                return null;
+            }
+        }
+        public DataTable BucarTipoVenta( SqlCommand command = null)
+        {
+            try
+            {
+                if (command == null)
+                {
+                    SqlConnection connection = cn.LeerCadena();
+                    command = connection.CreateCommand();
+                }
+                SqlCommand cmd = command;
+                cmd.Parameters.Clear();
+
+                cmd.CommandText = "SP_CPOS_TipoVenta";
+                cmd.CommandType = CommandType.StoredProcedure;   
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                cmd.Parameters.Clear();
+                return dt;
+
+            }
+            catch (Exception ex)
+            {
+                string Error = string.Format("Error: {0}", ex.Message);
+                return null;
+            }
+
+
+        }
+
     }
 }

@@ -19,7 +19,7 @@ namespace CapaVisual_Login
     {
         public FrmCargarOrden()
         {
-            InitializeComponent();   
+            InitializeComponent();
         }
 
 
@@ -182,6 +182,7 @@ namespace CapaVisual_Login
             HabilitacionControl("Bloquear_Lista_Articulo");
             LimpiarControles("Motro_Busqueda_Articulos");
             LimpiarControles("Carga_Articulos");
+            Txt_Tap3_Articulo_Cantidad.Focus();
         }
 
         private void LimpiarControles(string Case)
@@ -269,9 +270,13 @@ namespace CapaVisual_Login
                     this.Txt_Pnl3_Articulo.Enabled = true;
                     this.Rd_Pnl3_Descripcion.Enabled = true;
                     this.Rd_Pnl3_Codigo.Enabled = true;
-                    this.Rd_Pnl3_Codigo.Checked= true;
+                    this.Rd_Pnl3_Codigo.Checked = true;
                     this.Rd_Pnl3_Descripcion.Checked = false;
                     this.btnCancelar3.Enabled = true;
+
+                    this.btnPrincipal.Enabled = false;
+                    this.btnExamen.Enabled = false;
+                    this.btnCargarOrden.Enabled = false;
 
                     break;
 
@@ -290,6 +295,10 @@ namespace CapaVisual_Login
                     this.Rd_Pnl3_Codigo.Enabled = false;
                     this.btnCancelar3.Enabled = false;
 
+                    this.btnPrincipal.Enabled = true;
+                    this.btnExamen.Enabled = true;
+                    this.btnCargarOrden.Enabled = true;
+
                     break;
 
             }
@@ -301,14 +310,14 @@ namespace CapaVisual_Login
         {
             if (e.KeyChar == 13)
             {
-               
+
             }
         }
 
         private void Txt_Pnl3_Articulo_TextChanged(object sender, EventArgs e)
         {
             // Filtrar los datos según el texto ingresado en el TextBox
-            _L_Articulo.FiltrarArticulos(Txt_Pnl3_Articulo.Text.ToLower(), Rd_Pnl3_Descripcion, Rd_Pnl3_Codigo, Dgv_Pnl3_Articulo, listaArticulos, listaTemporal);          
+            _L_Articulo.FiltrarArticulos(Txt_Pnl3_Articulo.Text.ToLower(), Rd_Pnl3_Descripcion, Rd_Pnl3_Codigo, Dgv_Pnl3_Articulo, listaArticulos, listaTemporal);
 
         }
 
@@ -349,10 +358,10 @@ namespace CapaVisual_Login
 
                 //Ancho de columna
                 Dgv_Pnl3_Articulo.Columns["CodArticulo"].Width = 80;
-                Dgv_Pnl3_Articulo.Columns["DESART"].Width = 320;
+                Dgv_Pnl3_Articulo.Columns["DESART"].Width = 220;
                 Dgv_Pnl3_Articulo.Columns["ART_PVP"].Width = 100;
-                Dgv_Pnl3_Articulo.Columns["ART_EXIST"].Width = 40;
-                Dgv_Pnl3_Articulo.Columns["MARCA"].Width = 60;
+                Dgv_Pnl3_Articulo.Columns["ART_EXIST"].Width = 75;
+                Dgv_Pnl3_Articulo.Columns["MARCA"].Width = 50;
 
                 // No modificable
                 Dgv_Pnl3_Articulo.Columns["CodArticulo"].ReadOnly = true;
@@ -370,7 +379,7 @@ namespace CapaVisual_Login
                 /// Se utiliza un bucle foreach para recorrer todas las columnas del DataGridView. 
                 /// Si el nombre de la columna no coincide con las columnas que deseas mostrar, 
                 /// se oculta configurando su propiedad Visible como false:
-                
+
                 foreach (DataGridViewColumn column in Dgv_Pnl3_Articulo.Columns)
                 {
                     if (column.Name != "CodArticulo" &&
@@ -387,7 +396,7 @@ namespace CapaVisual_Login
 
                 //quitar seleccion por defecto de datagrid
                 Dgv_Pnl3_Articulo.ClearSelection();
-         
+
                 //AutoGenerar Columnas:
                 Dgv_Pnl3_Articulo.AutoGenerateColumns = false;
 
@@ -407,6 +416,7 @@ namespace CapaVisual_Login
         private void Dgv_Pnl3_Articulo_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             // Verificar que la fila seleccionada no sea una fila nueva
+
             if (e.RowIndex >= 0 && !Dgv_Pnl3_Articulo.Rows[e.RowIndex].IsNewRow)
             {
                 // Obtener el artículo seleccionado
@@ -420,6 +430,9 @@ namespace CapaVisual_Login
                     Txt_Tap3_Articulo_Precio.Text = articulo.ART_PVP.ToString("F2"); // Formato de 2 decimales
                     Txt_Tap3_Articulo_Cantidad.Text = string.Empty; // Limpiar el campo de cantidad
 
+                    VisualizarPanel("MostrarCabezeraSecundaria");
+                    HabilitacionControl("Bloquear_Lista_Articulo");
+
                     // Establecer el foco en el TextBox de cantidad
                     Txt_Tap3_Articulo_Cantidad.Focus();
                 }
@@ -429,10 +442,19 @@ namespace CapaVisual_Login
         private void CargarArticulos_Girdvew()
         {
             // Validar que los campos no estén vacíos
-            if (_L_Articulo.CargarArticulo_ValidarTexbox(Txt_Tap3_Articulo_Codigo, Txt_Tap3_Articulo_Descripcion, Txt_Tap3_Articulo_Precio, Txt_Tap3_Articulo_Cantidad))
+            if (_L_Articulo.CargarArticulo_ValidarTexbox(Txt_Tap3_Articulo_Codigo, Txt_Tap3_Articulo_Descripcion, Txt_Tap3_Articulo_Precio, Txt_Tap3_Articulo_Cantidad, Txt_Pnl2_Examen))
             {
                 _FrmMensajes.co = 2;
                 _FrmMensajes.avisomensaje("Por favor, complete todos los campos antes de agregar el artículo.");
+                _FrmMensajes.ShowDialog();
+                return;
+            }
+
+            // Validar Precio
+            if (_L_Articulo.CargarArticulo_ValidarPrecio(Txt_Tap3_Articulo_Precio))
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("El precio del articulo debe ser mayor que 0.");
                 _FrmMensajes.ShowDialog();
                 return;
             }
@@ -441,13 +463,24 @@ namespace CapaVisual_Login
             _L_Articulo.FormatearCampo7Digitos(Txt_Tap3_Articulo_Codigo);
 
             // Verifica si el articulo ya fue Agregado
-            if (_L_Articulo.CargarArticulo_EvitarDuplicado(Dgv_Tap3_Articulo, Txt_Tap3_Articulo_Codigo))
+            if (_L_Articulo.CargarArticulo_EvitarDuplicado(Dgv_Tap3_Articulo, Txt_Tap3_Articulo_Codigo.Text))
             {
                 _FrmMensajes.co = 2;
                 _FrmMensajes.avisomensaje("El artículo ya fue agregado al listado");
                 _FrmMensajes.ShowDialog();
                 return;
             }
+
+            //Verifico los productos permitidos
+            Boolean VerificoProductos = _L_Articulo.VerificoProductosPermitidos(Txt_Tap3_Articulo_Codigo.Text, Cbx_Pnl2_Trbajo.SelectedValue.ToString(), Dgv_Tap3_Articulo);
+            if (VerificoProductos== false && _L_Articulo.stringBuilder.Length > 0)
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje(_L_Articulo.stringBuilder.ToString());
+                _FrmMensajes.ShowDialog();
+                return;
+            }
+
 
             // Validar la existencia del producto
             string mensaje = _L_Articulo.ValidarExistenciaProducto(Txt_Tap3_Articulo_Codigo.Text, Convert.ToInt16(Txt_Tap3_Articulo_Cantidad.Text), listaArticulos);
@@ -496,13 +529,18 @@ namespace CapaVisual_Login
 
             // Establecer el foco en el TextBox de código
             Txt_Tap3_Articulo_Codigo.Focus();
+
         }
 
         private void Txt_Tap3_Articulo_Cantidad_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
-                CargarArticulos_Girdvew();
+                // Validar que el texto sea un número válido y mayor que 0
+                if (int.TryParse(Txt_Tap3_Articulo_Cantidad.Text, out int cantidad) && cantidad > 0)
+                {
+                    CargarArticulos_Girdvew();
+                }
             }
         }
 
@@ -515,20 +553,26 @@ namespace CapaVisual_Login
 
                 if (articulo == null)
                 {
-                    MessageBox.Show("El artículo no existe en la lista.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje("El artículo no existe en la lista.");
+                    _FrmMensajes.ShowDialog();
                     return;
                 }
 
                 // Validar que los campos de precio y cantidad sean válidos
                 if (!decimal.TryParse(Txt_Tap3_Articulo_Precio.Text, out decimal precio))
                 {
-                    MessageBox.Show("El precio ingresado no es válido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje("El precio ingresado no es válido.");
+                    _FrmMensajes.ShowDialog();
                     return;
                 }
 
                 if (!int.TryParse(Txt_Tap3_Articulo_Cantidad.Text, out int cantidad))
                 {
-                    MessageBox.Show("La cantidad ingresada no es válida.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje("La cantidad ingresada no es válida.");
+                    _FrmMensajes.ShowDialog();
                     return;
                 }
 
@@ -552,19 +596,8 @@ namespace CapaVisual_Login
                 }
 
 
+                _L_Articulo.AgregarFila(Dgv_Tap3_Articulo, articulo.CodArticulo, articulo.DESART, cantidad, (decimal) precio, (decimal)articulo.PORCTDESCUENTO, (decimal) total, impuesto, _Trabajo.T_OJO);
 
-
-                // Agregar el artículo al DataGridView
-                Dgv_Tap3_Articulo.Rows.Add(
-                    articulo.CodArticulo,
-                    articulo.DESART,
-                    cantidad, // Cantidad desde el TextBox
-                    precio,   // Precio desde el TextBox
-                    articulo.PORCTDESCUENTO,
-                    total,    // Total calculado
-                    impuesto,
-                    _Trabajo.T_OJO
-                );
 
                 // Limpiar los TextBox después de agregar el artículo
                 Txt_Tap3_Articulo_Codigo.Clear();
@@ -576,118 +609,35 @@ namespace CapaVisual_Login
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al agregar el artículo: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void Formato_Dgv_Carga_Articulo()
-        {
-            try
-            {
-
-                //Centrar todas las colucnas 
-                Dgv_Tap3_Articulo.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                Dgv_Tap3_Articulo.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-
-                // Quitar la flecha del selector de fila
-                Dgv_Tap3_Articulo.RowHeadersVisible = false;
-
-                // Deshabilitar el redimensionamiento de filas
-                Dgv_Tap3_Articulo.AllowUserToResizeRows = false;
-
-                //asignar Nombres a cada colucna 
-                Dgv_Tap3_Articulo.Columns["CodArticulo"].HeaderText = "Código";
-                Dgv_Tap3_Articulo.Columns["DESART"].HeaderText = "Descripción";
-                Dgv_Tap3_Articulo.Columns["ART_EXIST"].HeaderText = "Cantidad";
-                Dgv_Tap3_Articulo.Columns["ART_PVP"].HeaderText = "Precio";
-                Dgv_Tap3_Articulo.Columns["PORCTDESCUENTO"].HeaderText = "%Descuento";
-                Dgv_Tap3_Articulo.Columns["Total"].HeaderText = "Total";
-                Dgv_Tap3_Articulo.Columns["Impuesto"].HeaderText = "%Impuesto";
-                Dgv_Tap3_Articulo.Columns["Ojo"].HeaderText = "Ojo";
-                //Dgv_Tap3_Articulo.Columns["Eliminar"].HeaderText = "";
-
-
-                //Ancho de columna
-                Dgv_Tap3_Articulo.Columns["CodArticulo"].Width = 80;
-                Dgv_Tap3_Articulo.Columns["DESART"].Width = 320;
-                Dgv_Tap3_Articulo.Columns["ART_EXIST"].Width = 60;
-                Dgv_Tap3_Articulo.Columns["ART_PVP"].Width = 100;
-                Dgv_Tap3_Articulo.Columns["PORCTDESCUENTO"].Width = 100;
-                Dgv_Tap3_Articulo.Columns["Total"].Width = 100;
-                Dgv_Tap3_Articulo.Columns["Impuesto"].Width = 100;
-                Dgv_Tap3_Articulo.Columns["Ojo"].Width = 60;
-                Dgv_Tap3_Articulo.Columns["Eliminar"].Width = 125;
-
-                // No modificable
-                Dgv_Tap3_Articulo.Columns["CodArticulo"].ReadOnly = true;
-                Dgv_Tap3_Articulo.Columns["DESART"].ReadOnly = true;
-                Dgv_Tap3_Articulo.Columns["ART_EXIST"].ReadOnly = true;
-                Dgv_Tap3_Articulo.Columns["ART_PVP"].ReadOnly = true;
-                Dgv_Tap3_Articulo.Columns["PORCTDESCUENTO"].ReadOnly = true;
-                Dgv_Tap3_Articulo.Columns["Total"].ReadOnly = true;
-                Dgv_Tap3_Articulo.Columns["Impuesto"].ReadOnly = true;
-                Dgv_Tap3_Articulo.Columns["Ojo"].ReadOnly = true;
-                Dgv_Tap3_Articulo.Columns["Eliminar"].ReadOnly = true;
-
-
-                Dgv_Tap3_Articulo.Columns["CodArticulo"].SortMode = DataGridViewColumnSortMode.NotSortable;
-                Dgv_Tap3_Articulo.Columns["DESART"].SortMode = DataGridViewColumnSortMode.NotSortable;
-                Dgv_Tap3_Articulo.Columns["ART_EXIST"].SortMode = DataGridViewColumnSortMode.NotSortable;
-                Dgv_Tap3_Articulo.Columns["ART_PVP"].SortMode = DataGridViewColumnSortMode.NotSortable;
-                Dgv_Tap3_Articulo.Columns["PORCTDESCUENTO"].SortMode = DataGridViewColumnSortMode.NotSortable;
-                Dgv_Tap3_Articulo.Columns["Total"].SortMode = DataGridViewColumnSortMode.NotSortable;
-                Dgv_Tap3_Articulo.Columns["Impuesto"].SortMode = DataGridViewColumnSortMode.NotSortable;
-                Dgv_Tap3_Articulo.Columns["Ojo"].SortMode = DataGridViewColumnSortMode.NotSortable;
-                Dgv_Tap3_Articulo.Columns["Eliminar"].SortMode = DataGridViewColumnSortMode.NotSortable; ;
-
-                /// Se utiliza un bucle foreach para recorrer todas las columnas del DataGridView. 
-                /// Si el nombre de la columna no coincide con las columnas que deseas mostrar, 
-                /// se oculta configurando su propiedad Visible como false:
-
-                foreach (DataGridViewColumn column in Dgv_Tap3_Articulo.Columns)
-                {
-                    if (column.Name != "CodArticulo" &&
-                        column.Name != "DESART" &&
-                        column.Name != "ART_EXIST" &&
-                        column.Name != "ART_PVP" &&
-                        column.Name != "PORCTDESCUENTO" &&
-                        column.Name != "Total" &&
-                        column.Name != "Impuesto" &&
-                        column.Name != "Ojo" &&
-                        column.Name != "Eliminar")
-                    {
-                        column.Visible = false;
-                    }
-                }
-
-
-
-                //quitar seleccion por defecto de datagrid
-                Dgv_Tap3_Articulo.ClearSelection();
-
-                //AutoGenerar Columnas:
-                Dgv_Tap3_Articulo.AutoGenerateColumns = false;
-
-
-            }
-
-
-            catch (Exception ex)
-            {
                 _FrmMensajes.co = 2;
                 _FrmMensajes.avisomensaje(string.Format("Error: {0}", ex.Message) + ", Error inesperado");
                 _FrmMensajes.ShowDialog();
-            }
 
+            }
         }
+ 
 
         private void Dgv_Tap3_Articulo_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             //DgvListadoOrdenes.Columns["Fec_Crea"]
 
-            if (Dgv_Tap3_Articulo.Columns[e.ColumnIndex].Name == "Eliminar")
+            if (e.ColumnIndex >= 0 && Dgv_Tap3_Articulo.Columns[e.ColumnIndex].Name == "Eliminar")
             {
-                 LimpiarGrid();
+                // Verificar si se puede borrar el artículo
+                bool puedeBorrar = _L_Articulo.VerificarYBorrarArticulo(Dgv_Tap3_Articulo, e.RowIndex);
+
+                if (puedeBorrar)
+                {
+                    // Si se puede borrar, eliminar la fila
+                    Dgv_Tap3_Articulo.Rows.RemoveAt(e.RowIndex);
+                }
+                else
+                {
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje("No se puede borrar este artículo");
+                    _FrmMensajes.ShowDialog();
+                }
+
 
             }
 
@@ -697,17 +647,22 @@ namespace CapaVisual_Login
         {
             try
             {
-                //limpiar el grid 
-                Dgv_Tap3_Articulo.DataSource = "";
-                Dgv_Tap3_Articulo.DataMember = "";
+                // Desvincular el DataGridView de su fuente de datos
+                Dgv_Tap3_Articulo.DataSource = null;
+                Dgv_Tap3_Articulo.DataMember = null;
 
+                // Eliminar todas las filas
+                Dgv_Tap3_Articulo.Rows.Clear();
+
+                // Eliminar todas las columnas
+                Dgv_Tap3_Articulo.Columns.Clear();
+
+                // Verificar y eliminar la columna "Eliminar" si existe
                 var dataGridViewColumn2 = Dgv_Tap3_Articulo.Columns["Eliminar"];
-
                 if (dataGridViewColumn2 != null)
                 {
-                    Dgv_Tap3_Articulo.Columns.RemoveAt(Dgv_Tap3_Articulo.Columns.Count - 1);
+                    Dgv_Tap3_Articulo.Columns.Remove(dataGridViewColumn2);
                 }
-
             }
 
             catch (Exception ex)
@@ -733,16 +688,16 @@ namespace CapaVisual_Login
                 Icon IconAtomico;
 
 
-                    //if (ModoClaro == false)
-                    //{
-                        IconAtomico = new Icon(Environment.CurrentDirectory + @"\\cuadraditoOscuro2.ico");
-                        HabEliminar = true; //Se manda señal de boton ACTIVADO para realizar validaciones posteriores 
-                    //}
-                    //else
-                    //{
-                    //    IconAtomico = new Icon(Environment.CurrentDirectory + @"\\cuadraditoOscuro.ico");
-                    //     HabEliminar = true; //Se manda señal de boton ACTIVADO para realizar validaciones posteriores 
-                    //}
+                //if (ModoClaro == false)
+                //{
+                IconAtomico = new Icon(Environment.CurrentDirectory + @"\\Eliminar_Ordenes.ico");
+                HabEliminar = true; //Se manda señal de boton ACTIVADO para realizar validaciones posteriores 
+                                    //}
+                                    //else
+                                    //{
+                                    //    IconAtomico = new Icon(Environment.CurrentDirectory + @"\\cuadraditoOscuro.ico");
+                                    //     HabEliminar = true; //Se manda señal de boton ACTIVADO para realizar validaciones posteriores 
+                                    //}
 
 
                 e.Graphics.DrawIcon(IconAtomico, e.CellBounds.Left + 1, e.CellBounds.Top + 0);
@@ -761,6 +716,17 @@ namespace CapaVisual_Login
             if (tabControl.SelectedIndex == 2) // El índice es 0-based, por lo que la pestaña 3 tiene índice 2
             {
                 VisualizarPanel("MostrarCabezeraSecundaria");
+                _L_Articulo.InicializarDataGridViewTotales(Dgv_Tap3_Totales);
+                Formato_Dgv_Totales();
+                _L_Articulo.BucarTipoVenta(Cbx_Pnl2_Trbajo);
+            }
+            else if (tabControl.SelectedIndex == 0)
+            {
+                VisualizarPanel("MostrarCabezeraPrincipal");
+            }
+            else if (tabControl.SelectedIndex == 1)
+            {
+                VisualizarPanel("MostrarCabezeraPrincipal");
             }
         }
 
@@ -771,7 +737,7 @@ namespace CapaVisual_Login
             {
                 VisualizarPanel("Lista_Articulo");
                 HabilitacionControl("Habilitar_Lista_Articulo");
-                _L_Articulo.CargarArticulos(Dgv_Pnl3_Articulo, listaArticulos);
+                _L_Articulo.CargarArticulos(Dgv_Pnl3_Articulo, listaArticulos, Cbx_Pnl2_Trbajo.SelectedValue.ToString());
                 if (_L_Articulo.stringBuilder.Length > 0)
                 {
                     _FrmMensajes.co = 2;
@@ -786,6 +752,9 @@ namespace CapaVisual_Login
                     Formato_Dgv_Busqueda_Articulo();
                 }
 
+                // Establecer el foco en el TextBox de cantidad
+                Txt_Pnl3_Articulo.Focus();
+
                 _L_Articulo.stringBuilder.Clear();
 
                 // Evitar que el evento se propague
@@ -795,16 +764,147 @@ namespace CapaVisual_Login
             else if (e.KeyCode == Keys.Enter)
             {
                 // Acción para Enter
-                _L_Articulo.CargarArticulos(Dgv_Pnl3_Articulo, listaArticulos);
+                _L_Articulo.CargarArticulos(Dgv_Pnl3_Articulo, listaArticulos, Cbx_Pnl2_Trbajo.SelectedValue.ToString());
 
                 //Formatear los caracteres a 7 Digitos cuando es un cristal 
                 _L_Articulo.FormatearCampo7Digitos(Txt_Tap3_Articulo_Codigo);
 
                 // Buscar el articulo 
-                _L_Articulo.FiltrarArticulos_Tap3(Txt_Tap3_Articulo_Codigo.Text ,listaArticulos, listaTemporal, Txt_Tap3_Articulo_Codigo, Txt_Tap3_Articulo_Descripcion, Txt_Tap3_Articulo_Cantidad , Txt_Tap3_Articulo_Precio);
+                _L_Articulo.FiltrarArticulos_Tap3(Txt_Tap3_Articulo_Codigo.Text, listaArticulos, listaTemporal, Txt_Tap3_Articulo_Codigo, Txt_Tap3_Articulo_Descripcion, Txt_Tap3_Articulo_Precio, Txt_Tap3_Articulo_Cantidad);
 
                 // Evitar que el evento se propague
                 e.Handled = true;
+            }
+        }
+
+        private void Btn_Tap3_Cancelar_Click(object sender, EventArgs e)
+        {
+            LimpiarGrid();
+        }
+
+        private void btnPrincipal_CheckedChanged(object sender, EventArgs e)
+        {
+            tabControl.SelectTab(0);
+        }
+
+        private void btnExamen_CheckedChanged(object sender, EventArgs e)
+        {
+            tabControl.SelectTab(1);
+        }
+
+        private void btnDetalleOrden_CheckedChanged(object sender, EventArgs e)
+        {
+            tabControl.SelectTab(2);
+        }
+
+        private void Dgv_Tap3_Articulo_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        {
+            // Verifico si es un cristal y si posee servicio agregado
+            for (int numFilas = e.RowIndex; numFilas < e.RowIndex + e.RowCount; numFilas++)
+            {
+                if (Dgv_Tap3_Articulo.Rows[numFilas].Cells["CodArticulo"].Value != null &&
+                    Dgv_Tap3_Articulo.Rows[numFilas].Cells["CodArticulo"].Value.ToString().StartsWith("C"))
+                {
+                    int FilaCRT = numFilas;
+                    //Verifico Prisma 
+                    _L_Articulo.CargarServicioOPrima(Dgv_Tap3_Articulo, "Prisma", Convert.ToInt32(Txt_Pnl2_Examen.Text), Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Dgv_Tap3_Articulo.Rows[numFilas].Cells["Ojo"].Value.ToString());
+
+                    if (Convert.ToInt32(Dgv_Tap3_Articulo.Rows[numFilas].Cells["ART_EXIST"].Value) == 2)
+                    {
+                        //Verifico Diotria
+                        _L_Articulo.EvaluoServicioAgregado(Dgv_Tap3_Articulo, numFilas, "D", Convert.ToInt32(Txt_Pnl2_Examen.Text), Cbx_Pnl2_Trbajo.SelectedValue.ToString(), Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2));
+                        _L_Articulo.EvaluoServicioAgregado(Dgv_Tap3_Articulo,numFilas, "I", Convert.ToInt32(Txt_Pnl2_Examen.Text), Cbx_Pnl2_Trbajo.SelectedValue.ToString(), Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2));
+
+                    }
+                    else
+                    {
+                        //Verifico Diotria
+                        _L_Articulo.EvaluoServicioAgregado(Dgv_Tap3_Articulo, numFilas, Dgv_Tap3_Articulo.Rows[numFilas].Cells["Ojo"].Value.ToString(), Convert.ToInt32(Txt_Pnl2_Examen.Text), Cbx_Pnl2_Trbajo.SelectedValue.ToString(), Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2));
+                    }
+
+                }
+            }
+
+            // Totalizo el grivew Totales cuando se agrega una fila 
+            _L_Articulo.ActualizarTotales(Dgv_Tap3_Articulo, Dgv_Tap3_Totales);
+
+        }
+
+        private void Dgv_Tap3_Articulo_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
+        {
+
+            // Totalizo el grivew Totales cuando se quita una fila 
+            _L_Articulo.ActualizarTotales(Dgv_Tap3_Articulo, Dgv_Tap3_Totales);
+        }
+
+        private void Formato_Dgv_Totales()
+        {
+            try
+            {
+                //Centrar todas las colucnas 
+                Dgv_Tap3_Totales.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                Dgv_Tap3_Totales.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+
+                // Quitar la flecha del selector de fila
+                Dgv_Tap3_Totales.RowHeadersVisible = false;
+
+                // Deshabilitar el redimensionamiento de filas
+                Dgv_Tap3_Totales.AllowUserToResizeRows = false;
+
+                //asignar Nombres a cada colucna 
+                Dgv_Tap3_Totales.Columns["Concepto"].HeaderText = "";
+                Dgv_Tap3_Totales.Columns["Valor"].HeaderText = "";
+
+
+                //Ancho de columna
+                Dgv_Tap3_Totales.Columns["Concepto"].Width = 250;
+                Dgv_Tap3_Totales.Columns["Valor"].Width = 250;
+
+                // No modificable
+                Dgv_Tap3_Totales.Columns["Concepto"].ReadOnly = true;
+                Dgv_Tap3_Totales.Columns["Valor"].ReadOnly = true;
+
+
+
+                Dgv_Tap3_Totales.Columns["Concepto"].SortMode = DataGridViewColumnSortMode.NotSortable;
+                Dgv_Tap3_Totales.Columns["Valor"].SortMode = DataGridViewColumnSortMode.NotSortable;
+
+
+
+
+                //quitar seleccion por defecto de datagrid
+                Dgv_Tap3_Totales.ClearSelection();
+
+                //AutoGenerar Columnas:
+                Dgv_Tap3_Totales.AutoGenerateColumns = false;
+
+            }
+
+
+            catch (Exception ex)
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje(string.Format("Error: {0}", ex.Message) + ", Error inesperado");
+                _FrmMensajes.ShowDialog();
+            }
+
+        }
+
+        private void Txt_Pnl2_Examen_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            //para que solo acepte numeros
+            if (!(char.IsNumber(e.KeyChar)) && (e.KeyChar != (char)Keys.Back))
+            {
+                e.Handled = true;
+            }
+
+            //validar que no sea la tecla de borrar 
+            if (e.KeyChar != (char)8)
+            {
+                if (Txt_Tap3_Articulo_Cantidad.Text.Length == 4)
+                {
+                    Txt_Tap3_Articulo_Cantidad.Focus();
+                }
             }
         }
     }
