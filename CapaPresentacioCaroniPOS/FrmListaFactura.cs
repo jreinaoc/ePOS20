@@ -28,7 +28,10 @@ namespace CapaVisual_Login
         DataSet Dts;
         private L_ListaOrdenes _ListaOrdenes = new L_ListaOrdenes();
         private L_ListaFacturas _L_ListaFacturas = new L_ListaFacturas();
+
         int PaginaInico = 1, Indice = 0, NUmeroFilas = 12, PaginaFinal;
+
+        private FrmMensajes _FrmMensajes = new FrmMensajes();
 
         private void Btnlupa_Click(object sender, EventArgs e)
         {
@@ -359,7 +362,10 @@ namespace CapaVisual_Login
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Ocurrió un error al exportar el PDF: " + ex.Message);
+                //MessageBox.Show("Ocurrió un error al exportar el PDF: " + ex.Message);
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje(string.Format("Error: {0}", ex.Message) + ", Error inesperado");
+                _FrmMensajes.ShowDialog();
             }
             finally
             {
@@ -429,7 +435,10 @@ namespace CapaVisual_Login
             }
             catch(Exception ex)
             {
-                MessageBox.Show("Ocurrió un error al exportar el Reporte Global: " + ex.Message);
+                //MessageBox.Show("Ocurrió un error al exportar el Reporte Global: " + ex.Message);
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje(string.Format("Error: {0}", ex.Message) + ", Error inesperado");
+                _FrmMensajes.ShowDialog();
             }
 
         }
@@ -512,7 +521,10 @@ namespace CapaVisual_Login
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al generar el reporte: " + ex.Message);
+                //MessageBox.Show("Error al generar el reporte: " + ex.Message);
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje(string.Format("Error: {0}", ex.Message) + ", Error inesperado");
+                _FrmMensajes.ShowDialog();
             }
             finally
             {
@@ -568,7 +580,9 @@ namespace CapaVisual_Login
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al generar el reporte: " + ex.Message);
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje(string.Format("Error: {0}", ex.Message) + ", Error inesperado");
+                _FrmMensajes.ShowDialog();
             }
             finally
             {
@@ -643,7 +657,10 @@ namespace CapaVisual_Login
             //SendMessage(this.Handle, 0x112, 0xf012, 0);
         }
 
+        private void toolTip1_Popup(object sender, PopupEventArgs e)
+        {
 
+        }
 
         private void label1_Click(object sender, EventArgs e)
         {}

@@ -29,6 +29,7 @@ namespace CapaVisual_Login
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmListaFactura));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -54,6 +55,10 @@ namespace CapaVisual_Login
             this.Lbl_ReporteGlobal = new System.Windows.Forms.Label();
             this.btnCancelar_ReporteGlobal = new System.Windows.Forms.Button();
             this.btnAceptar_ReporteGlobal = new System.Windows.Forms.Button();
+            this.toolTip_ReporteGlobal = new System.Windows.Forms.ToolTip(this.components);
+            this.R = new System.Windows.Forms.ToolTip(this.components);
+            this.toolTip_LibroVentas = new System.Windows.Forms.ToolTip(this.components);
+            this.toolTip_facNC = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.DgvListaFacturas1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Loader_PDF)).BeginInit();
             this.panel_ReporteGlobal.SuspendLayout();
@@ -250,6 +255,7 @@ namespace CapaVisual_Login
             this.btnPDF.Name = "btnPDF";
             this.btnPDF.Size = new System.Drawing.Size(80, 36);
             this.btnPDF.TabIndex = 63;
+            this.toolTip_facNC.SetToolTip(this.btnPDF, "Factura y Nota Cred");
             this.btnPDF.UseVisualStyleBackColor = false;
             this.btnPDF.Click += new System.EventHandler(this.btnPDF_Click);
             // 
@@ -258,7 +264,7 @@ namespace CapaVisual_Login
             this.Loader_PDF.BackColor = System.Drawing.Color.Transparent;
             this.Loader_PDF.Image = ((System.Drawing.Image)(resources.GetObject("Loader_PDF.Image")));
             this.Loader_PDF.InitialImage = ((System.Drawing.Image)(resources.GetObject("Loader_PDF.InitialImage")));
-            this.Loader_PDF.Location = new System.Drawing.Point(852, 54);
+            this.Loader_PDF.Location = new System.Drawing.Point(835, 54);
             this.Loader_PDF.Name = "Loader_PDF";
             this.Loader_PDF.Size = new System.Drawing.Size(80, 80);
             this.Loader_PDF.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -278,10 +284,11 @@ namespace CapaVisual_Login
             this.BtnReporteGlobal.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnReporteGlobal.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnReporteGlobal.ForeColor = System.Drawing.Color.Transparent;
-            this.BtnReporteGlobal.Location = new System.Drawing.Point(634, 81);
+            this.BtnReporteGlobal.Location = new System.Drawing.Point(642, 83);
             this.BtnReporteGlobal.Name = "BtnReporteGlobal";
-            this.BtnReporteGlobal.Size = new System.Drawing.Size(60, 35);
+            this.BtnReporteGlobal.Size = new System.Drawing.Size(44, 35);
             this.BtnReporteGlobal.TabIndex = 65;
+            this.toolTip_ReporteGlobal.SetToolTip(this.BtnReporteGlobal, "Reporte Global");
             this.BtnReporteGlobal.UseVisualStyleBackColor = false;
             this.BtnReporteGlobal.Click += new System.EventHandler(this.BtnReporteGlobal_Click);
             // 
@@ -297,10 +304,11 @@ namespace CapaVisual_Login
             this.Btn_LibroVentas.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Btn_LibroVentas.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Btn_LibroVentas.ForeColor = System.Drawing.Color.Transparent;
-            this.Btn_LibroVentas.Location = new System.Drawing.Point(724, 81);
+            this.Btn_LibroVentas.Location = new System.Drawing.Point(694, 83);
             this.Btn_LibroVentas.Name = "Btn_LibroVentas";
-            this.Btn_LibroVentas.Size = new System.Drawing.Size(60, 35);
+            this.Btn_LibroVentas.Size = new System.Drawing.Size(44, 35);
             this.Btn_LibroVentas.TabIndex = 66;
+            this.toolTip_LibroVentas.SetToolTip(this.Btn_LibroVentas, "Libro de Ventas");
             this.Btn_LibroVentas.UseVisualStyleBackColor = false;
             this.Btn_LibroVentas.Click += new System.EventHandler(this.Btn_LibroVentas_Click);
             // 
@@ -382,6 +390,14 @@ namespace CapaVisual_Login
             this.btnAceptar_ReporteGlobal.UseVisualStyleBackColor = false;
             this.btnAceptar_ReporteGlobal.Click += new System.EventHandler(this.btnAceptar_ReporteGlobal_Click);
             // 
+            // toolTip_ReporteGlobal
+            // 
+            this.toolTip_ReporteGlobal.Popup += new System.Windows.Forms.PopupEventHandler(this.toolTip1_Popup);
+            // 
+            // R
+            // 
+            this.R.Popup += new System.Windows.Forms.PopupEventHandler(this.toolTip1_Popup);
+            // 
             // FrmListaFactura
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -442,5 +458,9 @@ namespace CapaVisual_Login
         private System.Windows.Forms.Button btnAceptar_ReporteGlobal;
         private System.Windows.Forms.Label lbl_Fecha_ReporteGlobal;
         private System.Windows.Forms.DateTimePicker dtp_ReporteGlobal;
+        private System.Windows.Forms.ToolTip toolTip_ReporteGlobal;
+        private System.Windows.Forms.ToolTip R;
+        private System.Windows.Forms.ToolTip toolTip_LibroVentas;
+        private System.Windows.Forms.ToolTip toolTip_facNC;
     }
 }
