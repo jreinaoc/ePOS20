@@ -7,6 +7,8 @@
 *.pdb
 *.cache
 *.log
+bin/
+obj/
 
 # Publicación ClickOnce
 *.application

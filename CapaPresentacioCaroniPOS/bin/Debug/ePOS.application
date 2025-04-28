@@ -14,7 +14,11 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+<<<<<<< HEAD
         <dsig:DigestValue>nd5pi/lqwaDcH0XQLW11yBrQRUiIO/BwyZMxH1W31vw=</dsig:DigestValue>
+=======
+        <dsig:DigestValue>DSFqEW+g6+4HyHcsOcDuwSjalVaGG4rwFxyWUcVu4CI=</dsig:DigestValue>
+>>>>>>> feature/EPOS20
       </hash>
     </dependentAssembly>
   </dependency>

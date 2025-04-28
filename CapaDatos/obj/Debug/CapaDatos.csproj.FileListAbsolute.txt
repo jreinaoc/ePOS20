@@ -90,3 +90,7 @@ C:\projects\EPOS20\CapaDatos\obj\Debug\CapaDatos.csproj.CoreCompileInputs.cache
 C:\projects\EPOS20\CapaDatos\obj\Debug\CapaDatos.csproj.CopyComplete
 C:\projects\EPOS20\CapaDatos\obj\Debug\CapaDatos.dll
 C:\projects\EPOS20\CapaDatos\obj\Debug\CapaDatos.pdb
+<<<<<<< HEAD
+=======
+C:\projects\EPOS20\CapaDatos\obj\Debug\CapaDatos.csproj.CopyComplete
+>>>>>>> feature/EPOS20

@@ -55,7 +55,10 @@ namespace CapaLogica.Servicios
                     FechaRetencion = row["FechaRetencion"]?.ToString(),
                     FacturaAfectadaRetencion = row["FacturaAfectadaRetencion"]?.ToString(),
                     ComprobanteRetencion = row["ComprobanteRetencion"]?.ToString(),
-                    IVARetenido = Convert.ToDecimal(row["IVARetenido"] ?? 0)
+                    //IVARetenido = Convert.ToDecimal(row["IVARetenido"] ?? 0)
+                    IVARetenido = row["IVARetenido"] == DBNull.Value || Convert.ToDecimal(row["IVARetenido"]) == 0
+                    ? null : (decimal?)Convert.ToDecimal(row["IVARetenido"])
+
                 });
             }
 

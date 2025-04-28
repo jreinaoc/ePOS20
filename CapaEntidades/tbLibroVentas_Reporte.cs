@@ -34,7 +34,7 @@ namespace CapaEntidades
         public string ImpuestoIVAAdicional { get; set; }
         public string FechaRetencion { get; set; }
         public string FacturaAfectadaRetencion { get; set; }
-        public decimal IVARetenido { get; set; }
+        public decimal? IVARetenido { get; set; }
         public string ComprobanteRetencion { get; set; }
 
 
