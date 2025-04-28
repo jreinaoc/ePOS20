@@ -81,6 +81,7 @@
     <Compile Include="CveAutorizada_Datos\D_ClaveAutorizada.cs" />
     <Compile Include="CveGerente_Datos\D_ClaveGerente.cs" />
     <Compile Include="DanaService_Datos\D_Dana.cs" />
+    <Compile Include="DatosGeneralSucursal_Datos\DatosGenerales.cs" />
     <Compile Include="Facturacion_Datos\D_DetalleOrden.cs" />
     <Compile Include="Inicio_Datos\D_Inicio.cs" />
     <Compile Include="ListaFacturas_Datos\D_ListaFactura.cs" />
