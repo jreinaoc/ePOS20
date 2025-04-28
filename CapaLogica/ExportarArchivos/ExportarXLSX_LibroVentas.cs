@@ -111,44 +111,115 @@ namespace CapaLogica.ExportarArchivos
                 int operacionNro = 1;
                 foreach (T item in data)
                 {
+                    var reporte = item as tbLibroVentas_Reporte;
+
+                    // Validación para saltar filas con fecha 01/01/0001
+                    if (reporte == null || reporte.Fecha == DateTime.MinValue)
+                        continue;
+
                     ws.Cell(row, 1).Value = operacionNro++;
+                    ws.Cell(row, 1).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
 
                     for (int col = 1; col < titulos.Length; col++)
                     {
                         var valor = GetValueByTitle(titulos[col], item);
 
+                        //if (valor is DateTime fecha)
+                        //    ws.Cell(row, col + 1).Value = fecha;
+                        //else if (valor is decimal dec)
+                        //    ws.Cell(row, col + 1).Value = dec;
+                        //else if (valor is int entero)
+                        //    ws.Cell(row, col + 1).Value = entero;
+                        //else
+                        //    ws.Cell(row, col + 1).Value = valor?.ToString() ?? "";
+
                         if (valor is DateTime fecha)
+                        {
                             ws.Cell(row, col + 1).Value = fecha;
+                        }
                         else if (valor is decimal dec)
-                            ws.Cell(row, col + 1).Value = dec;
+                        {
+                            if (dec == 0)
+                            {
+                                ws.Cell(row, col + 1).Value = "-";
+                                ws.Cell(row, col + 1).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Right;
+                            }
+                            else
+                            {
+                                ws.Cell(row, col + 1).Value = dec;
+                                ws.Cell(row, col + 1).Style.NumberFormat.Format = "#,##0.00";
+                                ws.Cell(row, col + 1).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Right;
+                            }
+                        }
                         else if (valor is int entero)
-                            ws.Cell(row, col + 1).Value = entero;
+                        {
+                            if (entero == 0)
+                            {
+                                ws.Cell(row, col + 1).Value = "-";
+                                ws.Cell(row, col + 1).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Right;
+                            }
+                            else
+                            {
+                                ws.Cell(row, col + 1).Value = entero;
+                                ws.Cell(row, col + 1).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Right;
+                            }
+                        }
                         else
+                        {
                             ws.Cell(row, col + 1).Value = valor?.ToString() ?? "";
-                        
+                        }
+
                     }
+
+
                     row++;
                 }
 
                 // ======= AGREGAR FILA DE TOTALES =======
-                var totalRow = row; // La fila siguiente después de los datos
+                //var totalRow = row; // La fila siguiente después de los datos
 
-                // Texto "TOTAL GENERAL:"
-                ws.Cell(totalRow, 4).Value = "TOTAL GENERAL:";
-                ws.Cell(totalRow, 4).Style.Font.Bold = true;
+                //// Texto "TOTAL GENERAL:"
+                //ws.Cell(totalRow, 4).Value = "TOTAL GENERAL:";
+                //ws.Cell(totalRow, 4).Style.Font.Bold = true;
 
-                // Totales en sus respectivas columnas
-                var listaDatos = data.Cast<tbLibroVentas_Reporte>().ToList();
+                //// Totales en sus respectivas columnas
+                //var listaDatos = data.Cast<tbLibroVentas_Reporte>().ToList();
 
-                ws.Cell(totalRow, 12).Value = listaDatos.Sum(x => x.TotalVentas_Iva);
-                ws.Cell(totalRow, 13).Value = listaDatos.Sum(x => x.VentasExentas);
-                ws.Cell(totalRow, 16).Value = listaDatos.Sum(x => x.TotalNoGravadas);
-                ws.Cell(totalRow, 17).Value = listaDatos.Sum(x => x.BaseImponible);
-                ws.Cell(totalRow, 19).Value = listaDatos.Sum(x => x.ImpuestoIVA);
+                //ws.Cell(totalRow, 12).Value = listaDatos.Sum(x => x.TotalVentas_Iva);
+                //ws.Cell(totalRow, 13).Value = listaDatos.Sum(x => x.VentasExentas);
+                //ws.Cell(totalRow, 16).Value = listaDatos.Sum(x => x.TotalNoGravadas);
+                //ws.Cell(totalRow, 17).Value = listaDatos.Sum(x => x.BaseImponible);
+                //ws.Cell(totalRow, 19).Value = listaDatos.Sum(x => x.ImpuestoIVA);
 
-                // Ajustar estilos de la fila total
-                var totalRange = ws.Range(totalRow, 4, totalRow, 19);
-                totalRange.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                //// Ajustar estilos de la fila total
+                //var totalRange = ws.Range(totalRow, 4, totalRow, 19);
+                //totalRange.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+
+
+                // Filtramos los datos que NO sean totales o filas vacías (si aplicas EsTotal)
+                var listaDatos = data.Cast<tbLibroVentas_Reporte>().Where(x => !x.EsTotal).ToList();
+
+                if (listaDatos.Count > 0)
+                {
+                    // ======= AGREGAR FILA DE TOTALES =======
+                    var totalRow = row; // La fila siguiente después de los datos
+
+                    // Texto "TOTAL GENERAL:"
+                    ws.Cell(totalRow, 4).Value = "TOTAL GENERAL:";
+                    ws.Cell(totalRow, 4).Style.Font.Bold = true;
+
+                    // Totales en sus respectivas columnas
+                    ws.Cell(totalRow, 12).Value = listaDatos.Sum(x => x.TotalVentas_Iva);
+                    ws.Cell(totalRow, 13).Value = listaDatos.Sum(x => x.VentasExentas);
+                    ws.Cell(totalRow, 16).Value = listaDatos.Sum(x => x.TotalNoGravadas);
+                    ws.Cell(totalRow, 17).Value = listaDatos.Sum(x => x.BaseImponible);
+                    ws.Cell(totalRow, 19).Value = listaDatos.Sum(x => x.ImpuestoIVA);
+
+                    var totalRange = ws.Range(totalRow, 4, totalRow, 19);
+                    totalRange.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                
+                }
+
 
                 ws.Columns().AdjustToContents();
 

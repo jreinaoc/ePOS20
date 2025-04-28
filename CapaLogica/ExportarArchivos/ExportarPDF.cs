@@ -62,8 +62,11 @@ public class ExportarPDF : ExportarArchivoPdf_Facturas
             // Agregar espacio entre logo y título
             document.Add(new Paragraph(" "));
 
+            // Título dinámico según la selección de datos a exportar.
+            bool contieneNotaCredito = data.Any(item => !string.IsNullOrEmpty(((dynamic)item).NotaCredito));
+            string titulo = contieneNotaCredito ? "Reporte de Notas de Crédito" : "Reporte de Facturas";
             // Título
-            Paragraph title = new Paragraph("Reporte de Facturas y Notas de Credito/Debito", new Font(Font.FontFamily.TIMES_ROMAN, 16, Font.BOLD));
+            Paragraph title = new Paragraph(titulo, new Font(Font.FontFamily.TIMES_ROMAN, 16, Font.BOLD));
             title.Alignment = Element.ALIGN_CENTER;
             document.Add(title);
 
@@ -72,7 +75,7 @@ public class ExportarPDF : ExportarArchivoPdf_Facturas
 
             // Fechas filtradas
             Paragraph filteredDates = new Paragraph($"Desde: {formatoPdf.FechaInicio.ToString("dd/MM/yyyy")} Hasta: {formatoPdf.FechaFin.ToString("dd/MM/yyyy")}", new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.NORMAL));
-            filteredDates.Alignment = Element.ALIGN_LEFT;
+            filteredDates.Alignment = Element.ALIGN_CENTER;
             document.Add(filteredDates);
 
             // Línea separadora
@@ -90,62 +93,77 @@ public class ExportarPDF : ExportarArchivoPdf_Facturas
             Font headerFont = new Font(Font.FontFamily.HELVETICA, 10, Font.BOLD);
             Font dataFont = new Font(Font.FontFamily.HELVETICA, 10);
 
+            int columnas = contieneNotaCredito ? 9 : 8;
+            PdfPTable table = new PdfPTable(columnas);
+            table.WidthPercentage = 100;
+
+            float[] widths = contieneNotaCredito
+                ? new float[] { 10f, 10f, 15f, 20f, 15f, 10f, 10f, 10f, 10f } // Con Nota Crédito
+                : new float[] { 10f, 10f, 20f, 15f, 10f, 10f, 10f, 10f };      // Sin Nota Crédito
+
+            table.SetWidths(widths);
+
+            // Títulos dinámicos según corresponda
+            string[] titulos = contieneNotaCredito
+                ? new string[] { "Factura", "Fecha", "Nota Crédito", "Cliente", "Cédula", "SubTotal", "Impuesto", "IGTF", "Total" }
+                : new string[] { "Factura", "Fecha", "Cliente", "Cédula", "SubTotal", "Impuesto", "IGTF", "Total" };
+
+            foreach (string titulopdf in titulos)
+            {
+                PdfPCell cell = new PdfPCell(new Phrase(titulopdf, headerFont));
+                cell.Border = Rectangle.NO_BORDER;
+                cell.HorizontalAlignment = Element.ALIGN_CENTER;
+                table.AddCell(cell);
+            }
+
+            // Agregar las filas de datos
             foreach (T item in data)
             {
                 dynamic factura = item;
+                bool esNotaCredito = !string.IsNullOrEmpty(factura.NotaCredito);
 
-                document.Add(new Paragraph("Factura: " + factura.NumeroFactura, headerFont));
+                // Crear las celdas de cada campo
+                table.AddCell(new PdfPCell(new Phrase(factura.NumeroFactura.ToString(), dataFont)) { Border = Rectangle.NO_BORDER });
+                table.AddCell(new PdfPCell(new Phrase(factura.Fecha.ToString(), dataFont)) { Border = Rectangle.NO_BORDER });
 
-                if (!string.IsNullOrEmpty(factura.NotaCredito))
-                    document.Add(new Paragraph("Nota de Crédito: " + factura.NotaCredito, dataFont));
+                if (contieneNotaCredito)
+                {
+                    table.AddCell(new PdfPCell(new Phrase(esNotaCredito ? factura.NotaCredito.ToString() : "-", dataFont)) { Border = Rectangle.NO_BORDER });
+                }
 
-                if (!string.IsNullOrEmpty(factura.NombreCliente))
-                    document.Add(new Paragraph("Cliente: " + factura.NombreCliente, dataFont));
-
-                document.Add(new Paragraph("Cédula: " + factura.CedulaCliente, dataFont));
-                document.Add(new Paragraph("Sub Total: " + factura.FactSub.ToString("N2"), dataFont));
-                document.Add(new Paragraph("Impuesto: " + factura.FactImpuesto.ToString("N2"), dataFont));
-                document.Add(new Paragraph("IGTF: " + factura.FactIGTF.ToString("N2"), dataFont));
-                document.Add(new Paragraph("Total: " + factura.FactTotal.ToString("N2"), dataFont));
-                document.Add(new Paragraph("Fecha: " + factura.Fecha, dataFont));
-
-                document.Add(new Paragraph(" "));
-
+                table.AddCell(new PdfPCell(new Phrase(factura.NombreCliente.ToString(), dataFont)) { Border = Rectangle.NO_BORDER }); table.AddCell(new PdfPCell(new Phrase(factura.CedulaCliente.ToString(), dataFont)) { Border = Rectangle.NO_BORDER });
+                table.AddCell(new PdfPCell(new Phrase(factura.FactSub.ToString("N2"), dataFont)) { Border = Rectangle.NO_BORDER });
+                table.AddCell(new PdfPCell(new Phrase(factura.FactImpuesto.ToString("N2"), dataFont)) { Border = Rectangle.NO_BORDER });
+                table.AddCell(new PdfPCell(new Phrase(factura.FactIGTF.ToString("N2"), dataFont)) { Border = Rectangle.NO_BORDER });
+                table.AddCell(new PdfPCell(new Phrase(factura.FactTotal.ToString("N2"), dataFont)) { Border = Rectangle.NO_BORDER });
             }
 
+            // Añadir la tabla al documento
+            document.Add(table);
 
             //foreach (T item in data)
             //{
-            //    // Aquí, debes mapear las propiedades del objeto `item` a sus respectivos valores
-            //    string nroOrden = GetValue("NroOrden", item) ?? string.Empty;
-            //    string rev = GetValue("Rev", item) ?? string.Empty;
-            //    string fecha = GetValue("Fecha", item) ?? string.Empty;
-            //    string codCausa = GetValue("CodCausa", item) ?? string.Empty;
-            //    string observacion = GetValue("Observacion", item) ?? string.Empty;
+            //    dynamic factura = item;
 
-            //    // Agregar las celdas con sus valores
-            //    document.Add(new Paragraph("Orden: " + nroOrden, headerFont) { Alignment = Element.ALIGN_LEFT });
-            //    document.Add(new Paragraph("Revisión: " + rev, dataFont) { Alignment = Element.ALIGN_LEFT });
-            //    document.Add(new Paragraph("Fecha: " + fecha, dataFont) { Alignment = Element.ALIGN_LEFT });
-            //    document.Add(new Paragraph("Código de Causa: " + codCausa, dataFont) { Alignment = Element.ALIGN_LEFT });
+            //    document.Add(new Paragraph("Factura: " + factura.NumeroFactura, headerFont));
 
-            //    // Para la observación, asegura que el texto haga un salto de línea automáticamente
-            //    PdfPCell observationCell = new PdfPCell(new Phrase("Observación: " + observacion, dataFont))
-            //    {
-            //        Border = PdfPCell.NO_BORDER,
-            //        HorizontalAlignment = Element.ALIGN_LEFT,
-            //        NoWrap = false, 
-            //        PaddingTop = 5f,
-            //        PaddingBottom = 5f
-            //    };
+            //    if (!string.IsNullOrEmpty(factura.NotaCredito))
+            //        document.Add(new Paragraph("Nota de Crédito: " + factura.NotaCredito, dataFont));
 
-            //    PdfPTable observationTable = new PdfPTable(1);
-            //    observationTable.WidthPercentage = 100;
-            //    observationTable.AddCell(observationCell);
-            //    document.Add(observationTable);
+            //    if (!string.IsNullOrEmpty(factura.NombreCliente))
+            //        document.Add(new Paragraph("Cliente: " + factura.NombreCliente, dataFont));
 
-            //    document.Add(new Paragraph(" ", dataFont)); // Espacio entre registros
+            //    document.Add(new Paragraph("Cédula: " + factura.CedulaCliente, dataFont));
+            //    document.Add(new Paragraph("Sub Total: " + factura.FactSub.ToString("N2"), dataFont));
+            //    document.Add(new Paragraph("Impuesto: " + factura.FactImpuesto.ToString("N2"), dataFont));
+            //    document.Add(new Paragraph("IGTF: " + factura.FactIGTF.ToString("N2"), dataFont));
+            //    document.Add(new Paragraph("Total: " + factura.FactTotal.ToString("N2"), dataFont));
+            //    document.Add(new Paragraph("Fecha: " + factura.Fecha, dataFont));
+
+            //    document.Add(new Paragraph(" "));
+
             //}
+
 
             document.Close();
 

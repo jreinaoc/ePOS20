@@ -12,7 +12,8 @@ namespace CapaEntidades
         //TB_NOTASCREDITODEBITO
         public string Numero { get; set; }
         public string NumeroControl { get; set; }
-        public int Cedula { get; set; }
+        public string Cedula { get; set; }
+        public string NombreCliente { get; set; }
         public string Factura { get; set; }
         public decimal Monto { get; set; }
         public decimal Aplicado { get; set; }

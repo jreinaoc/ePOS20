@@ -33,40 +33,77 @@ namespace CapaVisual_Login
 
         private FrmMensajes _FrmMensajes = new FrmMensajes();
 
-        private void Btnlupa_Click(object sender, EventArgs e)
+        private async void Btnlupa_Click(object sender, EventArgs e)
         {
-               LimpiarGrid();
+            //   LimpiarGrid();
 
-             if (CbxEstatus.SelectedIndex <= 0)
-            {
-                Dts = _L_ListaFacturas.TraerFacturasRango(DtpDesde, DtpHasta);
+            // if (CbxEstatus.SelectedIndex <= 0)
+            //{
+            //    Dts = _L_ListaFacturas.TraerFacturasRango(DtpDesde, DtpHasta);
 
-            }
-            else
-            {
-                Dts = _L_ListaFacturas.TraerNotasRango(DtpDesde, DtpHasta);
-            }
+            //}
+            //else
+            //{
+            //    Dts = _L_ListaFacturas.TraerNotasRango(DtpDesde, DtpHasta);
+            //}
 
-            if (Dts != null)
-            {
-                DgvListaFacturas1.DataSource = Dts.Tables[0];
-                Paginado(Dts);
-                Paginado_Habilitar(true);
-            }
-            else
-            {
-                Paginado_Habilitar(false);
-            }
+            //if (Dts != null)
+            //{
+            //    DgvListaFacturas1.DataSource = Dts.Tables[0];
+            //    Paginado(Dts);
+            //    Paginado_Habilitar(true);
+            //}
+            //else
+            //{
+            //    Paginado_Habilitar(false);
+            //}
 
 
-            if (DgvListaFacturas1.Rows.Count > 0)
+            //if (DgvListaFacturas1.Rows.Count > 0)
+            //{
+            //    DgvListaFacturas1.Visible = true;
+            //    EstructuraGrid();
+            //}
+            //else
+            //{
+            //    DgvListaFacturas1.Visible = false;
+            //}
+
+            try
             {
-                DgvListaFacturas1.Visible = true;
-                EstructuraGrid();
+                LimpiarGrid();
+
+                bool esNotaCredito = CbxEstatus.SelectedIndex > 0;
+
+                if (esNotaCredito)
+                {
+                    Dts = await _L_ListaFacturas.TraerNotasRango(DtpDesde, DtpHasta);
+                }
+                else
+                {
+                    Dts = await _L_ListaFacturas.TraerFacturasRango(DtpDesde, DtpHasta);
+                }
+
+                if (Dts != null && Dts.Tables[0].Rows.Count > 0)
+                {
+                    DgvListaFacturas1.DataSource = Dts.Tables[0];
+                    Paginado(Dts);
+                    Paginado_Habilitar(true);
+                    DgvListaFacturas1.Visible = true;
+                    EstructuraGrid();
+                }
+                else
+                {
+                    DgvListaFacturas1.Visible = false;
+                    Paginado_Habilitar(false);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                DgvListaFacturas1.Visible = false;
+                //MessageBox.Show($"Error al cargar datos: {ex.Message}", "Error");
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje(string.Format("Error: {0}", ex.Message) + ", Error inesperado");
+                _FrmMensajes.ShowDialog();
             }
 
 
@@ -84,12 +121,15 @@ namespace CapaVisual_Login
 
             catch (Exception ex)
             {
-                MessageBox.Show(string.Format("Error: {0}", ex.Message), "Error inesperado");
+                //MessageBox.Show(string.Format("Error: {0}", ex.Message), "Error inesperado");
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje(string.Format("Error: {0}", ex.Message) + ", Error inesperado");
+                _FrmMensajes.ShowDialog();
             }
 
         }
 
-        private void cbPagina_Ini_SelectionChangeCommitted(object sender, EventArgs e)
+        private async void cbPagina_Ini_SelectionChangeCommitted(object sender, EventArgs e)
         {
             int Pagina = Convert.ToInt32(cbPagina_Ini.SelectedIndex + 1);
             Indice = Pagina - 1;
@@ -99,7 +139,7 @@ namespace CapaVisual_Login
 
             LimpiarGrid();
 
-            Dts = _L_ListaFacturas.TraerFacturasRango(DtpDesde, DtpHasta, PaginaInico, PaginaFinal);
+            Dts = await _L_ListaFacturas.TraerFacturasRango(DtpDesde, DtpHasta, PaginaInico, PaginaFinal);
             if (Dts != null)
             {
                 DgvListaFacturas1.DataSource = Dts.Tables[0];
@@ -127,33 +167,37 @@ namespace CapaVisual_Login
         private void FrmListaFactura_Load(object sender, EventArgs e)
         {
             this.DgvListaFacturas1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
-            this.DgvListaFacturas1.RowTemplate.Height = 30
-
-                ;
-            Dts = _L_ListaFacturas.TraerFacturasRango(DtpDesde, DtpHasta);
-            if (Dts != null)
-            {
-                DgvListaFacturas1.DataSource = Dts.Tables[0];
-                Paginado(Dts);
-                Paginado_Habilitar(true);
-            }
-            else
-            {
-                Paginado_Habilitar(false);
-            }
+            this.DgvListaFacturas1.RowTemplate.Height = 30;
 
 
-            if (DgvListaFacturas1.Rows.Count > 0)
-            {
-                DgvListaFacturas1.Visible = true;
-                EstructuraGrid();
-            }
-            else
-            {
-                DgvListaFacturas1.Visible = false;
-            }
+            //Dts = _L_ListaFacturas.TraerFacturasRango(DtpDesde, DtpHasta);
+            //if (Dts != null)
+            //{
+            //    DgvListaFacturas1.DataSource = Dts.Tables[0];
+            //    Paginado(Dts);
+            //    Paginado_Habilitar(true);
+            //}
+            //else
+            //{
+            //    Paginado_Habilitar(false);
+            //}
 
-            DgvListaFacturas1.Invalidate();
+
+            //if (DgvListaFacturas1.Rows.Count > 0)
+            //{
+            //    DgvListaFacturas1.Visible = true;
+            //    EstructuraGrid();
+            //}
+            //else
+            //{
+            //    DgvListaFacturas1.Visible = false;
+            //}
+
+            //DgvListaFacturas1.Invalidate();
+
+            // No cargar los datos aquí, solo configurar el DataGrid.
+            DgvListaFacturas1.Visible = false;
+            Paginado_Habilitar(false);
 
         }
 
@@ -231,6 +275,12 @@ namespace CapaVisual_Login
 
                 //asignar Nombres a cada columna 
                 DgvListaFacturas1.Columns["NumeroFactura"].HeaderText = "N° de Factura";
+
+                if (DgvListaFacturas1.Columns.Contains("NotaCredito"))
+                {
+                    DgvListaFacturas1.Columns["NotaCredito"].HeaderText = "Nota de Crédito";
+                }
+
                 DgvListaFacturas1.Columns["CedulaCliente"].HeaderText = "N° de Cédula";
                 DgvListaFacturas1.Columns["FactSub"].HeaderText = "Sub Total";
                 DgvListaFacturas1.Columns["FactImpuesto"].HeaderText = "Impuesto";
@@ -258,16 +308,29 @@ namespace CapaVisual_Login
 
                 //ordenar las colunmnas del grid 
                 DgvListaFacturas1.Columns["NumeroFactura"].DisplayIndex = 0;
-                DgvListaFacturas1.Columns["CedulaCliente"].DisplayIndex = 1;
-                DgvListaFacturas1.Columns["FactSub"].DisplayIndex = 2;
-                DgvListaFacturas1.Columns["FactImpuesto"].DisplayIndex = 3;
-                DgvListaFacturas1.Columns["FactIGTF"].DisplayIndex = 4;
-                DgvListaFacturas1.Columns["FactTotal"].DisplayIndex = 5;
-                DgvListaFacturas1.Columns["Fecha"].DisplayIndex = 6;
+                // Verificar si existe la columna NotaCredito antes de moverla
+                if (DgvListaFacturas1.Columns.Contains("NotaCredito"))
+                {
+                    DgvListaFacturas1.Columns["NotaCredito"].DisplayIndex = 1;
+                    DgvListaFacturas1.Columns["CedulaCliente"].DisplayIndex = 2;
+                    DgvListaFacturas1.Columns["FactSub"].DisplayIndex = 3;
+                    DgvListaFacturas1.Columns["FactImpuesto"].DisplayIndex = 4;
+                    DgvListaFacturas1.Columns["FactIGTF"].DisplayIndex = 5;
+                    DgvListaFacturas1.Columns["FactTotal"].DisplayIndex = 6;
+                    DgvListaFacturas1.Columns["Fecha"].DisplayIndex = 7;
+                }
+                else
+                {
+                    DgvListaFacturas1.Columns["CedulaCliente"].DisplayIndex = 1;
+                    DgvListaFacturas1.Columns["FactSub"].DisplayIndex = 2;
+                    DgvListaFacturas1.Columns["FactImpuesto"].DisplayIndex = 3;
+                    DgvListaFacturas1.Columns["FactIGTF"].DisplayIndex = 4;
+                    DgvListaFacturas1.Columns["FactTotal"].DisplayIndex = 5;
+                    DgvListaFacturas1.Columns["Fecha"].DisplayIndex = 6;
+                }
 
                 DgvListaFacturas1.Columns["Numero"].Visible = false;
                 DgvListaFacturas1.Columns["NombreCliente"].Visible = false;
-
 
                 DgvListaFacturas1.Columns["NumeroFactura"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
                 DgvListaFacturas1.Columns["CedulaCliente"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
@@ -294,7 +357,10 @@ namespace CapaVisual_Login
 
             catch (Exception ex)
             {
-                MessageBox.Show(string.Format("Error: {0}", ex.Message), "Error inesperado");
+                //MessageBox.Show(string.Format("Error: {0}", ex.Message), "Error inesperado");
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje(string.Format("Error: {0}", ex.Message) + ", Error inesperado");
+                _FrmMensajes.ShowDialog();
             }
         }
 
@@ -319,7 +385,7 @@ namespace CapaVisual_Login
         {
             try
             {
-                Loader_PDF.Visible = true;
+                //Loader_PDF.Visible = true;
 
                 ExportarPDF ExportarPDF = new ExportarPDF();
 
@@ -330,7 +396,10 @@ namespace CapaVisual_Login
 
                 if (!facturas.Any())
                 {
-                    MessageBox.Show("No hay datos para exportar.");
+                    //MessageBox.Show("No hay datos para exportar.");
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje("No hay datos para exportar.");
+                    _FrmMensajes.ShowDialog();
                     return;
                 }
                 var logoBytes = (byte[])(new System.Drawing.ImageConverter())
@@ -345,18 +414,31 @@ namespace CapaVisual_Login
 
                 var archivo = await ExportarPDF.ExportWithFormatAsync(facturas, encabezadoPDF);
 
-                // Guardar el archivo
-                using (SaveFileDialog saveFileDialog = new SaveFileDialog())
-                {
-                    saveFileDialog.Filter = "PDF files (*.pdf)|*.pdf";
-                    saveFileDialog.FileName = "ReporteFacturas_" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".pdf";
+                //// Guardar el archivo
+                //using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+                //{
+                //    saveFileDialog.Filter = "PDF files (*.pdf)|*.pdf";
+                //    saveFileDialog.FileName = "ReporteFacturas_" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".pdf";
 
-                    if (saveFileDialog.ShowDialog() == DialogResult.OK)
-                    {
-                        File.WriteAllBytes(saveFileDialog.FileName, archivo.Content);
-                        MessageBox.Show("PDF exportado exitosamente.");
-                    }
-                }
+                //    if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                //    {
+                //        File.WriteAllBytes(saveFileDialog.FileName, archivo.Content);
+                //        MessageBox.Show("PDF exportado exitosamente.");
+                //    }
+                //}
+
+                // Crear archivo temporal
+                string tempFilePath = Path.Combine(Path.GetTempPath(),
+                    "ReporteFacturas_" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".pdf");
+
+                File.WriteAllBytes(tempFilePath, archivo.Content);
+
+                // Abrir el PDF directamente en el lector predeterminado del sistema
+                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo()
+                {
+                    FileName = tempFilePath,
+                    UseShellExecute = true // Necesario para que use el lector predeterminado
+                });
 
 
             }
@@ -369,7 +451,7 @@ namespace CapaVisual_Login
             }
             finally
             {
-                Loader_PDF.Visible = false;
+                //Loader_PDF.Visible = false;
             }
 
         }
@@ -445,7 +527,7 @@ namespace CapaVisual_Login
 
         private async void btnAceptar_ReporteGlobal_Click(object sender, EventArgs e)
         {
-            Loader_PDF.Visible = true;
+            //Loader_PDF.Visible = true;
 
             try
             {
@@ -505,19 +587,33 @@ namespace CapaVisual_Login
                     return await exportador.ExportWithFormatAsync(hojas, fechaSeleccionada);
 
                 });
-                
-                using (SaveFileDialog dialog = new SaveFileDialog())
-                {
-                    dialog.Filter = "Excel Files|*.xlsx";
-                    dialog.FileName = $"ReporteGlobal_{fechaSeleccionada:yyyyMMdd_HHmmss}.xlsx";
 
-                    if (dialog.ShowDialog() == DialogResult.OK)
-                    {
-                        File.WriteAllBytes(dialog.FileName, archivo.Content);
-                        MessageBox.Show("Excel generado exitosamente.");
-                        OcultarPanelReporteGlobal();
-                    }
-                }
+                //using (SaveFileDialog dialog = new SaveFileDialog())
+                //{
+                //    dialog.Filter = "Excel Files|*.xlsx";
+                //    dialog.FileName = $"ReporteGlobal_{fechaSeleccionada:yyyyMMdd_HHmmss}.xlsx";
+
+                //    if (dialog.ShowDialog() == DialogResult.OK)
+                //    {
+                //        File.WriteAllBytes(dialog.FileName, archivo.Content);
+                //        MessageBox.Show("Excel generado exitosamente.");
+                //        OcultarPanelReporteGlobal();
+                //    }
+                //}
+
+                string tempFilePath = Path.Combine(Path.GetTempPath(),
+                    $"ReporteGlobal_{fechaSeleccionada:yyyyMMdd_HHmmss}.xlsx");
+
+                File.WriteAllBytes(tempFilePath, archivo.Content);
+
+                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo()
+                {
+                    FileName = tempFilePath,
+                    UseShellExecute = true 
+                });
+
+                OcultarPanelReporteGlobal();
+
             }
             catch (Exception ex)
             {
@@ -528,7 +624,7 @@ namespace CapaVisual_Login
             }
             finally
             {
-                Loader_PDF.Visible = false;
+                //Loader_PDF.Visible = false;
             }
 
         }
@@ -537,11 +633,15 @@ namespace CapaVisual_Login
         {
             if (DtpDesde.Value == DateTime.MinValue || DtpHasta.Value == DateTime.MinValue)
             {
-                MessageBox.Show("Por favor, seleccione un rango de fechas válido.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                //MessageBox.Show("Por favor, seleccione un rango de fechas válido.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                _FrmMensajes.co = 1;
+                _FrmMensajes.avisomensaje("Por favor, seleccione un rango de fechas válido.");
+                _FrmMensajes.ShowDialog();
+
                 return;
             }
 
-            Loader_PDF.Visible = true;
+            //Loader_PDF.Visible = true;
 
             try
             {
@@ -559,24 +659,41 @@ namespace CapaVisual_Login
 
                 if (dataSet == null || dataSet.Tables.Count == 0 || dataSet.Tables[0].Rows.Count == 0)
                 {
-                    MessageBox.Show("No hay datos para el rango de fechas seleccionado.");
+                    //MessageBox.Show("No hay datos para el rango de fechas seleccionado.");
+                    _FrmMensajes.co = 1;
+                    _FrmMensajes.avisomensaje("No hay datos para el rango de fechas seleccionado.");
+                    _FrmMensajes.ShowDialog();
+
                     return;
                 }
 
                 var exportador = new ExportarXLSX_LibroVentas();
                 var archivo = await exportador.ExportWithFormatAsync(listaDatos, encabezadoLibroVentas);
 
-                using (SaveFileDialog dialog = new SaveFileDialog())
-                {
-                    dialog.Filter = "Excel Files|*.xlsx";
-                    dialog.FileName = $"ReporteLibroVentas_{DateTime.Now:yyyyMMdd_HHmmss}.xlsx";
+                //using (SaveFileDialog dialog = new SaveFileDialog())
+                //{
+                //    dialog.Filter = "Excel Files|*.xlsx";
+                //    dialog.FileName = $"ReporteLibroVentas_{DateTime.Now:yyyyMMdd_HHmmss}.xlsx";
 
-                    if (dialog.ShowDialog() == DialogResult.OK)
-                    {
-                        File.WriteAllBytes(dialog.FileName, archivo.Content);
-                        MessageBox.Show("Excel generado exitosamente.");
-                    }
-                }
+                //    if (dialog.ShowDialog() == DialogResult.OK)
+                //    {
+                //        File.WriteAllBytes(dialog.FileName, archivo.Content);
+                //        //MessageBox.Show("Excel generado exitosamente.");
+                //    }
+                //}
+
+                string tempFilePath = Path.Combine(Path.GetTempPath(),
+                    $"ReporteLibroVentas_{DateTime.Now:yyyyMMdd_HHmmss}.xlsx");
+
+                File.WriteAllBytes(tempFilePath, archivo.Content);
+
+                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo()
+                {
+                    FileName = tempFilePath,
+                    UseShellExecute = true
+                });
+
+
             }
             catch (Exception ex)
             {
@@ -586,7 +703,7 @@ namespace CapaVisual_Login
             }
             finally
             {
-                Loader_PDF.Visible = false;
+                //Loader_PDF.Visible = false;
             }
         }
 
@@ -602,37 +719,37 @@ namespace CapaVisual_Login
 
         private void CbxEstatus_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            if (CbxEstatus.SelectedIndex  == 0)
-            {
-                Dts = _L_ListaFacturas.TraerFacturasRango(DtpDesde, DtpHasta);
+            //if (CbxEstatus.SelectedIndex  == 0)
+            //{
+            //    Dts = _L_ListaFacturas.TraerFacturasRango(DtpDesde, DtpHasta);
                
-            }
-            else
-            {
-                Dts = _L_ListaFacturas.TraerNotasRango(DtpDesde, DtpHasta);
-            }
+            //}
+            //else
+            //{
+            //    Dts = _L_ListaFacturas.TraerNotasRango(DtpDesde, DtpHasta);
+            //}
 
-            if (Dts != null)
-            {
-                DgvListaFacturas1.DataSource = Dts.Tables[0];
-                Paginado(Dts);
-                Paginado_Habilitar(true);
-            }
-            else
-            {
-                Paginado_Habilitar(false);
-            }
+            //if (Dts != null)
+            //{
+            //    DgvListaFacturas1.DataSource = Dts.Tables[0];
+            //    Paginado(Dts);
+            //    Paginado_Habilitar(true);
+            //}
+            //else
+            //{
+            //    Paginado_Habilitar(false);
+            //}
 
 
-            if (DgvListaFacturas1.Rows.Count > 0)
-            {
-                DgvListaFacturas1.Visible = true;
-                EstructuraGrid();
-            }
-            else
-            {
-                DgvListaFacturas1.Visible = false;
-            }
+            //if (DgvListaFacturas1.Rows.Count > 0)
+            //{
+            //    DgvListaFacturas1.Visible = true;
+            //    EstructuraGrid();
+            //}
+            //else
+            //{
+            //    DgvListaFacturas1.Visible = false;
+            //}
         }
 
         private void CbxEstatus_Enter(object sender, EventArgs e)
