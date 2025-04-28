@@ -16,39 +16,53 @@ namespace CapaDatos.ListaFacturas_Datos
     {
         Conexion.Conexion cn = new Conexion.Conexion();
 
-        public DataSet CargarFacturas(string Fecha_inicio = "", string Fecha_fin = "", int Inicio = 1, int Final = 12)
+        public async Task<DataSet> CargarFacturas(string Fecha_inicio = "", string Fecha_fin = "", int Inicio = 1, int Final = 12)
         {
-            SqlCommand cmd = new SqlCommand("SP_CPOS_BuscarFacturasListFac", cn.LeerCadena());
+            using (SqlCommand cmd = new SqlCommand())
+            {
+                cmd.Connection = cn.LeerCadena();
+                cmd.CommandType = CommandType.StoredProcedure;
 
-            cmd.CommandType = CommandType.StoredProcedure;
+                StringBuilder query = new StringBuilder("SP_CPOS_BuscarFacturasListFac");
 
-            cmd.Parameters.AddWithValue("@Fecha_inicio", Fecha_inicio);
-            cmd.Parameters.AddWithValue("@Fecha_fin", Fecha_fin);
-            cmd.Parameters.AddWithValue("@Inicio", Inicio);
-            cmd.Parameters.AddWithValue("@Final", Final);
+                cmd.Parameters.AddWithValue("@Fecha_inicio", Fecha_inicio);
+                cmd.Parameters.AddWithValue("@Fecha_fin", Fecha_fin);
+                cmd.Parameters.AddWithValue("@Inicio", Inicio);
+                cmd.Parameters.AddWithValue("@Final", Final);
+                cmd.CommandText = query.ToString();
 
-            DataSet dts = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter(cmd);
-            da.Fill(dts);
-            return (dts);
+                var dts = new DataSet();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+
+                await Task.Run(() => da.Fill(dts));
+
+                return dts;
+            }
 
         }
 
-        public DataSet CargarNotas(string Fecha_inicio = "", string Fecha_fin = "", int Inicio = 1, int Final = 12)
+        public async Task<DataSet> CargarNotas(string Fecha_inicio = "", string Fecha_fin = "", int Inicio = 1, int Final = 12)
         {
-            SqlCommand cmd = new SqlCommand("SP_CPOS_BuscarFacturasListNC", cn.LeerCadena());
+            using (SqlCommand cmd = new SqlCommand())
+            {
+                cmd.Connection = cn.LeerCadena();
+                cmd.CommandType = CommandType.StoredProcedure;
 
-            cmd.CommandType = CommandType.StoredProcedure;
+                StringBuilder query = new StringBuilder("SP_CPOS_BuscarFacturasListNC");
 
-            cmd.Parameters.AddWithValue("@Fecha_inicio", Fecha_inicio);
-            cmd.Parameters.AddWithValue("@Fecha_fin", Fecha_fin);
-            cmd.Parameters.AddWithValue("@Inicio", Inicio);
-            cmd.Parameters.AddWithValue("@Final", Final);
+                cmd.Parameters.AddWithValue("@Fecha_inicio", Fecha_inicio);
+                cmd.Parameters.AddWithValue("@Fecha_fin", Fecha_fin);
+                cmd.Parameters.AddWithValue("@Inicio", Inicio);
+                cmd.Parameters.AddWithValue("@Final", Final);
+                cmd.CommandText = query.ToString();
 
-            DataSet dts = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter(cmd);
-            da.Fill(dts);
-            return (dts);
+                var dts = new DataSet();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+
+                await Task.Run(() => da.Fill(dts));
+
+                return dts;
+            }
 
         }
 
@@ -109,16 +123,18 @@ namespace CapaDatos.ListaFacturas_Datos
 
                 StringBuilder query = new StringBuilder(@"
                   SELECT 
-                       ISNULL(Cod_Sucursal, '') AS Cod_Sucursal, 
-                       ISNULL(Fact_Num, '') AS Fact_Num, 
-                       ISNULL(NumOrdServ, '') AS NumOrdServ, 
-                       ISNULL(CTE_CedIdenPAG, 0) AS CTE_CedIdenPAG, 
-                       ISNULL(Fact_SubTotal, 0) AS Fact_SubTotal, 
-                       ISNULL(Fact_Descuento, 0) AS Fact_Descuento, 
-                       ISNULL(Fact_Impuesto, 0) AS Fact_Impuesto, 
-                       ISNULL(Fact_IGTF, 0) AS Fact_IGTF, 
-                       ISNULL(Fact_Total, 0) AS Fact_Total
-                   FROM TB_FACTURAS 
+                       ISNULL(fc.Cod_Sucursal, '') AS Cod_Sucursal, 
+                       ISNULL(fc.Fact_Num, '') AS Fact_Num, 
+                       ISNULL(fc.NumOrdServ, '') AS NumOrdServ, 
+                       ISNULL(fc.CTE_NacioPAG + '-' + fc.CTE_CedIdenPAG, 0) AS CTE_CedIdenPAG, 
+					   ISNULL(cl.CTE_PNombre + ' ' + cl.CTE_PApellido, 0) AS CTE_PNombre,
+                       ISNULL(fc.Fact_SubTotal, 0) AS Fact_SubTotal, 
+                       ISNULL(fc.Fact_Descuento, 0) AS Fact_Descuento, 
+                       ISNULL(fc.Fact_Impuesto, 0) AS Fact_Impuesto, 
+                       ISNULL(fc.Fact_IGTF, 0) AS Fact_IGTF, 
+                       ISNULL(fc.Fact_Total, 0) AS Fact_Total
+                   FROM TB_FACTURAS fc
+				   INNER JOIN TB_CTEPPAL cl on fc.CTE_CedIdenPAG = cl.CTE_CedIden
                    WHERE CAST(Fecha AS DATE) = @Fecha
                ");
 
@@ -179,15 +195,20 @@ namespace CapaDatos.ListaFacturas_Datos
 
                 StringBuilder query = new StringBuilder(@"
                 SELECT 
-                    ISNULL(NRONOTA, '') AS Numero, 
-                    ISNULL(NROCONTROL, '') AS NumeroControl, 
-                    ISNULL(CTE_CedIden, 0) AS Cedula, 
-                    ISNULL(Fact_Num, '') AS Factura, 
-                    ISNULL(MontoNota, 0) AS Monto, 
-                    ISNULL(MontoAplicado, 0) AS Aplicado, 
-                    ISNULL(SaldoNota, 0) AS Saldo
+                    ISNULL(NT.NRONOTA, '') AS Numero, 
+                    ISNULL(NT.NROCONTROL, '') AS NumeroControl, 
+                    ISNULL(NT.CTE_Nacio + '-' + NT.CTE_CedIden, '') AS Cedula, 
+                    ISNULL(CL.CTE_PNombre + ' ' + CL.CTE_PApellido,'') AS NombreCliente,
+                    ISNULL(NT.Fact_Num, '') AS Factura, 
+                    ISNULL(NT.MontoNota, 0) AS Monto, 
+                    ISNULL(NT.MontoAplicado, 0) AS Aplicado, 
+                    ISNULL(NT.SaldoNota, 0) AS Saldo
 
-                FROM TB_NOTASCREDITODEBITO
+                FROM TB_NOTASCREDITODEBITO NT
+
+                LEFT JOIN [dbo].[TB_CTEPPAL] CL
+	            ON NT.CTE_CedIden = CL.CTE_CedIden
+
                 WHERE CAST(Fecha AS DATE) = @Fecha
                 ");
 

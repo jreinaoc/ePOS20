@@ -13,7 +13,8 @@ namespace CapaEntidades
         public string Cod_Sucursal { get; set; }
         public string Fact_Num { get; set; }
         public string NumOrdServ { get; set; }
-        public int CTE_CedIdenPAG { get; set; }
+        public string CTE_CedIdenPAG { get; set; }
+        public string CTE_PNombre { get; set; }
         public decimal Fact_SubTotal { get; set; }
         public decimal Fact_Descuento { get; set; }
         public decimal Fact_Impuesto { get; set; }

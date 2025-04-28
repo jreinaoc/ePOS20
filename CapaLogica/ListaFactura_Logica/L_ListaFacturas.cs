@@ -29,7 +29,7 @@ namespace CapaLogica.ListaFactura_Logica
 
 
 
-        public DataSet CargarFacturas(int Inicio = 1, int Final = 12)
+        public async Task<DataSet> CargarFacturas(int Inicio = 1, int Final = 12)
         {
             try
             {
@@ -37,7 +37,7 @@ namespace CapaLogica.ListaFactura_Logica
 
                 //Le enviamos el index asociados al valor selecionado en el combobox 
 
-                DataSet Ordenes  = _D_ListaFactura.CargarFacturas("", "", Inicio, Final);
+                DataSet Ordenes  = await _D_ListaFactura.CargarFacturas("", "", Inicio, Final);
 
                 if (Ordenes.Tables[0].Rows.Count > 0)
                 {
@@ -55,20 +55,18 @@ namespace CapaLogica.ListaFactura_Logica
 
         }
 
-        public DataSet TraerFacturasRango(System.Windows.Forms.DateTimePicker Fechadesde, System.Windows.Forms.DateTimePicker Fechahasta, int Inicio = 1, int Final = 12)
+        public async Task<DataSet> TraerFacturasRango(System.Windows.Forms.DateTimePicker Fechadesde, System.Windows.Forms.DateTimePicker Fechahasta, int Inicio = 1, int Final = 12)
         {
             try
             {
                 stringBuilder.Clear();
-
 
                 DateTime PRUE = Fechadesde.Value;
                 DateTime PRUEB = Fechahasta.Value;
                 string PeriodoDesde = PRUE.ToString("yyyyMMdd");
                 string PeriodoHasta = PRUEB.ToString("yyyyMMdd");
 
-                //Le enviamos el index asociados al valor selecionado en el combobox 
-                DataSet Ordenesrango = _D_ListaFactura.CargarFacturas(PeriodoDesde, PeriodoHasta, Inicio, Final);
+                DataSet Ordenesrango = await _D_ListaFactura.CargarFacturas(PeriodoDesde, PeriodoHasta, Inicio, Final);
 
                 if (Ordenesrango.Tables[0].Rows.Count > 0)
                 {
@@ -76,7 +74,6 @@ namespace CapaLogica.ListaFactura_Logica
                 }
                 stringBuilder.Append(Environment.NewLine + "No hay ordenes");
                 return null;
-
             }
             catch (Exception ex)
             {
@@ -85,20 +82,19 @@ namespace CapaLogica.ListaFactura_Logica
             }
         }
 
-        public DataSet TraerNotasRango(System.Windows.Forms.DateTimePicker Fechadesde, System.Windows.Forms.DateTimePicker Fechahasta, int Inicio = 1, int Final = 12)
+        public async Task<DataSet> TraerNotasRango(System.Windows.Forms.DateTimePicker Fechadesde, System.Windows.Forms.DateTimePicker Fechahasta, int Inicio = 1, int Final = 12)
         {
             try
             {
                 stringBuilder.Clear();
-
 
                 DateTime PRUE = Fechadesde.Value;
                 DateTime PRUEB = Fechahasta.Value;
                 string PeriodoDesde = PRUE.ToString("yyyyMMdd");
                 string PeriodoHasta = PRUEB.ToString("yyyyMMdd");
 
-                //Le enviamos el index asociados al valor selecionado en el combobox 
-                DataSet Ordenesrango = _D_ListaFactura.CargarNotas(PeriodoDesde, PeriodoHasta, Inicio, Final);
+                // Aquí cambia por la versión ASYNC:
+                DataSet Ordenesrango = await _D_ListaFactura.CargarNotas(PeriodoDesde, PeriodoHasta, Inicio, Final);
 
                 if (Ordenesrango.Tables[0].Rows.Count > 0)
                 {
@@ -106,7 +102,6 @@ namespace CapaLogica.ListaFactura_Logica
                 }
                 stringBuilder.Append(Environment.NewLine + "No hay ordenes");
                 return null;
-
             }
             catch (Exception ex)
             {
@@ -209,7 +204,8 @@ namespace CapaLogica.ListaFactura_Logica
                         Cod_Sucursal = row["Cod_Sucursal"].ToString(),
                         Fact_Num = row["Fact_Num"].ToString(),
                         NumOrdServ = row["NumOrdServ"].ToString(),
-                        CTE_CedIdenPAG = Convert.ToInt32(row["CTE_CedIdenPAG"]),
+                        CTE_CedIdenPAG = row["CTE_CedIdenPAG"].ToString(),
+                        CTE_PNombre = row["CTE_PNombre"].ToString(),
                         Fact_SubTotal = Convert.ToDecimal(row["Fact_SubTotal"]),
                         Fact_Descuento = Convert.ToDecimal(row["Fact_Descuento"]),
                         Fact_Impuesto = Convert.ToDecimal(row["Fact_Impuesto"]),
@@ -241,6 +237,7 @@ namespace CapaLogica.ListaFactura_Logica
                         TipoVenta = row["TipoVenta"].ToString(),
                         Fecha = Convert.ToDateTime(row["Fecha"]),
                         Cedula = row["Cedula"].ToString(),
+                        NombreCliente = row["NombreCliente"].ToString(),
                         TipoPago = row["TipoPago"].ToString(),
                         Pago = Convert.ToDecimal(row["Pago"] ?? 0)
                     });
@@ -294,7 +291,8 @@ namespace CapaLogica.ListaFactura_Logica
                     {
                         Numero = row["Numero"]?.ToString(),
                         NumeroControl = row["NumeroControl"]?.ToString(),
-                        Cedula = Convert.ToInt32(row["Cedula"] ?? 0),
+                        Cedula = row["Cedula"].ToString(),
+                        NombreCliente = row["NombreCliente"].ToString(),
                         Factura = row["Factura"]?.ToString(),
                         Monto = Convert.ToDecimal(row["Monto"] ?? 0),
                         Aplicado = Convert.ToDecimal(row["Aplicado"] ?? 0),
