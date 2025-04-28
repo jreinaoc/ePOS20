@@ -240,9 +240,9 @@ namespace CapaVisual_Login
                 DgvListaFacturas1.Columns["CedulaCliente"].Width = 110;
                 DgvListaFacturas1.Columns["FactSub"].Width = 110;
                 DgvListaFacturas1.Columns["FactImpuesto"].Width = 110;
-                DgvListaFacturas1.Columns["FactIGTF"].Width = 110;
+                DgvListaFacturas1.Columns["FactIGTF"].Width = 80;
                 DgvListaFacturas1.Columns["FactTotal"].Width = 110;
-                DgvListaFacturas1.Columns["Fecha"].Width = 110;
+                DgvListaFacturas1.Columns["Fecha"].Width = 140;
 
                 //Bloquear Columna 
                 DgvListaFacturas1.Columns["NumeroFactura"].ReadOnly = true;
@@ -279,7 +279,7 @@ namespace CapaVisual_Login
                 DgvListaFacturas1.Columns["FactImpuesto"].DefaultCellStyle.Format = "##,##0.00";
                 DgvListaFacturas1.Columns["FactIGTF"].DefaultCellStyle.Format = "##,##0.00";
                 DgvListaFacturas1.Columns["FactTotal"].DefaultCellStyle.Format = "##,##0.00";
-                DgvListaFacturas1.Columns["Fecha"].DefaultCellStyle.Format = "dd/MM/yyyy";
+                DgvListaFacturas1.Columns["Fecha"].DefaultCellStyle.Format = "dd/MM/yyyy HH:mm:ss";
 
                 //// Deshabilitar el ajuste automático de la altura de las filas
                 //DgvListaFacturas.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;

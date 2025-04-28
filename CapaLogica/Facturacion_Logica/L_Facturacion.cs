@@ -276,6 +276,7 @@ namespace CapaLogica.DetalleOrden_Logica
                 TotalAboTranferenciaDolar = Math.Round(Convert.ToDouble(dt.Rows[0]["TotalPagoIgtf"].ToString()), 2);
                 TotalAboTranferenciaDolar = TotalAboTranferenciaDolar + Convert.ToDouble(TotalIgtf(Dt_Abono));
                 IgtfBs = Math.Round((Convert.ToDouble(Boivares) * 0.03), 2);
+                //IgtfBs = Math.Round((Convert.ToDouble(Boivares) * 0.03), 2) / Convert.ToDouble(TB_TASA_Dolar.Tasa);
 
 
                 ////// ****** Esta en fase de prueba si se utiliza el precio total de la orden en dolares o el saldo de la orden en dolares *****
@@ -294,7 +295,7 @@ namespace CapaLogica.DetalleOrden_Logica
 
             }
 
-            return IgtfBs;
+            return Math.Round(IgtfBs,2);
         }
 
         public void ConvertirDolaresBolivares(System.Windows.Forms.TextBox Dolar, System.Windows.Forms.TextBox Bolivares, string TipoMoneda)
@@ -841,6 +842,10 @@ namespace CapaLogica.DetalleOrden_Logica
                 Cod_BancoRecep = "";
                 Abo_Monto_SinIGTF = "";
                 Abo_IGTF = "";
+
+                string Sucursal = _D_DetalleOrden.TB_PARAMETRO("SucursalId");
+                //OS: 0153856, Monto Abono: 12513.00
+                _D_Anulacion.CaragarAuditor(Sucursal, "013", TB_USUARIO.COD_EMPLEADO, "OS: " + NumOrdserv + ", Monto Abono: " + Convert.ToString(Convert.ToDouble(Abo_Monto)));
             }
 
             return rep;

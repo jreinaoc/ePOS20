@@ -665,6 +665,54 @@ namespace CapaLogica.Impresora_Fiscal
             }
         }
 
+        public bool VerficarConexionImpresoraFiscalSinCerrar()
+        {
+            //VmaxComVe.VmaxComClass objVmax = new VmaxComVe.VmaxComClass();
+            stringBuilder.Clear();
+            uint resp = 0;
+            bool Conexion = false;
+            string status;
+
+
+            try
+            {
+                VmaxComVe.VmaxComClass objVmax = new VmaxComVe.VmaxComClass();
+                uint ret = 0;
+
+                ret = objVmax.AbrirPuerto(Convert.ToString(glbPuertoCOM));
+                ret = objVmax.ObtenerEstadoImpresora();
+
+                if (ret != 16 && ret != 0)
+                {
+                    //resp = objVmax.AbrirCF("", "", "1", "1", "12345", "", "", 40);
+                    //objVmax.Cancelar();
+                    //objVmax.Cerrar();
+                    objVmax.CerrarPuerto();
+                    stringBuilder.Append(Environment.NewLine + "No hay conexión con la impresora fiscal");
+                    Conexion = false;
+                    _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, "No hay conexión con la impresora fiscal");
+
+
+                }
+
+                else
+                {
+                    Conexion = true;
+                    //objVmax.Cancelar();
+                    //objVmax.Cerrar();
+                    //objVmax.CerrarPuerto();
+                }
+
+                return Conexion;
+            }
+
+            catch (Exception ex)
+            {
+                stringBuilder.Append("Por favor comunicarse con el Dpto de sistemas y reportar el siguiente error: " + Environment.NewLine + string.Format("Error: {0}", ex.Message));
+                return false;
+            }
+        }
+
         public string Validar_Cadena(string _cadena)
         {
             int MaxLength = 39;

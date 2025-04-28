@@ -23,13 +23,16 @@ C:\Programacion\CaroniPOS1\CapaEntidades\obj\Debug\CapaEntidades.dll
 C:\Programacion\CaroniPOS1\CapaEntidades\obj\Debug\CapaEntidades.pdb
 C:\Desarrollo2022\CaroniPOS1\CapaEntidades\bin\Debug\CapaEntidades.dll
 C:\Desarrollo2022\CaroniPOS1\CapaEntidades\bin\Debug\CapaEntidades.pdb
+C:\Desarrollo2022\CaroniPOS1\CapaEntidades\bin\Debug\BouncyCastle.Cryptography.dll
 C:\Desarrollo2022\CaroniPOS1\CapaEntidades\bin\Debug\log4net.dll
 C:\Desarrollo2022\CaroniPOS1\CapaEntidades\bin\Debug\Newtonsoft.Json.dll
 C:\Desarrollo2022\CaroniPOS1\CapaEntidades\bin\Debug\System.ComponentModel.Annotations.dll
+C:\Desarrollo2022\CaroniPOS1\CapaEntidades\bin\Debug\System.Drawing.Common.dll
+C:\Desarrollo2022\CaroniPOS1\CapaEntidades\bin\Debug\BouncyCastle.Cryptography.xml
 C:\Desarrollo2022\CaroniPOS1\CapaEntidades\bin\Debug\log4net.xml
 C:\Desarrollo2022\CaroniPOS1\CapaEntidades\bin\Debug\Newtonsoft.Json.xml
+C:\Desarrollo2022\CaroniPOS1\CapaEntidades\bin\Debug\System.Drawing.Common.xml
 C:\Desarrollo2022\CaroniPOS1\CapaEntidades\obj\Debug\CapaEntidades.csproj.CoreCompileInputs.cache
 C:\Desarrollo2022\CaroniPOS1\CapaEntidades\obj\Debug\CapaEntidades.csproj.CopyComplete
 C:\Desarrollo2022\CaroniPOS1\CapaEntidades\obj\Debug\CapaEntidades.dll
 C:\Desarrollo2022\CaroniPOS1\CapaEntidades\obj\Debug\CapaEntidades.pdb
-C:\Desarrollo2022\CaroniPOS1\CapaEntidades\obj\Debug\CapaEntidades.csproj.AssemblyReference.cache
