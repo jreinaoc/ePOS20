@@ -35,3 +35,4 @@ obj/
 *.suo
 *.user
 .vs/*.suo
+.vs/*.suo
