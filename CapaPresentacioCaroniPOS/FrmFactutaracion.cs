@@ -399,13 +399,22 @@ namespace CapaVisual_Login
                         {
                             TxtVuelto.Text = String.Format(CultureInfo.InvariantCulture, "{0:0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtRecibidoREF.Text))) - Convert.ToDouble(txtRef.Text == "" ? (Double)0.00 : Convert.ToDouble(txtRef.Text)), 2));
                             //TxtMontoPagoMovil.Text = String.Format(CultureInfo.InvariantCulture, "{0:0.00}", Math.Round(Convert.ToDouble(TB_TASA_Dolar.Tasa) * ((Convert.ToDouble(TxtRecibidoREF.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtRecibidoREF.Text))) - Convert.ToDouble(txtRef.Text == "" ? (Double)0.00 : Convert.ToDouble(txtRef.Text))), 2));
-                            if (Convert.ToDouble(txtRef.Text) >= Convert.ToDouble(TxtSaldoRef_2.Text))
+                            Double OtrosAbonos = Convert.ToDouble(_L_Facturacion.TotalizarAbono(DgvAbonos));
+                            string saldo_bolivares = Convert.ToString(Math.Round((double)((Convert.ToDouble(TxtSaldoOrd.Text.Replace(".", "")))), 2));
+                            //fact solo con divisa o haciendo un pago sin cambiar el monto
+                            //if (Convert.ToDouble(txtRef.Text) >= Convert.ToDouble(TxtSaldoRef_2.Text))
+                            //{
+                            //    TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - (Convert.ToDouble(TxtSaldoOrd.Text) + Convert.ToDouble(txtIGTF.Text)), 2));
+                            //}
+                            //else
+                            //{
+                            if (Convert.ToDouble(txtRef.Text) >= Convert.ToDouble(TxtSaldoRef_2.Text) || OtrosAbonos > 0)
                             {
-                                TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - (Convert.ToDouble(TxtSaldoOrd.Text) + Convert.ToDouble(txtIGTF.Text)), 2));
+                                TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - ((Convert.ToDouble(saldo_bolivares) - OtrosAbonos) + Convert.ToDouble(txtIGTF.Text)), 2));
                             }
                             else
                             {
-                                TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - (Convert.ToDouble(txtRef.Text) * Convert.ToDouble(txtTasaFact.Text)), 2));
+                                TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - ((Convert.ToDouble(txtRef.Text)) * Convert.ToDouble(txtTasaFact.Text)), 2));
                             }
                         }
 
@@ -437,13 +446,22 @@ namespace CapaVisual_Login
                             {
                                 TxtVuelto.Text = String.Format(CultureInfo.InvariantCulture, "{0:0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtRecibidoREF.Text))) - Convert.ToDouble(txtRef.Text == "" ? (Double)0.00 : Convert.ToDouble(txtRef.Text)), 2));
                                 //TxtMontoPagoMovil.Text = String.Format(CultureInfo.InvariantCulture, "{0:0.00}", Math.Round(Convert.ToDouble(TB_TASA_Euro.Tasa) * ((Convert.ToDouble(TxtRecibidoREF.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtRecibidoREF.Text))) - Convert.ToDouble(txtRef.Text == "" ? (Double)0.00 : Convert.ToDouble(txtRef.Text))), 2));
-                                if (Convert.ToDouble(txtRef.Text) >= Convert.ToDouble(TxtSaldoRef_2.Text))
+                                Double OtrosAbonos = Convert.ToDouble(_L_Facturacion.TotalizarAbono(DgvAbonos));
+                                string saldo_bolivares = Convert.ToString(Math.Round((double)((Convert.ToDouble(TxtSaldoOrd.Text.Replace(".", "")))), 2));
+                                //fact solo con divisa o haciendo un pago sin cambiar el monto
+                                //if (Convert.ToDouble(txtRef.Text) >= Convert.ToDouble(TxtSaldoRef_2.Text))
+                                //{
+                                //    TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - (Convert.ToDouble(TxtSaldoOrd.Text) + Convert.ToDouble(txtIGTF.Text)), 2));
+                                //}
+                                //else
+                                //{
+                                if (Convert.ToDouble(txtRef.Text) >= Convert.ToDouble(TxtSaldoRef_2.Text) || OtrosAbonos > 0)
                                 {
-                                    TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - (Convert.ToDouble(TxtSaldoOrd.Text) + Convert.ToDouble(txtIGTF.Text)), 2));
+                                    TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - ((Convert.ToDouble(saldo_bolivares) - OtrosAbonos) + Convert.ToDouble(txtIGTF.Text)), 2));
                                 }
                                 else
                                 {
-                                    TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - (Convert.ToDouble(txtRef.Text) * Convert.ToDouble(txtTasaFact.Text)), 2));
+                                    TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - ((Convert.ToDouble(txtRef.Text)) * Convert.ToDouble(txtTasaFact.Text)), 2));
                                 }
                             }
 
@@ -765,6 +783,7 @@ namespace CapaVisual_Login
 
         private void btnCancelar2_Click(object sender, EventArgs e)
         {
+            
             LimpiaVariablesIdAbonoPagoMovil();
             VisualizarPanel("MostrarPanelPrincipal");
             LimpiarTxbox();
@@ -2184,6 +2203,17 @@ namespace CapaVisual_Login
                 txtRef.Text = String.Format(CultureInfo.InvariantCulture, "{0:0.00}", txtRef.Text).Replace(".", ",");
             }
 
+            if (TxtRecibidoREF.Text == "")
+            {
+                TxtRecibidoREF.Text = "0,00";
+            }
+            else
+            {
+                TxtRecibidoREF.Text = String.Format(CultureInfo.InvariantCulture, "{0:0.00}", TxtRecibidoREF.Text).Replace(".", ",");
+            }
+
+           
+
             BolivaresConveridos(Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos)), txtMontoBs);
             //-----------ConvertirBolivares---------------------------
             //txtMontoBs.Text = _L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos);
@@ -2215,13 +2245,22 @@ namespace CapaVisual_Login
                     {
                         TxtVuelto.Text = String.Format(CultureInfo.InvariantCulture, "{0:0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtRecibidoREF.Text))) - Convert.ToDouble(txtRef.Text == "" ? (Double)0.00 : Convert.ToDouble(txtRef.Text)), 2));
                         //TxtMontoPagoMovil.Text = String.Format(CultureInfo.InvariantCulture, "{0:0.00}", Math.Round(Convert.ToDouble(TB_TASA_Dolar.Tasa) * ((Convert.ToDouble(TxtRecibidoREF.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtRecibidoREF.Text))) - Convert.ToDouble(txtRef.Text == "" ? (Double)0.00 : Convert.ToDouble(txtRef.Text))), 2));
-                        if (Convert.ToDouble(txtRef.Text) >= Convert.ToDouble(TxtSaldoRef_2.Text))
+                        Double OtrosAbonos = Convert.ToDouble(_L_Facturacion.TotalizarAbono(DgvAbonos));
+                        string saldo_bolivares = Convert.ToString(Math.Round((double)((Convert.ToDouble(TxtSaldoOrd.Text.Replace(".", "")))), 2));
+                        //fact solo con divisa o haciendo un pago sin cambiar el monto
+                        //if (Convert.ToDouble(txtRef.Text) >= Convert.ToDouble(TxtSaldoRef_2.Text))
+                        //{
+                        //    TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - (Convert.ToDouble(TxtSaldoOrd.Text) + Convert.ToDouble(txtIGTF.Text)), 2));
+                        //}
+                        //else
+                        //{
+                        if (Convert.ToDouble(txtRef.Text) >= Convert.ToDouble(TxtSaldoRef_2.Text) || OtrosAbonos > 0)
                         {
-                            TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - (Convert.ToDouble(TxtSaldoOrd.Text) + Convert.ToDouble(txtIGTF.Text)), 2));
+                            TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - ((Convert.ToDouble(saldo_bolivares) - OtrosAbonos) + Convert.ToDouble(txtIGTF.Text)), 2));
                         }
                         else
                         {
-                            TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - (Convert.ToDouble(txtRef.Text) * Convert.ToDouble(txtTasaFact.Text)), 2));
+                            TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - ((Convert.ToDouble(txtRef.Text)) * Convert.ToDouble(txtTasaFact.Text)), 2));
                         }
                     }
 
@@ -2254,13 +2293,22 @@ namespace CapaVisual_Login
                         {
                             TxtVuelto.Text = String.Format(CultureInfo.InvariantCulture, "{0:0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtRecibidoREF.Text))) - Convert.ToDouble(txtRef.Text == "" ? (Double)0.00 : Convert.ToDouble(txtRef.Text)), 2));
                             //TxtMontoPagoMovil.Text = String.Format(CultureInfo.InvariantCulture, "{0:0.00}", Math.Round(Convert.ToDouble(TB_TASA_Euro.Tasa) * ((Convert.ToDouble(TxtRecibidoREF.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtRecibidoREF.Text))) - Convert.ToDouble(txtRef.Text == "" ? (Double)0.00 : Convert.ToDouble(txtRef.Text))), 2));
-                            if (Convert.ToDouble(txtRef.Text) >= Convert.ToDouble(TxtSaldoRef_2.Text))
+                            Double OtrosAbonos = Convert.ToDouble(_L_Facturacion.TotalizarAbono(DgvAbonos));
+                            string saldo_bolivares = Convert.ToString(Math.Round((double)((Convert.ToDouble(TxtSaldoOrd.Text.Replace(".", "")))), 2));
+                            //fact solo con divisa o haciendo un pago sin cambiar el monto
+                            //if (Convert.ToDouble(txtRef.Text) >= Convert.ToDouble(TxtSaldoRef_2.Text))
+                            //{
+                            //    TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - (Convert.ToDouble(TxtSaldoOrd.Text) + Convert.ToDouble(txtIGTF.Text)), 2));
+                            //}
+                            //else
+                            //{
+                            if (Convert.ToDouble(txtRef.Text) >= Convert.ToDouble(TxtSaldoRef_2.Text) || OtrosAbonos > 0)
                             {
-                                TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - (Convert.ToDouble(TxtSaldoOrd.Text) + Convert.ToDouble(txtIGTF.Text)), 2));
+                                TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - ((Convert.ToDouble(saldo_bolivares) - OtrosAbonos) + Convert.ToDouble(txtIGTF.Text)), 2));
                             }
                             else
                             {
-                                TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - (Convert.ToDouble(txtRef.Text) * Convert.ToDouble(txtTasaFact.Text)), 2));
+                                TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - ((Convert.ToDouble(txtRef.Text)) * Convert.ToDouble(txtTasaFact.Text)), 2));
                             }
                         }
 
@@ -6844,6 +6892,7 @@ namespace CapaVisual_Login
         //Comentar
         private void btnCancelar4_Click(object sender, EventArgs e)
         {
+            txtRef.Text = "1"; 
             LimpiaVariablesIdAbonoPagoMovil();
             LimpiarNotasDevolucion();
             VisualizarPanel("MostrarPanelPrincipal");
@@ -8110,13 +8159,22 @@ namespace CapaVisual_Login
                         {
                             TxtVuelto.Text = String.Format(CultureInfo.InvariantCulture, "{0:0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtRecibidoREF.Text))) - Convert.ToDouble(txtRef.Text == "" ? (Double)0.00 : Convert.ToDouble(txtRef.Text)), 2));
                             //TxtMontoPagoMovil.Text = String.Format(CultureInfo.InvariantCulture, "{0:0.00}", Math.Round(Convert.ToDouble(TB_TASA_Euro.Tasa) * ((Convert.ToDouble(TxtRecibidoREF.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtRecibidoREF.Text))) - Convert.ToDouble(txtRef.Text == "" ? (Double)0.00 : Convert.ToDouble(txtRef.Text))), 2));
-                            if (Convert.ToDouble(txtRef.Text) >= Convert.ToDouble(TxtSaldoRef_2.Text))
+                            Double OtrosAbonos = Convert.ToDouble(_L_Facturacion.TotalizarAbono(DgvAbonos));
+                            string saldo_bolivares = Convert.ToString(Math.Round((double)((Convert.ToDouble(TxtSaldoOrd.Text.Replace(".", "")))), 2));
+                            //fact solo con divisa o haciendo un pago sin cambiar el monto
+                            //if (Convert.ToDouble(txtRef.Text) >= Convert.ToDouble(TxtSaldoRef_2.Text))
+                            //{
+                            //    TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - (Convert.ToDouble(TxtSaldoOrd.Text) + Convert.ToDouble(txtIGTF.Text)), 2));
+                            //}
+                            //else
+                            //{
+                            if (Convert.ToDouble(txtRef.Text) >= Convert.ToDouble(TxtSaldoRef_2.Text) || OtrosAbonos > 0)
                             {
-                                TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - (Convert.ToDouble(TxtSaldoOrd.Text) + Convert.ToDouble(txtIGTF.Text)), 2));
+                                TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - ((Convert.ToDouble(saldo_bolivares) - OtrosAbonos) + Convert.ToDouble(txtIGTF.Text)), 2));
                             }
                             else
                             {
-                                TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - (Convert.ToDouble(txtRef.Text) * Convert.ToDouble(txtTasaFact.Text)), 2));
+                                TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - ((Convert.ToDouble(txtRef.Text)) * Convert.ToDouble(txtTasaFact.Text)), 2));
                             }
                         }
                         else
@@ -8124,14 +8182,28 @@ namespace CapaVisual_Login
                             TxtVuelto.Text = String.Format(CultureInfo.InvariantCulture, "{0:0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtRecibidoREF.Text))) - Convert.ToDouble(txtRef.Text == "" ? (Double)0.00 : Convert.ToDouble(txtRef.Text)), 2));
                             //TxtMontoPagoMovil.Text = String.Format(CultureInfo.InvariantCulture, "{0:0.00}", Math.Round(Convert.ToDouble(TB_TASA_Dolar.Tasa) * ((Convert.ToDouble(TxtRecibidoREF.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtRecibidoREF.Text))) - Convert.ToDouble(txtRef.Text == "" ? (Double)0.00 : Convert.ToDouble(txtRef.Text))), 2));
                             //TxtMontoPagoMovil.Text = String.Format(CultureInfo.InvariantCulture, "{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - (Convert.ToDouble(TxtSaldoOrd_2.Text) + Convert.ToDouble(txtIGTF.Text)),2));
-                            if (Convert.ToDouble(txtRef.Text) >= Convert.ToDouble(TxtSaldoRef_2.Text))
-                            {
-                                TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - (Convert.ToDouble(TxtSaldoOrd.Text) + Convert.ToDouble(txtIGTF.Text)), 2));
-                            }
-                            else
-                            {
-                                TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - (Convert.ToDouble(txtRef.Text) * Convert.ToDouble(txtTasaFact.Text)), 2));
-                            }
+                            
+                            //double BsRestaCambio = 0.00;
+                            //BsRestaCambio = Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos));
+                           
+                            Double OtrosAbonos = Convert.ToDouble(_L_Facturacion.TotalizarAbono(DgvAbonos));
+                            string saldo_bolivares = Convert.ToString(Math.Round((double)((Convert.ToDouble(TxtSaldoOrd.Text.Replace(".", "")))), 2));
+                            //fact solo con divisa o haciendo un pago sin cambiar el monto
+                            //if (Convert.ToDouble(txtRef.Text) >= Convert.ToDouble(TxtSaldoRef_2.Text))
+                            //{
+                            //    TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - (Convert.ToDouble(TxtSaldoOrd.Text) + Convert.ToDouble(txtIGTF.Text)), 2));
+                            //}
+                            //else
+                            //{
+                                if (Convert.ToDouble(txtRef.Text) >= Convert.ToDouble(TxtSaldoRef_2.Text) || OtrosAbonos > 0)
+                                {
+                                    TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - ((Convert.ToDouble(saldo_bolivares) - OtrosAbonos) + Convert.ToDouble(txtIGTF.Text)), 2));
+                                }
+                                else
+                                {
+                                    TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - ((Convert.ToDouble(txtRef.Text)) * Convert.ToDouble(txtTasaFact.Text)), 2));
+                                }
+                            //}
                         }
                     }
 
@@ -8164,26 +8236,44 @@ namespace CapaVisual_Login
                     {
                         TxtVuelto.Text = String.Format(CultureInfo.InvariantCulture, "{0:0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtRecibidoREF.Text))) - Convert.ToDouble(txtRef.Text == "" ? (Double)0.00 : Convert.ToDouble(txtRef.Text)), 2));
                         //TxtMontoPagoMovil.Text = String.Format(CultureInfo.InvariantCulture, "{0:#,0.00}", Math.Round(Convert.ToDouble(TB_TASA_Euro.Tasa) * ((Convert.ToDouble(TxtRecibidoREF.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtRecibidoREF.Text))) - Convert.ToDouble(txtRef.Text == "" ? (Double)0.00 : Convert.ToDouble(txtRef.Text))), 2));
-                        if (Convert.ToDouble(txtRef.Text) >= Convert.ToDouble(TxtSaldoRef_2.Text))
+                        Double OtrosAbonos = Convert.ToDouble(_L_Facturacion.TotalizarAbono(DgvAbonos));
+                        string saldo_bolivares = Convert.ToString(Math.Round((double)((Convert.ToDouble(TxtSaldoOrd.Text.Replace(".", "")))), 2));
+                        //fact solo con divisa o haciendo un pago sin cambiar el monto
+                        //if (Convert.ToDouble(txtRef.Text) >= Convert.ToDouble(TxtSaldoRef_2.Text))
+                        //{
+                        //    TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - (Convert.ToDouble(TxtSaldoOrd.Text) + Convert.ToDouble(txtIGTF.Text)), 2));
+                        //}
+                        //else
+                        //{
+                        if (Convert.ToDouble(txtRef.Text) >= Convert.ToDouble(TxtSaldoRef_2.Text) || OtrosAbonos > 0)
                         {
-                            TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - (Convert.ToDouble(TxtSaldoOrd.Text) + Convert.ToDouble(txtIGTF.Text)), 2));
+                            TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - ((Convert.ToDouble(saldo_bolivares) - OtrosAbonos) + Convert.ToDouble(txtIGTF.Text)), 2));
                         }
                         else
                         {
-                            TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - (Convert.ToDouble(txtRef.Text) * Convert.ToDouble(txtTasaFact.Text)), 2));
+                            TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - ((Convert.ToDouble(txtRef.Text)) * Convert.ToDouble(txtTasaFact.Text)), 2));
                         }
                     }
                     else
                     {
                         TxtVuelto.Text = String.Format(CultureInfo.InvariantCulture, "{0:0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtRecibidoREF.Text))) - Convert.ToDouble(txtRef.Text == "" ? (Double)0.00 : Convert.ToDouble(txtRef.Text)), 2));
                         //TxtMontoPagoMovil.Text = String.Format(CultureInfo.InvariantCulture, "{0:#,0.00}", Math.Round(Convert.ToDouble(TB_TASA_Dolar.Tasa) * ((Convert.ToDouble(TxtRecibidoREF.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtRecibidoREF.Text))) - Convert.ToDouble(txtRef.Text == "" ? (Double)0.00 : Convert.ToDouble(txtRef.Text))), 2));
-                        if (Convert.ToDouble(txtRef.Text) >= Convert.ToDouble(TxtSaldoRef_2.Text))
+                        Double OtrosAbonos = Convert.ToDouble(_L_Facturacion.TotalizarAbono(DgvAbonos));
+                        string saldo_bolivares = Convert.ToString(Math.Round((double)((Convert.ToDouble(TxtSaldoOrd.Text.Replace(".", "")))), 2));
+                        //fact solo con divisa o haciendo un pago sin cambiar el monto
+                        //if (Convert.ToDouble(txtRef.Text) >= Convert.ToDouble(TxtSaldoRef_2.Text))
+                        //{
+                        //    TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - (Convert.ToDouble(TxtSaldoOrd.Text) + Convert.ToDouble(txtIGTF.Text)), 2));
+                        //}
+                        //else
+                        //{
+                        if (Convert.ToDouble(txtRef.Text) >= Convert.ToDouble(TxtSaldoRef_2.Text) || OtrosAbonos > 0)
                         {
-                            TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - (Convert.ToDouble(TxtSaldoOrd.Text) + Convert.ToDouble(txtIGTF.Text)), 2));
+                            TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - ((Convert.ToDouble(saldo_bolivares) - OtrosAbonos) + Convert.ToDouble(txtIGTF.Text)), 2));
                         }
                         else
                         {
-                            TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - (Convert.ToDouble(txtRef.Text) * Convert.ToDouble(txtTasaFact.Text)), 2));
+                            TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - ((Convert.ToDouble(txtRef.Text)) * Convert.ToDouble(txtTasaFact.Text)), 2));
                         }
 
                     }
@@ -8210,13 +8300,22 @@ namespace CapaVisual_Login
             else
             {
                 //TxtMontoPagoMovil.Text = String.Format(CultureInfo.InvariantCulture, "{0:0.00}", TxtMontoPagoMovil.Text).Replace(".", ",");
-                if (Convert.ToDouble(txtRef.Text) >= Convert.ToDouble(TxtSaldoRef_2.Text))
+                Double OtrosAbonos = Convert.ToDouble(_L_Facturacion.TotalizarAbono(DgvAbonos));
+                string saldo_bolivares = Convert.ToString(Math.Round((double)((Convert.ToDouble(TxtSaldoOrd.Text.Replace(".", "")))), 2));
+                //fact solo con divisa o haciendo un pago sin cambiar el monto
+                //if (Convert.ToDouble(txtRef.Text) >= Convert.ToDouble(TxtSaldoRef_2.Text))
+                //{
+                //    TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - (Convert.ToDouble(TxtSaldoOrd.Text) + Convert.ToDouble(txtIGTF.Text)), 2));
+                //}
+                //else
+                //{
+                if (Convert.ToDouble(txtRef.Text) >= Convert.ToDouble(TxtSaldoRef_2.Text) || OtrosAbonos > 0)
                 {
-                    TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - (Convert.ToDouble(TxtSaldoOrd.Text) + Convert.ToDouble(txtIGTF.Text)), 2));
+                    TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - ((Convert.ToDouble(saldo_bolivares) - OtrosAbonos) + Convert.ToDouble(txtIGTF.Text)), 2));
                 }
                 else
                 {
-                    TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - (Convert.ToDouble(txtRef.Text) * Convert.ToDouble(txtTasaFact.Text)), 2));
+                    TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - ((Convert.ToDouble(txtRef.Text)) * Convert.ToDouble(txtTasaFact.Text)), 2));
                 }
             }
 
