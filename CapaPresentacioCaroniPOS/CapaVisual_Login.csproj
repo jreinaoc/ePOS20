@@ -90,45 +90,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Debug\EnvioPagoMovil.dll</HintPath>
     </Reference>
-    <Reference Include="itext.barcodes, Version=9.1.0.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
-      <HintPath>..\packages\itext.9.1.0\lib\net461\itext.barcodes.dll</HintPath>
-    </Reference>
-    <Reference Include="itext.bouncy-castle-adapter, Version=9.1.0.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
-      <HintPath>..\packages\itext.bouncy-castle-adapter.9.1.0\lib\net461\itext.bouncy-castle-adapter.dll</HintPath>
-    </Reference>
-    <Reference Include="itext.bouncy-castle-connector, Version=9.1.0.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
-      <HintPath>..\packages\itext.9.1.0\lib\net461\itext.bouncy-castle-connector.dll</HintPath>
-    </Reference>
-    <Reference Include="itext.commons, Version=9.1.0.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
-      <HintPath>..\packages\itext.commons.9.1.0\lib\net461\itext.commons.dll</HintPath>
-    </Reference>
-    <Reference Include="itext.forms, Version=9.1.0.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
-      <HintPath>..\packages\itext.9.1.0\lib\net461\itext.forms.dll</HintPath>
-    </Reference>
-    <Reference Include="itext.io, Version=9.1.0.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
-      <HintPath>..\packages\itext.9.1.0\lib\net461\itext.io.dll</HintPath>
-    </Reference>
-    <Reference Include="itext.kernel, Version=9.1.0.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
-      <HintPath>..\packages\itext.9.1.0\lib\net461\itext.kernel.dll</HintPath>
-    </Reference>
-    <Reference Include="itext.layout, Version=9.1.0.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
-      <HintPath>..\packages\itext.9.1.0\lib\net461\itext.layout.dll</HintPath>
-    </Reference>
-    <Reference Include="itext.pdfa, Version=9.1.0.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
-      <HintPath>..\packages\itext.9.1.0\lib\net461\itext.pdfa.dll</HintPath>
-    </Reference>
-    <Reference Include="itext.pdfua, Version=9.1.0.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
-      <HintPath>..\packages\itext.9.1.0\lib\net461\itext.pdfua.dll</HintPath>
-    </Reference>
-    <Reference Include="itext.sign, Version=9.1.0.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
-      <HintPath>..\packages\itext.9.1.0\lib\net461\itext.sign.dll</HintPath>
-    </Reference>
-    <Reference Include="itext.styledxmlparser, Version=9.1.0.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
-      <HintPath>..\packages\itext.9.1.0\lib\net461\itext.styledxmlparser.dll</HintPath>
-    </Reference>
-    <Reference Include="itext.svg, Version=9.1.0.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
-      <HintPath>..\packages\itext.9.1.0\lib\net461\itext.svg.dll</HintPath>
-    </Reference>
     <Reference Include="log4net, Version=2.0.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.15\lib\net45\log4net.dll</HintPath>
     </Reference>

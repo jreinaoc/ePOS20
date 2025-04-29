@@ -16,6 +16,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using iText.Layout.Borders;
+using System.Diagnostics;
 
 public class ExportarPDF : ExportarArchivoPdf_Facturas
 {
@@ -28,7 +29,37 @@ public class ExportarPDF : ExportarArchivoPdf_Facturas
 
         using (MemoryStream stream = new MemoryStream())
         {
-            PdfWriter writer = new PdfWriter(stream);
+            // Obtén los ensamblados de Kernel y Layout
+            var asmKernel = typeof(iText.Kernel.Pdf.PdfDocument).Assembly;
+            var asmLayout = typeof(iText.Layout.Document).Assembly;
+
+            // Loggea nombre, versión y ruta
+            Debug.WriteLine($"[iText Debug] Kernel : {asmKernel.GetName().Name} v{asmKernel.GetName().Version}");
+            Debug.WriteLine($"[iText Debug] Path   : {asmKernel.Location}");
+            Debug.WriteLine($"[iText Debug] Layout : {asmLayout.GetName().Name} v{asmLayout.GetName().Version}");
+            Debug.WriteLine($"[iText Debug] Path   : {asmLayout.Location}");
+
+
+            PdfWriter writer;
+            try
+            {
+                // 2) Creamos el PdfWriter con el stream
+                writer = new PdfWriter(stream);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(">>> ERROR al instanciar PdfWriter:");
+                Debug.WriteLine(ex.GetType().FullName + ": " + ex.Message);
+                Debug.WriteLine(ex.StackTrace);
+                if (ex.InnerException != null)
+                {
+                    Debug.WriteLine("INNER: " + ex.InnerException.GetType().FullName + ": " + ex.InnerException.Message);
+                    Debug.WriteLine(ex.InnerException.StackTrace);
+                }
+                throw;
+            }
+
+            //PdfWriter writer = new PdfWriter(stream);
             PdfDocument pdf = new PdfDocument(writer);
             Document document = new Document(pdf, iText.Kernel.Geom.PageSize.A4);
 
@@ -38,22 +69,22 @@ public class ExportarPDF : ExportarArchivoPdf_Facturas
             // 1. ENCABEZADO: Logo + Fecha/Hora
             Table headerTable = new Table(UnitValue.CreatePercentArray(new float[] { 0.7f, 0.3f })).UseAllAvailableWidth();
 
-            // Logo
-            if (formatoPdf.LogoBytes != null && formatoPdf.LogoBytes.Length > 0)
-            {
-                Image logo = new Image(ImageDataFactory.Create(formatoPdf.LogoBytes));
-                logo.ScaleToFit(100, 100);
+            //// Logo
+            //if (formatoPdf.LogoBytes != null && formatoPdf.LogoBytes.Length > 0)
+            //{
+            //    Image logo = new Image(ImageDataFactory.Create(formatoPdf.LogoBytes));
+            //    logo.ScaleToFit(100, 100);
 
-                Cell logoCell = new Cell().Add(logo)
-                                          .SetBorder(Border.NO_BORDER)
-                                          .SetTextAlignment(TextAlignment.LEFT);
-                headerTable.AddCell(logoCell);
-            }
-            else
-            {
-                // Celda vacía si no hay logo
-                headerTable.AddCell(new Cell().SetBorder(Border.NO_BORDER));
-            }
+            //    Cell logoCell = new Cell().Add(logo)
+            //                              .SetBorder(Border.NO_BORDER)
+            //                              .SetTextAlignment(TextAlignment.LEFT);
+            //    headerTable.AddCell(logoCell);
+            //}
+            //else
+            //{
+            //    // Celda vacía si no hay logo
+            //    headerTable.AddCell(new Cell().SetBorder(Border.NO_BORDER));
+            //}
 
             // Fecha y Hora
             Paragraph dateParagraph = new Paragraph()
