@@ -157,4 +157,4 @@ C:\projects\EPOS20\CapaLogica\obj\Debug\CapaLogica.csproj.ResolveComReference.ca
 C:\projects\EPOS20\CapaLogica\obj\Debug\CapaLogica.csproj.CoreCompileInputs.cache
 C:\projects\EPOS20\CapaLogica\obj\Debug\CapaLogica.dll
 C:\projects\EPOS20\CapaLogica\obj\Debug\CapaLogica.pdb
-C:\projects\EPOS20\CapaLogica\obj\Debug\CapaLogica.csproj.Up2Date
+C:\projects\EPOS20\CapaLogica\obj\Debug\CapaLogica.csproj.CopyComplete
