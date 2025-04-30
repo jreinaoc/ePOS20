@@ -15,6 +15,7 @@ using CapaLogica.ExportarArchivos;
 using System.IO;
 using CapaLogica.Servicios;
 using System.Runtime.InteropServices;
+using System.Diagnostics;
 
 namespace CapaVisual_Login
 {
@@ -398,7 +399,7 @@ namespace CapaVisual_Login
                 {
                     //MessageBox.Show("No hay datos para exportar.");
                     _FrmMensajes.co = 2;
-                    _FrmMensajes.avisomensaje("No hay datos para exportar.");
+                    _FrmMensajes.avisomensaje("No hay datos para exportar");
                     _FrmMensajes.ShowDialog();
                     return;
                 }
@@ -445,8 +446,10 @@ namespace CapaVisual_Login
             catch (Exception ex)
             {
                 //MessageBox.Show("Ocurrió un error al exportar el PDF: " + ex.Message);
+                var detalle = $"{ex.GetType().FullName}: {ex.Message}\n{ex.StackTrace}";
                 _FrmMensajes.co = 2;
-                _FrmMensajes.avisomensaje(string.Format("Error: {0}", ex.Message) + ", Error inesperado");
+                //_FrmMensajes.avisomensaje(string.Format("Error: {0}", ex.Message) + ", Error inesperado");
+                _FrmMensajes.avisomensaje(detalle);
                 _FrmMensajes.ShowDialog();
             }
             finally
@@ -512,7 +515,7 @@ namespace CapaVisual_Login
         {
             try
             {
-                panel_ReporteGlobal.Visible = true;
+                MostrarPanelReporteGlobal();
                 panel_ReporteGlobal.BringToFront();
             }
             catch(Exception ex)
@@ -629,6 +632,22 @@ namespace CapaVisual_Login
 
         }
 
+        private void btnCancelar_ReporteGlobal_Click(object sender, EventArgs e)
+        {
+            OcultarPanelReporteGlobal();
+        }
+
+        private void MostrarPanelReporteGlobal()
+        {
+            dtp_ReporteGlobal.Value = DateTime.Now;
+            panel_ReporteGlobal.Visible = true;
+        }
+
+        private void OcultarPanelReporteGlobal()
+        {
+            panel_ReporteGlobal.Visible = false;
+        }
+
         private async void Btn_LibroVentas_Click(object sender, EventArgs e)
         {
             if (DtpDesde.Value == DateTime.MinValue || DtpHasta.Value == DateTime.MinValue)
@@ -661,7 +680,7 @@ namespace CapaVisual_Login
                 {
                     //MessageBox.Show("No hay datos para el rango de fechas seleccionado.");
                     _FrmMensajes.co = 1;
-                    _FrmMensajes.avisomensaje("No hay datos para el rango de fechas seleccionado.");
+                    _FrmMensajes.avisomensaje("No hay datos para el rango de fechas seleccionado");
                     _FrmMensajes.ShowDialog();
 
                     return;
@@ -705,16 +724,6 @@ namespace CapaVisual_Login
             {
                 //Loader_PDF.Visible = false;
             }
-        }
-
-        private void btnCancelar_ReporteGlobal_Click(object sender, EventArgs e)
-        {
-            OcultarPanelReporteGlobal();
-        }
-
-        private void OcultarPanelReporteGlobal()
-        {
-            panel_ReporteGlobal.Visible = false;
         }
 
         private void CbxEstatus_SelectionChangeCommitted(object sender, EventArgs e)
