@@ -1169,7 +1169,7 @@ namespace CapaVisual_Login
                                     if (Convert.ToDouble(TxtRecibidoREF.Text) <= Convert.ToDouble(txtRef.Text))
                                     {
                                         _FrmMensajes.co = 2;
-                                        _FrmMensajes.avisomensaje("El Monto recibido debe ser mayor a: " + txtRef.Text + ".");
+                                        _FrmMensajes.avisomensaje("El Monto recibido debe ser mayor a: " + txtRef.Text + "");
                                         _FrmMensajes.ShowDialog();
                                         TxtRecibidoREF.Text = "";
                                         TxtRecibidoREF.Focus();
@@ -2203,14 +2203,14 @@ namespace CapaVisual_Login
                 txtRef.Text = String.Format(CultureInfo.InvariantCulture, "{0:0.00}", txtRef.Text).Replace(".", ",");
             }
 
-            if (TxtRecibidoREF.Text == "")
-            {
-                TxtRecibidoREF.Text = "0,00";
-            }
-            else
-            {
-                TxtRecibidoREF.Text = String.Format(CultureInfo.InvariantCulture, "{0:0.00}", TxtRecibidoREF.Text).Replace(".", ",");
-            }
+            //if (TxtRecibidoREF.Text == "")
+            //{
+            //    TxtRecibidoREF.Text = "0,00";
+            //}
+            //else
+            //{
+            //    TxtRecibidoREF.Text = String.Format(CultureInfo.InvariantCulture, "{0:0.00}", TxtRecibidoREF.Text).Replace(".", ",");
+            //}
 
            
 
@@ -2254,14 +2254,14 @@ namespace CapaVisual_Login
                         //}
                         //else
                         //{
-                        if (Convert.ToDouble(txtRef.Text) >= Convert.ToDouble(TxtSaldoRef_2.Text) || OtrosAbonos > 0)
-                        {
-                            TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - ((Convert.ToDouble(saldo_bolivares) - OtrosAbonos) + Convert.ToDouble(txtIGTF.Text)), 2));
-                        }
-                        else
-                        {
-                            TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - ((Convert.ToDouble(txtRef.Text)) * Convert.ToDouble(txtTasaFact.Text)), 2));
-                        }
+                        //if (Convert.ToDouble(txtRef.Text) >= Convert.ToDouble(TxtSaldoRef_2.Text) || OtrosAbonos > 0)
+                        //{
+                        //    TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - ((Convert.ToDouble(saldo_bolivares) - OtrosAbonos) + Convert.ToDouble(txtIGTF.Text)), 2));
+                        //}
+                        //else
+                        //{
+                        //    TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - ((Convert.ToDouble(txtRef.Text)) * Convert.ToDouble(txtTasaFact.Text)), 2));
+                        //}
                     }
 
                 }
@@ -8210,7 +8210,7 @@ namespace CapaVisual_Login
                     else
                     {
                         _FrmMensajes.co = 2;
-                        _FrmMensajes.avisomensaje("El monto recibido REF debe ser mayor al total en divisa.");
+                        _FrmMensajes.avisomensaje("El monto recibido REF debe ser mayor al total en divisa");
                         _FrmMensajes.ShowDialog();
                         TxtRecibidoREF.Text = "";
                         TxtRecibidoREF.Focus();
@@ -8282,7 +8282,7 @@ namespace CapaVisual_Login
                 else
                 {
                     _FrmMensajes.co = 2;
-                    _FrmMensajes.avisomensaje("El monto recibido REF debe ser mayor al total en divisa.");
+                    _FrmMensajes.avisomensaje("El monto recibido REF debe ser mayor al total en divisa");
                     _FrmMensajes.ShowDialog();
                     TxtRecibidoREF.Text = "";
                     TxtRecibidoREF.Focus();
