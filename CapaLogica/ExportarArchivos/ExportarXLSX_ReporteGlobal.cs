@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using CapaEntidades;
 using CapaLogica.DatosGeneralesSucursal_Logica;
 using ClosedXML.Excel;
@@ -18,6 +19,7 @@ namespace CapaLogica.ExportarArchivos
         {
             var datosSucursal = new L_DatosGenerales();
             await datosSucursal.ObtenerDatosSucursalYCompania_Global();
+
 
             using (XLWorkbook workbook = new XLWorkbook())
             {
@@ -97,7 +99,7 @@ namespace CapaLogica.ExportarArchivos
 
             // ======= TÍTULO DEL REPORTE =======
             ws.Range("D5:E5").Merge();
-            ws.Cell("D5").Value = "Cierre de caja";
+            ws.Cell("D5").Value = "Cierre de Caja";
             ws.Range("D5:E5").Style.Font.Bold = true;
             ws.Range("D5:E5").Style.Font.FontSize = 14;
 
@@ -124,7 +126,7 @@ namespace CapaLogica.ExportarArchivos
             // Encabezados de la tabla
             ws.Cell("C8").Value = "Concepto";
             ws.Cell("D8").Value = "Conteo Manual";
-            ws.Cell("E8").Value = "Sistema";
+            ws.Cell("E8").Value = "Conteo Sistema";
             ws.Cell("F8").Value = "Diferencia";
 
             ws.Range("C8:F8").Style.Font.Bold = true;
@@ -132,6 +134,18 @@ namespace CapaLogica.ExportarArchivos
             ws.Range("C8:F8").Style.Font.FontColor = XLColor.White;
             ws.Range("C8:F8").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
             ws.Range("C8:F8").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+
+
+
+            decimal totalManual = 0;
+            decimal totalSistema = 0;
+            decimal totalDiferencia = 0;
+
+            if (data == null)
+            {
+                //MessageBox.Show("No hay datos para la fecha seleccionada", "Sin resultados", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
 
             // Rellenar los valores
             for (int i = 0; i < campos.GetLength(0); i++)
@@ -143,6 +157,10 @@ namespace CapaLogica.ExportarArchivos
                 decimal manual = Convert.ToDecimal(data.GetType().GetProperty(manualProp).GetValue(data));
                 decimal sistema = Convert.ToDecimal(data.GetType().GetProperty(sistemaProp).GetValue(data));
                 decimal diferencia = manual - sistema;
+
+                totalManual += manual;
+                totalSistema += sistema;
+                totalDiferencia += diferencia;
 
                 int row = 9 + i;
 
@@ -158,8 +176,26 @@ namespace CapaLogica.ExportarArchivos
                 ws.Cell($"F{row}").Style.NumberFormat.Format = "#,##0.00";  //
             }
 
+            // ======= RESULTADOS AL FINAL =======
+            int resumenFila = 9 + campos.GetLength(0); 
+
+            ws.Range($"C{resumenFila}:F{resumenFila}").Style.Border.TopBorder = XLBorderStyleValues.Thick;
+            ws.Range($"C{resumenFila}:F{resumenFila}").Style.Border.TopBorderColor = XLColor.Black;
+
+            ws.Cell($"C{resumenFila}").Value = "Totales Generales:";
+            ws.Cell($"C{resumenFila}").Style.Font.Bold = true;
+
+            ws.Cell($"D{resumenFila}").Value = totalManual;
+            ws.Cell($"D{resumenFila}").Style.NumberFormat.Format = "#,##0.00";
+
+            ws.Cell($"E{resumenFila}").Value = totalSistema;
+            ws.Cell($"E{resumenFila}").Style.NumberFormat.Format = "#,##0.00";
+
+            ws.Cell($"F{resumenFila}").Value = totalManual - totalSistema;
+            ws.Cell($"F{resumenFila}").Style.NumberFormat.Format = "#,##0.00";
+
             // ======= TOTALES AL FINAL =======
-            int ultimaFila = 9 + campos.GetLength(0);
+            int ultimaFila = resumenFila;
 
             ws.Range($"C{ultimaFila}:F{ultimaFila}").Style.Border.TopBorder = XLBorderStyleValues.Thick;
             ws.Range($"C{ultimaFila}:F{ultimaFila}").Style.Border.TopBorderColor = XLColor.Black;

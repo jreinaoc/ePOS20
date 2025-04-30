@@ -515,7 +515,7 @@ namespace CapaVisual_Login
         {
             try
             {
-                panel_ReporteGlobal.Visible = true;
+                MostrarPanelReporteGlobal();
                 panel_ReporteGlobal.BringToFront();
             }
             catch(Exception ex)
@@ -632,6 +632,22 @@ namespace CapaVisual_Login
 
         }
 
+        private void btnCancelar_ReporteGlobal_Click(object sender, EventArgs e)
+        {
+            OcultarPanelReporteGlobal();
+        }
+
+        private void MostrarPanelReporteGlobal()
+        {
+            dtp_ReporteGlobal.Value = DateTime.Now;
+            panel_ReporteGlobal.Visible = true;
+        }
+
+        private void OcultarPanelReporteGlobal()
+        {
+            panel_ReporteGlobal.Visible = false;
+        }
+
         private async void Btn_LibroVentas_Click(object sender, EventArgs e)
         {
             if (DtpDesde.Value == DateTime.MinValue || DtpHasta.Value == DateTime.MinValue)
@@ -708,16 +724,6 @@ namespace CapaVisual_Login
             {
                 //Loader_PDF.Visible = false;
             }
-        }
-
-        private void btnCancelar_ReporteGlobal_Click(object sender, EventArgs e)
-        {
-            OcultarPanelReporteGlobal();
-        }
-
-        private void OcultarPanelReporteGlobal()
-        {
-            panel_ReporteGlobal.Visible = false;
         }
 
         private void CbxEstatus_SelectionChangeCommitted(object sender, EventArgs e)

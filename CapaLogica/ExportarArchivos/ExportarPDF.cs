@@ -29,37 +29,37 @@ public class ExportarPDF : ExportarArchivoPdf_Facturas
 
         using (MemoryStream stream = new MemoryStream())
         {
-            // Obtén los ensamblados de Kernel y Layout
-            var asmKernel = typeof(iText.Kernel.Pdf.PdfDocument).Assembly;
-            var asmLayout = typeof(iText.Layout.Document).Assembly;
+            //// Obtén los ensamblados de Kernel y Layout
+            //var asmKernel = typeof(iText.Kernel.Pdf.PdfDocument).Assembly;
+            //var asmLayout = typeof(iText.Layout.Document).Assembly;
 
-            // Loggea nombre, versión y ruta
-            Debug.WriteLine($"[iText Debug] Kernel : {asmKernel.GetName().Name} v{asmKernel.GetName().Version}");
-            Debug.WriteLine($"[iText Debug] Path   : {asmKernel.Location}");
-            Debug.WriteLine($"[iText Debug] Layout : {asmLayout.GetName().Name} v{asmLayout.GetName().Version}");
-            Debug.WriteLine($"[iText Debug] Path   : {asmLayout.Location}");
+            //// Loggea nombre, versión y ruta
+            //Debug.WriteLine($"[iText Debug] Kernel : {asmKernel.GetName().Name} v{asmKernel.GetName().Version}");
+            //Debug.WriteLine($"[iText Debug] Path   : {asmKernel.Location}");
+            //Debug.WriteLine($"[iText Debug] Layout : {asmLayout.GetName().Name} v{asmLayout.GetName().Version}");
+            //Debug.WriteLine($"[iText Debug] Path   : {asmLayout.Location}");
 
 
-            PdfWriter writer;
-            try
-            {
-                // 2) Creamos el PdfWriter con el stream
-                writer = new PdfWriter(stream);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(">>> ERROR al instanciar PdfWriter:");
-                Debug.WriteLine(ex.GetType().FullName + ": " + ex.Message);
-                Debug.WriteLine(ex.StackTrace);
-                if (ex.InnerException != null)
-                {
-                    Debug.WriteLine("INNER: " + ex.InnerException.GetType().FullName + ": " + ex.InnerException.Message);
-                    Debug.WriteLine(ex.InnerException.StackTrace);
-                }
-                throw;
-            }
+            //PdfWriter writer;
+            //try
+            //{
+            //    // 2) Creamos el PdfWriter con el stream
+            //    writer = new PdfWriter(stream);
+            //}
+            //catch (Exception ex)
+            //{
+            //    Debug.WriteLine(">>> ERROR al instanciar PdfWriter:");
+            //    Debug.WriteLine(ex.GetType().FullName + ": " + ex.Message);
+            //    Debug.WriteLine(ex.StackTrace);
+            //    if (ex.InnerException != null)
+            //    {
+            //        Debug.WriteLine("INNER: " + ex.InnerException.GetType().FullName + ": " + ex.InnerException.Message);
+            //        Debug.WriteLine(ex.InnerException.StackTrace);
+            //    }
+            //    throw;
+            //}
 
-            //PdfWriter writer = new PdfWriter(stream);
+            PdfWriter writer = new PdfWriter(stream);
             PdfDocument pdf = new PdfDocument(writer);
             Document document = new Document(pdf, iText.Kernel.Geom.PageSize.A4);
 

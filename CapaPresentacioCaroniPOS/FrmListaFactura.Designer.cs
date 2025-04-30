@@ -220,7 +220,7 @@ namespace CapaVisual_Login
             this.DgvListaFacturas1.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.DgvListaFacturas1.RowHeadersVisible = false;
             this.DgvListaFacturas1.RowHeadersWidth = 51;
-            this.DgvListaFacturas1.Size = new System.Drawing.Size(1032, 429);
+            this.DgvListaFacturas1.Size = new System.Drawing.Size(1055, 429);
             this.DgvListaFacturas1.TabIndex = 61;
             this.DgvListaFacturas1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvListaFacturas1_CellContentClick);
             // 
