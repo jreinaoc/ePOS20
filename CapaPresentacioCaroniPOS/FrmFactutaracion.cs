@@ -4805,10 +4805,10 @@ namespace CapaVisual_Login
 
                         if (resp == 16 || resp == 0)
                         {
-                            if ((_D_DetalleOrden.TB_PARAMETROSPGE("FactFiscalconRxPGE")) == "1")
-                            {
+                            //if ("1" == "1")
+                            //{
 
-                                if (TB_CAORDSER.Asegurada == true)
+                                if ((_D_DetalleOrden.TB_PARAMETROSPGE("FactFiscalconRxPGE")) == "1" && TB_CAORDSER.Asegurada == true)
                                 {
                                     double ESFD = 0.00;
                                     double ESFI = 0.00;
@@ -5165,7 +5165,7 @@ namespace CapaVisual_Login
                                 //    btnCancelar1.PerformClick();
                                 //    return "Error";
                                 //}
-                            }
+                           // }
 
 
                         }
