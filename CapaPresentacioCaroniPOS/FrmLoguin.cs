@@ -58,13 +58,19 @@ namespace CapaVisual_Login
 
             if (!usuarioExiste || TB_USUARIO.COD_EMPLEADO == null || TB_USUARIO.COD_EMPLEADO == "")
             {
-                MessageBox.Show("Usuario no encontrado.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //MessageBox.Show("Usuario no encontrado.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("Usuario no encontrado.");
+                _FrmMensajes.ShowDialog();
                 return;
             }
 
             if (TB_USUARIO.Bloqueado)
             {
-                MessageBox.Show("Este usuario se encuentra bloqueado. Por favor, contacte al departamento de sistemas.", "Usuario Bloqueado", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //MessageBox.Show("Este usuario se encuentra bloqueado. Por favor, contacte al departamento de sistemas.", "Usuario Bloqueado", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje(string.Format("Este usuario se encuentra bloqueado. Por favor, contacte al departamento de sistemas."));
+                _FrmMensajes.ShowDialog();
                 return;
             }
 
@@ -109,7 +115,10 @@ namespace CapaVisual_Login
                                         {
                                             _Login.BloquearUsuario(IdUsuario);
 
-                                            MessageBox.Show("Usuario bloqueado por múltiples intentos fallidos.", "Usuario Bloqueado", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                            //MessageBox.Show("Usuario bloqueado por múltiples intentos fallidos.", "Usuario Bloqueado", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                            _FrmMensajes.co = 2;
+                                            _FrmMensajes.avisomensaje(string.Format("Usuario bloqueado por múltiples intentos fallidos."));
+                                            _FrmMensajes.ShowDialog();
                                         }
                                         else
                                         {
@@ -157,7 +166,10 @@ namespace CapaVisual_Login
             }
             catch (Exception ex)
             {
-             MessageBox.Show(string.Format("Error: {0}", ex.Message), "Error inesperado");
+                //MessageBox.Show(string.Format("Error: {0}", ex.Message), "Error inesperado");
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje(string.Format("Error: {0}", ex.Message) + ", Error inesperado");
+                _FrmMensajes.ShowDialog();
             }
 
             finally
@@ -187,7 +199,10 @@ namespace CapaVisual_Login
             }
             catch (Exception ex)
             {
-                MessageBox.Show(string.Format("Error: {0}", ex.Message), "Error inesperado");
+                //MessageBox.Show(string.Format("Error: {0}", ex.Message), "Error inesperado");
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje(string.Format("Error: {0}", ex.Message) + ", Error inesperado");
+                _FrmMensajes.ShowDialog();
             }
         }
 
@@ -221,7 +236,10 @@ namespace CapaVisual_Login
             }
             catch (Exception ex)
             {
-                MessageBox.Show(string.Format("Error: {0}", ex.Message), "Error inesperado");
+                //MessageBox.Show(string.Format("Error: {0}", ex.Message), "Error inesperado");
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje(string.Format("Error: {0}", ex.Message) + ", Error inesperado");
+                _FrmMensajes.ShowDialog();
             }
         }
 
