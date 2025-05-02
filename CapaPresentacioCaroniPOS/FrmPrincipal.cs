@@ -55,6 +55,20 @@ namespace CapaVisual_Login
 
         }
 
+        public void addformularioCargaOrdenes(Form F)
+        {
+            F.TopLevel = false;
+
+            // Establecer la ubicación y el tamaño del formulario
+            F.Location = new Point(50, 50); // Coordenadas
+            F.Size = new Size(1472, 1168); // Tamaño
+
+            // Agregar el formulario al panel y mostrarlo
+            this.PnlListadoOrdenes.Controls.Add(F);
+            F.Show();
+            F.BringToFront();
+        }
+
         private void BtnInicio_Click_1(object sender, EventArgs e)
         {
 
@@ -651,7 +665,7 @@ namespace CapaVisual_Login
 
 
             PnlListadoOrdenes.Controls.Clear();
-            addformulario(_FrmCargarOrden);
+            addformularioCargaOrdenes(_FrmCargarOrden);
             Focus();
             //_FrmListaOrdenes.cerrar();
             //_FrmListaOrdenes.ListadoOrdenosRebot();

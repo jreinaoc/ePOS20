@@ -1851,6 +1851,7 @@ namespace CapaLogica.CargarOrdenes
 
         public string BuscarCodigoGerenteDescuento(string Codigo)
         {
+
             DataTable dtMotivoDes = _D_Articulos.MOTIVOSDESCUENTO(Codigo);
 
             if (dtMotivoDes.Rows.Count > 0)
@@ -1860,6 +1861,22 @@ namespace CapaLogica.CargarOrdenes
             else
             {
                 return "";
+            }
+
+        }
+
+        public bool VerificarTopeMaximoDesceunto(int PorcentajeDescuento )
+        {
+
+            // Obtener el valor del parámetro desde la tabla TB_PARAMETRO
+            string valorParametro = _D_DetalleOrden.TB_PARAMETRO("TopeDescuento");
+            if (PorcentajeDescuento > Convert.ToInt16 (valorParametro ))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
 
         }

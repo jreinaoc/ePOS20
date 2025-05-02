@@ -203,6 +203,12 @@ namespace CapaVisual_Login
                     Dgv_Pnl3_Articulo.DataSource = null;
                     break;
 
+                case "Abrir_Busqueda_Articulos":
+                    this.Rd_Pnl3_Codigo.Checked = true;
+                    this.Txt_Pnl3_Articulo.Text = "";
+                    break;
+
+
                 case "Carga_Articulos":
                     this.Txt_Tap3_Articulo_Codigo.Text = "";
                     Txt_Tap3_Articulo_Descripcion.Text = "";
@@ -318,7 +324,6 @@ namespace CapaVisual_Login
                     this.Txt_Pnl3_Articulo.Enabled = true;
                     this.Rd_Pnl3_Descripcion.Enabled = true;
                     this.Rd_Pnl3_Codigo.Enabled = true;
-                    this.Rd_Pnl3_Codigo.Checked = true;
                     this.Rd_Pnl3_Descripcion.Checked = false;
                     this.btnCancelar3.Enabled = true;
 
@@ -909,6 +914,7 @@ namespace CapaVisual_Login
             {
                 VisualizarPanel("Lista_Articulo");
                 HabilitacionControl("Habilitar_Lista_Articulo");
+                LimpiarControles("Abrir_Busqueda_Articulos");
                 _L_Articulo.CargarArticulos(Dgv_Pnl3_Articulo, listaArticulos, Cbx_Pnl2_Trbajo.SelectedValue.ToString());
                 if (_L_Articulo.stringBuilder.Length > 0)
                 {
@@ -1242,10 +1248,15 @@ namespace CapaVisual_Login
                     {
                         if (Tipo_Descuento == "Descuento Global")
                         {
-                            // Pido Clave Autorizada con unos parametros especificos
-                            _FrmClaveAutorizada.Nuevo_Parametro = true;
-                            _FrmClaveAutorizada.Parametro_Nuevo = _L_Articulo.BuscarCodigoGerenteDescuento(Cbx_Pnl3_MotivoDesc.SelectedValue.ToString());
-                            _FrmClaveAutorizada.ShowDialog();
+                            // Verifico se el Porcentaje de descuento esta por encima dle permitido para generar una clave autorizada diferente 
+
+                             if (_L_Articulo.VerificarTopeMaximoDesceunto(Convert.ToInt32( Txt_Pnl3_PorcDescuento.Text)))
+                             {   // Pido Clave Autorizada con unos parametros especificos
+                                _FrmClaveAutorizada.Nuevo_Parametro = true;
+                                _FrmClaveAutorizada.Parametro_Nuevo = _L_Articulo.BuscarCodigoGerenteDescuento(Cbx_Pnl3_MotivoDesc.SelectedValue.ToString());
+                             }
+
+                        _FrmClaveAutorizada.ShowDialog();
 
                             if (_FrmClaveAutorizada.DialogResult == DialogResult.OK && _FrmClaveAutorizada.ClaveCorrecta == true)
                             {
@@ -1258,6 +1269,13 @@ namespace CapaVisual_Login
                         }
                         else if (Tipo_Descuento=="Cambio de Descuento")
                         {
+                            // Verifico se el Porcentaje de descuento esta por encima dle permitido para generar una clave autorizada diferente 
+
+                            if (_L_Articulo.VerificarTopeMaximoDesceunto(Convert.ToInt32(Txt_Pnl3_PorcDescuento.Text)))
+                            {   // Pido Clave Autorizada con unos parametros especificos
+                                _FrmClaveAutorizada.Nuevo_Parametro = true;
+                                _FrmClaveAutorizada.Parametro_Nuevo = _L_Articulo.BuscarCodigoGerenteDescuento(Cbx_Pnl3_MotivoDesc.SelectedValue.ToString());
+                            }
 
                             // Pido Clave Autorizada con unos parametros especificos
                             _FrmClaveAutorizada.Nuevo_Parametro = true;
@@ -1526,5 +1544,45 @@ namespace CapaVisual_Login
                 Btn_Tap3_Descuento.Enabled = false; // Deshabilitar el TextBox o botón
             }
         }
+
+        private void Dgv_Tap3_Totales_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            // Verificar que no sea una celda de encabezado
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                // Dibujar el fondo de la celda
+                e.PaintBackground(e.ClipBounds, true);
+
+                // Dibujar el contenido de la celda
+                e.PaintContent(e.ClipBounds);
+
+                // Crear un color para el borde interno
+                using (Pen pen = new Pen(Color.FromArgb(7, 167, 155), 0.5f)) // Color deseado personalizado; // Grosor de 0.5 píxeles
+                {
+                    // Dibujar el borde derecho
+                    e.Graphics.DrawLine(pen, e.CellBounds.Right - 1, e.CellBounds.Top, e.CellBounds.Right - 1, e.CellBounds.Bottom);
+
+                    // Dibujar el borde inferior
+                    e.Graphics.DrawLine(pen, e.CellBounds.Left, e.CellBounds.Bottom - 1, e.CellBounds.Right, e.CellBounds.Bottom - 1);
+
+                    // Dibujar el borde izquierdo
+                    e.Graphics.DrawLine(pen, e.CellBounds.Left, e.CellBounds.Top, e.CellBounds.Left, e.CellBounds.Bottom);
+
+                    // Dibujar el borde superior
+                    e.Graphics.DrawLine(pen, e.CellBounds.Left, e.CellBounds.Top, e.CellBounds.Right, e.CellBounds.Top);
+                }
+
+                // Indicar que el evento ha sido manejado
+                e.Handled = true;
+            }
+
+            // Verificar si es la primera columna (índice 0)
+            if (e.ColumnIndex == 0 && e.RowIndex >= 0)
+            {
+                // Aplicar estilo en negrita
+                e.CellStyle.Font = new Font(Dgv_Tap3_Totales.Font, FontStyle.Bold);
+            }
+        }
     }
-}
+ }
+
