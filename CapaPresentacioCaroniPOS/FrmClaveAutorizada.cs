@@ -13,6 +13,7 @@ using CapaLogica.Colores_Logica;
 using System.Data.SqlClient;
 using System.Windows.Forms;
 using System;
+using CapaDatos.DetalleOrden_Datos;
 
 namespace CapaVisual_Login
 {
@@ -24,6 +25,7 @@ namespace CapaVisual_Login
         Conexion cn = new Conexion();
         FrmMensajes _FrmMensajes = new FrmMensajes();
         FrmAnulacion _FrmAnulacion = new FrmAnulacion();
+        private D_DetalleOrden _D_DetalleOrden = new D_DetalleOrden();
         int idespecial;
         string texto;
         int validacion;
@@ -31,6 +33,9 @@ namespace CapaVisual_Login
         public string orden;
         public bool ClaveCorrecta;
         public bool CampoCorrect;
+        public bool Nuevo_Parametro = false;
+        public string Parametro_Nuevo = "";
+
         L_Colores _L_Colores = new L_Colores();
 
 
@@ -162,9 +167,30 @@ namespace CapaVisual_Login
         private void FrmClaveAutorizada_Load(object sender, System.EventArgs e)
         {
             Limpiar();
+             if (Nuevo_Parametro == true)
+             {
+                if (!string.IsNullOrEmpty(Parametro_Nuevo))
+                {
+                    CbxSelecGerent.DataSource = _D_ClaveAutorizada.ClaveAutorizadaII(Parametro_Nuevo);// Antes tenia el valor steado ahora es por codigo de sucursal 
+                    CbxSelecGerent.DisplayMember = "NOMBRE";
+                    CbxSelecGerent.ValueMember = "COD_USR";
+                }
+                else
+                {
+                    Parametro_Nuevo = _D_DetalleOrden.TB_PARAMETRO("Codigo_nomina");
+                    CbxSelecGerent.DataSource = _D_ClaveAutorizada.ClaveAutorizadaII(Parametro_Nuevo);// Antes tenia el valor steado ahora es por codigo de sucursal 
+                    CbxSelecGerent.DisplayMember = "NOMBRE";
+                    CbxSelecGerent.ValueMember = "COD_USR";
+
+                }
+
+             }
+             else
+             { 
             CbxSelecGerent.DataSource = _D_ClaveAutorizada.ClaveAutorizada(TB_USUARIO.COD_SUCURSAL);// Antes tenia el valor steado ahora es por codigo de sucursal 
             CbxSelecGerent.DisplayMember = "NOMBRE";
             CbxSelecGerent.ValueMember = "COD_USR";
+            }
 
             if(L_Colores.Oscuro == true)
             {
@@ -176,6 +202,10 @@ namespace CapaVisual_Login
                 FormatoClar();
             }
 
+            if (CbxSelecGerent.Items.Count > 0)
+            {
+                CbxSelecGerent.SelectedIndex = 0; 
+            }
 
         }
 
@@ -257,6 +287,8 @@ namespace CapaVisual_Login
             TxtClave.Text = "";
             //CbxSelecGerent.Text = "";
             LblClaveAleatoria.Text = "";
+            Nuevo_Parametro = false;
+            Parametro_Nuevo = "";
             CbxSelecGerent.SelectedIndex = - 1;
 
         }

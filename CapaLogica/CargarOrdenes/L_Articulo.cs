@@ -197,6 +197,7 @@ namespace CapaLogica.CargarOrdenes
                 Dgv_Tap3_Articulo.Columns.Add("Agregado", "Agregado");
                 Dgv_Tap3_Articulo.Columns.Add("AgreDer", "AgreDer");
                 Dgv_Tap3_Articulo.Columns.Add("AgreIzq", "AgreIzq");
+                Dgv_Tap3_Articulo.Columns.Add("PrecioViejo", "PrecioViejo");
                     CrearObjetos(Dgv_Tap3_Articulo);
 
             }
@@ -204,7 +205,7 @@ namespace CapaLogica.CargarOrdenes
                 Formato_Dgv_Carga_Articulo(Dgv_Tap3_Articulo);
 
                 // Agregar la fila con los valores proporcionados
-                Dgv_Tap3_Articulo.Rows.Add(codArticulo, descripcion, cantidad, precio, descuento, total, impuesto, ojo, artPadre, agregado, AgreDer, AgreIzq);
+                Dgv_Tap3_Articulo.Rows.Add(codArticulo, descripcion, cantidad, precio, descuento, total, impuesto, ojo, artPadre, agregado, AgreDer, AgreIzq, precio);
 
             }
             catch (Exception ex)
@@ -213,6 +214,40 @@ namespace CapaLogica.CargarOrdenes
                 throw new Exception("Error al agregar una fila al DataGridView. Detalles: " + ex.Message, ex);
             }
 
+        }
+
+        public void VerificarYCorregirTotales(DataGridView Dgv_Tap3_Articulo)
+        {
+            try
+            {
+                foreach (DataGridViewRow row in Dgv_Tap3_Articulo.Rows)
+                {
+                    // Verificar que la fila no sea nueva
+                    if (!row.IsNewRow)
+                    {
+                        // Obtener los valores de las columnas
+                        int cantidad = Convert.ToInt32(row.Cells["ART_EXIST"].Value ?? 0);
+                        decimal precio = Convert.ToDecimal(row.Cells["ART_PVP"].Value ?? 0);
+                        decimal total = Convert.ToDecimal(row.Cells["Total"].Value ?? 0);
+
+                        // Calcular el total esperado
+                        decimal totalEsperado = cantidad * precio;
+
+                        // Verificar si el total coincide
+                        if (total != totalEsperado)
+                        {
+                            // Corregir el valor de la columna "Total"
+                            row.Cells["Total"].Value = totalEsperado;
+
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Manejar cualquier excepción
+                throw new Exception("Error al verificar y corregir los totales: " + ex.Message, ex);
+            }
         }
 
         public void ActualizarCelda(DataGridView Dgv_Tap3_Articulo, int numeroFila, string nombreColumna, string nuevoValor)
@@ -233,11 +268,43 @@ namespace CapaLogica.CargarOrdenes
 
                 // Actualizar el valor de la celda
                 Dgv_Tap3_Articulo.Rows[numeroFila].Cells[nombreColumna].Value = nuevoValor;
+                VerificarYCorregirTotales(Dgv_Tap3_Articulo);
             }
             catch (Exception ex)
             {
                 // Lanzar una excepción personalizada para que sea manejada en la capa visual
                 throw new Exception($"Error al actualizar la celda en la fila {numeroFila} y columna '{nombreColumna}'. Detalles: {ex.Message}", ex);
+            }
+        }
+
+        public void ActualizarTodasCelda(DataGridView Dgv_Tap3_Articulo, string nombreColumna, string nuevoValor)
+        {
+            try
+            {
+                // Validar que la columna exista
+                if (!Dgv_Tap3_Articulo.Columns.Contains(nombreColumna))
+                {
+                    throw new ArgumentException($"La columna '{nombreColumna}' no existe en el DataGridView.", nameof(nombreColumna));
+                }
+
+                // Recorrer todas las filas del DataGridView
+                foreach (DataGridViewRow fila in Dgv_Tap3_Articulo.Rows)
+                {
+                    // Verificar que la fila no sea nueva
+                    if (!fila.IsNewRow)
+                    {
+                        // Actualizar el valor de la celda en la columna especificada
+                        fila.Cells[nombreColumna].Value = nuevoValor;
+                    }
+                }
+
+                // Llamar a una función adicional si es necesario (por ejemplo, recalcular totales)
+                VerificarYCorregirTotales(Dgv_Tap3_Articulo);
+            }
+            catch (Exception ex)
+            {
+                // Lanzar una excepción personalizada para que sea manejada en la capa visual
+                throw new Exception($"Error al actualizar todas las celdas de la columna '{nombreColumna}'. Detalles: {ex.Message}", ex);
             }
         }
 
@@ -928,21 +995,25 @@ namespace CapaLogica.CargarOrdenes
                 decimal prima = 0;
                 int cantidad = 0;
                 string codigo = "";
-                // Validar si es un servicio de prisma
-                if (tipoServicio == "Prisma")
-                {
-                    DataSet dsExamenConPrisma = _D_Articulos.ValidarExamenConPrisma(NumeroExamen, Nacionalidad, txtCedula);
+                string PrismaD = "0";
+                string PrismaI = "0";
 
-                    if (dsExamenConPrisma.Tables[0].Rows.Count == 0)
-                    {
+             DataSet dsExamenConPrisma = _D_Articulos.ValidarExamenConPrisma(NumeroExamen, Nacionalidad, txtCedula);
+
+            if (dsExamenConPrisma.Tables[0].Rows.Count == 0)
+            {
                         return; // No hay datos de prisma
-                    }
+            }
 
-                    string PrismaD = dsExamenConPrisma.Tables[0].Rows[0]["PrismaD"].ToString();
-                    string PrismaI = dsExamenConPrisma.Tables[0].Rows[0]["PrismaI"].ToString();
+            PrismaD = dsExamenConPrisma.Tables[0].Rows[0]["PrismaD"].ToString();
+            PrismaI = dsExamenConPrisma.Tables[0].Rows[0]["PrismaI"].ToString();
 
                     if (!string.IsNullOrEmpty(PrismaD) && PrismaD != "0") cantidad++;
                     if (!string.IsNullOrEmpty(PrismaI) && PrismaI != "0") cantidad++;
+
+                if (PrismaD == "0" || PrismaI == "0")
+                {
+                    return; // No hay datos de prisma
                 }
 
                 // Recorrer las filas del DataGridView
@@ -1493,7 +1564,306 @@ namespace CapaLogica.CargarOrdenes
  
             }
         }
+
+        private bool ServicioColoracion(DataGridView Dgv_Tap3_Articulo, DataGridView Dvg_Coloracion, System.Windows.Forms.RadioButton Rd_FullColor)
+        {
+            try
+            {
+                    string cristalColor = string.Empty;
+                    bool colorDegra = Rd_FullColor.Checked ? false : true;
+
+                    // Obtener el código del cristal
+                    foreach (DataGridViewRow row in Dgv_Tap3_Articulo.Rows)
+                    {
+                        if (row.Cells["CodArticulo"].Value != null && row.Cells["CodArticulo"].Value.ToString().StartsWith("C"))
+                        {
+                            cristalColor = row.Cells["CodArticulo"].Value.ToString();
+                            break; // Salir del bucle al encontrar el primer cristal
+                        }
+                    }
+
+                    // Buscar el servicio de coloración
+                    foreach (DataGridViewRow row in Dgv_Tap3_Articulo.Rows)
+                    {
+                        if (row.Cells["CodArticulo"].Value != null && row.Cells["CodArticulo"].Value.ToString() == "S000004")
+                        {
+                            DataSet dsColor = _D_Articulos.BucarColoracion(cristalColor, colorDegra);
+                           
+                                if (dsColor.Tables[0].Rows.Count > 0)
+                                {
+                                    DataTable dtColoracion = new DataTable("Coloracion");
+                                    dtColoracion.Columns.Add("Cod_Coloracion", typeof(string));
+                                    dtColoracion.Columns.Add("Desc_Color", typeof(string));
+                                    dtColoracion.Columns.Add("Porc_Material", typeof(string));
+
+                                    foreach (DataRow dr in dsColor.Tables[0].Rows)
+                                    {
+                                        DataRow drColoracion = dtColoracion.NewRow();
+                                        drColoracion["Cod_Coloracion"] = dr["Cod_Coloracion"];
+                                        drColoracion["Desc_Color"] = dr["Desc_Color"];
+                                        drColoracion["Porc_Material"] = dr["Porc_Material"];
+                                        dtColoracion.Rows.Add(drColoracion);
+                                    }
+
+                                    Dvg_Coloracion.DataSource = dtColoracion;
+                                }
+
+                            break; // Salir del bucle al procesar el servicio
+                        }
+                    }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public bool AccionCambiarPrecio_ArticuloPadre(DataGridView gexFacturas, int filaActual)
+        {
+
+            // Verificar si el artículo no tiene un padre (no es agregado por promoción)
+            if (gexFacturas.Rows[filaActual].Cells["ArtPadre"].Value != DBNull.Value &&
+              !string.IsNullOrEmpty(gexFacturas.Rows[filaActual].Cells["ArtPadre"].Value.ToString()))
+            {
+
+             return true;
+                   
+            }
+
+            return false;
+        }
+
+
+        public bool ConfigurarCambioPrecio(System.Windows.Forms.TextBox TxtPrecioActual, string CodigoArticulo)
+        {
+            // Bloquear el cuadro de texto para que no se pueda editar
+            // Colocar el foco
+            // Ocultar el campo de motivos
+
+            // Buscar datos del artículo agregado utilizando ObtenerArticulos
+            var articulos = _D_Articulos.ObtenerArticulos("", CodigoArticulo);
+
+            if (articulos == null || articulos.Count > 0)
+            {
+                TB_ARTICULO articulo = articulos.First();
+                decimal precio = articulo.ART_PVP;
+                TxtPrecioActual.Text = string.Format("{0:#,0.00}", articulo.ART_PVP.ToString() == "" ? (Decimal?)0.00 : articulo.ART_PVP);
+                return true;
+            }
+            return false;
+        }
+
+
+    public bool CambioPrecio(System.Windows.Forms.TextBox txtValor2, System.Windows.Forms.TextBox txtValor1, decimal DescMax)
+    {
+            stringBuilder.Clear();
+        try
+        {
+            // Verificar si el nuevo precio está dentro del límite de descuento permitido
+           decimal descuentoPermitido = (decimal.Parse(txtValor1.Text) * DescMax) / 100;
+
+                if (!string.IsNullOrEmpty(txtValor2.Text) && !string.IsNullOrEmpty(txtValor1.Text))
+                {
+                // Obtener el valor del parámetro desde la tabla TB_PARAMETRO
+                string valorParametro = _D_DetalleOrden.TB_PARAMETRO("CambPrecArrBaj");
+
+                   // Verificar si el cambio de precio es hacia abajo y está permitido
+                    if (decimal.Parse(txtValor2.Text) < decimal.Parse(txtValor1.Text) && valorParametro != "SI")
+                    {
+                        stringBuilder.Append("El cambio de precio no puede ser menor al precio actual de este producto, verifique e intente de nuevo.\n\n(Si desea hacer algún descuento utilice el botón F4 DESCUENTO)");
+                        return false;
+                    }
+
+                    else if ((decimal.Parse(txtValor1.Text) - decimal.Parse(txtValor2.Text)) > descuentoPermitido && valorParametro != "SI")
+                    {
+                            stringBuilder.Append("No está autorizado para dar este descuento, ¿desea introducir una clave autorizada para poder continuar?");
+                            return true;
+                            
+                    }
+                    else
+                    {
+                            
+                            return true;
+                    }
+
+                   
+                }
+                else
+                {
+                    stringBuilder.Append("Por favor, asegúrate de completar todos los campos necesarios antes de proceder con esta acción");
+                    return false;
+                }
+        }
+        catch (Exception ex)
+        {
+                stringBuilder.Append(Environment.NewLine + string.Format("Error: {0}", ex.Message));
+                return false;
+        }
     }
 
+        public bool CalculoDescuento(string precioMontoTotal, System.Windows.Forms.DataGridView DgvArticulo , string TipoDescuento, string DescMax, System.Windows.Forms.TextBox Porce_Descuento , System.Windows.Forms.TextBox Monto_Descuento, System.Windows.Forms.TextBox txtMotivo)
+        {
+            try
+            {
+                // Total de la compra 
+                //string precioMontoTotal;
+                DataSet dsDesc;
+
+                if (TipoDescuento=="Descuento Global")
+                {
+                    if (!string.IsNullOrEmpty(Porce_Descuento.Text))
+                    {
+                        if (Convert.ToDecimal(Porce_Descuento.Text) > 100)
+                        {
+
+                            stringBuilder.Append("El monto del descuento no puede ser mayor a 100%");
+                            Porce_Descuento.Focus();
+                            Porce_Descuento.SelectAll();
+                            return false;
+                        }
+                        else
+                        {
+                            for (int x = 0; x < DgvArticulo.RowCount; x++)
+                            {
+                                dsDesc = _D_Articulos.PermisosDescuento(DgvArticulo.Rows[x].Cells["CodArticulo"].Value.ToString(), Porce_Descuento.Text, TB_USUARIO.Id_Rol);
+
+
+                                if (dsDesc != null && dsDesc.Tables.Count > 0 && dsDesc.Tables[0].Rows.Count > 0)
+                                {
+                                    stringBuilder.Append($"La marca { dsDesc.Tables[0].Rows[0][0]} no permite este % de descuento");
+                                    Porce_Descuento.Focus();
+                                    Porce_Descuento.SelectAll();
+                                    return false;
+                                }
+                            }
+
+                                if (Convert.ToDecimal(Porce_Descuento.Text) > Convert.ToDecimal(DescMax))
+                                {
+                                    Monto_Descuento.Text = ((Convert.ToDecimal(Porce_Descuento.Text) * Convert.ToDecimal(precioMontoTotal)) / 100).ToString("N2");
+                                    txtMotivo.Focus();
+                                    return true;
+                                }
+                                else
+                                {
+                                    Monto_Descuento.Text = ((Convert.ToDecimal(Porce_Descuento.Text) * Convert.ToDecimal(precioMontoTotal)) / 100).ToString("N2");
+                                   txtMotivo.Focus();
+                                    return true;
+                                }
+
+                        }
+                    }
+                    else if (!string.IsNullOrEmpty(Monto_Descuento.Text))
+                    {
+                        if (Convert.ToDecimal(Monto_Descuento.Text) > Convert.ToDecimal(precioMontoTotal))
+                        {
+                            stringBuilder.Append("El monto del descuento no puede ser mayor que el total de la orden");
+                            Monto_Descuento.Focus();
+                            Monto_Descuento.SelectAll();
+                            return false;
+                        }
+                        else
+                        {
+                            Porce_Descuento.Text = ((Convert.ToDecimal(Monto_Descuento.Text) * 100) / Convert.ToDecimal(precioMontoTotal)).ToString("N2");
+                            return true;
+                              
+                        }
+                    }
+                }
+                else // Descuento por artículo
+                {
+                    if (!string.IsNullOrEmpty(Porce_Descuento.Text))
+                    {
+                        if (Convert.ToDecimal(Porce_Descuento.Text) > 100)
+                        {
+                            stringBuilder.Append("El monto del descuento no puede ser mayor a 100%");
+                            Porce_Descuento.Focus();
+                            Porce_Descuento.SelectAll();
+                            return false;
+                        }
+                        else
+                        {
+                            dsDesc = _D_Articulos.PermisosDescuento(DgvArticulo.CurrentRow.Cells["CodArticulo"].Value.ToString(), Porce_Descuento.Text, TB_USUARIO.Id_Rol);
+
+                            if (dsDesc != null && dsDesc.Tables.Count > 0 && dsDesc.Tables[0].Rows.Count > 0)
+                            {
+
+                                stringBuilder.Append($"La marca {dsDesc.Tables[0].Rows[0][0]} no permite este % de descuento");
+                                Porce_Descuento.Focus();
+                                Porce_Descuento.SelectAll();
+                                return false;
+                            }
+
+                                Monto_Descuento.Text = ((Convert.ToDouble(Porce_Descuento.Text) * Convert.ToDouble((DgvArticulo.CurrentRow.Cells["ART_PVP"].Value.ToString()))) / 100).ToString("N2");
+                                txtMotivo.Focus();
+                                return true;
+                            
+                        }
+                    }
+                    else if (!string.IsNullOrEmpty(Monto_Descuento.Text))
+                    {
+                        if (Convert.ToDecimal(Monto_Descuento.Text) > Convert.ToDecimal(DgvArticulo.CurrentRow.Cells["ART_PVP"].Value))
+                        {
+                            stringBuilder.Append("El monto del descuento no puede ser mayor que el precio original");
+                            Monto_Descuento.Focus();
+                            Monto_Descuento.SelectAll();
+                            return false;
+                        }
+                        else
+                        {
+                            Porce_Descuento.Text = ((Convert.ToDecimal(Monto_Descuento.Text) * 100) / Convert.ToDecimal(DgvArticulo.CurrentRow.Cells["ART_PVP"].Value)).ToString("N2");
+                            Monto_Descuento.Text = Convert.ToDecimal(Monto_Descuento.Text).ToString("N2");
+                            return true;
+                        }
+                    }
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                stringBuilder.Append(Environment.NewLine + string.Format("Error: {0}", ex.Message));
+                return false;
+            }
+        }
+
+        public void Cargo_CodMotivo_Descuento(System.Windows.Forms.ComboBox cbCodMotivo)
+        {
+            DataTable dtMotivoDes = _D_Articulos.MOTIVOSDESCUENTO();
+
+            if (dtMotivoDes.Rows.Count > 0)
+            {
+                // Asignar el DataTable como fuente de datos del ComboBox
+                cbCodMotivo.DataSource = dtMotivoDes;
+
+                cbCodMotivo.DisplayMember = "Descripcion";
+                cbCodMotivo.ValueMember = "CodMotivo";
+            }
+            else
+            {
+                // Si no hay datos, limpiar el ComboBox
+                cbCodMotivo.DataSource = null;
+                cbCodMotivo.Items.Clear();
+            }
+
+        }
+
+        public string BuscarCodigoGerenteDescuento(string Codigo)
+        {
+            DataTable dtMotivoDes = _D_Articulos.MOTIVOSDESCUENTO(Codigo);
+
+            if (dtMotivoDes.Rows.Count > 0)
+            {
+                return dtMotivoDes.Rows[0]["CodMotivo"].ToString();
+            }
+            else
+            {
+                return "";
+            }
+
+        }
+
+    }
 }
 

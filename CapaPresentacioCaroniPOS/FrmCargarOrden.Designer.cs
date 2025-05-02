@@ -30,16 +30,21 @@ namespace CapaVisual_Login
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmCargarOrden));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle61 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle62 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle63 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle64 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle65 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle66 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle67 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle68 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle69 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle70 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle76 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle77 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle78 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle79 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle80 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle81 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle82 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle83 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle84 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle85 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle86 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle87 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle88 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle89 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle90 = new System.Windows.Forms.DataGridViewCellStyle();
             this.Pnl_1 = new System.Windows.Forms.Panel();
             this.Lbl_Pnl1_TituloExamen = new System.Windows.Forms.Label();
             this.Lbl_Pnl1_Nombre = new System.Windows.Forms.Label();
@@ -138,6 +143,8 @@ namespace CapaVisual_Login
             this.Lbl_Tap2_Nombre_Optome = new System.Windows.Forms.Label();
             this.Lbl_Tap2_Tipo_Optome = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.Btn_Tap3_Descuento = new System.Windows.Forms.Button();
+            this.Dgv_Tap3_Articulo = new System.Windows.Forms.DataGridView();
             this.Btn_Tap3_Cancelar = new System.Windows.Forms.Button();
             this.Btn_Tap3_Procesar = new System.Windows.Forms.Button();
             this.Pnl_3_Tap3 = new System.Windows.Forms.Panel();
@@ -146,7 +153,6 @@ namespace CapaVisual_Login
             this.Lbl_Tap3_ = new System.Windows.Forms.Label();
             this.Dgv_Tap3_Medidas_Montura = new System.Windows.Forms.DataGridView();
             this.Lbl_Tap3_Medidas_Montura = new System.Windows.Forms.Label();
-            this.Dgv_Tap3_Articulo = new System.Windows.Forms.DataGridView();
             this.Lbl_Tap3_Articulo2 = new System.Windows.Forms.Label();
             this.Pnl_1_Tap3 = new System.Windows.Forms.Panel();
             this.Txt_Tap3_Articulo_Precio = new System.Windows.Forms.TextBox();
@@ -155,13 +161,41 @@ namespace CapaVisual_Login
             this.Txt_Tap3_Articulo_Codigo = new System.Windows.Forms.TextBox();
             this.Lbl_Tap3_Articulo1 = new System.Windows.Forms.Label();
             this.Pnl_3_Lista_Articulo = new System.Windows.Forms.Panel();
-            this.Pnl_3_RadioButon = new System.Windows.Forms.Panel();
+            this.Pnl_3_RadioButonArticulo = new System.Windows.Forms.Panel();
             this.Rd_Pnl3_Descripcion = new System.Windows.Forms.RadioButton();
             this.Rd_Pnl3_Codigo = new System.Windows.Forms.RadioButton();
             this.Dgv_Pnl3_Articulo = new System.Windows.Forms.DataGridView();
             this.Txt_Pnl3_Articulo = new System.Windows.Forms.TextBox();
             this.Lbl_Pnl3_Carga_Articulo = new System.Windows.Forms.Label();
             this.btnCancelar3 = new System.Windows.Forms.Button();
+            this.Btn_Tap3_Cancelar_Coloracion = new System.Windows.Forms.Button();
+            this.Lbl_Pnl3_Coloracion = new System.Windows.Forms.Label();
+            this.Btn_Tap3_Aceptar_Coloracion = new System.Windows.Forms.Button();
+            this.Pnl_3_Coloración = new System.Windows.Forms.Panel();
+            this.Dgv_Pnl3_Coloracion = new System.Windows.Forms.DataGridView();
+            this.Pnl_3_RadioButonColoracion = new System.Windows.Forms.Panel();
+            this.Rd_Pnl3_Degradado = new System.Windows.Forms.RadioButton();
+            this.Rd_Pnl3_FullColor = new System.Windows.Forms.RadioButton();
+            this.Pnl_3_CambioPrecio = new System.Windows.Forms.Panel();
+            this.Txt_Pnl3_CambioPrecioNuevo = new System.Windows.Forms.TextBox();
+            this.Lbl_Pnl3_CambioPrecioNuevo = new System.Windows.Forms.Label();
+            this.Txt_Pnl3_CambioPrecioActual = new System.Windows.Forms.TextBox();
+            this.Lbl_Pnl3_CambioPrecioActual = new System.Windows.Forms.Label();
+            this.Btn_Tap3_Aceptar_CambioPrecio = new System.Windows.Forms.Button();
+            this.Lbl_Pnl3_Cambio_Precio = new System.Windows.Forms.Label();
+            this.Btn_Tap3_Cancelar_CambioPrecio = new System.Windows.Forms.Button();
+            this.Pnl_3_Descuento = new System.Windows.Forms.Panel();
+            this.Txt_Pnl3_ObservacionDesc = new System.Windows.Forms.TextBox();
+            this.Lbl_Pnl3_ObservacionDesc = new System.Windows.Forms.Label();
+            this.Cbx_Pnl3_MotivoDesc = new System.Windows.Forms.ComboBox();
+            this.Lbl_Pnl3_MotivoDesc = new System.Windows.Forms.Label();
+            this.Txt_Pnl3_MontoDesc = new System.Windows.Forms.TextBox();
+            this.Lbl_Pnl3_Monto = new System.Windows.Forms.Label();
+            this.Txt_Pnl3_PorcDescuento = new System.Windows.Forms.TextBox();
+            this.Lbl_Pnl3_PorcDescuento = new System.Windows.Forms.Label();
+            this.Btn_Tap3_Aceptar_Desc = new System.Windows.Forms.Button();
+            this.Lbl_Pnl3_Descuento = new System.Windows.Forms.Label();
+            this.Btn_Tap3_Cancelar_Desc = new System.Windows.Forms.Button();
             this.Pnl_1.SuspendLayout();
             this.Pnl_2.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -171,15 +205,20 @@ namespace CapaVisual_Login
             this.Pnl_2_Tap2.SuspendLayout();
             this.Pnl_1_Tap2.SuspendLayout();
             this.tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Dgv_Tap3_Articulo)).BeginInit();
             this.Pnl_3_Tap3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Dgv_Tap3_Totales)).BeginInit();
             this.Pnl_2_Tap3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Dgv_Tap3_Medidas_Montura)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Dgv_Tap3_Articulo)).BeginInit();
             this.Pnl_1_Tap3.SuspendLayout();
             this.Pnl_3_Lista_Articulo.SuspendLayout();
-            this.Pnl_3_RadioButon.SuspendLayout();
+            this.Pnl_3_RadioButonArticulo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Dgv_Pnl3_Articulo)).BeginInit();
+            this.Pnl_3_Coloración.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Dgv_Pnl3_Coloracion)).BeginInit();
+            this.Pnl_3_RadioButonColoracion.SuspendLayout();
+            this.Pnl_3_CambioPrecio.SuspendLayout();
+            this.Pnl_3_Descuento.SuspendLayout();
             this.SuspendLayout();
             // 
             // Pnl_1
@@ -1325,11 +1364,12 @@ namespace CapaVisual_Login
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.Btn_Tap3_Descuento);
+            this.tabPage3.Controls.Add(this.Dgv_Tap3_Articulo);
             this.tabPage3.Controls.Add(this.Btn_Tap3_Cancelar);
             this.tabPage3.Controls.Add(this.Btn_Tap3_Procesar);
             this.tabPage3.Controls.Add(this.Pnl_3_Tap3);
             this.tabPage3.Controls.Add(this.Pnl_2_Tap3);
-            this.tabPage3.Controls.Add(this.Dgv_Tap3_Articulo);
             this.tabPage3.Controls.Add(this.Lbl_Tap3_Articulo2);
             this.tabPage3.Controls.Add(this.Pnl_1_Tap3);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
@@ -1338,6 +1378,75 @@ namespace CapaVisual_Login
             this.tabPage3.Size = new System.Drawing.Size(1043, 479);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // Btn_Tap3_Descuento
+            // 
+            this.Btn_Tap3_Descuento.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.Btn_Tap3_Descuento.Enabled = false;
+            this.Btn_Tap3_Descuento.FlatAppearance.BorderSize = 0;
+            this.Btn_Tap3_Descuento.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Btn_Tap3_Descuento.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn_Tap3_Descuento.ForeColor = System.Drawing.SystemColors.Window;
+            this.Btn_Tap3_Descuento.Location = new System.Drawing.Point(9, 442);
+            this.Btn_Tap3_Descuento.Name = "Btn_Tap3_Descuento";
+            this.Btn_Tap3_Descuento.Size = new System.Drawing.Size(105, 31);
+            this.Btn_Tap3_Descuento.TabIndex = 309;
+            this.Btn_Tap3_Descuento.Text = "Descuento";
+            this.Btn_Tap3_Descuento.UseVisualStyleBackColor = false;
+            this.Btn_Tap3_Descuento.Click += new System.EventHandler(this.Btn_Tap3_Descuento_Click);
+            // 
+            // Dgv_Tap3_Articulo
+            // 
+            this.Dgv_Tap3_Articulo.AllowUserToAddRows = false;
+            this.Dgv_Tap3_Articulo.AllowUserToResizeColumns = false;
+            this.Dgv_Tap3_Articulo.AllowUserToResizeRows = false;
+            this.Dgv_Tap3_Articulo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.Dgv_Tap3_Articulo.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.Dgv_Tap3_Articulo.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.Dgv_Tap3_Articulo.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            this.Dgv_Tap3_Articulo.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle76.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle76.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(2)))), ((int)(((byte)(185)))), ((int)(((byte)(171)))));
+            dataGridViewCellStyle76.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle76.ForeColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle76.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle76.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle76.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Dgv_Tap3_Articulo.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle76;
+            this.Dgv_Tap3_Articulo.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle77.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle77.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            dataGridViewCellStyle77.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle77.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle77.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle77.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle77.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.Dgv_Tap3_Articulo.DefaultCellStyle = dataGridViewCellStyle77;
+            this.Dgv_Tap3_Articulo.EnableHeadersVisualStyles = false;
+            this.Dgv_Tap3_Articulo.GridColor = System.Drawing.SystemColors.ControlLightLight;
+            this.Dgv_Tap3_Articulo.Location = new System.Drawing.Point(0, 112);
+            this.Dgv_Tap3_Articulo.Name = "Dgv_Tap3_Articulo";
+            this.Dgv_Tap3_Articulo.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle78.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle78.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle78.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle78.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle78.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle78.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle78.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Dgv_Tap3_Articulo.RowHeadersDefaultCellStyle = dataGridViewCellStyle78;
+            this.Dgv_Tap3_Articulo.RowHeadersVisible = false;
+            this.Dgv_Tap3_Articulo.RowHeadersWidth = 51;
+            this.Dgv_Tap3_Articulo.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.Dgv_Tap3_Articulo.Size = new System.Drawing.Size(1043, 152);
+            this.Dgv_Tap3_Articulo.TabIndex = 308;
+            this.Dgv_Tap3_Articulo.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_Tap3_Articulo_CellContentClick);
+            this.Dgv_Tap3_Articulo.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.Dgv_Tap3_Articulo_CellPainting);
+            this.Dgv_Tap3_Articulo.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.Dgv_Tap3_Articulo_RowsAdded);
+            this.Dgv_Tap3_Articulo.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.Dgv_Tap3_Articulo_RowsRemoved);
+            this.Dgv_Tap3_Articulo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Dgv_Tap3_Articulo_KeyDown);
             // 
             // Btn_Tap3_Cancelar
             // 
@@ -1379,37 +1488,48 @@ namespace CapaVisual_Login
             // Dgv_Tap3_Totales
             // 
             this.Dgv_Tap3_Totales.AllowUserToAddRows = false;
-            this.Dgv_Tap3_Totales.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.Dgv_Tap3_Totales.AllowUserToResizeColumns = false;
+            this.Dgv_Tap3_Totales.AllowUserToResizeRows = false;
+            this.Dgv_Tap3_Totales.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.Dgv_Tap3_Totales.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(213)))), ((int)(((byte)(227)))), ((int)(((byte)(207)))));
             this.Dgv_Tap3_Totales.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.Dgv_Tap3_Totales.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
-            this.Dgv_Tap3_Totales.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle61.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle61.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(2)))), ((int)(((byte)(185)))), ((int)(((byte)(171)))));
-            dataGridViewCellStyle61.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold);
-            dataGridViewCellStyle61.ForeColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle61.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle61.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle61.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Dgv_Tap3_Totales.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle61;
+            this.Dgv_Tap3_Totales.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            dataGridViewCellStyle79.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle79.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(2)))), ((int)(((byte)(185)))), ((int)(((byte)(171)))));
+            dataGridViewCellStyle79.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle79.ForeColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle79.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle79.SelectionForeColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle79.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Dgv_Tap3_Totales.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle79;
             this.Dgv_Tap3_Totales.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle62.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle62.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle62.Font = new System.Drawing.Font("Century Gothic", 11.25F);
-            dataGridViewCellStyle62.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle62.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle62.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle62.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.Dgv_Tap3_Totales.DefaultCellStyle = dataGridViewCellStyle62;
+            dataGridViewCellStyle80.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle80.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(213)))), ((int)(((byte)(227)))), ((int)(((byte)(207)))));
+            dataGridViewCellStyle80.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle80.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle80.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle80.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle80.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.Dgv_Tap3_Totales.DefaultCellStyle = dataGridViewCellStyle80;
             this.Dgv_Tap3_Totales.EnableHeadersVisualStyles = false;
-            this.Dgv_Tap3_Totales.GridColor = System.Drawing.SystemColors.ControlLightLight;
             this.Dgv_Tap3_Totales.Location = new System.Drawing.Point(3, 3);
             this.Dgv_Tap3_Totales.Name = "Dgv_Tap3_Totales";
             this.Dgv_Tap3_Totales.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle81.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle81.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle81.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle81.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle81.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle81.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle81.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Dgv_Tap3_Totales.RowHeadersDefaultCellStyle = dataGridViewCellStyle81;
             this.Dgv_Tap3_Totales.RowHeadersVisible = false;
             this.Dgv_Tap3_Totales.RowHeadersWidth = 51;
             this.Dgv_Tap3_Totales.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.Dgv_Tap3_Totales.Size = new System.Drawing.Size(513, 164);
-            this.Dgv_Tap3_Totales.TabIndex = 304;
+            this.Dgv_Tap3_Totales.Size = new System.Drawing.Size(514, 152);
+            this.Dgv_Tap3_Totales.TabIndex = 309;
             // 
             // Pnl_2_Tap3
             // 
@@ -1430,7 +1550,7 @@ namespace CapaVisual_Login
             this.Lbl_Tap3_.Name = "Lbl_Tap3_";
             this.Lbl_Tap3_.Size = new System.Drawing.Size(525, 28);
             this.Lbl_Tap3_.TabIndex = 305;
-            this.Lbl_Tap3_.Text = "Medidas de la Montura";
+            this.Lbl_Tap3_.Text = "Observación";
             this.Lbl_Tap3_.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Dgv_Tap3_Medidas_Montura
@@ -1440,36 +1560,36 @@ namespace CapaVisual_Login
             this.Dgv_Tap3_Medidas_Montura.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.Dgv_Tap3_Medidas_Montura.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             this.Dgv_Tap3_Medidas_Montura.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle63.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle63.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(2)))), ((int)(((byte)(185)))), ((int)(((byte)(171)))));
-            dataGridViewCellStyle63.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle63.ForeColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle63.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle63.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle63.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Dgv_Tap3_Medidas_Montura.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle63;
+            dataGridViewCellStyle82.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle82.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(2)))), ((int)(((byte)(185)))), ((int)(((byte)(171)))));
+            dataGridViewCellStyle82.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle82.ForeColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle82.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle82.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle82.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Dgv_Tap3_Medidas_Montura.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle82;
             this.Dgv_Tap3_Medidas_Montura.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle64.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle64.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(241)))), ((int)(((byte)(233)))));
-            dataGridViewCellStyle64.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle64.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle64.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle64.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle64.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.Dgv_Tap3_Medidas_Montura.DefaultCellStyle = dataGridViewCellStyle64;
+            dataGridViewCellStyle83.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle83.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(241)))), ((int)(((byte)(233)))));
+            dataGridViewCellStyle83.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle83.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle83.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle83.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle83.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.Dgv_Tap3_Medidas_Montura.DefaultCellStyle = dataGridViewCellStyle83;
             this.Dgv_Tap3_Medidas_Montura.EnableHeadersVisualStyles = false;
             this.Dgv_Tap3_Medidas_Montura.GridColor = System.Drawing.SystemColors.ControlLightLight;
             this.Dgv_Tap3_Medidas_Montura.Location = new System.Drawing.Point(1, 31);
             this.Dgv_Tap3_Medidas_Montura.Name = "Dgv_Tap3_Medidas_Montura";
             this.Dgv_Tap3_Medidas_Montura.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle65.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle65.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle65.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle65.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle65.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle65.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle65.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Dgv_Tap3_Medidas_Montura.RowHeadersDefaultCellStyle = dataGridViewCellStyle65;
+            dataGridViewCellStyle84.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle84.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle84.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle84.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle84.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle84.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle84.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Dgv_Tap3_Medidas_Montura.RowHeadersDefaultCellStyle = dataGridViewCellStyle84;
             this.Dgv_Tap3_Medidas_Montura.RowHeadersVisible = false;
             this.Dgv_Tap3_Medidas_Montura.RowHeadersWidth = 51;
             this.Dgv_Tap3_Medidas_Montura.ScrollBars = System.Windows.Forms.ScrollBars.None;
@@ -1488,45 +1608,6 @@ namespace CapaVisual_Login
             this.Lbl_Tap3_Medidas_Montura.Text = "Medidas de la Montura";
             this.Lbl_Tap3_Medidas_Montura.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // Dgv_Tap3_Articulo
-            // 
-            this.Dgv_Tap3_Articulo.AllowUserToAddRows = false;
-            this.Dgv_Tap3_Articulo.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.Dgv_Tap3_Articulo.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.Dgv_Tap3_Articulo.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
-            this.Dgv_Tap3_Articulo.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle66.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle66.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(2)))), ((int)(((byte)(185)))), ((int)(((byte)(171)))));
-            dataGridViewCellStyle66.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold);
-            dataGridViewCellStyle66.ForeColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle66.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle66.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle66.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Dgv_Tap3_Articulo.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle66;
-            this.Dgv_Tap3_Articulo.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle67.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle67.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle67.Font = new System.Drawing.Font("Century Gothic", 11.25F);
-            dataGridViewCellStyle67.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle67.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle67.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle67.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.Dgv_Tap3_Articulo.DefaultCellStyle = dataGridViewCellStyle67;
-            this.Dgv_Tap3_Articulo.EnableHeadersVisualStyles = false;
-            this.Dgv_Tap3_Articulo.GridColor = System.Drawing.SystemColors.ControlLightLight;
-            this.Dgv_Tap3_Articulo.Location = new System.Drawing.Point(3, 113);
-            this.Dgv_Tap3_Articulo.Name = "Dgv_Tap3_Articulo";
-            this.Dgv_Tap3_Articulo.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            this.Dgv_Tap3_Articulo.RowHeadersVisible = false;
-            this.Dgv_Tap3_Articulo.RowHeadersWidth = 51;
-            this.Dgv_Tap3_Articulo.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.Dgv_Tap3_Articulo.Size = new System.Drawing.Size(1036, 150);
-            this.Dgv_Tap3_Articulo.TabIndex = 303;
-            this.Dgv_Tap3_Articulo.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_Tap3_Articulo_CellContentClick);
-            this.Dgv_Tap3_Articulo.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.Dgv_Tap3_Articulo_CellPainting);
-            this.Dgv_Tap3_Articulo.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.Dgv_Tap3_Articulo_RowsAdded);
-            this.Dgv_Tap3_Articulo.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.Dgv_Tap3_Articulo_RowsRemoved);
-            // 
             // Lbl_Tap3_Articulo2
             // 
             this.Lbl_Tap3_Articulo2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(2)))), ((int)(((byte)(127)))), ((int)(((byte)(121)))));
@@ -1536,7 +1617,7 @@ namespace CapaVisual_Login
             this.Lbl_Tap3_Articulo2.Name = "Lbl_Tap3_Articulo2";
             this.Lbl_Tap3_Articulo2.Size = new System.Drawing.Size(1043, 28);
             this.Lbl_Tap3_Articulo2.TabIndex = 302;
-            this.Lbl_Tap3_Articulo2.Text = "Fórmula del Examen";
+            this.Lbl_Tap3_Articulo2.Text = "Articulos";
             this.Lbl_Tap3_Articulo2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Pnl_1_Tap3
@@ -1623,7 +1704,7 @@ namespace CapaVisual_Login
             // 
             // Pnl_3_Lista_Articulo
             // 
-            this.Pnl_3_Lista_Articulo.Controls.Add(this.Pnl_3_RadioButon);
+            this.Pnl_3_Lista_Articulo.Controls.Add(this.Pnl_3_RadioButonArticulo);
             this.Pnl_3_Lista_Articulo.Controls.Add(this.Dgv_Pnl3_Articulo);
             this.Pnl_3_Lista_Articulo.Controls.Add(this.Txt_Pnl3_Articulo);
             this.Pnl_3_Lista_Articulo.Controls.Add(this.Lbl_Pnl3_Carga_Articulo);
@@ -1635,14 +1716,14 @@ namespace CapaVisual_Login
             this.Pnl_3_Lista_Articulo.Visible = false;
             this.Pnl_3_Lista_Articulo.Paint += new System.Windows.Forms.PaintEventHandler(this.Pnl_3_Lista_Articulo_Paint);
             // 
-            // Pnl_3_RadioButon
+            // Pnl_3_RadioButonArticulo
             // 
-            this.Pnl_3_RadioButon.Controls.Add(this.Rd_Pnl3_Descripcion);
-            this.Pnl_3_RadioButon.Controls.Add(this.Rd_Pnl3_Codigo);
-            this.Pnl_3_RadioButon.Location = new System.Drawing.Point(398, 43);
-            this.Pnl_3_RadioButon.Name = "Pnl_3_RadioButon";
-            this.Pnl_3_RadioButon.Size = new System.Drawing.Size(139, 48);
-            this.Pnl_3_RadioButon.TabIndex = 164;
+            this.Pnl_3_RadioButonArticulo.Controls.Add(this.Rd_Pnl3_Descripcion);
+            this.Pnl_3_RadioButonArticulo.Controls.Add(this.Rd_Pnl3_Codigo);
+            this.Pnl_3_RadioButonArticulo.Location = new System.Drawing.Point(398, 43);
+            this.Pnl_3_RadioButonArticulo.Name = "Pnl_3_RadioButonArticulo";
+            this.Pnl_3_RadioButonArticulo.Size = new System.Drawing.Size(139, 48);
+            this.Pnl_3_RadioButonArticulo.TabIndex = 164;
             // 
             // Rd_Pnl3_Descripcion
             // 
@@ -1675,36 +1756,36 @@ namespace CapaVisual_Login
             this.Dgv_Pnl3_Articulo.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.Dgv_Pnl3_Articulo.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
             this.Dgv_Pnl3_Articulo.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle68.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
-            dataGridViewCellStyle68.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(2)))), ((int)(((byte)(185)))), ((int)(((byte)(171)))));
-            dataGridViewCellStyle68.Font = new System.Drawing.Font("Century Gothic", 9.75F);
-            dataGridViewCellStyle68.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle68.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle68.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle68.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Dgv_Pnl3_Articulo.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle68;
+            dataGridViewCellStyle85.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
+            dataGridViewCellStyle85.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(2)))), ((int)(((byte)(185)))), ((int)(((byte)(171)))));
+            dataGridViewCellStyle85.Font = new System.Drawing.Font("Century Gothic", 9.75F);
+            dataGridViewCellStyle85.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle85.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle85.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle85.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Dgv_Pnl3_Articulo.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle85;
             this.Dgv_Pnl3_Articulo.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle69.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle69.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle69.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle69.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle69.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle69.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle69.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.Dgv_Pnl3_Articulo.DefaultCellStyle = dataGridViewCellStyle69;
+            dataGridViewCellStyle86.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle86.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle86.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle86.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle86.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle86.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle86.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.Dgv_Pnl3_Articulo.DefaultCellStyle = dataGridViewCellStyle86;
             this.Dgv_Pnl3_Articulo.EnableHeadersVisualStyles = false;
             this.Dgv_Pnl3_Articulo.GridColor = System.Drawing.SystemColors.ControlLightLight;
             this.Dgv_Pnl3_Articulo.Location = new System.Drawing.Point(7, 97);
             this.Dgv_Pnl3_Articulo.Name = "Dgv_Pnl3_Articulo";
             this.Dgv_Pnl3_Articulo.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle70.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle70.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle70.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle70.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle70.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle70.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle70.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Dgv_Pnl3_Articulo.RowHeadersDefaultCellStyle = dataGridViewCellStyle70;
+            dataGridViewCellStyle87.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle87.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle87.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle87.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle87.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle87.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle87.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Dgv_Pnl3_Articulo.RowHeadersDefaultCellStyle = dataGridViewCellStyle87;
             this.Dgv_Pnl3_Articulo.RowHeadersVisible = false;
             this.Dgv_Pnl3_Articulo.RowHeadersWidth = 51;
             this.Dgv_Pnl3_Articulo.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -1744,13 +1825,412 @@ namespace CapaVisual_Login
             this.btnCancelar3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCancelar3.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCancelar3.ForeColor = System.Drawing.SystemColors.Window;
-            this.btnCancelar3.Location = new System.Drawing.Point(435, 290);
+            this.btnCancelar3.Location = new System.Drawing.Point(435, 294);
             this.btnCancelar3.Name = "btnCancelar3";
             this.btnCancelar3.Size = new System.Drawing.Size(105, 30);
             this.btnCancelar3.TabIndex = 30;
             this.btnCancelar3.Text = "Cancelar";
             this.btnCancelar3.UseVisualStyleBackColor = false;
             this.btnCancelar3.Click += new System.EventHandler(this.btnCancelar3_Click);
+            // 
+            // Btn_Tap3_Cancelar_Coloracion
+            // 
+            this.Btn_Tap3_Cancelar_Coloracion.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(44)))), ((int)(((byte)(59)))));
+            this.Btn_Tap3_Cancelar_Coloracion.FlatAppearance.BorderSize = 0;
+            this.Btn_Tap3_Cancelar_Coloracion.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Btn_Tap3_Cancelar_Coloracion.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn_Tap3_Cancelar_Coloracion.ForeColor = System.Drawing.SystemColors.Window;
+            this.Btn_Tap3_Cancelar_Coloracion.Location = new System.Drawing.Point(22, 295);
+            this.Btn_Tap3_Cancelar_Coloracion.Name = "Btn_Tap3_Cancelar_Coloracion";
+            this.Btn_Tap3_Cancelar_Coloracion.Size = new System.Drawing.Size(105, 30);
+            this.Btn_Tap3_Cancelar_Coloracion.TabIndex = 30;
+            this.Btn_Tap3_Cancelar_Coloracion.Text = "Cancelar";
+            this.Btn_Tap3_Cancelar_Coloracion.UseVisualStyleBackColor = false;
+            // 
+            // Lbl_Pnl3_Coloracion
+            // 
+            this.Lbl_Pnl3_Coloracion.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(2)))), ((int)(((byte)(127)))), ((int)(((byte)(121)))));
+            this.Lbl_Pnl3_Coloracion.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.Lbl_Pnl3_Coloracion.Font = new System.Drawing.Font("Century Gothic", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Lbl_Pnl3_Coloracion.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this.Lbl_Pnl3_Coloracion.Location = new System.Drawing.Point(3, 6);
+            this.Lbl_Pnl3_Coloracion.Name = "Lbl_Pnl3_Coloracion";
+            this.Lbl_Pnl3_Coloracion.Size = new System.Drawing.Size(285, 34);
+            this.Lbl_Pnl3_Coloracion.TabIndex = 31;
+            this.Lbl_Pnl3_Coloracion.Text = "Tipo de Coloración";
+            this.Lbl_Pnl3_Coloracion.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            // 
+            // Btn_Tap3_Aceptar_Coloracion
+            // 
+            this.Btn_Tap3_Aceptar_Coloracion.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(184)))), ((int)(((byte)(52)))));
+            this.Btn_Tap3_Aceptar_Coloracion.FlatAppearance.BorderSize = 0;
+            this.Btn_Tap3_Aceptar_Coloracion.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Btn_Tap3_Aceptar_Coloracion.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn_Tap3_Aceptar_Coloracion.ForeColor = System.Drawing.SystemColors.Window;
+            this.Btn_Tap3_Aceptar_Coloracion.Location = new System.Drawing.Point(167, 294);
+            this.Btn_Tap3_Aceptar_Coloracion.Name = "Btn_Tap3_Aceptar_Coloracion";
+            this.Btn_Tap3_Aceptar_Coloracion.Size = new System.Drawing.Size(105, 31);
+            this.Btn_Tap3_Aceptar_Coloracion.TabIndex = 307;
+            this.Btn_Tap3_Aceptar_Coloracion.Text = "Aceptar";
+            this.Btn_Tap3_Aceptar_Coloracion.UseVisualStyleBackColor = false;
+            // 
+            // Pnl_3_Coloración
+            // 
+            this.Pnl_3_Coloración.Controls.Add(this.Dgv_Pnl3_Coloracion);
+            this.Pnl_3_Coloración.Controls.Add(this.Pnl_3_RadioButonColoracion);
+            this.Pnl_3_Coloración.Controls.Add(this.Btn_Tap3_Aceptar_Coloracion);
+            this.Pnl_3_Coloración.Controls.Add(this.Lbl_Pnl3_Coloracion);
+            this.Pnl_3_Coloración.Controls.Add(this.Btn_Tap3_Cancelar_Coloracion);
+            this.Pnl_3_Coloración.Location = new System.Drawing.Point(1610, 128);
+            this.Pnl_3_Coloración.Name = "Pnl_3_Coloración";
+            this.Pnl_3_Coloración.Size = new System.Drawing.Size(291, 331);
+            this.Pnl_3_Coloración.TabIndex = 103;
+            this.Pnl_3_Coloración.Visible = false;
+            // 
+            // Dgv_Pnl3_Coloracion
+            // 
+            this.Dgv_Pnl3_Coloracion.AllowUserToAddRows = false;
+            this.Dgv_Pnl3_Coloracion.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.Dgv_Pnl3_Coloracion.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.Dgv_Pnl3_Coloracion.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
+            this.Dgv_Pnl3_Coloracion.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle88.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
+            dataGridViewCellStyle88.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(2)))), ((int)(((byte)(185)))), ((int)(((byte)(171)))));
+            dataGridViewCellStyle88.Font = new System.Drawing.Font("Century Gothic", 9.75F);
+            dataGridViewCellStyle88.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle88.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle88.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle88.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Dgv_Pnl3_Coloracion.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle88;
+            this.Dgv_Pnl3_Coloracion.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle89.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle89.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle89.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle89.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle89.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle89.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle89.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.Dgv_Pnl3_Coloracion.DefaultCellStyle = dataGridViewCellStyle89;
+            this.Dgv_Pnl3_Coloracion.EnableHeadersVisualStyles = false;
+            this.Dgv_Pnl3_Coloracion.GridColor = System.Drawing.SystemColors.ControlLightLight;
+            this.Dgv_Pnl3_Coloracion.Location = new System.Drawing.Point(22, 90);
+            this.Dgv_Pnl3_Coloracion.Name = "Dgv_Pnl3_Coloracion";
+            this.Dgv_Pnl3_Coloracion.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle90.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle90.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle90.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle90.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle90.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle90.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle90.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Dgv_Pnl3_Coloracion.RowHeadersDefaultCellStyle = dataGridViewCellStyle90;
+            this.Dgv_Pnl3_Coloracion.RowHeadersVisible = false;
+            this.Dgv_Pnl3_Coloracion.RowHeadersWidth = 51;
+            this.Dgv_Pnl3_Coloracion.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.Dgv_Pnl3_Coloracion.Size = new System.Drawing.Size(250, 197);
+            this.Dgv_Pnl3_Coloracion.TabIndex = 309;
+            // 
+            // Pnl_3_RadioButonColoracion
+            // 
+            this.Pnl_3_RadioButonColoracion.Controls.Add(this.Rd_Pnl3_Degradado);
+            this.Pnl_3_RadioButonColoracion.Controls.Add(this.Rd_Pnl3_FullColor);
+            this.Pnl_3_RadioButonColoracion.Location = new System.Drawing.Point(22, 52);
+            this.Pnl_3_RadioButonColoracion.Name = "Pnl_3_RadioButonColoracion";
+            this.Pnl_3_RadioButonColoracion.Size = new System.Drawing.Size(244, 28);
+            this.Pnl_3_RadioButonColoracion.TabIndex = 308;
+            // 
+            // Rd_Pnl3_Degradado
+            // 
+            this.Rd_Pnl3_Degradado.AutoSize = true;
+            this.Rd_Pnl3_Degradado.Font = new System.Drawing.Font("Century Gothic", 11.25F);
+            this.Rd_Pnl3_Degradado.Location = new System.Drawing.Point(124, 2);
+            this.Rd_Pnl3_Degradado.Name = "Rd_Pnl3_Degradado";
+            this.Rd_Pnl3_Degradado.Size = new System.Drawing.Size(113, 24);
+            this.Rd_Pnl3_Degradado.TabIndex = 1;
+            this.Rd_Pnl3_Degradado.TabStop = true;
+            this.Rd_Pnl3_Degradado.Text = "Degradado";
+            this.Rd_Pnl3_Degradado.UseVisualStyleBackColor = true;
+            // 
+            // Rd_Pnl3_FullColor
+            // 
+            this.Rd_Pnl3_FullColor.AutoSize = true;
+            this.Rd_Pnl3_FullColor.Font = new System.Drawing.Font("Century Gothic", 11.25F);
+            this.Rd_Pnl3_FullColor.Location = new System.Drawing.Point(3, 1);
+            this.Rd_Pnl3_FullColor.Name = "Rd_Pnl3_FullColor";
+            this.Rd_Pnl3_FullColor.Size = new System.Drawing.Size(89, 24);
+            this.Rd_Pnl3_FullColor.TabIndex = 0;
+            this.Rd_Pnl3_FullColor.TabStop = true;
+            this.Rd_Pnl3_FullColor.Text = "FullColor";
+            this.Rd_Pnl3_FullColor.UseVisualStyleBackColor = true;
+            // 
+            // Pnl_3_CambioPrecio
+            // 
+            this.Pnl_3_CambioPrecio.Controls.Add(this.Txt_Pnl3_CambioPrecioNuevo);
+            this.Pnl_3_CambioPrecio.Controls.Add(this.Lbl_Pnl3_CambioPrecioNuevo);
+            this.Pnl_3_CambioPrecio.Controls.Add(this.Txt_Pnl3_CambioPrecioActual);
+            this.Pnl_3_CambioPrecio.Controls.Add(this.Lbl_Pnl3_CambioPrecioActual);
+            this.Pnl_3_CambioPrecio.Controls.Add(this.Btn_Tap3_Aceptar_CambioPrecio);
+            this.Pnl_3_CambioPrecio.Controls.Add(this.Lbl_Pnl3_Cambio_Precio);
+            this.Pnl_3_CambioPrecio.Controls.Add(this.Btn_Tap3_Cancelar_CambioPrecio);
+            this.Pnl_3_CambioPrecio.Location = new System.Drawing.Point(1057, 465);
+            this.Pnl_3_CambioPrecio.Name = "Pnl_3_CambioPrecio";
+            this.Pnl_3_CambioPrecio.Size = new System.Drawing.Size(236, 223);
+            this.Pnl_3_CambioPrecio.TabIndex = 104;
+            this.Pnl_3_CambioPrecio.Visible = false;
+            // 
+            // Txt_Pnl3_CambioPrecioNuevo
+            // 
+            this.Txt_Pnl3_CambioPrecioNuevo.Enabled = false;
+            this.Txt_Pnl3_CambioPrecioNuevo.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Txt_Pnl3_CambioPrecioNuevo.ForeColor = System.Drawing.Color.Black;
+            this.Txt_Pnl3_CambioPrecioNuevo.Location = new System.Drawing.Point(25, 134);
+            this.Txt_Pnl3_CambioPrecioNuevo.MaxLength = 50;
+            this.Txt_Pnl3_CambioPrecioNuevo.Name = "Txt_Pnl3_CambioPrecioNuevo";
+            this.Txt_Pnl3_CambioPrecioNuevo.Size = new System.Drawing.Size(178, 21);
+            this.Txt_Pnl3_CambioPrecioNuevo.TabIndex = 312;
+            this.Txt_Pnl3_CambioPrecioNuevo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.Txt_Pnl3_CambioPrecioNuevo.WordWrap = false;
+            this.Txt_Pnl3_CambioPrecioNuevo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Txt_Pnl3_CambioPrecioNuevo_KeyPress);
+            // 
+            // Lbl_Pnl3_CambioPrecioNuevo
+            // 
+            this.Lbl_Pnl3_CambioPrecioNuevo.AutoSize = true;
+            this.Lbl_Pnl3_CambioPrecioNuevo.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Lbl_Pnl3_CambioPrecioNuevo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this.Lbl_Pnl3_CambioPrecioNuevo.Location = new System.Drawing.Point(21, 112);
+            this.Lbl_Pnl3_CambioPrecioNuevo.Name = "Lbl_Pnl3_CambioPrecioNuevo";
+            this.Lbl_Pnl3_CambioPrecioNuevo.Size = new System.Drawing.Size(112, 19);
+            this.Lbl_Pnl3_CambioPrecioNuevo.TabIndex = 311;
+            this.Lbl_Pnl3_CambioPrecioNuevo.Text = "Precio Nuevo";
+            this.Lbl_Pnl3_CambioPrecioNuevo.Visible = false;
+            // 
+            // Txt_Pnl3_CambioPrecioActual
+            // 
+            this.Txt_Pnl3_CambioPrecioActual.Enabled = false;
+            this.Txt_Pnl3_CambioPrecioActual.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Txt_Pnl3_CambioPrecioActual.ForeColor = System.Drawing.Color.Black;
+            this.Txt_Pnl3_CambioPrecioActual.Location = new System.Drawing.Point(25, 80);
+            this.Txt_Pnl3_CambioPrecioActual.MaxLength = 50;
+            this.Txt_Pnl3_CambioPrecioActual.Name = "Txt_Pnl3_CambioPrecioActual";
+            this.Txt_Pnl3_CambioPrecioActual.Size = new System.Drawing.Size(178, 21);
+            this.Txt_Pnl3_CambioPrecioActual.TabIndex = 310;
+            this.Txt_Pnl3_CambioPrecioActual.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.Txt_Pnl3_CambioPrecioActual.WordWrap = false;
+            // 
+            // Lbl_Pnl3_CambioPrecioActual
+            // 
+            this.Lbl_Pnl3_CambioPrecioActual.AutoSize = true;
+            this.Lbl_Pnl3_CambioPrecioActual.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Lbl_Pnl3_CambioPrecioActual.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this.Lbl_Pnl3_CambioPrecioActual.Location = new System.Drawing.Point(21, 58);
+            this.Lbl_Pnl3_CambioPrecioActual.Name = "Lbl_Pnl3_CambioPrecioActual";
+            this.Lbl_Pnl3_CambioPrecioActual.Size = new System.Drawing.Size(112, 19);
+            this.Lbl_Pnl3_CambioPrecioActual.TabIndex = 309;
+            this.Lbl_Pnl3_CambioPrecioActual.Text = "Precio Actual";
+            this.Lbl_Pnl3_CambioPrecioActual.Visible = false;
+            // 
+            // Btn_Tap3_Aceptar_CambioPrecio
+            // 
+            this.Btn_Tap3_Aceptar_CambioPrecio.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(184)))), ((int)(((byte)(52)))));
+            this.Btn_Tap3_Aceptar_CambioPrecio.Enabled = false;
+            this.Btn_Tap3_Aceptar_CambioPrecio.FlatAppearance.BorderSize = 0;
+            this.Btn_Tap3_Aceptar_CambioPrecio.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Btn_Tap3_Aceptar_CambioPrecio.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn_Tap3_Aceptar_CambioPrecio.ForeColor = System.Drawing.SystemColors.Window;
+            this.Btn_Tap3_Aceptar_CambioPrecio.Location = new System.Drawing.Point(118, 184);
+            this.Btn_Tap3_Aceptar_CambioPrecio.Name = "Btn_Tap3_Aceptar_CambioPrecio";
+            this.Btn_Tap3_Aceptar_CambioPrecio.Size = new System.Drawing.Size(105, 31);
+            this.Btn_Tap3_Aceptar_CambioPrecio.TabIndex = 307;
+            this.Btn_Tap3_Aceptar_CambioPrecio.Text = "Aceptar";
+            this.Btn_Tap3_Aceptar_CambioPrecio.UseVisualStyleBackColor = false;
+            this.Btn_Tap3_Aceptar_CambioPrecio.Click += new System.EventHandler(this.Btn_Tap3_Aceptar_CambioPrecio_Click);
+            // 
+            // Lbl_Pnl3_Cambio_Precio
+            // 
+            this.Lbl_Pnl3_Cambio_Precio.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(2)))), ((int)(((byte)(127)))), ((int)(((byte)(121)))));
+            this.Lbl_Pnl3_Cambio_Precio.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.Lbl_Pnl3_Cambio_Precio.Font = new System.Drawing.Font("Century Gothic", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Lbl_Pnl3_Cambio_Precio.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this.Lbl_Pnl3_Cambio_Precio.Location = new System.Drawing.Point(4, 6);
+            this.Lbl_Pnl3_Cambio_Precio.Name = "Lbl_Pnl3_Cambio_Precio";
+            this.Lbl_Pnl3_Cambio_Precio.Size = new System.Drawing.Size(228, 34);
+            this.Lbl_Pnl3_Cambio_Precio.TabIndex = 31;
+            this.Lbl_Pnl3_Cambio_Precio.Text = "Cambio de Precio";
+            this.Lbl_Pnl3_Cambio_Precio.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            // 
+            // Btn_Tap3_Cancelar_CambioPrecio
+            // 
+            this.Btn_Tap3_Cancelar_CambioPrecio.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(44)))), ((int)(((byte)(59)))));
+            this.Btn_Tap3_Cancelar_CambioPrecio.Enabled = false;
+            this.Btn_Tap3_Cancelar_CambioPrecio.FlatAppearance.BorderSize = 0;
+            this.Btn_Tap3_Cancelar_CambioPrecio.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Btn_Tap3_Cancelar_CambioPrecio.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn_Tap3_Cancelar_CambioPrecio.ForeColor = System.Drawing.SystemColors.Window;
+            this.Btn_Tap3_Cancelar_CambioPrecio.Location = new System.Drawing.Point(7, 184);
+            this.Btn_Tap3_Cancelar_CambioPrecio.Name = "Btn_Tap3_Cancelar_CambioPrecio";
+            this.Btn_Tap3_Cancelar_CambioPrecio.Size = new System.Drawing.Size(105, 30);
+            this.Btn_Tap3_Cancelar_CambioPrecio.TabIndex = 30;
+            this.Btn_Tap3_Cancelar_CambioPrecio.Text = "Cancelar";
+            this.Btn_Tap3_Cancelar_CambioPrecio.UseVisualStyleBackColor = false;
+            this.Btn_Tap3_Cancelar_CambioPrecio.Click += new System.EventHandler(this.Btn_Tap3_Cancelar_CambioPrecio_Click);
+            // 
+            // Pnl_3_Descuento
+            // 
+            this.Pnl_3_Descuento.Controls.Add(this.Txt_Pnl3_ObservacionDesc);
+            this.Pnl_3_Descuento.Controls.Add(this.Lbl_Pnl3_ObservacionDesc);
+            this.Pnl_3_Descuento.Controls.Add(this.Cbx_Pnl3_MotivoDesc);
+            this.Pnl_3_Descuento.Controls.Add(this.Lbl_Pnl3_MotivoDesc);
+            this.Pnl_3_Descuento.Controls.Add(this.Txt_Pnl3_MontoDesc);
+            this.Pnl_3_Descuento.Controls.Add(this.Lbl_Pnl3_Monto);
+            this.Pnl_3_Descuento.Controls.Add(this.Txt_Pnl3_PorcDescuento);
+            this.Pnl_3_Descuento.Controls.Add(this.Lbl_Pnl3_PorcDescuento);
+            this.Pnl_3_Descuento.Controls.Add(this.Btn_Tap3_Aceptar_Desc);
+            this.Pnl_3_Descuento.Controls.Add(this.Lbl_Pnl3_Descuento);
+            this.Pnl_3_Descuento.Controls.Add(this.Btn_Tap3_Cancelar_Desc);
+            this.Pnl_3_Descuento.Location = new System.Drawing.Point(1295, 465);
+            this.Pnl_3_Descuento.Name = "Pnl_3_Descuento";
+            this.Pnl_3_Descuento.Size = new System.Drawing.Size(461, 223);
+            this.Pnl_3_Descuento.TabIndex = 105;
+            this.Pnl_3_Descuento.Visible = false;
+            // 
+            // Txt_Pnl3_ObservacionDesc
+            // 
+            this.Txt_Pnl3_ObservacionDesc.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Txt_Pnl3_ObservacionDesc.ForeColor = System.Drawing.Color.Black;
+            this.Txt_Pnl3_ObservacionDesc.Location = new System.Drawing.Point(25, 134);
+            this.Txt_Pnl3_ObservacionDesc.MaxLength = 50;
+            this.Txt_Pnl3_ObservacionDesc.Multiline = true;
+            this.Txt_Pnl3_ObservacionDesc.Name = "Txt_Pnl3_ObservacionDesc";
+            this.Txt_Pnl3_ObservacionDesc.Size = new System.Drawing.Size(417, 46);
+            this.Txt_Pnl3_ObservacionDesc.TabIndex = 316;
+            this.Txt_Pnl3_ObservacionDesc.WordWrap = false;
+            // 
+            // Lbl_Pnl3_ObservacionDesc
+            // 
+            this.Lbl_Pnl3_ObservacionDesc.AutoSize = true;
+            this.Lbl_Pnl3_ObservacionDesc.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Lbl_Pnl3_ObservacionDesc.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this.Lbl_Pnl3_ObservacionDesc.Location = new System.Drawing.Point(21, 112);
+            this.Lbl_Pnl3_ObservacionDesc.Name = "Lbl_Pnl3_ObservacionDesc";
+            this.Lbl_Pnl3_ObservacionDesc.Size = new System.Drawing.Size(108, 19);
+            this.Lbl_Pnl3_ObservacionDesc.TabIndex = 315;
+            this.Lbl_Pnl3_ObservacionDesc.Text = "Observación";
+            // 
+            // Cbx_Pnl3_MotivoDesc
+            // 
+            this.Cbx_Pnl3_MotivoDesc.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Cbx_Pnl3_MotivoDesc.ForeColor = System.Drawing.Color.Black;
+            this.Cbx_Pnl3_MotivoDesc.FormattingEnabled = true;
+            this.Cbx_Pnl3_MotivoDesc.Location = new System.Drawing.Point(292, 80);
+            this.Cbx_Pnl3_MotivoDesc.Name = "Cbx_Pnl3_MotivoDesc";
+            this.Cbx_Pnl3_MotivoDesc.Size = new System.Drawing.Size(146, 25);
+            this.Cbx_Pnl3_MotivoDesc.TabIndex = 314;
+            // 
+            // Lbl_Pnl3_MotivoDesc
+            // 
+            this.Lbl_Pnl3_MotivoDesc.AutoSize = true;
+            this.Lbl_Pnl3_MotivoDesc.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Lbl_Pnl3_MotivoDesc.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this.Lbl_Pnl3_MotivoDesc.Location = new System.Drawing.Point(293, 58);
+            this.Lbl_Pnl3_MotivoDesc.Name = "Lbl_Pnl3_MotivoDesc";
+            this.Lbl_Pnl3_MotivoDesc.Size = new System.Drawing.Size(145, 19);
+            this.Lbl_Pnl3_MotivoDesc.TabIndex = 313;
+            this.Lbl_Pnl3_MotivoDesc.Text = "Motivo Descuento";
+            // 
+            // Txt_Pnl3_MontoDesc
+            // 
+            this.Txt_Pnl3_MontoDesc.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Txt_Pnl3_MontoDesc.ForeColor = System.Drawing.Color.Black;
+            this.Txt_Pnl3_MontoDesc.Location = new System.Drawing.Point(160, 80);
+            this.Txt_Pnl3_MontoDesc.MaxLength = 50;
+            this.Txt_Pnl3_MontoDesc.Name = "Txt_Pnl3_MontoDesc";
+            this.Txt_Pnl3_MontoDesc.Size = new System.Drawing.Size(117, 21);
+            this.Txt_Pnl3_MontoDesc.TabIndex = 312;
+            this.Txt_Pnl3_MontoDesc.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.Txt_Pnl3_MontoDesc.WordWrap = false;
+            this.Txt_Pnl3_MontoDesc.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Txt_Pnl3_MontoDesc_KeyPress);
+            this.Txt_Pnl3_MontoDesc.Leave += new System.EventHandler(this.Txt_Pnl3_MontoDesc_Leave);
+            this.Txt_Pnl3_MontoDesc.Validating += new System.ComponentModel.CancelEventHandler(this.Txt_Pnl3_MontoDesc_Validating);
+            // 
+            // Lbl_Pnl3_Monto
+            // 
+            this.Lbl_Pnl3_Monto.AutoSize = true;
+            this.Lbl_Pnl3_Monto.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Lbl_Pnl3_Monto.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this.Lbl_Pnl3_Monto.Location = new System.Drawing.Point(156, 58);
+            this.Lbl_Pnl3_Monto.Name = "Lbl_Pnl3_Monto";
+            this.Lbl_Pnl3_Monto.Size = new System.Drawing.Size(57, 19);
+            this.Lbl_Pnl3_Monto.TabIndex = 311;
+            this.Lbl_Pnl3_Monto.Text = "Monto";
+            // 
+            // Txt_Pnl3_PorcDescuento
+            // 
+            this.Txt_Pnl3_PorcDescuento.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Txt_Pnl3_PorcDescuento.ForeColor = System.Drawing.Color.Black;
+            this.Txt_Pnl3_PorcDescuento.Location = new System.Drawing.Point(25, 80);
+            this.Txt_Pnl3_PorcDescuento.MaxLength = 50;
+            this.Txt_Pnl3_PorcDescuento.Name = "Txt_Pnl3_PorcDescuento";
+            this.Txt_Pnl3_PorcDescuento.Size = new System.Drawing.Size(117, 21);
+            this.Txt_Pnl3_PorcDescuento.TabIndex = 310;
+            this.Txt_Pnl3_PorcDescuento.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.Txt_Pnl3_PorcDescuento.WordWrap = false;
+            this.Txt_Pnl3_PorcDescuento.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Txt_Pnl3_PorcDescuento_KeyPress);
+            this.Txt_Pnl3_PorcDescuento.Leave += new System.EventHandler(this.Txt_Pnl3_PorcDescuento_Leave);
+            this.Txt_Pnl3_PorcDescuento.Validating += new System.ComponentModel.CancelEventHandler(this.Txt_Pnl3_PorcDescuento_Validating);
+            // 
+            // Lbl_Pnl3_PorcDescuento
+            // 
+            this.Lbl_Pnl3_PorcDescuento.AutoSize = true;
+            this.Lbl_Pnl3_PorcDescuento.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Lbl_Pnl3_PorcDescuento.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this.Lbl_Pnl3_PorcDescuento.Location = new System.Drawing.Point(21, 58);
+            this.Lbl_Pnl3_PorcDescuento.Name = "Lbl_Pnl3_PorcDescuento";
+            this.Lbl_Pnl3_PorcDescuento.Size = new System.Drawing.Size(108, 19);
+            this.Lbl_Pnl3_PorcDescuento.TabIndex = 309;
+            this.Lbl_Pnl3_PorcDescuento.Text = "% Descuento";
+            // 
+            // Btn_Tap3_Aceptar_Desc
+            // 
+            this.Btn_Tap3_Aceptar_Desc.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(184)))), ((int)(((byte)(52)))));
+            this.Btn_Tap3_Aceptar_Desc.FlatAppearance.BorderSize = 0;
+            this.Btn_Tap3_Aceptar_Desc.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Btn_Tap3_Aceptar_Desc.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn_Tap3_Aceptar_Desc.ForeColor = System.Drawing.SystemColors.Window;
+            this.Btn_Tap3_Aceptar_Desc.Location = new System.Drawing.Point(346, 186);
+            this.Btn_Tap3_Aceptar_Desc.Name = "Btn_Tap3_Aceptar_Desc";
+            this.Btn_Tap3_Aceptar_Desc.Size = new System.Drawing.Size(105, 31);
+            this.Btn_Tap3_Aceptar_Desc.TabIndex = 307;
+            this.Btn_Tap3_Aceptar_Desc.Text = "Aceptar";
+            this.Btn_Tap3_Aceptar_Desc.UseVisualStyleBackColor = false;
+            this.Btn_Tap3_Aceptar_Desc.Click += new System.EventHandler(this.Btn_Tap3_Aceptar_Desc_Click);
+            // 
+            // Lbl_Pnl3_Descuento
+            // 
+            this.Lbl_Pnl3_Descuento.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(2)))), ((int)(((byte)(127)))), ((int)(((byte)(121)))));
+            this.Lbl_Pnl3_Descuento.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.Lbl_Pnl3_Descuento.Font = new System.Drawing.Font("Century Gothic", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Lbl_Pnl3_Descuento.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this.Lbl_Pnl3_Descuento.Location = new System.Drawing.Point(4, 6);
+            this.Lbl_Pnl3_Descuento.Name = "Lbl_Pnl3_Descuento";
+            this.Lbl_Pnl3_Descuento.Size = new System.Drawing.Size(454, 34);
+            this.Lbl_Pnl3_Descuento.TabIndex = 31;
+            this.Lbl_Pnl3_Descuento.Text = "Descuento (Precio Total Original)";
+            this.Lbl_Pnl3_Descuento.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            // 
+            // Btn_Tap3_Cancelar_Desc
+            // 
+            this.Btn_Tap3_Cancelar_Desc.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(44)))), ((int)(((byte)(59)))));
+            this.Btn_Tap3_Cancelar_Desc.FlatAppearance.BorderSize = 0;
+            this.Btn_Tap3_Cancelar_Desc.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Btn_Tap3_Cancelar_Desc.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn_Tap3_Cancelar_Desc.ForeColor = System.Drawing.SystemColors.Window;
+            this.Btn_Tap3_Cancelar_Desc.Location = new System.Drawing.Point(210, 186);
+            this.Btn_Tap3_Cancelar_Desc.Name = "Btn_Tap3_Cancelar_Desc";
+            this.Btn_Tap3_Cancelar_Desc.Size = new System.Drawing.Size(105, 30);
+            this.Btn_Tap3_Cancelar_Desc.TabIndex = 30;
+            this.Btn_Tap3_Cancelar_Desc.Text = "Cancelar";
+            this.Btn_Tap3_Cancelar_Desc.UseVisualStyleBackColor = false;
+            this.Btn_Tap3_Cancelar_Desc.Click += new System.EventHandler(this.Btn_Tap3_Cancelar_Desc_Click);
             // 
             // FrmCargarOrden
             // 
@@ -1760,7 +2240,10 @@ namespace CapaVisual_Login
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(1940, 788);
+            this.ClientSize = new System.Drawing.Size(1940, 813);
+            this.Controls.Add(this.Pnl_3_Descuento);
+            this.Controls.Add(this.Pnl_3_CambioPrecio);
+            this.Controls.Add(this.Pnl_3_Coloración);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.Pnl_2);
             this.Controls.Add(this.Pnl_3_Lista_Articulo);
@@ -1783,18 +2266,26 @@ namespace CapaVisual_Login
             this.Pnl_1_Tap2.ResumeLayout(false);
             this.Pnl_1_Tap2.PerformLayout();
             this.tabPage3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.Dgv_Tap3_Articulo)).EndInit();
             this.Pnl_3_Tap3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.Dgv_Tap3_Totales)).EndInit();
             this.Pnl_2_Tap3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.Dgv_Tap3_Medidas_Montura)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Dgv_Tap3_Articulo)).EndInit();
             this.Pnl_1_Tap3.ResumeLayout(false);
             this.Pnl_1_Tap3.PerformLayout();
             this.Pnl_3_Lista_Articulo.ResumeLayout(false);
             this.Pnl_3_Lista_Articulo.PerformLayout();
-            this.Pnl_3_RadioButon.ResumeLayout(false);
-            this.Pnl_3_RadioButon.PerformLayout();
+            this.Pnl_3_RadioButonArticulo.ResumeLayout(false);
+            this.Pnl_3_RadioButonArticulo.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Dgv_Pnl3_Articulo)).EndInit();
+            this.Pnl_3_Coloración.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.Dgv_Pnl3_Coloracion)).EndInit();
+            this.Pnl_3_RadioButonColoracion.ResumeLayout(false);
+            this.Pnl_3_RadioButonColoracion.PerformLayout();
+            this.Pnl_3_CambioPrecio.ResumeLayout(false);
+            this.Pnl_3_CambioPrecio.PerformLayout();
+            this.Pnl_3_Descuento.ResumeLayout(false);
+            this.Pnl_3_Descuento.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1908,7 +2399,6 @@ namespace CapaVisual_Login
         private System.Windows.Forms.Panel Pnl_3_Tap3;
         private System.Windows.Forms.Panel Pnl_2_Tap3;
         private System.Windows.Forms.Label Lbl_Tap3_Medidas_Montura;
-        public System.Windows.Forms.DataGridView Dgv_Tap3_Articulo;
         private System.Windows.Forms.Label Lbl_Tap3_;
         public System.Windows.Forms.DataGridView Dgv_Tap3_Medidas_Montura;
         public System.Windows.Forms.Button Btn_Tap3_Cancelar;
@@ -1918,9 +2408,39 @@ namespace CapaVisual_Login
         private System.Windows.Forms.TextBox Txt_Pnl3_Articulo;
         private System.Windows.Forms.Label Lbl_Pnl3_Carga_Articulo;
         private System.Windows.Forms.Button btnCancelar3;
-        private System.Windows.Forms.Panel Pnl_3_RadioButon;
+        private System.Windows.Forms.Panel Pnl_3_RadioButonArticulo;
         private System.Windows.Forms.RadioButton Rd_Pnl3_Descripcion;
         private System.Windows.Forms.RadioButton Rd_Pnl3_Codigo;
+        private System.Windows.Forms.Button Btn_Tap3_Cancelar_Coloracion;
+        private System.Windows.Forms.Label Lbl_Pnl3_Coloracion;
+        private System.Windows.Forms.Button Btn_Tap3_Aceptar_Coloracion;
+        private System.Windows.Forms.Panel Pnl_3_Coloración;
+        private System.Windows.Forms.DataGridView Dgv_Pnl3_Coloracion;
+        private System.Windows.Forms.Panel Pnl_3_RadioButonColoracion;
+        private System.Windows.Forms.RadioButton Rd_Pnl3_Degradado;
+        private System.Windows.Forms.RadioButton Rd_Pnl3_FullColor;
+        private System.Windows.Forms.Panel Pnl_3_CambioPrecio;
+        private System.Windows.Forms.TextBox Txt_Pnl3_CambioPrecioNuevo;
+        private System.Windows.Forms.Label Lbl_Pnl3_CambioPrecioNuevo;
+        private System.Windows.Forms.TextBox Txt_Pnl3_CambioPrecioActual;
+        private System.Windows.Forms.Label Lbl_Pnl3_CambioPrecioActual;
+        private System.Windows.Forms.Button Btn_Tap3_Aceptar_CambioPrecio;
+        private System.Windows.Forms.Label Lbl_Pnl3_Cambio_Precio;
+        private System.Windows.Forms.Button Btn_Tap3_Cancelar_CambioPrecio;
+        public System.Windows.Forms.DataGridView Dgv_Tap3_Articulo;
         public System.Windows.Forms.DataGridView Dgv_Tap3_Totales;
+        private System.Windows.Forms.Panel Pnl_3_Descuento;
+        private System.Windows.Forms.TextBox Txt_Pnl3_ObservacionDesc;
+        private System.Windows.Forms.Label Lbl_Pnl3_ObservacionDesc;
+        private System.Windows.Forms.ComboBox Cbx_Pnl3_MotivoDesc;
+        private System.Windows.Forms.Label Lbl_Pnl3_MotivoDesc;
+        private System.Windows.Forms.TextBox Txt_Pnl3_MontoDesc;
+        private System.Windows.Forms.Label Lbl_Pnl3_Monto;
+        private System.Windows.Forms.TextBox Txt_Pnl3_PorcDescuento;
+        private System.Windows.Forms.Label Lbl_Pnl3_PorcDescuento;
+        private System.Windows.Forms.Button Btn_Tap3_Aceptar_Desc;
+        private System.Windows.Forms.Label Lbl_Pnl3_Descuento;
+        private System.Windows.Forms.Button Btn_Tap3_Cancelar_Desc;
+        public System.Windows.Forms.Button Btn_Tap3_Descuento;
     }
 }

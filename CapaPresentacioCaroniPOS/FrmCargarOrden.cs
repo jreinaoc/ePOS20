@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,11 +29,14 @@ namespace CapaVisual_Login
         // Lista temporal para relizar el filtrado 
         private List<TB_ARTICULO> listaTemporal = new List<TB_ARTICULO>();
         private List<TB_TRABAJO> _TRABAJO = new List<TB_TRABAJO>();
+        private FrmClaveAutorizada _FrmClaveAutorizada = new FrmClaveAutorizada();
+        private FrmClaveGerente _FrmClaveGerente = new FrmClaveGerente();
         private L_Articulo _L_Articulo = new L_Articulo();
         private FrmMensajes _FrmMensajes = new FrmMensajes();
         private D_Inicio _D_Inicio = new D_Inicio();
         public bool HabEliminar = false;
-
+        private int filaSeleccionada;
+        private string Tipo_Descuento = "";
         private void DgvListadoOrdenes_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
@@ -179,7 +183,7 @@ namespace CapaVisual_Login
         private void btnCancelar3_Click(object sender, EventArgs e)
         {
             VisualizarPanel("MostrarCabezeraSecundaria");
-            HabilitacionControl("Bloquear_Lista_Articulo");
+            HabilitacionControl("CabezeraPrincipal");
             LimpiarControles("Motro_Busqueda_Articulos");
             LimpiarControles("Carga_Articulos");
             Txt_Tap3_Articulo_Cantidad.Focus();
@@ -206,6 +210,19 @@ namespace CapaVisual_Login
                     Txt_Tap3_Articulo_Precio.Text = "";
                     break;
 
+                case "CambioPrecio":
+                    this.Txt_Pnl3_CambioPrecioActual.Text = "";
+                    Txt_Pnl3_CambioPrecioNuevo.Text = "";
+                    break;
+
+                case "Descuento":
+                    this.Txt_Pnl3_PorcDescuento.Text = "";
+                    this.Txt_Pnl3_MontoDesc.Text = "";
+                    this.Txt_Pnl3_MontoDesc.Text = "";
+                    this.Txt_Pnl3_ObservacionDesc.Text = "";
+                    //Cbx_Pnl3_MotivoDesc.SelectedIndex = 0;
+                    break;
+
                 default:
                     break;
             }
@@ -225,6 +242,10 @@ namespace CapaVisual_Login
                     this.Pnl_1.Enabled = true;
                     this.Pnl_3_Lista_Articulo.Enabled = false;
                     this.Pnl_3_Lista_Articulo.Visible = false;
+                    this.Pnl_3_CambioPrecio.Enabled = false;
+                    this.Pnl_3_CambioPrecio.Visible = false;
+                    this.Pnl_3_Descuento.Enabled = false;
+                    this.Pnl_3_Descuento.Visible = false;
 
                     break;
 
@@ -235,6 +256,10 @@ namespace CapaVisual_Login
                     this.Pnl_1.Enabled = false;
                     this.Pnl_3_Lista_Articulo.Enabled = false;
                     this.Pnl_3_Lista_Articulo.Visible = false;
+                    this.Pnl_3_CambioPrecio.Enabled = false;
+                    this.Pnl_3_CambioPrecio.Visible = false;
+                    this.Pnl_3_Descuento.Enabled = false;
+                    this.Pnl_3_Descuento.Visible = false;
                     this.Pnl_2.Location = new Point(0, 0); // Establecer posición en (0, 0)
 
                     break;
@@ -244,6 +269,20 @@ namespace CapaVisual_Login
                     this.Pnl_3_Lista_Articulo.Visible = true;
                     this.Pnl_3_Lista_Articulo.Location = new Point(250, 1);
                     this.Pnl_3_Lista_Articulo.BringToFront();
+                    break;
+
+                case "CambioPrecio":
+                    this.Pnl_3_CambioPrecio.Enabled = true;
+                    this.Pnl_3_CambioPrecio.Visible = true;
+                    this.Pnl_3_CambioPrecio.Location = new Point(500, 1);
+                    this.Pnl_3_CambioPrecio.BringToFront();
+                    break;
+
+                case "Descuento":
+                    this.Pnl_3_Descuento.Enabled = true;
+                    this.Pnl_3_Descuento.Visible = true;
+                    this.Pnl_3_Descuento.Location = new Point(300, 1);
+                    this.Pnl_3_Descuento.BringToFront();
                     break;
 
                 default:
@@ -258,12 +297,21 @@ namespace CapaVisual_Login
             switch (Case)
             {
                 case "Habilitar_Lista_Articulo":
+                    // Panel descuento 
+                    this.Pnl_3_Descuento.Enabled = false;
+                    //Panel Ingresar Articulo
                     this.Pnl_1_Tap3.Enabled = false;
+                    //Grid Carga Articulo
                     this.Dgv_Tap3_Articulo.Enabled = false;
+                    //Panel de Medidas Montuta y Observacion
                     this.Pnl_2_Tap3.Enabled = false;
+                    //Panel de Totales
                     this.Pnl_3_Tap3.Enabled = false;
+                    //Grid Montutas
                     this.Dgv_Tap3_Medidas_Montura.Enabled = false;
+                    //Boton Cancelar Formulario Principal Articulo 
                     this.Btn_Tap3_Cancelar.Enabled = false;
+                    //Boton Procesar Formulario Principal Articulo 
                     this.Btn_Tap3_Procesar.Enabled = false;
 
                     this.Dgv_Pnl3_Articulo.Enabled = true;
@@ -274,13 +322,29 @@ namespace CapaVisual_Login
                     this.Rd_Pnl3_Descripcion.Checked = false;
                     this.btnCancelar3.Enabled = true;
 
+                    // Botones del TapControl
                     this.btnPrincipal.Enabled = false;
                     this.btnExamen.Enabled = false;
                     this.btnCargarOrden.Enabled = false;
 
+                    // Botones Aciones 
+                    this.Btn_Tap3_Descuento.Enabled = false;
+
+                    // Panel de Arriba
+                    this.Txt_Pnl2_Cedula.Enabled = false;
+                    this.Txt_Pnl2_Examen.Enabled = false;
+                    this.Cbx_Pnl2_Trbajo.Enabled = false;
+                    this.Cbx_Pnl2_Laboratorio.Enabled = false;
+                    this.Cbx_Pnl2_Servicio.Enabled = false;
+
                     break;
 
-                case "Bloquear_Lista_Articulo":
+                case "CabezeraPrincipal":
+                    // Panel descuento 
+                    this.Pnl_3_Descuento.Enabled = false;
+
+                    //Panel Cambio Precio
+                    this.Pnl_3_CambioPrecio.Enabled = false;
                     this.Pnl_1_Tap3.Enabled = true;
                     this.Dgv_Tap3_Articulo.Enabled = true;
                     this.Pnl_2_Tap3.Enabled = true;
@@ -298,6 +362,114 @@ namespace CapaVisual_Login
                     this.btnPrincipal.Enabled = true;
                     this.btnExamen.Enabled = true;
                     this.btnCargarOrden.Enabled = true;
+
+                    // Botones Aciones 
+                    ValidarRegistrosYHabilitar_Botones();
+
+                    // Panel de Arriba
+                    this.Txt_Pnl2_Cedula.Enabled = true;
+                    this.Txt_Pnl2_Examen.Enabled = true;
+                    this.Cbx_Pnl2_Trbajo.Enabled = true;
+                    this.Cbx_Pnl2_Laboratorio.Enabled = true;
+                    this.Cbx_Pnl2_Servicio.Enabled = true;
+                    break;
+
+                case "Habilitar_CambioPrecio":
+                    //Panel Cambio Precio
+                    this.Pnl_3_CambioPrecio.Enabled = true;
+
+                    // Panel descuento 
+                    this.Pnl_3_Descuento.Enabled = false;
+
+                    //Panel Ingresar Articulo
+                    this.Pnl_1_Tap3.Enabled = false;
+                    //Grid Carga Articulo
+                    this.Dgv_Tap3_Articulo.Enabled = false;
+                    //Panel de Medidas Montuta y Observacion
+                    this.Pnl_2_Tap3.Enabled = false;
+                    //Panel de Totales
+                    this.Pnl_3_Tap3.Enabled = false;
+                    //Grid Montutas
+                    this.Dgv_Tap3_Medidas_Montura.Enabled = false;
+                    //Boton Cancelar Formulario Principal Articulo 
+                    this.Btn_Tap3_Cancelar.Enabled = false;
+                    //Boton Procesar Formulario Principal Articulo 
+                    this.Btn_Tap3_Procesar.Enabled = false;
+
+                    // Panel de Arriba
+                    this.Txt_Pnl2_Cedula.Enabled = false;
+                    this.Txt_Pnl2_Examen.Enabled = false;
+                    this.Cbx_Pnl2_Trbajo.Enabled = false;
+                    this.Cbx_Pnl2_Laboratorio.Enabled = false;
+                    this.Cbx_Pnl2_Servicio.Enabled = false;
+
+
+                    // Controles del Panel Cambio Precio
+                    this.Txt_Pnl3_CambioPrecioNuevo.Enabled = true;
+                    this.Btn_Tap3_Cancelar_CambioPrecio.Enabled = true;
+                    this.Btn_Tap3_Aceptar_CambioPrecio.Enabled = true;
+
+                    // Botones del TapControl
+                    this.btnPrincipal.Enabled = false;
+                    this.btnExamen.Enabled = false;
+                    this.btnCargarOrden.Enabled = false;
+
+                    // Botones Aciones 
+                    this.Btn_Tap3_Descuento.Enabled = false;
+
+                    break;
+
+                case "Habilitar_Descuento":
+
+                    // Panel descuento 
+                    this.Pnl_3_Descuento.Enabled = true;
+
+                    //Panel Cambio Precio
+                    this.Pnl_3_CambioPrecio.Enabled = false;
+
+                    //Panel Ingresar Articulo
+                    this.Pnl_1_Tap3.Enabled = false;
+                    //Grid Carga Articulo
+                    this.Dgv_Tap3_Articulo.Enabled = false;
+                    //Panel de Medidas Montuta y Observacion
+                    this.Pnl_2_Tap3.Enabled = false;
+                    //Panel de Totales
+                    this.Pnl_3_Tap3.Enabled = false;
+                    //Grid Montutas
+                    this.Dgv_Tap3_Medidas_Montura.Enabled = false;
+                    //Boton Cancelar Formulario Principal Articulo 
+                    this.Btn_Tap3_Cancelar.Enabled = false;
+                    //Boton Procesar Formulario Principal Articulo 
+                    this.Btn_Tap3_Procesar.Enabled = false;
+
+                    // Panel de Arriba
+                    this.Txt_Pnl2_Cedula.Enabled = false;
+                    this.Txt_Pnl2_Examen.Enabled = false;
+                    this.Cbx_Pnl2_Trbajo.Enabled = false;
+                    this.Cbx_Pnl2_Laboratorio.Enabled = false;
+                    this.Cbx_Pnl2_Servicio.Enabled = false;
+
+
+                    // Controles del Panel Cambio Precio
+                    this.Txt_Pnl3_CambioPrecioNuevo.Enabled = false;
+                    this.Btn_Tap3_Cancelar_CambioPrecio.Enabled = false;
+                    this.Btn_Tap3_Aceptar_CambioPrecio.Enabled = false;
+
+                    // Controles del Panel descuento
+                    this.Txt_Pnl3_PorcDescuento.Enabled = true;
+                    this.Txt_Pnl3_MontoDesc.Enabled = true;
+                    this.Txt_Pnl3_ObservacionDesc.Enabled = true;
+                    this.Cbx_Pnl3_MotivoDesc.Enabled = true;
+                    this.Btn_Tap3_Cancelar_Desc.Enabled = true;
+                    this.Btn_Tap3_Aceptar_Desc.Enabled = true;
+
+                    // Botones del TapControl
+                    this.btnPrincipal.Enabled = false;
+                    this.btnExamen.Enabled = false;
+                    this.btnCargarOrden.Enabled = false;
+
+                    // Botones Aciones 
+                    this.Btn_Tap3_Descuento.Enabled = false;
 
                     break;
 
@@ -431,7 +603,7 @@ namespace CapaVisual_Login
                     Txt_Tap3_Articulo_Cantidad.Text = string.Empty; // Limpiar el campo de cantidad
 
                     VisualizarPanel("MostrarCabezeraSecundaria");
-                    HabilitacionControl("Bloquear_Lista_Articulo");
+                    HabilitacionControl("CabezeraPrincipal");
 
                     // Establecer el foco en el TextBox de cantidad
                     Txt_Tap3_Articulo_Cantidad.Focus();
@@ -775,6 +947,7 @@ namespace CapaVisual_Login
                 // Evitar que el evento se propague
                 e.Handled = true;
             }
+
         }
 
         private void Btn_Tap3_Cancelar_Click(object sender, EventArgs e)
@@ -828,6 +1001,9 @@ namespace CapaVisual_Login
             // Totalizo el grivew Totales cuando se agrega una fila 
             _L_Articulo.ActualizarTotales(Dgv_Tap3_Articulo, Dgv_Tap3_Totales);
 
+            // Habilito o desabilito Botones 
+            ValidarRegistrosYHabilitar_Botones();
+
         }
 
         private void Dgv_Tap3_Articulo_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
@@ -835,6 +1011,10 @@ namespace CapaVisual_Login
 
             // Totalizo el grivew Totales cuando se quita una fila 
             _L_Articulo.ActualizarTotales(Dgv_Tap3_Articulo, Dgv_Tap3_Totales);
+
+            // Habilito o desabilito Botones 
+            ValidarRegistrosYHabilitar_Botones();
+
         }
 
         private void Formato_Dgv_Totales()
@@ -852,13 +1032,13 @@ namespace CapaVisual_Login
                 Dgv_Tap3_Totales.AllowUserToResizeRows = false;
 
                 //asignar Nombres a cada colucna 
-                Dgv_Tap3_Totales.Columns["Concepto"].HeaderText = "";
-                Dgv_Tap3_Totales.Columns["Valor"].HeaderText = "";
+                Dgv_Tap3_Totales.Columns["Concepto"].HeaderText = "       ";
+                Dgv_Tap3_Totales.Columns["Valor"].HeaderText =    "       ";
 
 
                 //Ancho de columna
-                Dgv_Tap3_Totales.Columns["Concepto"].Width = 250;
-                Dgv_Tap3_Totales.Columns["Valor"].Width = 250;
+                Dgv_Tap3_Totales.Columns["Concepto"].Width = 255;
+                Dgv_Tap3_Totales.Columns["Valor"].Width = 255;
 
                 // No modificable
                 Dgv_Tap3_Totales.Columns["Concepto"].ReadOnly = true;
@@ -868,8 +1048,6 @@ namespace CapaVisual_Login
 
                 Dgv_Tap3_Totales.Columns["Concepto"].SortMode = DataGridViewColumnSortMode.NotSortable;
                 Dgv_Tap3_Totales.Columns["Valor"].SortMode = DataGridViewColumnSortMode.NotSortable;
-
-
 
 
                 //quitar seleccion por defecto de datagrid
@@ -905,6 +1083,447 @@ namespace CapaVisual_Login
                 {
                     Txt_Tap3_Articulo_Cantidad.Focus();
                 }
+            }
+        }
+
+        private void Txt_Pnl3_CambioPrecioNuevo_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            //para que solo acepte numeros
+            if (!(char.IsNumber(e.KeyChar)) && (e.KeyChar != (char)Keys.Back))
+            {
+                e.Handled = true;
+            }
+
+            //validar que no sea la tecla de borrar 
+            if (e.KeyChar != (char)8)
+            {
+                if (Txt_Tap3_Articulo_Cantidad.Text.Length == 4)
+                {
+                    Txt_Tap3_Articulo_Cantidad.Focus();
+                }
+            }
+        }
+
+        private void Dgv_Tap3_Articulo_KeyDown(object sender, KeyEventArgs e)
+        {
+            // Verificar si se presionó la tecla F3 Para Abrir el Panel de Cambio Precio
+            if (e.KeyCode == Keys.F3)
+            {
+                // Verificar si hay una fila seleccionada
+                if (Dgv_Tap3_Articulo.CurrentRow != null)
+                {
+                    // Obtener el índice de la fila seleccionada
+                    filaSeleccionada = Dgv_Tap3_Articulo.CurrentRow.Index;
+
+                    //Verifico si Tiene articulos Asociados 
+                    if (_L_Articulo.AccionCambiarPrecio_ArticuloPadre(Dgv_Tap3_Articulo, filaSeleccionada))
+                    {
+                        return;
+                    }
+                    else
+                    {
+                       _FrmClaveGerente.ShowDialog();
+                      if (_FrmClaveGerente.ClaveCorrecta == true)
+                      {
+
+                          if (_L_Articulo.ConfigurarCambioPrecio(Txt_Pnl3_CambioPrecioActual, Dgv_Tap3_Articulo.Rows[filaSeleccionada].Cells["CodArticulo"].Value.ToString()))
+                          {
+                        VisualizarPanel("CambioPrecio");
+                        HabilitacionControl("Habilitar_CambioPrecio");
+                          }
+                          else
+                          {
+                          _FrmMensajes.co = 2;
+                          _FrmMensajes.avisomensaje("Error al Cargar el Panel de Cambio de Precio");
+                          _FrmMensajes.ShowDialog();
+                          }
+                      }
+                      else
+                      {
+                       return;
+                      }
+                    }
+                }
+            }
+            else if (e.KeyCode == Keys.F4)
+            {
+                // Verificar si hay una fila seleccionada
+                if (Dgv_Tap3_Articulo.CurrentRow != null)
+                {
+                    // Obtener el índice de la fila seleccionada
+                    filaSeleccionada = Dgv_Tap3_Articulo.CurrentRow.Index;
+                    VisualizarPanel("Descuento");
+                    HabilitacionControl("Habilitar_Descuento");
+                    _L_Articulo.Cargo_CodMotivo_Descuento(Cbx_Pnl3_MotivoDesc);
+                    Tipo_Descuento = "Descuento por articulo";
+                }
+            }
+        }
+
+        private void Btn_Tap3_Aceptar_CambioPrecio_Click(object sender, EventArgs e)
+        {
+            Decimal DesMaximo = 0;
+            if(_L_Articulo.CambioPrecio(Txt_Pnl3_CambioPrecioNuevo,Txt_Pnl3_CambioPrecioActual, DesMaximo))
+            {
+                if (_L_Articulo.stringBuilder.Length > 0)
+                {
+                    _FrmMensajes.co = 3;
+                    _FrmMensajes.avisomensaje(_L_Articulo.stringBuilder.ToString());
+                    _FrmMensajes.ShowDialog();
+
+                    if (_FrmMensajes.DialogResult == DialogResult.OK)
+                    {
+                        _FrmClaveAutorizada.ShowDialog();
+
+                        if (_FrmClaveAutorizada.DialogResult == DialogResult.OK && _FrmClaveAutorizada.ClaveCorrecta == true)
+                        {
+                            _L_Articulo.ActualizarCelda(Dgv_Tap3_Articulo, filaSeleccionada, "ART_PVP", Txt_Pnl3_CambioPrecioNuevo.Text);
+                            CerrarPanelCambioPrecio();
+                        }
+
+                    }
+                }
+                else
+                {
+                    _L_Articulo.ActualizarCelda(Dgv_Tap3_Articulo, filaSeleccionada, "ART_PVP", Txt_Pnl3_CambioPrecioNuevo.Text);
+                    CerrarPanelCambioPrecio();
+                }  
+
+            }
+            else
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje(_L_Articulo.stringBuilder.ToString());
+                _FrmMensajes.ShowDialog();
+            }
+
+        }
+
+        private void CerrarPanelCambioPrecio ()
+        {
+            VisualizarPanel("MostrarCabezeraSecundaria");
+            HabilitacionControl("CabezeraPrincipal");
+            LimpiarControles("CambioPrecio");
+        }
+
+        private void CerrarPanelDescuento()
+        {
+            VisualizarPanel("MostrarCabezeraSecundaria");
+            HabilitacionControl("CabezeraPrincipal");
+            LimpiarControles("Descuento");
+        }
+
+        private void Btn_Tap3_Cancelar_CambioPrecio_Click(object sender, EventArgs e)
+        {
+            CerrarPanelCambioPrecio();
+        }
+
+        private void Btn_Tap3_Cancelar_Desc_Click(object sender, EventArgs e)
+        {
+            CerrarPanelDescuento();
+        }
+
+        private void Btn_Tap3_Descuento_Click(object sender, EventArgs e)
+        {
+            VisualizarPanel("Descuento");
+            HabilitacionControl("Habilitar_Descuento");
+            _L_Articulo.Cargo_CodMotivo_Descuento(Cbx_Pnl3_MotivoDesc);
+            Tipo_Descuento = "Descuento Global";
+        }
+
+        private void Btn_Tap3_Aceptar_Desc_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Por descuento
+                if (!string.IsNullOrEmpty(Txt_Pnl3_ObservacionDesc.Text) && !string.IsNullOrEmpty(Txt_Pnl3_PorcDescuento.Text) && !string.IsNullOrEmpty(Txt_Pnl3_MontoDesc.Text))
+                {
+                    if (!string.IsNullOrEmpty(Cbx_Pnl3_MotivoDesc.Text))
+                    {
+                        if (Tipo_Descuento == "Descuento Global")
+                        {
+                            // Pido Clave Autorizada con unos parametros especificos
+                            _FrmClaveAutorizada.Nuevo_Parametro = true;
+                            _FrmClaveAutorizada.Parametro_Nuevo = _L_Articulo.BuscarCodigoGerenteDescuento(Cbx_Pnl3_MotivoDesc.SelectedValue.ToString());
+                            _FrmClaveAutorizada.ShowDialog();
+
+                            if (_FrmClaveAutorizada.DialogResult == DialogResult.OK && _FrmClaveAutorizada.ClaveCorrecta == true)
+                            {
+
+                                _L_Articulo.ActualizarTodasCelda(Dgv_Tap3_Articulo, "PORCTDESCUENTO", Txt_Pnl3_PorcDescuento.Text);
+
+                            }
+
+                            
+                        }
+                        else if (Tipo_Descuento=="Cambio de Descuento")
+                        {
+
+                            // Pido Clave Autorizada con unos parametros especificos
+                            _FrmClaveAutorizada.Nuevo_Parametro = true;
+                            _FrmClaveAutorizada.Parametro_Nuevo = _L_Articulo.BuscarCodigoGerenteDescuento(Cbx_Pnl3_MotivoDesc.SelectedValue.ToString());
+                            _FrmClaveAutorizada.ShowDialog();
+
+                            if (_FrmClaveAutorizada.DialogResult == DialogResult.OK && _FrmClaveAutorizada.ClaveCorrecta == true)
+                            {
+
+                                _L_Articulo.ActualizarCelda(Dgv_Tap3_Articulo, Dgv_Tap3_Articulo.CurrentRow.Index, "PORCTDESCUENTO", Txt_Pnl3_PorcDescuento.Text);
+
+                            }
+                        }
+
+                        // Totalizo el grivew Totales cuando se agrega o modifica una fila 
+                        _L_Articulo.ActualizarTotales(Dgv_Tap3_Articulo, Dgv_Tap3_Totales);
+                        // Cierro el panel, limpio controles y Retorno a la pantalla primcipal 
+                        CerrarPanelDescuento();
+
+                    }
+                    else
+                    {
+                        
+                         Cbx_Pnl3_MotivoDesc.Focus();
+                        _FrmMensajes.co = 2;
+                        _FrmMensajes.avisomensaje("Debe seleccionar un Motivo de Descuento para continuar");
+                        _FrmMensajes.ShowDialog();
+                    }
+                }
+                else
+                {
+                     Txt_Pnl3_ObservacionDesc.Focus();
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje("Se necesita una observación para continuar");
+                    _FrmMensajes.ShowDialog();
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje(string.Format("Error: {0}", ex.Message) + ", Error inesperado");
+                _FrmMensajes.ShowDialog();
+            }
+
+            finally
+            {
+                _FrmClaveAutorizada.Nuevo_Parametro = false;
+                _FrmClaveAutorizada.Parametro_Nuevo = "";
+            }
+        }
+
+        private void Txt_Pnl3_MontoDesc_Validating(object sender, CancelEventArgs e)
+        {
+            if (Txt_Pnl3_MontoDesc.Text == "" && string.IsNullOrEmpty(Txt_Pnl3_MontoDesc.Text))
+            {
+                Txt_Pnl3_MontoDesc.Text = "0,00";
+            }
+            else
+            {
+                FormatoBs(Convert.ToDouble(Txt_Pnl3_MontoDesc.Text), Txt_Pnl3_MontoDesc);
+
+            }
+        }
+
+        private void FormatoBs(Double Bolivares, System.Windows.Forms.TextBox BolivaresDeseados)
+        {
+            try
+            {
+                BolivaresDeseados.Text = String.Format(CultureInfo.InvariantCulture, "{0:0.00}", Bolivares).Replace(".", ",");
+                BolivaresDeseados.Text = String.Format("{0:#,0.00}", Bolivares);
+
+            }
+            catch (Exception ex)
+            {
+                string error = (string.Format("Error: {0}", ex.Message) + ", Error inesperado");
+                _FrmMensajes.avisomensaje(error);
+                _FrmMensajes.ShowDialog();
+
+            }
+
+        }
+
+        private void Txt_Pnl3_MontoDesc_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == 8)
+            {
+                e.Handled = false;
+                return;
+            }
+
+
+            bool IsDec = false;
+            int nroDec = 0;
+
+
+            if (Txt_Pnl3_MontoDesc.SelectionLength <= 0)
+            {
+
+                for (int i = 0; i < Txt_Pnl3_MontoDesc.Text.Length; i++)
+                {
+                    if (Txt_Pnl3_MontoDesc.Text[i] == ',')
+                        IsDec = true;
+
+                    if (IsDec && nroDec++ >= 2)
+                    {
+                        e.Handled = true;
+                        return;
+                    }
+
+
+                }
+            }
+
+            if (e.KeyChar >= 44 && e.KeyChar <= 57)
+                e.Handled = false;
+            ///46 = .
+            ///46 = ,
+            else if (e.KeyChar == 46)
+                e.Handled = (IsDec) ? true : false;
+            else
+                e.Handled = true;
+
+
+            //para que solo acepte numeros y una sola coma
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != ',')
+            {
+                e.Handled = true;
+            }
+
+            if (e.KeyChar == ',' && (sender as TextBox).Text.IndexOf(',') > -1)
+            {
+                e.Handled = true;
+            }
+
+
+            if (Txt_Pnl3_MontoDesc.Text.Contains("") && e.KeyChar == 44)
+            {
+                //separamos por punto
+                string[] parts = Txt_Pnl3_MontoDesc.Text.Split(',');
+                //si el primer elemento está vacío, significa que no se escribió nada antes de, entonces, añadimos el cero al textbox.
+                if (parts[0].Length <= 0)
+                {
+                    Txt_Pnl3_MontoDesc.Text = "0" + Txt_Pnl3_MontoDesc.Text;
+                    //UPDATE: colocamos el cursor al final del texto
+                    Txt_Pnl3_MontoDesc.SelectionStart = Txt_Pnl3_MontoDesc.Text.Length;
+                }
+            }
+        }
+
+        private void Txt_Pnl3_MontoDesc_Leave(object sender, EventArgs e)
+        {
+            if(!_L_Articulo.CalculoDescuento(Dgv_Tap3_Totales.Rows[4].Cells["Valor"].Value.ToString(), Dgv_Tap3_Articulo, Tipo_Descuento, "0.00", Txt_Pnl3_PorcDescuento, Txt_Pnl3_MontoDesc, Txt_Pnl3_ObservacionDesc))
+            {
+                 //Txt_Pnl3_PorcDescuento.Text = "";
+                 //Txt_Pnl3_MontoDesc.Text = "";
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje(_L_Articulo.stringBuilder.ToString());
+                _FrmMensajes.ShowDialog();
+            }
+        }
+
+        private void Txt_Pnl3_PorcDescuento_Validating(object sender, CancelEventArgs e)
+        {
+            if (Txt_Pnl3_PorcDescuento.Text == "" && string.IsNullOrEmpty(Txt_Pnl3_PorcDescuento.Text))
+            {
+                Txt_Pnl3_PorcDescuento.Text = "0,00";
+            }
+            else
+            {
+                FormatoBs(Convert.ToDouble(Txt_Pnl3_PorcDescuento.Text), Txt_Pnl3_PorcDescuento);
+
+            }
+        }
+
+        private void Txt_Pnl3_PorcDescuento_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == 8)
+            {
+                e.Handled = false;
+                return;
+            }
+
+
+            bool IsDec = false;
+            int nroDec = 0;
+
+
+            if (Txt_Pnl3_PorcDescuento.SelectionLength <= 0)
+            {
+
+                for (int i = 0; i < Txt_Pnl3_PorcDescuento.Text.Length; i++)
+                {
+                    if (Txt_Pnl3_PorcDescuento.Text[i] == ',')
+                        IsDec = true;
+
+                    if (IsDec && nroDec++ >= 2)
+                    {
+                        e.Handled = true;
+                        return;
+                    }
+
+
+                }
+            }
+
+            if (e.KeyChar >= 44 && e.KeyChar <= 57)
+                e.Handled = false;
+            ///46 = .
+            ///46 = ,
+            else if (e.KeyChar == 46)
+                e.Handled = (IsDec) ? true : false;
+            else
+                e.Handled = true;
+
+
+            //para que solo acepte numeros y una sola coma
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != ',')
+            {
+                e.Handled = true;
+            }
+
+            if (e.KeyChar == ',' && (sender as TextBox).Text.IndexOf(',') > -1)
+            {
+                e.Handled = true;
+            }
+
+
+            if (Txt_Pnl3_PorcDescuento.Text.Contains("") && e.KeyChar == 44)
+            {
+                //separamos por punto
+                string[] parts = Txt_Pnl3_PorcDescuento.Text.Split(',');
+                //si el primer elemento está vacío, significa que no se escribió nada antes de, entonces, añadimos el cero al textbox.
+                if (parts[0].Length <= 0)
+                {
+                    Txt_Pnl3_PorcDescuento.Text = "0" + Txt_Pnl3_PorcDescuento.Text;
+                    //UPDATE: colocamos el cursor al final del texto
+                    Txt_Pnl3_PorcDescuento.SelectionStart = Txt_Pnl3_PorcDescuento.Text.Length;
+                }
+            }
+        }
+
+        private void Txt_Pnl3_PorcDescuento_Leave(object sender, EventArgs e)
+        {
+            if (!_L_Articulo.CalculoDescuento(Dgv_Tap3_Totales.Rows[4].Cells["Valor"].Value.ToString(), Dgv_Tap3_Articulo, Tipo_Descuento, "0.00", Txt_Pnl3_PorcDescuento, Txt_Pnl3_MontoDesc, Txt_Pnl3_ObservacionDesc))
+            {
+                //Txt_Pnl3_PorcDescuento.Text = "";
+                //Txt_Pnl3_MontoDesc.Text = "";
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje(_L_Articulo.stringBuilder.ToString());
+                _FrmMensajes.ShowDialog();
+            }
+        }
+
+        private void ValidarRegistrosYHabilitar_Botones()
+        {
+            // Verificar si el DataGridView tiene filas que no sean nuevas
+            if (Dgv_Tap3_Articulo.Rows.Count > 0)
+            {
+                Btn_Tap3_Descuento.Enabled = true; // Habilitar el TextBox o botón
+            }
+            else
+            {
+                Btn_Tap3_Descuento.Enabled = false; // Deshabilitar el TextBox o botón
             }
         }
     }
