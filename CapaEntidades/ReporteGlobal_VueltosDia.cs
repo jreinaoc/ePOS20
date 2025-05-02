@@ -11,7 +11,7 @@ namespace CapaEntidades
     {
         //TB_CAMBIO y TB_CAORDSER
         public string NumOrden { get; set; }
-        public int Referencia { get; set; }
+        public string Referencia { get; set; }
         public string BancoEmisor { get; set; }
         public string BancoReceptor { get; set; }
         public decimal VueltoBS { get; set; }

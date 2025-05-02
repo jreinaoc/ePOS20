@@ -263,7 +263,8 @@ namespace CapaLogica.ListaFactura_Logica
                     lista_Facturas.Add(new ReporteGlobal_VueltosDia
                     {
                         NumOrden = row["NumOrden"]?.ToString(),
-                        Referencia = Convert.ToInt32(row["Referencia"] ?? 0),
+                        //Referencia = Convert.ToInt32(row["Referencia"] ?? 0),
+                        Referencia = row["Referencia"]?.ToString(),
                         BancoEmisor = row["BancoEmisor"]?.ToString(),
                         BancoReceptor = row["BancoReceptor"]?.ToString(),
                         VueltoBS = Convert.ToDecimal(row["VueltoBS"] ?? 0),
