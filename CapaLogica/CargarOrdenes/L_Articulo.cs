@@ -12,6 +12,8 @@ using System.Data.SqlClient;
 using CapaDatos.Conexion;
 using CapaDatos.DetalleOrden_Datos;
 using CapaDatos.Inicio_Datos;
+using System.Text.RegularExpressions; // Necesario para usar Regex
+
 
 namespace CapaLogica.CargarOrdenes
 {
@@ -466,6 +468,23 @@ namespace CapaLogica.CargarOrdenes
 
         }
 
+        public bool ExisteTasa()
+        {
+            stringBuilder.Clear();
+
+            //Validar que existan datos en el entidad Tb Tasa
+            if (TB_TASA_Dolar.Tasa == 0.00 | TB_TASA_Dolar.Tasa == null | TB_TASA_Euro.Tasa == null | TB_TASA_Euro.Tasa == 0.00)
+            {
+                 stringBuilder.Append("Debe actualizar la tasa de las divisas y secuencia diaria");
+                 return false;
+            }
+            else
+            {
+                return true;
+            }
+
+        }
+
         public bool CargarArticulo_ValidarPrecio( System.Windows.Forms.TextBox Precio)
         {
 
@@ -585,7 +604,7 @@ namespace CapaLogica.CargarOrdenes
 
         public string ValidarExistenciaProducto(string codigoProducto, int cantidadIngresada, List<TB_ARTICULO> listaArticulos)
         {
-            if (codigoProducto.StartsWith("C"))
+            if (codigoProducto.StartsWith("C") || codigoProducto.StartsWith("S"))
             {
                 // Si es un cristal no realizo la validacion
                 return "";
@@ -1565,13 +1584,14 @@ namespace CapaLogica.CargarOrdenes
             }
         }
 
-        private bool ServicioColoracion(DataGridView Dgv_Tap3_Articulo, DataGridView Dvg_Coloracion, System.Windows.Forms.RadioButton Rd_FullColor)
+
+        public bool ServicioColoracion(DataGridView Dgv_Tap3_Articulo, DataGridView Dvg_Coloracion, System.Windows.Forms.RadioButton Rd_FullColor)
         {
             try
             {
                     string cristalColor = string.Empty;
                     bool colorDegra = Rd_FullColor.Checked ? false : true;
-
+                   
                     // Obtener el código del cristal
                     foreach (DataGridViewRow row in Dgv_Tap3_Articulo.Rows)
                     {
@@ -1585,7 +1605,7 @@ namespace CapaLogica.CargarOrdenes
                     // Buscar el servicio de coloración
                     foreach (DataGridViewRow row in Dgv_Tap3_Articulo.Rows)
                     {
-                        if (row.Cells["CodArticulo"].Value != null && row.Cells["CodArticulo"].Value.ToString() == "S000004")
+                        if (row.Cells["CodArticulo"].Value != null && row.Cells["CodArticulo"].Value.ToString() == "S000004" && !string.IsNullOrEmpty(cristalColor))
                         {
                             DataSet dsColor = _D_Articulos.BucarColoracion(cristalColor, colorDegra);
                            
@@ -1598,26 +1618,50 @@ namespace CapaLogica.CargarOrdenes
 
                                     foreach (DataRow dr in dsColor.Tables[0].Rows)
                                     {
+                                //Regex.Replace:  Se utiliza para buscar y reemplazar patrones en cadenas.
+                                //El patrón @"\s{3,}" significa:
+                                //\s: Coincide con cualquier espacio en blanco(espacio, tabulación, salto de línea, etc.).
+                                //{ 3,}: Coincide con tres o más espacios consecutivos.
                                         DataRow drColoracion = dtColoracion.NewRow();
-                                        drColoracion["Cod_Coloracion"] = dr["Cod_Coloracion"];
-                                        drColoracion["Desc_Color"] = dr["Desc_Color"];
-                                        drColoracion["Porc_Material"] = dr["Porc_Material"];
+                                        drColoracion["Cod_Coloracion"] = Regex.Replace(dr["Cod_Coloracion"].ToString(), @"\s{3,}", ""); // Reemplaza 3 o más espacios por nada
+                                        drColoracion["Desc_Color"] = Regex.Replace(dr["Desc_Color"].ToString(), @"\s{3,}", "");
+                                        drColoracion["Porc_Material"] = Regex.Replace(dr["Porc_Material"].ToString(), @"\s{3,}", "");
                                         dtColoracion.Rows.Add(drColoracion);
                                     }
 
                                     Dvg_Coloracion.DataSource = dtColoracion;
-                                }
+                                    return true;
+                        }
 
                             break; // Salir del bucle al procesar el servicio
                         }
                     }
 
-                return true;
+                return false;
             }
             catch (Exception ex)
             {
                 return false;
             }
+        }
+
+        public void RemoveColoracion(DataGridView Dgv_Tap3_Articulo, ref string Codigo_Coloracion)
+        {
+            // Recorrer las filas del DataGridView
+            foreach (DataGridViewRow row in Dgv_Tap3_Articulo.Rows)
+            {
+                if (row.IsNewRow) continue; // Ignorar la fila nueva
+
+                // Verificar si la celda "CodArticulo" tiene el valor "S000004"
+                if (row.Cells["CodArticulo"].Value != null && row.Cells["CodArticulo"].Value.ToString() == "S000004")
+                {
+                    // Actualizar la variable Codigo_Coloracion
+                    Codigo_Coloracion = ""; // Actualizar el valor
+                    return; // Salir de la función, ya que encontramos el valor
+                }
+            }
+
+            // Si no se encuentra "S000004", no se modifica Codigo_Coloracion
         }
 
         public bool AccionCambiarPrecio_ArticuloPadre(DataGridView gexFacturas, int filaActual)
@@ -1656,52 +1700,52 @@ namespace CapaLogica.CargarOrdenes
         }
 
 
-    public bool CambioPrecio(System.Windows.Forms.TextBox txtValor2, System.Windows.Forms.TextBox txtValor1, decimal DescMax)
-    {
-            stringBuilder.Clear();
-        try
+        public bool CambioPrecio(System.Windows.Forms.TextBox txtValor2, System.Windows.Forms.TextBox txtValor1, decimal DescMax)
         {
-            // Verificar si el nuevo precio está dentro del límite de descuento permitido
-           decimal descuentoPermitido = (decimal.Parse(txtValor1.Text) * DescMax) / 100;
+                stringBuilder.Clear();
+            try
+            {
+                // Verificar si el nuevo precio está dentro del límite de descuento permitido
+               decimal descuentoPermitido = (decimal.Parse(txtValor1.Text) * DescMax) / 100;
 
-                if (!string.IsNullOrEmpty(txtValor2.Text) && !string.IsNullOrEmpty(txtValor1.Text))
-                {
-                // Obtener el valor del parámetro desde la tabla TB_PARAMETRO
-                string valorParametro = _D_DetalleOrden.TB_PARAMETRO("CambPrecArrBaj");
-
-                   // Verificar si el cambio de precio es hacia abajo y está permitido
-                    if (decimal.Parse(txtValor2.Text) < decimal.Parse(txtValor1.Text) && valorParametro != "SI")
+                    if (!string.IsNullOrEmpty(txtValor2.Text) && !string.IsNullOrEmpty(txtValor1.Text))
                     {
-                        stringBuilder.Append("El cambio de precio no puede ser menor al precio actual de este producto, verifique e intente de nuevo.\n\n(Si desea hacer algún descuento utilice el botón F4 DESCUENTO)");
-                        return false;
-                    }
+                    // Obtener el valor del parámetro desde la tabla TB_PARAMETRO
+                    string valorParametro = _D_DetalleOrden.TB_PARAMETRO("CambPrecArrBaj");
 
-                    else if ((decimal.Parse(txtValor1.Text) - decimal.Parse(txtValor2.Text)) > descuentoPermitido && valorParametro != "SI")
-                    {
-                            stringBuilder.Append("No está autorizado para dar este descuento, ¿desea introducir una clave autorizada para poder continuar?");
-                            return true;
+                       // Verificar si el cambio de precio es hacia abajo y está permitido
+                        if (decimal.Parse(txtValor2.Text) < decimal.Parse(txtValor1.Text) && valorParametro != "SI")
+                        {
+                            stringBuilder.Append("El cambio de precio no puede ser menor al precio actual de este producto, verifique e intente de nuevo.\n\n(Si desea hacer algún descuento utilice el botón F4 DESCUENTO)");
+                            return false;
+                        }
+
+                        else if ((decimal.Parse(txtValor1.Text) - decimal.Parse(txtValor2.Text)) > descuentoPermitido && valorParametro != "SI")
+                        {
+                                stringBuilder.Append("No está autorizado para dar este descuento, ¿desea introducir una clave autorizada para poder continuar?");
+                                return true;
                             
+                        }
+                        else
+                        {
+                            
+                                return true;
+                        }
+
+                   
                     }
                     else
                     {
-                            
-                            return true;
+                        stringBuilder.Append("Por favor, asegúrate de completar todos los campos necesarios antes de proceder con esta acción");
+                        return false;
                     }
-
-                   
-                }
-                else
-                {
-                    stringBuilder.Append("Por favor, asegúrate de completar todos los campos necesarios antes de proceder con esta acción");
+            }
+            catch (Exception ex)
+            {
+                    stringBuilder.Append(Environment.NewLine + string.Format("Error: {0}", ex.Message));
                     return false;
-                }
+            }
         }
-        catch (Exception ex)
-        {
-                stringBuilder.Append(Environment.NewLine + string.Format("Error: {0}", ex.Message));
-                return false;
-        }
-    }
 
         public bool CalculoDescuento(string precioMontoTotal, System.Windows.Forms.DataGridView DgvArticulo , string TipoDescuento, string DescMax, System.Windows.Forms.TextBox Porce_Descuento , System.Windows.Forms.TextBox Monto_Descuento, System.Windows.Forms.TextBox txtMotivo)
         {
