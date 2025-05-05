@@ -521,7 +521,7 @@ namespace CapaLogica.CargarOrdenes
             return false;
         }
 
-        public bool VerificarYBorrarArticulo(DataGridView gexFacturas, int filaActual)
+        public bool VerificarYBorrarArticulo(DataGridView gexFacturas, ref int filaActual)
         {
             try
             {
@@ -569,10 +569,29 @@ namespace CapaLogica.CargarOrdenes
                         }
                     }
 
-                    // Eliminar las filas recopiladas
+                    // Eliminar las filas recopiladas en orden descendente
                     foreach (int index in filasParaEliminar.OrderByDescending(i => i))
                     {
                         gexFacturas.Rows.RemoveAt(index);
+                    }
+
+                    // Recalcular el índice de la fila actual
+                    filaActual = -1; // Inicializar como no encontrado
+                    for (int i = 0; i < gexFacturas.Rows.Count; i++)
+                    {
+                        if (gexFacturas.Rows[i].Cells["CodArticulo"].Value != null &&
+                            gexFacturas.Rows[i].Cells["CodArticulo"].Value.ToString() == codPadre)
+                        {
+                            filaActual = i;
+                            break;
+                        }
+                    }
+
+                    // Verificar si la fila actual aún existe antes de eliminarla
+                    if (filaActual >= 0)
+                    {
+                        return true;
+                        //gexFacturas.Rows.RemoveAt(filaActual);
                     }
 
                     return true; // Artículos borrados correctamente
@@ -1645,23 +1664,77 @@ namespace CapaLogica.CargarOrdenes
             }
         }
 
-        public void RemoveColoracion(DataGridView Dgv_Tap3_Articulo, ref string Codigo_Coloracion)
+        public void VerificarServicioCodigoPadre(DataGridView Dgv_Tap3_Articulo)
         {
-            // Recorrer las filas del DataGridView
+            string CodCristal = "";
+
+            // Obtener el código del cristal
             foreach (DataGridViewRow row in Dgv_Tap3_Articulo.Rows)
             {
-                if (row.IsNewRow) continue; // Ignorar la fila nueva
-
-                // Verificar si la celda "CodArticulo" tiene el valor "S000004"
-                if (row.Cells["CodArticulo"].Value != null && row.Cells["CodArticulo"].Value.ToString() == "S000004")
+                if (row.Cells["CodArticulo"]?.Value != null && row.Cells["CodArticulo"].Value.ToString().StartsWith("C"))
                 {
-                    // Actualizar la variable Codigo_Coloracion
-                    Codigo_Coloracion = ""; // Actualizar el valor
-                    return; // Salir de la función, ya que encontramos el valor
+                    CodCristal = row.Cells["CodArticulo"].Value.ToString();
+                    break; // Salir del bucle al encontrar el primer cristal
                 }
             }
 
-            // Si no se encuentra "S000004", no se modifica Codigo_Coloracion
+            // Servicios Dioptria
+            DataSet dsServicioAgregado = _D_Articulos.BucarServicioAgregado();
+
+            // Validar servicios asociados
+            foreach (DataGridViewRow row in Dgv_Tap3_Articulo.Rows)
+            {
+                string codArticulo = row.Cells["CodArticulo"]?.Value?.ToString();
+                string artPadre = row.Cells["ArtPadre"]?.Value?.ToString();
+
+                if (string.IsNullOrEmpty(codArticulo) || string.IsNullOrEmpty(CodCristal))
+                    continue; // Saltar filas inválidas
+
+                // Coloración
+                if (codArticulo == "S000004" && string.IsNullOrEmpty(artPadre))
+                {
+                    ActualizarCelda(Dgv_Tap3_Articulo, row.Index, "ArtPadre", CodCristal);
+                }
+                // Otros servicios
+                else if (codArticulo.StartsWith("S") && string.IsNullOrEmpty(artPadre))
+                {
+                    if (dsServicioAgregado.Tables.Count > 0 && dsServicioAgregado.Tables[0].Rows.Count > 0)
+                    {
+                        foreach (DataRow dr in dsServicioAgregado.Tables[0].Rows)
+                        {
+                            string agregadoProducto = dr["Agregado_Producto"]?.ToString().Trim('"');
+                            if (!string.IsNullOrEmpty(agregadoProducto) && agregadoProducto == codArticulo)
+                            {
+                                ActualizarCelda(Dgv_Tap3_Articulo, row.Index, "ArtPadre", CodCristal);
+                                break; // Salir del bucle interno si se encuentra el servicio
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        public void RemoveColoracion(DataGridView Dgv_Tap3_Articulo, ref string Codigo_Coloracion)
+        {
+
+            bool encontrado = false;
+
+            // Recorrer todas las filas del DataGridView
+            foreach (DataGridViewRow row in Dgv_Tap3_Articulo.Rows)
+            {
+                // Verificar si la celda "CodArticulo" no es nula y tiene el valor "S000004"
+                if (row.Cells["CodArticulo"].Value != null && row.Cells["CodArticulo"].Value.ToString() == "S000004")
+                {
+                    encontrado = true; // Se encontró el valor "S000004"
+                    break; // Salir del bucle, ya que no necesitamos seguir buscando
+                }
+            }
+
+            // Si no se encontró "S000004", actualizar la variable Codigo_Coloracion
+            if (!encontrado)
+            {
+                Codigo_Coloracion = ""; // Actualizar el valor
+            }
         }
 
         public bool AccionCambiarPrecio_ArticuloPadre(DataGridView gexFacturas, int filaActual)

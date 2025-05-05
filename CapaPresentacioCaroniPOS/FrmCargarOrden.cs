@@ -904,13 +904,14 @@ namespace CapaVisual_Login
 
             if (e.ColumnIndex >= 0 && Dgv_Tap3_Articulo.Columns[e.ColumnIndex].Name == "Eliminar")
             {
+                int FilaPorBorrar = e.RowIndex;
                 // Verificar si se puede borrar el artículo
-                bool puedeBorrar = _L_Articulo.VerificarYBorrarArticulo(Dgv_Tap3_Articulo, e.RowIndex);
+                bool puedeBorrar = _L_Articulo.VerificarYBorrarArticulo(Dgv_Tap3_Articulo, ref FilaPorBorrar);
 
-                if (puedeBorrar)
+                if (puedeBorrar )
                 {
                     // Si se puede borrar, eliminar la fila
-                    Dgv_Tap3_Articulo.Rows.RemoveAt(e.RowIndex);
+                    Dgv_Tap3_Articulo.Rows.RemoveAt(FilaPorBorrar);
                 }
                 else
                 {
@@ -1106,17 +1107,7 @@ namespace CapaVisual_Login
                     }
 
                 }
-
-                //if (Dgv_Tap3_Articulo.Rows[numFilas].Cells["CodArticulo"].Value != null &&
-                //   Dgv_Tap3_Articulo.Rows[numFilas].Cells["CodArticulo"].Value.ToString().StartsWith("M"))
-                //{
-                //     _L_Articulo.CargarServicioMonturaPropia(Dgv_Tap3_Articulo, "Mont.Propia", rbCompleta.Checked);
-                //}
             }
-
-
-            // Validar si se agrego un servicio sin codigo padre
-
 
             //Validar si Existe colorocaion agregada SI ya agregaron la coloracion no abro el panel 
             if (string.IsNullOrEmpty(Codigo_Coloracion))
@@ -1130,9 +1121,11 @@ namespace CapaVisual_Login
             }
             }
 
+            // Validar si se agrego un servicio sin codigo padre
+            _L_Articulo.VerificarServicioCodigoPadre(Dgv_Tap3_Articulo);
 
-        // Totalizo el grivew Totales cuando se agrega una fila 
-        _L_Articulo.ActualizarTotales(Dgv_Tap3_Articulo, Dgv_Tap3_Totales);
+            // Totalizo el grivew Totales cuando se agrega una fila 
+            _L_Articulo.ActualizarTotales(Dgv_Tap3_Articulo, Dgv_Tap3_Totales);
 
             // Habilito o desabilito Botones 
             ValidarRegistrosYHabilitar_Botones();
