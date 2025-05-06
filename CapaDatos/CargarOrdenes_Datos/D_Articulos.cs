@@ -787,6 +787,70 @@ namespace CapaDatos.CargarOrdenes_Datos
 
         }
 
+        public List<TB_EMPAFI> ObtenerClientesAfiliados(SqlCommand command = null)  // Trae el detalle del articulo 
+        {
+            // Declarar la lista para almacenar los resultados
+            List<TB_EMPAFI> listaClienteAfiliado = new List<TB_EMPAFI>();
+            stringBuilder.Clear();
+            try
+            {
+                if (command == null)
+                {
+                    SqlConnection connection = cn.LeerCadena();
+                    command = connection.CreateCommand();
+                }
+
+                SqlCommand cmd = command;
+                cmd.CommandText = "SP_CPOS_GET_CLIENTEAFILIADO";
+                cmd.CommandType = CommandType.StoredProcedure;
+                //command.Parameters.AddWithValue("@CodArticulo", CodArticulo);
+                //command.Parameters.AddWithValue("@TipoTrabajo", TipoTrabajo);
+
+                // Ejecutar el comando y leer los resultados
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        // Mapear cada fila a un objeto TB_ARTICULO
+                        TB_EMPAFI clienteAfiliado = new TB_EMPAFI
+                        {
+                            Rif = reader["Rif"].ToString(),
+                            Nombre = reader["Nombre"].ToString(),
+                            CodigoEmp = reader["Codigo_Emp"].ToString(),
+                            Nit = reader["Nit"].ToString(),
+                            Direccion = reader["Direccion"].ToString(),
+                            Telefono1 = reader["Telefono1"].ToString(),
+                            Telefono2 = reader["Telefono2"].ToString(),
+                            FechaAfiliacion = reader["FechaAfiliacion"] != DBNull.Value ? Convert.ToDateTime(reader["FechaAfiliacion"]) : (DateTime?)null,
+                            PorcentajeDes1 = reader["PorcentajeDes1"].ToString(),
+                            PorcentajeDes2 = reader["PorcentajeDes2"].ToString(),
+                            PorcentajeDes3 = reader["PorcentajeDes3"].ToString(),
+                            EMP_Fec_Crea = reader["EMP_Fec_Crea"] != DBNull.Value ? Convert.ToDateTime(reader["EMP_Fec_Crea"]) : (DateTime?)null,
+                            EMP_Fec_Mod = reader["EMP_Fec_Mod"] != DBNull.Value ? Convert.ToDateTime(reader["EMP_Fec_Mod"]) : (DateTime?)null,
+                            USER_Crea = reader["USER_Crea"].ToString(),
+                            USER_Modif = reader["USER_Modif"].ToString(),
+                            AceptaFinanciamiento = reader["AceptaFinanciamiento"] != DBNull.Value ? Convert.ToBoolean(reader["AceptaFinanciamiento"]) : (bool?)null,
+                            FechaInicio = reader["FechaInicio"] != DBNull.Value ? Convert.ToDateTime(reader["FechaInicio"]) : (DateTime?)null,
+                            FechaFin = reader["FechaFin"] != DBNull.Value ? Convert.ToDateTime(reader["FechaFin"]) : (DateTime?)null,
+                            Sucursal = reader["Sucursal"].ToString(),
+                            Activo = reader["Activo"] != DBNull.Value ? Convert.ToBoolean(reader["Activo"]) : (bool?)null
+                        };
+
+
+                        // Agregar el objeto a la lista
+                        listaClienteAfiliado.Add(clienteAfiliado);
+                    }
+                }
+
+                return listaClienteAfiliado;
+            }
+            catch (Exception ex)
+            {
+                stringBuilder.Append(Environment.NewLine + string.Format("Error: {0}", ex.Message));
+                return null;
+            }
+        }
+
 
     }
 }

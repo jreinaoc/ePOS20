@@ -669,6 +669,8 @@ namespace CapaLogica.CargarOrdenes
             return "";
         }
 
+       
+
         public void FormatearCampo7Digitos(System.Windows.Forms.TextBox CodigoArticulo)
         {
             // Validar que el TextBox no sea nulo y que tenga texto
@@ -1994,6 +1996,53 @@ namespace CapaLogica.CargarOrdenes
             else
             {
                 return false;
+            }
+
+        }
+
+        public void CargarClientesAfiliados(System.Windows.Forms.DataGridView DgvClienteAfiliados, List<TB_EMPAFI> listaClienteAfiliados)
+        {
+            Conexion cn = new Conexion();
+            SqlConnection connection = cn.LeerCadena();
+            SqlCommand command = connection.CreateCommand();
+            SqlTransaction transaction;
+            // Iniciar la transacción
+            transaction = connection.BeginTransaction();
+            command.Connection = connection;
+            command.Transaction = transaction;
+            command.Parameters.Clear();
+            command.CommandTimeout = 120;
+
+            try
+            {
+                // Obtener los artículos desde la base de datos
+                var clientesObtenidos = _D_Articulos.ObtenerClientesAfiliados(command);
+
+                // Limpiar la lista pasada como parámetro y llenarla con los nuevos datos
+                listaClienteAfiliados.Clear(); // Limpiar la lista para evitar duplicados
+                listaClienteAfiliados.AddRange(clientesObtenidos); // Agregar los datos obtenidos
+
+                // Asignar la lista como fuente de datos del DataGridView
+                if (listaClienteAfiliados != null && listaClienteAfiliados.Count > 0 && _D_Articulos.stringBuilder.Length == 0)
+                {
+                    //DgvArticulo.DataSource = listaArticulos;
+
+                    // Confirmar la transacción
+                    transaction.Commit();
+                }
+                else
+                {
+                    //DgvArticulo.DataSource = null; // Si no hay datos, limpiar el DataGridView
+                    _D_Articulos.stringBuilder.AppendLine("No se pudieron cargar los artículos correctamente.");
+                    transaction.Rollback();
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                stringBuilder.Append(Environment.NewLine + string.Format("Error: {0}", ex.Message));
+                transaction.Rollback();
             }
 
         }

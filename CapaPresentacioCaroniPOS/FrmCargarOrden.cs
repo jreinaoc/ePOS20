@@ -41,6 +41,7 @@ namespace CapaVisual_Login
         private D_DetalleOrden _D_DetalleOrden = new D_DetalleOrden();
         private D_Articulos _D_Articulo = new D_Articulos();
         private string Codigo_Coloracion = "";
+        List<TB_EMPAFI> listaClienteAfiliados = new List<TB_EMPAFI>();
 
         private void DgvListadoOrdenes_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -231,6 +232,7 @@ namespace CapaVisual_Login
                     this.Txt_Pnl3_MontoDesc.Text = "";
                     this.Txt_Pnl3_MontoDesc.Text = "";
                     this.Txt_Pnl3_ObservacionDesc.Text = "";
+                    this.Btn_Tap3_Descuento.BackColor = Color.LightCoral;
                     //Cbx_Pnl3_MotivoDesc.SelectedIndex = 0;
                     break;
 
@@ -245,6 +247,17 @@ namespace CapaVisual_Login
                     rbRanurada.Checked = false;
                     rbAlaire.Checked = false;
                     pnl_MonturaPropia.Visible = false;
+                    this.Btn_Tap3_MonturaPropia.BackColor = Color.Violet;
+                  
+                    break;
+                case "CristalPropio":
+                    this.Btn_Tap3_CristalPropio.BackColor = Color.GreenYellow;
+
+                    break;
+
+                case "ClienteAfiliado":
+                    this.Btn_Tap3_ClienteAfiliado.BackColor = Color.LightCoral;
+                    Pnl_3_Lista_ClienteAfiliado.Visible = false;
                     break;
                 default:
                     break;
@@ -320,7 +333,15 @@ namespace CapaVisual_Login
                     break;
 
                 case "MonturaPropia":
+                    this.pnl_MonturaPropia.Location = new Point(300,30);
+                    this.pnl_MonturaPropia.BringToFront();
                     this.pnl_MonturaPropia.Visible = true;
+                    break;
+
+                case "ClienteAfiliado":
+                    this.Pnl_3_Lista_ClienteAfiliado.Location = new Point(300, 30);
+                    this.Pnl_3_Lista_ClienteAfiliado.BringToFront();
+                    Pnl_3_Lista_ClienteAfiliado.Visible = true;
                     break;
 
                 default:
@@ -566,9 +587,9 @@ namespace CapaVisual_Login
                     break;
                    
 
-                case "Habilitar_MonturaPropia":
-                    this.Btn_Tap3_MonturaPropia.Enabled = false;
-                    break;
+                //case "Habilitar_MonturaPropia":
+                //    this.Btn_Tap3_MonturaPropia.Enabled = false;
+                //    break;
 
             }
 
@@ -717,7 +738,7 @@ namespace CapaVisual_Login
             if (_L_Articulo.CargarArticulo_ValidarTexbox(Txt_Tap3_Articulo_Codigo, Txt_Tap3_Articulo_Descripcion, Txt_Tap3_Articulo_Precio, Txt_Tap3_Articulo_Cantidad, Txt_Pnl2_Examen))
             {
                 _FrmMensajes.co = 2;
-                _FrmMensajes.avisomensaje("Por favor, complete todos los campos antes de agregar el artículo.");
+                _FrmMensajes.avisomensaje("Por favor, complete todos los campos antes de agregar el artículo");
                 _FrmMensajes.ShowDialog();
                 return;
             }
@@ -735,7 +756,7 @@ namespace CapaVisual_Login
             if (_L_Articulo.CargarArticulo_ValidarPrecio(Txt_Tap3_Articulo_Precio))
             {
                 _FrmMensajes.co = 2;
-                _FrmMensajes.avisomensaje("El precio del articulo debe ser mayor que 0.");
+                _FrmMensajes.avisomensaje("El precio del articulo debe ser mayor que 0");
                 _FrmMensajes.ShowDialog();
                 return;
             }
@@ -802,6 +823,21 @@ namespace CapaVisual_Login
                 // Definir Accion
             }
 
+            if (this.Btn_Tap3_CristalPropio.BackColor == Color.DarkGreen)
+            {
+               if (Txt_Tap3_Articulo_Codigo.Text.StartsWith("C"))
+                {
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje("No puede agregar un cristal si tiene marcada la opción Cristal Propio");
+                    _FrmMensajes.ShowDialog();
+                    return;
+                }
+
+            }
+            //else
+            //{
+            //    this.Btn_Tap3_CristalPropio.BackColor = Color.DarkGreen;
+            //}
 
             AgregarArticuloAlGrid();
 
@@ -835,7 +871,7 @@ namespace CapaVisual_Login
                 if (articulo == null)
                 {
                     _FrmMensajes.co = 2;
-                    _FrmMensajes.avisomensaje("El artículo no existe en la lista.");
+                    _FrmMensajes.avisomensaje("El artículo no existe en la lista");
                     _FrmMensajes.ShowDialog();
                     return;
                 }
@@ -844,7 +880,7 @@ namespace CapaVisual_Login
                 if (!decimal.TryParse(Txt_Tap3_Articulo_Precio.Text, out decimal precio))
                 {
                     _FrmMensajes.co = 2;
-                    _FrmMensajes.avisomensaje("El precio ingresado no es válido.");
+                    _FrmMensajes.avisomensaje("El precio ingresado no es válido");
                     _FrmMensajes.ShowDialog();
                     return;
                 }
@@ -852,7 +888,7 @@ namespace CapaVisual_Login
                 if (!int.TryParse(Txt_Tap3_Articulo_Cantidad.Text, out int cantidad))
                 {
                     _FrmMensajes.co = 2;
-                    _FrmMensajes.avisomensaje("La cantidad ingresada no es válida.");
+                    _FrmMensajes.avisomensaje("La cantidad ingresada no es válida");
                     _FrmMensajes.ShowDialog();
                     return;
                 }
@@ -880,6 +916,16 @@ namespace CapaVisual_Login
                 //_L_Articulo.AgregarFila(Dgv_Tap3_Articulo, articulo.CodArticulo, articulo.DESART, cantidad, (decimal) precio, (decimal)articulo.PORCTDESCUENTO, (decimal) total, impuesto, _Trabajo.T_OJO);
                 _L_Articulo.AgregarFila(Dgv_Tap3_Articulo, articulo.CodArticulo, articulo.DESART, cantidad, (decimal)precio, (decimal)articulo.PORCTDESCUENTO, (decimal)total, impuesto, "A");
 
+                //Inactivar botones de acciónes
+                if (Txt_Tap3_Articulo_Codigo.Text.StartsWith("C"))
+                {
+                    InhabilitarBotonesDeAcciones("Cristal");
+                }
+                else if (Txt_Tap3_Articulo_Codigo.Text.StartsWith("M"))
+                {
+                    InhabilitarBotonesDeAcciones("Montura");
+                }
+
                 // Limpiar los TextBox después de agregar el artículo
                 Txt_Tap3_Articulo_Codigo.Clear();
                 Txt_Tap3_Articulo_Precio.Clear();
@@ -887,6 +933,10 @@ namespace CapaVisual_Login
 
                 // Establecer el foco en el campo de código
                 Txt_Tap3_Articulo_Codigo.Focus();
+
+               
+
+
             }
             catch (Exception ex)
             {
@@ -1476,6 +1526,7 @@ namespace CapaVisual_Login
 
         private void Btn_Tap3_Descuento_Click(object sender, EventArgs e)
         {
+            ActivoInactivoBtn("Descuento");
             VisualizarPanel("Descuento");
             HabilitacionControl("Habilitar_Descuento");
             _L_Articulo.Cargo_CodMotivo_Descuento(Cbx_Pnl3_MotivoDesc);
@@ -2190,6 +2241,11 @@ namespace CapaVisual_Login
 
         private void Btn_Tap3_MonturaPropia_Click(object sender, EventArgs e)
         {
+            //Si esta el panel activo o ya seleccione una opción, no inctivo el btn
+            if (this.pnl_MonturaPropia.Visible == false & rbCompleta.Checked == false & rbRanurada.Checked == false & rbAlaire.Checked == false)
+            {
+                ActivoInactivoBtn("MonturaPropia");
+            }
             VisualizarPanel("MonturaPropia");
             HabilitacionControl("Habilitar_MonturaPropia");
             //_L_Articulo.Cargo_CodMotivo_Descuento(Cbx_Pnl3_MotivoDesc);
@@ -2206,10 +2262,16 @@ namespace CapaVisual_Login
                 return;
 
             }
+            else
+            {
+                this.pnl_MonturaPropia.Visible = false ;
+            }
+
         }
 
         private void btnCancelarMonturaPropia_Click(object sender, EventArgs e)
         {
+            ActivoInactivoBtn("MonturaPropia");
             VisualizarPanel("MostrarCabezeraSecundaria");
             HabilitacionControl("CabezeraPrincipal");
             LimpiarControles("MonturaPropia"); 
@@ -2221,7 +2283,141 @@ namespace CapaVisual_Login
 
         }
 
+        private void Btn_Tap3_CristalPropio_Click(object sender, EventArgs e)
+        {
+            ActivoInactivoBtn("CristalPropio");
+        }
 
+        public void ActivoInactivoBtn(string Case)
+        {
+
+            switch (Case)
+            {
+                case "Descuento":
+                    if (this.Btn_Tap3_Descuento.BackColor == Color.LightCoral)
+                    {
+                        this.Btn_Tap3_Descuento.BackColor = Color.DarkLightCoral;
+                    }
+                    else
+                    {
+                        this.Btn_Tap3_Descuento.BackColor = Color.LightCoral;
+                    }
+                    break;
+                case "MonturaPropia":
+                    if (this.Btn_Tap3_MonturaPropia.BackColor == Color.Violet)
+                    {
+                        this.Btn_Tap3_MonturaPropia.BackColor = Color.DarkSlateBlue;
+                    }
+                    else
+                    {
+                        this.Btn_Tap3_MonturaPropia.BackColor = Color.Violet;
+                    }
+                    break;
+
+                case "CristalPropio":
+                    if (this.Btn_Tap3_CristalPropio.BackColor == Color.DarkGreen)
+                    {
+                        this.Btn_Tap3_CristalPropio.BackColor = Color.GreenYellow;
+                    }
+                    else
+                    {
+                        this.Btn_Tap3_CristalPropio.BackColor = Color.DarkGreen;
+                    }
+                    break;
+                case "ClienteAfiliado":
+                    if (this.Btn_Tap3_ClienteAfiliado.BackColor == Color.LightCoral)
+                    {
+                        this.Btn_Tap3_ClienteAfiliado.BackColor = Color.DarkLightCoral;
+                    }
+                    else
+                    {
+                        this.Btn_Tap3_ClienteAfiliado.BackColor = Color.LightCoral;
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+
+
+        }
+
+        private void QuitarLimea2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void FrmCargarOrden_Load(object sender, EventArgs e)
+        {
+            
+            this.Btn_Tap3_Descuento.BackColor = Color.LightCoral; 
+            this.Btn_Tap3_MonturaPropia.BackColor = Color.Violet;
+            this.Btn_Tap3_CristalPropio.BackColor = Color.GreenYellow;
+            this.Btn_Tap3_ClienteAfiliado.BackColor = Color.LightCoral;
+
+            _L_Articulo.CargarClientesAfiliados(Dgv_Pnl3_ClienteAfiliado, listaClienteAfiliados);
+
+            Dgv_Pnl3_ClienteAfiliado.DataSource = listaClienteAfiliados;
+            //Formato_Dgv_Busqueda_Articulo();
+        }
+
+        public void InhabilitarBotonesDeAcciones(string Case)
+        {
+
+            switch (Case)
+            {
+                case "Montura":
+                    this.Btn_Tap3_Promocion.Enabled = false;
+                    this.Btn_Tap3_ClienteAfiliado.Enabled = false;
+                    this.Btn_Tap3_MonturaPropia.Enabled = false; 
+
+                    break;
+
+                case "Cristal":
+                    this.Btn_Tap3_Promocion.Enabled = false;
+                    this.Btn_Tap3_ClienteAfiliado.Enabled = false;
+                    this.Btn_Tap3_CristalPropio.Enabled = false;
+                   
+                    break;
+
+                default:
+                    break;
+            }
+
+
+        }
+
+        private void Btn_Tap3_ClienteAfiliado_Click(object sender, EventArgs e)
+        {
+            //Si esta el panel activo o ya seleccione una opción, no inctivo el btn
+            //if (this.pnl_MonturaPropia.Visible == false & rbCompleta.Checked == false & rbRanurada.Checked == false & rbAlaire.Checked == false)
+            //{
+            //    ActivoInactivoBtn("ClienteAfiliado");
+            //}
+            ActivoInactivoBtn("ClienteAfiliado");
+            VisualizarPanel("ClienteAfiliado");
+            HabilitacionControl("Habilitar_ClienteAfiliado");
+            //Pnl_3_Lista_ClienteAfiliado.Visible = true;
+           
+        }
+
+        private void panel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnCancelarAfiliado_Click(object sender, EventArgs e)
+        {
+            ActivoInactivoBtn("ClienteAfiliado");
+            VisualizarPanel("MostrarCabezeraSecundaria");
+            HabilitacionControl("CabezeraPrincipal");
+            LimpiarControles("ClienteAfiliado");
+        }
     }
 }
  
