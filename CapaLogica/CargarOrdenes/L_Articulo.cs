@@ -82,7 +82,7 @@ namespace CapaLogica.CargarOrdenes
                 else
                 {
                     //DgvArticulo.DataSource = null; // Si no hay datos, limpiar el DataGridView
-                    _D_Articulos.stringBuilder.AppendLine("No se pudieron cargar los artículos correctamente.");
+                    _D_Articulos.stringBuilder.AppendLine("No se pudieron cargar los artículos correctamente");
                     transaction.Rollback();
                 }
 
@@ -259,13 +259,13 @@ namespace CapaLogica.CargarOrdenes
                 // Validar que el número de fila esté dentro del rango
                 if (numeroFila < 0 || numeroFila >= Dgv_Tap3_Articulo.Rows.Count)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(numeroFila), "El número de fila está fuera del rango válido.");
+                    throw new ArgumentOutOfRangeException(nameof(numeroFila), "El número de fila está fuera del rango válido");
                 }
 
                 // Validar que la columna exista
                 if (!Dgv_Tap3_Articulo.Columns.Contains(nombreColumna))
                 {
-                    throw new ArgumentException($"La columna '{nombreColumna}' no existe en el DataGridView.", nameof(nombreColumna));
+                    throw new ArgumentException($"La columna '{nombreColumna}' no existe en el DataGridView", nameof(nombreColumna));
                 }
 
                 // Actualizar el valor de la celda
@@ -286,7 +286,7 @@ namespace CapaLogica.CargarOrdenes
                 // Validar que la columna exista
                 if (!Dgv_Tap3_Articulo.Columns.Contains(nombreColumna))
                 {
-                    throw new ArgumentException($"La columna '{nombreColumna}' no existe en el DataGridView.", nameof(nombreColumna));
+                    throw new ArgumentException($"La columna '{nombreColumna}' no existe en el DataGridView", nameof(nombreColumna));
                 }
 
                 // Recorrer todas las filas del DataGridView
@@ -411,10 +411,11 @@ namespace CapaLogica.CargarOrdenes
                     }
                 }
 
+            Dgv_Tap3_Articulo.Columns["ART_PVP"].DefaultCellStyle.Format = "N2"; // Formato de 2 decimales y unidades de mil
+            Dgv_Tap3_Articulo.Columns["Total"].DefaultCellStyle.Format = "N2"; // Formato de 2 decimales y unidades de mil
 
-
-                //quitar seleccion por defecto de datagrid
-                Dgv_Tap3_Articulo.ClearSelection();
+            //quitar seleccion por defecto de datagrid
+            Dgv_Tap3_Articulo.ClearSelection();
 
                 //AutoGenerar Columnas:
                 Dgv_Tap3_Articulo.AutoGenerateColumns = false;
@@ -663,7 +664,7 @@ namespace CapaLogica.CargarOrdenes
                 int ValorMaximoPorArticulo = Convert.ToInt32(row["Max_Vta"].ToString());
                 if (cantidadIngresada > ValorMaximoPorArticulo)
                 {
-                    return "El articulo " + codigoProducto + " tiene una cantidad a vender mayor que el maximo permitido.";
+                    return "El articulo " + codigoProducto + " tiene una cantidad a vender mayor que el maximo permitido";
                 }
             }
             return "";
@@ -710,7 +711,7 @@ namespace CapaLogica.CargarOrdenes
             // Validar que la lista no sea nula o vacía
             if (trabajos == null || trabajos.Count == 0)
             {
-                throw new ArgumentException("La lista de trabajos no puede estar vacía.");
+                throw new ArgumentException("La lista de trabajos no puede estar vacía");
             }
 
             // Iterar sobre los trabajos para verificar las condiciones
@@ -921,7 +922,7 @@ namespace CapaLogica.CargarOrdenes
                                     if (gridFacturas.Rows[xx].Cells["CodArticulo"].Value != null &&
                                         gridFacturas.Rows[xx].Cells["CodArticulo"].Value.ToString().StartsWith("W"))
                                     {
-                                        stringBuilder.AppendLine("No se permite tener Monturas y Lentes de Contacto en la misma orden.");
+                                        stringBuilder.AppendLine("No se permite tener Monturas y Lentes de Contacto en la misma orden");
                                         return false;
                                     }
                                     break;
@@ -931,7 +932,7 @@ namespace CapaLogica.CargarOrdenes
                                     if (gridFacturas.Rows[xx].Cells["CodArticulo"].Value != null &&
                                         gridFacturas.Rows[xx].Cells["CodArticulo"].Value.ToString().StartsWith("W"))
                                     {
-                                        stringBuilder.AppendLine("No se permite tener Cristales y Lentes de Contacto en la misma orden.");
+                                        stringBuilder.AppendLine("No se permite tener Cristales y Lentes de Contacto en la misma orden");
                                         return false;
                                     }
                                     break;
@@ -939,7 +940,7 @@ namespace CapaLogica.CargarOrdenes
                                 case "L": // Lentes de sol
                                     if (UsuAsegurado)
                                     {
-                                        stringBuilder.AppendLine("No se permite facturar Lentes de Sol para Asegurados.");
+                                        stringBuilder.AppendLine("No se permite facturar Lentes de Sol para Asegurados");
                                         return false;
                                     }
                                     else
@@ -949,7 +950,7 @@ namespace CapaLogica.CargarOrdenes
                                             gridFacturas.Rows[xx].Cells["CodArticulo"].Value.ToString().StartsWith("M") &&
                                             glbTipoTrabajo == "002")
                                         {
-                                            stringBuilder.AppendLine("No se permite facturar Lentes de Sol y Monturas en la misma orden.");
+                                            stringBuilder.AppendLine("No se permite facturar Lentes de Sol y Monturas en la misma orden");
                                             return false;
                                         }
                                     }
@@ -961,7 +962,7 @@ namespace CapaLogica.CargarOrdenes
                                         if (Verifico_Valor_Parametro(CodArticulo, "ArtNoCambiazo1") ||
                                             Verifico_Valor_Parametro(CodArticulo, "ArtNoCambiazo2"))
                                         {
-                                            stringBuilder.AppendLine("No se permite facturar Lentes de Contacto Desechables para Asegurados.");
+                                            stringBuilder.AppendLine("No se permite facturar Lentes de Contacto Desechables para Asegurados");
                                             return false;
                                         }
                                     }
@@ -970,13 +971,13 @@ namespace CapaLogica.CargarOrdenes
                                     if (gridFacturas.Rows[xx].Cells["CodArticulo"].Value != null &&
                                         gridFacturas.Rows[xx].Cells["CodArticulo"].Value.ToString().StartsWith("C")) // Cristales
                                     {
-                                        stringBuilder.AppendLine("No se permite tener Lentes de Contacto y Cristales en la misma orden.");
+                                        stringBuilder.AppendLine("No se permite tener Lentes de Contacto y Cristales en la misma orden");
                                         return false;
                                     }
                                     else if (gridFacturas.Rows[xx].Cells["CodArticulo"].Value != null &&
                                              gridFacturas.Rows[xx].Cells["CodArticulo"].Value.ToString().StartsWith("M")) // Monturas
                                     {
-                                        stringBuilder.AppendLine("No se permite tener Lentes de Contacto y Monturas en la misma orden.");
+                                        stringBuilder.AppendLine("No se permite tener Lentes de Contacto y Monturas en la misma orden");
                                         return false;
                                     }
                                     break;
@@ -1368,7 +1369,7 @@ namespace CapaLogica.CargarOrdenes
 
                     if (oClass == null)
                     {
-                        throw new Exception("No se encontró la clase 'EvalClase' en el ensamblado.");
+                        throw new Exception("No se encontró la clase 'EvalClase' en el ensamblado");
                     }
 
                     // Obtener el método Eval de la clase
@@ -1376,7 +1377,7 @@ namespace CapaLogica.CargarOrdenes
 
                     if (metodoEval == null)
                     {
-                        throw new Exception("No se encontró el método 'Eval' en la clase 'EvalClase'.");
+                        throw new Exception("No se encontró el método 'Eval' en la clase EvalClase");
                     }
 
                     // Invocar el método Eval con los parámetros proporcionados
@@ -1604,10 +1605,75 @@ namespace CapaLogica.CargarOrdenes
  
             }
         }
+        public void VerificarMonturaPropia(DataGridView Dgv_Tap3_Articulo, System.Windows.Forms.Button Btn_Tap3_MonturaPropia, bool Montura_Propia)
+        {
 
+            bool Posee_Montura = false;
+
+            // Verificar si tiene  cristal
+            foreach (DataGridViewRow row in Dgv_Tap3_Articulo.Rows)
+            {
+                if (row.Cells["CodArticulo"].Value != null && (row.Cells["CodArticulo"].Value.ToString().StartsWith("M") || row.Cells["CodArticulo"].Value.ToString().StartsWith("L")))
+                {
+                    Posee_Montura = true;
+                    break; // Salir del bucle al encontrar el primer cristal
+                }
+                else
+                {
+                    Posee_Montura = false;
+                }
+            }
+
+            if (Montura_Propia == true)
+            {
+                Btn_Tap3_MonturaPropia.Enabled = false;
+            }
+            else if (Montura_Propia == false && Posee_Montura == false)
+            {
+                Btn_Tap3_MonturaPropia.Enabled = true;
+            }
+            else if (Montura_Propia == false && Posee_Montura == true)
+            {
+                Btn_Tap3_MonturaPropia.Enabled = false;
+            }
+
+        }
+
+        public void VerificarCristalPropio(DataGridView Dgv_Tap3_Articulo, System.Windows.Forms.Button Btn_Tap3_CristalPropio, bool Cristal_Propio)
+        {
+            bool Posee_cristal = false;
+
+                // Verificar si tiene  cristal
+                foreach (DataGridViewRow row in Dgv_Tap3_Articulo.Rows)
+                {
+                    if (row.Cells["CodArticulo"].Value != null && row.Cells["CodArticulo"].Value.ToString().StartsWith("C"))
+                    {
+                        Posee_cristal = true;
+                        break; // Salir del bucle al encontrar el primer cristal
+                    }
+                    else
+                    {
+                        Posee_cristal = false;
+                    }
+                }
+
+                if (Cristal_Propio== true)
+                {
+                Btn_Tap3_CristalPropio.Enabled = false;
+                }
+                else if (Cristal_Propio == false && Posee_cristal == false)
+                {
+                Btn_Tap3_CristalPropio.Enabled = true;
+                }
+                else if (Cristal_Propio == false && Posee_cristal == true)
+                {
+                Btn_Tap3_CristalPropio.Enabled = false;
+                }
+
+        }
 
         public bool ServicioColoracion(DataGridView Dgv_Tap3_Articulo, DataGridView Dvg_Coloracion, System.Windows.Forms.RadioButton Rd_FullColor)
-        {
+            {
             try
             {
                     string cristalColor = string.Empty;
@@ -2033,7 +2099,7 @@ namespace CapaLogica.CargarOrdenes
                 else
                 {
                     //DgvArticulo.DataSource = null; // Si no hay datos, limpiar el DataGridView
-                    _D_Articulos.stringBuilder.AppendLine("No se pudieron cargar los artículos correctamente.");
+                    _D_Articulos.stringBuilder.AppendLine("No se pudieron cargar los artículos correctamente");
                     transaction.Rollback();
                 }
 
@@ -2047,6 +2113,84 @@ namespace CapaLogica.CargarOrdenes
 
         }
 
+        public bool ObtenerPromoVigente(System.Windows.Forms.DataGridView Dgv_Pnl3_Promociones)
+        {
+
+            // Obtener las promociones activas 
+            DataTable PromoVigente = _D_Articulos.ObtenerPromoVigente();
+
+            // Validar si PromoVigente no es null
+            if (PromoVigente != null && PromoVigente.Rows.Count > 0)
+            {
+                Dgv_Pnl3_Promociones.DataSource = PromoVigente;
+                Formato_Dgv_Promociones(Dgv_Pnl3_Promociones);
+                if (stringBuilder.Length > 0)
+                {
+                return false;
+                }
+                else
+                { 
+                return true;
+                }
+            }
+            else
+            {
+                stringBuilder.Append("Error al obtener promociones vigentes");
+                return false;
+            }
+
+        }
+
+        private void Formato_Dgv_Promociones(DataGridView Dgv_Pnl3_Promociones)
+        {
+            stringBuilder.Clear();
+            try
+            {
+            //Centrar todas las colucnas 
+             Dgv_Pnl3_Promociones.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            Dgv_Pnl3_Promociones.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+
+            // Quitar la flecha del selector de fila
+            Dgv_Pnl3_Promociones.RowHeadersVisible = false;
+
+            // Deshabilitar el redimensionamiento de filas
+            Dgv_Pnl3_Promociones.AllowUserToResizeRows = false;
+
+            //asignar Nombres a cada colucna 
+            Dgv_Pnl3_Promociones.Columns["Prom_DESCRIP"].HeaderText = "       ";
+
+            // No modificable
+            Dgv_Pnl3_Promociones.Columns["Prom_DESCRIP"].ReadOnly = true;
+
+            Dgv_Pnl3_Promociones.Columns["Prom_DESCRIP"].SortMode = DataGridViewColumnSortMode.NotSortable;
+
+            Dgv_Pnl3_Promociones.Columns["Prom_DESCRIP"].Width = 250;
+
+                foreach (DataGridViewColumn column in Dgv_Pnl3_Promociones.Columns)
+            {
+                if (column.Name != "Prom_DESCRIP")
+                {
+                    column.Visible = false;
+                }
+            }
+
+            //quitar seleccion por defecto de datagrid
+            Dgv_Pnl3_Promociones.ClearSelection();
+
+            Dgv_Pnl3_Promociones.SelectionMode = DataGridViewSelectionMode.FullRowSelect; // Selección de filas completas
+
+            // Evitar la Selección de Encabezados de Fila
+            Dgv_Pnl3_Promociones.RowHeadersVisible = false;
+
+            //AutoGenerar Columnas:
+            Dgv_Pnl3_Promociones.AutoGenerateColumns = false;
+
+        }
+            catch (Exception ex)
+            {
+                stringBuilder.Append(Environment.NewLine + string.Format("Error: {0}", ex.Message));
+            }
+}
     }
 }
 

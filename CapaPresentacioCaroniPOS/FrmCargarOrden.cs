@@ -41,6 +41,11 @@ namespace CapaVisual_Login
         private D_DetalleOrden _D_DetalleOrden = new D_DetalleOrden();
         private D_Articulos _D_Articulo = new D_Articulos();
         private string Codigo_Coloracion = "";
+        private string Codigo_Promocion = "";
+        private bool Cristal_Propio = false;
+        private bool Montura_Propia = false;
+        private string EmpresaAfiliada = "";
+
         List<TB_EMPAFI> listaClienteAfiliados = new List<TB_EMPAFI>();
 
         private void DgvListadoOrdenes_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -232,7 +237,7 @@ namespace CapaVisual_Login
                     this.Txt_Pnl3_MontoDesc.Text = "";
                     this.Txt_Pnl3_MontoDesc.Text = "";
                     this.Txt_Pnl3_ObservacionDesc.Text = "";
-                    this.Btn_Tap3_Descuento.BackColor = Color.LightCoral;
+                    //this.Btn_Tap3_Descuento.BackColor = Color.LightCoral;
                     //Cbx_Pnl3_MotivoDesc.SelectedIndex = 0;
                     break;
 
@@ -246,8 +251,6 @@ namespace CapaVisual_Login
                     rbCompleta.Checked = false;
                     rbRanurada.Checked = false;
                     rbAlaire.Checked = false;
-                    pnl_MonturaPropia.Visible = false;
-                    this.Btn_Tap3_MonturaPropia.BackColor = Color.Violet;
                   
                     break;
                 case "CristalPropio":
@@ -256,9 +259,16 @@ namespace CapaVisual_Login
                     break;
 
                 case "ClienteAfiliado":
-                    this.Btn_Tap3_ClienteAfiliado.BackColor = Color.LightCoral;
-                    Pnl_3_Lista_ClienteAfiliado.Visible = false;
+                    //this.Btn_Tap3_ClienteAfiliado.BackColor = Color.LightCoral;
+                    radioButton2.Checked = false;
+                    radioButton1.Checked = false;
+                    Txt_Pnl3_ClienteAfiliado.Text = "";
                     break;
+
+                case "Promociones":
+                    Dgv_Pnl3_Promociones.DataSource = null;
+                    break;
+
                 default:
                     break;
             }
@@ -300,6 +310,12 @@ namespace CapaVisual_Login
                     this.Pnl_3_Descuento.Visible = false;
                     this.Pnl_3_Coloración.Visible = false;
                     this.Pnl_3_Coloración.Enabled = false;
+                    this.Pnl_3_Promociones.Visible = false;
+                    this.Pnl_3_Promociones.Enabled = false;
+                    this.pnl_MonturaPropia.Enabled = false;
+                    this.pnl_MonturaPropia.Visible = false;
+                    this.Pnl_3_Lista_ClienteAfiliado.Visible = false;
+                    this.Pnl_3_Lista_ClienteAfiliado.Enabled = false;
                     this.Pnl_2.Location = new Point(0, 0); // Establecer posición en (0, 0)
 
                     break;
@@ -336,12 +352,21 @@ namespace CapaVisual_Login
                     this.pnl_MonturaPropia.Location = new Point(300,30);
                     this.pnl_MonturaPropia.BringToFront();
                     this.pnl_MonturaPropia.Visible = true;
+                    this.pnl_MonturaPropia.Enabled = true;
                     break;
 
                 case "ClienteAfiliado":
                     this.Pnl_3_Lista_ClienteAfiliado.Location = new Point(300, 30);
                     this.Pnl_3_Lista_ClienteAfiliado.BringToFront();
-                    Pnl_3_Lista_ClienteAfiliado.Visible = true;
+                    this.Pnl_3_Lista_ClienteAfiliado.Visible = true;
+                    this.Pnl_3_Lista_ClienteAfiliado.Enabled = true;
+                    break;
+
+                case "Promociones":
+                    this.Pnl_3_Promociones.Enabled = true;
+                    this.Pnl_3_Promociones.Visible = true;
+                    this.Pnl_3_Promociones.Location = new Point(300, 1);
+                    this.Pnl_3_Promociones.BringToFront();
                     break;
 
                 default:
@@ -387,6 +412,10 @@ namespace CapaVisual_Login
 
                     // Botones Aciones 
                     this.Btn_Tap3_Descuento.Enabled = false;
+                    this.Btn_Tap3_Promocion.Enabled = false;
+                    this.Btn_Tap3_MonturaPropia.Enabled = false;
+                    this.Btn_Tap3_CristalPropio.Enabled = false;
+                    this.Btn_Tap3_ClienteAfiliado.Enabled = false;
 
                     // Panel de Arriba
                     this.Txt_Pnl2_Cedula.Enabled = false;
@@ -398,8 +427,17 @@ namespace CapaVisual_Login
                     break;
 
                 case "CabezeraPrincipal":
-                    // Panel descuento 
-                    this.Pnl_3_Descuento.Enabled = false;
+                    //// Panel descuento 
+                    //this.Pnl_3_Descuento.Enabled = false;
+
+                    //// Panel cliente afiliado 
+                    //this.Pnl_3_Lista_ClienteAfiliado.Enabled = false;
+
+                    //// Panel Montura propia 
+                    //this.pnl_MonturaPropia.Enabled = false;
+
+                    ////Panel de coloracion
+                    //this.Pnl_3_Coloración.Enabled = false;
 
                     // Controles del Panel Coloración 
                     this.Pnl_3_RadioButonColoracion.Enabled = false;
@@ -408,6 +446,11 @@ namespace CapaVisual_Login
                     this.Dgv_Pnl3_Coloracion.Enabled = false;
                     this.Btn_Tap3_Cancelar_Coloracion.Enabled = false;
                     this.Btn_Tap3_Aceptar_Coloracion.Enabled = false;
+
+                    // Controles del Panel Promocion
+                    this.Dgv_Pnl3_Promociones.Enabled = false;
+                    this.Btn_Tap3_Cancelar_Promo.Enabled = false;
+                    this.Btn_Tap3_Aceptar_Promo.Enabled = false;
 
                     //Panel Cambio Precio
                     this.Pnl_3_CambioPrecio.Enabled = false;
@@ -482,6 +525,10 @@ namespace CapaVisual_Login
 
                     // Botones Aciones 
                     this.Btn_Tap3_Descuento.Enabled = false;
+                    this.Btn_Tap3_Promocion.Enabled = false;
+                    this.Btn_Tap3_MonturaPropia.Enabled = false;
+                    this.Btn_Tap3_CristalPropio.Enabled = false;
+                    this.Btn_Tap3_ClienteAfiliado.Enabled = false;
 
                     break;
 
@@ -536,6 +583,10 @@ namespace CapaVisual_Login
 
                     // Botones Aciones 
                     this.Btn_Tap3_Descuento.Enabled = false;
+                    this.Btn_Tap3_Promocion.Enabled = false;
+                    this.Btn_Tap3_MonturaPropia.Enabled = false;
+                    this.Btn_Tap3_CristalPropio.Enabled = false;
+                    this.Btn_Tap3_ClienteAfiliado.Enabled = false;
 
                     break;
 
@@ -582,14 +633,161 @@ namespace CapaVisual_Login
 
                     // Botones Aciones 
                     this.Btn_Tap3_Descuento.Enabled = false;
+                    this.Btn_Tap3_Promocion.Enabled = false;
+                    this.Btn_Tap3_MonturaPropia.Enabled = false;
+                    this.Btn_Tap3_CristalPropio.Enabled = false;
+                    this.Btn_Tap3_ClienteAfiliado.Enabled = false;
 
 
                     break;
-                   
 
-                //case "Habilitar_MonturaPropia":
-                //    this.Btn_Tap3_MonturaPropia.Enabled = false;
-                //    break;
+
+                case "Habilitar_Promociones":
+
+                    // Panel Coloración 
+                    this.Pnl_3_Promociones.Enabled = true;
+
+                    //Panel Ingresar Articulo
+                    this.Pnl_1_Tap3.Enabled = false;
+                    //Grid Carga Articulo
+                    this.Dgv_Tap3_Articulo.Enabled = false;
+                    //Panel de Medidas Montuta y Observacion
+                    this.Pnl_2_Tap3.Enabled = false;
+                    //Panel de Totales
+                    this.Pnl_3_Tap3.Enabled = false;
+                    //Grid Montutas
+                    this.Dgv_Tap3_Medidas_Montura.Enabled = false;
+                    //Boton Cancelar Formulario Principal Articulo 
+                    this.Btn_Tap3_Cancelar.Enabled = false;
+                    //Boton Procesar Formulario Principal Articulo 
+                    this.Btn_Tap3_Procesar.Enabled = false;
+
+                    // Panel de Arriba
+                    this.Txt_Pnl2_Cedula.Enabled = false;
+                    this.Txt_Pnl2_Examen.Enabled = false;
+                    this.Cbx_Pnl2_Trbajo.Enabled = false;
+                    this.Cbx_Pnl2_Laboratorio.Enabled = false;
+                    this.Cbx_Pnl2_Servicio.Enabled = false;
+
+                    // Controles del Panel Promocion
+                    this.Dgv_Pnl3_Promociones.Enabled = true;
+                    this.Btn_Tap3_Cancelar_Promo.Enabled = true;
+                    this.Btn_Tap3_Aceptar_Promo.Enabled = true;
+
+                    // Botones del TapControl
+                    this.btnPrincipal.Enabled = false;
+                    this.btnExamen.Enabled = false;
+                    this.btnCargarOrden.Enabled = false;
+
+                    // Botones Aciones 
+                    this.Btn_Tap3_Descuento.Enabled = false;
+                    this.Btn_Tap3_Promocion.Enabled = false;
+                    this.Btn_Tap3_MonturaPropia.Enabled = false;
+                    this.Btn_Tap3_CristalPropio.Enabled = false;
+                    this.Btn_Tap3_ClienteAfiliado.Enabled = false;
+
+                    break;
+
+                case "Habilitar_MonturaPropia":
+
+                    // Panel Coloración 
+                    this.Pnl_3_Promociones.Enabled = true;
+
+                    //Panel Ingresar Articulo
+                    this.Pnl_1_Tap3.Enabled = false;
+                    //Grid Carga Articulo
+                    this.Dgv_Tap3_Articulo.Enabled = false;
+                    //Panel de Medidas Montuta y Observacion
+                    this.Pnl_2_Tap3.Enabled = false;
+                    //Panel de Totales
+                    this.Pnl_3_Tap3.Enabled = false;
+                    //Grid Montutas
+                    this.Dgv_Tap3_Medidas_Montura.Enabled = false;
+                    //Boton Cancelar Formulario Principal Articulo 
+                    this.Btn_Tap3_Cancelar.Enabled = false;
+                    //Boton Procesar Formulario Principal Articulo 
+                    this.Btn_Tap3_Procesar.Enabled = false;
+
+                    // Panel de Arriba
+                    this.Txt_Pnl2_Cedula.Enabled = false;
+                    this.Txt_Pnl2_Examen.Enabled = false;
+                    this.Cbx_Pnl2_Trbajo.Enabled = false;
+                    this.Cbx_Pnl2_Laboratorio.Enabled = false;
+                    this.Cbx_Pnl2_Servicio.Enabled = false;
+
+                    // Controles del Panel monturaPropia
+                    this.rbCompleta.Checked = false;
+                    this.rbCompleta.Enabled = true;
+                    this.rbRanurada.Checked = false;
+                    this.rbRanurada.Enabled = true;
+                    this.rbAlaire.Checked = false;
+                    this.rbAlaire.Enabled = true;
+                    this.btnCancelarMonturaPropia.Enabled = true;
+                    this.btnAceptarMonturaPropia.Enabled = true;
+
+                    // Botones del TapControl
+                    this.btnPrincipal.Enabled = false;
+                    this.btnExamen.Enabled = false;
+                    this.btnCargarOrden.Enabled = false;
+
+                    // Botones Aciones 
+                    this.Btn_Tap3_Descuento.Enabled = false;
+                    this.Btn_Tap3_Promocion.Enabled = false;
+                    this.Btn_Tap3_MonturaPropia.Enabled = false;
+                    this.Btn_Tap3_CristalPropio.Enabled = false;
+                    this.Btn_Tap3_ClienteAfiliado.Enabled = false;
+
+                    break;
+
+                case "Habilitar_ClienteAfiliado":
+
+                    // Panel Coloración 
+                    this.Pnl_3_Promociones.Enabled = true;
+
+                    //Panel Ingresar Articulo
+                    this.Pnl_1_Tap3.Enabled = false;
+                    //Grid Carga Articulo
+                    this.Dgv_Tap3_Articulo.Enabled = false;
+                    //Panel de Medidas Montuta y Observacion
+                    this.Pnl_2_Tap3.Enabled = false;
+                    //Panel de Totales
+                    this.Pnl_3_Tap3.Enabled = false;
+                    //Grid Montutas
+                    this.Dgv_Tap3_Medidas_Montura.Enabled = false;
+                    //Boton Cancelar Formulario Principal Articulo 
+                    this.Btn_Tap3_Cancelar.Enabled = false;
+                    //Boton Procesar Formulario Principal Articulo 
+                    this.Btn_Tap3_Procesar.Enabled = false;
+
+                    // Panel de Arriba
+                    this.Txt_Pnl2_Cedula.Enabled = false;
+                    this.Txt_Pnl2_Examen.Enabled = false;
+                    this.Cbx_Pnl2_Trbajo.Enabled = false;
+                    this.Cbx_Pnl2_Laboratorio.Enabled = false;
+                    this.Cbx_Pnl2_Servicio.Enabled = false;
+
+                    // Controles del Panel ClienteAfiliado
+                    this.Txt_Pnl3_ClienteAfiliado.Enabled = true;
+                    this.Pnl_3_RadioButonClienteAfiliado.Enabled = true;
+                    this.radioButton2.Enabled = true;
+                    this.radioButton1.Enabled = true;
+                    this.Dgv_Pnl3_ClienteAfiliado.Enabled = true;
+                    this.btnCancelarAfiliado.Enabled = true;
+                    this.radioButton2.Checked = true;
+
+                    // Botones del TapControl
+                    this.btnPrincipal.Enabled = false;
+                    this.btnExamen.Enabled = false;
+                    this.btnCargarOrden.Enabled = false;
+
+                    // Botones Aciones 
+                    this.Btn_Tap3_Descuento.Enabled = false;
+                    this.Btn_Tap3_Promocion.Enabled = false;
+                    this.Btn_Tap3_MonturaPropia.Enabled = false;
+                    this.Btn_Tap3_CristalPropio.Enabled = false;
+                    this.Btn_Tap3_ClienteAfiliado.Enabled = false;
+
+                    break;
 
             }
 
@@ -683,6 +881,7 @@ namespace CapaVisual_Login
                 }
 
 
+                Dgv_Pnl3_Articulo.Columns["ART_PVP"].DefaultCellStyle.Format = "N2"; // Formato de 2 decimales y unidades de mil
 
                 //quitar seleccion por defecto de datagrid
                 Dgv_Pnl3_Articulo.ClearSelection();
@@ -823,21 +1022,24 @@ namespace CapaVisual_Login
                 // Definir Accion
             }
 
-            if (this.Btn_Tap3_CristalPropio.BackColor == Color.DarkGreen)
+            if (Cristal_Propio== true && Txt_Tap3_Articulo_Codigo.Text.StartsWith("C"))
             {
-               if (Txt_Tap3_Articulo_Codigo.Text.StartsWith("C"))
-                {
+
                     _FrmMensajes.co = 2;
                     _FrmMensajes.avisomensaje("No puede agregar un cristal si tiene marcada la opción Cristal Propio");
                     _FrmMensajes.ShowDialog();
                     return;
-                }
 
             }
-            //else
-            //{
-            //    this.Btn_Tap3_CristalPropio.BackColor = Color.DarkGreen;
-            //}
+
+
+            if (Montura_Propia == true && (Txt_Tap3_Articulo_Codigo.Text.StartsWith("L") || Txt_Tap3_Articulo_Codigo.Text.StartsWith("M")))
+            {
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje("No puede agregar una montura si tiene marcada la opción Montura Propia");
+                    _FrmMensajes.ShowDialog();
+                    return;
+            }
 
             AgregarArticuloAlGrid();
 
@@ -916,15 +1118,6 @@ namespace CapaVisual_Login
                 //_L_Articulo.AgregarFila(Dgv_Tap3_Articulo, articulo.CodArticulo, articulo.DESART, cantidad, (decimal) precio, (decimal)articulo.PORCTDESCUENTO, (decimal) total, impuesto, _Trabajo.T_OJO);
                 _L_Articulo.AgregarFila(Dgv_Tap3_Articulo, articulo.CodArticulo, articulo.DESART, cantidad, (decimal)precio, (decimal)articulo.PORCTDESCUENTO, (decimal)total, impuesto, "A");
 
-                //Inactivar botones de acciónes
-                if (Txt_Tap3_Articulo_Codigo.Text.StartsWith("C"))
-                {
-                    InhabilitarBotonesDeAcciones("Cristal");
-                }
-                else if (Txt_Tap3_Articulo_Codigo.Text.StartsWith("M"))
-                {
-                    InhabilitarBotonesDeAcciones("Montura");
-                }
 
                 // Limpiar los TextBox después de agregar el artículo
                 Txt_Tap3_Articulo_Codigo.Clear();
@@ -990,11 +1183,22 @@ namespace CapaVisual_Login
                 Dgv_Tap3_Articulo.Columns.Clear();
 
                 // Verificar y eliminar la columna "Eliminar" si existe
-                var dataGridViewColumn2 = Dgv_Tap3_Articulo.Columns["Eliminar"];
+                var dataGridViewColumn2 = Dgv_Tap3_Articulo.Columns["Eliminar"]; 
                 if (dataGridViewColumn2 != null)
                 {
                     Dgv_Tap3_Articulo.Columns.Remove(dataGridViewColumn2);
                 }
+
+                // Limpiar Variables Coloracion y Promociones, montura propia , cristal propio y empresa afiliada 
+                Codigo_Coloracion = "";
+                Codigo_Promocion = "";
+                Cristal_Propio = false;
+                Montura_Propia = false;
+                EmpresaAfiliada = "";
+
+                // Botones Aciones 
+                ValidarRegistrosYHabilitar_Botones();
+
             }
 
             catch (Exception ex)
@@ -1176,6 +1380,7 @@ namespace CapaVisual_Login
 
             // Totalizo el grivew Totales cuando se agrega una fila 
             _L_Articulo.ActualizarTotales(Dgv_Tap3_Articulo, Dgv_Tap3_Totales);
+
 
             // Habilito o desabilito Botones 
             ValidarRegistrosYHabilitar_Botones();
@@ -1526,7 +1731,7 @@ namespace CapaVisual_Login
 
         private void Btn_Tap3_Descuento_Click(object sender, EventArgs e)
         {
-            ActivoInactivoBtn("Descuento");
+            //ActivoInactivoBtn("Descuento");
             VisualizarPanel("Descuento");
             HabilitacionControl("Habilitar_Descuento");
             _L_Articulo.Cargo_CodMotivo_Descuento(Cbx_Pnl3_MotivoDesc);
@@ -1831,14 +2036,38 @@ namespace CapaVisual_Login
         private void ValidarRegistrosYHabilitar_Botones()
         {
             // Verificar si el DataGridView tiene filas que no sean nuevas
+           
+           //// Descuento  
             if (Dgv_Tap3_Articulo.Rows.Count > 0)
             {
                 Btn_Tap3_Descuento.Enabled = true; // Habilitar el TextBox o botón
+               
             }
             else
             {
                 Btn_Tap3_Descuento.Enabled = false; // Deshabilitar el TextBox o botón
             }
+
+            //// Promociones
+            if (string.IsNullOrEmpty(Codigo_Promocion) && Dgv_Tap3_Articulo.Rows.Count <= 0)
+                Btn_Tap3_Promocion.Enabled = true;
+            else
+                Btn_Tap3_Promocion.Enabled = false;
+
+            //// EmpresasAfiliadas
+            if (string.IsNullOrEmpty(EmpresaAfiliada) && Dgv_Tap3_Articulo.Rows.Count <= 0)
+                Btn_Tap3_ClienteAfiliado.Enabled = true;
+            else
+                Btn_Tap3_ClienteAfiliado.Enabled = false;
+
+
+            // Montura Propia 
+            _L_Articulo.VerificarMonturaPropia(Dgv_Tap3_Articulo, Btn_Tap3_MonturaPropia, Montura_Propia);
+
+            // Cristal Propio
+            _L_Articulo.VerificarCristalPropio(Dgv_Tap3_Articulo, Btn_Tap3_CristalPropio, Cristal_Propio);
+
+       
         }
 
         private void Dgv_Tap3_Totales_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
@@ -2241,15 +2470,10 @@ namespace CapaVisual_Login
 
         private void Btn_Tap3_MonturaPropia_Click(object sender, EventArgs e)
         {
-            //Si esta el panel activo o ya seleccione una opción, no inctivo el btn
-            if (this.pnl_MonturaPropia.Visible == false & rbCompleta.Checked == false & rbRanurada.Checked == false & rbAlaire.Checked == false)
-            {
-                ActivoInactivoBtn("MonturaPropia");
-            }
+
             VisualizarPanel("MonturaPropia");
             HabilitacionControl("Habilitar_MonturaPropia");
-            //_L_Articulo.Cargo_CodMotivo_Descuento(Cbx_Pnl3_MotivoDesc);
-            //Tipo_Descuento = "Descuento Global";
+
         }
 
         private void btnAceptarMonturaPropia_Click(object sender, EventArgs e)
@@ -2264,18 +2488,22 @@ namespace CapaVisual_Login
             }
             else
             {
-                this.pnl_MonturaPropia.Visible = false ;
+                Montura_Propia = true;
+                CerrarPanelMonturaPropia();
             }
 
         }
 
         private void btnCancelarMonturaPropia_Click(object sender, EventArgs e)
         {
-            ActivoInactivoBtn("MonturaPropia");
+            CerrarPanelMonturaPropia();
+        }
+
+        private void CerrarPanelMonturaPropia()
+        {
             VisualizarPanel("MostrarCabezeraSecundaria");
             HabilitacionControl("CabezeraPrincipal");
-            LimpiarControles("MonturaPropia"); 
-            
+            LimpiarControles("MonturaPropia");
         }
 
         private void Btn_Tap1_Guardar_Click(object sender, EventArgs e)
@@ -2285,62 +2513,64 @@ namespace CapaVisual_Login
 
         private void Btn_Tap3_CristalPropio_Click(object sender, EventArgs e)
         {
-            ActivoInactivoBtn("CristalPropio");
-        }
-
-        public void ActivoInactivoBtn(string Case)
-        {
-
-            switch (Case)
-            {
-                case "Descuento":
-                    if (this.Btn_Tap3_Descuento.BackColor == Color.LightCoral)
-                    {
-                        this.Btn_Tap3_Descuento.BackColor = Color.DarkLightCoral;
-                    }
-                    else
-                    {
-                        this.Btn_Tap3_Descuento.BackColor = Color.LightCoral;
-                    }
-                    break;
-                case "MonturaPropia":
-                    if (this.Btn_Tap3_MonturaPropia.BackColor == Color.Violet)
-                    {
-                        this.Btn_Tap3_MonturaPropia.BackColor = Color.DarkSlateBlue;
-                    }
-                    else
-                    {
-                        this.Btn_Tap3_MonturaPropia.BackColor = Color.Violet;
-                    }
-                    break;
-
-                case "CristalPropio":
-                    if (this.Btn_Tap3_CristalPropio.BackColor == Color.DarkGreen)
-                    {
-                        this.Btn_Tap3_CristalPropio.BackColor = Color.GreenYellow;
-                    }
-                    else
-                    {
-                        this.Btn_Tap3_CristalPropio.BackColor = Color.DarkGreen;
-                    }
-                    break;
-                case "ClienteAfiliado":
-                    if (this.Btn_Tap3_ClienteAfiliado.BackColor == Color.LightCoral)
-                    {
-                        this.Btn_Tap3_ClienteAfiliado.BackColor = Color.DarkLightCoral;
-                    }
-                    else
-                    {
-                        this.Btn_Tap3_ClienteAfiliado.BackColor = Color.LightCoral;
-                    }
-                    break;
-
-                default:
-                    break;
-            }
-
+            Cristal_Propio = true;
+            HabilitacionControl("CabezeraPrincipal");
 
         }
+
+        //public void ActivoInactivoBtn(string Case)
+        //{
+
+        //    switch (Case)
+        //    {
+        //        case "Descuento":
+        //            if (this.Btn_Tap3_Descuento.BackColor == Color.LightCoral)
+        //            {
+        //                this.Btn_Tap3_Descuento.BackColor = Color.DarkMagenta;
+        //            }
+        //            else
+        //            {
+        //                this.Btn_Tap3_Descuento.BackColor = Color.LightCoral;
+        //            }
+        //            break;
+        //        case "MonturaPropia":
+        //            if (this.Btn_Tap3_MonturaPropia.BackColor == Color.Violet)
+        //            {
+        //                this.Btn_Tap3_MonturaPropia.BackColor = Color.DarkSlateBlue;
+        //            }
+        //            else
+        //            {
+        //                this.Btn_Tap3_MonturaPropia.BackColor = Color.Violet;
+        //            }
+        //            break;
+
+        //        case "CristalPropio":
+        //            if (this.Btn_Tap3_CristalPropio.BackColor == Color.DarkGreen)
+        //            {
+        //                this.Btn_Tap3_CristalPropio.BackColor = Color.GreenYellow;
+        //            }
+        //            else
+        //            {
+        //                this.Btn_Tap3_CristalPropio.BackColor = Color.DarkGreen;
+        //            }
+        //            break;
+        //        case "ClienteAfiliado":
+        //            if (this.Btn_Tap3_ClienteAfiliado.BackColor == Color.LightCoral)
+        //            {
+        //                this.Btn_Tap3_ClienteAfiliado.BackColor = Color.DarkMagenta;
+        //            }
+        //            else
+        //            {
+        //                this.Btn_Tap3_ClienteAfiliado.BackColor = Color.LightCoral;
+        //            }
+        //            break;
+
+        //        default:
+        //            break;
+        //    }
+
+
+        //}
 
         private void QuitarLimea2_Click(object sender, EventArgs e)
         {
@@ -2349,11 +2579,6 @@ namespace CapaVisual_Login
 
         private void FrmCargarOrden_Load(object sender, EventArgs e)
         {
-            
-            this.Btn_Tap3_Descuento.BackColor = Color.LightCoral; 
-            this.Btn_Tap3_MonturaPropia.BackColor = Color.Violet;
-            this.Btn_Tap3_CristalPropio.BackColor = Color.GreenYellow;
-            this.Btn_Tap3_ClienteAfiliado.BackColor = Color.LightCoral;
 
             _L_Articulo.CargarClientesAfiliados(Dgv_Pnl3_ClienteAfiliado, listaClienteAfiliados);
 
@@ -2361,43 +2586,11 @@ namespace CapaVisual_Login
             //Formato_Dgv_Busqueda_Articulo();
         }
 
-        public void InhabilitarBotonesDeAcciones(string Case)
-        {
-
-            switch (Case)
-            {
-                case "Montura":
-                    this.Btn_Tap3_Promocion.Enabled = false;
-                    this.Btn_Tap3_ClienteAfiliado.Enabled = false;
-                    this.Btn_Tap3_MonturaPropia.Enabled = false; 
-
-                    break;
-
-                case "Cristal":
-                    this.Btn_Tap3_Promocion.Enabled = false;
-                    this.Btn_Tap3_ClienteAfiliado.Enabled = false;
-                    this.Btn_Tap3_CristalPropio.Enabled = false;
-                   
-                    break;
-
-                default:
-                    break;
-            }
-
-
-        }
 
         private void Btn_Tap3_ClienteAfiliado_Click(object sender, EventArgs e)
         {
-            //Si esta el panel activo o ya seleccione una opción, no inctivo el btn
-            //if (this.pnl_MonturaPropia.Visible == false & rbCompleta.Checked == false & rbRanurada.Checked == false & rbAlaire.Checked == false)
-            //{
-            //    ActivoInactivoBtn("ClienteAfiliado");
-            //}
-            ActivoInactivoBtn("ClienteAfiliado");
             VisualizarPanel("ClienteAfiliado");
             HabilitacionControl("Habilitar_ClienteAfiliado");
-            //Pnl_3_Lista_ClienteAfiliado.Visible = true;
            
         }
 
@@ -2413,10 +2606,58 @@ namespace CapaVisual_Login
 
         private void btnCancelarAfiliado_Click(object sender, EventArgs e)
         {
-            ActivoInactivoBtn("ClienteAfiliado");
+            //ActivoInactivoBtn("ClienteAfiliado");
             VisualizarPanel("MostrarCabezeraSecundaria");
             HabilitacionControl("CabezeraPrincipal");
             LimpiarControles("ClienteAfiliado");
+        }
+
+
+        private void Btn_Tap3_Promocion_Click(object sender, EventArgs e)
+        {
+            if (_L_Articulo.ObtenerPromoVigente(Dgv_Pnl3_Promociones))
+            {
+                VisualizarPanel("Promociones");
+                HabilitacionControl("Habilitar_Promociones");
+            }
+            else
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje(_L_Articulo.stringBuilder.ToString());
+                _FrmMensajes.ShowDialog();
+            }
+        }
+
+        private void CerrarPanelPromocion()
+        {
+            VisualizarPanel("MostrarCabezeraSecundaria");
+            HabilitacionControl("CabezeraPrincipal");
+            LimpiarControles("Promociones");
+        }
+
+        private void Btn_Tap3_Cancelar_Promo_Click(object sender, EventArgs e)
+        {
+            CerrarPanelPromocion();
+        }
+
+        private void Btn_Tap3_Aceptar_Promo_Click(object sender, EventArgs e)
+        {
+            if (Dgv_Pnl3_Promociones.SelectedRows.Count > 0)
+            {
+                // Acceder a la primera fila seleccionada
+                DataGridViewRow filaSeleccionada = Dgv_Pnl3_Promociones.SelectedRows[0];
+
+                // Obtener el valor de la celda "Cod_Coloracion"
+                Codigo_Promocion = filaSeleccionada.Cells["COD_Prom"].Value.ToString();
+                CerrarPanelPromocion();
+            }
+            else
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("Debe seleccionar una promocion para continuar");
+                _FrmMensajes.ShowDialog();
+            }
+
         }
     }
 }
