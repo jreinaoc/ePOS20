@@ -890,5 +890,214 @@ namespace CapaDatos.CargarOrdenes_Datos
 
 
 
+
+        public DataSet MostrarRangosCrtGrid(string nacRif, string cedula, string numExamen, string codArticulo, string ojo, string tipoVision, decimal alt, decimal diam, decimal disVert, decimal angFac, decimal angPant, string Color, string glbServicio, string lab, string medDisV, string medAngF, string medAngP, string DDL, SqlCommand command = null)
+        {
+
+            if (command == null)
+            {
+                SqlConnection connection = cn.LeerCadena();
+                command = connection.CreateCommand();
+            }
+            SqlCommand cmd = command;
+            cmd.Parameters.Clear();
+            cmd.CommandText = "pValidoParametrosCRT";
+            //SqlCommand cmd = new SqlCommand("SP_DETALLEFACTURAFISCAL", cn.LeerCadena());
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@NACIO", nacRif);
+            cmd.Parameters.AddWithValue("@CI", cedula);
+            cmd.Parameters.AddWithValue("@EXAM", numExamen);
+            cmd.Parameters.AddWithValue("@CRTDERECHO", codArticulo);
+            cmd.Parameters.AddWithValue("@OJO", ojo);
+            cmd.Parameters.AddWithValue("@VISION", tipoVision);
+            cmd.Parameters.AddWithValue("@ALTURA", alt);
+            cmd.Parameters.AddWithValue("@DIAMETRO", diam);
+            cmd.Parameters.AddWithValue("@DISTVERT", disVert);
+            cmd.Parameters.AddWithValue("@ANGFAC", angFac);
+            cmd.Parameters.AddWithValue("@ANGPANT", angPant);
+            cmd.Parameters.AddWithValue("@COLOR", Color);
+            cmd.Parameters.AddWithValue("@TIEMPOENTREGA", glbServicio);
+            cmd.Parameters.AddWithValue("@MONTAJE", lab);
+            cmd.Parameters.AddWithValue("@MEDDIST", medDisV);
+            cmd.Parameters.AddWithValue("@MEDANGF", medAngF);
+            cmd.Parameters.AddWithValue("@MEDANGP", medAngP);
+            cmd.Parameters.AddWithValue("@MEDDDL", DDL);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet dts = new DataSet();
+            da.Fill(dts);
+            cmd.Parameters.Clear();
+            return dts;
+
+
+        }
+
+        public DataSet MostrarParametrosCrtGrid(string cristalD, string cristalI, SqlCommand command = null)
+        {
+
+            if (command == null)
+            {
+                SqlConnection connection = cn.LeerCadena();
+                command = connection.CreateCommand();
+            }
+            SqlCommand cmd = command;
+            cmd.Parameters.Clear();
+            cmd.CommandText = "pGetParametroCristal";
+            //SqlCommand cmd = new SqlCommand("SP_DETALLEFACTURAFISCAL", cn.LeerCadena());
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@cristalD", cristalD);
+            cmd.Parameters.AddWithValue("@cristalI", cristalI);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet dts = new DataSet();
+            da.Fill(dts);
+            cmd.Parameters.Clear();
+            return dts;
+
+
+        }
+
+        public DataSet Agregar_TB_TRABAJO(string SUC, string NUMOS, string REV, string NACIO, string CEDULA,
+        string TIPO_TRABAJO, int NUM_EXAMAEN, string HORIZ, string VERT, string MAX, string PTE,
+        string ALTD, string ALTI, string OJO, string TVISD, string TVISI, string LAB, string SERV,
+        string TIPO_RX, string USER, string CODDETVTA, string TIPO_EXAMEN, string DISVERT, string ANPANT, string ANFAC,
+        string DDL, SqlCommand command = null)
+        {
+
+            try
+            {
+                if (command == null)
+                {
+                    SqlConnection connection = cn.LeerCadena();
+                    command = connection.CreateCommand();
+                }
+                SqlCommand cmd = command;
+                cmd.Parameters.Clear();
+
+                cmd.Parameters.Clear();
+                cmd.CommandText = "SP_CPOS_ADD_TB_TRABAJO";
+                //SqlCommand cmd = new SqlCommand("SP_DETALLEFACTURAFISCAL", cn.LeerCadena());
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@SUC", SUC);
+                cmd.Parameters.AddWithValue("@NUMOS", NUMOS);
+                cmd.Parameters.AddWithValue("@REV", REV);
+                cmd.Parameters.AddWithValue("@CEDULA", CEDULA);
+                cmd.Parameters.AddWithValue("@NACIO", NACIO);
+                cmd.Parameters.AddWithValue("@TIPO_TRABAJO", TIPO_TRABAJO);
+                cmd.Parameters.AddWithValue("@NUM_EXAMAEN", NUM_EXAMAEN);
+                cmd.Parameters.AddWithValue("@HORIZ", HORIZ);
+                cmd.Parameters.AddWithValue("@VERT", VERT);
+                cmd.Parameters.AddWithValue("@MAX", MAX);
+                cmd.Parameters.AddWithValue("@PTE", PTE);
+                cmd.Parameters.AddWithValue("@ALTD", ALTD);
+                cmd.Parameters.AddWithValue("@ALTI", ALTI);
+                cmd.Parameters.AddWithValue("@OJO", OJO);
+                cmd.Parameters.AddWithValue("@TVISD", TVISD);
+                cmd.Parameters.AddWithValue("@TVISI", TVISI);
+                cmd.Parameters.AddWithValue("@LAB", LAB);
+                cmd.Parameters.AddWithValue("@SERV", SERV);
+                cmd.Parameters.AddWithValue("@TIPO_RX", TIPO_RX);
+                cmd.Parameters.AddWithValue("@USER", USER);
+                cmd.Parameters.AddWithValue("@CODDETVTA", CODDETVTA);
+                cmd.Parameters.AddWithValue("@TIPO_EXAMEN", TIPO_EXAMEN);
+                cmd.Parameters.AddWithValue("@DISVERT", DISVERT);
+                cmd.Parameters.AddWithValue("@ANPANT", ANPANT);
+                cmd.Parameters.AddWithValue("@ANFAC", ANFAC);
+                cmd.Parameters.AddWithValue("@DDL", DDL);
+                DataSet ds = new DataSet();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(ds);
+                cmd.Parameters.Clear();
+                // Verificar si el DataSet tiene datos
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    return ds;
+                }
+                else
+                {
+                    return null; // Retornar null si no hay datos
+                }
+
+            }
+            catch (Exception ex)
+            {
+                string Error = string.Format("Error: {0}", ex.Message);
+                return null;
+            }
+
+            //SqlCommand cmd = new SqlCommand();
+
+            //SqlDataAdapter da = new SqlDataAdapter(cmd);
+            //DataSet dts = new DataSet();
+            //da.Fill(dts);
+            //cmd.Parameters.Clear();
+            //return dts;
+
+
+        }
+
+        public List<TB_EMPAFI> ObtenerClientesAfiliados(SqlCommand command = null)  // Trae el detalle del articulo 
+        {
+            // Declarar la lista para almacenar los resultados
+            List<TB_EMPAFI> listaClienteAfiliado = new List<TB_EMPAFI>();
+            stringBuilder.Clear();
+            try
+            {
+                if (command == null)
+                {
+                    SqlConnection connection = cn.LeerCadena();
+                    command = connection.CreateCommand();
+                }
+
+                SqlCommand cmd = command;
+                cmd.CommandText = "SP_CPOS_GET_CLIENTEAFILIADO";
+                cmd.CommandType = CommandType.StoredProcedure;
+                //command.Parameters.AddWithValue("@CodArticulo", CodArticulo);
+                //command.Parameters.AddWithValue("@TipoTrabajo", TipoTrabajo);
+
+                // Ejecutar el comando y leer los resultados
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        // Mapear cada fila a un objeto TB_ARTICULO
+                        TB_EMPAFI clienteAfiliado = new TB_EMPAFI
+                        {
+                            Rif = reader["Rif"].ToString(),
+                            Nombre = reader["Nombre"].ToString(),
+                            CodigoEmp = reader["Codigo_Emp"].ToString(),
+                            Nit = reader["Nit"].ToString(),
+                            Direccion = reader["Direccion"].ToString(),
+                            Telefono1 = reader["Telefono1"].ToString(),
+                            Telefono2 = reader["Telefono2"].ToString(),
+                            FechaAfiliacion = reader["FechaAfiliacion"] != DBNull.Value ? Convert.ToDateTime(reader["FechaAfiliacion"]) : (DateTime?)null,
+                            PorcentajeDes1 = reader["PorcentajeDes1"].ToString(),
+                            PorcentajeDes2 = reader["PorcentajeDes2"].ToString(),
+                            PorcentajeDes3 = reader["PorcentajeDes3"].ToString(),
+                            EMP_Fec_Crea = reader["EMP_Fec_Crea"] != DBNull.Value ? Convert.ToDateTime(reader["EMP_Fec_Crea"]) : (DateTime?)null,
+                            EMP_Fec_Mod = reader["EMP_Fec_Mod"] != DBNull.Value ? Convert.ToDateTime(reader["EMP_Fec_Mod"]) : (DateTime?)null,
+                            USER_Crea = reader["USER_Crea"].ToString(),
+                            USER_Modif = reader["USER_Modif"].ToString(),
+                            AceptaFinanciamiento = reader["AceptaFinanciamiento"] != DBNull.Value ? Convert.ToBoolean(reader["AceptaFinanciamiento"]) : (bool?)null,
+                            FechaInicio = reader["FechaInicio"] != DBNull.Value ? Convert.ToDateTime(reader["FechaInicio"]) : (DateTime?)null,
+                            FechaFin = reader["FechaFin"] != DBNull.Value ? Convert.ToDateTime(reader["FechaFin"]) : (DateTime?)null,
+                            Sucursal = reader["Sucursal"].ToString(),
+                            Activo = reader["Activo"] != DBNull.Value ? Convert.ToBoolean(reader["Activo"]) : (bool?)null
+                        };
+
+
+                        // Agregar el objeto a la lista
+                        listaClienteAfiliado.Add(clienteAfiliado);
+                    }
+                }
+
+                return listaClienteAfiliado;
+            }
+            catch (Exception ex)
+            {
+                stringBuilder.Append(Environment.NewLine + string.Format("Error: {0}", ex.Message));
+                return null;
+            }
+        }
+
+
     }
 }

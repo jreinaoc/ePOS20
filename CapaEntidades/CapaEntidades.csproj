@@ -61,6 +61,7 @@
     <Compile Include="ServiciosAR_CargarOrdenes.cs" />
     <Compile Include="TB_ARTICULO.cs" />
     <Compile Include="TB_CAORDSER.cs" />
+    <Compile Include="TB_EMPAFI.cs" />
     <Compile Include="TB_Examen.cs" />
     <Compile Include="TB_FACTURAS.cs" />
     <Compile Include="TB_FICCONV.cs" />
