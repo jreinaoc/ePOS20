@@ -2196,13 +2196,10 @@ namespace CapaVisual_Login
                 Btn_Tap3_Procesar.Enabled = true;
             }
 
-            VerificoParametrosCristales();
-
             string codSucursal;
             codSucursal = _D_DetalleOrden.TB_PARAMETRO("SucursalId");
             _D_Articulo.Agregar_TB_TRABAJO(codSucursal, "", "", Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), "002", Convert.ToInt32(Txt_Pnl2_Examen.Text)
               , txtHorizontal.Text, txtVertical.Text, txtMaxima.Text, txtPuente.Text, "0", "0", "A", "Cerca", "Cerca", "QUO", "001", "T", TB_USUARIO.COD_USR, "02", "CONVENCIONAL", "0", "0", "0", "0");
-
 
             VerificoParametrosCristales();
             VerificoRangoDiametroCristales();

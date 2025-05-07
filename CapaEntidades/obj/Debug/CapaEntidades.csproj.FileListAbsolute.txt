@@ -23,7 +23,6 @@ C:\Programacion\CaroniPOS1\CapaEntidades\obj\Debug\CapaEntidades.dll
 C:\Programacion\CaroniPOS1\CapaEntidades\obj\Debug\CapaEntidades.pdb
 <<<<<<< HEAD
 =======
-<<<<<<< HEAD
 C:\projects\EPOS20\CapaEntidades\bin\Debug\CapaEntidades.dll
 C:\projects\EPOS20\CapaEntidades\bin\Debug\CapaEntidades.pdb
 C:\projects\EPOS20\CapaEntidades\bin\Debug\log4net.dll
@@ -36,7 +35,6 @@ C:\projects\EPOS20\CapaEntidades\obj\Debug\CapaEntidades.csproj.CoreCompileInput
 C:\projects\EPOS20\CapaEntidades\obj\Debug\CapaEntidades.csproj.CopyComplete
 C:\projects\EPOS20\CapaEntidades\obj\Debug\CapaEntidades.dll
 C:\projects\EPOS20\CapaEntidades\obj\Debug\CapaEntidades.pdb
-=======
 C:\Programacion\CaroniPOS1\CapaEntidades\obj\Debug\CapaEntidades.csproj.AssemblyReference.cache
 >>>>>>> cf20aa2affc4c634e0655edbd14dc39c57ef578c
 >>>>>>> 63820a4f14582f7581222ed529341a82502ed67a
