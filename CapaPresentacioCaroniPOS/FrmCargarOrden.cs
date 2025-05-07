@@ -37,6 +37,11 @@ namespace CapaVisual_Login
         public bool HabEliminar = false;
         private int filaSeleccionada;
         private string Tipo_Descuento = "";
+        private string glbServicio_NUV = "";
+        private string glbServicio = ""; 
+        private ServicioValidaciones_CargarOrdenes _servicioValidaciones = new ServicioValidaciones_CargarOrdenes();
+
+
         private void DgvListadoOrdenes_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
@@ -1583,6 +1588,99 @@ namespace CapaVisual_Login
                 e.CellStyle.Font = new Font(Dgv_Tap3_Totales.Font, FontStyle.Bold);
             }
         }
+
+        private async void Btn_Tap3_Procesar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Btn_Tap3_Procesar.Enabled = false;
+
+                int car;
+                string strMarcaC;
+                bool cambioPrec = false;
+                glbServicio_NUV = glbServicio;
+                SqlCommand command = null;
+
+                // 1. Obtener códigos desde el grid
+                var codigosFactura = ObtenerCodigosDesdeGrid();
+
+                if (codigosFactura == null || codigosFactura.Count == 0)
+                {
+                    MessageBox.Show("No hay códigos válidos para procesar");
+                    Btn_Tap3_Procesar.Enabled = true;
+                    return;
+                }
+
+                ////2.Detectar el cristal(el primero que comience con "C")
+                //string codCristal = codigosFactura.Find(c => c.StartsWith("C"));
+                //if (string.IsNullOrWhiteSpace(codCristal))
+                //{
+                //    MessageBox.Show("No se encontró código de cristal");
+                //    Btn_Tap3_Procesar.Enabled = true;
+                //    return;
+                //}
+
+                // 2. Detectar el primer código de cristal (sin validación por "C")
+                string codCristal = codigosFactura.FirstOrDefault(c => !string.IsNullOrWhiteSpace(c));
+
+                if (string.IsNullOrWhiteSpace(codCristal))
+                {
+                    MessageBox.Show("No se encontró ningún código de cristal válido");
+                    Btn_Tap3_Procesar.Enabled = true;
+                    return;
+                }
+
+                //Consultar servicios AR
+                var dsAR = await _servicioValidaciones.ObtenerServiciosARDataset(codCristal, false, command);
+
+                if(_servicioValidaciones.VerificoIgualAntirefCrist(Dgv_Tap3_Articulo, dsAR))
+                {
+                    MessageBox.Show("La Cantidad de Antireflejos y Coloración debe ser igual a la Cantidad de Cristales.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    Btn_Tap3_Procesar.Enabled = true;
+                    return;
+                }
+
+                // Finaliza normalmente
+                Btn_Tap3_Procesar.Enabled = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al procesar coloración: " + ex.Message);
+                Btn_Tap3_Procesar.Enabled = true;
+            }
+
+        }
+
+        private List<string> ObtenerCodigosDesdeGrid()
+        {
+            var codigos = new List<string>();
+
+            foreach (DataGridViewRow row in Dgv_Tap3_Articulo.Rows)
+            {
+                if (row.Cells["CodArticulo"].Value != null)
+                {
+                    codigos.Add(row.Cells["CodArticulo"].Value.ToString());
+                }
+            }
+
+            return codigos;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
+
+
  }
 

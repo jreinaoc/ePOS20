@@ -78,6 +78,7 @@
   <ItemGroup>
     <Compile Include="Anulacion\D_Anulacion.cs" />
     <Compile Include="CargarOrdenes_Datos\D_Articulos.cs" />
+    <Compile Include="CargarOrdenes_Datos\ServicioAR.cs" />
     <Compile Include="Configuracion\D_Configuracion.cs" />
     <Compile Include="CveAutorizada_Datos\D_ClaveAutorizada.cs" />
     <Compile Include="CveGerente_Datos\D_ClaveGerente.cs" />

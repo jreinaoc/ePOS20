@@ -1881,6 +1881,67 @@ namespace CapaLogica.CargarOrdenes
 
         }
 
+
+        //Botón PROCESAR:
+        public async Task<List<ServicioColoracion_CargarOrdenes>> EjecutarServicioColoracion_btnProcesar(string cristal, bool tipoColor, SqlCommand command = null)
+        {
+            return await Task.Run(() =>
+            {
+                var listaColoracion = new List<ServicioColoracion_CargarOrdenes>();
+                DataTable dt = _D_Articulos.ServicioColoracion_btnProcesar(cristal, tipoColor, command);
+
+                if (dt == null || dt.Rows.Count == 0)
+                    return listaColoracion;
+
+                foreach (DataRow row in dt.Rows)
+                {
+                    var color = new ServicioColoracion_CargarOrdenes
+                    {
+                        Cod_Coloracion = row["Cod_Coloracion"].ToString(),
+                        Desc_Material = row["Desc_Material"].ToString(),
+                        Desc_Color = row["Desc_Color"].ToString(),
+                        Porc_Material = row["Porc_Material"].ToString(),
+                        Tipo_Color = row["Tipo_Color"].ToString()
+                    };
+                    listaColoracion.Add(color);
+                }
+
+                return listaColoracion;
+            });
+        }
+
+        public async Task<List<ServiciosAR_CargarOrdenes>> ObtenerServiciosAR_btnProcesar(string codCristal, bool codServicio, SqlCommand command = null)
+        {
+            return await Task.Run(() =>
+            {
+                var listaServicioAR = new List<ServiciosAR_CargarOrdenes>();
+
+                DataSet dt = _D_Articulos.ServiciosAR_btnProcesar(codCristal, codServicio, command);
+
+                foreach (DataRow row in dt.Tables[0].Rows)
+                {
+                    var item = new ServiciosAR_CargarOrdenes
+                    {
+                        CodServicio = row["CodServicio"].ToString(),
+                        Obligatorio = Convert.ToBoolean(row["obligatorio"])
+                    };
+                    listaServicioAR.Add(item);
+                }
+
+                return listaServicioAR;
+
+            });
+
+        }
+
+        public DataSet ObtenerServiciosARDataset(string codCristal, bool codServicio, SqlCommand command = null)
+        {
+            return _D_Articulos.ServiciosAR_btnProcesar(codCristal, codServicio, command);
+        }
+
+
+
+
     }
 }
 

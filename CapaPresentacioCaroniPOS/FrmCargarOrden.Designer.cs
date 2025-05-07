@@ -1479,6 +1479,7 @@ namespace CapaVisual_Login
             this.Btn_Tap3_Procesar.TabIndex = 306;
             this.Btn_Tap3_Procesar.Text = "Procesar";
             this.Btn_Tap3_Procesar.UseVisualStyleBackColor = false;
+            this.Btn_Tap3_Procesar.Click += new System.EventHandler(this.Btn_Tap3_Procesar_Click);
             // 
             // Pnl_3_Tap3
             // 
@@ -2281,7 +2282,7 @@ namespace CapaVisual_Login
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(1940, 813);
+            this.ClientSize = new System.Drawing.Size(1386, 788);
             this.Controls.Add(this.QuitarLimea3);
             this.Controls.Add(this.Pnl_3_CambioPrecio);
             this.Controls.Add(this.QuitarLimea1);
