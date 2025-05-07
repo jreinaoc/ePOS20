@@ -644,6 +644,253 @@ namespace CapaDatos.CargarOrdenes_Datos
 
         }
 
+        //Botón PROCESAR:
+        public DataTable ServicioColoracion_btnProcesar(string cristal, bool tipoColor, SqlCommand command = null)
+        {
+            try
+            {
+                if (command == null)
+                {
+                    SqlConnection connection = cn.LeerCadena();
+                    command = connection.CreateCommand();
+                }
+
+                SqlCommand cmd = command;
+                cmd.Parameters.Clear();
+
+                cmd.CommandText = "CPOS_pServicioColoracion";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@CRISTAL", cristal);
+                cmd.Parameters.AddWithValue("@TIPOCOLOR", tipoColor);
+
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                cmd.Parameters.Clear();
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                string error = $"Error: {ex.Message}";
+                return null;
+            }
+
+        }
+
+        public DataSet ServiciosAR_btnProcesar(string Codcristal, bool CodServicio, SqlCommand command = null)
+        {
+            try
+            {
+                if (command == null)
+                {
+                    SqlConnection connection = cn.LeerCadena();
+                    command = connection.CreateCommand();
+                }
+
+                SqlCommand cmd = command;
+                cmd.Parameters.Clear();
+
+                cmd.CommandText = "CPOS_pGetServiciosAR";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@CodCrt", Codcristal);
+                cmd.Parameters.AddWithValue("@CodServ", CodServicio);
+
+                DataSet dt = new DataSet();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                cmd.Parameters.Clear();
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                string error = $"Error: {ex.Message}";
+                return null;
+            }
+
+        }
+
+        public DataTable ValidoTraza_btnProcesar(string articulo, SqlCommand command = null)
+        {
+            try
+            {
+                if (command == null)
+                {
+                    SqlConnection connection = cn.LeerCadena();
+                    command = connection.CreateCommand();
+                }
+
+                SqlCommand cmd = command;
+                cmd.Parameters.Clear();
+
+                cmd.CommandText = "CPOS_pValidoTraza";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@articulo", articulo);
+
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                cmd.Parameters.Clear();
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                string error = $"Error: {ex.Message}";
+                return null;
+            }
+
+        }
+
+        public DataSet GetDiametroEfectivo_btnProcesar(string nac, string cedula, int numExamen, string cristal, string cristalI, string ojo,
+                                                       string tipoVisionD, string tipoVisionI, string montura, int horizontal, int maxima, 
+                                                       int puente, string sucursal, SqlCommand command = null)
+        {
+            try
+            {
+                if (command == null)
+                {
+                    SqlConnection connection = cn.LeerCadena();
+                    command = connection.CreateCommand();
+                }
+
+                SqlCommand cmd = command;
+                cmd.Parameters.Clear();
+
+                cmd.CommandText = "CPOS_pGetDiametroEfectivo";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@NACCTE", nac);
+                cmd.Parameters.AddWithValue("@CEDULACTE", cedula);
+                cmd.Parameters.AddWithValue("@NUMEXAMEN", numExamen);
+                cmd.Parameters.AddWithValue("@CRISTAL", cristal);
+                cmd.Parameters.AddWithValue("@CRISTALI", cristalI);
+                cmd.Parameters.AddWithValue("@OJO", ojo);
+                cmd.Parameters.AddWithValue("@TIPOVISIOND", tipoVisionD);
+                cmd.Parameters.AddWithValue("@TIPOVISIONI", tipoVisionI);
+                cmd.Parameters.AddWithValue("@MONTURA", montura);
+                cmd.Parameters.AddWithValue("@HORIZONTAL", horizontal);
+                cmd.Parameters.AddWithValue("@MAXIMA", maxima);
+                cmd.Parameters.AddWithValue("@PUENTE", puente);
+                cmd.Parameters.AddWithValue("@SUC", sucursal);
+
+                DataSet ds = new DataSet();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(ds);
+                cmd.Parameters.Clear();
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                string error = $"Error: {ex.Message}";
+                return null;
+            }
+        }
+
+        public DataTable ValidarRangoCristal_btnProcesar(string nac, string ci, string examen, string ojo, string cristalD, string cristalI,
+                                                       decimal alturaD, decimal alturaI, string visionD, string visionI, decimal diametroD, 
+                                                       decimal diametroI, SqlCommand command = null)
+        {
+            try
+            {
+                if (command == null)
+                {
+                    SqlConnection connection = cn.LeerCadena();
+                    command = connection.CreateCommand();
+                }
+
+                SqlCommand cmd = command;
+                cmd.Parameters.Clear();
+
+                cmd.CommandText = "CPOS_pValidarangoCristal";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Nacio", nac);
+                cmd.Parameters.AddWithValue("@CI", ci);
+                cmd.Parameters.AddWithValue("@Examen", examen);
+                cmd.Parameters.AddWithValue("@ojo", ojo);
+                cmd.Parameters.AddWithValue("@CristalD", cristalD);
+                cmd.Parameters.AddWithValue("@CristalI", cristalI);
+                cmd.Parameters.AddWithValue("@AlturaD", alturaD);
+                cmd.Parameters.AddWithValue("@AlturaI", alturaI);
+                cmd.Parameters.AddWithValue("@VisionD", visionD);
+                cmd.Parameters.AddWithValue("@VisionI", visionI);
+                cmd.Parameters.AddWithValue("@diametroD", diametroD);
+                cmd.Parameters.AddWithValue("@diametroI", diametroI);
+
+                DataTable ds = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(ds);
+                cmd.Parameters.Clear();
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                string error = $"Error: {ex.Message}";
+                return null;
+            }
+        }
+
+        public DataTable GetRangoCristal_btnProcesar(string cristalD, string cristalI, SqlCommand command = null)
+        {
+            try
+            {
+                if (command == null)
+                {
+                    SqlConnection connection = cn.LeerCadena();
+                    command = connection.CreateCommand();
+                }
+
+                SqlCommand cmd = command;
+                cmd.Parameters.Clear();
+
+                cmd.CommandText = "CPOS_pGetRangoCristal";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@CristalD", cristalD);
+                cmd.Parameters.AddWithValue("@CristalI", cristalI);
+
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                cmd.Parameters.Clear();
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                string error = $"Error: {ex.Message}";
+                return null;
+            }
+        }
+
+        public DataTable MaxVta_btnProcesar(SqlCommand command = null)
+        {
+            try
+            {
+                if (command == null)
+                {
+                    SqlConnection connection = cn.LeerCadena();
+                    command = connection.CreateCommand();
+                }
+
+                SqlCommand cmd = command;
+                cmd.Parameters.Clear();
+
+                cmd.CommandText = "CPOS_Max_Vta";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                cmd.Parameters.Clear();
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                string error = $"Error: {ex.Message}";
+                return null;
+            }
+        }
+
+
+
+
+
         public DataSet MostrarRangosCrtGrid(string nacRif, string cedula, string numExamen, string codArticulo, string ojo, string tipoVision, decimal alt, decimal diam, decimal disVert, decimal angFac, decimal angPant, string Color, string glbServicio, string lab, string medDisV, string medAngF, string medAngP, string DDL, SqlCommand command = null)
         {
 

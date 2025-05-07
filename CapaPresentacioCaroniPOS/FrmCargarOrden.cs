@@ -38,6 +38,11 @@ namespace CapaVisual_Login
         public bool HabEliminar = false;
         private int filaSeleccionada;
         private string Tipo_Descuento = "";
+        private string glbServicio_NUV = "";
+        private string glbServicio = "";
+        private ServicioValidaciones_CargarOrdenes _servicioValidaciones = new ServicioValidaciones_CargarOrdenes();
+
+
         private D_DetalleOrden _D_DetalleOrden = new D_DetalleOrden();
         private D_Articulos _D_Articulo = new D_Articulos();
         private string Codigo_Coloracion = "";
@@ -248,7 +253,7 @@ namespace CapaVisual_Login
                     this.Rd_Pnl3_Degradado.Checked = false;
                     this.Dgv_Pnl3_Coloracion.DataSource = null;
                     break;
-                    
+
                 case "MonturaPropia":
                     rbCompleta.Checked = false;
                     rbRanurada.Checked = false;
@@ -351,7 +356,7 @@ namespace CapaVisual_Login
                     break;
 
                 case "MonturaPropia":
-                    this.pnl_MonturaPropia.Location = new Point(300,30);
+                    this.pnl_MonturaPropia.Location = new Point(300, 30);
                     this.pnl_MonturaPropia.BringToFront();
                     this.pnl_MonturaPropia.Visible = true;
                     this.pnl_MonturaPropia.Enabled = true;
@@ -941,7 +946,7 @@ namespace CapaVisual_Login
         {
             /////// ******************Validaciones **************************************
             ///***********************               *************************************
-           
+
             // Validar que los campos no estén vacíos
             if (_L_Articulo.CargarArticulo_ValidarTexbox(Txt_Tap3_Articulo_Codigo, Txt_Tap3_Articulo_Descripcion, Txt_Tap3_Articulo_Precio, Txt_Tap3_Articulo_Cantidad, Txt_Pnl2_Examen))
             {
@@ -956,7 +961,7 @@ namespace CapaVisual_Login
             {
                 _FrmMensajes.co = 2;
                 _FrmMensajes.avisomensaje(_L_Articulo.stringBuilder.ToString());
-                _FrmMensajes.ShowDialog();     
+                _FrmMensajes.ShowDialog();
                 return;
             }
 
@@ -983,7 +988,7 @@ namespace CapaVisual_Login
 
             //Verifico los productos permitidos
             Boolean VerificoProductos = _L_Articulo.VerificoProductosPermitidos(Txt_Tap3_Articulo_Codigo.Text, Cbx_Pnl2_Trbajo.SelectedValue.ToString(), Dgv_Tap3_Articulo);
-            if (VerificoProductos== false && _L_Articulo.stringBuilder.Length > 0)
+            if (VerificoProductos == false && _L_Articulo.stringBuilder.Length > 0)
             {
                 _FrmMensajes.co = 2;
                 _FrmMensajes.avisomensaje(_L_Articulo.stringBuilder.ToString());
@@ -1136,7 +1141,7 @@ namespace CapaVisual_Login
                 // Establecer el foco en el campo de código
                 Txt_Tap3_Articulo_Codigo.Focus();
 
-               
+
 
 
             }
@@ -1148,7 +1153,7 @@ namespace CapaVisual_Login
 
             }
         }
- 
+
 
         private void Dgv_Tap3_Articulo_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -1160,7 +1165,7 @@ namespace CapaVisual_Login
                 // Verificar si se puede borrar el artículo
                 bool puedeBorrar = _L_Articulo.VerificarYBorrarArticulo(Dgv_Tap3_Articulo, ref FilaPorBorrar);
 
-                if (puedeBorrar )
+                if (puedeBorrar)
                 {
                     // Si se puede borrar, eliminar la fila
                     Dgv_Tap3_Articulo.Rows.RemoveAt(FilaPorBorrar);
@@ -1342,7 +1347,7 @@ namespace CapaVisual_Login
 
         private void btnDetalleOrden_CheckedChanged(object sender, EventArgs e)
         {
-           tabControl.SelectTab(2);
+            tabControl.SelectTab(2);
         }
 
         private void Dgv_Tap3_Articulo_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
@@ -1361,7 +1366,7 @@ namespace CapaVisual_Login
                     {
                         //Verifico Diotria
                         _L_Articulo.EvaluoServicioAgregado(Dgv_Tap3_Articulo, numFilas, "D", Convert.ToInt32(Txt_Pnl2_Examen.Text), Cbx_Pnl2_Trbajo.SelectedValue.ToString(), Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2));
-                        _L_Articulo.EvaluoServicioAgregado(Dgv_Tap3_Articulo,numFilas, "I", Convert.ToInt32(Txt_Pnl2_Examen.Text), Cbx_Pnl2_Trbajo.SelectedValue.ToString(), Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2));
+                        _L_Articulo.EvaluoServicioAgregado(Dgv_Tap3_Articulo, numFilas, "I", Convert.ToInt32(Txt_Pnl2_Examen.Text), Cbx_Pnl2_Trbajo.SelectedValue.ToString(), Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2));
 
                     }
                     else
@@ -1388,13 +1393,13 @@ namespace CapaVisual_Login
             //Validar si Existe colorocaion agregada SI ya agregaron la coloracion no abro el panel 
             if (string.IsNullOrEmpty(Codigo_Coloracion))
             {
-            //Validar si agregaron coloracion y el grid tiene un crsital 
-            if (_L_Articulo.ServicioColoracion(Dgv_Tap3_Articulo, Dgv_Pnl3_Coloracion, Rd_Pnl3_FullColor))
-            {
-                //Abro el panel de coloracion 
-                VisualizarPanel("Coloracion");
-                HabilitacionControl("Habilitar_Coloracion");
-            }
+                //Validar si agregaron coloracion y el grid tiene un crsital 
+                if (_L_Articulo.ServicioColoracion(Dgv_Tap3_Articulo, Dgv_Pnl3_Coloracion, Rd_Pnl3_FullColor))
+                {
+                    //Abro el panel de coloracion 
+                    VisualizarPanel("Coloracion");
+                    HabilitacionControl("Habilitar_Coloracion");
+                }
             }
 
             // Validar si se agrego un servicio sin codigo padre
@@ -1439,7 +1444,7 @@ namespace CapaVisual_Login
 
                 //asignar Nombres a cada colucna 
                 Dgv_Tap3_Totales.Columns["Concepto"].HeaderText = "       ";
-                Dgv_Tap3_Totales.Columns["Valor"].HeaderText =    "       ";
+                Dgv_Tap3_Totales.Columns["Valor"].HeaderText = "       ";
 
 
                 //Ancho de columna
@@ -1599,26 +1604,26 @@ namespace CapaVisual_Login
                     }
                     else
                     {
-                       _FrmClaveGerente.ShowDialog();
-                      if (_FrmClaveGerente.ClaveCorrecta == true)
-                      {
+                        _FrmClaveGerente.ShowDialog();
+                        if (_FrmClaveGerente.ClaveCorrecta == true)
+                        {
 
-                          if (_L_Articulo.ConfigurarCambioPrecio(Txt_Pnl3_CambioPrecioActual, Dgv_Tap3_Articulo.Rows[filaSeleccionada].Cells["CodArticulo"].Value.ToString()))
-                          {
-                        VisualizarPanel("CambioPrecio");
-                        HabilitacionControl("Habilitar_CambioPrecio");
-                          }
-                          else
-                          {
-                          _FrmMensajes.co = 2;
-                          _FrmMensajes.avisomensaje("Error al Cargar el Panel de Cambio de Precio");
-                          _FrmMensajes.ShowDialog();
-                          }
-                      }
-                      else
-                      {
-                       return;
-                      }
+                            if (_L_Articulo.ConfigurarCambioPrecio(Txt_Pnl3_CambioPrecioActual, Dgv_Tap3_Articulo.Rows[filaSeleccionada].Cells["CodArticulo"].Value.ToString()))
+                            {
+                                VisualizarPanel("CambioPrecio");
+                                HabilitacionControl("Habilitar_CambioPrecio");
+                            }
+                            else
+                            {
+                                _FrmMensajes.co = 2;
+                                _FrmMensajes.avisomensaje("Error al Cargar el Panel de Cambio de Precio");
+                                _FrmMensajes.ShowDialog();
+                            }
+                        }
+                        else
+                        {
+                            return;
+                        }
                     }
                 }
             }
@@ -1640,7 +1645,7 @@ namespace CapaVisual_Login
         private void Btn_Tap3_Aceptar_CambioPrecio_Click(object sender, EventArgs e)
         {
             Decimal DesMaximo = 0;
-            if(_L_Articulo.CambioPrecio(Txt_Pnl3_CambioPrecioNuevo,Txt_Pnl3_CambioPrecioActual, DesMaximo))
+            if (_L_Articulo.CambioPrecio(Txt_Pnl3_CambioPrecioNuevo, Txt_Pnl3_CambioPrecioActual, DesMaximo))
             {
                 if (_L_Articulo.stringBuilder.Length > 0)
                 {
@@ -1664,7 +1669,7 @@ namespace CapaVisual_Login
                 {
                     _L_Articulo.ActualizarCelda(Dgv_Tap3_Articulo, filaSeleccionada, "ART_PVP", Txt_Pnl3_CambioPrecioNuevo.Text);
                     CerrarPanelCambioPrecio();
-                }  
+                }
 
             }
             else
@@ -1676,7 +1681,7 @@ namespace CapaVisual_Login
 
         }
 
-        private void CerrarPanelCambioPrecio ()
+        private void CerrarPanelCambioPrecio()
         {
             VisualizarPanel("MostrarCabezeraSecundaria");
             HabilitacionControl("CabezeraPrincipal");
@@ -1773,13 +1778,13 @@ namespace CapaVisual_Login
                         {
                             // Verifico se el Porcentaje de descuento esta por encima dle permitido para generar una clave autorizada diferente 
 
-                             if (_L_Articulo.VerificarTopeMaximoDesceunto(Convert.ToInt32( Txt_Pnl3_PorcDescuento.Text)))
-                             {   // Pido Clave Autorizada con unos parametros especificos
+                            if (_L_Articulo.VerificarTopeMaximoDesceunto(Convert.ToInt32(Txt_Pnl3_PorcDescuento.Text)))
+                            {   // Pido Clave Autorizada con unos parametros especificos
                                 _FrmClaveAutorizada.Nuevo_Parametro = true;
                                 _FrmClaveAutorizada.Parametro_Nuevo = _L_Articulo.BuscarCodigoGerenteDescuento(Cbx_Pnl3_MotivoDesc.SelectedValue.ToString());
-                             }
+                            }
 
-                        _FrmClaveAutorizada.ShowDialog();
+                            _FrmClaveAutorizada.ShowDialog();
 
                             if (_FrmClaveAutorizada.DialogResult == DialogResult.OK && _FrmClaveAutorizada.ClaveCorrecta == true)
                             {
@@ -1788,9 +1793,9 @@ namespace CapaVisual_Login
 
                             }
 
-                            
+
                         }
-                        else if (Tipo_Descuento=="Cambio de Descuento")
+                        else if (Tipo_Descuento == "Cambio de Descuento")
                         {
                             // Verifico se el Porcentaje de descuento esta por encima dle permitido para generar una clave autorizada diferente 
 
@@ -1821,8 +1826,8 @@ namespace CapaVisual_Login
                     }
                     else
                     {
-                        
-                         Cbx_Pnl3_MotivoDesc.Focus();
+
+                        Cbx_Pnl3_MotivoDesc.Focus();
                         _FrmMensajes.co = 2;
                         _FrmMensajes.avisomensaje("Debe seleccionar un Motivo de Descuento para continuar");
                         _FrmMensajes.ShowDialog();
@@ -1830,7 +1835,7 @@ namespace CapaVisual_Login
                 }
                 else
                 {
-                     Txt_Pnl3_ObservacionDesc.Focus();
+                    Txt_Pnl3_ObservacionDesc.Focus();
                     _FrmMensajes.co = 2;
                     _FrmMensajes.avisomensaje("Se necesita una observación para continuar");
                     _FrmMensajes.ShowDialog();
@@ -1953,10 +1958,10 @@ namespace CapaVisual_Login
 
         private void Txt_Pnl3_MontoDesc_Leave(object sender, EventArgs e)
         {
-            if(!_L_Articulo.CalculoDescuento(Dgv_Tap3_Totales.Rows[4].Cells["Valor"].Value.ToString(), Dgv_Tap3_Articulo, Tipo_Descuento, "0.00", Txt_Pnl3_PorcDescuento, Txt_Pnl3_MontoDesc, Txt_Pnl3_ObservacionDesc))
+            if (!_L_Articulo.CalculoDescuento(Dgv_Tap3_Totales.Rows[4].Cells["Valor"].Value.ToString(), Dgv_Tap3_Articulo, Tipo_Descuento, "0.00", Txt_Pnl3_PorcDescuento, Txt_Pnl3_MontoDesc, Txt_Pnl3_ObservacionDesc))
             {
-                 //Txt_Pnl3_PorcDescuento.Text = "";
-                 //Txt_Pnl3_MontoDesc.Text = "";
+                //Txt_Pnl3_PorcDescuento.Text = "";
+                //Txt_Pnl3_MontoDesc.Text = "";
                 _FrmMensajes.co = 2;
                 _FrmMensajes.avisomensaje(_L_Articulo.stringBuilder.ToString());
                 _FrmMensajes.ShowDialog();
@@ -2131,6 +2136,98 @@ namespace CapaVisual_Login
             }
         }
 
+        private async void Btn_Tap3_Procesar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Btn_Tap3_Procesar.Enabled = false;
+
+                int car;
+                string strMarcaC;
+                bool cambioPrec = false;
+                glbServicio_NUV = glbServicio;
+                SqlCommand command = null;
+
+                // 1. Obtener códigos desde el grid
+                var codigosFactura = ObtenerCodigosDesdeGrid();
+
+                if (codigosFactura == null || codigosFactura.Count == 0)
+                {
+                    MessageBox.Show("No hay códigos válidos para procesar");
+                    Btn_Tap3_Procesar.Enabled = true;
+                    return;
+                }
+
+                ////2.Detectar el cristal(el primero que comience con "C")
+                //string codCristal = codigosFactura.Find(c => c.StartsWith("C"));
+                //if (string.IsNullOrWhiteSpace(codCristal))
+                //{
+                //    MessageBox.Show("No se encontró código de cristal");
+                //    Btn_Tap3_Procesar.Enabled = true;
+                //    return;
+                //}
+
+                // 2. Detectar el primer código de cristal (sin validación por "C")
+                string codCristal = codigosFactura.FirstOrDefault(c => !string.IsNullOrWhiteSpace(c));
+
+                if (string.IsNullOrWhiteSpace(codCristal))
+                {
+                    MessageBox.Show("No se encontró ningún código de cristal válido");
+                    Btn_Tap3_Procesar.Enabled = true;
+                    return;
+                }
+
+                //Consultar servicios AR
+                var dsAR = await _servicioValidaciones.ObtenerServiciosARDataset(codCristal, false, command);
+
+                if (_servicioValidaciones.VerificoIgualAntirefCrist(Dgv_Tap3_Articulo, dsAR))
+                {
+                    MessageBox.Show("La Cantidad de Antireflejos y Coloración debe ser igual a la Cantidad de Cristales.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    Btn_Tap3_Procesar.Enabled = true;
+                    return;
+                }
+
+                // Finaliza normalmente
+                Btn_Tap3_Procesar.Enabled = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al procesar coloración: " + ex.Message);
+                Btn_Tap3_Procesar.Enabled = true;
+            }
+
+            VerificoParametrosCristales();
+
+            string codSucursal;
+            codSucursal = _D_DetalleOrden.TB_PARAMETRO("SucursalId");
+            _D_Articulo.Agregar_TB_TRABAJO(codSucursal, "", "", Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), "002", Convert.ToInt32(Txt_Pnl2_Examen.Text)
+              , txtHorizontal.Text, txtVertical.Text, txtMaxima.Text, txtPuente.Text, "0", "0", "A", "Cerca", "Cerca", "QUO", "001", "T", TB_USUARIO.COD_USR, "02", "CONVENCIONAL", "0", "0", "0", "0");
+
+
+            VerificoParametrosCristales();
+            VerificoRangoDiametroCristales();
+
+        }
+
+        private List<string> ObtenerCodigosDesdeGrid()
+        {
+            var codigos = new List<string>();
+
+            foreach (DataGridViewRow row in Dgv_Tap3_Articulo.Rows)
+            {
+                if (row.Cells["CodArticulo"].Value != null)
+                {
+                    codigos.Add(row.Cells["CodArticulo"].Value.ToString());
+                }
+            }
+
+            return codigos;
+        }
+
+
+        //////////////////////////////////////////////////////
+        ///
+
         public void VerificoParametrosCristales()
         {
             string CristalI = "";
@@ -2183,7 +2280,7 @@ namespace CapaVisual_Login
                 {
                     if (Dgv_Tap3_Articulo.Rows[xx].Cells["Ojo"].Value.ToString() == "A")
                     {
-                        dsParamCRT = _D_Articulo.MostrarRangosCrtGrid(Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Txt_Pnl2_Examen.Text, Dgv_Tap3_Articulo.Rows[xx].Cells["CodArticulo"].Value.ToString(), "D", _Trabajo.T_TIPOVISIOND, Convert.ToDecimal(_Trabajo.T_ALTD) ,0, Convert.ToDecimal(_Trabajo.T_DISTANCIAVERTICE), Convert.ToDecimal(_Trabajo.T_ANGULOFACIAL), Convert.ToDecimal(_Trabajo.T_ANGULOPANTOSCOPICO), "",_Trabajo.T_SERVICIO, _Trabajo.T_LABORATORIO, Convert.ToString(_Trabajo.T_DISTANCIAVERTICE), Convert.ToString(_Trabajo.T_ANGULOFACIAL), Convert.ToString(_Trabajo.T_ANGULOPANTOSCOPICO), Convert.ToString(_Trabajo.T_DISTANCIADELECTURA));
+                        dsParamCRT = _D_Articulo.MostrarRangosCrtGrid(Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Txt_Pnl2_Examen.Text, Dgv_Tap3_Articulo.Rows[xx].Cells["CodArticulo"].Value.ToString(), "D", _Trabajo.T_TIPOVISIOND, Convert.ToDecimal(_Trabajo.T_ALTD), 0, Convert.ToDecimal(_Trabajo.T_DISTANCIAVERTICE), Convert.ToDecimal(_Trabajo.T_ANGULOFACIAL), Convert.ToDecimal(_Trabajo.T_ANGULOPANTOSCOPICO), "", _Trabajo.T_SERVICIO, _Trabajo.T_LABORATORIO, Convert.ToString(_Trabajo.T_DISTANCIAVERTICE), Convert.ToString(_Trabajo.T_ANGULOFACIAL), Convert.ToString(_Trabajo.T_ANGULOPANTOSCOPICO), Convert.ToString(_Trabajo.T_DISTANCIADELECTURA));
                         dsParamCRT2 = _D_Articulo.MostrarRangosCrtGrid(Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Txt_Pnl2_Examen.Text, Dgv_Tap3_Articulo.Rows[xx].Cells["CodArticulo"].Value.ToString(), "I", _Trabajo.T_TIPOVISIONI, Convert.ToDecimal(_Trabajo.T_ALTI), 0, Convert.ToDecimal(_Trabajo.T_DISTANCIAVERTICE), Convert.ToDecimal(_Trabajo.T_ANGULOFACIAL), Convert.ToDecimal(_Trabajo.T_ANGULOPANTOSCOPICO), "", _Trabajo.T_SERVICIO, _Trabajo.T_LABORATORIO, Convert.ToString(_Trabajo.T_DISTANCIAVERTICE), Convert.ToString(_Trabajo.T_ANGULOFACIAL), Convert.ToString(_Trabajo.T_ANGULOPANTOSCOPICO), Convert.ToString(_Trabajo.T_DISTANCIADELECTURA));
 
                         // Validación de parámetros
@@ -2257,6 +2354,7 @@ namespace CapaVisual_Login
                     }
                 }
             }
+
             bool VerificoParametrosCristales;
             if (AceptaCristalD == true && AceptaCristalI == true)
             {
@@ -2479,18 +2577,6 @@ namespace CapaVisual_Login
             }
         }
 
-        private void Btn_Tap3_Procesar_Click(object sender, EventArgs e)
-        {
-            string codSucursal;
-            codSucursal = _D_DetalleOrden.TB_PARAMETRO("SucursalId");
-            _D_Articulo.Agregar_TB_TRABAJO(codSucursal, "", "", Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), "002", Convert.ToInt32(Txt_Pnl2_Examen.Text)
-              , txtHorizontal.Text, txtVertical.Text, txtMaxima.Text, txtPuente.Text, "0", "0", "A", "Cerca", "Cerca", "QUO", "001", "T", TB_USUARIO.COD_USR, "02", "CONVENCIONAL", "0", "0", "0", "0");
-
-
-            VerificoParametrosCristales();
-            VerificoRangoDiametroCristales();
-        }
-
         private void button1_Click(object sender, EventArgs e)
         {
             string codSucursal;
@@ -2520,7 +2606,7 @@ namespace CapaVisual_Login
 
         private void btnAceptarMonturaPropia_Click(object sender, EventArgs e)
         {
-            if (rbCompleta.Checked == false & rbRanurada.Checked == false &  rbAlaire.Checked == false)
+            if (rbCompleta.Checked == false & rbRanurada.Checked == false & rbAlaire.Checked == false)
             {
                 _FrmMensajes.co = 2;
                 _FrmMensajes.avisomensaje("Por favor, seleccione un tipo de montura");
@@ -2851,6 +2937,10 @@ namespace CapaVisual_Login
             HabilitacionControl("CabezeraPrincipal");
         }
     }
+
+
+    
+    
 }
  
 
