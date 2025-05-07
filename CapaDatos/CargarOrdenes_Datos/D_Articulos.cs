@@ -708,6 +708,101 @@ namespace CapaDatos.CargarOrdenes_Datos
 
         }
 
+        public DataSet MostrarDiametroEfectivoCrtGrid(string nacCte, string cedulaCte, string numExamen, string cristalD, string cristalI, string ojo, string tipoVisionD, string tipoVisionI, string montura, string horizontal, string maxima, string puente, string suc, SqlCommand command = null)
+        {
+            if (command == null)
+            {
+                SqlConnection connection = cn.LeerCadena();
+                command = connection.CreateCommand();
+            }
+            SqlCommand cmd = command;
+            cmd.Parameters.Clear();
+            cmd.CommandText = "pGetDiametroEfectivo";
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            // Asignando los nombres de parámetros del SP correctamente
+            cmd.Parameters.AddWithValue("@NACCTE", nacCte);
+            cmd.Parameters.AddWithValue("@CEDULACTE", cedulaCte);
+            cmd.Parameters.AddWithValue("@NUMEXAMEN", numExamen);
+            cmd.Parameters.AddWithValue("@CRISTAL", cristalD);
+            cmd.Parameters.AddWithValue("@CRISTALI", cristalI);
+            cmd.Parameters.AddWithValue("@OJO", ojo);
+            cmd.Parameters.AddWithValue("@TIPOVISIOND", tipoVisionD);
+            cmd.Parameters.AddWithValue("@TIPOVISIONI", tipoVisionI);
+            cmd.Parameters.AddWithValue("@MONTURA", montura);
+            cmd.Parameters.AddWithValue("@HORIZONTAL", horizontal);
+            cmd.Parameters.AddWithValue("@MAXIMA", maxima);
+            cmd.Parameters.AddWithValue("@PUENTE", puente);
+            cmd.Parameters.AddWithValue("@SUC", suc);
+
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet dts = new DataSet();
+            da.Fill(dts);
+            cmd.Parameters.Clear();
+
+            return dts;
+        }
+
+        public DataSet MostrarValidaRangoCrtGrid(string nacCte, string cedulaCte, string numExamen, string ojo, string cristalD, string cristalI, float? alturaD, float? alturaI, string tipoVisionD, string tipoVisionI, string diametroD, string diametroI, SqlCommand command = null)
+        {
+            if (command == null)
+            {
+                SqlConnection connection = cn.LeerCadena();
+                command = connection.CreateCommand();
+            }
+            SqlCommand cmd = command;
+            cmd.Parameters.Clear();
+            cmd.CommandText = "pValidarangoCristal";
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            // Asignando los nombres de parámetros del SP correctamente
+            cmd.Parameters.AddWithValue("@Nacio", nacCte);
+            cmd.Parameters.AddWithValue("@CI", cedulaCte);
+            cmd.Parameters.AddWithValue("@Examen", numExamen);
+            cmd.Parameters.AddWithValue("@ojo", ojo);
+            cmd.Parameters.AddWithValue("@CristalD", cristalD);
+            cmd.Parameters.AddWithValue("@CristalI", cristalI);
+            cmd.Parameters.AddWithValue("@AlturaD", alturaD);
+            cmd.Parameters.AddWithValue("@AlturaI", alturaI);
+            cmd.Parameters.AddWithValue("@VisionD   ", tipoVisionD);
+            cmd.Parameters.AddWithValue("@VisionI", tipoVisionI);
+            cmd.Parameters.AddWithValue("@diametroD", diametroD);
+            cmd.Parameters.AddWithValue("@diametroI", diametroI);
+
+
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet dts = new DataSet();
+            da.Fill(dts);
+            cmd.Parameters.Clear();
+
+            return dts;
+        }
+
+        public DataSet MostrarRangoCrtGrid(string cristalD, string cristalI, SqlCommand command = null)
+        {
+
+            if (command == null)
+            {
+                SqlConnection connection = cn.LeerCadena();
+                command = connection.CreateCommand();
+            }
+            SqlCommand cmd = command;
+            cmd.Parameters.Clear();
+            cmd.CommandText = "pGetRangoCristal";
+            //SqlCommand cmd = new SqlCommand("SP_DETALLEFACTURAFISCAL", cn.LeerCadena());
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@cristalD", cristalD);
+            cmd.Parameters.AddWithValue("@cristalI", cristalI);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet dts = new DataSet();
+            da.Fill(dts);
+            cmd.Parameters.Clear();
+            return dts;
+
+
+        }
+
+
         public DataSet Agregar_TB_TRABAJO(string SUC, string NUMOS, string REV, string NACIO, string CEDULA,
         string TIPO_TRABAJO, int NUM_EXAMAEN, string HORIZ, string VERT, string MAX, string PTE,
         string ALTD, string ALTI, string OJO, string TVISD, string TVISI, string LAB, string SERV,

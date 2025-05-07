@@ -45,6 +45,8 @@ namespace CapaVisual_Login
         private bool Cristal_Propio = false;
         private bool Montura_Propia = false;
         private string EmpresaAfiliada = "";
+        private string PorcDctoEmpresaAfiliada = "0";
+        private bool Garantia;
 
         List<TB_EMPAFI> listaClienteAfiliados = new List<TB_EMPAFI>();
 
@@ -392,7 +394,7 @@ namespace CapaVisual_Login
                     //Panel de Totales
                     this.Pnl_3_Tap3.Enabled = false;
                     //Grid Montutas
-                    this.Dgv_Tap3_Medidas_Montura.Enabled = false;
+                    //this.Dgv_Tap3_Medidas_Montura.Enabled = false;
                     //Boton Cancelar Formulario Principal Articulo 
                     this.Btn_Tap3_Cancelar.Enabled = false;
                     //Boton Procesar Formulario Principal Articulo 
@@ -416,6 +418,7 @@ namespace CapaVisual_Login
                     this.Btn_Tap3_MonturaPropia.Enabled = false;
                     this.Btn_Tap3_CristalPropio.Enabled = false;
                     this.Btn_Tap3_ClienteAfiliado.Enabled = false;
+                    this.Btn_Tap3_Garantia.Enabled = false;
 
                     // Panel de Arriba
                     this.Txt_Pnl2_Cedula.Enabled = false;
@@ -458,7 +461,7 @@ namespace CapaVisual_Login
                     this.Dgv_Tap3_Articulo.Enabled = true;
                     this.Pnl_2_Tap3.Enabled = true;
                     this.Pnl_3_Tap3.Enabled = true;
-                    this.Dgv_Tap3_Medidas_Montura.Enabled = true;
+                    //this.Dgv_Tap3_Medidas_Montura.Enabled = true;
                     this.Btn_Tap3_Cancelar.Enabled = true;
                     this.Btn_Tap3_Procesar.Enabled = true;
 
@@ -499,7 +502,7 @@ namespace CapaVisual_Login
                     //Panel de Totales
                     this.Pnl_3_Tap3.Enabled = false;
                     //Grid Montutas
-                    this.Dgv_Tap3_Medidas_Montura.Enabled = false;
+                    //this.Dgv_Tap3_Medidas_Montura.Enabled = false;
                     //Boton Cancelar Formulario Principal Articulo 
                     this.Btn_Tap3_Cancelar.Enabled = false;
                     //Boton Procesar Formulario Principal Articulo 
@@ -529,6 +532,7 @@ namespace CapaVisual_Login
                     this.Btn_Tap3_MonturaPropia.Enabled = false;
                     this.Btn_Tap3_CristalPropio.Enabled = false;
                     this.Btn_Tap3_ClienteAfiliado.Enabled = false;
+                    this.Btn_Tap3_Garantia.Enabled = false;
 
                     break;
 
@@ -549,7 +553,7 @@ namespace CapaVisual_Login
                     //Panel de Totales
                     this.Pnl_3_Tap3.Enabled = false;
                     //Grid Montutas
-                    this.Dgv_Tap3_Medidas_Montura.Enabled = false;
+                    //this.Dgv_Tap3_Medidas_Montura.Enabled = false;
                     //Boton Cancelar Formulario Principal Articulo 
                     this.Btn_Tap3_Cancelar.Enabled = false;
                     //Boton Procesar Formulario Principal Articulo 
@@ -587,6 +591,7 @@ namespace CapaVisual_Login
                     this.Btn_Tap3_MonturaPropia.Enabled = false;
                     this.Btn_Tap3_CristalPropio.Enabled = false;
                     this.Btn_Tap3_ClienteAfiliado.Enabled = false;
+                    this.Btn_Tap3_Garantia.Enabled = false;
 
                     break;
 
@@ -604,7 +609,7 @@ namespace CapaVisual_Login
                     //Panel de Totales
                     this.Pnl_3_Tap3.Enabled = false;
                     //Grid Montutas
-                    this.Dgv_Tap3_Medidas_Montura.Enabled = false;
+                    //this.Dgv_Tap3_Medidas_Montura.Enabled = false;
                     //Boton Cancelar Formulario Principal Articulo 
                     this.Btn_Tap3_Cancelar.Enabled = false;
                     //Boton Procesar Formulario Principal Articulo 
@@ -637,6 +642,7 @@ namespace CapaVisual_Login
                     this.Btn_Tap3_MonturaPropia.Enabled = false;
                     this.Btn_Tap3_CristalPropio.Enabled = false;
                     this.Btn_Tap3_ClienteAfiliado.Enabled = false;
+                    this.Btn_Tap3_Garantia.Enabled = false;
 
 
                     break;
@@ -656,7 +662,7 @@ namespace CapaVisual_Login
                     //Panel de Totales
                     this.Pnl_3_Tap3.Enabled = false;
                     //Grid Montutas
-                    this.Dgv_Tap3_Medidas_Montura.Enabled = false;
+                    //this.Dgv_Tap3_Medidas_Montura.Enabled = false;
                     //Boton Cancelar Formulario Principal Articulo 
                     this.Btn_Tap3_Cancelar.Enabled = false;
                     //Boton Procesar Formulario Principal Articulo 
@@ -685,6 +691,7 @@ namespace CapaVisual_Login
                     this.Btn_Tap3_MonturaPropia.Enabled = false;
                     this.Btn_Tap3_CristalPropio.Enabled = false;
                     this.Btn_Tap3_ClienteAfiliado.Enabled = false;
+                    this.Btn_Tap3_Garantia.Enabled = false;
 
                     break;
 
@@ -702,7 +709,7 @@ namespace CapaVisual_Login
                     //Panel de Totales
                     this.Pnl_3_Tap3.Enabled = false;
                     //Grid Montutas
-                    this.Dgv_Tap3_Medidas_Montura.Enabled = false;
+                    //this.Dgv_Tap3_Medidas_Montura.Enabled = false;
                     //Boton Cancelar Formulario Principal Articulo 
                     this.Btn_Tap3_Cancelar.Enabled = false;
                     //Boton Procesar Formulario Principal Articulo 
@@ -736,6 +743,7 @@ namespace CapaVisual_Login
                     this.Btn_Tap3_MonturaPropia.Enabled = false;
                     this.Btn_Tap3_CristalPropio.Enabled = false;
                     this.Btn_Tap3_ClienteAfiliado.Enabled = false;
+                    this.Btn_Tap3_Garantia.Enabled = false;
 
                     break;
 
@@ -753,7 +761,7 @@ namespace CapaVisual_Login
                     //Panel de Totales
                     this.Pnl_3_Tap3.Enabled = false;
                     //Grid Montutas
-                    this.Dgv_Tap3_Medidas_Montura.Enabled = false;
+                    //this.Dgv_Tap3_Medidas_Montura.Enabled = false;
                     //Boton Cancelar Formulario Principal Articulo 
                     this.Btn_Tap3_Cancelar.Enabled = false;
                     //Boton Procesar Formulario Principal Articulo 
@@ -786,6 +794,7 @@ namespace CapaVisual_Login
                     this.Btn_Tap3_MonturaPropia.Enabled = false;
                     this.Btn_Tap3_CristalPropio.Enabled = false;
                     this.Btn_Tap3_ClienteAfiliado.Enabled = false;
+                    this.Btn_Tap3_Garantia.Enabled = false;
 
                     break;
 
@@ -1195,7 +1204,8 @@ namespace CapaVisual_Login
                 Cristal_Propio = false;
                 Montura_Propia = false;
                 EmpresaAfiliada = "";
-
+                PorcDctoEmpresaAfiliada = "0";
+                Garantia = false;
                 // Botones Aciones 
                 ValidarRegistrosYHabilitar_Botones();
 
@@ -1358,6 +1368,18 @@ namespace CapaVisual_Login
                     {
                         //Verifico Diotria
                         _L_Articulo.EvaluoServicioAgregado(Dgv_Tap3_Articulo, numFilas, Dgv_Tap3_Articulo.Rows[numFilas].Cells["Ojo"].Value.ToString(), Convert.ToInt32(Txt_Pnl2_Examen.Text), Cbx_Pnl2_Trbajo.SelectedValue.ToString(), Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2));
+                    }
+
+                    if (Montura_Propia == true)
+                    {
+                        _L_Articulo.CargarServicioMonturaPropia(Dgv_Tap3_Articulo, rbCompleta.Checked);
+
+                    }
+
+                    if (Garantia == true)
+                    {
+                        _L_Articulo.CargarServicioGarantia(Dgv_Tap3_Articulo);
+
                     }
 
                 }
@@ -2253,10 +2275,10 @@ namespace CapaVisual_Login
                 lblDiametroI.Visible = false;
 
                 LblTitulo.Text = "El Cristal no se adapta a estos parámetros";
-                //lblClaveAut.Visible = false;
-                //lblLeyenda.Visible = true;
+                lblClaveAut.Visible = false;
+                lblLeyenda.Visible = true;
                 // lblLeyenda.Text = "P: Puede usarse según el Examen. NC: No corresponde. X: Aplica";
-                //BtAceptarRgo.Visible = false;
+                btnAutorizarRangosCrt.Visible = false;
                 //BtCancelarRgo.Visible = false;
                 //BtRegresar.Visible = true;
                 LbResultados.Visible = true;
@@ -2351,38 +2373,51 @@ namespace CapaVisual_Login
                 dgvRangoCrt.Columns["Lejos"].Width = 50;
                 dgvRangoCrt.Columns["Cerca"].Width = 60;
                 dgvRangoCrt.Columns["Bifocal"].Width = 55;
-                dgvRangoCrt.Columns["Progresivo"].Width = 60;
-                dgvRangoCrt.Columns["Balance"].Width = 60;
-                dgvRangoCrt.Columns["DPLejos"].Width = 60;
-                dgvRangoCrt.Columns["DPCerca"].Width = 55;
-                dgvRangoCrt.Columns["AddMin"].Width = 60;
-                dgvRangoCrt.Columns["AddMax"].Width = 55;
-                dgvRangoCrt.Columns["AltMin"].Width = 60;
-                dgvRangoCrt.Columns["AltMax"].Width = 60;
-                dgvRangoCrt.Columns["PrismaMin"].Width = 60;
-                dgvRangoCrt.Columns["PrismaMax"].Width = 60;
-                dgvRangoCrt.Columns["DiamMax"].Width = 60;
-                dgvRangoCrt.Columns["DVCMin"].Width = 60;
-                dgvRangoCrt.Columns["DVCMax"].Width = 60;
+                dgvRangoCrt.Columns["Progresivo"].Width = 100;
+                dgvRangoCrt.Columns["Balance"].Width = 70;
+                dgvRangoCrt.Columns["DPLejos"].Width = 75;
+                dgvRangoCrt.Columns["DPCerca"].Width = 75;
+                dgvRangoCrt.Columns["AddMin"].Width = 70;
+                dgvRangoCrt.Columns["AddMax"].Width = 70;
+                dgvRangoCrt.Columns["AltMin"].Width = 70;
+                dgvRangoCrt.Columns["AltMax"].Width = 70;
+                dgvRangoCrt.Columns["PrismaMin"].Width = 100;
+                dgvRangoCrt.Columns["PrismaMax"].Width = 100;
+                dgvRangoCrt.Columns["DiamMax"].Width = 80;
+                dgvRangoCrt.Columns["DVCMin"].Width = 80;
+                dgvRangoCrt.Columns["DVCMax"].Width = 80;
                 dgvRangoCrt.Columns["AFMin"].Width = 60;
                 dgvRangoCrt.Columns["AFMax"].Width = 60;
                 dgvRangoCrt.Columns["APMin"].Width = 60;
                 dgvRangoCrt.Columns["APMax"].Width = 60;
-                dgvRangoCrt.Columns["ColorSi"].Width = 60;
-                dgvRangoCrt.Columns["ColorNo"].Width = 60;
-                dgvRangoCrt.Columns["Express1Hr"].Width = 60;
-                dgvRangoCrt.Columns["Express3Hr"].Width = 60;
-                dgvRangoCrt.Columns["Express12Hr"].Width = 60;
+                dgvRangoCrt.Columns["ColorSi"].Width = 70;
+                dgvRangoCrt.Columns["ColorNo"].Width = 70;
+                dgvRangoCrt.Columns["Express1Hr"].Width = 100;
+                dgvRangoCrt.Columns["Express3Hr"].Width = 100;
+                dgvRangoCrt.Columns["Express12Hr"].Width = 100;
                 dgvRangoCrt.Columns["5Dias"].Width = 60;
-                dgvRangoCrt.Columns["7DiasHab"].Width = 60;
+                dgvRangoCrt.Columns["7DiasHab"].Width = 90;
                 dgvRangoCrt.Columns["15Dias"].Width = 60;
                 dgvRangoCrt.Columns["30Dias"].Width = 60;
                 dgvRangoCrt.Columns["21Dias"].Width = 60;
                 dgvRangoCrt.Columns["45Dias"].Width = 60;
                 dgvRangoCrt.Columns["60Dias"].Width = 60;
                 dgvRangoCrt.Columns["90Dias"].Width = 60;
-                dgvRangoCrt.Columns["MontRemoto"].Width = 60;
-                dgvRangoCrt.Columns["MontQuorum"].Width = 60;
+                dgvRangoCrt.Columns["MontRemoto"].Width = 120;
+                dgvRangoCrt.Columns["MontQuorum"].Width = 120;
+                dgvRangoCrt.Columns["ColoracionF12"].Width = 140;
+                dgvRangoCrt.Columns["DDLMin"].Width = 100;
+                dgvRangoCrt.Columns["DDLMax"].Width = 100;
+                dgvRangoCrt.Columns["Mimesys"].Width = 100;
+
+
+                dgvRangoCrt.Columns["ProgVisionLejosDistMin"].Visible = false;
+                dgvRangoCrt.Columns["ProgVisionLejosDistMax"].Visible = false;
+                dgvRangoCrt.Columns["ProgVisionCercaDistMin"].Visible = false;
+                dgvRangoCrt.Columns["ProgVisionCercaDistMax"].Visible = false;
+                dgvRangoCrt.Columns["ProgVisionMediaDistMin"].Visible = false;
+                dgvRangoCrt.Columns["ProgVisionMediaDistMax"].Visible = false;
+                dgvRangoCrt.Columns["2daRefraccion"].Visible = false;
 
                 //Bloquear Columna 
                 //DgvListadoOrdenes.Columns["linea"].ReadOnly = true;
@@ -2446,7 +2481,14 @@ namespace CapaVisual_Login
 
         private void Btn_Tap3_Procesar_Click(object sender, EventArgs e)
         {
+            string codSucursal;
+            codSucursal = _D_DetalleOrden.TB_PARAMETRO("SucursalId");
+            _D_Articulo.Agregar_TB_TRABAJO(codSucursal, "", "", Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), "002", Convert.ToInt32(Txt_Pnl2_Examen.Text)
+              , txtHorizontal.Text, txtVertical.Text, txtMaxima.Text, txtPuente.Text, "0", "0", "A", "Cerca", "Cerca", "QUO", "001", "T", TB_USUARIO.COD_USR, "02", "CONVENCIONAL", "0", "0", "0", "0");
+
+
             VerificoParametrosCristales();
+            VerificoRangoDiametroCristales();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -2589,8 +2631,19 @@ namespace CapaVisual_Login
 
         private void Btn_Tap3_ClienteAfiliado_Click(object sender, EventArgs e)
         {
-            VisualizarPanel("ClienteAfiliado");
-            HabilitacionControl("Habilitar_ClienteAfiliado");
+            // Pido Clave Autorizada con unos parametros especificos
+            _FrmClaveAutorizada.Nuevo_Parametro = true;
+            _FrmClaveAutorizada.Parametro_Nuevo = _L_Articulo.BuscarCodigoGerenteDescuento("009");
+            _FrmClaveAutorizada.ShowDialog();
+
+            if (_FrmClaveAutorizada.DialogResult == DialogResult.OK && _FrmClaveAutorizada.ClaveCorrecta == true)
+            {
+
+                VisualizarPanel("ClienteAfiliado");
+                HabilitacionControl("Habilitar_ClienteAfiliado");
+
+            }
+          
            
         }
 
@@ -2658,6 +2711,144 @@ namespace CapaVisual_Login
                 _FrmMensajes.ShowDialog();
             }
 
+        }
+
+        public void VerificoRangoDiametroCristales()
+        {
+            bool AceptaCristalD = false;
+            bool AceptaCristalI = false;
+            string CristalD = "";
+            string CristalI = "";
+            string Montura = "";
+            string diamD = "";
+            string diamI = "";
+
+            for (int xx = 0; xx < Dgv_Tap3_Articulo.RowCount; xx++)
+            {
+                var row = Dgv_Tap3_Articulo.Rows[xx];
+                if (row.Cells["CodArticulo"].Value.ToString().StartsWith("C"))
+                {
+                    switch (row.Cells["Ojo"].Value.ToString())
+                    {
+                        case "A":
+                            CristalD = CristalI = row.Cells["CodArticulo"].Value.ToString();
+                            break;
+                        case "D":
+                            CristalD = row.Cells["CodArticulo"].Value.ToString();
+                            break;
+                        case "I":
+                            CristalI = row.Cells["CodArticulo"].Value.ToString();
+                            break;
+                    }
+                }
+                else if (row.Cells["CodArticulo"].Value.ToString().StartsWith("M"))
+                {
+                    Montura = row.Cells["CodArticulo"].Value.ToString();
+                }
+            }
+
+            DataSet dsDiametroEfectivo;
+
+            _L_Articulo.LlenarTB_Trbajo(_TRABAJO, _D_Inicio.Sucursal(), Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2));
+            var _Trabajo = _TRABAJO.FirstOrDefault(a => a.T_CEDIDEN == Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2) & a.T_NACIO == Txt_Pnl2_Cedula.Text.Substring(0, 1));
+
+
+            dsDiametroEfectivo = _D_Articulo.MostrarDiametroEfectivoCrtGrid(Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Txt_Pnl2_Examen.Text,CristalD, CristalI, "A",_Trabajo.T_TIPOVISIOND, _Trabajo.T_TIPOVISIONI,Montura, txtHorizontal.Text.Replace(".", ""),  txtMaxima.Text.Replace(".", ""),  txtPuente.Text.Replace(".", ""), _D_Inicio.Sucursal());
+
+
+            //DataSet dsDiametroEfectivo = ManBD.EjecutaStoreProcedure("pGetDiametroEfectivo",
+            //    $"{txtNacRif.Text}','{Cedula}','{NumExamen}','{CristalD}','{CristalI}','{TxtOjo.Text.Substring(0, 1)}','{TxtTipoVisionD.Text.ToUpper()}','{TxtTipoVisionI.Text.ToUpper()}','{Montura}',{txtHorizontal.Text.Replace(".", "")}, {txtMaxima.Text.Replace(".", "")}, {txtPuente.Text.Replace(".", "")}, '{glbSucursalActual}'");
+
+            if (Convert.ToInt32(dsDiametroEfectivo.Tables[1].Rows[0][0]) > 0)
+            {
+                diamD = dsDiametroEfectivo.Tables[1].Rows[0]["DIAMETROEFECTIVODERECHO"].ToString();
+                diamI = dsDiametroEfectivo.Tables[1].Rows[0]["DIAMETROEFECTIVOIZQUIERDO"].ToString();
+            }
+            else
+            {
+                diamD = "0";
+                diamI = "0";
+            }
+
+            if (CristalD.StartsWith("C") || CristalI.StartsWith("C"))
+            {
+                DataSet dsValidaciones;
+
+
+                 dsValidaciones = _D_Articulo.MostrarValidaRangoCrtGrid(Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Txt_Pnl2_Examen.Text, "A", CristalD, CristalI, _Trabajo.T_ALTD, _Trabajo.T_ALTI, _Trabajo.T_TIPOVISIOND, _Trabajo.T_TIPOVISIONI, diamD, diamI);
+
+
+                //= ManBD.EjecutaStoreProcedure("pValidarangoCristal",
+                //                    $"{txtNacRif.Text}', '{Cedula}', '{NumExamen}', '{TxtOjo.Text.Substring(0, 1)}', '{CristalD}', '{CristalI}', {txtAltD.Text.Replace(",", ".")}, {txtAltI.Text.Replace(",", ".")}, '{TxtTipoVisionD.Text.ToUpper()}', '{TxtTipoVisionI.Text.ToUpper()}', '{diamD}', '{diamI}'");
+
+                string ojo = "A"; //TxtOjo.Text.Value.ToString().Substring(0, 1).ToUpper();
+                if (ojo == "A")
+                {
+                    AceptaCristalD = dsValidaciones.Tables[0].Rows.Count > 0;
+                    AceptaCristalI = dsValidaciones.Tables[1].Rows.Count > 0;
+                }
+                else if (ojo == "D")
+                {
+                    AceptaCristalD = dsValidaciones.Tables[0].Rows.Count > 0;
+                    AceptaCristalI = true;
+                }
+                else if (ojo == "I")
+                {
+                    AceptaCristalI = dsValidaciones.Tables[0].Rows.Count > 0;
+                    AceptaCristalD = true;
+                }
+
+                if (!AceptaCristalD || !AceptaCristalI)
+                {
+                    //DataSet dsConsultaCristal = ManBD.EjecutaStoreProcedure("pGetRangoCristal", $"{CristalD}', '{CristalI}'");
+                    DataSet dsConsultaCristal = _D_Articulo.MostrarParametrosCrtGrid(CristalD, CristalI);
+                    //dgvRangoCrt.ClearStructure();
+                    dgvRangoCrt.DataSource = dsConsultaCristal.Tables[0];
+                    //dgvRangoCrt.RetrieveStructure();
+                    //FormatoTablaRango();
+
+                    lblDiametroD.Text = diamD;
+                    lblDiametroI.Text = diamI;
+
+                    lblDiametroD.Visible = lblDiametroI.Visible = true;
+                    LblTitulo.Text = "El cristal seleccionado no se adapta a los siguientes rangos:";
+                    lblClaveAut.Visible = true;
+                    lblLeyenda.Visible = false;
+                    btnAutorizarRangosCrt.Visible =  true;
+                    pnlRangoCrt.Show();
+                }
+            }
+
+        }
+
+        private void Dgv_Pnl3_ClienteAfiliado_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            // Verificar que la fila seleccionada no sea una fila nueva
+
+            if (e.RowIndex >= 0 && !Dgv_Pnl3_ClienteAfiliado.Rows[e.RowIndex].IsNewRow)
+            {
+                // Obtener el artículo seleccionado
+                var clienteafiliado = Dgv_Pnl3_ClienteAfiliado.Rows[e.RowIndex].DataBoundItem as TB_EMPAFI;
+
+                if (clienteafiliado != null)
+                {
+                    // Cargar los valores
+                      EmpresaAfiliada = clienteafiliado.Nombre;
+                      PorcDctoEmpresaAfiliada = clienteafiliado.PorcentajeDes1;
+       
+                    VisualizarPanel("MostrarCabezeraSecundaria");
+                    HabilitacionControl("CabezeraPrincipal");
+
+                    // Establecer el foco en el TextBox de cantidad
+                    //Txt_Tap3_Articulo_Cantidad.Focus();
+                }
+            }
+        }
+
+        private void Btn_Tap3_Garantia_Click(object sender, EventArgs e)
+        {
+            Garantia = true;
+            HabilitacionControl("CabezeraPrincipal");
         }
     }
 }

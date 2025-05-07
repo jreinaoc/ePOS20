@@ -2141,6 +2141,40 @@ namespace CapaLogica.CargarOrdenes
 
         }
 
+        public void CargarServicioMonturaPropia (DataGridView gridFacturas, bool completa, string txtOjo = null)
+        {
+              // Agregar un nuevo servicio o prima
+            List<TB_ARTICULO> articulos = _D_Articulos.ObtenerArticulos("", completa == true ? "S000106" : "S000105");
+
+            if (articulos != null && articulos.Count > 0)
+            {       TB_ARTICULO articulo = articulos.First();
+                decimal precio = articulo.ART_PVP;
+                decimal total = precio * 1;
+                decimal impuesto = articulo.ART_EXENTO ? 0 : BuscarIva("I");
+
+                AgregarFila(gridFacturas, articulo.CodArticulo, articulo.DESART, 1, (decimal) precio, (decimal) articulo.PORCTDESCUENTO, (decimal) total, impuesto, txtOjo, "");
+            }
+
+        }
+
+        public void CargarServicioGarantia(DataGridView gridFacturas,string txtOjo = null)
+        {
+            // Agregar un nuevo servicio o prima
+            List<TB_ARTICULO> articulos = _D_Articulos.ObtenerArticulos("", "A000004");
+
+            if (articulos != null && articulos.Count > 0)
+            {
+                TB_ARTICULO articulo = articulos.First();
+                decimal precio = articulo.ART_PVP;
+                decimal total = precio * 1;
+                decimal impuesto = articulo.ART_EXENTO ? 0 : BuscarIva("I");
+
+                AgregarFila(gridFacturas, articulo.CodArticulo, articulo.DESART, 1, (decimal)precio, (decimal)articulo.PORCTDESCUENTO, (decimal)total, impuesto, txtOjo, "");
+            }
+
+        }
+
+
         private void Formato_Dgv_Promociones(DataGridView Dgv_Pnl3_Promociones)
         {
             stringBuilder.Clear();
