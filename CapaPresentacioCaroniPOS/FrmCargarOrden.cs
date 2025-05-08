@@ -49,8 +49,9 @@ namespace CapaVisual_Login
         private string Codigo_Promocion = "";
         private bool Cristal_Propio = false;
         private bool Montura_Propia = false;
+        private string TipoMonturaPropia = "";
         private string EmpresaAfiliada = "";
-        private string PorcDctoEmpresaAfiliada = "0";
+        private decimal PorcDctoEmpresaAfiliada = 0;
         private bool Garantia;
 
         List<TB_EMPAFI> listaClienteAfiliados = new List<TB_EMPAFI>();
@@ -939,6 +940,11 @@ namespace CapaVisual_Login
                     // Establecer el foco en el TextBox de cantidad
                     Txt_Tap3_Articulo_Cantidad.Focus();
                 }
+
+                if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "09")
+                {
+                    AplicoGarantia(Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Txt_Pnl2_Cedula.Text.Substring(0, 1), "", Txt_Pnl2_Examen.Text, _D_Inicio.Sucursal());
+                }
             }
         }
 
@@ -1130,7 +1136,7 @@ namespace CapaVisual_Login
 
 
                 //_L_Articulo.AgregarFila(Dgv_Tap3_Articulo, articulo.CodArticulo, articulo.DESART, cantidad, (decimal) precio, (decimal)articulo.PORCTDESCUENTO, (decimal) total, impuesto, _Trabajo.T_OJO);
-                _L_Articulo.AgregarFila(Dgv_Tap3_Articulo, articulo.CodArticulo, articulo.DESART, cantidad, (decimal)precio, (decimal)articulo.PORCTDESCUENTO, (decimal)total, impuesto, "A");
+                _L_Articulo.AgregarFila(Dgv_Tap3_Articulo, articulo.CodArticulo, articulo.DESART, cantidad, (decimal)precio, EmpresaAfiliada != "" && PorcDctoEmpresaAfiliada > 0 ? PorcDctoEmpresaAfiliada : (decimal)articulo.PORCTDESCUENTO, (decimal)total, impuesto, "A");
 
 
                 // Limpiar los TextBox después de agregar el artículo
@@ -1208,8 +1214,10 @@ namespace CapaVisual_Login
                 Codigo_Promocion = "";
                 Cristal_Propio = false;
                 Montura_Propia = false;
+                TipoMonturaPropia = "";
                 EmpresaAfiliada = "";
-                PorcDctoEmpresaAfiliada = "0";
+                PorcDctoEmpresaAfiliada = 0;
+                // Cargar los valores
                 Garantia = false;
                 // Botones Aciones 
                 ValidarRegistrosYHabilitar_Botones();
@@ -1324,6 +1332,10 @@ namespace CapaVisual_Login
                 // Buscar el articulo 
                 _L_Articulo.FiltrarArticulos_Tap3(Txt_Tap3_Articulo_Codigo.Text, listaArticulos, listaTemporal, Txt_Tap3_Articulo_Codigo, Txt_Tap3_Articulo_Descripcion, Txt_Tap3_Articulo_Precio, Txt_Tap3_Articulo_Cantidad);
 
+                if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "09")
+                {
+                    AplicoGarantia(Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Txt_Pnl2_Cedula.Text.Substring(0, 1), "", Txt_Pnl2_Examen.Text, _D_Inicio.Sucursal());
+                }
                 // Evitar que el evento se propague
                 e.Handled = true;
             }
@@ -1377,7 +1389,7 @@ namespace CapaVisual_Login
 
                     if (Montura_Propia == true)
                     {
-                        _L_Articulo.CargarServicioMonturaPropia(Dgv_Tap3_Articulo, rbCompleta.Checked);
+                        _L_Articulo.CargarServicioMonturaPropia(Dgv_Tap3_Articulo, TipoMonturaPropia == "Completa");
 
                     }
 
@@ -1404,6 +1416,14 @@ namespace CapaVisual_Login
 
             // Validar si se agrego un servicio sin codigo padre
             _L_Articulo.VerificarServicioCodigoPadre(Dgv_Tap3_Articulo);
+
+
+            /// Verfico y aplico Promociones 
+            /// 
+            if (string.IsNullOrEmpty(Codigo_Promocion))
+            {
+
+            }
 
             // Totalizo el grivew Totales cuando se agrega una fila 
             _L_Articulo.ActualizarTotales(Dgv_Tap3_Articulo, Dgv_Tap3_Totales);
@@ -1778,7 +1798,7 @@ namespace CapaVisual_Login
                         {
                             // Verifico se el Porcentaje de descuento esta por encima dle permitido para generar una clave autorizada diferente 
 
-                            if (_L_Articulo.VerificarTopeMaximoDesceunto(Convert.ToInt32(Txt_Pnl3_PorcDescuento.Text)))
+                            if (_L_Articulo.VerificarTopeMaximoDesceunto(Convert.ToDecimal(Txt_Pnl3_PorcDescuento.Text)))
                             {   // Pido Clave Autorizada con unos parametros especificos
                                 _FrmClaveAutorizada.Nuevo_Parametro = true;
                                 _FrmClaveAutorizada.Parametro_Nuevo = _L_Articulo.BuscarCodigoGerenteDescuento(Cbx_Pnl3_MotivoDesc.SelectedValue.ToString());
@@ -1795,11 +1815,11 @@ namespace CapaVisual_Login
 
 
                         }
-                        else if (Tipo_Descuento == "Cambio de Descuento")
+                        else if (Tipo_Descuento == "Descuento por articulo")
                         {
                             // Verifico se el Porcentaje de descuento esta por encima dle permitido para generar una clave autorizada diferente 
 
-                            if (_L_Articulo.VerificarTopeMaximoDesceunto(Convert.ToInt32(Txt_Pnl3_PorcDescuento.Text)))
+                            if (_L_Articulo.VerificarTopeMaximoDesceunto(Convert.ToDecimal(Txt_Pnl3_PorcDescuento.Text)))
                             {   // Pido Clave Autorizada con unos parametros especificos
                                 _FrmClaveAutorizada.Nuevo_Parametro = true;
                                 _FrmClaveAutorizada.Parametro_Nuevo = _L_Articulo.BuscarCodigoGerenteDescuento(Cbx_Pnl3_MotivoDesc.SelectedValue.ToString());
@@ -2065,7 +2085,7 @@ namespace CapaVisual_Login
             // Verificar si el DataGridView tiene filas que no sean nuevas
            
            //// Descuento  
-            if (Dgv_Tap3_Articulo.Rows.Count > 0)
+            if (Dgv_Tap3_Articulo.Rows.Count > 0 && PorcDctoEmpresaAfiliada <= 0)
             {
                 Btn_Tap3_Descuento.Enabled = true; // Habilitar el TextBox o botón
                
@@ -2613,6 +2633,18 @@ namespace CapaVisual_Login
             }
             else
             {
+                if (rbCompleta.Checked)
+                {
+                    TipoMonturaPropia = "Completa";
+                }
+                else if (rbRanurada.Checked)
+                {
+                    TipoMonturaPropia = "Ranurada";
+                }
+                else if (rbAlaire.Checked)
+                {
+                    TipoMonturaPropia = "Alaire";
+                }
                 Montura_Propia = true;
                 CerrarPanelMonturaPropia();
             }
@@ -2714,7 +2746,7 @@ namespace CapaVisual_Login
 
         private void Btn_Tap3_ClienteAfiliado_Click(object sender, EventArgs e)
         {
-            // Pido Clave Autorizada con unos parametros especificos
+            //Pido Clave Autorizada
             _FrmClaveAutorizada.Nuevo_Parametro = true;
             _FrmClaveAutorizada.Parametro_Nuevo = _L_Articulo.BuscarCodigoGerenteDescuento("009");
             _FrmClaveAutorizada.ShowDialog();
@@ -2917,8 +2949,16 @@ namespace CapaVisual_Login
                 {
                     // Cargar los valores
                       EmpresaAfiliada = clienteafiliado.Nombre;
-                      PorcDctoEmpresaAfiliada = clienteafiliado.PorcentajeDes1;
-       
+                    if (!string.IsNullOrEmpty(clienteafiliado.PorcentajeDes1) && decimal.TryParse(clienteafiliado.PorcentajeDes1, out decimal porcentaje))
+                    {
+                        PorcDctoEmpresaAfiliada = porcentaje;
+                       
+                    }
+                    else
+                    {
+                        PorcDctoEmpresaAfiliada = 0; // Valor predeterminado si la conversión falla
+                    }
+
                     VisualizarPanel("MostrarCabezeraSecundaria");
                     HabilitacionControl("CabezeraPrincipal");
 
@@ -2932,6 +2972,53 @@ namespace CapaVisual_Login
         {
             Garantia = true;
             HabilitacionControl("CabezeraPrincipal");
+        }
+
+        private bool AplicoGarantia(string CI, string nacio, string OS, string Suc, string exam)
+        {
+            try
+            {
+               
+                DataSet dsGetLC = _D_Articulo.ObtenerInfoReposicion(CI, nacio, OS, Suc, exam);
+
+                if (dsGetLC.Tables[2].Rows.Count > 0)
+                {
+                    string codigo = Txt_Tap3_Articulo_Codigo.Text.ToUpper();
+                    decimal precio = Convert.ToDecimal(Txt_Tap3_Articulo_Precio.Text);
+
+                    // Si el código empieza con "C"
+                    if (codigo.StartsWith("C"))
+                    {
+                        precio -= Convert.ToDecimal(dsGetLC.Tables[2].Rows[0]["DESCUENTOCRT"]);
+                    }
+                    // Si el código empieza con "S"
+                    else if (codigo.StartsWith("S"))
+                    {
+                        precio -= Convert.ToDecimal(dsGetLC.Tables[2].Rows[0]["DESCUENTOSERVAR"]);
+                    }
+
+                    Txt_Tap3_Articulo_Precio.Text = precio.ToString("F2");
+
+                    // Ajustar precio si es necesario según el país
+                    if ( precio <= 0)
+                    {
+                        precio = Convert.ToDecimal("0.01");
+                        Txt_Tap3_Articulo_Precio.Text = precio.ToString("F2");
+                    }
+                   
+
+                    return true;
+                }
+                else
+                {
+                    MessageBox.Show("Esta OS no aplica reposición", "Verifique e intente de nuevo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
     }
 

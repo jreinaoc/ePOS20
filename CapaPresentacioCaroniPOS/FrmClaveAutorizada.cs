@@ -33,8 +33,8 @@ namespace CapaVisual_Login
         public string orden;
         public bool ClaveCorrecta;
         public bool CampoCorrect;
-        public bool Nuevo_Parametro = false;
-        public string Parametro_Nuevo = "";
+        public bool Nuevo_Parametro { get; set; }
+        public string Parametro_Nuevo { get; set; }
 
         L_Colores _L_Colores = new L_Colores();
 
@@ -161,13 +161,15 @@ namespace CapaVisual_Login
                 }
             }
             Limpiar();
+            Nuevo_Parametro = false;
+            Parametro_Nuevo = "";
 
         }
 
         private void FrmClaveAutorizada_Load(object sender, System.EventArgs e)
         {
             Limpiar();
-             if (Nuevo_Parametro == true)
+             if (Nuevo_Parametro)
              {
                 if (!string.IsNullOrEmpty(Parametro_Nuevo))
                 {
@@ -213,6 +215,8 @@ namespace CapaVisual_Login
         {
             this.Hide();
             Limpiar();
+            Nuevo_Parametro = false;
+            Parametro_Nuevo = "";
         }
 
         private void CbxSelecGerent_Enter(object sender, System.EventArgs e)
@@ -287,8 +291,6 @@ namespace CapaVisual_Login
             TxtClave.Text = "";
             //CbxSelecGerent.Text = "";
             LblClaveAleatoria.Text = "";
-            Nuevo_Parametro = false;
-            Parametro_Nuevo = "";
             CbxSelecGerent.SelectedIndex = - 1;
 
         }

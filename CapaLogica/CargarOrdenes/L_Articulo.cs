@@ -175,6 +175,8 @@ namespace CapaLogica.CargarOrdenes
                 }
             }
 
+
+
             // Actualizar la lista temporal con los datos filtrados
             listaTemporal.Clear();
             listaTemporal.AddRange(datosFiltrados);
@@ -2050,12 +2052,12 @@ namespace CapaLogica.CargarOrdenes
 
         }
 
-        public bool VerificarTopeMaximoDesceunto(int PorcentajeDescuento )
+        public bool VerificarTopeMaximoDesceunto(decimal PorcentajeDescuento )
         {
 
             // Obtener el valor del parámetro desde la tabla TB_PARAMETRO
             string valorParametro = _D_DetalleOrden.TB_PARAMETRO("TopeDescuento");
-            if (PorcentajeDescuento > Convert.ToInt16 (valorParametro ))
+            if (PorcentajeDescuento > Convert.ToDecimal(valorParametro ))
             {
                 return true;
             }
@@ -2285,7 +2287,9 @@ namespace CapaLogica.CargarOrdenes
             {
                 stringBuilder.Append(Environment.NewLine + string.Format("Error: {0}", ex.Message));
             }
-}
+        }
+
+
     }
 }
 

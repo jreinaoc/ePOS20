@@ -1223,6 +1223,33 @@ namespace CapaDatos.CargarOrdenes_Datos
 
         }
 
+        public DataSet ObtenerInfoReposicion(string cedula, string nacio, string os,string suc,string nroExamen, SqlCommand command = null)
+        {
+
+            if (command == null)
+            {
+                SqlConnection connection = cn.LeerCadena();
+                command = connection.CreateCommand();
+            }
+            SqlCommand cmd = command;
+            cmd.Parameters.Clear();
+            cmd.CommandText = "pGetInfoReposicion";
+            //SqlCommand cmd = new SqlCommand("SP_DETALLEFACTURAFISCAL", cn.LeerCadena());
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@CI", cedula);
+            cmd.Parameters.AddWithValue("@NACIO", nacio);
+            cmd.Parameters.AddWithValue("@OS", os);
+            cmd.Parameters.AddWithValue("@suc", suc);
+            cmd.Parameters.AddWithValue("@NEWRX", nroExamen);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet dts = new DataSet();
+            da.Fill(dts);
+            cmd.Parameters.Clear();
+            return dts;
+
+
+        }
+
 
     }
 }
