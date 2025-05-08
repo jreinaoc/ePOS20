@@ -182,7 +182,7 @@ namespace CapaLogica.CargarOrdenes
             listaTemporal.AddRange(datosFiltrados);
         }
 
-        public void AgregarFila(DataGridView Dgv_Tap3_Articulo, string codArticulo, string descripcion, int cantidad, decimal precio, decimal descuento, decimal total, decimal impuesto, string ojo, string artPadre = "", string agregado = "NO" ,string AgreDer ="NO", string AgreIzq = "NO")
+        public void AgregarFila(DataGridView Dgv_Tap3_Articulo, string codArticulo, string descripcion, int cantidad, decimal precio, decimal descuento, decimal total, decimal impuesto, string ojo, string artPadre = "", string agregado = "NO" ,string AgreDer ="NO", string AgreIzq = "NO", string tienePromo = "No", string codPromo = "", string promoEvaluada = "No")
         {
           try {
                 // Verificar y agregar columnas si no existen
@@ -202,6 +202,12 @@ namespace CapaLogica.CargarOrdenes
                 Dgv_Tap3_Articulo.Columns.Add("AgreDer", "AgreDer");
                 Dgv_Tap3_Articulo.Columns.Add("AgreIzq", "AgreIzq");
                 Dgv_Tap3_Articulo.Columns.Add("PrecioViejo", "PrecioViejo");
+
+                // columnas de promociones
+                 Dgv_Tap3_Articulo.Columns.Add("TienePromo", "Tiene Promo");
+                 Dgv_Tap3_Articulo.Columns.Add("CodPromo", "Código de Promoción");
+                Dgv_Tap3_Articulo.Columns.Add("PromoEvaluada", "Promoción Evaluada");
+
                     CrearObjetos(Dgv_Tap3_Articulo);
 
             }
@@ -209,7 +215,7 @@ namespace CapaLogica.CargarOrdenes
                 Formato_Dgv_Carga_Articulo(Dgv_Tap3_Articulo);
 
                 // Agregar la fila con los valores proporcionados
-                Dgv_Tap3_Articulo.Rows.Add(codArticulo, descripcion, cantidad, precio, descuento, total, impuesto, ojo, artPadre, agregado, AgreDer, AgreIzq, precio);
+                Dgv_Tap3_Articulo.Rows.Add(codArticulo, descripcion, cantidad, precio, descuento, total, impuesto, ojo, artPadre, agregado, AgreDer, AgreIzq, precio, tienePromo, codPromo, promoEvaluada);
 
             }
             catch (Exception ex)
@@ -2289,7 +2295,229 @@ namespace CapaLogica.CargarOrdenes
             }
         }
 
+        public Dictionary<string, string> CrearParametrosPromociones(string parametro01 = null, string parametro02 = null, string parametro03 = null,
+    string parametro04 = null, string parametro05 = null, string parametro06 = null, string parametro07 = null, string parametro08 = null, string parametro09 = null,
+    string parametro10 = null, string parametro11 = null, string parametro12 = null, string parametro13 = null, string parametro14 = null, string parametro15 = null, 
+    string parametro16 = null, string parametro17 = null, string parametro18 = null, string parametro19 = null, string parametro20 = null)
+        {
+             return new Dictionary<string, string>
+             {
+                    { "@PARAMETRO01", parametro01 },
+                    { "@PARAMETRO02", parametro02 },
+                    { "@PARAMETRO03", parametro03 },
+                    { "@PARAMETRO04", parametro04 },
+                    { "@PARAMETRO05", parametro05 },
+                    { "@PARAMETRO06", parametro06 },
+                    { "@PARAMETRO07", parametro07 },
+                    { "@PARAMETRO08", parametro08 },
+                    { "@PARAMETRO09", parametro09 },
+                    { "@PARAMETRO10", parametro10 },
+                    { "@PARAMETRO11", parametro11 },
+                    { "@PARAMETRO12", parametro12 },
+                    { "@PARAMETRO13", parametro13 },
+                    { "@PARAMETRO14", parametro14 },
+                    { "@PARAMETRO15", parametro15 },
+                    { "@PARAMETRO16", parametro16 },
+                    { "@PARAMETRO17", parametro17 },
+                    { "@PARAMETRO18", parametro18 },
+                    { "@PARAMETRO19", parametro19 },
+                    { "@PARAMETRO20", parametro20 }
+             };
+        }
 
+        public bool EjecutarPromociones(DataGridView DgvArticulo, string glbTipoTrabajo, string TipoExamen, string CodPromo, bool MonturaPropia, bool CristalPropio)
+        {
+            // Declaración de variables
+            bool MLS = false;
+            bool CRT = false;
+            string AR = string.Empty;
+            string Cristal = string.Empty;
+            string Montura = string.Empty;
+            string LC = string.Empty;
+            bool PromoAplica = false;
+            bool promoAplicaAR = false;
+            bool PromoARObligatorio = false;
+
+            // Determinar el tipo de examen según glbTipoTrabajo
+            if (glbTipoTrabajo == "002")
+            {
+                TipoExamen = "CONVENCIONAL";
+            }
+            else if (glbTipoTrabajo == "001")
+            {
+                TipoExamen = "DIRECTA";
+            }
+
+            // Recorrer las filas del DataGridView
+            foreach (DataGridViewRow row in DgvArticulo.Rows)
+            {
+                if (row.Cells["Código"].Value != null)
+                {
+                    string codigo = row.Cells["Código"].Value.ToString();
+
+                    // Verificar si es Montura o Lente de Contacto
+                    if (codigo.StartsWith("M") || codigo.StartsWith("L"))
+                    {
+                        MLS = true;
+                        Montura = codigo;
+                    }
+                    // Verificar si es Cristal
+                    else if (codigo.StartsWith("C"))
+                    {
+                        CRT = true;
+                        Cristal = codigo;
+                    }
+                    // Verificar si es Servicio
+                    else if (codigo.StartsWith("S"))
+                    {
+                        string Serv = codigo;
+
+                        // Obtener los servicios AR desde la base de datos
+                        DataSet dsServAR = _D_Articulos.ServiciosAR_btnProcesar("", false);
+
+                        if (dsServAR.Tables.Count > 1)
+                        {
+                            foreach (DataRow dr in dsServAR.Tables[1].Rows)
+                            {
+                                if (codigo == dr["CodServicio"].ToString() &&
+                                    row.Cells["PromoEvaluada"].Value != null &&
+                                    row.Cells["PromoEvaluada"].Value.ToString() == "No")
+                                {
+                                    AR = codigo;
+                                    promoAplicaAR = true;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Crear los parámetros para la función AplicarPromociones
+            Dictionary<string, string> parametros = CrearParametrosPromociones(
+                Montura,
+                Cristal,
+                LC,
+                MonturaPropia ? "true" : PromoARObligatorio.ToString(), 
+                CristalPropio ? "true" : PromoARObligatorio.ToString(), 
+                AR,
+                promoAplicaAR ? "true" : PromoARObligatorio.ToString(),
+                glbTipoTrabajo,
+                TipoExamen
+            );
+
+            // Llamar a la función AplicarPromociones
+            DataSet resultado = _D_Articulos.AplicarPromociones(CodPromo,parametros);
+
+            // Verificar si la promoción aplica
+            if (resultado.Tables.Count > 0 && resultado.Tables[0].Rows.Count > 0)
+            {
+                if (resultado.Tables[0].Rows[0]["Resultado"].ToString() == "APLICA")
+                {
+                    PromoAplica = true;
+                }
+            }
+
+            return PromoAplica;
+        }
+        public TB_ARTICULO ObtenerArticuloPorCodigo(List<TB_ARTICULO> listaArticulos, string codArticulo)
+        {
+            // Recorrer la lista para buscar el artículo por su código
+            foreach (var articulo in listaArticulos)
+            {
+                if (articulo.CodArticulo != null && articulo.CodArticulo.Equals(codArticulo, StringComparison.OrdinalIgnoreCase))
+                {
+                    // Retornar el artículo completo si se encuentra
+                    return articulo;
+                }
+            }
+
+            // Retornar null si no se encuentra el artículo
+            return null;
+        }
+        public bool AplicarPromocionesEnGrid(List<TB_ARTICULO> listaArticulos, DataGridView DgvArticulo, DataSet dsLl1so, string glbTipoTrabajo, string TipoExamen)
+        {
+            bool PromoAplicada = false;
+            bool aplicaCristalG = false;
+            bool aplica1ojo = false;
+
+            // Recorrer las filas del DataGridView
+            foreach (DataGridViewRow row in DgvArticulo.Rows)
+            {
+                if (row.Cells["CodArticulo"].Value != null)
+                {
+                    string codigo = row.Cells["CodArticulo"].Value.ToString();
+
+                    // Verificar si el resultado de la promoción es "APLICA"
+                    if (dsLl1so.Tables[0].Rows[0]["Resultado"].ToString() == "APLICA")
+                    {
+                        // Si el código comienza con "C" (Cristal)
+                        if (codigo.StartsWith("C"))
+                        {
+                            row.Cells["TienePromo"].Value = "Si";
+                            row.Cells["Precio"].Value = (decimal)dsLl1so.Tables[0].Rows[0]["PRECIOCRT_DESC"];
+                            row.Cells["Total"].Value = (decimal)dsLl1so.Tables[0].Rows[0]["PRECIOCRT_DESC"] * Convert.ToDecimal(row.Cells["Can"].Value);
+                            row.Cells["CodPromo"].Value = dsLl1so.Tables[0].Rows[0]["CODPROM"];
+                            row.Cells["PromoEvaluada"].Value = "Si";
+                            PromoAplicada = true;
+                            aplicaCristalG = true;
+                        }
+                        // Si el código comienza con "M" (Montura) o "L" (Lente de contacto)
+                        else if (codigo.StartsWith("M") || codigo.StartsWith("L"))
+                        {
+                            row.Cells["TienePromo"].Value = "Si";
+                            row.Cells["Precio"].Value = (decimal)(dsLl1so.Tables[0].Rows[0]["PRECIOMONT_DESC"]);
+                            row.Cells["Total"].Value = (decimal)((decimal)dsLl1so.Tables[0].Rows[0]["PRECIOMONT_DESC"] * Convert.ToDecimal(row.Cells["Can"].Value));
+                            row.Cells["CodPromo"].Value = dsLl1so.Tables[0].Rows[0]["CODPROM"];
+                            row.Cells["PromoEvaluada"].Value = "Si";
+                            PromoAplicada = true;
+                        }
+
+                        else if (codigo.StartsWith("W"))
+                        {
+                            row.Cells["TienePromo"].Value = "Si";
+                            row.Cells["Precio"].Value = (decimal)(dsLl1so.Tables[0].Rows[0]["TOTLC"]);
+                            row.Cells["Total"].Value = (decimal)((decimal)dsLl1so.Tables[0].Rows[0]["TOTLC"] * Convert.ToDecimal(row.Cells["Can"].Value));
+                            row.Cells["CodPromo"].Value = dsLl1so.Tables[0].Rows[0]["CODPROM"];
+                            row.Cells["PromoEvaluada"].Value = "Si";
+                            PromoAplicada = true;
+                        }
+                        // Si el código es uno de los servicios específicos // ´Poner una logica por sql para recibir los articulos que no quiero que se les aplique promocion 
+                        else if (new[] { "S000103", "S000104", "S000107", "S000108", "S000111", "S000112", "S000113", "S000114", "S000117", "S000118", "S000006", "S000004", "S000133", "S000134" }.Contains(codigo))
+                        {
+                            TB_ARTICULO articuloEncontrado = ObtenerArticuloPorCodigo(listaArticulos, codigo);
+                            decimal montoArtic = articuloEncontrado.ART_PVP; // Método para obtener el precio del artículo
+                            row.Cells["TienePromo"].Value = "Si";
+                            row.Cells["Precio"].Value = (decimal)(montoArtic - (montoArtic * Convert.ToDecimal(dsLl1so.Tables[0].Rows[0]["PORCDCTO"]) / 100));
+                            row.Cells["Total"].Value = (decimal)((montoArtic - (montoArtic * Convert.ToDecimal(dsLl1so.Tables[0].Rows[0]["PORCDCTO"]) / 100)) * Convert.ToDecimal(row.Cells["Can"].Value));
+                            row.Cells["CodPromo"].Value = dsLl1so.Tables[0].Rows[0]["CODPROM"];
+                            row.Cells["PromoEvaluada"].Value = "Si";
+                            PromoAplicada = true;
+                            aplica1ojo = true;
+                        }
+                        // Si el código no es "A000004"
+                        else if (codigo != "A000004")
+                        {
+                            TB_ARTICULO articuloEncontrado = ObtenerArticuloPorCodigo(listaArticulos, codigo);
+                            decimal montoArtic = articuloEncontrado.ART_PVP;
+                            row.Cells["TienePromo"].Value = "Si";
+                            row.Cells["Precio"].Value = (decimal)(montoArtic);
+                            row.Cells["Total"].Value = (decimal)(montoArtic * Convert.ToDecimal(row.Cells["Can"].Value));
+                            row.Cells["CodPromo"].Value = dsLl1so.Tables[0].Rows[0]["CODPROM"];
+                            row.Cells["PromoEvaluada"].Value = "Si";
+                            PromoAplicada = true;
+                            aplica1ojo = true;
+                        }
+                    }
+                    // Si el resultado de la promoción es "NO APLICA"
+                    else if (dsLl1so.Tables[0].Rows[0]["Resultado"].ToString() == "NO APLICA")
+                    {
+                        // Aquí puedes agregar lógica adicional si es necesario
+                    }
+                }
+            }
+
+            return PromoAplicada;
+        }
     }
 }
 

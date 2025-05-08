@@ -1250,6 +1250,38 @@ namespace CapaDatos.CargarOrdenes_Datos
 
         }
 
+        public DataSet AplicarPromociones(string CODPROMO, Dictionary<string, string> parametros = null, SqlCommand command = null)
+        {
+            if (command == null)
+            {
+                SqlConnection connection = cn.LeerCadena();
+                command = connection.CreateCommand();
+            }
+
+            SqlCommand cmd = command;
+            cmd.Parameters.Clear();
+            cmd.CommandText = "pEvaluoPromociones";
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            // Agregar el parámetro obligatorio @CODPROMO
+            cmd.Parameters.AddWithValue("@CODPROMO", CODPROMO);
+
+            // Agregar los parámetros opcionales si existen
+            if (parametros != null)
+            {
+                foreach (var parametro in parametros)
+                {
+                    cmd.Parameters.AddWithValue(parametro.Key, parametro.Value ?? (object)DBNull.Value);
+                }
+            }
+
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet dts = new DataSet();
+            da.Fill(dts);
+            cmd.Parameters.Clear();
+            return dts;
+        }
+
 
     }
 }
