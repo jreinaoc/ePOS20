@@ -47,12 +47,14 @@ namespace CapaVisual_Login
         private D_Articulos _D_Articulo = new D_Articulos();
         private string Codigo_Coloracion = "";
         private string Codigo_Promocion = "";
+        private bool Promocion_Aplicada = false;
         private bool Cristal_Propio = false;
         private bool Montura_Propia = false;
         private string TipoMonturaPropia = "";
         private string EmpresaAfiliada = "";
         private decimal PorcDctoEmpresaAfiliada = 0;
         private bool Garantia;
+        private string CodColorLC = "";
 
         List<TB_EMPAFI> listaClienteAfiliados = new List<TB_EMPAFI>();
 
@@ -73,6 +75,7 @@ namespace CapaVisual_Login
             {
                 Txt_Tap3_Articulo_Codigo.Text = ""; // Borrar el texto sugerido
                 Txt_Tap3_Articulo_Codigo.ForeColor = Color.Black; // Cambiar el color del texto a negro
+
             }
         }
 
@@ -83,6 +86,9 @@ namespace CapaVisual_Login
             {
                 Txt_Tap3_Articulo_Codigo.Text = "Código"; // Restaurar el texto sugerido
                 Txt_Tap3_Articulo_Codigo.ForeColor = Color.DarkGray; // Cambiar el color del texto a gris
+
+                Txt_Tap3_Articulo_Descripcion.Text = "Descripción";
+                Txt_Tap3_Articulo_Descripcion.ForeColor = Color.DarkGray;
             }
         }
 
@@ -945,6 +951,15 @@ namespace CapaVisual_Login
                 {
                     AplicoGarantia(Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Txt_Pnl2_Cedula.Text.Substring(0, 1), "", Txt_Pnl2_Examen.Text, _D_Inicio.Sucursal());
                 }
+
+                if (Txt_Tap3_Articulo_Codigo.Text.StartsWith("W"))
+                {
+                    DataSet dsColorLC = _L_Articulo.CargarColoresLC(Dgv_Pnl3_ColoresLC, Txt_Tap3_Articulo_Codigo.Text);
+                    Dgv_Pnl3_ColoresLC.DataSource = dsColorLC.Tables[0];
+                    Formato_Dgv_Pnl3_ColoresLC();
+                    Pnl_3_Lista_ColoresLC.Visible = true;
+                    Pnl_3_Lista_ColoresLC.Location = new Point(250, 1);
+                }
             }
         }
 
@@ -972,12 +987,15 @@ namespace CapaVisual_Login
             }
 
             // Validar Precio
-            if (_L_Articulo.CargarArticulo_ValidarPrecio(Txt_Tap3_Articulo_Precio))
+            if (Txt_Tap3_Articulo_Precio.Text.StartsWith("C") ||  Txt_Tap3_Articulo_Precio.Text.StartsWith("M") || Txt_Tap3_Articulo_Precio.Text.StartsWith("L"))
             {
-                _FrmMensajes.co = 2;
-                _FrmMensajes.avisomensaje("El precio del articulo debe ser mayor que 0");
-                _FrmMensajes.ShowDialog();
-                return;
+                if (_L_Articulo.CargarArticulo_ValidarPrecio(Txt_Tap3_Articulo_Precio))
+                {
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje("El precio del articulo debe ser mayor que 0");
+                    _FrmMensajes.ShowDialog();
+                    return;
+                }
             }
 
             //Formatear los caracteres a 7 Digitos cuando es un cristal 
@@ -1046,7 +1064,7 @@ namespace CapaVisual_Login
             {
 
                     _FrmMensajes.co = 2;
-                    _FrmMensajes.avisomensaje("No puede agregar un cristal si tiene marcada la opción Cristal Propio");
+                    _FrmMensajes.avisomensaje("No puede agregar un cristal si tiene marcada la opción cristal propio");
                     _FrmMensajes.ShowDialog();
                     return;
 
@@ -1056,11 +1074,12 @@ namespace CapaVisual_Login
             if (Montura_Propia == true && (Txt_Tap3_Articulo_Codigo.Text.StartsWith("L") || Txt_Tap3_Articulo_Codigo.Text.StartsWith("M")))
             {
                     _FrmMensajes.co = 2;
-                    _FrmMensajes.avisomensaje("No puede agregar una montura si tiene marcada la opción Montura Propia");
+                    _FrmMensajes.avisomensaje("No puede agregar una montura si tiene marcada la opción montura propia");
                     _FrmMensajes.ShowDialog();
                     return;
             }
 
+           
             AgregarArticuloAlGrid();
 
             // Limpiar los TextBox
@@ -1136,7 +1155,7 @@ namespace CapaVisual_Login
 
 
                 //_L_Articulo.AgregarFila(Dgv_Tap3_Articulo, articulo.CodArticulo, articulo.DESART, cantidad, (decimal) precio, (decimal)articulo.PORCTDESCUENTO, (decimal) total, impuesto, _Trabajo.T_OJO);
-                _L_Articulo.AgregarFila(Dgv_Tap3_Articulo, articulo.CodArticulo, articulo.DESART, cantidad, (decimal)precio, EmpresaAfiliada != "" && PorcDctoEmpresaAfiliada > 0 ? PorcDctoEmpresaAfiliada : (decimal)articulo.PORCTDESCUENTO, (decimal)total, impuesto, "A");
+                _L_Articulo.AgregarFila(Dgv_Tap3_Articulo, articulo.CodArticulo, CodColorLC,articulo.DESART, cantidad, (decimal)precio, EmpresaAfiliada != "" && PorcDctoEmpresaAfiliada > 0 ? PorcDctoEmpresaAfiliada : (decimal)articulo.PORCTDESCUENTO, (decimal)total, impuesto, "A");
 
 
                 // Limpiar los TextBox después de agregar el artículo
@@ -1212,6 +1231,7 @@ namespace CapaVisual_Login
                 // Limpiar Variables Coloracion y Promociones, montura propia , cristal propio y empresa afiliada 
                 Codigo_Coloracion = "";
                 Codigo_Promocion = "";
+                Promocion_Aplicada = false;
                 Cristal_Propio = false;
                 Montura_Propia = false;
                 TipoMonturaPropia = "";
@@ -1219,7 +1239,9 @@ namespace CapaVisual_Login
                 PorcDctoEmpresaAfiliada = 0;
                 // Cargar los valores
                 Garantia = false;
+                CodColorLC = "";
                 // Botones Aciones 
+                Cbx_Pnl2_Trbajo.Enabled = true;
                 ValidarRegistrosYHabilitar_Botones();
 
             }
@@ -1336,9 +1358,20 @@ namespace CapaVisual_Login
                 {
                     AplicoGarantia(Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Txt_Pnl2_Cedula.Text.Substring(0, 1), "", Txt_Pnl2_Examen.Text, _D_Inicio.Sucursal());
                 }
+
+                if (Txt_Tap3_Articulo_Codigo.Text.StartsWith("W"))
+                {
+                    DataSet dsColorLC = _L_Articulo.CargarColoresLC(Dgv_Pnl3_ColoresLC, Txt_Tap3_Articulo_Codigo.Text);
+                    Dgv_Pnl3_ColoresLC.DataSource = dsColorLC.Tables[0];
+                    Formato_Dgv_Pnl3_ColoresLC();
+                    Pnl_3_Lista_ColoresLC.Visible = true;
+                    Pnl_3_Lista_ColoresLC.Location = new Point(250, 1);
+                }
                 // Evitar que el evento se propague
                 e.Handled = true;
             }
+
+            
 
         }
 
@@ -1420,9 +1453,15 @@ namespace CapaVisual_Login
 
             /// Verfico y aplico Promociones 
             /// 
-            if (string.IsNullOrEmpty(Codigo_Promocion))
+            if (!string.IsNullOrEmpty(Codigo_Promocion))
             {
-
+                 Promocion_Aplicada = _L_Articulo.EjecutarPromociones(listaArticulos, Dgv_Tap3_Articulo, Cbx_Pnl2_Trbajo.Text, Cbx_Pnl2_Trbajo.SelectedValue.ToString(), Codigo_Promocion, Montura_Propia, Cristal_Propio);
+                if (!Promocion_Aplicada && _L_Articulo.stringBuilder.Length > 0)
+                {
+                    _FrmMensajes.co = 3;
+                    _FrmMensajes.avisomensaje(_L_Articulo.stringBuilder.ToString());
+                    _FrmMensajes.ShowDialog();
+                }
             }
 
             // Totalizo el grivew Totales cuando se agrega una fila 
@@ -2301,6 +2340,7 @@ namespace CapaVisual_Login
                         dsParamCRT2 = _D_Articulo.MostrarRangosCrtGrid(Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Txt_Pnl2_Examen.Text, Dgv_Tap3_Articulo.Rows[xx].Cells["CodArticulo"].Value.ToString(), "I", _Trabajo.T_TIPOVISIONI, Convert.ToDecimal(_Trabajo.T_ALTI), 0, Convert.ToDecimal(_Trabajo.T_DISTANCIAVERTICE), Convert.ToDecimal(_Trabajo.T_ANGULOFACIAL), Convert.ToDecimal(_Trabajo.T_ANGULOPANTOSCOPICO), "", _Trabajo.T_SERVICIO, _Trabajo.T_LABORATORIO, Convert.ToString(_Trabajo.T_DISTANCIAVERTICE), Convert.ToString(_Trabajo.T_ANGULOFACIAL), Convert.ToString(_Trabajo.T_ANGULOPANTOSCOPICO), Convert.ToString(_Trabajo.T_DISTANCIADELECTURA));
 
                         // Validación de parámetros
+
                         if (Enumerable.Range(0, 17).All(x => dsParamCRT.Tables[2].Rows[0][x].ToString() == "1"))
                         {
                             AceptaCristalD = true;
@@ -2400,6 +2440,7 @@ namespace CapaVisual_Login
                 LbResultado2.Visible = true;
 
                 pnlRangoCrt.Show();
+                pnlRangoCrt.Location = new Point(200,150);
             }
 
 
@@ -2740,7 +2781,7 @@ namespace CapaVisual_Login
             _L_Articulo.CargarClientesAfiliados(Dgv_Pnl3_ClienteAfiliado, listaClienteAfiliados);
 
             Dgv_Pnl3_ClienteAfiliado.DataSource = listaClienteAfiliados;
-            //Formato_Dgv_Busqueda_Articulo();
+            Formato_Dgv_Pnl3_ClienteAfiliado();
         }
 
 
@@ -3019,6 +3060,137 @@ namespace CapaVisual_Login
             {
                 return false;
             }
+        }
+
+        private void btnCancelarColorLC_Click(object sender, EventArgs e)
+        {
+            Pnl_3_Lista_ColoresLC.Visible = false;
+        }
+
+        private void Dgv_Pnl3_ColoresLC_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && !Dgv_Pnl3_ColoresLC.Rows[e.RowIndex].IsNewRow)
+            {
+                // Obtener el color seleccionado
+                //var CodColorLC = "";
+               
+                //CodColorLC = Dgv_Pnl3_ColoresLC.Rows[e.RowIndex].DataBoundItem.ToString();
+                CodColorLC = Dgv_Pnl3_ColoresLC.CurrentRow.Cells[0].Value.ToString(); // Primera columna
+
+                if (CodColorLC != null)
+                {
+                    Pnl_3_Lista_ColoresLC.Visible = false;
+                    Txt_Tap3_Articulo_Cantidad.Focus();
+
+
+                }
+            }
+           
+        }
+
+        private void Formato_Dgv_Pnl3_ColoresLC()
+        {
+            try
+            {
+
+                //Centrar todas las colucnas 
+                Dgv_Pnl3_ColoresLC.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                Dgv_Pnl3_ColoresLC.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+
+
+                // Quitar la flecha del selector de fila
+                Dgv_Pnl3_ColoresLC.RowHeadersVisible = false;
+
+                // Deshabilitar el redimensionamiento de filas
+                Dgv_Pnl3_ColoresLC.AllowUserToResizeRows = false;
+
+                //asignar Nombres a cada colucna 
+                Dgv_Pnl3_ColoresLC.Columns["CodColor"].HeaderText = "Código";
+                Dgv_Pnl3_ColoresLC.Columns["DESCRIPCIONCOLOR"].HeaderText = "Descripción";
+
+                //Ancho de columna
+                Dgv_Pnl3_ColoresLC.Columns["CodColor"].Width = 80;
+                Dgv_Pnl3_ColoresLC.Columns["DESCRIPCIONCOLOR"].Width = 500;
+
+
+                // No modificable
+                Dgv_Pnl3_ColoresLC.Columns["CodColor"].ReadOnly = true;
+                Dgv_Pnl3_ColoresLC.Columns["DESCRIPCIONCOLOR"].ReadOnly = true;
+
+
+                //quitar seleccion por defecto de datagrid
+                Dgv_Pnl3_ColoresLC.ClearSelection();
+
+                //AutoGenerar Columnas:
+                Dgv_Pnl3_ColoresLC.AutoGenerateColumns = false;
+
+
+            }
+
+
+            catch (Exception ex)
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje(string.Format("Error: {0}", ex.Message) + ", Error inesperado");
+                _FrmMensajes.ShowDialog();
+            }
+
+        }
+
+        private void Formato_Dgv_Pnl3_ClienteAfiliado()
+        {
+            try
+            {
+
+                //Centrar todas las colucnas 
+                Dgv_Pnl3_ClienteAfiliado.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                Dgv_Pnl3_ClienteAfiliado.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+
+
+                // Quitar la flecha del selector de fila
+                Dgv_Pnl3_ClienteAfiliado.RowHeadersVisible = false;
+
+                // Deshabilitar el redimensionamiento de filas
+                Dgv_Pnl3_ClienteAfiliado.AllowUserToResizeRows = false;
+
+                //asignar Nombres a cada colucna 
+                Dgv_Pnl3_ClienteAfiliado.Columns["Codigo_Emp"].HeaderText = "Código";
+                Dgv_Pnl3_ClienteAfiliado.Columns["Nombre"].HeaderText = "Descripción";
+
+                //Ancho de columna
+                Dgv_Pnl3_ClienteAfiliado.Columns["Codigo_Emp"].Width = 80;
+                Dgv_Pnl3_ClienteAfiliado.Columns["Nombre"].Width = 500;
+
+
+                // No modificable
+                Dgv_Pnl3_ClienteAfiliado.Columns["Codigo_Emp"].ReadOnly = true;
+                Dgv_Pnl3_ClienteAfiliado.Columns["Nombre"].ReadOnly = true;
+
+                Dgv_Pnl3_ClienteAfiliado.Columns["PorcentajeDes1"].Visible = false;
+                     Dgv_Pnl3_ClienteAfiliado.Columns["PorcentajeDes2"].Visible = false;
+                Dgv_Pnl3_ClienteAfiliado.Columns["PorcentajeDes3"].Visible = false;
+                //quitar seleccion por defecto de datagrid
+                Dgv_Pnl3_ClienteAfiliado.ClearSelection();
+
+                //AutoGenerar Columnas:
+                Dgv_Pnl3_ClienteAfiliado.AutoGenerateColumns = false;
+
+
+            }
+
+
+            catch (Exception ex)
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje(string.Format("Error: {0}", ex.Message) + ", Error inesperado");
+                _FrmMensajes.ShowDialog();
+            }
+
+        }
+
+        private void Cbx_Pnl2_Trbajo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+           // Cbx_Pnl2_Trbajo.Enabled = false;
         }
     }
 

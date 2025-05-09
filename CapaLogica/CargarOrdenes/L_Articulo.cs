@@ -51,6 +51,7 @@ namespace CapaLogica.CargarOrdenes
 
         public void CargarArticulos(System.Windows.Forms.DataGridView DgvArticulo, List<TB_ARTICULO> listaArticulos, string TipoTrabajo)
         {
+            stringBuilder.Clear();
             Conexion cn = new Conexion();
             SqlConnection connection = cn.LeerCadena();
             SqlCommand command = connection.CreateCommand();
@@ -65,7 +66,7 @@ namespace CapaLogica.CargarOrdenes
             try
             {
                 // Obtener los artículos desde la base de datos
-                var articulosObtenidos = _D_Articulos.ObtenerArticulos(TipoTrabajo,"",command);
+                var articulosObtenidos = _D_Articulos.ObtenerArticulos(TipoTrabajo, "", command);
 
                 // Limpiar la lista pasada como parámetro y llenarla con los nuevos datos
                 listaArticulos.Clear(); // Limpiar la lista para evitar duplicados
@@ -82,7 +83,7 @@ namespace CapaLogica.CargarOrdenes
                 else
                 {
                     //DgvArticulo.DataSource = null; // Si no hay datos, limpiar el DataGridView
-                    _D_Articulos.stringBuilder.AppendLine("No se pudieron cargar los artículos correctamente");
+                    stringBuilder.AppendLine("No se pudieron cargar los artículos correctamente");
                     transaction.Rollback();
                 }
 
@@ -182,14 +183,15 @@ namespace CapaLogica.CargarOrdenes
             listaTemporal.AddRange(datosFiltrados);
         }
 
-        public void AgregarFila(DataGridView Dgv_Tap3_Articulo, string codArticulo, string descripcion, int cantidad, decimal precio, decimal descuento, decimal total, decimal impuesto, string ojo, string artPadre = "", string agregado = "NO" ,string AgreDer ="NO", string AgreIzq = "NO", string tienePromo = "No", string codPromo = "", string promoEvaluada = "No")
+        public void AgregarFila(DataGridView Dgv_Tap3_Articulo, string codArticulo, string colorLC, string descripcion, int cantidad, decimal precio, decimal descuento, decimal total, decimal impuesto, string ojo, string artPadre = "", string agregado = "NO" ,string AgreDer ="NO", string AgreIzq = "NO", string tienePromo = "No", string codPromo = "", string promoEvaluada = "No")
         {
           try {
                 // Verificar y agregar columnas si no existen
                 if (Dgv_Tap3_Articulo.Columns.Count == 0)
                 {
                 Dgv_Tap3_Articulo.Columns.Add("CodArticulo", "Código del Artículo");
-                Dgv_Tap3_Articulo.Columns.Add("DESART", "Descripción");
+                    Dgv_Tap3_Articulo.Columns.Add("ColorLC", "Color");
+                    Dgv_Tap3_Articulo.Columns.Add("DESART", "Descripción");
                 Dgv_Tap3_Articulo.Columns.Add("ART_EXIST", "Cantidad");
                 Dgv_Tap3_Articulo.Columns.Add("ART_PVP", "Precio");
                 Dgv_Tap3_Articulo.Columns.Add("PORCTDESCUENTO", "Descuento (%)");
@@ -212,10 +214,10 @@ namespace CapaLogica.CargarOrdenes
 
             }
                 // FormatoDataGrivew
-                Formato_Dgv_Carga_Articulo(Dgv_Tap3_Articulo);
+                Formato_Dgv_Carga_Articulo(Dgv_Tap3_Articulo, colorLC);
 
                 // Agregar la fila con los valores proporcionados
-                Dgv_Tap3_Articulo.Rows.Add(codArticulo, descripcion, cantidad, precio, descuento, total, impuesto, ojo, artPadre, agregado, AgreDer, AgreIzq, precio, tienePromo, codPromo, promoEvaluada);
+                Dgv_Tap3_Articulo.Rows.Add(codArticulo, colorLC, descripcion, cantidad, precio, descuento, total, impuesto, ojo, artPadre, agregado, AgreDer, AgreIzq, precio, tienePromo, codPromo, promoEvaluada);
 
             }
             catch (Exception ex)
@@ -329,7 +331,7 @@ namespace CapaLogica.CargarOrdenes
 
         }
 
-        private void Formato_Dgv_Carga_Articulo(DataGridView Dgv_Tap3_Articulo)
+        private void Formato_Dgv_Carga_Articulo(DataGridView Dgv_Tap3_Articulo, string colorLC)
         {
 
                 //Centrar todas las colucnas 
@@ -346,7 +348,15 @@ namespace CapaLogica.CargarOrdenes
 
                 //asignar Nombres a cada colucna 
                 Dgv_Tap3_Articulo.Columns["CodArticulo"].HeaderText = "Código";
-                Dgv_Tap3_Articulo.Columns["DESART"].HeaderText = "Descripción";
+            if (colorLC == "")
+            {
+                Dgv_Tap3_Articulo.Columns["ColorLC"].HeaderText = "";
+            }
+            else
+            {
+                Dgv_Tap3_Articulo.Columns["ColorLC"].HeaderText = "Color";
+            }
+            Dgv_Tap3_Articulo.Columns["DESART"].HeaderText = "Descripción";
                 Dgv_Tap3_Articulo.Columns["ART_EXIST"].HeaderText = "Cantidad";
                 Dgv_Tap3_Articulo.Columns["ART_PVP"].HeaderText = "Precio";
                 Dgv_Tap3_Articulo.Columns["PORCTDESCUENTO"].HeaderText = "%Descuento";
@@ -357,9 +367,10 @@ namespace CapaLogica.CargarOrdenes
 
 
                 //Ancho de columna
-                Dgv_Tap3_Articulo.Columns["CodArticulo"].Width = 80;
-                Dgv_Tap3_Articulo.Columns["DESART"].Width = 320;
-                Dgv_Tap3_Articulo.Columns["ART_EXIST"].Width = 80;
+                Dgv_Tap3_Articulo.Columns["CodArticulo"].Width = 70;
+            Dgv_Tap3_Articulo.Columns["ColorLC"].Width = 35;
+            Dgv_Tap3_Articulo.Columns["DESART"].Width = 320;
+                Dgv_Tap3_Articulo.Columns["ART_EXIST"].Width = 60;
                 Dgv_Tap3_Articulo.Columns["ART_PVP"].Width = 100;
                 Dgv_Tap3_Articulo.Columns["PORCTDESCUENTO"].Width = 100;
                 Dgv_Tap3_Articulo.Columns["Total"].Width = 120;
@@ -372,7 +383,8 @@ namespace CapaLogica.CargarOrdenes
 
                 // No modificable
                 Dgv_Tap3_Articulo.Columns["CodArticulo"].ReadOnly = true;
-                Dgv_Tap3_Articulo.Columns["DESART"].ReadOnly = true;
+            Dgv_Tap3_Articulo.Columns["ColorLC"].ReadOnly = true;
+            Dgv_Tap3_Articulo.Columns["DESART"].ReadOnly = true;
                 Dgv_Tap3_Articulo.Columns["ART_EXIST"].ReadOnly = true;
                 Dgv_Tap3_Articulo.Columns["ART_PVP"].ReadOnly = true;
                 Dgv_Tap3_Articulo.Columns["PORCTDESCUENTO"].ReadOnly = true;
@@ -413,11 +425,17 @@ namespace CapaLogica.CargarOrdenes
                         column.Name != "Total" &&
                         column.Name != "Impuesto" &&
                         column.Name != "Ojo" &&
-                        column.Name != "Eliminar")
+                        column.Name != "Eliminar" &&
+                        column.Name != "ColorLC")
                     {
                         column.Visible = false;
                     }
-                }
+
+                    //if (column.Name == "ColorLC" && colorLC == "")
+                    //{
+                    //    column.Visible = false;
+                    //}
+            }
 
             Dgv_Tap3_Articulo.Columns["ART_PVP"].DefaultCellStyle.Format = "N2"; // Formato de 2 decimales y unidades de mil
             Dgv_Tap3_Articulo.Columns["Total"].DefaultCellStyle.Format = "N2"; // Formato de 2 decimales y unidades de mil
@@ -644,19 +662,21 @@ namespace CapaLogica.CargarOrdenes
             // Verificar si el producto existe en la lista
             if (articulo == null)
             {
-                return "El producto no existe en la lista.";
+                return "El producto no existe en la lista";
             }
 
             // Verificar si el producto maneja existencia
             if (!articulo.MANEJAEXISTENCIA)
             {
-                return "El producto no tiene existencia.";
+                return "El producto no tiene existencia";
             }
 
             // Comparar la cantidad ingresada con la existencia disponible
             if (cantidadIngresada > articulo.ART_EXIST)
             {
-                return $"La cantidad ingresada {cantidadIngresada} excede la existencia disponible {articulo.ART_EXIST} .";
+                //return $"La cantidad ingresada {cantidadIngresada} excede la existencia disponible {articulo.ART_EXIST} ";
+                return "La cantidad ingresada excede la existencia";
+
             }
 
             // Si todo es válido, devolver true
@@ -1124,7 +1144,7 @@ namespace CapaLogica.CargarOrdenes
                             decimal total = precio * cantidad;
                             decimal impuesto = articulo.ART_EXENTO ? 0 : BuscarIva("I");
 
-                           AgregarFila(gridFacturas, articulo.CodArticulo, articulo.DESART, cantidad, (decimal)precio, (decimal)articulo.PORCTDESCUENTO, (decimal)total, impuesto, txtOjo, codigo);
+                           AgregarFila(gridFacturas, articulo.CodArticulo, articulo.DESART, "", cantidad, (decimal)precio, (decimal)articulo.PORCTDESCUENTO, (decimal)total, impuesto, txtOjo, codigo);
           
                         }
                     }
@@ -1247,7 +1267,7 @@ namespace CapaLogica.CargarOrdenes
                                     decimal total = precio * cantidad;
                                     decimal impuesto = articulo.ART_EXENTO ? 0 : BuscarIva("I");
                                     // Agregar nueva fila al DataGridView
-                                    AgregarFila(gridFacturas, articulo.CodArticulo, articulo.DESART, cantidad, (decimal)precio, (decimal)articulo.PORCTDESCUENTO, (decimal)total, impuesto, ladoOjo, codPadre,"SI", AgreDer, AgreIzq);
+                                    AgregarFila(gridFacturas, articulo.CodArticulo,"", articulo.DESART, cantidad, (decimal)precio, (decimal)articulo.PORCTDESCUENTO, (decimal)total, impuesto, ladoOjo, codPadre,"SI", AgreDer, AgreIzq);
                                     //Actualizo la fila del cristal 
                                     switch (ladoOjo)
                                     {
@@ -2184,7 +2204,7 @@ namespace CapaLogica.CargarOrdenes
 
         public bool ObtenerPromoVigente(System.Windows.Forms.DataGridView Dgv_Pnl3_Promociones)
         {
-
+            stringBuilder.Clear();
             // Obtener las promociones activas 
             DataTable PromoVigente = _D_Articulos.ObtenerPromoVigente();
 
@@ -2204,7 +2224,7 @@ namespace CapaLogica.CargarOrdenes
             }
             else
             {
-                stringBuilder.Append("Error al obtener promociones vigentes");
+                stringBuilder.Append("No hay promociones activas");
                 return false;
             }
 
@@ -2221,7 +2241,7 @@ namespace CapaLogica.CargarOrdenes
                 decimal total = precio * 1;
                 decimal impuesto = articulo.ART_EXENTO ? 0 : BuscarIva("I");
 
-                AgregarFila(gridFacturas, articulo.CodArticulo, articulo.DESART, 1, (decimal) precio, (decimal) articulo.PORCTDESCUENTO, (decimal) total, impuesto, txtOjo, "");
+                AgregarFila(gridFacturas, articulo.CodArticulo, "", articulo.DESART, 1, (decimal) precio, (decimal) articulo.PORCTDESCUENTO, (decimal) total, impuesto, txtOjo, "");
             }
 
         }
@@ -2238,7 +2258,7 @@ namespace CapaLogica.CargarOrdenes
                 decimal total = precio * 1;
                 decimal impuesto = articulo.ART_EXENTO ? 0 : BuscarIva("I");
 
-                AgregarFila(gridFacturas, articulo.CodArticulo, articulo.DESART, 1, (decimal)precio, (decimal)articulo.PORCTDESCUENTO, (decimal)total, impuesto, txtOjo, "");
+                AgregarFila(gridFacturas, articulo.CodArticulo,"", articulo.DESART, 1, (decimal)precio, (decimal)articulo.PORCTDESCUENTO, (decimal)total, impuesto, txtOjo, "");
             }
 
         }
@@ -2325,8 +2345,12 @@ namespace CapaLogica.CargarOrdenes
              };
         }
 
-        public bool EjecutarPromociones(DataGridView DgvArticulo, string glbTipoTrabajo, string TipoExamen, string CodPromo, bool MonturaPropia, bool CristalPropio)
+        public bool EjecutarPromociones(List<TB_ARTICULO> listaArticulos,DataGridView DgvArticulo, string TipoExamen, string Cod_DetVta, string CodPromo, bool MonturaPropia, bool CristalPropio)
         {
+            stringBuilder.Clear();
+            try 
+            { 
+
             // Declaración de variables
             bool MLS = false;
             bool CRT = false;
@@ -2338,11 +2362,15 @@ namespace CapaLogica.CargarOrdenes
             bool promoAplicaAR = false;
             bool PromoARObligatorio = false;
 
+            DataTable respuesta = _D_Articulos.BucarTipoVenta(Cod_DetVta);
+
+            string glbTipoTrabajo= respuesta.Rows[0]["CodVenta"].ToString();
+
             // Determinar el tipo de examen según glbTipoTrabajo
-            if (glbTipoTrabajo == "002")
-            {
+                if (glbTipoTrabajo == "002")
+                {
                 TipoExamen = "CONVENCIONAL";
-            }
+                }
             else if (glbTipoTrabajo == "001")
             {
                 TipoExamen = "DIRECTA";
@@ -2351,9 +2379,9 @@ namespace CapaLogica.CargarOrdenes
             // Recorrer las filas del DataGridView
             foreach (DataGridViewRow row in DgvArticulo.Rows)
             {
-                if (row.Cells["Código"].Value != null)
+                if (row.Cells["CodArticulo"].Value != null)
                 {
-                    string codigo = row.Cells["Código"].Value.ToString();
+                    string codigo = row.Cells["CodArticulo"].Value.ToString();
 
                     // Verificar si es Montura o Lente de Contacto
                     if (codigo.StartsWith("M") || codigo.StartsWith("L"))
@@ -2413,11 +2441,19 @@ namespace CapaLogica.CargarOrdenes
             {
                 if (resultado.Tables[0].Rows[0]["Resultado"].ToString() == "APLICA")
                 {
-                    PromoAplica = true;
+                    PromoAplica= AplicarPromocionesEnGrid(listaArticulos, DgvArticulo, resultado, glbTipoTrabajo, TipoExamen);
                 }
+                else
+                    PromoAplica= false;
             }
 
             return PromoAplica;
+            }
+             catch (Exception ex)
+            {
+                stringBuilder.Append(Environment.NewLine + string.Format("Error: {0}", ex.Message));
+                return false;
+            }
         }
         public TB_ARTICULO ObtenerArticuloPorCodigo(List<TB_ARTICULO> listaArticulos, string codArticulo)
         {
@@ -2437,8 +2473,19 @@ namespace CapaLogica.CargarOrdenes
         public bool AplicarPromocionesEnGrid(List<TB_ARTICULO> listaArticulos, DataGridView DgvArticulo, DataSet dsLl1so, string glbTipoTrabajo, string TipoExamen)
         {
             bool PromoAplicada = false;
-            bool aplicaCristalG = false;
-            bool aplica1ojo = false;
+
+            // Obtener la lista de códigos de artículos que no deben recibir promoción (si existe la segunda tabla)
+            HashSet<string> codigosSinPromocion = new HashSet<string>();
+            if (dsLl1so.Tables.Count > 1)
+            {
+                foreach (DataRow row in dsLl1so.Tables[1].Rows)
+                {
+                    if (row["CodArticulo"] != null)
+                    {
+                        codigosSinPromocion.Add(row["CodArticulo"].ToString());
+                    }
+                }
+            }
 
             // Recorrer las filas del DataGridView
             foreach (DataGridViewRow row in DgvArticulo.Rows)
@@ -2459,7 +2506,6 @@ namespace CapaLogica.CargarOrdenes
                             row.Cells["CodPromo"].Value = dsLl1so.Tables[0].Rows[0]["CODPROM"];
                             row.Cells["PromoEvaluada"].Value = "Si";
                             PromoAplicada = true;
-                            aplicaCristalG = true;
                         }
                         // Si el código comienza con "M" (Montura) o "L" (Lente de contacto)
                         else if (codigo.StartsWith("M") || codigo.StartsWith("L"))
@@ -2481,8 +2527,22 @@ namespace CapaLogica.CargarOrdenes
                             row.Cells["PromoEvaluada"].Value = "Si";
                             PromoAplicada = true;
                         }
+
+                        // Verificar si el artículo está en la lista de códigos sin promoción
+                        else if (codigosSinPromocion.Contains(codigo))
+                        {
+                            //TB_ARTICULO articuloEncontrado = ObtenerArticuloPorCodigo(listaArticulos, codigo);
+                            //decimal montoArtic = articuloEncontrado.ART_PVP;
+                            row.Cells["TienePromo"].Value = "Si";
+                            //row.Cells["Precio"].Value = (decimal)(montoArtic);
+                            //row.Cells["Total"].Value = (decimal)(montoArtic * Convert.ToDecimal(row.Cells["Can"].Value));
+                            row.Cells["CodPromo"].Value = dsLl1so.Tables[0].Rows[0]["CODPROM"];
+                            row.Cells["PromoEvaluada"].Value = "Si";
+                            PromoAplicada = true;
+                        }
+
                         // Si el código es uno de los servicios específicos // ´Poner una logica por sql para recibir los articulos que no quiero que se les aplique promocion 
-                        else if (new[] { "S000103", "S000104", "S000107", "S000108", "S000111", "S000112", "S000113", "S000114", "S000117", "S000118", "S000006", "S000004", "S000133", "S000134" }.Contains(codigo))
+                        else 
                         {
                             TB_ARTICULO articuloEncontrado = ObtenerArticuloPorCodigo(listaArticulos, codigo);
                             decimal montoArtic = articuloEncontrado.ART_PVP; // Método para obtener el precio del artículo
@@ -2492,31 +2552,76 @@ namespace CapaLogica.CargarOrdenes
                             row.Cells["CodPromo"].Value = dsLl1so.Tables[0].Rows[0]["CODPROM"];
                             row.Cells["PromoEvaluada"].Value = "Si";
                             PromoAplicada = true;
-                            aplica1ojo = true;
                         }
-                        // Si el código no es "A000004"
-                        else if (codigo != "A000004")
-                        {
-                            TB_ARTICULO articuloEncontrado = ObtenerArticuloPorCodigo(listaArticulos, codigo);
-                            decimal montoArtic = articuloEncontrado.ART_PVP;
-                            row.Cells["TienePromo"].Value = "Si";
-                            row.Cells["Precio"].Value = (decimal)(montoArtic);
-                            row.Cells["Total"].Value = (decimal)(montoArtic * Convert.ToDecimal(row.Cells["Can"].Value));
-                            row.Cells["CodPromo"].Value = dsLl1so.Tables[0].Rows[0]["CODPROM"];
-                            row.Cells["PromoEvaluada"].Value = "Si";
-                            PromoAplicada = true;
-                            aplica1ojo = true;
-                        }
+                       
                     }
                     // Si el resultado de la promoción es "NO APLICA"
                     else if (dsLl1so.Tables[0].Rows[0]["Resultado"].ToString() == "NO APLICA")
                     {
                         // Aquí puedes agregar lógica adicional si es necesario
                     }
+                    // Si el resultado de la promoción es "NO APLICA"
+                    else if (dsLl1so.Tables[0].Rows[0]["Resultado"].ToString() == "CASADA")
+                    {
+                        row.Cells["TienePromo"].Value = "Si";
+                        row.Cells["CodPromo"].Value = dsLl1so.Tables[0].Rows[0]["CODPROM"];
+                        row.Cells["PromoEvaluada"].Value = "Si";
+                        PromoAplicada = true;
+                    }
                 }
             }
 
             return PromoAplicada;
+        }
+
+        public DataSet CargarColoresLC(System.Windows.Forms.DataGridView DgvColoresLC, string CodArticulo)
+        {
+            Conexion cn = new Conexion();
+            SqlConnection connection = cn.LeerCadena();
+            SqlCommand command = connection.CreateCommand();
+            SqlTransaction transaction;
+            // Iniciar la transacción
+            transaction = connection.BeginTransaction();
+            command.Connection = connection;
+            command.Transaction = transaction;
+            command.Parameters.Clear();
+            command.CommandTimeout = 120;
+
+            try
+            {
+                // Obtener los artículos desde la base de datos
+                //var colores = _D_Articulos.ObtenerColorLC(CodArticulo);
+                return _D_Articulos.ObtenerColorLC(CodArticulo);
+                //DataSet dsColorLC = _D_Articulos.ObtenerColorLC(CodArticulo);
+                //DgvColoresLC.DataSource = dsColorLC;
+                // Limpiar la lista pasada como parámetro y llenarla con los nuevos datos
+                //listaColoresLC.Clear(); // Limpiar la lista para evitar duplicados
+                //listaColoresLC.AddRange(dsGColorLC); // Agregar los datos obtenidos
+
+                //// Asignar la lista como fuente de datos del DataGridView
+                //if (listaColoresLC != null && listaColoresLC.Count > 0 && _D_Articulos.stringBuilder.Length == 0)
+                //{
+                //    //DgvArticulo.DataSource = listaArticulos;
+
+                //    // Confirmar la transacción
+                //    transaction.Commit();
+                //}
+                //else
+                //{
+                //    //DgvArticulo.DataSource = null; // Si no hay datos, limpiar el DataGridView
+                //    _D_Articulos.stringBuilder.AppendLine("No se pudieron cargar los artículos correctamente");
+                //    transaction.Rollback();
+                //}
+
+
+            }
+            catch (Exception ex)
+            {
+                return null;
+                stringBuilder.Append(Environment.NewLine + string.Format("Error: {0}", ex.Message));
+                transaction.Rollback();
+            }
+
         }
     }
 }

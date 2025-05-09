@@ -503,7 +503,7 @@ namespace CapaDatos.CargarOrdenes_Datos
                 return null;
             }
         }
-        public DataTable BucarTipoVenta( SqlCommand command = null)
+        public DataTable BucarTipoVenta(string Cod_DetVta= "", SqlCommand command = null)
         {
             try
             {
@@ -516,7 +516,8 @@ namespace CapaDatos.CargarOrdenes_Datos
                 cmd.Parameters.Clear();
 
                 cmd.CommandText = "SP_CPOS_TipoVenta";
-                cmd.CommandType = CommandType.StoredProcedure;   
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Cod_DetVta", Cod_DetVta);
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(dt);
@@ -1156,26 +1157,27 @@ namespace CapaDatos.CargarOrdenes_Datos
                         // Mapear cada fila a un objeto TB_ARTICULO
                         TB_EMPAFI clienteAfiliado = new TB_EMPAFI
                         {
-                            Rif = reader["Rif"].ToString(),
+                            //Rif = reader["Rif"].ToString(),
+                            Codigo_Emp = reader["Codigo_Emp"].ToString(),
                             Nombre = reader["Nombre"].ToString(),
-                            CodigoEmp = reader["Codigo_Emp"].ToString(),
-                            Nit = reader["Nit"].ToString(),
-                            Direccion = reader["Direccion"].ToString(),
-                            Telefono1 = reader["Telefono1"].ToString(),
-                            Telefono2 = reader["Telefono2"].ToString(),
-                            FechaAfiliacion = reader["FechaAfiliacion"] != DBNull.Value ? Convert.ToDateTime(reader["FechaAfiliacion"]) : (DateTime?)null,
+
+                            //    Nit = reader["Nit"].ToString(),
+                            //    Direccion = reader["Direccion"].ToString(),
+                            //    Telefono1 = reader["Telefono1"].ToString(),
+                            //    Telefono2 = reader["Telefono2"].ToString(),
+                            //    FechaAfiliacion = reader["FechaAfiliacion"] != DBNull.Value ? Convert.ToDateTime(reader["FechaAfiliacion"]) : (DateTime?)null,
                             PorcentajeDes1 = reader["PorcentajeDes1"].ToString(),
                             PorcentajeDes2 = reader["PorcentajeDes2"].ToString(),
                             PorcentajeDes3 = reader["PorcentajeDes3"].ToString(),
-                            EMP_Fec_Crea = reader["EMP_Fec_Crea"] != DBNull.Value ? Convert.ToDateTime(reader["EMP_Fec_Crea"]) : (DateTime?)null,
-                            EMP_Fec_Mod = reader["EMP_Fec_Mod"] != DBNull.Value ? Convert.ToDateTime(reader["EMP_Fec_Mod"]) : (DateTime?)null,
-                            USER_Crea = reader["USER_Crea"].ToString(),
-                            USER_Modif = reader["USER_Modif"].ToString(),
-                            AceptaFinanciamiento = reader["AceptaFinanciamiento"] != DBNull.Value ? Convert.ToBoolean(reader["AceptaFinanciamiento"]) : (bool?)null,
-                            FechaInicio = reader["FechaInicio"] != DBNull.Value ? Convert.ToDateTime(reader["FechaInicio"]) : (DateTime?)null,
-                            FechaFin = reader["FechaFin"] != DBNull.Value ? Convert.ToDateTime(reader["FechaFin"]) : (DateTime?)null,
-                            Sucursal = reader["Sucursal"].ToString(),
-                            Activo = reader["Activo"] != DBNull.Value ? Convert.ToBoolean(reader["Activo"]) : (bool?)null
+                            //    EMP_Fec_Crea = reader["EMP_Fec_Crea"] != DBNull.Value ? Convert.ToDateTime(reader["EMP_Fec_Crea"]) : (DateTime?)null,
+                            //    EMP_Fec_Mod = reader["EMP_Fec_Mod"] != DBNull.Value ? Convert.ToDateTime(reader["EMP_Fec_Mod"]) : (DateTime?)null,
+                            //    USER_Crea = reader["USER_Crea"].ToString(),
+                            //    USER_Modif = reader["USER_Modif"].ToString(),
+                            //    AceptaFinanciamiento = reader["AceptaFinanciamiento"] != DBNull.Value ? Convert.ToBoolean(reader["AceptaFinanciamiento"]) : (bool?)null,
+                            //    FechaInicio = reader["FechaInicio"] != DBNull.Value ? Convert.ToDateTime(reader["FechaInicio"]) : (DateTime?)null,
+                            //    FechaFin = reader["FechaFin"] != DBNull.Value ? Convert.ToDateTime(reader["FechaFin"]) : (DateTime?)null,
+                            //    Sucursal = reader["Sucursal"].ToString(),
+                            //    Activo = reader["Activo"] != DBNull.Value ? Convert.ToBoolean(reader["Activo"]) : (bool?)null
                         };
 
 
@@ -1275,6 +1277,30 @@ namespace CapaDatos.CargarOrdenes_Datos
                 }
             }
 
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet dts = new DataSet();
+            da.Fill(dts);
+            cmd.Parameters.Clear();
+            return dts;
+        }
+
+        public DataSet ObtenerColorLC(string CodArticulo, SqlCommand command = null)
+        {
+            if (command == null)
+            {
+                SqlConnection connection = cn.LeerCadena();
+                command = connection.CreateCommand();
+            }
+
+            SqlCommand cmd = command;
+            cmd.Parameters.Clear();
+            cmd.CommandText = "SP_CPOS_GET_COLORLC";
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            // Agregar el parámetro obligatorio @CODPROMO
+            cmd.Parameters.AddWithValue("@CodArticulo", CodArticulo);
+
+           
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataSet dts = new DataSet();
             da.Fill(dts);
