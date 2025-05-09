@@ -859,7 +859,7 @@ namespace CapaDatos.CargarOrdenes_Datos
             }
         }
 
-        public DataTable MaxVta_btnProcesar(SqlCommand command = null)
+        public DataTable MaxVta_btnProcesar(string Inicial_Producto = "" , SqlCommand command = null)
         {
             try
             {
@@ -874,6 +874,7 @@ namespace CapaDatos.CargarOrdenes_Datos
 
                 cmd.CommandText = "CPOS_Max_Vta";
                 cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Cod_Producto", Inicial_Producto);
 
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);

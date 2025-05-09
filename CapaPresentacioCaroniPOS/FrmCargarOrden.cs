@@ -1020,20 +1020,17 @@ namespace CapaVisual_Login
                 return;
             }
 
-
             // Validar la existencia del producto
-            string mensaje = _L_Articulo.ValidarExistenciaProducto(Txt_Tap3_Articulo_Codigo.Text, Convert.ToInt16(Txt_Tap3_Articulo_Cantidad.Text), listaArticulos);
-
-            if (!string.IsNullOrEmpty(mensaje)) // Si hay un mensaje de error
+            if (!_L_Articulo.ValidoExistenciaArticulo(Txt_Tap3_Articulo_Codigo.Text, Convert.ToInt16(Txt_Tap3_Articulo_Cantidad.Text), listaArticulos, "1", Cbx_Pnl2_Trbajo.SelectedValue.ToString()) && _L_Articulo.stringBuilder.Length > 0) // Si hay un mensaje de error
             {
                 _FrmMensajes.co = 2;
-                _FrmMensajes.avisomensaje(mensaje);
+                _FrmMensajes.avisomensaje(_L_Articulo.stringBuilder.ToString());
                 _FrmMensajes.ShowDialog();
                 return; // Salir 
             }
 
             //Validar Cantidad Maxima Permitida Para venta
-            mensaje = _L_Articulo.ValidarCantidadMaximaPermitida(Txt_Tap3_Articulo_Codigo.Text, Convert.ToInt16(Txt_Tap3_Articulo_Cantidad.Text));
+            string mensaje = _L_Articulo.ValidarCantidadMaximaPermitida(Txt_Tap3_Articulo_Codigo.Text, Convert.ToInt16(Txt_Tap3_Articulo_Cantidad.Text));
 
             if (!string.IsNullOrEmpty(mensaje)) // Si hay un mensaje de error
             {
@@ -1458,7 +1455,7 @@ namespace CapaVisual_Login
                  Promocion_Aplicada = _L_Articulo.EjecutarPromociones(listaArticulos, Dgv_Tap3_Articulo, Cbx_Pnl2_Trbajo.Text, Cbx_Pnl2_Trbajo.SelectedValue.ToString(), Codigo_Promocion, Montura_Propia, Cristal_Propio);
                 if (!Promocion_Aplicada && _L_Articulo.stringBuilder.Length > 0)
                 {
-                    _FrmMensajes.co = 3;
+                    _FrmMensajes.co = 2;
                     _FrmMensajes.avisomensaje(_L_Articulo.stringBuilder.ToString());
                     _FrmMensajes.ShowDialog();
                 }

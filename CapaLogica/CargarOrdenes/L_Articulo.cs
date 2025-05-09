@@ -648,39 +648,54 @@ namespace CapaLogica.CargarOrdenes
             }
         }
 
-        public string ValidarExistenciaProducto(string codigoProducto, int cantidadIngresada, List<TB_ARTICULO> listaArticulos)
+
+        public bool ValidoExistenciaArticulo(string codigoProducto, int cantidadIngresada, List<TB_ARTICULO> listaArticulos, string glbManejaExisLC, string glbCodDetVta)
         {
-            if (codigoProducto.StartsWith("C") || codigoProducto.StartsWith("S"))
+            stringBuilder.Clear();
+            try
             {
-                // Si es un cristal no realizo la validacion
-                return "";
+                    // Buscar el producto en la lista por su código
+                    var articulo = listaArticulos.FirstOrDefault(a => a.CodArticulo == codigoProducto);
+
+                    // Verificar si el artículo maneja existencia
+                    if (!articulo.MANEJAEXISTENCIA)
+                    {
+                        // Verificar si el artículo tiene existencia
+                        if (articulo.ART_EXIST > 0)
+                        {
+                            // Verificar la cantidad máxima permitida para la venta
+                            var dsCantidad = _D_Articulos.MaxVta_btnProcesar(codigoProducto.Substring(0, 1));
+
+                            if (cantidadIngresada > Convert.ToInt32(dsCantidad.Rows[0]["Max_Vta"]))
+                            {
+                                // La cantidad a vender es mayor al máximo permitido
+                                stringBuilder.Append($"El artículo {codigoProducto} tiene una cantidad a vender mayor que el máximo permitido. Por favor, modifique la cantidad para continuar");                   
+                                return false;
+                            }
+                        }
+                        else
+                        {
+                            // Verificar si se permite manejar existencia en ciertas condiciones
+                            if (glbManejaExisLC == "1" && glbCodDetVta == "02")
+                            {
+                                return true;
+                            }
+                            else
+                            {
+                                stringBuilder.Append($"El artículo {codigoProducto} no posee existencia y no se puede grabar");
+                                return false;
+                            }
+                        }
+                    }
+                
+                // Si todo es válido, retornar true
+                return true;
             }
-
-            // Buscar el producto en la lista por su código
-                var articulo = listaArticulos.FirstOrDefault(a => a.CodArticulo == codigoProducto);
-
-            // Verificar si el producto existe en la lista
-            if (articulo == null)
+            catch (Exception ex)
             {
-                return "El producto no existe en la lista";
+                stringBuilder.Append(Environment.NewLine + string.Format("Error: {0}", ex.Message));
+                return false;
             }
-
-            // Verificar si el producto maneja existencia
-            if (!articulo.MANEJAEXISTENCIA)
-            {
-                return "El producto no tiene existencia";
-            }
-
-            // Comparar la cantidad ingresada con la existencia disponible
-            if (cantidadIngresada > articulo.ART_EXIST)
-            {
-                //return $"La cantidad ingresada {cantidadIngresada} excede la existencia disponible {articulo.ART_EXIST} ";
-                return "La cantidad ingresada excede la existencia";
-
-            }
-
-            // Si todo es válido, devolver true
-            return "";
         }
 
         public string ValidarCantidadMaximaPermitida(string codigoProducto, int cantidadIngresada)
@@ -2501,8 +2516,8 @@ namespace CapaLogica.CargarOrdenes
                         if (codigo.StartsWith("C"))
                         {
                             row.Cells["TienePromo"].Value = "Si";
-                            row.Cells["Precio"].Value = (decimal)dsLl1so.Tables[0].Rows[0]["PRECIOCRT_DESC"];
-                            row.Cells["Total"].Value = (decimal)dsLl1so.Tables[0].Rows[0]["PRECIOCRT_DESC"] * Convert.ToDecimal(row.Cells["Can"].Value);
+                            row.Cells["ART_PVP"].Value = (decimal)dsLl1so.Tables[0].Rows[0]["PRECIOCRT_DESC"];
+                            row.Cells["Total"].Value = (decimal)dsLl1so.Tables[0].Rows[0]["PRECIOCRT_DESC"] * Convert.ToDecimal(row.Cells["ART_EXIST"].Value);
                             row.Cells["CodPromo"].Value = dsLl1so.Tables[0].Rows[0]["CODPROM"];
                             row.Cells["PromoEvaluada"].Value = "Si";
                             PromoAplicada = true;
@@ -2511,8 +2526,8 @@ namespace CapaLogica.CargarOrdenes
                         else if (codigo.StartsWith("M") || codigo.StartsWith("L"))
                         {
                             row.Cells["TienePromo"].Value = "Si";
-                            row.Cells["Precio"].Value = (decimal)(dsLl1so.Tables[0].Rows[0]["PRECIOMONT_DESC"]);
-                            row.Cells["Total"].Value = (decimal)((decimal)dsLl1so.Tables[0].Rows[0]["PRECIOMONT_DESC"] * Convert.ToDecimal(row.Cells["Can"].Value));
+                            row.Cells["ART_PVP"].Value = (decimal)(dsLl1so.Tables[0].Rows[0]["PRECIOMONT_DESC"]);
+                            row.Cells["Total"].Value = (decimal)((decimal)dsLl1so.Tables[0].Rows[0]["PRECIOMONT_DESC"] * Convert.ToDecimal(row.Cells["ART_EXIST"].Value));
                             row.Cells["CodPromo"].Value = dsLl1so.Tables[0].Rows[0]["CODPROM"];
                             row.Cells["PromoEvaluada"].Value = "Si";
                             PromoAplicada = true;
@@ -2521,8 +2536,8 @@ namespace CapaLogica.CargarOrdenes
                         else if (codigo.StartsWith("W"))
                         {
                             row.Cells["TienePromo"].Value = "Si";
-                            row.Cells["Precio"].Value = (decimal)(dsLl1so.Tables[0].Rows[0]["TOTLC"]);
-                            row.Cells["Total"].Value = (decimal)((decimal)dsLl1so.Tables[0].Rows[0]["TOTLC"] * Convert.ToDecimal(row.Cells["Can"].Value));
+                            row.Cells["ART_PVP"].Value = (decimal)(dsLl1so.Tables[0].Rows[0]["TOTLC"]);
+                            row.Cells["Total"].Value = (decimal)((decimal)dsLl1so.Tables[0].Rows[0]["TOTLC"] * Convert.ToDecimal(row.Cells["ART_EXIST"].Value));
                             row.Cells["CodPromo"].Value = dsLl1so.Tables[0].Rows[0]["CODPROM"];
                             row.Cells["PromoEvaluada"].Value = "Si";
                             PromoAplicada = true;
@@ -2534,7 +2549,7 @@ namespace CapaLogica.CargarOrdenes
                             //TB_ARTICULO articuloEncontrado = ObtenerArticuloPorCodigo(listaArticulos, codigo);
                             //decimal montoArtic = articuloEncontrado.ART_PVP;
                             row.Cells["TienePromo"].Value = "Si";
-                            //row.Cells["Precio"].Value = (decimal)(montoArtic);
+                            //row.Cells["ART_PVP"].Value = (decimal)(montoArtic);
                             //row.Cells["Total"].Value = (decimal)(montoArtic * Convert.ToDecimal(row.Cells["Can"].Value));
                             row.Cells["CodPromo"].Value = dsLl1so.Tables[0].Rows[0]["CODPROM"];
                             row.Cells["PromoEvaluada"].Value = "Si";
@@ -2547,8 +2562,8 @@ namespace CapaLogica.CargarOrdenes
                             TB_ARTICULO articuloEncontrado = ObtenerArticuloPorCodigo(listaArticulos, codigo);
                             decimal montoArtic = articuloEncontrado.ART_PVP; // Método para obtener el precio del artículo
                             row.Cells["TienePromo"].Value = "Si";
-                            row.Cells["Precio"].Value = (decimal)(montoArtic - (montoArtic * Convert.ToDecimal(dsLl1so.Tables[0].Rows[0]["PORCDCTO"]) / 100));
-                            row.Cells["Total"].Value = (decimal)((montoArtic - (montoArtic * Convert.ToDecimal(dsLl1so.Tables[0].Rows[0]["PORCDCTO"]) / 100)) * Convert.ToDecimal(row.Cells["Can"].Value));
+                            row.Cells["ART_PVP"].Value = (decimal)(montoArtic - (montoArtic * Convert.ToDecimal(dsLl1so.Tables[0].Rows[0]["PORCDCTO"]) / 100));
+                            row.Cells["Total"].Value = (decimal)((montoArtic - (montoArtic * Convert.ToDecimal(dsLl1so.Tables[0].Rows[0]["PORCDCTO"]) / 100)) * Convert.ToDecimal(row.Cells["ART_EXIST"].Value));
                             row.Cells["CodPromo"].Value = dsLl1so.Tables[0].Rows[0]["CODPROM"];
                             row.Cells["PromoEvaluada"].Value = "Si";
                             PromoAplicada = true;
@@ -2558,7 +2573,7 @@ namespace CapaLogica.CargarOrdenes
                     // Si el resultado de la promoción es "NO APLICA"
                     else if (dsLl1so.Tables[0].Rows[0]["Resultado"].ToString() == "NO APLICA")
                     {
-                        // Aquí puedes agregar lógica adicional si es necesario
+                        PromoAplicada = false;
                     }
                     // Si el resultado de la promoción es "NO APLICA"
                     else if (dsLl1so.Tables[0].Rows[0]["Resultado"].ToString() == "CASADA")
