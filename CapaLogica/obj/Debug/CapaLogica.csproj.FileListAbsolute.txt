@@ -73,6 +73,6 @@ C:\projects\EPOS20\CapaLogica\bin\Debug\System.Security.Principal.Windows.xml
 C:\projects\EPOS20\CapaLogica\obj\Debug\CapaLogica.csproj.AssemblyReference.cache
 C:\projects\EPOS20\CapaLogica\obj\Debug\CapaLogica.csproj.ResolveComReference.cache
 C:\projects\EPOS20\CapaLogica\obj\Debug\CapaLogica.csproj.CoreCompileInputs.cache
-C:\projects\EPOS20\CapaLogica\obj\Debug\CapaLogica.csproj.CopyComplete
 C:\projects\EPOS20\CapaLogica\obj\Debug\CapaLogica.dll
 C:\projects\EPOS20\CapaLogica\obj\Debug\CapaLogica.pdb
+C:\projects\EPOS20\CapaLogica\obj\Debug\CapaLogica.csproj.Up2Date

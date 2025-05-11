@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using CapaEntidades;
 
 namespace CapaDatos.CargarOrdenes_Datos
@@ -740,6 +741,42 @@ namespace CapaDatos.CargarOrdenes_Datos
 
         }
 
+        public DataTable VerificarCantidadMonturaAlmacenQUORUM(string NumordServ, string CodArticulo, int CodSucursal, string CodServicio)
+        {
+
+            try
+            {
+                SqlConnection connection = cn.LeerCadena();
+                SqlCommand command = connection.CreateCommand();
+                command.Parameters.Clear();
+                command.CommandText = "SP_CPOS_pGetMonturaAlmacenQUORUM";
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@NumordServ", NumordServ);
+                command.Parameters.AddWithValue("@CodArticulo", CodArticulo);
+                command.Parameters.AddWithValue("@CodSucursal", CodSucursal);
+                command.Parameters.AddWithValue("@CodServicio", CodServicio);
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(command);
+                da.Fill(dt);
+                command.Parameters.Clear();
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                string error = $"Error: {ex.Message}";
+                return null;
+            }
+        }
+
+
+
+
+
+
+
+        ////////////////////////////////////////
+
+
         public DataSet GetDiametroEfectivo_btnProcesar(string nac, string cedula, int numExamen, string cristal, string cristalI, string ojo,
                                                        string tipoVisionD, string tipoVisionI, string montura, int horizontal, int maxima, 
                                                        int puente, string sucursal, SqlCommand command = null)
@@ -1223,6 +1260,256 @@ namespace CapaDatos.CargarOrdenes_Datos
 
         }
 
+        ////////
 
+        public string AgregarOrdenServicio(string codSucursal, string revision, string codVenta, string cteNacio, string cteCedIden,
+                                        string numExamen, string codEmpleado, string codLaboratorio, string codServicio, string vision,
+                                        DateTime fecOfrecido, string horOfrecido, DateTime? fecEntrega, DateTime? fecEnvio,
+                                        decimal vtaSubTotal, decimal vtaImpuesto, decimal vtaDescuento, decimal vtaTotal,
+                                        bool orSerFinan, string orSerStatus, string orSerObserv, string userCrea, DateTime fecha,
+                                        bool monturaPropia, string codDetVta, bool aplica, string otCorrespondiente, bool ventaAfil,
+                                        bool cristalPropio, string tipoMonturaPropia, string codMotivoReposicion,
+                                        string cedulaCteAfil, string codigoEmpAfil, bool? asegurada, bool? exonerada,
+                                        bool monturaEnQuorum, string codColoracion, SqlCommand command = null)
+        {
+            if (command == null)
+            {
+                SqlConnection connection = cn.LeerCadena();
+                command = connection.CreateCommand();
+            }
+
+            SqlCommand cmd = command;
+            cmd.Parameters.Clear();
+            cmd.CommandText = "SP_CPOS_AgregarOrdenServicio";
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@Cod_Sucursal", codSucursal);
+            cmd.Parameters.AddWithValue("@Revision", revision);
+            cmd.Parameters.AddWithValue("@Cod_Venta", codVenta);
+            cmd.Parameters.AddWithValue("@CTE_Nacio", cteNacio);
+            cmd.Parameters.AddWithValue("@CTE_CedIden", cteCedIden);
+            cmd.Parameters.AddWithValue("@NumExamen", numExamen);
+            cmd.Parameters.AddWithValue("@COD_EMPLEADO", codEmpleado);
+            cmd.Parameters.AddWithValue("@Cod_Laboratorio", codLaboratorio);
+            cmd.Parameters.AddWithValue("@Cod_Servicio", codServicio);
+            cmd.Parameters.AddWithValue("@Vision", vision);
+            cmd.Parameters.AddWithValue("@Fec_Ofrecido", fecOfrecido);
+            cmd.Parameters.AddWithValue("@Hor_Ofrecido", horOfrecido);
+            cmd.Parameters.AddWithValue("@Fec_Entrega", (object)fecEntrega ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@Fec_Envio", (object)fecEnvio ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@VtaSubTotal", vtaSubTotal);
+            cmd.Parameters.AddWithValue("@VtaImpuesto", vtaImpuesto);
+            cmd.Parameters.AddWithValue("@VtaDescuento", vtaDescuento);
+            cmd.Parameters.AddWithValue("@VtaTotal", vtaTotal);
+            cmd.Parameters.AddWithValue("@OrSer_Finan", orSerFinan);
+            cmd.Parameters.AddWithValue("@OrSer_Status", orSerStatus);
+            cmd.Parameters.AddWithValue("@OrSer_Observ", orSerObserv);
+            cmd.Parameters.AddWithValue("@USER_Crea", userCrea);
+            cmd.Parameters.AddWithValue("@Fecha", fecha);
+            cmd.Parameters.AddWithValue("@MonturaPropia", monturaPropia);
+            cmd.Parameters.AddWithValue("@Cod_DetVta", codDetVta);
+            cmd.Parameters.AddWithValue("@Aplica", aplica);
+            cmd.Parameters.AddWithValue("@OTCORRESPONDIENTE", otCorrespondiente);
+            cmd.Parameters.AddWithValue("@VentaAfil", ventaAfil);
+            cmd.Parameters.AddWithValue("@CristalPropio", cristalPropio);
+            cmd.Parameters.AddWithValue("@TipoMonturaPropia", (object)tipoMonturaPropia ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@CodMotivoReposicion", (object)codMotivoReposicion ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@Cedula_CteAfil", (object)cedulaCteAfil ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@Codigo_EmpAfil", (object)codigoEmpAfil ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@Asegurada", (object)asegurada ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@Exonerada", (object)exonerada ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@MonturaEnQuorum", (object)monturaEnQuorum ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@Cod_Coloracion", (object)codColoracion ?? DBNull.Value);
+
+            SqlParameter numOrdenParam = new SqlParameter("@NumOrdserv", SqlDbType.VarChar, 20)
+            {
+                Direction = ParameterDirection.Output
+            };
+
+            cmd.Parameters.Add(numOrdenParam);
+
+            cmd.ExecuteNonQuery();
+
+            string numeroOrdenGenerado = numOrdenParam.Value.ToString();
+            cmd.Parameters.Clear();
+
+            return numeroOrdenGenerado;
+        }
+
+        public List<TB_LABORATORIOSDTO> DatosLaboratorio(SqlCommand command = null)
+        {
+            try
+            {
+                if (command == null)
+                {
+                    SqlConnection connection = cn.LeerCadena();
+                    command = connection.CreateCommand();
+                }
+                // Declarar la lista para almacenar los resultados
+                List<TB_LABORATORIOSDTO> listaCodLaboratorio = new List<TB_LABORATORIOSDTO>();
+
+                SqlCommand cmd = command;
+                cmd.Parameters.Clear();
+                cmd.CommandText = "SP_CPOS_ListaLaboratorios";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                // Ejecutar el comando y leer los resultados
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        // Mapear cada fila a un objeto TB_ARTICULO
+                        TB_LABORATORIOSDTO codLaboratorio = new TB_LABORATORIOSDTO
+                        {
+                            CODIGO_LAB = reader["CodLab"].ToString(),
+                            DESCRIPCION = reader["Laboratorio"].ToString()
+                        };
+
+
+                        // Agregar el objeto a la lista
+                        listaCodLaboratorio.Add(codLaboratorio);
+                    }
+                }
+
+                return listaCodLaboratorio;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al obtener laboratorios: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+
+
+        }
+
+        public List<TB_SERVICIOSLABDTO> ServiciosLaboratorio(SqlCommand command = null)
+        {
+            try
+            {
+                if (command == null)
+                {
+                    SqlConnection connection = cn.LeerCadena();
+                    command = connection.CreateCommand();
+                }
+                // Declarar la lista para almacenar los resultados
+                List<TB_SERVICIOSLABDTO> listaServLaboratorio = new List<TB_SERVICIOSLABDTO>();
+
+                SqlCommand cmd = command;
+                cmd.Parameters.Clear();
+                cmd.CommandText = "SP_CPOS_CodServiciosLaboratorio";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                // Ejecutar el comando y leer los resultados
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        // Mapear cada fila a un objeto TB_ARTICULO
+                        TB_SERVICIOSLABDTO codServLaboratorio = new TB_SERVICIOSLABDTO
+                        {
+                            Cod_servicio = reader["CodServ"].ToString(),
+                            Descripcion_servicio = reader["ServicioLab"].ToString()
+                        };
+
+
+                        // Agregar el objeto a la lista
+                        listaServLaboratorio.Add(codServLaboratorio);
+                    }
+                }
+
+                return listaServLaboratorio;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al obtener Servicios de laboratorios: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+
+
+        }
+
+        public DataTable ValidacionMonturaQuorum(string codArticulo, string codSucursal, string codServicio, SqlCommand command = null)
+        {
+            try
+            {
+                if (command == null)
+                {
+                    SqlConnection connection = cn.LeerCadena();
+                    command = connection.CreateCommand();
+                }
+
+                SqlCommand cmd = command;
+                cmd.Parameters.Clear();
+                cmd.CommandText = "SP_CPOS_pGetMonturaAlmacenQUORUM";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@NumordServ", ""); // vacío
+                cmd.Parameters.AddWithValue("@CodArticulo", codArticulo);
+                cmd.Parameters.AddWithValue("@suc", codSucursal);
+                cmd.Parameters.AddWithValue("@CodServicio", codServicio);
+
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+
+                cmd.Parameters.Clear();
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+                return null;
+            }
+        }
+
+        public DataTable ObtenerBajaExistenciaCristales(string cedNacio, string cedId, string sucursal, string examen, string codArticulo, SqlCommand command = null)
+        {
+            if (command == null)
+            {
+                SqlConnection conn = cn.LeerCadena();
+                command = conn.CreateCommand();
+            }
+
+            SqlCommand cmd = command;
+            cmd.Parameters.Clear();
+            cmd.CommandText = "pGetBajaExistencia";
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@Nac", cedNacio);
+            cmd.Parameters.AddWithValue("@Cedula", cedId);
+            cmd.Parameters.AddWithValue("@Sucursal", sucursal);
+            cmd.Parameters.AddWithValue("@Examen", examen);
+            cmd.Parameters.AddWithValue("@CodArticulo", codArticulo);
+
+            DataTable dt = new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            da.Fill(dt);
+            return dt;
+        }
+
+        public string ObtenerCodVentaDesdeCodModo(string codModo, SqlCommand command = null)
+        {
+            if (command == null)
+            {
+                SqlConnection connection = cn.LeerCadena();
+                command = connection.CreateCommand();
+            }
+
+            SqlCommand cmd = command;
+            cmd.Parameters.Clear();
+            cmd.CommandText = "SP_CPOS_TipoVenta";
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@Cod_DetVta", codModo);
+
+            using (SqlDataReader reader = cmd.ExecuteReader())
+            {
+                if (reader.Read())
+                {
+                    return reader["CodVenta"].ToString();
+                }
+            }
+
+            return null; 
+        }
     }
 }

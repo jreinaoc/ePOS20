@@ -15,6 +15,7 @@ using System.Data.SqlClient;
 using CapaDatos.Inicio_Datos;
 using CapaDatos.DetalleOrden_Datos;
 using CapaDatos.CargarOrdenes_Datos;
+
 namespace CapaVisual_Login
 {
     public partial class FrmCargarOrden : Form
@@ -40,6 +41,7 @@ namespace CapaVisual_Login
         private string Tipo_Descuento = "";
         private string glbServicio_NUV = "";
         private string glbServicio = "";
+        private string glbNumVision = "";
         private ServicioValidaciones_CargarOrdenes _servicioValidaciones = new ServicioValidaciones_CargarOrdenes();
 
 
@@ -47,6 +49,7 @@ namespace CapaVisual_Login
         private D_Articulos _D_Articulo = new D_Articulos();
         private string Codigo_Coloracion = "";
         private string Codigo_Promocion = "";
+        private bool Promocion_Aplicada = false;
         private bool Cristal_Propio = false;
         private bool Montura_Propia = false;
         private string EmpresaAfiliada = "";
@@ -1270,6 +1273,8 @@ namespace CapaVisual_Login
                 _L_Articulo.InicializarDataGridViewTotales(Dgv_Tap3_Totales);
                 Formato_Dgv_Totales();
                 _L_Articulo.BucarTipoVenta(Cbx_Pnl2_Trbajo);
+                CargarComboLaboratorios();
+                CargarComboServicioLaboratorios();
             }
             else if (tabControl.SelectedIndex == 0)
             {
@@ -2136,6 +2141,24 @@ namespace CapaVisual_Login
             }
         }
 
+        private void CargarComboLaboratorios()
+        {
+            var lista = _L_Articulo.ObtenerLaboratoriosParaCombo();
+
+            Cbx_Pnl2_Laboratorio.DataSource = lista;
+            Cbx_Pnl2_Laboratorio.ValueMember = "CODIGO_LAB";
+            Cbx_Pnl2_Laboratorio.DisplayMember = "DESCRIPCION";
+        }
+        private void CargarComboServicioLaboratorios()
+        {
+            var lista = _L_Articulo.ObtenerServicioLaboratorioCbx();
+
+            Cbx_Pnl2_Servicio.DataSource = lista;
+            Cbx_Pnl2_Servicio.ValueMember = "Cod_servicio";
+            Cbx_Pnl2_Servicio.DisplayMember = "Descripcion_servicio";
+        }
+
+
         private async void Btn_Tap3_Procesar_Click(object sender, EventArgs e)
         {
             try
@@ -2187,23 +2210,135 @@ namespace CapaVisual_Login
                     return;
                 }
 
+                string codSucursal;
+                codSucursal = _D_DetalleOrden.TB_PARAMETRO("SucursalId");
+                _D_Articulo.Agregar_TB_TRABAJO(codSucursal, "", "", Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), "002", Convert.ToInt32(Txt_Pnl2_Examen.Text)
+                , txtHorizontal.Text, txtVertical.Text, txtMaxima.Text, txtPuente.Text, "0", "0", "A", "Cerca", "Cerca", "QUO", "001", "T", TB_USUARIO.COD_USR, "02", "CONVENCIONAL", "0", "0", "0", "0");
+
+                VerificoParametrosCristales();
+                VerificoRangoDiametroCristales();
+
+                string codModo = Cbx_Pnl2_Trbajo.SelectedValue?.ToString();
+                string tipoTrabajoVenta = _L_Articulo.ObtenerTipoVentaPorModo(codModo);
+
+                //Obtener datos para GuardarOrdenServicioAsync
+                var datos = new ValidacionEstucheDTO
+                {
+                    TipoTrabajo = tipoTrabajoVenta,
+                    Observacion = txtObservacion.Text,
+                    Garantia = Garantia,
+                    MonturaPropia = Montura_Propia,
+                    CodigosDesdeGrid = ObtenerCodigosDesdeGrid()
+                };
+
+                string letraInicial, numeroCedula;
+                _L_Articulo.DividirValoresCedula(Txt_Pnl2_Cedula.Text, out letraInicial, out numeroCedula);
+
+                _servicioValidaciones.ValidarMonturaQuorumYCristales(
+                    Dgv_Tap3_Articulo,
+                    Cbx_Pnl2_Laboratorio.SelectedValue.ToString(),
+                    TB_USUARIO.COD_SUCURSAL,
+                    Cbx_Pnl2_Servicio.SelectedValue.ToString(),
+                    letraInicial,
+                    numeroCedula,
+                    Txt_Pnl2_Examen.Text,
+                    command
+                );
+
+                bool resultado = await _servicioValidaciones.GuardarOrdenServicioAsync(
+                    Dgv_Tap3_Totales,
+                    Dgv_Tap3_Articulo,
+                    command,
+                    mostrarPregunta,
+                    mostrarError,
+                    datos
+                );
+
+                //Guardar datos en CAORDSERV
+                string codServicio = Cbx_Pnl2_Servicio.SelectedValue.ToString();
+                string sucursal = TB_USUARIO.COD_SUCURSAL;
+                string codMonturaSeleccionada = Dgv_Tap3_Articulo.CurrentRow?.Cells["CodArticulo"]?.Value?.ToString();
+                string cedulaAfiliado = Dgv_Pnl3_ClienteAfiliado.CurrentRow?.Cells["Rif"]?.Value?.ToString();
+                string codigoEmpresaAfiliada = Dgv_Pnl3_ClienteAfiliado.CurrentRow?.Cells["Codigo_Emp"]?.Value?.ToString();
+                bool monturaEstaEnQuorum = _servicioValidaciones.MonturaEstaEnQuorum(codMonturaSeleccionada, sucursal, codServicio);
+
+                var datosOrden = new AgregarOrdenServicio_CargarOrdenes
+                {
+                    CodSucursal = codSucursal,
+                    Revision = "0", //siempre se va en 0
+                    CodVenta = "",
+                    CteNacio = letraInicial,
+                    CteCedIden = numeroCedula,
+                    NumExamen = Txt_Pnl2_Examen.Text, 
+                    CodEmpleado = TB_USUARIO.COD_EMPLEADO,  
+                    CodLaboratorio = Cbx_Pnl2_Laboratorio.SelectedValue.ToString(),
+                    CodServicio = codServicio, 
+                    Vision = glbNumVision, 
+                    FecOfrecido = DateTime.Now, 
+                    HorOfrecido = DateTime.Now.ToString("HH:mm"), 
+                    FecEntrega = DateTime.Now,
+                    FecEnvio = DateTime.Now,
+                    VtaSubTotal = _servicioValidaciones.ObtenerValorDesdeGrid_Totales(Dgv_Tap3_Totales, "SubTotal"), // grid totales
+                    VtaImpuesto = _servicioValidaciones.ObtenerValorDesdeGrid_Articulos(Dgv_Tap3_Totales, "Impuesto"),  // grid totales
+                    VtaDescuento = _servicioValidaciones.ObtenerValorDesdeGrid_Totales(Dgv_Tap3_Totales, "Descuento"),  // grid totales
+                    VtaTotal = _servicioValidaciones.ObtenerValorDesdeGrid_Totales(Dgv_Tap3_Totales, "Total"), // grid totales
+                    OrSerFinan = false,
+                    OrSerStatus = "004", // revisar Si no modifica  Se tiene que poner en estatus por pagar 004   // Mas adelante crear un funcion que verifique le codigo de promocion y coloque el estatus deseado       
+                    OrSerObserv = txtObservacion.Text,
+                    UserCrea =  TB_USUARIO.COD_USR,
+                    Fecha = DateTime.Now,
+                    MonturaPropia = Montura_Propia, 
+                    CodDetVta = Cbx_Pnl2_Trbajo.SelectedValue.ToString(),
+                    Aplica = Promocion_Aplicada, 
+                    OtCorrespondiente = "",
+                    VentaAfil = false,
+                    CristalPropio = Cristal_Propio, 
+                    TipoMonturaPropia = "", // TipoMonturaPropia
+                    CodMotivoReposicion = "",
+                    CedulaCteAfil = cedulaAfiliado,
+                    CodigoEmpAfil = codigoEmpresaAfiliada,
+                    Asegurada = Garantia,
+                    Exonerada = false, 
+                    MonturaEnQuorum = monturaEstaEnQuorum,
+                    CodColoracion = Codigo_Coloracion
+                     
+                }; 
+
+                // Guardar datos en CAORDSER
+                try
+                {
+                    var servicio = new ServicioGuardarOrdenes_Cargar_Ordenes();
+                    string numeroOrden = servicio.GuardarOrdenServicio(datosOrden);
+
+                    //MessageBox.Show("Orden guardada correctamente: " + numeroOrden);
+                }
+                catch (Exception ex)
+                {
+                    mostrarError("No se pudo guardar la orden de servicio: " + ex.Message);
+                }
+
+
                 // Finaliza normalmente
                 Btn_Tap3_Procesar.Enabled = true;
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al procesar coloración: " + ex.Message);
+                MessageBox.Show("Error al procesar el Guardado de Orden: " + ex.Message);
                 Btn_Tap3_Procesar.Enabled = true;
             }
 
-            string codSucursal;
-            codSucursal = _D_DetalleOrden.TB_PARAMETRO("SucursalId");
-            _D_Articulo.Agregar_TB_TRABAJO(codSucursal, "", "", Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), "002", Convert.ToInt32(Txt_Pnl2_Examen.Text)
-              , txtHorizontal.Text, txtVertical.Text, txtMaxima.Text, txtPuente.Text, "0", "0", "A", "Cerca", "Cerca", "QUO", "001", "T", TB_USUARIO.COD_USR, "02", "CONVENCIONAL", "0", "0", "0", "0");
+            ////
 
-            VerificoParametrosCristales();
-            VerificoRangoDiametroCristales();
+        }
 
+        private DialogResult mostrarPregunta(string mensaje, string titulo)
+        {
+            return FrmMensajes.MostrarPregunta(mensaje, titulo); 
+        }
+
+        private void mostrarError(string mensaje)
+        {
+            FrmMensajes.MostrarError(mensaje); 
         }
 
         private List<string> ObtenerCodigosDesdeGrid()
@@ -2221,9 +2356,30 @@ namespace CapaVisual_Login
             return codigos;
         }
 
+        private int? ObtenerCodVentaDesdeCombo(string valorCombo, DataTable dtTiposVenta)
+        {
+            if (string.IsNullOrWhiteSpace(valorCombo) || dtTiposVenta == null || dtTiposVenta.Rows.Count == 0)
+                return null;
+
+            foreach (DataRow row in dtTiposVenta.Rows)
+            {
+                string descripcion = row["Descripcion"].ToString().Trim();
+                string codModo = row["CodModo"].ToString().Trim();
+
+                if (descripcion.Equals(valorCombo, StringComparison.OrdinalIgnoreCase) ||
+                    codModo.Equals(valorCombo, StringComparison.OrdinalIgnoreCase))
+                {
+                    if (int.TryParse(row["CodVenta"].ToString(), out int codVenta))
+                        return codVenta;
+                }
+            }
+
+            return null; 
+        }
+
+
 
         //////////////////////////////////////////////////////
-        ///
 
         public void VerificoParametrosCristales()
         {
@@ -2584,9 +2740,7 @@ namespace CapaVisual_Login
         }
 
         private void btnAutorizarRangosCrt_Click(object sender, EventArgs e)
-        {
-
-        }
+        {}
 
         private void btnCancelarRangosCrt_Click(object sender, EventArgs e)
         {
@@ -2632,9 +2786,7 @@ namespace CapaVisual_Login
         }
 
         private void Btn_Tap1_Guardar_Click(object sender, EventArgs e)
-        {
-
-        }
+        {}
 
         private void Btn_Tap3_CristalPropio_Click(object sender, EventArgs e)
         {
@@ -2698,9 +2850,7 @@ namespace CapaVisual_Login
         //}
 
         private void QuitarLimea2_Click(object sender, EventArgs e)
-        {
-
-        }
+        {}
 
         private void FrmCargarOrden_Load(object sender, EventArgs e)
         {
@@ -2731,14 +2881,10 @@ namespace CapaVisual_Login
         }
 
         private void panel2_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
+        {}
 
         private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
+        {}
 
         private void btnCancelarAfiliado_Click(object sender, EventArgs e)
         {

@@ -65,6 +65,6 @@ C:\projects\EPOS20\CapaDatos\bin\Debug\System.Security.Permissions.xml
 C:\projects\EPOS20\CapaDatos\bin\Debug\System.Security.Principal.Windows.xml
 C:\projects\EPOS20\CapaDatos\obj\Debug\CapaDatos.csproj.AssemblyReference.cache
 C:\projects\EPOS20\CapaDatos\obj\Debug\CapaDatos.csproj.CoreCompileInputs.cache
-C:\projects\EPOS20\CapaDatos\obj\Debug\CapaDatos.csproj.CopyComplete
 C:\projects\EPOS20\CapaDatos\obj\Debug\CapaDatos.dll
 C:\projects\EPOS20\CapaDatos\obj\Debug\CapaDatos.pdb
+C:\projects\EPOS20\CapaDatos\obj\Debug\CapaDatos.csproj.Up2Date

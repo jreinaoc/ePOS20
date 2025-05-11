@@ -29,9 +29,6 @@ namespace CapaVisual_Login
             
         }
 
-        
-
-
         public FrmMensajes()
         {
             InitializeComponent();
@@ -141,6 +138,23 @@ namespace CapaVisual_Login
         private void LblMensaje_Click(object sender, EventArgs e)
         {
 
+        }
+
+        public static void MostrarError(string mensaje)
+        {
+            var form = new FrmMensajes();
+            form.co = 2; // co = 2 para error
+            form.avisomensaje(mensaje);
+            form.ShowDialog();
+        }
+
+        public static DialogResult MostrarPregunta(string mensaje, string titulo)
+        {
+            var form = new FrmMensajes();
+            form.Text = titulo;
+            form.co = 3; // co = 3 para pregunta
+            form.avisomensaje(mensaje);
+            return form.ShowDialog();
         }
     }
 }
