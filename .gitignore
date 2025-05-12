@@ -4,11 +4,7 @@
 *.suo
 
 # Compilación
-bin/
-obj/
-*.exe
-*.dll
-*.pdb
+
 *.cache
 *.log
 

@@ -1778,10 +1778,10 @@ namespace CapaVisual_Login
                 {
                     // Obtener el índice de la fila seleccionada
                     filaSeleccionada = Dgv_Tap3_Articulo.CurrentRow.Index;
+                    Tipo_Descuento = "Descuento por articulo";
                     VisualizarPanel("Descuento");
                     HabilitacionControl("Habilitar_Descuento");
                     _L_Articulo.Cargo_CodMotivo_Descuento(Cbx_Pnl3_MotivoDesc);
-                    Tipo_Descuento = "Descuento por articulo";
                 }
             }
         }
@@ -1909,20 +1909,20 @@ namespace CapaVisual_Login
                 {
                     // Obtener el índice de la fila seleccionada
                     filaSeleccionada = Dgv_Tap3_Articulo.CurrentRow.Index;
+                    Tipo_Descuento = "Descuento por articulo";
                     VisualizarPanel("Descuento");
                     HabilitacionControl("Habilitar_Descuento");
                     _L_Articulo.Cargo_CodMotivo_Descuento(Cbx_Pnl3_MotivoDesc);
-                    Tipo_Descuento = "Descuento por articulo";
                 }
             }
                     
             else
             {
                 //ActivoInactivoBtn("Descuento");
+                Tipo_Descuento = "Descuento Global";
                 VisualizarPanel("Descuento");
                 HabilitacionControl("Habilitar_Descuento");
                 _L_Articulo.Cargo_CodMotivo_Descuento(Cbx_Pnl3_MotivoDesc);
-                Tipo_Descuento = "Descuento Global";
             }
         }
 
