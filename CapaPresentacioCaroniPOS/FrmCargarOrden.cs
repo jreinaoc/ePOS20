@@ -55,6 +55,7 @@ namespace CapaVisual_Login
         private decimal PorcDctoEmpresaAfiliada = 0;
         private bool Garantia;
         private string CodColorLC = "";
+        private bool tipoTrabajoSeleccionado;
 
         List<TB_EMPAFI> listaClienteAfiliados = new List<TB_EMPAFI>();
 
@@ -84,14 +85,14 @@ namespace CapaVisual_Login
             // Cuando el usuario deja el TextBox
             if (string.IsNullOrWhiteSpace(Txt_Tap3_Articulo_Codigo.Text))
             {
-                Txt_Tap3_Articulo_Codigo.Text = "Código"; // Restaurar el texto sugerido
-                Txt_Tap3_Articulo_Codigo.ForeColor = Color.DarkGray; // Cambiar el color del texto a gris
+                //Txt_Tap3_Articulo_Codigo.Text = "Código"; // Restaurar el texto sugerido
+                //Txt_Tap3_Articulo_Codigo.ForeColor = Color.DarkGray; // Cambiar el color del texto a gris
 
-                Txt_Tap3_Articulo_Descripcion.Text = "Descripción";
-                Txt_Tap3_Articulo_Descripcion.ForeColor = Color.DarkGray;
+                //Txt_Tap3_Articulo_Descripcion.Text = "Descripción";
+                //Txt_Tap3_Articulo_Descripcion.ForeColor = Color.DarkGray;
+                ReiniciarBusquedaarticulo();
             }
         }
-
 
         public void FormatoDataGrid_Oscuro_Dgv_Tap3_Articulo(System.Drawing.Color col2, System.Drawing.Color col3, System.Drawing.Color col4)
         {
@@ -164,6 +165,8 @@ namespace CapaVisual_Login
             {
                 Txt_Tap3_Articulo_Cantidad.Text = "Cantidad"; // Restaurar el texto sugerido
                 Txt_Tap3_Articulo_Cantidad.ForeColor = Color.DarkGray; // Cambiar el color del texto a gris
+
+                
             }
         }
 
@@ -235,10 +238,7 @@ namespace CapaVisual_Login
 
 
                 case "Carga_Articulos":
-                    this.Txt_Tap3_Articulo_Codigo.Text = "";
-                    Txt_Tap3_Articulo_Descripcion.Text = "";
-                    Txt_Tap3_Articulo_Cantidad.Text = "";
-                    Txt_Tap3_Articulo_Precio.Text = "";
+                     ReiniciarBusquedaarticulo();
                     break;
 
                 case "CambioPrecio":
@@ -353,6 +353,7 @@ namespace CapaVisual_Login
                     this.Pnl_3_Descuento.Visible = true;
                     this.Pnl_3_Descuento.Location = new Point(300, 1);
                     this.Pnl_3_Descuento.BringToFront();
+                    Lbl_Pnl3_Descuento.Text = Tipo_Descuento;
                     break;
 
                 case "Coloracion":
@@ -426,6 +427,7 @@ namespace CapaVisual_Login
 
                     // Botones Aciones 
                     this.Btn_Tap3_Descuento.Enabled = false;
+                    this.Btn_Tap3_CambioPrecio.Enabled = false;
                     this.Btn_Tap3_Promocion.Enabled = false;
                     this.Btn_Tap3_MonturaPropia.Enabled = false;
                     this.Btn_Tap3_CristalPropio.Enabled = false;
@@ -493,7 +495,7 @@ namespace CapaVisual_Login
                     // Panel de Arriba
                     this.Txt_Pnl2_Cedula.Enabled = true;
                     this.Txt_Pnl2_Examen.Enabled = true;
-                    this.Cbx_Pnl2_Trbajo.Enabled = true;
+                    //this.Cbx_Pnl2_Trbajo.Enabled = true;
                     this.Cbx_Pnl2_Laboratorio.Enabled = true;
                     this.Cbx_Pnl2_Servicio.Enabled = true;
                     break;
@@ -540,6 +542,7 @@ namespace CapaVisual_Login
 
                     // Botones Aciones 
                     this.Btn_Tap3_Descuento.Enabled = false;
+                    this.Btn_Tap3_CambioPrecio.Enabled = false;
                     this.Btn_Tap3_Promocion.Enabled = false;
                     this.Btn_Tap3_MonturaPropia.Enabled = false;
                     this.Btn_Tap3_CristalPropio.Enabled = false;
@@ -599,6 +602,7 @@ namespace CapaVisual_Login
 
                     // Botones Aciones 
                     this.Btn_Tap3_Descuento.Enabled = false;
+                    this.Btn_Tap3_CambioPrecio.Enabled = false;
                     this.Btn_Tap3_Promocion.Enabled = false;
                     this.Btn_Tap3_MonturaPropia.Enabled = false;
                     this.Btn_Tap3_CristalPropio.Enabled = false;
@@ -650,6 +654,7 @@ namespace CapaVisual_Login
 
                     // Botones Aciones 
                     this.Btn_Tap3_Descuento.Enabled = false;
+                    this.Btn_Tap3_CambioPrecio.Enabled = false;
                     this.Btn_Tap3_Promocion.Enabled = false;
                     this.Btn_Tap3_MonturaPropia.Enabled = false;
                     this.Btn_Tap3_CristalPropio.Enabled = false;
@@ -699,6 +704,7 @@ namespace CapaVisual_Login
 
                     // Botones Aciones 
                     this.Btn_Tap3_Descuento.Enabled = false;
+                    this.Btn_Tap3_CambioPrecio.Enabled = false;
                     this.Btn_Tap3_Promocion.Enabled = false;
                     this.Btn_Tap3_MonturaPropia.Enabled = false;
                     this.Btn_Tap3_CristalPropio.Enabled = false;
@@ -751,6 +757,7 @@ namespace CapaVisual_Login
 
                     // Botones Aciones 
                     this.Btn_Tap3_Descuento.Enabled = false;
+                    this.Btn_Tap3_CambioPrecio.Enabled = false;
                     this.Btn_Tap3_Promocion.Enabled = false;
                     this.Btn_Tap3_MonturaPropia.Enabled = false;
                     this.Btn_Tap3_CristalPropio.Enabled = false;
@@ -802,6 +809,7 @@ namespace CapaVisual_Login
 
                     // Botones Aciones 
                     this.Btn_Tap3_Descuento.Enabled = false;
+                    this.Btn_Tap3_CambioPrecio.Enabled = false;
                     this.Btn_Tap3_Promocion.Enabled = false;
                     this.Btn_Tap3_MonturaPropia.Enabled = false;
                     this.Btn_Tap3_CristalPropio.Enabled = false;
@@ -929,37 +937,84 @@ namespace CapaVisual_Login
 
             if (e.RowIndex >= 0 && !Dgv_Pnl3_Articulo.Rows[e.RowIndex].IsNewRow)
             {
+                CodColorLC = "";
                 // Obtener el artículo seleccionado
                 var articulo = Dgv_Pnl3_Articulo.Rows[e.RowIndex].DataBoundItem as TB_ARTICULO;
 
-                if (articulo != null)
-                {
-                    // Cargar los valores en los TextBox
-                    Txt_Tap3_Articulo_Codigo.Text = articulo.CodArticulo;
-                    Txt_Tap3_Articulo_Descripcion.Text = articulo.DESART;
-                    Txt_Tap3_Articulo_Precio.Text = articulo.ART_PVP.ToString("F2"); // Formato de 2 decimales
-                    Txt_Tap3_Articulo_Cantidad.Text = string.Empty; // Limpiar el campo de cantidad
-
-                    VisualizarPanel("MostrarCabezeraSecundaria");
-                    HabilitacionControl("CabezeraPrincipal");
-
-                    // Establecer el foco en el TextBox de cantidad
-                    Txt_Tap3_Articulo_Cantidad.Focus();
-                }
-
-                if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "09")
-                {
-                    AplicoGarantia(Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Txt_Pnl2_Cedula.Text.Substring(0, 1), "", Txt_Pnl2_Examen.Text, _D_Inicio.Sucursal());
-                }
+                Txt_Tap3_Articulo_Codigo.Text = articulo.CodArticulo;
 
                 if (Txt_Tap3_Articulo_Codigo.Text.StartsWith("W"))
                 {
+                    
+                    Txt_Tap3_Articulo_Codigo.Text = articulo.CodArticulo;
+                    Txt_Tap3_Articulo_Descripcion.Text = articulo.DESART;
+                    Txt_Tap3_Articulo_Precio.Text = articulo.ART_PVP.ToString("F2"); // Formato de 2 decimales
+                    Txt_Tap3_Articulo_Cantidad.Enabled = true;
+                    Txt_Tap3_Articulo_Cantidad.Text = string.Empty; // Limpiar el campo de cantidad
+
                     DataSet dsColorLC = _L_Articulo.CargarColoresLC(Dgv_Pnl3_ColoresLC, Txt_Tap3_Articulo_Codigo.Text);
                     Dgv_Pnl3_ColoresLC.DataSource = dsColorLC.Tables[0];
                     Formato_Dgv_Pnl3_ColoresLC();
+                    Pnl_3_Lista_Articulo.Visible = false;
+
+                    //VisualizarPanel("MostrarCabezeraSecundaria");
+                    //HabilitacionControl("CabezeraPrincipal");
+
                     Pnl_3_Lista_ColoresLC.Visible = true;
                     Pnl_3_Lista_ColoresLC.Location = new Point(250, 1);
+
+                    //VisualizarPanel("MostrarCabezeraSecundaria");
+                    //HabilitacionControl("CabezeraPrincipal");
+                    //if (e.RowIndex >= 0 && !Dgv_Pnl3_Articulo.Rows[e.RowIndex].IsNewRow)
+                    //{
+                    //    var seleccionColorLC = Dgv_Pnl3_ColoresLC.Rows[e.RowIndex].DataBoundItem;
+                    //}
+                    //if (articulo != null)
+                    //{
+                    //    // Cargar los valores en los TextBox
+                    //    Txt_Tap3_Articulo_Codigo.Text = articulo.CodArticulo;
+                    //    Txt_Tap3_Articulo_Descripcion.Text = articulo.DESART;
+                    //    Txt_Tap3_Articulo_Precio.Text = articulo.ART_PVP.ToString("F2"); // Formato de 2 decimales
+                    //    Txt_Tap3_Articulo_Cantidad.Enabled = true;
+                    //    Txt_Tap3_Articulo_Cantidad.Text = string.Empty; // Limpiar el campo de cantidad
+
+                    //    VisualizarPanel("MostrarCabezeraSecundaria");
+                    //    HabilitacionControl("CabezeraPrincipal");
+
+                    //    // Establecer el foco en el TextBox de cantidad
+                    //    Txt_Tap3_Articulo_Cantidad.Focus();
+                    //}
+
+                    //if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "09")
+                    //{
+                    //    AplicoGarantia(Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Txt_Pnl2_Cedula.Text.Substring(0, 1), "", Txt_Pnl2_Examen.Text, _D_Inicio.Sucursal());
+                    //}
                 }
+                else
+                {
+                    if (articulo != null)
+                    {
+                        // Cargar los valores en los TextBox
+                        Txt_Tap3_Articulo_Codigo.Text = articulo.CodArticulo;
+                        Txt_Tap3_Articulo_Descripcion.Text = articulo.DESART;
+                        Txt_Tap3_Articulo_Precio.Text = articulo.ART_PVP.ToString("F2"); // Formato de 2 decimales
+                        Txt_Tap3_Articulo_Cantidad.Enabled = true;
+                        Txt_Tap3_Articulo_Cantidad.Text = string.Empty; // Limpiar el campo de cantidad
+
+                        VisualizarPanel("MostrarCabezeraSecundaria");
+                        HabilitacionControl("CabezeraPrincipal");
+
+                        // Establecer el foco en el TextBox de cantidad
+                        Txt_Tap3_Articulo_Cantidad.Focus();
+                    }
+
+                    if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "09")
+                    {
+                        AplicoGarantia(Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Txt_Pnl2_Cedula.Text.Substring(0, 1), "", Txt_Pnl2_Examen.Text, _D_Inicio.Sucursal());
+                    }
+                }
+
+
             }
         }
 
@@ -979,6 +1034,17 @@ namespace CapaVisual_Login
 
             // Validar que Tasa
             if (!_L_Articulo.ExisteTasa() && _L_Articulo.stringBuilder.Length > 0)
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje(_L_Articulo.stringBuilder.ToString());
+                _FrmMensajes.ShowDialog();
+                return;
+            }
+
+            // LLenar Tb_Trabajo
+            _L_Articulo.LlenarTB_Trbajo(_TRABAJO, _D_Inicio.Sucursal(), Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2));
+
+            if (_L_Articulo.stringBuilder.Length > 0)
             {
                 _FrmMensajes.co = 2;
                 _FrmMensajes.avisomensaje(_L_Articulo.stringBuilder.ToString());
@@ -1021,7 +1087,7 @@ namespace CapaVisual_Login
             }
 
             // Validar la existencia del producto
-            if (!_L_Articulo.ValidoExistenciaArticulo(Txt_Tap3_Articulo_Codigo.Text, Convert.ToInt16(Txt_Tap3_Articulo_Cantidad.Text), listaArticulos, "1", Cbx_Pnl2_Trbajo.SelectedValue.ToString()) && _L_Articulo.stringBuilder.Length > 0) // Si hay un mensaje de error
+            if (!_L_Articulo.ValidoExistenciaArticulo(Txt_Tap3_Articulo_Codigo.Text, Convert.ToInt16(Txt_Tap3_Articulo_Cantidad.Text), listaArticulos, _D_DetalleOrden.TB_PARAMETRO("LCManejaExist"), Cbx_Pnl2_Trbajo.SelectedValue.ToString()) && _L_Articulo.stringBuilder.Length > 0) // Si hay un mensaje de error
             {
                 _FrmMensajes.co = 2;
                 _FrmMensajes.avisomensaje(_L_Articulo.stringBuilder.ToString());
@@ -1040,16 +1106,7 @@ namespace CapaVisual_Login
                 return; // Salir 
             }
 
-            // LLenar Tb_Trabajo
-            _L_Articulo.LlenarTB_Trbajo(_TRABAJO, _D_Inicio.Sucursal(), Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2));
-
-            if (_L_Articulo.stringBuilder.Length > 0)
-            {
-                _FrmMensajes.co = 2;
-                _FrmMensajes.avisomensaje(_L_Articulo.stringBuilder.ToString());
-                _FrmMensajes.ShowDialog();
-                return;
-            }
+            
 
 
             if (_L_Articulo.VerificoCantidadCristales(Txt_Tap3_Articulo_Codigo.Text, Convert.ToInt16(Txt_Tap3_Articulo_Cantidad.Text), _TRABAJO))
@@ -1150,21 +1207,30 @@ namespace CapaVisual_Login
                     impuesto = _L_Articulo.BuscarIva("I"); // Llamar a la función para calcular el IVA
                 }
 
+                string ojo = "";
+                if (articulo.CodArticulo.StartsWith("C"))
+                {
+                    //depende del tipo mvision por ahora seteamos A
+                    ojo = "A";
+                }
+                else
+                {
+                    //depende del tipo mvision por ahora seteamos A
+                    ojo = "";
+                }
 
                 //_L_Articulo.AgregarFila(Dgv_Tap3_Articulo, articulo.CodArticulo, articulo.DESART, cantidad, (decimal) precio, (decimal)articulo.PORCTDESCUENTO, (decimal) total, impuesto, _Trabajo.T_OJO);
-                _L_Articulo.AgregarFila(Dgv_Tap3_Articulo, articulo.CodArticulo, CodColorLC,articulo.DESART, cantidad, (decimal)precio, EmpresaAfiliada != "" && PorcDctoEmpresaAfiliada > 0 ? PorcDctoEmpresaAfiliada : (decimal)articulo.PORCTDESCUENTO, (decimal)total, impuesto, "A");
+                _L_Articulo.AgregarFila(Dgv_Tap3_Articulo, articulo.CodArticulo, CodColorLC,articulo.DESART, cantidad, (decimal)precio, EmpresaAfiliada != "" && PorcDctoEmpresaAfiliada > 0 ? PorcDctoEmpresaAfiliada : (decimal)articulo.PORCTDESCUENTO, (decimal)total, impuesto, ojo, (decimal) articulo.COSTOPROME);
 
 
                 // Limpiar los TextBox después de agregar el artículo
-                Txt_Tap3_Articulo_Codigo.Clear();
-                Txt_Tap3_Articulo_Precio.Clear();
-                Txt_Tap3_Articulo_Cantidad.Clear();
+                ReiniciarBusquedaarticulo();
 
                 // Establecer el foco en el campo de código
                 Txt_Tap3_Articulo_Codigo.Focus();
 
 
-
+                
 
             }
             catch (Exception ex)
@@ -1180,7 +1246,7 @@ namespace CapaVisual_Login
         private void Dgv_Tap3_Articulo_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             //DgvListadoOrdenes.Columns["Fec_Crea"]
-
+            Dgv_Tap3_Articulo.Focus();
             if (e.ColumnIndex >= 0 && Dgv_Tap3_Articulo.Columns[e.ColumnIndex].Name == "Eliminar")
             {
                 int FilaPorBorrar = e.RowIndex;
@@ -1235,11 +1301,14 @@ namespace CapaVisual_Login
                 EmpresaAfiliada = "";
                 PorcDctoEmpresaAfiliada = 0;
                 // Cargar los valores
+                ValidarRegistrosYHabilitar_Botones();
                 Garantia = false;
                 CodColorLC = "";
                 // Botones Aciones 
+               
                 Cbx_Pnl2_Trbajo.Enabled = true;
-                ValidarRegistrosYHabilitar_Botones();
+
+                ReiniciarBusquedaarticulo();
 
             }
 
@@ -1250,6 +1319,18 @@ namespace CapaVisual_Login
                 _FrmMensajes.ShowDialog();
             }
 
+        }
+
+        public void ReiniciarBusquedaarticulo()
+        {
+            Txt_Tap3_Articulo_Codigo.Text = "Código"; // Restaurar el texto sugerido
+            Txt_Tap3_Articulo_Codigo.ForeColor = Color.DarkGray; // Cambiar el color del texto a gris
+            Txt_Tap3_Articulo_Descripcion.Text = "Descripción"; // Restaurar el texto sugerido
+            Txt_Tap3_Articulo_Descripcion.ForeColor = Color.DarkGray; // Cambiar el color del texto a gris
+            Txt_Tap3_Articulo_Cantidad.Text = "Cantidad"; // Restaurar el texto sugerido
+            Txt_Tap3_Articulo_Cantidad.ForeColor = Color.DarkGray; // Cambiar el color del texto a gris
+            Txt_Tap3_Articulo_Precio.Text = "Precio"; // Restaurar el texto sugerido
+            Txt_Tap3_Articulo_Precio.ForeColor = Color.DarkGray; // Cambiar el color del texto a gris
         }
 
         private void Dgv_Tap3_Articulo_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
@@ -1342,6 +1423,15 @@ namespace CapaVisual_Login
 
             else if (e.KeyCode == Keys.Enter)
             {
+
+                if (Txt_Tap3_Articulo_Codigo.Text.StartsWith("W"))
+                {
+                    DataSet dsColorLC = _L_Articulo.CargarColoresLC(Dgv_Pnl3_ColoresLC, Txt_Tap3_Articulo_Codigo.Text);
+                    Dgv_Pnl3_ColoresLC.DataSource = dsColorLC.Tables[0];
+                    Formato_Dgv_Pnl3_ColoresLC();
+                    Pnl_3_Lista_ColoresLC.Visible = true;
+                    Pnl_3_Lista_ColoresLC.Location = new Point(250, 1);
+                }
                 // Acción para Enter
                 _L_Articulo.CargarArticulos(Dgv_Pnl3_Articulo, listaArticulos, Cbx_Pnl2_Trbajo.SelectedValue.ToString());
 
@@ -1356,14 +1446,6 @@ namespace CapaVisual_Login
                     AplicoGarantia(Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Txt_Pnl2_Cedula.Text.Substring(0, 1), "", Txt_Pnl2_Examen.Text, _D_Inicio.Sucursal());
                 }
 
-                if (Txt_Tap3_Articulo_Codigo.Text.StartsWith("W"))
-                {
-                    DataSet dsColorLC = _L_Articulo.CargarColoresLC(Dgv_Pnl3_ColoresLC, Txt_Tap3_Articulo_Codigo.Text);
-                    Dgv_Pnl3_ColoresLC.DataSource = dsColorLC.Tables[0];
-                    Formato_Dgv_Pnl3_ColoresLC();
-                    Pnl_3_Lista_ColoresLC.Visible = true;
-                    Pnl_3_Lista_ColoresLC.Location = new Point(250, 1);
-                }
                 // Evitar que el evento se propague
                 e.Handled = true;
             }
@@ -1374,7 +1456,8 @@ namespace CapaVisual_Login
 
         private void Btn_Tap3_Cancelar_Click(object sender, EventArgs e)
         {
-            LimpiarGrid();
+           
+                LimpiarGrid();
         }
 
         private void btnPrincipal_CheckedChanged(object sender, EventArgs e)
@@ -1390,6 +1473,10 @@ namespace CapaVisual_Login
         private void btnDetalleOrden_CheckedChanged(object sender, EventArgs e)
         {
             tabControl.SelectTab(2);
+            //codSucursal = _D_DetalleOrden.TB_PARAMETRO("SucursalId");
+            _D_Articulo.Agregar_TB_TRABAJO(_D_DetalleOrden.TB_PARAMETRO("SucursalId"), "", "", Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), "002", Convert.ToInt32(Txt_Pnl2_Examen.Text)
+              , txtHorizontal.Text, txtVertical.Text, txtMaxima.Text, txtPuente.Text, "0", "0", "A", "Cerca", "Cerca", "QUO", "001", "T", TB_USUARIO.COD_USR, "02", "CONVENCIONAL", "0", "0", "0", "0");
+
         }
 
         private void Dgv_Tap3_Articulo_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
@@ -1403,6 +1490,7 @@ namespace CapaVisual_Login
                     int FilaCRT = numFilas;
                     //Verifico Prisma 
                     _L_Articulo.CargarServicioOPrima(Dgv_Tap3_Articulo, "Prisma", Convert.ToInt32(Txt_Pnl2_Examen.Text), Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Dgv_Tap3_Articulo.Rows[numFilas].Cells["Ojo"].Value.ToString());
+                    //_L_Articulo.CargarServicioOPrima(Dgv_Tap3_Articulo, "", Convert.ToInt32(Txt_Pnl2_Examen.Text), Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Dgv_Tap3_Articulo.Rows[numFilas].Cells["Ojo"].Value.ToString());
 
                     if (Convert.ToInt32(Dgv_Tap3_Articulo.Rows[numFilas].Cells["ART_EXIST"].Value) == 2)
                     {
@@ -1814,11 +1902,28 @@ namespace CapaVisual_Login
 
         private void Btn_Tap3_Descuento_Click(object sender, EventArgs e)
         {
-            //ActivoInactivoBtn("Descuento");
-            VisualizarPanel("Descuento");
-            HabilitacionControl("Habilitar_Descuento");
-            _L_Articulo.Cargo_CodMotivo_Descuento(Cbx_Pnl3_MotivoDesc);
-            Tipo_Descuento = "Descuento Global";
+
+            if  (Dgv_Tap3_Articulo.CurrentCell != null)
+            {
+                if (Dgv_Tap3_Articulo.CurrentRow != null)
+                {
+                    // Obtener el índice de la fila seleccionada
+                    filaSeleccionada = Dgv_Tap3_Articulo.CurrentRow.Index;
+                    VisualizarPanel("Descuento");
+                    HabilitacionControl("Habilitar_Descuento");
+                    _L_Articulo.Cargo_CodMotivo_Descuento(Cbx_Pnl3_MotivoDesc);
+                    Tipo_Descuento = "Descuento por articulo";
+                }
+            }
+                    
+            else
+            {
+                //ActivoInactivoBtn("Descuento");
+                VisualizarPanel("Descuento");
+                HabilitacionControl("Habilitar_Descuento");
+                _L_Articulo.Cargo_CodMotivo_Descuento(Cbx_Pnl3_MotivoDesc);
+                Tipo_Descuento = "Descuento Global";
+            }
         }
 
         private void Btn_Tap3_Aceptar_Desc_Click(object sender, EventArgs e)
@@ -2123,12 +2228,14 @@ namespace CapaVisual_Login
            //// Descuento  
             if (Dgv_Tap3_Articulo.Rows.Count > 0 && PorcDctoEmpresaAfiliada <= 0)
             {
-                Btn_Tap3_Descuento.Enabled = true; // Habilitar el TextBox o botón
-               
+                Btn_Tap3_Descuento.Enabled = true; // Habilitar el TextBox o botón descuento
+                Btn_Tap3_CambioPrecio.Enabled = true; // Habilitar el TextBox o botón cambioPrecio
+
             }
             else
             {
                 Btn_Tap3_Descuento.Enabled = false; // Deshabilitar el TextBox o botón
+                Btn_Tap3_CambioPrecio.Enabled = false;
             }
 
             //// Promociones
@@ -2149,6 +2256,12 @@ namespace CapaVisual_Login
 
             // Cristal Propio
             _L_Articulo.VerificarCristalPropio(Dgv_Tap3_Articulo, Btn_Tap3_CristalPropio, Cristal_Propio);
+
+            //Garantia
+           
+                Btn_Tap3_Garantia.Enabled = true;
+            
+           
 
        
         }
@@ -2338,7 +2451,7 @@ namespace CapaVisual_Login
 
                         // Validación de parámetros
 
-                        if (Enumerable.Range(0, 17).All(x => dsParamCRT.Tables[2].Rows[0][x].ToString() == "1"))
+                        if (Enumerable.Range(0, 13).All(x => dsParamCRT.Tables[2].Rows[0][x].ToString() == "1"))
                         {
                             AceptaCristalD = true;
                         }
@@ -2521,7 +2634,7 @@ namespace CapaVisual_Login
                 //dgvRangoCrt.Columns["codCalculo"].HeaderText = "Código Cálculo";
 
                 //Ancho de columna
-                dgvRangoCrt.Columns["Cristal"].Width = 65;
+                dgvRangoCrt.Columns["Cristal"].Width = 75;
                 dgvRangoCrt.Columns["EsfCil"].Width = 65;
                 dgvRangoCrt.Columns["Lejos"].Width = 50;
                 dgvRangoCrt.Columns["Cerca"].Width = 60;
@@ -2712,60 +2825,6 @@ namespace CapaVisual_Login
             HabilitacionControl("CabezeraPrincipal");
 
         }
-
-        //public void ActivoInactivoBtn(string Case)
-        //{
-
-        //    switch (Case)
-        //    {
-        //        case "Descuento":
-        //            if (this.Btn_Tap3_Descuento.BackColor == Color.LightCoral)
-        //            {
-        //                this.Btn_Tap3_Descuento.BackColor = Color.DarkMagenta;
-        //            }
-        //            else
-        //            {
-        //                this.Btn_Tap3_Descuento.BackColor = Color.LightCoral;
-        //            }
-        //            break;
-        //        case "MonturaPropia":
-        //            if (this.Btn_Tap3_MonturaPropia.BackColor == Color.Violet)
-        //            {
-        //                this.Btn_Tap3_MonturaPropia.BackColor = Color.DarkSlateBlue;
-        //            }
-        //            else
-        //            {
-        //                this.Btn_Tap3_MonturaPropia.BackColor = Color.Violet;
-        //            }
-        //            break;
-
-        //        case "CristalPropio":
-        //            if (this.Btn_Tap3_CristalPropio.BackColor == Color.DarkGreen)
-        //            {
-        //                this.Btn_Tap3_CristalPropio.BackColor = Color.GreenYellow;
-        //            }
-        //            else
-        //            {
-        //                this.Btn_Tap3_CristalPropio.BackColor = Color.DarkGreen;
-        //            }
-        //            break;
-        //        case "ClienteAfiliado":
-        //            if (this.Btn_Tap3_ClienteAfiliado.BackColor == Color.LightCoral)
-        //            {
-        //                this.Btn_Tap3_ClienteAfiliado.BackColor = Color.DarkMagenta;
-        //            }
-        //            else
-        //            {
-        //                this.Btn_Tap3_ClienteAfiliado.BackColor = Color.LightCoral;
-        //            }
-        //            break;
-
-        //        default:
-        //            break;
-        //    }
-
-
-        //}
 
         private void QuitarLimea2_Click(object sender, EventArgs e)
         {
@@ -3061,28 +3120,75 @@ namespace CapaVisual_Login
 
         private void btnCancelarColorLC_Click(object sender, EventArgs e)
         {
-            Pnl_3_Lista_ColoresLC.Visible = false;
+           if (CodColorLC == "")
+           {
+                Pnl_3_Lista_ColoresLC.Visible = false;
+                // Cargar los valores en los TextBox
+       
+                Txt_Tap3_Articulo_Cantidad.Enabled = false;
+                // Txt_Tap3_Articulo_Cantidad.Text = string.Empty; // Limpiar el campo de cantidad
+
+                VisualizarPanel("MostrarCabezeraSecundaria");
+                HabilitacionControl("CabezeraPrincipal");
+
+                ReiniciarBusquedaarticulo();
+
+                // Establecer el foco en el TextBox de cantidad
+                //Txt_Tap3_Articulo_Cantidad.Focus();
+                //Txt_Tap3_Articulo_Cantidad.Text = "";
+                //Txt_Tap3_Articulo_Cantidad.Enabled = false;
+                //Pnl_3_Lista_ColoresLC.Visible = false;
+            }
         }
 
-        private void Dgv_Pnl3_ColoresLC_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        //private void Dgv_Pnl3_ColoresLC_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        //{
+           
+           
+        //}
+
+        private void Dgv_Pnl3_ColoresLC_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            Dgv_Pnl3_ColoresLC.CurrentCell = Dgv_Pnl3_ColoresLC.Rows[e.RowIndex].Cells[0];
             if (e.RowIndex >= 0 && !Dgv_Pnl3_ColoresLC.Rows[e.RowIndex].IsNewRow)
             {
                 // Obtener el color seleccionado
                 //var CodColorLC = "";
-               
+
                 //CodColorLC = Dgv_Pnl3_ColoresLC.Rows[e.RowIndex].DataBoundItem.ToString();
                 CodColorLC = Dgv_Pnl3_ColoresLC.CurrentRow.Cells[0].Value.ToString(); // Primera columna
 
-                if (CodColorLC != null)
+                if (CodColorLC == null)
                 {
+
+
                     Pnl_3_Lista_ColoresLC.Visible = false;
+                    // Cargar los valores en los TextBox
+                    ReiniciarBusquedaarticulo();
+                    Txt_Tap3_Articulo_Cantidad.Enabled = false;
+                   // Txt_Tap3_Articulo_Cantidad.Text = string.Empty; // Limpiar el campo de cantidad
+
+                    VisualizarPanel("MostrarCabezeraSecundaria");
+                    HabilitacionControl("CabezeraPrincipal");
+
+                    // Establecer el foco en el TextBox de cantidad
                     Txt_Tap3_Articulo_Cantidad.Focus();
 
 
                 }
+                else
+                {
+                    Pnl_3_Lista_ColoresLC.Visible = false;
+                    VisualizarPanel("MostrarCabezeraSecundaria");
+                    HabilitacionControl("CabezeraPrincipal");
+
+                    //Establecer el foco en el TextBox de cantidad
+                    Txt_Tap3_Articulo_Cantidad.Focus();
+                }
+
+                
             }
-           
+
         }
 
         private void Formato_Dgv_Pnl3_ColoresLC()
@@ -3187,7 +3293,141 @@ namespace CapaVisual_Login
 
         private void Cbx_Pnl2_Trbajo_SelectedIndexChanged(object sender, EventArgs e)
         {
-           // Cbx_Pnl2_Trbajo.Enabled = false;
+           if (tipoTrabajoSeleccionado)
+                {
+                Cbx_Pnl2_Trbajo.Enabled = false;
+                }
+                else
+                {
+                Cbx_Pnl2_Trbajo.Enabled = true;
+                }
+        }// Cbx_Pnl2_Trbajo.Enabled = false;
+
+        private void Cbx_Pnl2_Trbajo_Click(object sender, EventArgs e)
+        {
+            tipoTrabajoSeleccionado = true;
+        }
+
+        private void Btn_Tap3_CambioPrecio_Click(object sender, EventArgs e)
+        {
+            if (Dgv_Tap3_Articulo.CurrentCell != null)
+            {
+                if (Dgv_Tap3_Articulo.CurrentRow != null)
+                {
+                    // Obtener el índice de la fila seleccionada
+                    filaSeleccionada = Dgv_Tap3_Articulo.CurrentRow.Index;
+
+                    //Verifico si Tiene articulos Asociados 
+                    if (_L_Articulo.AccionCambiarPrecio_ArticuloPadre(Dgv_Tap3_Articulo, filaSeleccionada))
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        _FrmClaveGerente.ShowDialog();
+                        if (_FrmClaveGerente.ClaveCorrecta == true)
+                        {
+
+                            if (_L_Articulo.ConfigurarCambioPrecio(Txt_Pnl3_CambioPrecioActual, Dgv_Tap3_Articulo.Rows[filaSeleccionada].Cells["CodArticulo"].Value.ToString()))
+                            {
+                                VisualizarPanel("CambioPrecio");
+                                HabilitacionControl("Habilitar_CambioPrecio");
+                            }
+                            else
+                            {
+                                _FrmMensajes.co = 2;
+                                _FrmMensajes.avisomensaje("Error al Cargar el Panel de Cambio de Precio");
+                                _FrmMensajes.ShowDialog();
+                            }
+                        }
+                        else
+                        {
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+
+        private void Txt_Tap3_Articulo_Codigo_Click(object sender, EventArgs e)
+        {
+            // Deseleccionar cualquier celda seleccionada en el DataGridView
+            if (Dgv_Tap3_Articulo.CurrentCell != null)
+            {
+                Dgv_Tap3_Articulo.ClearSelection();
+                Dgv_Tap3_Articulo.CurrentCell = null; // Opcional: Elimina la celda activa
+            }
+        }
+
+        private void Txt_Tap3_Articulo_Cantidad_Click(object sender, EventArgs e)
+        {
+            // Deseleccionar cualquier celda seleccionada en el DataGridView
+            if (Dgv_Tap3_Articulo.CurrentCell != null)
+            {
+                Dgv_Tap3_Articulo.ClearSelection();
+                Dgv_Tap3_Articulo.CurrentCell = null; // Opcional: Elimina la celda activa
+            }
+        }
+
+        private void txtHorizontal_Click(object sender, EventArgs e)
+        {
+            // Deseleccionar cualquier celda seleccionada en el DataGridView
+            if (Dgv_Tap3_Articulo.CurrentCell != null)
+            {
+                Dgv_Tap3_Articulo.ClearSelection();
+                Dgv_Tap3_Articulo.CurrentCell = null; // Opcional: Elimina la celda activa
+            }
+        }
+
+        private void txtVertical_Click(object sender, EventArgs e)
+        {
+            // Deseleccionar cualquier celda seleccionada en el DataGridView
+            if (Dgv_Tap3_Articulo.CurrentCell != null)
+            {
+                Dgv_Tap3_Articulo.ClearSelection();
+                Dgv_Tap3_Articulo.CurrentCell = null; // Opcional: Elimina la celda activa
+            }
+        }
+
+        private void txtMaxima_Click(object sender, EventArgs e)
+        {
+            // Deseleccionar cualquier celda seleccionada en el DataGridView
+            if (Dgv_Tap3_Articulo.CurrentCell != null)
+            {
+                Dgv_Tap3_Articulo.ClearSelection();
+                Dgv_Tap3_Articulo.CurrentCell = null; // Opcional: Elimina la celda activa
+            }
+        }
+
+        private void txtPuente_Click(object sender, EventArgs e)
+        {
+            // Deseleccionar cualquier celda seleccionada en el DataGridView
+            if (Dgv_Tap3_Articulo.CurrentCell != null)
+            {
+                Dgv_Tap3_Articulo.ClearSelection();
+                Dgv_Tap3_Articulo.CurrentCell = null; // Opcional: Elimina la celda activa
+            }
+        }
+
+        private void textBox2_Click(object sender, EventArgs e)
+        {
+            // Deseleccionar cualquier celda seleccionada en el DataGridView
+            if (Dgv_Tap3_Articulo.CurrentCell != null)
+            {
+                Dgv_Tap3_Articulo.ClearSelection();
+                Dgv_Tap3_Articulo.CurrentCell = null; // Opcional: Elimina la celda activa
+            }
+        }
+
+        private void Txt_Tap3_Articulo_Precio_TextChanged(object sender, EventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+
+            if (decimal.TryParse(textBox.Text, out decimal valor))
+            {
+                // Formatear el texto como un número con dos decimales
+                textBox.Text = valor.ToString("N2");
+            }
         }
     }
 

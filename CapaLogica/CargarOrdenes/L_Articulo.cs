@@ -183,7 +183,7 @@ namespace CapaLogica.CargarOrdenes
             listaTemporal.AddRange(datosFiltrados);
         }
 
-        public void AgregarFila(DataGridView Dgv_Tap3_Articulo, string codArticulo, string colorLC, string descripcion, int cantidad, decimal precio, decimal descuento, decimal total, decimal impuesto, string ojo, string artPadre = "", string agregado = "NO" ,string AgreDer ="NO", string AgreIzq = "NO", string tienePromo = "No", string codPromo = "", string promoEvaluada = "No")
+        public void AgregarFila(DataGridView Dgv_Tap3_Articulo, string codArticulo, string colorLC, string descripcion, int cantidad, decimal precio, decimal descuento, decimal total, decimal impuesto, string ojo, decimal CostoProme, string artPadre = "", string agregado = "NO" ,string AgreDer ="NO", string AgreIzq = "NO", string tienePromo = "No", string codPromo = "", string promoEvaluada = "No")
         {
           try {
                 // Verificar y agregar columnas si no existen
@@ -198,6 +198,7 @@ namespace CapaLogica.CargarOrdenes
                 Dgv_Tap3_Articulo.Columns.Add("Total", "Total");
                 Dgv_Tap3_Articulo.Columns.Add("Impuesto", "Impuesto");
                 Dgv_Tap3_Articulo.Columns.Add("Ojo", "Ojo");
+                Dgv_Tap3_Articulo.Columns.Add("CostoProme", "CostoProme");
                 // columnas opcionales
                 Dgv_Tap3_Articulo.Columns.Add("ArtPadre", "Artículo Padre");
                 Dgv_Tap3_Articulo.Columns.Add("Agregado", "Agregado");
@@ -217,7 +218,7 @@ namespace CapaLogica.CargarOrdenes
                 Formato_Dgv_Carga_Articulo(Dgv_Tap3_Articulo, colorLC);
 
                 // Agregar la fila con los valores proporcionados
-                Dgv_Tap3_Articulo.Rows.Add(codArticulo, colorLC, descripcion, cantidad, precio, descuento, total, impuesto, ojo, artPadre, agregado, AgreDer, AgreIzq, precio, tienePromo, codPromo, promoEvaluada);
+                Dgv_Tap3_Articulo.Rows.Add(codArticulo, colorLC, descripcion, cantidad, precio, descuento, total, impuesto, ojo, CostoProme, artPadre, agregado, AgreDer, AgreIzq, precio, tienePromo, codPromo, promoEvaluada);
 
             }
             catch (Exception ex)
@@ -363,8 +364,9 @@ namespace CapaLogica.CargarOrdenes
                 Dgv_Tap3_Articulo.Columns["Total"].HeaderText = "Total";
                 Dgv_Tap3_Articulo.Columns["Impuesto"].HeaderText = "%Impuesto";
                 Dgv_Tap3_Articulo.Columns["Ojo"].HeaderText = "Ojo";
-                Dgv_Tap3_Articulo.Columns["Eliminar"].HeaderText = "";
+                Dgv_Tap3_Articulo.Columns["CostoProme"].HeaderText = "CostoProme";
 
+                Dgv_Tap3_Articulo.Columns["Eliminar"].HeaderText = "";
 
                 //Ancho de columna
                 Dgv_Tap3_Articulo.Columns["CodArticulo"].Width = 70;
@@ -376,6 +378,7 @@ namespace CapaLogica.CargarOrdenes
                 Dgv_Tap3_Articulo.Columns["Total"].Width = 120;
                 Dgv_Tap3_Articulo.Columns["Impuesto"].Width = 100;
                 Dgv_Tap3_Articulo.Columns["Ojo"].Width = 70;
+                Dgv_Tap3_Articulo.Columns["CostoProme"].Width = 80;
                 Dgv_Tap3_Articulo.Columns["Eliminar"].Width = 90;
                 // columnas opcionales
                 Dgv_Tap3_Articulo.Columns["ArtPadre"].Width = 80;
@@ -391,6 +394,7 @@ namespace CapaLogica.CargarOrdenes
                 Dgv_Tap3_Articulo.Columns["Total"].ReadOnly = true;
                 Dgv_Tap3_Articulo.Columns["Impuesto"].ReadOnly = true;
                 Dgv_Tap3_Articulo.Columns["Ojo"].ReadOnly = true;
+                Dgv_Tap3_Articulo.Columns["CostoProme"].ReadOnly = true;
                 Dgv_Tap3_Articulo.Columns["Eliminar"].ReadOnly = true;
                 // columnas opcionales
                 Dgv_Tap3_Articulo.Columns["ArtPadre"].ReadOnly = true;
@@ -404,6 +408,7 @@ namespace CapaLogica.CargarOrdenes
                 Dgv_Tap3_Articulo.Columns["Total"].SortMode = DataGridViewColumnSortMode.NotSortable;
                 Dgv_Tap3_Articulo.Columns["Impuesto"].SortMode = DataGridViewColumnSortMode.NotSortable;
                 Dgv_Tap3_Articulo.Columns["Ojo"].SortMode = DataGridViewColumnSortMode.NotSortable;
+                Dgv_Tap3_Articulo.Columns["CostoProme"].SortMode = DataGridViewColumnSortMode.NotSortable;
                 Dgv_Tap3_Articulo.Columns["Eliminar"].SortMode = DataGridViewColumnSortMode.NotSortable; 
 
                // columnas opcionales
@@ -439,14 +444,13 @@ namespace CapaLogica.CargarOrdenes
 
             Dgv_Tap3_Articulo.Columns["ART_PVP"].DefaultCellStyle.Format = "N2"; // Formato de 2 decimales y unidades de mil
             Dgv_Tap3_Articulo.Columns["Total"].DefaultCellStyle.Format = "N2"; // Formato de 2 decimales y unidades de mil
+            Dgv_Tap3_Articulo.Columns["CostoProme"].DefaultCellStyle.Format = "N2"; // Formato de 2 decimales y unidades de mil
 
             //quitar seleccion por defecto de datagrid
             Dgv_Tap3_Articulo.ClearSelection();
 
                 //AutoGenerar Columnas:
                 Dgv_Tap3_Articulo.AutoGenerateColumns = false;
-
-
 
 
 
@@ -529,6 +533,7 @@ namespace CapaLogica.CargarOrdenes
 
         public bool CargarArticulo_EvitarDuplicado(System.Windows.Forms.DataGridView Dgv_Tap3_Articulo, string Codigo)
         {
+            int cantidadCristales = 0;
             foreach (DataGridViewRow row in Dgv_Tap3_Articulo.Rows)
             {
                 if (row.Cells["CodArticulo"].Value?.ToString() == Codigo)
@@ -537,9 +542,14 @@ namespace CapaLogica.CargarOrdenes
                     return true;
                 }
 
-                // Verificar si ya hay un cristal agregado
+                //Verificar si ya hay un cristal agregado
                 if (row.Cells["CodArticulo"].Value.ToString().StartsWith("C") && Codigo.StartsWith("C"))
-                {  
+                {
+                    cantidadCristales += Convert.ToInt32(row.Cells["ART_EXIST"].Value);
+                }
+
+                if (cantidadCristales >= 2)
+                {
                     return true;
                 }
 
@@ -658,7 +668,7 @@ namespace CapaLogica.CargarOrdenes
                     var articulo = listaArticulos.FirstOrDefault(a => a.CodArticulo == codigoProducto);
 
                     // Verificar si el artículo maneja existencia
-                    if (!articulo.MANEJAEXISTENCIA)
+                    if (articulo.MANEJAEXISTENCIA)
                     {
                         // Verificar si el artículo tiene existencia
                         if (articulo.ART_EXIST > 0)
@@ -668,9 +678,10 @@ namespace CapaLogica.CargarOrdenes
 
                             if (cantidadIngresada > Convert.ToInt32(dsCantidad.Rows[0]["Max_Vta"]))
                             {
-                                // La cantidad a vender es mayor al máximo permitido
-                                stringBuilder.Append($"El artículo {codigoProducto} tiene una cantidad a vender mayor que el máximo permitido. Por favor, modifique la cantidad para continuar");                   
-                                return false;
+                            // La cantidad a vender es mayor al máximo permitido
+                            stringBuilder.Append($"La cantidad sobrepasa el límite de venta");
+                            //stringBuilder.Append($"El artículo {codigoProducto} tiene una cantidad a vender mayor que el máximo permitido. Por favor, modifique la cantidad para continuar");                   
+                            return false;
                             }
                         }
                         else
@@ -877,6 +888,7 @@ namespace CapaLogica.CargarOrdenes
             decimal igtfTotal = 0;
             decimal totalGeneral = 0;
             decimal Tasa = Convert.ToDecimal(TB_TASA_Dolar.Tasa);
+            decimal subtotalConIva = 0;
 
             // Iterar sobre las filas del DataGridView base para calcular los totales
             foreach (DataGridViewRow row in Dgv_Tap3_Articulo.Rows)
@@ -903,7 +915,8 @@ namespace CapaLogica.CargarOrdenes
                 if (row.Cells["Impuesto"].Value != null)
                 {
                     decimal impuesto = Convert.ToDecimal(row.Cells["Impuesto"].Value);
-                    ivaTotal += subtotal * (impuesto / 100);
+                    subtotalConIva = Convert.ToDecimal(row.Cells["ART_PVP"].Value) * Convert.ToDecimal(row.Cells["ART_EXIST"].Value);
+                    ivaTotal += subtotalConIva * (impuesto / 100);
                 }
             }
 
@@ -1082,23 +1095,29 @@ namespace CapaLogica.CargarOrdenes
                 string PrismaD = "0";
                 string PrismaI = "0";
 
-             DataSet dsExamenConPrisma = _D_Articulos.ValidarExamenConPrisma(NumeroExamen, Nacionalidad, txtCedula);
+                DataSet dsExamenConPrisma = _D_Articulos.ValidarExamenConPrisma(NumeroExamen, Nacionalidad, txtCedula);
 
-            if (dsExamenConPrisma.Tables[0].Rows.Count == 0)
-            {
-                        return; // No hay datos de prisma
-            }
+                if (dsExamenConPrisma == null)
+                {
+                    return;
+                }
 
-            PrismaD = dsExamenConPrisma.Tables[0].Rows[0]["PrismaD"].ToString();
-            PrismaI = dsExamenConPrisma.Tables[0].Rows[0]["PrismaI"].ToString();
+                if (dsExamenConPrisma.Tables[0].Rows.Count == 0)
+                {
+                    return; // No hay datos de prisma
+                }
 
-                    if (!string.IsNullOrEmpty(PrismaD) && PrismaD != "0") cantidad++;
-                    if (!string.IsNullOrEmpty(PrismaI) && PrismaI != "0") cantidad++;
+                PrismaD = dsExamenConPrisma.Tables[0].Rows[0]["PrismaD"].ToString();
+                PrismaI = dsExamenConPrisma.Tables[0].Rows[0]["PrismaI"].ToString();
+
+                if (!string.IsNullOrEmpty(PrismaD) && PrismaD != "0") cantidad++;
+                if (!string.IsNullOrEmpty(PrismaI) && PrismaI != "0") cantidad++;
 
                 if (PrismaD == "0" || PrismaI == "0")
                 {
                     return; // No hay datos de prisma
                 }
+
 
                 // Recorrer las filas del DataGridView
                 for (int x = 0; x < gridFacturas.RowCount; x++)
@@ -1157,9 +1176,10 @@ namespace CapaLogica.CargarOrdenes
                             TB_ARTICULO articulo = articulos.First();
                             decimal precio = articulo.ART_PVP;
                             decimal total = precio * cantidad;
+                            decimal CostoPromedio = (decimal) articulo.COSTOPROME;
                             decimal impuesto = articulo.ART_EXENTO ? 0 : BuscarIva("I");
 
-                           AgregarFila(gridFacturas, articulo.CodArticulo, articulo.DESART, "", cantidad, (decimal)precio, (decimal)articulo.PORCTDESCUENTO, (decimal)total, impuesto, txtOjo, codigo);
+                           AgregarFila(gridFacturas, articulo.CodArticulo, "", articulo.DESART, cantidad, (decimal)precio, (decimal)articulo.PORCTDESCUENTO, (decimal)total, impuesto, txtOjo, CostoPromedio, codigo);
           
                         }
                     }
@@ -1280,9 +1300,10 @@ namespace CapaLogica.CargarOrdenes
                                     TB_ARTICULO articulo = articulos.First();
                                     decimal precio = articulo.ART_PVP;
                                     decimal total = precio * cantidad;
+                                    decimal CostoPromedio = (decimal)articulo.COSTOPROME;
                                     decimal impuesto = articulo.ART_EXENTO ? 0 : BuscarIva("I");
                                     // Agregar nueva fila al DataGridView
-                                    AgregarFila(gridFacturas, articulo.CodArticulo,"", articulo.DESART, cantidad, (decimal)precio, (decimal)articulo.PORCTDESCUENTO, (decimal)total, impuesto, ladoOjo, codPadre,"SI", AgreDer, AgreIzq);
+                                    AgregarFila(gridFacturas, articulo.CodArticulo,"", articulo.DESART, cantidad, (decimal)precio, (decimal)articulo.PORCTDESCUENTO, (decimal)total, impuesto, ladoOjo, CostoPromedio, codPadre,"SI", AgreDer, AgreIzq);
                                     //Actualizo la fila del cristal 
                                     switch (ladoOjo)
                                     {
@@ -1553,6 +1574,10 @@ namespace CapaLogica.CargarOrdenes
                 };
                 DataSet dsServicioAgregado = _D_Articulos.BucarServicioAgregado();
                 // Evaluar todas las promociones
+                if (dsServicioAgregado == null)
+                {
+                    return;
+                }
                 foreach (DataRow dr in dsServicioAgregado.Tables[0].Rows)
                 {
                     if (gridFacturas.RowCount - 1 < fila)
@@ -1809,15 +1834,18 @@ namespace CapaLogica.CargarOrdenes
                 // Otros servicios
                 else if (codArticulo.StartsWith("S") && string.IsNullOrEmpty(artPadre))
                 {
-                    if (dsServicioAgregado.Tables.Count > 0 && dsServicioAgregado.Tables[0].Rows.Count > 0)
+                    if (dsServicioAgregado != null)
                     {
-                        foreach (DataRow dr in dsServicioAgregado.Tables[0].Rows)
+                        if (dsServicioAgregado.Tables.Count > 0 && dsServicioAgregado.Tables[0].Rows.Count > 0)
                         {
-                            string agregadoProducto = dr["Agregado_Producto"]?.ToString().Trim('"');
-                            if (!string.IsNullOrEmpty(agregadoProducto) && agregadoProducto == codArticulo)
+                            foreach (DataRow dr in dsServicioAgregado.Tables[0].Rows)
                             {
-                                ActualizarCelda(Dgv_Tap3_Articulo, row.Index, "ArtPadre", CodCristal);
-                                break; // Salir del bucle interno si se encuentra el servicio
+                                string agregadoProducto = dr["Agregado_Producto"]?.ToString().Trim('"');
+                                if (!string.IsNullOrEmpty(agregadoProducto) && agregadoProducto == codArticulo)
+                                {
+                                    ActualizarCelda(Dgv_Tap3_Articulo, row.Index, "ArtPadre", CodCristal);
+                                    break; // Salir del bucle interno si se encuentra el servicio
+                                }
                             }
                         }
                     }
@@ -2249,14 +2277,34 @@ namespace CapaLogica.CargarOrdenes
         {
               // Agregar un nuevo servicio o prima
             List<TB_ARTICULO> articulos = _D_Articulos.ObtenerArticulos("", completa == true ? "S000106" : "S000105");
+            string codigo = "";
+            bool tieneServicioMonturaPropia = false;
 
             if (articulos != null && articulos.Count > 0)
-            {       TB_ARTICULO articulo = articulos.First();
+            {
+                for (int x = 0; x < gridFacturas.RowCount; x++)
+                {
+                    codigo = gridFacturas.Rows[x].Cells["CodArticulo"].Value?.ToString();
+
+                    if (codigo == "S000106" || codigo == "S000105")
+                    {
+                        tieneServicioMonturaPropia = true;
+                    }
+                    //else if (!string.IsNullOrEmpty(codigo) && codigo.StartsWith("C"))
+                    //{
+                       
+                    //}
+                }
+                TB_ARTICULO articulo = articulos.First();
                 decimal precio = articulo.ART_PVP;
                 decimal total = precio * 1;
+                decimal CostoPromedio = (decimal)articulo.COSTOPROME;
                 decimal impuesto = articulo.ART_EXENTO ? 0 : BuscarIva("I");
 
-                AgregarFila(gridFacturas, articulo.CodArticulo, "", articulo.DESART, 1, (decimal) precio, (decimal) articulo.PORCTDESCUENTO, (decimal) total, impuesto, txtOjo, "");
+                if (!tieneServicioMonturaPropia)
+                {
+                    AgregarFila(gridFacturas, articulo.CodArticulo, "", articulo.DESART, 1, (decimal) precio, (decimal) articulo.PORCTDESCUENTO, (decimal) total, impuesto, txtOjo, CostoPromedio, codigo);
+                }
             }
 
         }
@@ -2264,17 +2312,57 @@ namespace CapaLogica.CargarOrdenes
         public void CargarServicioGarantia(DataGridView gridFacturas,string txtOjo = null)
         {
             // Agregar un nuevo servicio o prima
-            List<TB_ARTICULO> articulos = _D_Articulos.ObtenerArticulos("", "A000004");
+            bool tieneServicio = false;
+            bool found = false;
+            decimal montoTotal = 0;
+            decimal prima = 0;
+            int cantidad = 0;
+            string codigo = "";
 
-            if (articulos != null && articulos.Count > 0)
+            prima = Convert.ToDecimal(_D_DetalleOrden.TB_PARAMETROSPGE("PorcPrimaPGE")) / 100;
+
+            for (int x = 0; x < gridFacturas.RowCount; x++)
             {
-                TB_ARTICULO articulo = articulos.First();
-                decimal precio = articulo.ART_PVP;
-                decimal total = precio * 1;
-                decimal impuesto = articulo.ART_EXENTO ? 0 : BuscarIva("I");
+                codigo = gridFacturas.Rows[x].Cells["CodArticulo"].Value?.ToString();
 
-                AgregarFila(gridFacturas, articulo.CodArticulo,"", articulo.DESART, 1, (decimal)precio, (decimal)articulo.PORCTDESCUENTO, (decimal)total, impuesto, txtOjo, "");
+                if (codigo == "A000004")
+                {
+                    tieneServicio = true;
+                }
+                else if (!string.IsNullOrEmpty(codigo) && codigo.StartsWith("C"))
+                {
+                    found = true;
+                    cantidad = Convert.ToInt32(gridFacturas.Rows[x].Cells["ART_EXIST"].Value);
+                  
+                }
             }
+
+            if (!tieneServicio)
+            {
+                // Calcular el monto total
+                for (int x = 0; x < gridFacturas.RowCount; x++)
+                {
+                    string codigo2 = gridFacturas.Rows[x].Cells["CodArticulo"].Value?.ToString();
+
+                    if (!string.IsNullOrEmpty(codigo2) && codigo2.StartsWith("C"))
+                    {
+                        montoTotal += Convert.ToDecimal(gridFacturas.Rows[x].Cells["ART_PVP"].Value);
+                    }
+                }
+                List<TB_ARTICULO> articulos = _D_Articulos.ObtenerArticulos("", "A000004");
+
+                if (articulos != null && articulos.Count > 0)
+                {
+                    TB_ARTICULO articulo = articulos.First();
+                    decimal precio = montoTotal*= prima;
+                    decimal total = precio * 1;
+                    decimal CostoPromedio = (decimal)articulo.COSTOPROME;
+                    decimal impuesto = articulo.ART_EXENTO ? 0 : BuscarIva("I");
+
+                    AgregarFila(gridFacturas, articulo.CodArticulo, "", articulo.DESART, 1, (decimal)precio, (decimal)articulo.PORCTDESCUENTO, (decimal)total, impuesto, txtOjo, CostoPromedio, codigo);
+                }
+            }
+            
 
         }
 
