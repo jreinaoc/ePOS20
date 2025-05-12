@@ -20,10 +20,24 @@ namespace CapaLogica.CargarOrdenes
 {
     public class L_Articulo
     {
-        D_Anulacion _D_Anulacion = new D_Anulacion();
-        D_Articulos _D_Articulos = new D_Articulos();
-        D_DetalleOrden _D_DetalleOrden = new D_DetalleOrden();
-        D_Inicio _D_Inicio = new D_Inicio();
+
+        private D_Anulacion _D_Anulacion;
+        private D_Articulos _D_Articulos;
+        private D_DetalleOrden _D_DetalleOrden;
+        private D_Inicio _D_Inicio;
+
+        public L_Articulo()
+        {
+            _D_Anulacion = new D_Anulacion();
+            _D_Articulos = new D_Articulos();
+            _D_DetalleOrden = new D_DetalleOrden();
+            //_D_Inicio = new D_Inicio();
+        }
+
+        //D_Anulacion _D_Anulacion = new D_Anulacion();
+        //D_Articulos _D_Articulos = new D_Articulos();
+        //D_DetalleOrden _D_DetalleOrden = new D_DetalleOrden();
+        //D_Inicio _D_Inicio = new D_Inicio();
         public Boolean Diopprima = false;
         private System.Reflection.Assembly oEnsamblado;
         //El uso de la clase StringBuilder nos ayudara a devolver los mensajes 
@@ -1592,6 +1606,8 @@ namespace CapaLogica.CargarOrdenes
 
                             if (PrecompilarAssembly(expresion, mParameters, mNameSpaces))
                             {
+                                if (_D_Inicio == null)
+                                    _D_Inicio = new D_Inicio();
 
                                 // Obtener datos del examen utilizando la nueva función
                                 List<TB_Examen> examenes = _D_Articulos.ObtenerExamen(Nacionalidad, txtCedula, _D_Inicio.Sucursal(), NunExamen);

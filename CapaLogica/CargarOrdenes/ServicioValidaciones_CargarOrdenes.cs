@@ -24,7 +24,7 @@ namespace CapaLogica.CargarOrdenes
         public ServicioValidaciones_CargarOrdenes()
         {
             _L_Articulo = new L_Articulo();
-            _servicioOrdenGuardado = new ServicioGuardarOrdenes_Cargar_Ordenes();
+            _servicioOrdenGuardado = new ServicioGuardarOrdenes_Cargar_Ordenes(this);
 
         }
 

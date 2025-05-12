@@ -23,6 +23,8 @@ namespace CapaVisual_Login
         public FrmCargarOrden()
         {
             InitializeComponent();
+
+            _GuardarOrdenServ = new ServicioGuardarOrdenes_Cargar_Ordenes(_servicioValidaciones);
         }
 
 
@@ -43,8 +45,7 @@ namespace CapaVisual_Login
         private string glbServicio = "";
         private string glbNumVision = "";
         private ServicioValidaciones_CargarOrdenes _servicioValidaciones = new ServicioValidaciones_CargarOrdenes();
-        private ServicioGuardarOrdenes_Cargar_Ordenes _GuardarOrdenServ = new ServicioGuardarOrdenes_Cargar_Ordenes();
-
+        private ServicioGuardarOrdenes_Cargar_Ordenes _GuardarOrdenServ;
 
 
         private D_DetalleOrden _D_DetalleOrden = new D_DetalleOrden();
@@ -62,6 +63,8 @@ namespace CapaVisual_Login
         private bool tipoTrabajoSeleccionado;
 
         List<TB_EMPAFI> listaClienteAfiliados = new List<TB_EMPAFI>();
+
+
 
         private void DgvListadoOrdenes_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {

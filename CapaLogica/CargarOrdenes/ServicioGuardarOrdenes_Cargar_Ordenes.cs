@@ -17,11 +17,12 @@ namespace CapaLogica.CargarOrdenes
         private readonly L_Articulo _L_Articulo;
         private readonly D_DetalleOrden _D_DetalleOrden;
         private readonly ServicioValidaciones_CargarOrdenes _servicioValidaciones;
-        public ServicioGuardarOrdenes_Cargar_Ordenes()
+
+        public ServicioGuardarOrdenes_Cargar_Ordenes(ServicioValidaciones_CargarOrdenes servicioValidaciones)
         {
             _L_Articulo = new L_Articulo();
             _D_DetalleOrden = new D_DetalleOrden();
-            _servicioValidaciones = new ServicioValidaciones_CargarOrdenes();
+            _servicioValidaciones = servicioValidaciones;
         }
 
         public async Task<string> GuardarOrdenServicioAsync(AgregarOrdenServicio_CargarOrdenes datos, SqlCommand command)
