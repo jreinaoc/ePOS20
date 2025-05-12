@@ -504,7 +504,7 @@ namespace CapaDatos.CargarOrdenes_Datos
                 return null;
             }
         }
-        public DataTable BucarTipoVenta( SqlCommand command = null)
+        public DataTable BucarTipoVenta(string Cod_DetVta= "", SqlCommand command = null)
         {
             try
             {
@@ -517,7 +517,8 @@ namespace CapaDatos.CargarOrdenes_Datos
                 cmd.Parameters.Clear();
 
                 cmd.CommandText = "SP_CPOS_TipoVenta";
-                cmd.CommandType = CommandType.StoredProcedure;   
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Cod_DetVta", Cod_DetVta);
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(dt);
@@ -895,7 +896,7 @@ namespace CapaDatos.CargarOrdenes_Datos
             }
         }
 
-        public DataTable MaxVta_btnProcesar(SqlCommand command = null)
+        public DataTable MaxVta_btnProcesar(string Inicial_Producto = "" , SqlCommand command = null)
         {
             try
             {
@@ -910,6 +911,7 @@ namespace CapaDatos.CargarOrdenes_Datos
 
                 cmd.CommandText = "CPOS_Max_Vta";
                 cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Cod_Producto", Inicial_Producto);
 
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -1193,26 +1195,27 @@ namespace CapaDatos.CargarOrdenes_Datos
                         // Mapear cada fila a un objeto TB_ARTICULO
                         TB_EMPAFI clienteAfiliado = new TB_EMPAFI
                         {
-                            Rif = reader["Rif"].ToString(),
+                            //Rif = reader["Rif"].ToString(),
+                            Codigo_Emp = reader["Codigo_Emp"].ToString(),
                             Nombre = reader["Nombre"].ToString(),
-                            CodigoEmp = reader["Codigo_Emp"].ToString(),
-                            Nit = reader["Nit"].ToString(),
-                            Direccion = reader["Direccion"].ToString(),
-                            Telefono1 = reader["Telefono1"].ToString(),
-                            Telefono2 = reader["Telefono2"].ToString(),
-                            FechaAfiliacion = reader["FechaAfiliacion"] != DBNull.Value ? Convert.ToDateTime(reader["FechaAfiliacion"]) : (DateTime?)null,
+
+                            //    Nit = reader["Nit"].ToString(),
+                            //    Direccion = reader["Direccion"].ToString(),
+                            //    Telefono1 = reader["Telefono1"].ToString(),
+                            //    Telefono2 = reader["Telefono2"].ToString(),
+                            //    FechaAfiliacion = reader["FechaAfiliacion"] != DBNull.Value ? Convert.ToDateTime(reader["FechaAfiliacion"]) : (DateTime?)null,
                             PorcentajeDes1 = reader["PorcentajeDes1"].ToString(),
                             PorcentajeDes2 = reader["PorcentajeDes2"].ToString(),
                             PorcentajeDes3 = reader["PorcentajeDes3"].ToString(),
-                            EMP_Fec_Crea = reader["EMP_Fec_Crea"] != DBNull.Value ? Convert.ToDateTime(reader["EMP_Fec_Crea"]) : (DateTime?)null,
-                            EMP_Fec_Mod = reader["EMP_Fec_Mod"] != DBNull.Value ? Convert.ToDateTime(reader["EMP_Fec_Mod"]) : (DateTime?)null,
-                            USER_Crea = reader["USER_Crea"].ToString(),
-                            USER_Modif = reader["USER_Modif"].ToString(),
-                            AceptaFinanciamiento = reader["AceptaFinanciamiento"] != DBNull.Value ? Convert.ToBoolean(reader["AceptaFinanciamiento"]) : (bool?)null,
-                            FechaInicio = reader["FechaInicio"] != DBNull.Value ? Convert.ToDateTime(reader["FechaInicio"]) : (DateTime?)null,
-                            FechaFin = reader["FechaFin"] != DBNull.Value ? Convert.ToDateTime(reader["FechaFin"]) : (DateTime?)null,
-                            Sucursal = reader["Sucursal"].ToString(),
-                            Activo = reader["Activo"] != DBNull.Value ? Convert.ToBoolean(reader["Activo"]) : (bool?)null
+                            //    EMP_Fec_Crea = reader["EMP_Fec_Crea"] != DBNull.Value ? Convert.ToDateTime(reader["EMP_Fec_Crea"]) : (DateTime?)null,
+                            //    EMP_Fec_Mod = reader["EMP_Fec_Mod"] != DBNull.Value ? Convert.ToDateTime(reader["EMP_Fec_Mod"]) : (DateTime?)null,
+                            //    USER_Crea = reader["USER_Crea"].ToString(),
+                            //    USER_Modif = reader["USER_Modif"].ToString(),
+                            //    AceptaFinanciamiento = reader["AceptaFinanciamiento"] != DBNull.Value ? Convert.ToBoolean(reader["AceptaFinanciamiento"]) : (bool?)null,
+                            //    FechaInicio = reader["FechaInicio"] != DBNull.Value ? Convert.ToDateTime(reader["FechaInicio"]) : (DateTime?)null,
+                            //    FechaFin = reader["FechaFin"] != DBNull.Value ? Convert.ToDateTime(reader["FechaFin"]) : (DateTime?)null,
+                            //    Sucursal = reader["Sucursal"].ToString(),
+                            //    Activo = reader["Activo"] != DBNull.Value ? Convert.ToBoolean(reader["Activo"]) : (bool?)null
                         };
 
 
@@ -1262,15 +1265,111 @@ namespace CapaDatos.CargarOrdenes_Datos
 
         ////////
 
-        public string AgregarOrdenServicio(string codSucursal, string revision, string codVenta, string cteNacio, string cteCedIden,
-                                        string numExamen, string codEmpleado, string codLaboratorio, string codServicio, string vision,
-                                        DateTime fecOfrecido, string horOfrecido, DateTime? fecEntrega, DateTime? fecEnvio,
-                                        decimal vtaSubTotal, decimal vtaImpuesto, decimal vtaDescuento, decimal vtaTotal,
-                                        bool orSerFinan, string orSerStatus, string orSerObserv, string userCrea, DateTime fecha,
-                                        bool monturaPropia, string codDetVta, bool aplica, string otCorrespondiente, bool ventaAfil,
-                                        bool cristalPropio, string tipoMonturaPropia, string codMotivoReposicion,
-                                        string cedulaCteAfil, string codigoEmpAfil, bool? asegurada, bool? exonerada,
-                                        bool monturaEnQuorum, string codColoracion, SqlCommand command = null)
+        public async Task<string> AgregarOrdenServicio(string codSucursal, string revision, string codVenta, string cteNacio, string cteCedIden,
+                                       string numExamen, string codEmpleado, string codLaboratorio, string codServicio, string vision,
+                                       DateTime fecOfrecido, string horOfrecido, DateTime? fecEntrega, DateTime? fecEnvio,
+                                       decimal vtaSubTotal, decimal vtaImpuesto, decimal vtaDescuento, decimal vtaTotal,
+                                       bool orSerFinan, string orSerStatus, string orSerObserv, string userCrea, DateTime fecha,
+                                       bool monturaPropia, string codDetVta, bool aplica, string otCorrespondiente, bool ventaAfil,
+                                       bool cristalPropio, string tipoMonturaPropia, string codMotivoReposicion,
+                                       string cedulaCteAfil, string codigoEmpAfil, bool? asegurada, bool? exonerada,
+                                       bool monturaEnQuorum, string codColoracion, SqlCommand command = null)
+        {
+            return await Task.Run(() =>
+            {
+                if (command == null)
+                {
+                    SqlConnection connection = cn.LeerCadena();
+                    command = connection.CreateCommand();
+                }
+
+                SqlCommand cmd = command;
+                cmd.Parameters.Clear();
+                cmd.CommandText = "SP_CPOS_AgregarOrdenServicio";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@Cod_Sucursal", codSucursal);
+                cmd.Parameters.AddWithValue("@Revision", revision);
+                cmd.Parameters.AddWithValue("@Cod_Venta", codVenta);
+                cmd.Parameters.AddWithValue("@CTE_Nacio", cteNacio);
+                cmd.Parameters.AddWithValue("@CTE_CedIden", cteCedIden);
+                cmd.Parameters.AddWithValue("@NumExamen", numExamen);
+                cmd.Parameters.AddWithValue("@COD_EMPLEADO", codEmpleado);
+                cmd.Parameters.AddWithValue("@Cod_Laboratorio", codLaboratorio);
+                cmd.Parameters.AddWithValue("@Cod_Servicio", codServicio);
+                cmd.Parameters.AddWithValue("@Vision", vision);
+                cmd.Parameters.AddWithValue("@Fec_Ofrecido", fecOfrecido);
+                cmd.Parameters.AddWithValue("@Hor_Ofrecido", horOfrecido);
+                cmd.Parameters.AddWithValue("@Fec_Entrega", (object)fecEntrega ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@Fec_Envio", (object)fecEnvio ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@VtaSubTotal", vtaSubTotal);
+                cmd.Parameters.AddWithValue("@VtaImpuesto", vtaImpuesto);
+                cmd.Parameters.AddWithValue("@VtaDescuento", vtaDescuento);
+                cmd.Parameters.AddWithValue("@VtaTotal", vtaTotal);
+                cmd.Parameters.AddWithValue("@OrSer_Finan", orSerFinan);
+                cmd.Parameters.AddWithValue("@OrSer_Status", orSerStatus);
+                cmd.Parameters.AddWithValue("@OrSer_Observ", orSerObserv);
+                cmd.Parameters.AddWithValue("@USER_Crea", userCrea);
+                cmd.Parameters.AddWithValue("@Fecha", fecha);
+                cmd.Parameters.AddWithValue("@MonturaPropia", monturaPropia);
+                cmd.Parameters.AddWithValue("@Cod_DetVta", codDetVta);
+                cmd.Parameters.AddWithValue("@Aplica", aplica);
+                cmd.Parameters.AddWithValue("@OTCORRESPONDIENTE", otCorrespondiente);
+                cmd.Parameters.AddWithValue("@VentaAfil", ventaAfil);
+                cmd.Parameters.AddWithValue("@CristalPropio", cristalPropio);
+                cmd.Parameters.AddWithValue("@TipoMonturaPropia", (object)tipoMonturaPropia ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@CodMotivoReposicion", (object)codMotivoReposicion ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@Cedula_CteAfil", (object)cedulaCteAfil ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@Codigo_EmpAfil", (object)codigoEmpAfil ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@Asegurada", (object)asegurada ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@Exonerada", (object)exonerada ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@MonturaEnQuorum", (object)monturaEnQuorum ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@Cod_Coloracion", (object)codColoracion ?? DBNull.Value);
+
+                SqlParameter numOrdenParam = new SqlParameter("@NumOrdserv", SqlDbType.VarChar, 20)
+                {
+                    Direction = ParameterDirection.Output
+                };
+
+                cmd.Parameters.Add(numOrdenParam);
+
+                cmd.ExecuteNonQuery();
+
+                string numeroOrdenGenerado = numOrdenParam.Value.ToString();
+                cmd.Parameters.Clear();
+
+                return numeroOrdenGenerado;
+            });
+        }
+
+        public DataSet ObtenerInfoReposicion(string cedula, string nacio, string os,string suc,string nroExamen, SqlCommand command = null)
+        {
+
+            if (command == null)
+            {
+                SqlConnection connection = cn.LeerCadena();
+                command = connection.CreateCommand();
+            }
+            SqlCommand cmd = command;
+            cmd.Parameters.Clear();
+            cmd.CommandText = "pGetInfoReposicion";
+            //SqlCommand cmd = new SqlCommand("SP_DETALLEFACTURAFISCAL", cn.LeerCadena());
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@CI", cedula);
+            cmd.Parameters.AddWithValue("@NACIO", nacio);
+            cmd.Parameters.AddWithValue("@OS", os);
+            cmd.Parameters.AddWithValue("@suc", suc);
+            cmd.Parameters.AddWithValue("@NEWRX", nroExamen);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet dts = new DataSet();
+            da.Fill(dts);
+            cmd.Parameters.Clear();
+            return dts;
+
+
+        }
+
+        public DataSet AplicarPromociones(string CODPROMO, Dictionary<string, string> parametros = null, SqlCommand command = null)
         {
             if (command == null)
             {
@@ -1280,61 +1379,29 @@ namespace CapaDatos.CargarOrdenes_Datos
 
             SqlCommand cmd = command;
             cmd.Parameters.Clear();
-            cmd.CommandText = "SP_CPOS_AgregarOrdenServicio";
+            cmd.CommandText = "pEvaluoPromociones";
             cmd.CommandType = CommandType.StoredProcedure;
 
-            cmd.Parameters.AddWithValue("@Cod_Sucursal", codSucursal);
-            cmd.Parameters.AddWithValue("@Revision", revision);
-            cmd.Parameters.AddWithValue("@Cod_Venta", codVenta);
-            cmd.Parameters.AddWithValue("@CTE_Nacio", cteNacio);
-            cmd.Parameters.AddWithValue("@CTE_CedIden", cteCedIden);
-            cmd.Parameters.AddWithValue("@NumExamen", numExamen);
-            cmd.Parameters.AddWithValue("@COD_EMPLEADO", codEmpleado);
-            cmd.Parameters.AddWithValue("@Cod_Laboratorio", codLaboratorio);
-            cmd.Parameters.AddWithValue("@Cod_Servicio", codServicio);
-            cmd.Parameters.AddWithValue("@Vision", vision);
-            cmd.Parameters.AddWithValue("@Fec_Ofrecido", fecOfrecido);
-            cmd.Parameters.AddWithValue("@Hor_Ofrecido", horOfrecido);
-            cmd.Parameters.AddWithValue("@Fec_Entrega", (object)fecEntrega ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@Fec_Envio", (object)fecEnvio ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@VtaSubTotal", vtaSubTotal);
-            cmd.Parameters.AddWithValue("@VtaImpuesto", vtaImpuesto);
-            cmd.Parameters.AddWithValue("@VtaDescuento", vtaDescuento);
-            cmd.Parameters.AddWithValue("@VtaTotal", vtaTotal);
-            cmd.Parameters.AddWithValue("@OrSer_Finan", orSerFinan);
-            cmd.Parameters.AddWithValue("@OrSer_Status", orSerStatus);
-            cmd.Parameters.AddWithValue("@OrSer_Observ", orSerObserv);
-            cmd.Parameters.AddWithValue("@USER_Crea", userCrea);
-            cmd.Parameters.AddWithValue("@Fecha", fecha);
-            cmd.Parameters.AddWithValue("@MonturaPropia", monturaPropia);
-            cmd.Parameters.AddWithValue("@Cod_DetVta", codDetVta);
-            cmd.Parameters.AddWithValue("@Aplica", aplica);
-            cmd.Parameters.AddWithValue("@OTCORRESPONDIENTE", otCorrespondiente);
-            cmd.Parameters.AddWithValue("@VentaAfil", ventaAfil);
-            cmd.Parameters.AddWithValue("@CristalPropio", cristalPropio);
-            cmd.Parameters.AddWithValue("@TipoMonturaPropia", (object)tipoMonturaPropia ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@CodMotivoReposicion", (object)codMotivoReposicion ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@Cedula_CteAfil", (object)cedulaCteAfil ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@Codigo_EmpAfil", (object)codigoEmpAfil ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@Asegurada", (object)asegurada ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@Exonerada", (object)exonerada ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@MonturaEnQuorum", (object)monturaEnQuorum ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@Cod_Coloracion", (object)codColoracion ?? DBNull.Value);
+            // Agregar el parámetro obligatorio @CODPROMO
+            cmd.Parameters.AddWithValue("@CODPROMO", CODPROMO);
 
-            SqlParameter numOrdenParam = new SqlParameter("@NumOrdserv", SqlDbType.VarChar, 20)
+            // Agregar los parámetros opcionales si existen
+            if (parametros != null)
             {
-                Direction = ParameterDirection.Output
-            };
+                foreach (var parametro in parametros)
+                {
+                    cmd.Parameters.AddWithValue(parametro.Key, parametro.Value ?? (object)DBNull.Value);
+                }
+            }
 
-            cmd.Parameters.Add(numOrdenParam);
-
-            cmd.ExecuteNonQuery();
-
-            string numeroOrdenGenerado = numOrdenParam.Value.ToString();
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet dts = new DataSet();
+            da.Fill(dts);
             cmd.Parameters.Clear();
-
-            return numeroOrdenGenerado;
+            return dts;
         }
+
+
 
         public List<TB_LABORATORIOSDTO> DatosLaboratorio(SqlCommand command = null)
         {
@@ -1381,6 +1448,34 @@ namespace CapaDatos.CargarOrdenes_Datos
 
 
         }
+
+       
+
+        public DataSet ObtenerColorLC(string CodArticulo, SqlCommand command = null)
+        {
+            if (command == null)
+            {
+                SqlConnection connection = cn.LeerCadena();
+                command = connection.CreateCommand();
+            }
+
+            SqlCommand cmd = command;
+            cmd.Parameters.Clear();
+            cmd.CommandText = "SP_CPOS_GET_COLORLC";
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            // Agregar el parámetro obligatorio @CODPROMO
+            cmd.Parameters.AddWithValue("@CodArticulo", CodArticulo);
+
+           
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet dts = new DataSet();
+            da.Fill(dts);
+            cmd.Parameters.Clear();
+            return dts;
+        }
+
+
 
         public List<TB_SERVICIOSLABDTO> ServiciosLaboratorio(SqlCommand command = null)
         {
@@ -1511,5 +1606,92 @@ namespace CapaDatos.CargarOrdenes_Datos
 
             return null; 
         }
+
+        public async Task<bool> GuardarDescripcionDetalleOrdenServicio(string numeroOrdenServicio, string numeroRevision,
+                                                                            string codVenta, string codigoArticulo, int cantidad, 
+                                                                            string ojo, decimal precio, decimal porcentajeImpuesto,
+                                                                            decimal porcentajeDescuento, decimal precioAnterior, 
+                                                                            string codPromocion, decimal costoArticulo, string sucursalActual, 
+                                                                            SqlCommand command, int numeroSecuencia)
+        {
+            try
+            {
+                command.Parameters.Clear();
+                command.CommandText = "SP_CPOS_InsertarDetalleOrdenServicio";
+                command.CommandType = CommandType.StoredProcedure;
+
+                command.Parameters.AddWithValue("@CodSucursal", sucursalActual);
+                command.Parameters.AddWithValue("@NumOrdserv", numeroOrdenServicio);
+                command.Parameters.AddWithValue("@Ordserv_sec", numeroSecuencia);
+                command.Parameters.AddWithValue("@Revision", numeroRevision);
+                command.Parameters.AddWithValue("@Cod_Venta", codVenta);
+                command.Parameters.AddWithValue("@CodArticulo", codigoArticulo);
+                command.Parameters.AddWithValue("@Ordserv_Cant", cantidad);
+                command.Parameters.AddWithValue("@Ordser_Ojo", (object)ojo ?? DBNull.Value);
+                command.Parameters.AddWithValue("@Ordserv_Precio", precio);
+                command.Parameters.AddWithValue("@Ordserv_PorcImp", porcentajeImpuesto);
+                command.Parameters.AddWithValue("@Ordserv_PorcDto", porcentajeDescuento);
+                command.Parameters.AddWithValue("@Ordserv_PrecioAnterior", precioAnterior);
+                command.Parameters.AddWithValue("@COD_Prom", (object)codPromocion ?? DBNull.Value);
+                command.Parameters.AddWithValue("@Costo", costoArticulo);
+
+                await command.ExecuteNonQueryAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al guardar el detalle de la orden: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+        }
+
+        public async Task<bool> ModificarTrabajoAsync(string cedula, string nacRif, string numeroOrden, DateTime fecha, string usuario, string sucursal, string correlativoOS, SqlCommand command)
+        {
+            try
+            {
+                command.Parameters.Clear();
+                command.CommandText = "SP_CPOS_ModificarTrabajo";
+                command.CommandType = CommandType.StoredProcedure;
+
+                command.Parameters.AddWithValue("@CedulaCliente", cedula);
+                command.Parameters.AddWithValue("@NacioRifCliente", nacRif);
+                command.Parameters.AddWithValue("@OrdenServicio", numeroOrden);
+                command.Parameters.AddWithValue("@FechaModificacion", DateTime.Now);
+                command.Parameters.AddWithValue("@UsuarioModificacion", usuario);
+                command.Parameters.AddWithValue("@SucursalActual", sucursal);
+                command.Parameters.AddWithValue("@CorrelativoOS", correlativoOS);
+
+                await command.ExecuteNonQueryAsync();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+
+        //public async Task<bool> RebajarInventarioAsync(string codArticulo, string codLaboratorio, int cantidad, SqlCommand command)
+        //{
+        //    try
+        //    {
+        //        command.Parameters.Clear();
+        //        command.CommandText = "SP_CPOS_RebajarInventario"; // Igual, deberías tener o crear este SP
+        //        command.CommandType = CommandType.StoredProcedure;
+
+        //        command.Parameters.AddWithValue("@CodArticulo", codArticulo);
+        //        command.Parameters.AddWithValue("@CodLaboratorio", (object)codLaboratorio ?? DBNull.Value);
+        //        command.Parameters.AddWithValue("@Cantidad", cantidad);
+
+        //        await command.ExecuteNonQueryAsync();
+        //        return true;
+        //    }
+        //    catch
+        //    {
+        //        return false;
+        //    }
+        //}
+
     }
 }
