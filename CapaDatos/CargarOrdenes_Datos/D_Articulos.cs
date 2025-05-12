@@ -61,7 +61,7 @@ namespace CapaDatos.CargarOrdenes_Datos
                         ART_STOCKMAX = reader["ART_STOCKMAX"] != DBNull.Value ? Convert.ToInt16(reader["ART_STOCKMAX"]) : (short)0,
                         CODUBI = reader["CODUBI"].ToString(),
                         COSTOULTI = reader["COSTOULTI"] != DBNull.Value ? (decimal?)Convert.ToDecimal(reader["COSTOULTI"]) : null,
-                        COSTOPROME = reader["COSTOPROME"] != DBNull.Value ? (decimal?)Convert.ToDecimal(reader["COSTOPROME"]) : null,
+                        COSTOPROME = reader["COSTOPROME"] != DBNull.Value ? Convert.ToDecimal(reader["COSTOPROME"]) : 0,
                         ART_ACTIVO = reader["ART_ACTIVO"] != DBNull.Value && Convert.ToBoolean(reader["ART_ACTIVO"]),
                         PROMO = reader["PROMO"].ToString(),
                         NOELIMINA = reader["NOELIMINA"] != DBNull.Value && Convert.ToBoolean(reader["NOELIMINA"]),

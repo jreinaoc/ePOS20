@@ -54,10 +54,9 @@ namespace CapaVisual_Login
             this.btnIngresar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnIngresar.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnIngresar.ForeColor = System.Drawing.SystemColors.Window;
-            this.btnIngresar.Location = new System.Drawing.Point(321, 249);
-            this.btnIngresar.Margin = new System.Windows.Forms.Padding(4);
+            this.btnIngresar.Location = new System.Drawing.Point(241, 202);
             this.btnIngresar.Name = "btnIngresar";
-            this.btnIngresar.Size = new System.Drawing.Size(129, 37);
+            this.btnIngresar.Size = new System.Drawing.Size(97, 30);
             this.btnIngresar.TabIndex = 3;
             this.btnIngresar.Text = "Ingresar";
             this.btnIngresar.UseVisualStyleBackColor = false;
@@ -69,10 +68,9 @@ namespace CapaVisual_Login
             this.btnCancelar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCancelar.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCancelar.ForeColor = System.Drawing.SystemColors.Window;
-            this.btnCancelar.Location = new System.Drawing.Point(173, 249);
-            this.btnCancelar.Margin = new System.Windows.Forms.Padding(4);
+            this.btnCancelar.Location = new System.Drawing.Point(130, 202);
             this.btnCancelar.Name = "btnCancelar";
-            this.btnCancelar.Size = new System.Drawing.Size(129, 37);
+            this.btnCancelar.Size = new System.Drawing.Size(97, 30);
             this.btnCancelar.TabIndex = 4;
             this.btnCancelar.Text = "Cancelar";
             this.btnCancelar.UseVisualStyleBackColor = false;
@@ -82,10 +80,9 @@ namespace CapaVisual_Login
             // 
             this.pictureBox1.Enabled = false;
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(57, 162);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4);
+            this.pictureBox1.Location = new System.Drawing.Point(43, 132);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(60, 48);
+            this.pictureBox1.Size = new System.Drawing.Size(45, 39);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
@@ -94,10 +91,9 @@ namespace CapaVisual_Login
             // 
             this.pictureBox2.Enabled = false;
             this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-            this.pictureBox2.Location = new System.Drawing.Point(52, 82);
-            this.pictureBox2.Margin = new System.Windows.Forms.Padding(4);
+            this.pictureBox2.Location = new System.Drawing.Point(39, 67);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(65, 50);
+            this.pictureBox2.Size = new System.Drawing.Size(49, 41);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox2.TabIndex = 4;
             this.pictureBox2.TabStop = false;
@@ -107,11 +103,10 @@ namespace CapaVisual_Login
             this.txtNombreUsuario.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.txtNombreUsuario.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtNombreUsuario.ForeColor = System.Drawing.SystemColors.ScrollBar;
-            this.txtNombreUsuario.Location = new System.Drawing.Point(173, 96);
-            this.txtNombreUsuario.Margin = new System.Windows.Forms.Padding(4);
+            this.txtNombreUsuario.Location = new System.Drawing.Point(130, 78);
             this.txtNombreUsuario.MaxLength = 5;
             this.txtNombreUsuario.Name = "txtNombreUsuario";
-            this.txtNombreUsuario.Size = new System.Drawing.Size(276, 32);
+            this.txtNombreUsuario.Size = new System.Drawing.Size(208, 27);
             this.txtNombreUsuario.TabIndex = 2;
             this.txtNombreUsuario.Enter += new System.EventHandler(this.txtNombreUsuario_Enter);
             this.txtNombreUsuario.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNombreUsuario_KeyPress);
@@ -120,12 +115,11 @@ namespace CapaVisual_Login
             // txtClaveUsuario
             // 
             this.txtClaveUsuario.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtClaveUsuario.Location = new System.Drawing.Point(173, 169);
-            this.txtClaveUsuario.Margin = new System.Windows.Forms.Padding(4);
+            this.txtClaveUsuario.Location = new System.Drawing.Point(130, 137);
             this.txtClaveUsuario.MaxLength = 10;
             this.txtClaveUsuario.Name = "txtClaveUsuario";
             this.txtClaveUsuario.PasswordChar = '*';
-            this.txtClaveUsuario.Size = new System.Drawing.Size(276, 32);
+            this.txtClaveUsuario.Size = new System.Drawing.Size(208, 27);
             this.txtClaveUsuario.TabIndex = 3;
             this.txtClaveUsuario.Enter += new System.EventHandler(this.txtClaveUsuario_Enter);
             this.txtClaveUsuario.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtClaveUsuario_KeyPress);
@@ -137,10 +131,9 @@ namespace CapaVisual_Login
             this.label1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.label1.Font = new System.Drawing.Font("Century Gothic", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(-4, -1);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Location = new System.Drawing.Point(-3, -1);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(505, 43);
+            this.label1.Size = new System.Drawing.Size(379, 35);
             this.label1.TabIndex = 9;
             this.label1.Text = " ePOS";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -148,56 +141,50 @@ namespace CapaVisual_Login
             // textBox1
             // 
             this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox1.Location = new System.Drawing.Point(195, 17);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox1.Location = new System.Drawing.Point(146, 14);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(133, 15);
+            this.textBox1.Size = new System.Drawing.Size(100, 13);
             this.textBox1.TabIndex = 1;
             // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.Silver;
-            this.panel1.Location = new System.Drawing.Point(497, -2);
-            this.panel1.Margin = new System.Windows.Forms.Padding(4);
+            this.panel1.Location = new System.Drawing.Point(373, -2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(13, 324);
+            this.panel1.Size = new System.Drawing.Size(10, 263);
             this.panel1.TabIndex = 10;
             // 
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.Silver;
-            this.panel2.Location = new System.Drawing.Point(-11, -1);
-            this.panel2.Margin = new System.Windows.Forms.Padding(4);
+            this.panel2.Location = new System.Drawing.Point(-8, -1);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(13, 315);
+            this.panel2.Size = new System.Drawing.Size(10, 256);
             this.panel2.TabIndex = 11;
             // 
             // panel3
             // 
             this.panel3.BackColor = System.Drawing.Color.Silver;
-            this.panel3.Location = new System.Drawing.Point(-9, 310);
-            this.panel3.Margin = new System.Windows.Forms.Padding(4);
+            this.panel3.Location = new System.Drawing.Point(-7, 252);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(511, 12);
+            this.panel3.Size = new System.Drawing.Size(383, 10);
             this.panel3.TabIndex = 12;
             // 
             // panel4
             // 
             this.panel4.BackColor = System.Drawing.Color.Silver;
-            this.panel4.Location = new System.Drawing.Point(-20, -10);
-            this.panel4.Margin = new System.Windows.Forms.Padding(4);
+            this.panel4.Location = new System.Drawing.Point(-15, -8);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(699, 12);
+            this.panel4.Size = new System.Drawing.Size(524, 10);
             this.panel4.TabIndex = 13;
             // 
             // LblIncorrect
             // 
             this.LblIncorrect.AutoSize = true;
             this.LblIncorrect.ForeColor = System.Drawing.Color.Red;
-            this.LblIncorrect.Location = new System.Drawing.Point(169, 133);
-            this.LblIncorrect.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.LblIncorrect.Location = new System.Drawing.Point(127, 108);
             this.LblIncorrect.Name = "LblIncorrect";
-            this.LblIncorrect.Size = new System.Drawing.Size(0, 17);
+            this.LblIncorrect.Size = new System.Drawing.Size(0, 13);
             this.LblIncorrect.TabIndex = 14;
             this.LblIncorrect.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
@@ -207,10 +194,10 @@ namespace CapaVisual_Login
             // 
             // FrmLoguin
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(500, 313);
+            this.ClientSize = new System.Drawing.Size(375, 254);
             this.Controls.Add(this.LblIncorrect);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.panel3);
@@ -225,7 +212,6 @@ namespace CapaVisual_Login
             this.Controls.Add(this.btnIngresar);
             this.Controls.Add(this.textBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FrmLoguin";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Login";

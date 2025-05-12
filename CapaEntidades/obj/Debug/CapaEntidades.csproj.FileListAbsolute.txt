@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 C:\projects\EPOS20\CapaEntidades\bin\Debug\CapaEntidades.dll
 C:\projects\EPOS20\CapaEntidades\bin\Debug\CapaEntidades.pdb
 C:\projects\EPOS20\CapaEntidades\bin\Debug\log4net.dll
@@ -10,18 +9,4 @@ C:\projects\EPOS20\CapaEntidades\obj\Debug\CapaEntidades.csproj.AssemblyReferenc
 C:\projects\EPOS20\CapaEntidades\obj\Debug\CapaEntidades.csproj.CoreCompileInputs.cache
 C:\projects\EPOS20\CapaEntidades\obj\Debug\CapaEntidades.dll
 C:\projects\EPOS20\CapaEntidades\obj\Debug\CapaEntidades.pdb
-C:\Programacion\CaroniPOS1\CapaEntidades\obj\Debug\CapaEntidades.csproj.AssemblyReference.cache
 C:\projects\EPOS20\CapaEntidades\obj\Debug\CapaEnti.0B779BCD.Up2Date
-=======
-C:\Programacion\CaroniPOS1\CapaEntidades\bin\Debug\CapaEntidades.dll
-C:\Programacion\CaroniPOS1\CapaEntidades\bin\Debug\CapaEntidades.pdb
-C:\Programacion\CaroniPOS1\CapaEntidades\bin\Debug\log4net.dll
-C:\Programacion\CaroniPOS1\CapaEntidades\bin\Debug\Newtonsoft.Json.dll
-C:\Programacion\CaroniPOS1\CapaEntidades\bin\Debug\System.ComponentModel.Annotations.dll
-C:\Programacion\CaroniPOS1\CapaEntidades\bin\Debug\log4net.xml
-C:\Programacion\CaroniPOS1\CapaEntidades\bin\Debug\Newtonsoft.Json.xml
-C:\Programacion\CaroniPOS1\CapaEntidades\obj\Debug\CapaEntidades.csproj.CoreCompileInputs.cache
-C:\Programacion\CaroniPOS1\CapaEntidades\obj\Debug\CapaEntidades.csproj.CopyComplete
-C:\Programacion\CaroniPOS1\CapaEntidades\obj\Debug\CapaEntidades.dll
-C:\Programacion\CaroniPOS1\CapaEntidades\obj\Debug\CapaEntidades.pdb
->>>>>>> e75088e7768c1163a0da468fa6c05f7e65f811e5

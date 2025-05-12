@@ -4,7 +4,11 @@
 *.suo
 
 # Compilación
+<<<<<<< HEAD
 *.exe
+=======
+
+>>>>>>> 352af9954ae13364d582be32ab8f932ba0cfc327
 *.cache
 *.log
 

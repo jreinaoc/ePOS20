@@ -44,6 +44,9 @@ namespace CapaVisual_Login
             txtClaveUsuario.ForeColor = Color.Gray;
             LblIncorrect.Visible = false;
 
+            //txtNombreUsuario.Text = "99999";
+            //txtClaveUsuario.Text = "24fa";
+
         }
 
         private void btnIngresar_Click(object sender, EventArgs e)
