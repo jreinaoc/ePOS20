@@ -17,6 +17,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using iText.Layout.Borders;
 using System.Diagnostics;
+using CapaLogica.DatosGeneralesSucursal_Logica;
 
 public class ExportarPDF : ExportarArchivoPdf_Facturas
 {
@@ -27,37 +28,13 @@ public class ExportarPDF : ExportarArchivoPdf_Facturas
             throw new ArgumentException("No data available to export.");
         }
 
+        if (string.IsNullOrWhiteSpace(VariablesGlobales.Sucursal) || string.IsNullOrWhiteSpace(VariablesGlobales.CodSucursal))
+        {
+            await new L_DatosGenerales().ObtenerDatosSucursalYCompania_Global();
+        }
+
         using (MemoryStream stream = new MemoryStream())
         {
-            //// Obtén los ensamblados de Kernel y Layout
-            //var asmKernel = typeof(iText.Kernel.Pdf.PdfDocument).Assembly;
-            //var asmLayout = typeof(iText.Layout.Document).Assembly;
-
-            //// Loggea nombre, versión y ruta
-            //Debug.WriteLine($"[iText Debug] Kernel : {asmKernel.GetName().Name} v{asmKernel.GetName().Version}");
-            //Debug.WriteLine($"[iText Debug] Path   : {asmKernel.Location}");
-            //Debug.WriteLine($"[iText Debug] Layout : {asmLayout.GetName().Name} v{asmLayout.GetName().Version}");
-            //Debug.WriteLine($"[iText Debug] Path   : {asmLayout.Location}");
-
-
-            //PdfWriter writer;
-            //try
-            //{
-            //    // 2) Creamos el PdfWriter con el stream
-            //    writer = new PdfWriter(stream);
-            //}
-            //catch (Exception ex)
-            //{
-            //    Debug.WriteLine(">>> ERROR al instanciar PdfWriter:");
-            //    Debug.WriteLine(ex.GetType().FullName + ": " + ex.Message);
-            //    Debug.WriteLine(ex.StackTrace);
-            //    if (ex.InnerException != null)
-            //    {
-            //        Debug.WriteLine("INNER: " + ex.InnerException.GetType().FullName + ": " + ex.InnerException.Message);
-            //        Debug.WriteLine(ex.InnerException.StackTrace);
-            //    }
-            //    throw;
-            //}
 
             PdfWriter writer = new PdfWriter(stream);
             PdfDocument pdf = new PdfDocument(writer);
@@ -66,37 +43,38 @@ public class ExportarPDF : ExportarArchivoPdf_Facturas
             PdfFont normalFont = PdfFontFactory.CreateFont(StandardFonts.HELVETICA);
             PdfFont boldFont = PdfFontFactory.CreateFont(StandardFonts.HELVETICA_BOLD);
 
-            // 1. ENCABEZADO: Logo + Fecha/Hora
-            Table headerTable = new Table(UnitValue.CreatePercentArray(new float[] { 0.7f, 0.3f })).UseAllAvailableWidth();
+            // ENCABEZADO: Logo (izquierda) + Fecha/Hora (derecha)
+            Table headerTable = new Table(UnitValue.CreatePercentArray(new float[] { 1, 1 })).UseAllAvailableWidth();
 
-            //// Logo
-            //if (formatoPdf.LogoBytes != null && formatoPdf.LogoBytes.Length > 0)
-            //{
-            //    Image logo = new Image(ImageDataFactory.Create(formatoPdf.LogoBytes));
-            //    logo.ScaleToFit(100, 100);
+            // Logo
+            if (formatoPdf.LogoBytes != null && formatoPdf.LogoBytes.Length > 0)
+            {
+                Image logo = new Image(ImageDataFactory.Create(formatoPdf.LogoBytes));
+                logo.ScaleToFit(100, 100);
+                Cell logoCell = new Cell().Add(logo)
+                                          .SetBorder(Border.NO_BORDER)
+                                          .SetTextAlignment(TextAlignment.LEFT);
+                headerTable.AddCell(logoCell);
+            }
+            else
+            {
+                headerTable.AddCell(new Cell().SetBorder(Border.NO_BORDER));
+            }
 
-            //    Cell logoCell = new Cell().Add(logo)
-            //                              .SetBorder(Border.NO_BORDER)
-            //                              .SetTextAlignment(TextAlignment.LEFT);
-            //    headerTable.AddCell(logoCell);
-            //}
-            //else
-            //{
-            //    // Celda vacía si no hay logo
-            //    headerTable.AddCell(new Cell().SetBorder(Border.NO_BORDER));
-            //}
-
-            // Fecha y Hora
-            Paragraph dateParagraph = new Paragraph()
+            // Fecha y hora
+            Paragraph fechaHora = new Paragraph()
                 .Add(new Text("Fecha: " + DateTime.Now.ToString("dd/MM/yyyy") + "\n").SetFont(normalFont).SetFontSize(10))
-                .Add(new Text("Hora: " + DateTime.Now.ToString("HH:mm:ss")).SetFont(normalFont).SetFontSize(10));
+                .Add(new Text("Hora: " + DateTime.Now.ToString("HH:mm:ss")).SetFont(normalFont).SetFontSize(10))
+                .SetTextAlignment(TextAlignment.RIGHT);
 
-            Cell dateCell = new Cell().Add(dateParagraph)
-                                      .SetBorder(Border.NO_BORDER)
-                                      .SetTextAlignment(TextAlignment.RIGHT);
-            headerTable.AddCell(dateCell);
+            Cell fechaCell = new Cell().Add(fechaHora)
+                                       .SetBorder(Border.NO_BORDER)
+                                       .SetTextAlignment(TextAlignment.RIGHT);
 
+            headerTable.AddCell(fechaCell);
             document.Add(headerTable);
+
+
 
             // 2. Espacio
             document.Add(new Paragraph("\n"));
@@ -111,6 +89,13 @@ public class ExportarPDF : ExportarArchivoPdf_Facturas
                 .SetTextAlignment(TextAlignment.CENTER));
 
             document.Add(new Paragraph("\n"));
+
+            //Nombre Sucursal
+            string sucursalTexto = $"Sucursal: {VariablesGlobales.Sucursal} - {VariablesGlobales.CodSucursal}";
+            document.Add(new Paragraph(sucursalTexto)
+                .SetFont(normalFont)
+                .SetFontSize(12)
+                .SetTextAlignment(TextAlignment.LEFT));
 
             // 4. Fechas Filtradas
             document.Add(new Paragraph($"Desde: {formatoPdf.FechaInicio:dd/MM/yyyy}  Hasta: {formatoPdf.FechaFin:dd/MM/yyyy}")
