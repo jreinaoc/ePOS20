@@ -2351,7 +2351,6 @@ namespace CapaVisual_Login
                 string strMarcaC;
                 bool cambioPrec = false;
                 glbServicio_NUV = glbServicio;
-                SqlCommand command = null;
 
                 // 1. Obtener códigos desde el grid
                 var codigosFactura = ObtenerCodigosDesdeGrid();
@@ -2383,7 +2382,7 @@ namespace CapaVisual_Login
                 }
 
                 //Consultar servicios AR
-                var dsAR = await _servicioValidaciones.ObtenerServiciosARDataset(codCristal, false, command);
+                var dsAR = await _servicioValidaciones.ObtenerServiciosARDataset(codCristal, false, null);
 
                 if (_servicioValidaciones.VerificoIgualAntirefCrist(Dgv_Tap3_Articulo, dsAR))
                 {
@@ -2424,13 +2423,13 @@ namespace CapaVisual_Login
                     letraInicial,
                     numeroCedula,
                     Txt_Pnl2_Examen.Text,
-                    command
+                    null
                 );
 
-                bool resultado = await _servicioValidaciones.GuardarOrdenServicioAsync(
+                bool resultado = await _servicioValidaciones.ValidarOrdenServicioAsync(
                     Dgv_Tap3_Totales,
                     Dgv_Tap3_Articulo,
-                    command,
+                    null,
                     mostrarPregunta,
                     mostrarError,
                     datos
@@ -2448,8 +2447,20 @@ namespace CapaVisual_Login
                 //bool esEmpresaAfiliada = empresaAfiliada == "1" || empresaAfiliada.ToLower() == "true";
                 var glbManejaExisLC = _D_DetalleOrden.TB_PARAMETRO("LCManejaExist");
 
+                Conexion cn = new Conexion();
+                SqlConnection connection = cn.LeerCadena();
+                SqlCommand command = connection.CreateCommand();
+                SqlTransaction transaction;
+                // Iniciar la transacción
+                transaction = connection.BeginTransaction();
+                command.Connection = connection;
+                command.Transaction = transaction;
+                command.Parameters.Clear();
+                command.CommandTimeout = 120;
+
                 try
                 {
+
                     var numeroOrden = await _GuardarOrdenServ.GuardarOrdenServicioDesdeFormularioAsync(
                         Dgv_Tap3_Articulo,
                         Dgv_Tap3_Totales,
@@ -2461,7 +2472,7 @@ namespace CapaVisual_Login
                         Cbx_Pnl2_Servicio.SelectedValue.ToString(),
                         glbNumVision,
                         txtObservacion.Text,
-                        Cbx_Pnl2_Trbajo.SelectedValue.ToString(),
+                        tipoTrabajoVenta,
                         TB_USUARIO.COD_USR,
                         Montura_Propia,
                         Promocion_Aplicada,
@@ -2477,7 +2488,9 @@ namespace CapaVisual_Login
 
                     if(string.IsNullOrEmpty(numeroOrden))
                     {
-                        throw new Exception("No se generó el Número de Orden. El proceso no puede continuar");
+                        //throw new Exception("No se generó el Número de Orden. El proceso no puede continuar");
+                        transaction.Rollback();
+                        return;
                     }
 
                     // --- Guardar Detalle ---
@@ -2495,7 +2508,9 @@ namespace CapaVisual_Login
 
                     if (!guardoDetalle)
                     {
-                        throw new Exception("Error guardando el Detalle de la Orden. El proceso no puede continuar");
+                        //throw new Exception("Error guardando el Detalle de la Orden. El proceso no puede continuar");
+                        transaction.Rollback();
+                        return;
                     }
 
                     // --- Actualizar Trabajo y Existencias ---
@@ -2514,20 +2529,28 @@ namespace CapaVisual_Login
 
                     if (!actualizadoTrabajo)
                     {
-                        throw new Exception("Error actualizando la tabla TB_TRABAJO. El proceso no puede continuar");
+                        //throw new Exception("Error actualizando la tabla TB_TRABAJO. El proceso no puede continuar");
+                        transaction.Rollback();
+                        return;
                     }
+
+                    transaction.Commit();
+
+                    // Finaliza normalmente
+                    LimpiarGrid();
+                    Btn_Tap3_Procesar.Enabled = true;
+
                 }
                 catch (Exception ex)
                 {
                     mostrarError("No se pudo guardar la orden de servicio: " + ex.Message);
+                    transaction.Rollback();
                 }
 
-                // Finaliza normalmente
-                Btn_Tap3_Procesar.Enabled = true;
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al procesar el Guardado de Orden: " + ex.Message);
+                mostrarError("Error al procesar el Guardado de Orden: " + ex.Message);
                 Btn_Tap3_Procesar.Enabled = true;
             }
 

@@ -3024,11 +3024,13 @@ namespace CapaLogica.CargarOrdenes
                                                                       string ojo, decimal precio, decimal porcentajeImpuesto,
                                                                       decimal porcentajeDescuento, decimal precioAnterior,
                                                                       string codPromocion, decimal costoArticulo, 
-                                                                      string sucursalActual, SqlCommand command, int numeroSecuencia)
+                                                                      string sucursalActual, SqlCommand command)
         {
+            
+            
             return _D_Articulos.GuardarDescripcionDetalleOrdenServicio(numeroOrdenServicio, numeroRevision, codVenta, 
                 codigoArticulo, cantidad, ojo, precio, porcentajeImpuesto, porcentajeDescuento,precioAnterior, codPromocion, 
-                costoArticulo,sucursalActual, command, numeroSecuencia);
+                costoArticulo,sucursalActual, command);
         }
 
         public Task<bool> ModificarTrabajo(string cedula, string nacRif, string numeroOrden, DateTime fecha, string usuario,
