@@ -244,26 +244,26 @@ namespace CapaVisual_Login
             this.label16 = new System.Windows.Forms.Label();
             this.btnCancelarMonturaPropia = new System.Windows.Forms.Button();
             this.Pnl_3_Lista_ClienteAfiliado = new System.Windows.Forms.Panel();
+            this.btnCancelarAfiliado = new System.Windows.Forms.Button();
             this.Pnl_3_RadioButonClienteAfiliado = new System.Windows.Forms.Panel();
             this.Rd_Pnl3_CteAfiliadoDesc = new System.Windows.Forms.RadioButton();
             this.Rd_Pnl3_CteAfiliadoCodigo = new System.Windows.Forms.RadioButton();
             this.Dgv_Pnl3_ClienteAfiliado = new System.Windows.Forms.DataGridView();
             this.Txt_Pnl3_ClienteAfiliado = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
-            this.btnCancelarAfiliado = new System.Windows.Forms.Button();
             this.Pnl_3_Promociones = new System.Windows.Forms.Panel();
             this.Dgv_Pnl3_Promociones = new System.Windows.Forms.DataGridView();
             this.Btn_Tap3_Aceptar_Promo = new System.Windows.Forms.Button();
             this.Lbl_Pnl3_Promociones = new System.Windows.Forms.Label();
             this.Btn_Tap3_Cancelar_Promo = new System.Windows.Forms.Button();
             this.Pnl_3_Lista_ColoresLC = new System.Windows.Forms.Panel();
+            this.Dgv_Pnl3_ColoresLC = new System.Windows.Forms.DataGridView();
+            this.btnCancelarColorLC = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
             this.radioButton3 = new System.Windows.Forms.RadioButton();
             this.radioButton4 = new System.Windows.Forms.RadioButton();
-            this.Dgv_Pnl3_ColoresLC = new System.Windows.Forms.DataGridView();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label22 = new System.Windows.Forms.Label();
-            this.btnCancelarColorLC = new System.Windows.Forms.Button();
             this.Pnl_1.SuspendLayout();
             this.Pnl_2.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -295,8 +295,8 @@ namespace CapaVisual_Login
             this.Pnl_3_Promociones.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Dgv_Pnl3_Promociones)).BeginInit();
             this.Pnl_3_Lista_ColoresLC.SuspendLayout();
-            this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Dgv_Pnl3_ColoresLC)).BeginInit();
+            this.panel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // Pnl_1
@@ -2830,6 +2830,21 @@ namespace CapaVisual_Login
             this.Pnl_3_Lista_ClienteAfiliado.Visible = false;
             this.Pnl_3_Lista_ClienteAfiliado.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
             // 
+            // btnCancelarAfiliado
+            // 
+            this.btnCancelarAfiliado.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(44)))), ((int)(((byte)(59)))));
+            this.btnCancelarAfiliado.FlatAppearance.BorderSize = 0;
+            this.btnCancelarAfiliado.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCancelarAfiliado.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCancelarAfiliado.ForeColor = System.Drawing.SystemColors.Window;
+            this.btnCancelarAfiliado.Location = new System.Drawing.Point(287, 290);
+            this.btnCancelarAfiliado.Name = "btnCancelarAfiliado";
+            this.btnCancelarAfiliado.Size = new System.Drawing.Size(105, 30);
+            this.btnCancelarAfiliado.TabIndex = 30;
+            this.btnCancelarAfiliado.Text = "Cancelar";
+            this.btnCancelarAfiliado.UseVisualStyleBackColor = false;
+            this.btnCancelarAfiliado.Click += new System.EventHandler(this.btnCancelarAfiliado_Click);
+            // 
             // Pnl_3_RadioButonClienteAfiliado
             // 
             this.Pnl_3_RadioButonClienteAfiliado.Controls.Add(this.Rd_Pnl3_CteAfiliadoDesc);
@@ -2931,21 +2946,6 @@ namespace CapaVisual_Login
             this.label7.TabIndex = 31;
             this.label7.Text = "Listado de Afiliados";
             this.label7.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            // 
-            // btnCancelarAfiliado
-            // 
-            this.btnCancelarAfiliado.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(44)))), ((int)(((byte)(59)))));
-            this.btnCancelarAfiliado.FlatAppearance.BorderSize = 0;
-            this.btnCancelarAfiliado.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCancelarAfiliado.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCancelarAfiliado.ForeColor = System.Drawing.SystemColors.Window;
-            this.btnCancelarAfiliado.Location = new System.Drawing.Point(287, 290);
-            this.btnCancelarAfiliado.Name = "btnCancelarAfiliado";
-            this.btnCancelarAfiliado.Size = new System.Drawing.Size(105, 30);
-            this.btnCancelarAfiliado.TabIndex = 30;
-            this.btnCancelarAfiliado.Text = "Cancelar";
-            this.btnCancelarAfiliado.UseVisualStyleBackColor = false;
-            this.btnCancelarAfiliado.Click += new System.EventHandler(this.btnCancelarAfiliado_Click);
             // 
             // Pnl_3_Promociones
             // 
@@ -3060,41 +3060,6 @@ namespace CapaVisual_Login
             this.Pnl_3_Lista_ColoresLC.TabIndex = 165;
             this.Pnl_3_Lista_ColoresLC.Visible = false;
             // 
-            // panel3
-            // 
-            this.panel3.Controls.Add(this.radioButton3);
-            this.panel3.Controls.Add(this.radioButton4);
-            this.panel3.Location = new System.Drawing.Point(279, 43);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(139, 48);
-            this.panel3.TabIndex = 164;
-            // 
-            // radioButton3
-            // 
-            this.radioButton3.AutoSize = true;
-            this.radioButton3.Font = new System.Drawing.Font("Century Gothic", 11.25F);
-            this.radioButton3.Location = new System.Drawing.Point(3, 21);
-            this.radioButton3.Name = "radioButton3";
-            this.radioButton3.Size = new System.Drawing.Size(114, 24);
-            this.radioButton3.TabIndex = 1;
-            this.radioButton3.TabStop = true;
-            this.radioButton3.Text = "Descripción";
-            this.radioButton3.UseVisualStyleBackColor = true;
-            this.radioButton3.Visible = false;
-            // 
-            // radioButton4
-            // 
-            this.radioButton4.AutoSize = true;
-            this.radioButton4.Font = new System.Drawing.Font("Century Gothic", 11.25F);
-            this.radioButton4.Location = new System.Drawing.Point(3, 1);
-            this.radioButton4.Name = "radioButton4";
-            this.radioButton4.Size = new System.Drawing.Size(82, 24);
-            this.radioButton4.TabIndex = 0;
-            this.radioButton4.TabStop = true;
-            this.radioButton4.Text = "Código";
-            this.radioButton4.UseVisualStyleBackColor = true;
-            this.radioButton4.Visible = false;
-            // 
             // Dgv_Pnl3_ColoresLC
             // 
             this.Dgv_Pnl3_ColoresLC.AllowUserToAddRows = false;
@@ -3139,6 +3104,56 @@ namespace CapaVisual_Login
             this.Dgv_Pnl3_ColoresLC.TabIndex = 54;
             this.Dgv_Pnl3_ColoresLC.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_Pnl3_ColoresLC_CellClick);
             // 
+            // btnCancelarColorLC
+            // 
+            this.btnCancelarColorLC.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(44)))), ((int)(((byte)(59)))));
+            this.btnCancelarColorLC.FlatAppearance.BorderSize = 0;
+            this.btnCancelarColorLC.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCancelarColorLC.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCancelarColorLC.ForeColor = System.Drawing.SystemColors.Window;
+            this.btnCancelarColorLC.Location = new System.Drawing.Point(287, 241);
+            this.btnCancelarColorLC.Name = "btnCancelarColorLC";
+            this.btnCancelarColorLC.Size = new System.Drawing.Size(105, 30);
+            this.btnCancelarColorLC.TabIndex = 30;
+            this.btnCancelarColorLC.Text = "Cancelar";
+            this.btnCancelarColorLC.UseVisualStyleBackColor = false;
+            this.btnCancelarColorLC.Click += new System.EventHandler(this.btnCancelarColorLC_Click);
+            // 
+            // panel3
+            // 
+            this.panel3.Controls.Add(this.radioButton3);
+            this.panel3.Controls.Add(this.radioButton4);
+            this.panel3.Location = new System.Drawing.Point(279, 43);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(139, 48);
+            this.panel3.TabIndex = 164;
+            // 
+            // radioButton3
+            // 
+            this.radioButton3.AutoSize = true;
+            this.radioButton3.Font = new System.Drawing.Font("Century Gothic", 11.25F);
+            this.radioButton3.Location = new System.Drawing.Point(3, 21);
+            this.radioButton3.Name = "radioButton3";
+            this.radioButton3.Size = new System.Drawing.Size(114, 24);
+            this.radioButton3.TabIndex = 1;
+            this.radioButton3.TabStop = true;
+            this.radioButton3.Text = "Descripción";
+            this.radioButton3.UseVisualStyleBackColor = true;
+            this.radioButton3.Visible = false;
+            // 
+            // radioButton4
+            // 
+            this.radioButton4.AutoSize = true;
+            this.radioButton4.Font = new System.Drawing.Font("Century Gothic", 11.25F);
+            this.radioButton4.Location = new System.Drawing.Point(3, 1);
+            this.radioButton4.Name = "radioButton4";
+            this.radioButton4.Size = new System.Drawing.Size(82, 24);
+            this.radioButton4.TabIndex = 0;
+            this.radioButton4.TabStop = true;
+            this.radioButton4.Text = "Código";
+            this.radioButton4.UseVisualStyleBackColor = true;
+            this.radioButton4.Visible = false;
+            // 
             // textBox1
             // 
             this.textBox1.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -3164,21 +3179,6 @@ namespace CapaVisual_Login
             this.label22.Text = "Listado de Colores ";
             this.label22.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
-            // btnCancelarColorLC
-            // 
-            this.btnCancelarColorLC.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(44)))), ((int)(((byte)(59)))));
-            this.btnCancelarColorLC.FlatAppearance.BorderSize = 0;
-            this.btnCancelarColorLC.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCancelarColorLC.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCancelarColorLC.ForeColor = System.Drawing.SystemColors.Window;
-            this.btnCancelarColorLC.Location = new System.Drawing.Point(287, 241);
-            this.btnCancelarColorLC.Name = "btnCancelarColorLC";
-            this.btnCancelarColorLC.Size = new System.Drawing.Size(105, 30);
-            this.btnCancelarColorLC.TabIndex = 30;
-            this.btnCancelarColorLC.Text = "Cancelar";
-            this.btnCancelarColorLC.UseVisualStyleBackColor = false;
-            this.btnCancelarColorLC.Click += new System.EventHandler(this.btnCancelarColorLC_Click);
-            // 
             // FrmCargarOrden
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -3187,7 +3187,7 @@ namespace CapaVisual_Login
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(1386, 788);
+            this.ClientSize = new System.Drawing.Size(1940, 788);
             this.Controls.Add(this.Pnl_3_Lista_ColoresLC);
             this.Controls.Add(this.pnlRangoCrt);
             this.Controls.Add(this.Pnl_3_Promociones);
@@ -3256,9 +3256,9 @@ namespace CapaVisual_Login
             ((System.ComponentModel.ISupportInitialize)(this.Dgv_Pnl3_Promociones)).EndInit();
             this.Pnl_3_Lista_ColoresLC.ResumeLayout(false);
             this.Pnl_3_Lista_ColoresLC.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Dgv_Pnl3_ColoresLC)).EndInit();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Dgv_Pnl3_ColoresLC)).EndInit();
             this.ResumeLayout(false);
 
         }

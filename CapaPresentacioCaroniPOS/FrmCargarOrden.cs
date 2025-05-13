@@ -1476,6 +1476,7 @@ namespace CapaVisual_Login
         {
            
                 LimpiarGrid();
+                Lbl_Tap3_Articulo1.Text = "Ingresar Articulo";
         }
 
         private void btnPrincipal_CheckedChanged(object sender, EventArgs e)
@@ -3100,6 +3101,7 @@ namespace CapaVisual_Login
 
                 // Obtener el valor de la celda "Cod_Coloracion"
                 Codigo_Promocion = filaSeleccionada.Cells["COD_Prom"].Value.ToString();
+                Lbl_Tap3_Articulo1.Text= "Ingresar Articulo "+ " Promo: "+ filaSeleccionada.Cells["Prom_DESCRIP"].Value.ToString();
                 CerrarPanelPromocion();
             }
             else

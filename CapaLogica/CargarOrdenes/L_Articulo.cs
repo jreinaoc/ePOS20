@@ -31,7 +31,7 @@ namespace CapaLogica.CargarOrdenes
             _D_Anulacion = new D_Anulacion();
             _D_Articulos = new D_Articulos();
             _D_DetalleOrden = new D_DetalleOrden();
-            //_D_Inicio = new D_Inicio();
+            _D_Inicio = new D_Inicio();
         }
 
         //D_Anulacion _D_Anulacion = new D_Anulacion();
@@ -2604,9 +2604,10 @@ namespace CapaLogica.CargarOrdenes
                         {
                             foreach (DataRow dr in dsServAR.Tables[1].Rows)
                             {
-                                if (codigo == dr["CodServicio"].ToString() &&
-                                    row.Cells["PromoEvaluada"].Value != null &&
-                                    row.Cells["PromoEvaluada"].Value.ToString() == "No")
+                                if (codigo == dr["CodServicio"].ToString())
+                                    //    &&
+                                    //row.Cells["PromoEvaluada"].Value != null &&
+                                    //row.Cells["PromoEvaluada"].Value.ToString() == "No")
                                 {
                                     AR = codigo;
                                     promoAplicaAR = true;
@@ -2627,7 +2628,8 @@ namespace CapaLogica.CargarOrdenes
                 AR,
                 promoAplicaAR ? "true" : PromoARObligatorio.ToString(),
                 glbTipoTrabajo,
-                TipoExamen
+                TipoExamen,
+                _D_Inicio.DiaActivo().ToString("yyyy/MM/dd")
             );
 
             // Llamar a la función AplicarPromociones
@@ -2673,7 +2675,7 @@ namespace CapaLogica.CargarOrdenes
 
             // Obtener la lista de códigos de artículos que no deben recibir promoción (si existe la segunda tabla)
             HashSet<string> codigosSinPromocion = new HashSet<string>();
-            if (dsLl1so.Tables.Count > 1)
+            if (dsLl1so.Tables.Count > 1 && dsLl1so.Tables[0].Columns.Contains("CodArticulo"))
             {
                 foreach (DataRow row in dsLl1so.Tables[1].Rows)
                 {
@@ -2725,7 +2727,7 @@ namespace CapaLogica.CargarOrdenes
                             PromoAplicada = true;
                         }
 
-                        // Verificar si el artículo está en la lista de códigos sin promoción
+                        // Verificar si el artículo está en la lista negra (códigos de articulos sin promoción)
                         else if (codigosSinPromocion.Contains(codigo))
                         {
                             //TB_ARTICULO articuloEncontrado = ObtenerArticuloPorCodigo(listaArticulos, codigo);
@@ -2738,9 +2740,57 @@ namespace CapaLogica.CargarOrdenes
                             PromoAplicada = true;
                         }
 
-                        // Si el código es uno de los servicios específicos // ´Poner una logica por sql para recibir los articulos que no quiero que se les aplique promocion 
-                        else 
+
+                        // Verificar si Es un Servicio
+                        else if (codigo.StartsWith("S"))
                         {
+                            DataSet dsServAR = _D_Articulos.ServiciosAR_btnProcesar("", false);
+
+                            if (dsServAR.Tables.Count > 1)
+                            {     
+                                foreach (DataRow dr in dsServAR.Tables[1].Rows)
+                                // Verificar si el artículo es un AR 
+                                {      // preguntamos si el codigo del articulo es el mismo que el que devuelve el dsServAR 
+                                       // preguntamos si existe el campo PRECIOAR_DESC  antes de accede a su valor 
+                                       // Preguntamos si esa colunma no esta vacia 
+                                    if (codigo == dr["CodServicio"].ToString() && dsLl1so.Tables[0].Columns.Contains("PRECIOAR_DESC") && !string.IsNullOrEmpty(dsLl1so.Tables[0].Rows[0]["PRECIOAR_DESC"].ToString()))
+                                    {
+                                        row.Cells["TienePromo"].Value = "Si";
+                                        row.Cells["ART_PVP"].Value = (decimal)(dsLl1so.Tables[0].Rows[0]["PRECIOAR_DESC"]);
+                                        row.Cells["Total"].Value = (decimal)((decimal)dsLl1so.Tables[0].Rows[0]["PRECIOAR_DESC"] * Convert.ToDecimal(row.Cells["ART_EXIST"].Value));
+                                        row.Cells["CodPromo"].Value = dsLl1so.Tables[0].Rows[0]["CODPROM"];
+                                        row.Cells["PromoEvaluada"].Value = "Si";
+                                    }
+                                    // Verificar si el otro servicio diferente al AR 
+                                    // preguntamos si existe el campo PORCDCTO  antes de accede a su valor 
+                                    else if (dsLl1so.Tables[0].Columns.Contains("PORCDCTO") && !string.IsNullOrEmpty(dsLl1so.Tables[0].Rows[0]["PORCDCTO"].ToString()))
+                                    {
+                                        TB_ARTICULO articuloEncontrado = ObtenerArticuloPorCodigo(listaArticulos, codigo);
+                                        decimal montoArtic = articuloEncontrado.ART_PVP; // Método para obtener el precio del artículo
+                                        row.Cells["TienePromo"].Value = "Si";
+                                        row.Cells["ART_PVP"].Value = (decimal)(montoArtic - (montoArtic * Convert.ToDecimal(dsLl1so.Tables[0].Rows[0]["PORCDCTO"]) / 100));
+                                        row.Cells["Total"].Value = (decimal)((montoArtic - (montoArtic * Convert.ToDecimal(dsLl1so.Tables[0].Rows[0]["PORCDCTO"]) / 100)) * Convert.ToDecimal(row.Cells["ART_EXIST"].Value));
+                                        row.Cells["CodPromo"].Value = dsLl1so.Tables[0].Rows[0]["CODPROM"];
+                                        row.Cells["PromoEvaluada"].Value = "Si";
+                                        PromoAplicada = true;
+                                    }
+                                    else
+                                    {
+                                        row.Cells["TienePromo"].Value = "Si";
+                                        row.Cells["CodPromo"].Value = dsLl1so.Tables[0].Rows[0]["CODPROM"];
+                                        row.Cells["PromoEvaluada"].Value = "Si";
+                                        PromoAplicada = true;
+                                    }
+                                }
+                            }
+                           
+                        } 
+
+                        // Si el código es un articulo diferente de S,M,L,W
+                        else 
+                        {    // Pregunto si Exte esta colunma para dar descuento 
+                            if (dsLl1so.Tables[0].Columns.Contains("PORCDCTO") && !string.IsNullOrEmpty(dsLl1so.Tables[0].Rows[0]["PORCDCTO"].ToString()))
+                            {
                             TB_ARTICULO articuloEncontrado = ObtenerArticuloPorCodigo(listaArticulos, codigo);
                             decimal montoArtic = articuloEncontrado.ART_PVP; // Método para obtener el precio del artículo
                             row.Cells["TienePromo"].Value = "Si";
@@ -2749,8 +2799,16 @@ namespace CapaLogica.CargarOrdenes
                             row.Cells["CodPromo"].Value = dsLl1so.Tables[0].Rows[0]["CODPROM"];
                             row.Cells["PromoEvaluada"].Value = "Si";
                             PromoAplicada = true;
+                            }
+                            else
+                            {
+                                row.Cells["TienePromo"].Value = "Si";
+                                row.Cells["CodPromo"].Value = dsLl1so.Tables[0].Rows[0]["CODPROM"];
+                                row.Cells["PromoEvaluada"].Value = "Si";
+                                PromoAplicada = true;
+                            }
                         }
-                       
+
                     }
                     // Si el resultado de la promoción es "NO APLICA"
                     else if (dsLl1so.Tables[0].Rows[0]["Resultado"].ToString() == "NO APLICA")
