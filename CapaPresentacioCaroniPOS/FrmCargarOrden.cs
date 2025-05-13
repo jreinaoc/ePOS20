@@ -63,6 +63,7 @@ namespace CapaVisual_Login
         private bool tipoTrabajoSeleccionado;
 
         List<TB_EMPAFI> listaClienteAfiliados = new List<TB_EMPAFI>();
+        List<TB_EMPAFI> listaTemporalClienteAfiliados = new List<TB_EMPAFI>();
 
 
 
@@ -281,8 +282,8 @@ namespace CapaVisual_Login
 
                 case "ClienteAfiliado":
                     //this.Btn_Tap3_ClienteAfiliado.BackColor = Color.LightCoral;
-                    radioButton2.Checked = false;
-                    radioButton1.Checked = false;
+                    Rd_Pnl3_CteAfiliadoCodigo.Checked = false;
+                    Rd_Pnl3_CteAfiliadoDesc.Checked = false;
                     Txt_Pnl3_ClienteAfiliado.Text = "";
                     break;
 
@@ -803,11 +804,11 @@ namespace CapaVisual_Login
                     // Controles del Panel ClienteAfiliado
                     this.Txt_Pnl3_ClienteAfiliado.Enabled = true;
                     this.Pnl_3_RadioButonClienteAfiliado.Enabled = true;
-                    this.radioButton2.Enabled = true;
-                    this.radioButton1.Enabled = true;
+                    this.Rd_Pnl3_CteAfiliadoCodigo.Enabled = true;
+                    this.Rd_Pnl3_CteAfiliadoDesc.Enabled = true;
                     this.Dgv_Pnl3_ClienteAfiliado.Enabled = true;
                     this.btnCancelarAfiliado.Enabled = true;
-                    this.radioButton2.Checked = true;
+                    this.Rd_Pnl3_CteAfiliadoCodigo.Checked = true;
 
                     // Botones del TapControl
                     this.btnPrincipal.Enabled = false;
@@ -842,6 +843,13 @@ namespace CapaVisual_Login
         {
             // Filtrar los datos según el texto ingresado en el TextBox
             _L_Articulo.FiltrarArticulos(Txt_Pnl3_Articulo.Text.ToLower(), Rd_Pnl3_Descripcion, Rd_Pnl3_Codigo, Dgv_Pnl3_Articulo, listaArticulos, listaTemporal);
+
+        }
+
+        private void Txt_Pnl3_ClienteAfiliado_TextChanged(object sender, EventArgs e)
+        {
+            // Filtrar los datos según el texto ingresado en el TextBox
+            _L_Articulo.FiltrarEmpresasAfiliadas(Txt_Pnl3_ClienteAfiliado.Text.ToLower(), Rd_Pnl3_CteAfiliadoDesc, Rd_Pnl3_CteAfiliadoCodigo, Dgv_Pnl3_ClienteAfiliado, listaClienteAfiliados, listaTemporalClienteAfiliados);
 
         }
 
@@ -1406,7 +1414,8 @@ namespace CapaVisual_Login
                 VisualizarPanel("Lista_Articulo");
                 HabilitacionControl("Habilitar_Lista_Articulo");
                 LimpiarControles("Abrir_Busqueda_Articulos");
-                _L_Articulo.CargarArticulos(Dgv_Pnl3_Articulo, listaArticulos, Cbx_Pnl2_Trbajo.SelectedValue.ToString());
+
+                _L_Articulo.CargarArticulos(Dgv_Pnl3_Articulo, listaArticulos, Cbx_Pnl2_Trbajo.SelectedValue.ToString(), _L_Articulo.ValidarExtenciaCristal(Dgv_Tap3_Articulo, Cbx_Pnl2_Trbajo.SelectedValue.ToString()));
                 if (_L_Articulo.stringBuilder.Length > 0)
                 {
                     _FrmMensajes.co = 2;
@@ -1442,7 +1451,7 @@ namespace CapaVisual_Login
                     Pnl_3_Lista_ColoresLC.Location = new Point(250, 1);
                 }
                 // Acción para Enter
-                _L_Articulo.CargarArticulos(Dgv_Pnl3_Articulo, listaArticulos, Cbx_Pnl2_Trbajo.SelectedValue.ToString());
+                _L_Articulo.CargarArticulos(Dgv_Pnl3_Articulo, listaArticulos, Cbx_Pnl2_Trbajo.SelectedValue.ToString(), _L_Articulo.ValidarExtenciaCristal(Dgv_Tap3_Articulo, Cbx_Pnl2_Trbajo.SelectedValue.ToString()));
 
                 //Formatear los caracteres a 7 Digitos cuando es un cristal 
                 _L_Articulo.FormatearCampo7Digitos(Txt_Tap3_Articulo_Codigo);
@@ -2388,8 +2397,8 @@ namespace CapaVisual_Login
                 _D_Articulo.Agregar_TB_TRABAJO(codSucursal, "", "", Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), "002", Convert.ToInt32(Txt_Pnl2_Examen.Text)
                 , txtHorizontal.Text, txtVertical.Text, txtMaxima.Text, txtPuente.Text, "0", "0", "A", "Cerca", "Cerca", "QUO", "001", "T", TB_USUARIO.COD_USR, "02", "CONVENCIONAL", "0", "0", "0", "0");
 
-                VerificoParametrosCristales();
-                VerificoRangoDiametroCristales();
+                //VerificoParametrosCristales();
+                //VerificoRangoDiametroCristales();
 
                 string codModo = Cbx_Pnl2_Trbajo.SelectedValue?.ToString();
                 string tipoTrabajoVenta = _L_Articulo.ObtenerTipoVentaPorModo(codModo);
@@ -2462,6 +2471,7 @@ namespace CapaVisual_Login
                         Codigo_Coloracion,
                         cedulaAfiliado,
                         codigoEmpresaAfiliada,
+                        Txt_Pnl2_Examen.Text,
                         command
                     );
 
@@ -3366,7 +3376,7 @@ namespace CapaVisual_Login
 
                 //Ancho de columna
                 Dgv_Pnl3_ColoresLC.Columns["CodColor"].Width = 80;
-                Dgv_Pnl3_ColoresLC.Columns["DESCRIPCIONCOLOR"].Width = 500;
+                Dgv_Pnl3_ColoresLC.Columns["DESCRIPCIONCOLOR"].Width = 305;
 
 
                 // No modificable
@@ -3415,7 +3425,7 @@ namespace CapaVisual_Login
 
                 //Ancho de columna
                 Dgv_Pnl3_ClienteAfiliado.Columns["Codigo_Emp"].Width = 80;
-                Dgv_Pnl3_ClienteAfiliado.Columns["Nombre"].Width = 500;
+                Dgv_Pnl3_ClienteAfiliado.Columns["Nombre"].Width = 305;
 
 
                 // No modificable

@@ -1570,10 +1570,10 @@ namespace CapaDatos.CargarOrdenes_Datos
             cmd.CommandText = "pGetBajaExistencia";
             cmd.CommandType = CommandType.StoredProcedure;
 
-            cmd.Parameters.AddWithValue("@Nac", cedNacio);
-            cmd.Parameters.AddWithValue("@Cedula", cedId);
-            cmd.Parameters.AddWithValue("@Sucursal", sucursal);
-            cmd.Parameters.AddWithValue("@Examen", examen);
+            cmd.Parameters.AddWithValue("@CTE_Nacio", cedNacio);
+            cmd.Parameters.AddWithValue("@CTE_CedIden", cedId);
+            cmd.Parameters.AddWithValue("@COD_Sucursal", sucursal);
+            cmd.Parameters.AddWithValue("@NUM_Examen", examen);
             cmd.Parameters.AddWithValue("@CodArticulo", codArticulo);
 
             DataTable dt = new DataTable();

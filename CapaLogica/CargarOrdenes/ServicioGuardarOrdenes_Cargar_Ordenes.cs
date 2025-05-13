@@ -75,6 +75,7 @@ namespace CapaLogica.CargarOrdenes
     string codColoracion,
     string cedulaAfiliado,
     string codigoEmpresaAfiliada,
+    string numExamen,
     SqlCommand command)
         {
             try
@@ -87,7 +88,7 @@ namespace CapaLogica.CargarOrdenes
                     CodVenta = "",
                     CteNacio = letraInicial,
                     CteCedIden = numeroCedula,
-                    NumExamen = dgvArticulos.Rows[0].Cells["NumExamen"].Value?.ToString() ?? "0", // puedes adaptarlo
+                    NumExamen = numExamen, //dgvArticulos.Rows[0].Cells["NumExamen"].Value?.ToString() ?? "0", // puedes adaptarlo
                     CodEmpleado = codEmpleado,
                     CodLaboratorio = codLaboratorio,
                     CodServicio = codServicio,

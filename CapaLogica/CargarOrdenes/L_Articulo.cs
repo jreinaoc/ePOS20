@@ -64,7 +64,7 @@ namespace CapaLogica.CargarOrdenes
 
         }
 
-        public void CargarArticulos(System.Windows.Forms.DataGridView DgvArticulo, List<TB_ARTICULO> listaArticulos, string TipoTrabajo)
+        public void CargarArticulos(System.Windows.Forms.DataGridView DgvArticulo, List<TB_ARTICULO> listaArticulos, string TipoTrabajo, string CodArticulo = "")
         {
             stringBuilder.Clear();
             Conexion cn = new Conexion();
@@ -81,7 +81,7 @@ namespace CapaLogica.CargarOrdenes
             try
             {
                 // Obtener los artículos desde la base de datos
-                var articulosObtenidos = _D_Articulos.ObtenerArticulos(TipoTrabajo, "", command);
+                var articulosObtenidos = _D_Articulos.ObtenerArticulos(TipoTrabajo, CodArticulo, command);
 
                 // Limpiar la lista pasada como parámetro y llenarla con los nuevos datos
                 listaArticulos.Clear(); // Limpiar la lista para evitar duplicados
@@ -112,6 +112,28 @@ namespace CapaLogica.CargarOrdenes
 
         }
 
+        public string ValidarExtenciaCristal(DataGridView Dgv_Tap3_Articulo, string Cod_Vta)
+        {
+            try
+            { if(Dgv_Tap3_Articulo.Rows.Count> 0 && (Cod_Vta== "01"|| Cod_Vta == "09"))
+              {
+                foreach (DataGridViewRow row in Dgv_Tap3_Articulo.Rows)
+                {
+                        if (row.Cells["CodArticulo"].Value != null && (row.Cells["CodArticulo"].Value.ToString().StartsWith("C")))
+                        {
+                            string CodArticulo = row.Cells["CodArticulo"].Value.ToString();
+                            return CodArticulo;
+                        }
+                }
+              }
+                return "";
+            }
+            catch (Exception ex)
+            {
+                // Manejar cualquier excepción
+                throw new Exception("Error al verificar y corregir los totales: " + ex.Message, ex);
+            }
+        }
 
         public void FiltrarArticulos(string filtro, System.Windows.Forms.RadioButton Rd_Pnl3_Descripcion, System.Windows.Forms.RadioButton Rd_Pnl3_Codigo, System.Windows.Forms.DataGridView Dgv_Pnl3_Articulo, List<TB_ARTICULO> listaArticulos, List<TB_ARTICULO> listaTemporal)
         {
@@ -152,6 +174,44 @@ namespace CapaLogica.CargarOrdenes
             Dgv_Pnl3_Articulo.DataSource = datosFiltrados;
         }
 
+        public void FiltrarEmpresasAfiliadas(string filtro, System.Windows.Forms.RadioButton Rd_Pnl3_Descripcion, System.Windows.Forms.RadioButton Rd_Pnl3_Codigo, System.Windows.Forms.DataGridView Dgv_Pnl3_ClienteAfiliado, List<TB_EMPAFI> listaClienteAfiliado, List<TB_EMPAFI> listaTemporal)
+        {
+
+            // Verificar si el filtro está vacío
+            if (string.IsNullOrWhiteSpace(filtro))
+            {
+                // Restablecer la información original en el DataGridView
+                listaTemporal = new List<TB_EMPAFI>(listaClienteAfiliado); // Restaurar desde la lista original
+                Dgv_Pnl3_ClienteAfiliado.DataSource = listaTemporal;
+                return;
+            }
+
+            // Convertir el filtro a minúsculas para una búsqueda insensible a mayúsculas
+            filtro = filtro.ToLower();
+
+            // Crear una lista para almacenar los resultados filtrados
+            var datosFiltrados = new List<TB_EMPAFI>();
+
+            // Recorrer la lista original (listaArticulos) para aplicar el filtro
+            foreach (var clienteAfiliado in listaClienteAfiliado)
+            {
+                // Filtrar según la opción seleccionada
+                if (Rd_Pnl3_Descripcion.Checked && clienteAfiliado.Nombre != null && clienteAfiliado.Nombre.ToLower().Contains(filtro))
+                {
+                    datosFiltrados.Add(clienteAfiliado);
+                }
+                else if (Rd_Pnl3_Codigo.Checked && clienteAfiliado.Codigo_Emp != null && clienteAfiliado.Codigo_Emp.ToLower().Contains(filtro))
+                {
+                    datosFiltrados.Add(clienteAfiliado);
+                }
+            }
+
+            // Actualizar la lista temporal con los datos filtrados
+            listaTemporal = datosFiltrados;
+
+            // Actualizar la fuente de datos del DataGridView con los resultados filtrados
+            Dgv_Pnl3_ClienteAfiliado.DataSource = datosFiltrados;
+        }
         public void FiltrarArticulos_Tap3(string filtro, List<TB_ARTICULO> listaArticulos, List<TB_ARTICULO> listaTemporal, System.Windows.Forms.TextBox Codigo, System.Windows.Forms.TextBox Descripcion, System.Windows.Forms.TextBox Precio, System.Windows.Forms.TextBox Cantidad)
         {
             // Verificar si el filtro está vacío
@@ -679,11 +739,28 @@ namespace CapaLogica.CargarOrdenes
             stringBuilder.Clear();
             try
             {
-                    // Buscar el producto en la lista por su código
-                    var articulo = listaArticulos.FirstOrDefault(a => a.CodArticulo == codigoProducto);
+                // Buscar el producto en la lista por su código
+                var articulo = listaArticulos.FirstOrDefault(a => a.CodArticulo == codigoProducto);
 
-                    // Verificar si el artículo maneja existencia
-                    if (articulo.MANEJAEXISTENCIA)
+                // Validar si el código del producto no comienza con "A", "C", "S" o "W"
+                if (!(codigoProducto.StartsWith("A") || codigoProducto.StartsWith("C") || codigoProducto.StartsWith("S") || codigoProducto.StartsWith("W")))
+                {
+                    if (articulo == null)
+                    {
+                        stringBuilder.Append($"El artículo {codigoProducto} no existe en la lista.");
+                        return false;
+                    }
+
+                    // Verificar si la cantidad ingresada excede la existencia
+                    if (cantidadIngresada > articulo.ART_EXIST)
+                    {
+                        stringBuilder.Append($"La cantidad ingresada ({cantidadIngresada}) excede la existencia disponible ({articulo.ART_EXIST}) para el artículo {codigoProducto}.");
+                        return false;
+                    }
+                }
+
+                // Verificar si el artículo maneja existencia
+                if (articulo.MANEJAEXISTENCIA)
                     {
                         // Verificar si el artículo tiene existencia
                         if (articulo.ART_EXIST > 0)
@@ -733,7 +810,8 @@ namespace CapaLogica.CargarOrdenes
                 int ValorMaximoPorArticulo = Convert.ToInt32(row["Max_Vta"].ToString());
                 if (cantidadIngresada > ValorMaximoPorArticulo)
                 {
-                    return "El articulo " + codigoProducto + " tiene una cantidad a vender mayor que el maximo permitido";
+                    //return "El articulo " + codigoProducto + " tiene una cantidad a vender mayor que el maximo permitido";
+                    return "La cantidad sobrepasa el límite de venta";
                 }
             }
             return "";
