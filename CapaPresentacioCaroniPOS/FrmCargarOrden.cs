@@ -61,6 +61,9 @@ namespace CapaVisual_Login
         private bool Garantia;
         private string CodColorLC = "";
         private bool tipoTrabajoSeleccionado;
+        private bool ServicioExpress;
+        private bool laboratorioSeleccionado;
+        private bool servicioSeleccionado;
 
         List<TB_EMPAFI> listaClienteAfiliados = new List<TB_EMPAFI>();
         List<TB_EMPAFI> listaTemporalClienteAfiliados = new List<TB_EMPAFI>();
@@ -1319,9 +1322,13 @@ namespace CapaVisual_Login
                 ValidarRegistrosYHabilitar_Botones();
                 Garantia = false;
                 CodColorLC = "";
+                ServicioExpress = false;
+                txtObservacion.Text = ""; 
                 // Botones Aciones 
-               
+
                 Cbx_Pnl2_Trbajo.Enabled = true;
+                Cbx_Pnl2_Laboratorio.Enabled = true;
+                Cbx_Pnl2_Servicio.Enabled = true;
 
                 ReiniciarBusquedaarticulo();
 
@@ -1394,7 +1401,7 @@ namespace CapaVisual_Login
                 Formato_Dgv_Totales();
                 _L_Articulo.BucarTipoVenta(Cbx_Pnl2_Trbajo);
                 CargarComboLaboratorios();
-                CargarComboServicioLaboratorios();
+              
             }
             else if (tabControl.SelectedIndex == 0)
             {
@@ -1533,6 +1540,12 @@ namespace CapaVisual_Login
                     if (Garantia == true)
                     {
                         _L_Articulo.CargarServicioGarantia(Dgv_Tap3_Articulo);
+
+                    }
+
+                    if (ServicioExpress == true)
+                    {
+                        _L_Articulo.CargarServicioExpress(Dgv_Tap3_Articulo);
 
                     }
 
@@ -2334,7 +2347,7 @@ namespace CapaVisual_Login
         }
         private void CargarComboServicioLaboratorios()
         {
-            var lista = _L_Articulo.ObtenerServicioLaboratorioCbx();
+            var lista = _L_Articulo.ObtenerServicioLaboratorioCbx(_D_Inicio.Sucursal() ,Cbx_Pnl2_Laboratorio.SelectedValue.ToString());
 
             Cbx_Pnl2_Servicio.DataSource = lista;
             Cbx_Pnl2_Servicio.ValueMember = "Cod_servicio";
@@ -3473,6 +3486,16 @@ namespace CapaVisual_Login
             tipoTrabajoSeleccionado = true;
         }
 
+        private void Cbx_Pnl2_Laboratorio_Click(object sender, EventArgs e)
+        {
+            laboratorioSeleccionado = true;
+        }
+
+        private void Cbx_Pnl2_Servicio_Click(object sender, EventArgs e)
+        {
+            servicioSeleccionado = true;
+        }
+
         private void Btn_Tap3_CambioPrecio_Click(object sender, EventArgs e)
         {
             if (Dgv_Tap3_Articulo.CurrentCell != null)
@@ -3597,6 +3620,43 @@ namespace CapaVisual_Login
                 Dgv_Tap3_Articulo.CurrentCell = null; // Opcional: Elimina la celda activa
             }
         }
+
+        private void Cbx_Pnl2_Servicio_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+            if (Cbx_Pnl2_Servicio.SelectedValue.ToString() == "004")
+            {
+                ServicioExpress = true;
+            }
+            else
+            {
+                ServicioExpress = false;
+            }
+
+            if (servicioSeleccionado)
+            {
+                Cbx_Pnl2_Laboratorio.Enabled = false;
+            }
+            else
+            {
+                Cbx_Pnl2_Laboratorio.Enabled = true;
+            }
+
+        }
+
+        private void Cbx_Pnl2_Laboratorio_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            CargarComboServicioLaboratorios();
+            if (laboratorioSeleccionado)
+            {
+                Cbx_Pnl2_Laboratorio.Enabled = false;
+            }
+            else
+            {
+                Cbx_Pnl2_Laboratorio.Enabled = true;
+            }
+        }
+        
     }
 
 

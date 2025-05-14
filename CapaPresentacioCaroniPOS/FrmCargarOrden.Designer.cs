@@ -439,7 +439,6 @@ namespace CapaVisual_Login
             // 
             // Cbx_Pnl2_Servicio
             // 
-            this.Cbx_Pnl2_Servicio.Enabled = false;
             this.Cbx_Pnl2_Servicio.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Cbx_Pnl2_Servicio.ForeColor = System.Drawing.Color.Black;
             this.Cbx_Pnl2_Servicio.FormattingEnabled = true;
@@ -447,6 +446,8 @@ namespace CapaVisual_Login
             this.Cbx_Pnl2_Servicio.Name = "Cbx_Pnl2_Servicio";
             this.Cbx_Pnl2_Servicio.Size = new System.Drawing.Size(238, 25);
             this.Cbx_Pnl2_Servicio.TabIndex = 305;
+            this.Cbx_Pnl2_Servicio.SelectedIndexChanged += new System.EventHandler(this.Cbx_Pnl2_Servicio_SelectedIndexChanged);
+            this.Cbx_Pnl2_Servicio.Click += new System.EventHandler(this.Cbx_Pnl2_Servicio_Click);
             // 
             // Lbl_Pnl2_Servicio
             // 
@@ -461,7 +462,6 @@ namespace CapaVisual_Login
             // 
             // Cbx_Pnl2_Laboratorio
             // 
-            this.Cbx_Pnl2_Laboratorio.Enabled = false;
             this.Cbx_Pnl2_Laboratorio.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Cbx_Pnl2_Laboratorio.ForeColor = System.Drawing.Color.Black;
             this.Cbx_Pnl2_Laboratorio.FormattingEnabled = true;
@@ -469,6 +469,8 @@ namespace CapaVisual_Login
             this.Cbx_Pnl2_Laboratorio.Name = "Cbx_Pnl2_Laboratorio";
             this.Cbx_Pnl2_Laboratorio.Size = new System.Drawing.Size(238, 25);
             this.Cbx_Pnl2_Laboratorio.TabIndex = 303;
+            this.Cbx_Pnl2_Laboratorio.SelectedIndexChanged += new System.EventHandler(this.Cbx_Pnl2_Laboratorio_SelectedIndexChanged);
+            this.Cbx_Pnl2_Laboratorio.Click += new System.EventHandler(this.Cbx_Pnl2_Laboratorio_Click);
             // 
             // Lbl_Pnl2_Laboratorio
             // 

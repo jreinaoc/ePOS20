@@ -291,7 +291,7 @@ namespace CapaLogica.CargarOrdenes
                     if (string.IsNullOrEmpty(datos.Observacion) && !datos.Garantia)
                     {
                         var resultado = mostrarPregunta(
-                            "Esta Orden no posee OBSERVACION, ¿está seguro de querer procesarla de esta forma?",
+                            "Esta orden no posee observación, ¿Desea continuar?",
                             "Verifique por favor"
                         );
 
@@ -306,7 +306,7 @@ namespace CapaLogica.CargarOrdenes
                         if (!tieneEstuche)
                         {
                             var resultado = mostrarPregunta(
-                                "Esta Orden no posee un ESTUCHE, ¿está seguro de querer procesarla de esta forma?",
+                                "Esta orden no posee estuche, ¿Desea continuar?",
                                 "Verifique por favor"
                             );
 

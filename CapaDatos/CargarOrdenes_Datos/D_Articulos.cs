@@ -1523,6 +1523,54 @@ namespace CapaDatos.CargarOrdenes_Datos
 
         }
 
+        public List<TB_SERVICIOSLABDTO> ObtenerLaboratorioServicio(string sucursal, string descripcionLaboratorio ,SqlCommand command = null)
+        {
+            try
+            {
+                if (command == null)
+                {
+                    SqlConnection connection = cn.LeerCadena();
+                    command = connection.CreateCommand();
+                }
+                // Declarar la lista para almacenar los resultados
+                List<TB_SERVICIOSLABDTO> listaServLaboratorio = new List<TB_SERVICIOSLABDTO>();
+
+                SqlCommand cmd = command;
+                cmd.Parameters.Clear();
+                cmd.CommandText = "Laboratorio_ObtenerServicios";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@sucursal", sucursal);
+                cmd.Parameters.AddWithValue("@laboratorio", descripcionLaboratorio);
+                // Ejecutar el comando y leer los resultados
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        // Mapear cada fila a un objeto TB_ARTICULO
+                        TB_SERVICIOSLABDTO codServLaboratorio = new TB_SERVICIOSLABDTO
+                        {
+                            Cod_servicio = reader["Cod_servicio"].ToString(),
+                            Descripcion_servicio = reader["Descripcion_servicio"].ToString()
+                        };
+
+
+                        // Agregar el objeto a la lista
+                        listaServLaboratorio.Add(codServLaboratorio);
+                    }
+                }
+
+                return listaServLaboratorio;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al obtener Servicios de laboratorios: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+
+
+        }
+
         public DataTable ValidacionMonturaQuorum(string codArticulo, string codSucursal, string codServicio, SqlCommand command = null)
         {
             try

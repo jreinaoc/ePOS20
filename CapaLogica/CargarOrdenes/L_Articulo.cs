@@ -2763,13 +2763,13 @@ namespace CapaLogica.CargarOrdenes
                                     }
                                     // Verificar si el otro servicio diferente al AR 
                                     // preguntamos si existe el campo PORCDCTO  antes de accede a su valor 
-                                    else if (dsLl1so.Tables[0].Columns.Contains("PORCDCTO") && !string.IsNullOrEmpty(dsLl1so.Tables[0].Rows[0]["PORCDCTO"].ToString()))
+                                    else if (dsLl1so.Tables[0].Columns.Contains("PORC_SERVICIO_DESC") && !string.IsNullOrEmpty(dsLl1so.Tables[0].Rows[0]["PORC_SERVICIO_DESC"].ToString()))
                                     {
                                         TB_ARTICULO articuloEncontrado = ObtenerArticuloPorCodigo(listaArticulos, codigo);
                                         decimal montoArtic = articuloEncontrado.ART_PVP; // Método para obtener el precio del artículo
                                         row.Cells["TienePromo"].Value = "Si";
-                                        row.Cells["ART_PVP"].Value = (decimal)(montoArtic - (montoArtic * Convert.ToDecimal(dsLl1so.Tables[0].Rows[0]["PORCDCTO"]) / 100));
-                                        row.Cells["Total"].Value = (decimal)((montoArtic - (montoArtic * Convert.ToDecimal(dsLl1so.Tables[0].Rows[0]["PORCDCTO"]) / 100)) * Convert.ToDecimal(row.Cells["ART_EXIST"].Value));
+                                        row.Cells["ART_PVP"].Value = (decimal)(montoArtic - (montoArtic * Convert.ToDecimal(dsLl1so.Tables[0].Rows[0]["PORC_SERVICIO_DESC"]) / 100));
+                                        row.Cells["Total"].Value = (decimal)((montoArtic - (montoArtic * Convert.ToDecimal(dsLl1so.Tables[0].Rows[0]["PORC_SERVICIO_DESC"]) / 100)) * Convert.ToDecimal(row.Cells["ART_EXIST"].Value));
                                         row.Cells["CodPromo"].Value = dsLl1so.Tables[0].Rows[0]["CODPROM"];
                                         row.Cells["PromoEvaluada"].Value = "Si";
                                         PromoAplicada = true;
@@ -2934,9 +2934,10 @@ namespace CapaLogica.CargarOrdenes
         {
             return _D_Articulos.DatosLaboratorio();
         }
-        public List<TB_SERVICIOSLABDTO> ObtenerServicioLaboratorioCbx()
+        public List<TB_SERVICIOSLABDTO> ObtenerServicioLaboratorioCbx(string sucursal, string descripcionLaboratorio)
         {
-            return _D_Articulos.ServiciosLaboratorio();
+            //return _D_Articulos.ServiciosLaboratorio();
+            return _D_Articulos.ObtenerLaboratorioServicio(sucursal, descripcionLaboratorio);
         }
 
         public List<string> ObtenerMonturasEnQuorum(DataGridView dgvArticulos, string sucursal, string codServicio)
@@ -3099,7 +3100,41 @@ namespace CapaLogica.CargarOrdenes
         //{
         //    return _D_Articulos.RebajarInventarioAsync(codArticulo, codLaboratorio, cantidad, command);
         //}
+        public void CargarServicioExpress(DataGridView gridFacturas)
+        {
+            // Agregar un nuevo servicio o prima
+            List<TB_ARTICULO> articulos = _D_Articulos.ObtenerArticulos("", "A000002");
+            string codigo = "";
+            bool tieneServicioExpress = false;
 
+            if (articulos != null && articulos.Count > 0)
+            {
+                for (int x = 0; x < gridFacturas.RowCount; x++)
+                {
+                    codigo = gridFacturas.Rows[x].Cells["CodArticulo"].Value?.ToString();
+
+                    if (codigo == "A000002")
+                    {
+                        tieneServicioExpress = true;
+                    }
+                    //else if (!string.IsNullOrEmpty(codigo) && codigo.StartsWith("C"))
+                    //{
+
+                    //}
+                }
+                TB_ARTICULO articulo = articulos.First();
+                decimal precio = articulo.ART_PVP;
+                decimal total = precio * 1;
+                decimal CostoPromedio = (decimal)articulo.COSTOPROME;
+                decimal impuesto = articulo.ART_EXENTO ? 0 : BuscarIva("I");
+
+                if (!tieneServicioExpress)
+                {
+                    AgregarFila(gridFacturas, articulo.CodArticulo, "", articulo.DESART, 1, (decimal)precio, (decimal)articulo.PORCTDESCUENTO, (decimal)total, impuesto, "A", CostoPromedio, codigo);
+                }
+            }
+
+        }
 
     }
         
