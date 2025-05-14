@@ -30,13 +30,13 @@ namespace CapaLogica.CargarOrdenes
             try
             {
                 string numeroOrden = await _L_Articulo.AgregarOrdenServicio(
-                    datos.CodSucursal, datos.Revision, datos.CodVenta, datos.CteNacio, datos.CteCedIden, datos.NumExamen,
-                    datos.CodEmpleado, datos.CodLaboratorio, datos.CodServicio, datos.Vision, datos.FecOfrecido, datos.HorOfrecido,
-                    datos.FecEntrega, datos.FecEnvio, datos.VtaSubTotal, datos.VtaImpuesto, datos.VtaDescuento, datos.VtaTotal,
-                    datos.OrSerFinan, datos.OrSerStatus, datos.OrSerObserv, datos.UserCrea, datos.Fecha, datos.MonturaPropia,
-                    datos.CodDetVta, datos.Aplica, datos.OtCorrespondiente, datos.VentaAfil, datos.CristalPropio,
-                    datos.TipoMonturaPropia, datos.CodMotivoReposicion, datos.CedulaCteAfil, datos.CodigoEmpAfil,
-                    datos.Asegurada, datos.Exonerada, datos.MonturaEnQuorum, datos.CodColoracion,
+                    datos.Cod_Sucursal, datos.Revision, datos.Cod_Venta, datos.CTE_Nacio, datos.CTE_CedIden, datos.NumExamen,
+                    datos.COD_EMPLEADO, datos.Cod_Laboratorio, datos.Cod_Servicio, datos.Vision, datos.Fec_ofrecido, datos.Hor_ofrecido,
+                    datos.Fec_Entrega, datos.Fec_Envio, datos.VtaSubTotal, datos.VtaImpuesto, datos.VtaDescuento, datos.VtaTotal,
+                    datos.OrSer_Finan, datos.OrSer_Status, datos.OrSer_Observ, datos.User_Crea, datos.Fecha, datos.MonturaPropia,
+                    datos.Cod_DetVta, datos.Aplica, datos.OTCORRESPONDIENTE, datos.VentaAfil, datos.CristalPropio,
+                    datos.TipoMonturaPropia, datos.CodMotivoReposicion, datos.Cedula_CteAfil, datos.Codigo_EmpAfil,
+                    datos.Asegurada, datos.Exonerada, datos.MonturaEnQuorum, datos.Cod_Coloracion,
                     command // pasa el mismo SqlCommand para usar la misma transacción
                 );
 
@@ -83,43 +83,43 @@ namespace CapaLogica.CargarOrdenes
                 // Armo el objeto automáticamente
                 var datosOrden = new AgregarOrdenServicio_CargarOrdenes
                 {
-                    CodSucursal = codSucursal,
+                    Cod_Sucursal = codSucursal,
                     Revision = "0",
-                    CodVenta = "",
-                    CteNacio = letraInicial,
-                    CteCedIden = numeroCedula,
+                    Cod_Venta = codTrabajo,
+                    CTE_Nacio = letraInicial,
+                    CTE_CedIden = numeroCedula,
                     NumExamen = numExamen, //dgvArticulos.Rows[0].Cells["NumExamen"].Value?.ToString() ?? "0", // puedes adaptarlo
-                    CodEmpleado = codEmpleado,
-                    CodLaboratorio = codLaboratorio,
-                    CodServicio = codServicio,
+                    COD_EMPLEADO = codEmpleado,
+                    Cod_Laboratorio = codLaboratorio,
+                    Cod_Servicio = codServicio,
                     Vision = vision,
-                    FecOfrecido = DateTime.Now,
-                    HorOfrecido = DateTime.Now.ToString("HH:mm"),
-                    FecEntrega = DateTime.Now,
-                    FecEnvio = DateTime.Now,
+                    Fec_ofrecido = DateTime.Now,
+                    Hor_ofrecido = DateTime.Now.ToString("HH:mm"),
+                    Fec_Entrega = DateTime.Now,
+                    Fec_Envio = DateTime.Now,
                     VtaSubTotal = _servicioValidaciones.ObtenerValorDesdeGrid_Totales(dgvTotales, "SubTotal"),
-                    VtaImpuesto = _servicioValidaciones.ObtenerValorDesdeGrid_Articulos(dgvArticulos, "Impuesto"),
+                    VtaImpuesto = _servicioValidaciones.ObtenerTotalImpuestoDesdeGrid(dgvArticulos),
                     VtaDescuento = _servicioValidaciones.ObtenerValorDesdeGrid_Totales(dgvTotales, "Descuento"),
                     VtaTotal = _servicioValidaciones.ObtenerValorDesdeGrid_Totales(dgvTotales, "Total"),
-                    OrSerFinan = false,
-                    OrSerStatus = "004",
-                    OrSerObserv = observacion,
-                    UserCrea = usuarioActual,
+                    OrSer_Finan = false,
+                    OrSer_Status = "004",
+                    OrSer_Observ = observacion,
+                    User_Crea = usuarioActual,
                     Fecha = DateTime.Now,
                     MonturaPropia = monturaPropia,
-                    CodDetVta = codTrabajo,
+                    Cod_DetVta = codTrabajo,
                     Aplica = promocionAplicada,
-                    OtCorrespondiente = "",
+                    OTCORRESPONDIENTE = "",
                     VentaAfil = false,
                     CristalPropio = cristalPropio,
                     TipoMonturaPropia = "",
                     CodMotivoReposicion = "",
-                    CedulaCteAfil = cedulaAfiliado,
-                    CodigoEmpAfil = codigoEmpresaAfiliada,
+                    Cedula_CteAfil = cedulaAfiliado,
+                    Codigo_EmpAfil = codigoEmpresaAfiliada,
                     Asegurada = asegurada,
                     Exonerada = false,
                     MonturaEnQuorum = monturaEnQuorum,
-                    CodColoracion = codColoracion
+                    Cod_Coloracion = codColoracion
                 };
 
                 string numeroOrden = await GuardarOrdenServicioAsync(datosOrden, command);
@@ -164,7 +164,7 @@ namespace CapaLogica.CargarOrdenes
                     if (row.IsNewRow) continue;
 
                     string codArticulo = row.Cells["CodArticulo"].Value?.ToString();
-                    int cantidad = Convert.ToInt32(row.Cells["Can"].Value);
+                    int cantidad = Convert.ToInt32(row.Cells["ART_EXIST"].Value);
                     decimal precio = Convert.ToDecimal(row.Cells["ART_PVP"].Value);
                     decimal impuesto = Convert.ToDecimal(row.Cells["Impuesto"].Value);
                     decimal precioViejo = row.Cells["PrecioViejo"].Value != DBNull.Value ? Convert.ToDecimal(row.Cells["PrecioViejo"].Value) : 0;
@@ -191,8 +191,7 @@ namespace CapaLogica.CargarOrdenes
                         codPromo,
                         costoPromedio,
                         sucursal,
-                        command,
-                        fila + 1
+                        command
                     );
 
                     if (!DetalleOrdenServicio)
@@ -238,33 +237,33 @@ namespace CapaLogica.CargarOrdenes
                     return false;
                 }
 
-                // 2. Actualizar existencias si corresponde
-                for (int fila = 0; fila < dgvArticulos.Rows.Count; fila++)
-                {
-                    var row = dgvArticulos.Rows[fila];
-                    if (row.IsNewRow) continue;
+                //// 2. Actualizar existencias si corresponde
+                //for (int fila = 0; fila < dgvArticulos.Rows.Count; fila++)
+                //{
+                //    var row = dgvArticulos.Rows[fila];
+                //    if (row.IsNewRow) continue;
 
-                    string codArticulo = row.Cells["CodArticulo"].Value?.ToString();
-                    string codigoLab = row.Cells["CodigoLab"].Value?.ToString();
-                    int cantidad = Convert.ToInt32(row.Cells["Can"].Value);
+                //    string codArticulo = row.Cells["CodArticulo"].Value?.ToString();
+                //    string codigoLab = row.Cells["CodigoLab"].Value?.ToString();
+                //    int cantidad = Convert.ToInt32(row.Cells["ART_EXIST"].Value);
 
-                    //bool rebajoExistencia = false;
+                //    //bool rebajoExistencia = false;
 
-                    //if (manejaExisLC == "1" && codDetVta == "02")
-                    //{
-                    //    rebajoExistencia = await _L_Articulo.RebajarInventario(codArticulo, codigoLab, cantidad, command);
-                    //}
-                    //else
-                    //{
-                    //    rebajoExistencia = await _L_Articulo.RebajarInventario(codArticulo, null, cantidad, command);
-                    //}
+                //    //if (manejaExisLC == "1" && codDetVta == "02")
+                //    //{
+                //    //    rebajoExistencia = await _L_Articulo.RebajarInventario(codArticulo, codigoLab, cantidad, command);
+                //    //}
+                //    //else
+                //    //{
+                //    //    rebajoExistencia = await _L_Articulo.RebajarInventario(codArticulo, null, cantidad, command);
+                //    //}
 
-                    //if (!rebajoExistencia)
-                    //{
-                    //    MessageBox.Show($"No se pudo rebajar inventario para el artículo {codArticulo}.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    //    return false;
-                    //}
-                }
+                //    //if (!rebajoExistencia)
+                //    //{
+                //    //    MessageBox.Show($"No se pudo rebajar inventario para el artículo {codArticulo}.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //    //    return false;
+                //    //}
+                //}
 
                 return true;
             }

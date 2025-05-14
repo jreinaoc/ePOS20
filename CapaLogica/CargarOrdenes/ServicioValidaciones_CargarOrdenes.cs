@@ -188,7 +188,7 @@ namespace CapaLogica.CargarOrdenes
             }
         }
 
-        public async Task<bool> GuardarOrdenServicioAsync(DataGridView dgvTotales, DataGridView dgvDetalle, SqlCommand command,
+        public async Task<bool> ValidarOrdenServicioAsync(DataGridView dgvTotales, DataGridView dgvDetalle, SqlCommand command,
         Func<string, string, DialogResult> mostrarPregunta, Action<string> mostrarError, ValidacionEstucheDTO datosEstuche)
         {
             try
@@ -566,23 +566,42 @@ namespace CapaLogica.CargarOrdenes
             return 0m; // si no se encuentra o no es válido
         }
 
-        public decimal ObtenerValorDesdeGrid_Articulos(DataGridView dgv, string concepto)
+        public decimal ObtenerTotalImpuestoDesdeGrid(DataGridView dgv)
         {
+            decimal totalImpuesto = 0m;
+
             foreach (DataGridViewRow row in dgv.Rows)
             {
-                var celdaConcepto = row.Cells["Concepto"].Value?.ToString()?.Trim();
-                if (celdaConcepto != null && celdaConcepto.Equals(concepto, StringComparison.OrdinalIgnoreCase))
+                if (row.Cells["Impuesto"].Value != null)
                 {
-                    string valorStr = row.Cells["Valor"].Value?.ToString();
+                    string valorStr = row.Cells["Impuesto"].Value?.ToString()?.Trim();
                     if (decimal.TryParse(valorStr, out decimal valor))
                     {
-                        return valor;
+                        totalImpuesto += valor;
                     }
                 }
             }
 
-            return 0m; // si no se encuentra o no es válido
+            return totalImpuesto;
         }
+
+        //public decimal ObtenerValorDesdeGrid_Articulos(DataGridView dgv, string concepto)
+        //{
+        //    foreach (DataGridViewRow row in dgv.Rows)
+        //    {
+        //        var celdaConcepto = row.Cells["Impuesto"].Value?.ToString()?.Trim();
+        //        if (celdaConcepto != null && celdaConcepto.Equals(concepto, StringComparison.OrdinalIgnoreCase))
+        //        {
+        //            string valorStr = row.Cells["ART_PVP"].Value?.ToString();
+        //            if (decimal.TryParse(valorStr, out decimal valor))
+        //            {
+        //                return valor;
+        //            }
+        //        }
+        //    }
+
+        //    return 0m; // si no se encuentra o no es válido
+        //}
 
         public void ValidarMonturaQuorumYCristales(DataGridView dgvArticulos, string laboratorio, string sucursal, string servicio, string cedNacio, string cedId, string examen, SqlCommand command)
         {

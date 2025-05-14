@@ -223,3 +223,4 @@ C:\Programacion\CaroniPOS1\CapaPresentacioCaroniPOS\obj\Debug\ePOS.application
 C:\Programacion\CaroniPOS1\CapaPresentacioCaroniPOS\obj\Debug\CapaVisual_Login.csproj.CopyComplete
 C:\Programacion\CaroniPOS1\CapaPresentacioCaroniPOS\obj\Debug\ePOS.exe
 C:\Programacion\CaroniPOS1\CapaPresentacioCaroniPOS\obj\Debug\ePOS.pdb
+C:\projects\EPOS20\CapaPresentacioCaroniPOS\bin\Debug\DevComponents.DotNetBar2.xml

@@ -1326,21 +1326,23 @@ namespace CapaDatos.CargarOrdenes_Datos
                 cmd.Parameters.AddWithValue("@MonturaEnQuorum", (object)monturaEnQuorum ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@Cod_Coloracion", (object)codColoracion ?? DBNull.Value);
 
-                SqlParameter numOrdenParam = new SqlParameter("@NumOrdserv", SqlDbType.VarChar, 20)
+                //cmd.ExecuteNonQuery();
+
+                object resultado = cmd.ExecuteScalar();
+                if (resultado != null && resultado.ToString() != "FALLIDO")
                 {
-                    Direction = ParameterDirection.Output
-                };
+                    return resultado.ToString(); // Retorna el número de orden
+                }
+                else
+                {
+                    //MessageBox.Show("No se generó el número de orden correctamente.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return null;
+                }
 
-                cmd.Parameters.Add(numOrdenParam);
 
-                cmd.ExecuteNonQuery();
-
-                string numeroOrdenGenerado = numOrdenParam.Value.ToString();
-                cmd.Parameters.Clear();
-
-                return numeroOrdenGenerado;
             });
         }
+
 
         public DataSet ObtenerInfoReposicion(string cedula, string nacio, string os,string suc,string nroExamen, SqlCommand command = null)
         {
@@ -1660,35 +1662,64 @@ namespace CapaDatos.CargarOrdenes_Datos
                                                                             string ojo, decimal precio, decimal porcentajeImpuesto,
                                                                             decimal porcentajeDescuento, decimal precioAnterior, 
                                                                             string codPromocion, decimal costoArticulo, string sucursalActual, 
-                                                                            SqlCommand command, int numeroSecuencia)
+                                                                            SqlCommand command)
         {
             try
             {
-                command.Parameters.Clear();
-                command.CommandText = "SP_CPOS_InsertarDetalleOrdenServicio";
-                command.CommandType = CommandType.StoredProcedure;
+                return await Task.Run(() =>
+                {
+                    if (command == null)
+                    {
+                        SqlConnection connection = cn.LeerCadena();
+                        command = connection.CreateCommand();
+                    }
 
-                command.Parameters.AddWithValue("@CodSucursal", sucursalActual);
-                command.Parameters.AddWithValue("@NumOrdserv", numeroOrdenServicio);
-                command.Parameters.AddWithValue("@Ordserv_sec", numeroSecuencia);
-                command.Parameters.AddWithValue("@Revision", numeroRevision);
-                command.Parameters.AddWithValue("@Cod_Venta", codVenta);
-                command.Parameters.AddWithValue("@CodArticulo", codigoArticulo);
-                command.Parameters.AddWithValue("@Ordserv_Cant", cantidad);
-                command.Parameters.AddWithValue("@Ordser_Ojo", (object)ojo ?? DBNull.Value);
-                command.Parameters.AddWithValue("@Ordserv_Precio", precio);
-                command.Parameters.AddWithValue("@Ordserv_PorcImp", porcentajeImpuesto);
-                command.Parameters.AddWithValue("@Ordserv_PorcDto", porcentajeDescuento);
-                command.Parameters.AddWithValue("@Ordserv_PrecioAnterior", precioAnterior);
-                command.Parameters.AddWithValue("@COD_Prom", (object)codPromocion ?? DBNull.Value);
-                command.Parameters.AddWithValue("@Costo", costoArticulo);
+                    SqlCommand cmd = command;
+                    cmd.Parameters.Clear();
 
-                await command.ExecuteNonQueryAsync();
-                return true;
+                    // Consultar el máximo Ordserv_sec actual para la orden
+                    cmd.CommandText = @"SELECT ISNULL(MAX(Ordserv_sec), 0) + 1 
+                                FROM TB_DEORDSER 
+                                WHERE CodSucursal = @CodSucursal 
+                                  AND NumOrdserv = @NumOrdserv";
+
+                    cmd.CommandType = CommandType.Text;
+                    cmd.Parameters.AddWithValue("@CodSucursal", sucursalActual);
+                    cmd.Parameters.AddWithValue("@NumOrdserv", numeroOrdenServicio);
+
+                    int numeroSecuencia = Convert.ToInt32(cmd.ExecuteScalar());
+
+
+                    cmd.Parameters.Clear();
+                    cmd.CommandText = "SP_CPOS_InsertarDetalleOrdenServicio";
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@CodSucursal", sucursalActual);
+                    cmd.Parameters.AddWithValue("@NumOrdserv", numeroOrdenServicio);
+                    cmd.Parameters.AddWithValue("@Ordserv_sec", numeroSecuencia);
+                    cmd.Parameters.AddWithValue("@Revision", numeroRevision);
+                    cmd.Parameters.AddWithValue("@Cod_Venta", codVenta);
+                    cmd.Parameters.AddWithValue("@CodArticulo", codigoArticulo);
+                    cmd.Parameters.AddWithValue("@Ordserv_Cant", cantidad);
+                    cmd.Parameters.AddWithValue("@Ordser_Ojo", (object)ojo ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Ordserv_Precio", precio);
+                    cmd.Parameters.AddWithValue("@Ordserv_PorcImp", porcentajeImpuesto);
+                    cmd.Parameters.AddWithValue("@Ordserv_PorcDto", porcentajeDescuento);
+                    cmd.Parameters.AddWithValue("@Ordserv_PrecioAnterior", precioAnterior);
+                    cmd.Parameters.AddWithValue("@COD_Prom", (object)codPromocion ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Costo", costoArticulo);
+
+                    //await command.ExecuteNonQueryAsync();
+
+                    cmd.ExecuteNonQuery();
+
+                    return true;
+                });
+
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al guardar el detalle de la orden: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //MessageBox.Show($"Error al guardar el detalle de la orden: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
         }
@@ -1697,21 +1728,33 @@ namespace CapaDatos.CargarOrdenes_Datos
         {
             try
             {
-                command.Parameters.Clear();
-                command.CommandText = "SP_CPOS_ModificarTrabajo";
-                command.CommandType = CommandType.StoredProcedure;
+                return await Task.Run(() =>
+                {
+                    if (command == null)
+                    {
+                        SqlConnection connection = cn.LeerCadena();
+                        command = connection.CreateCommand();
+                    }
 
-                command.Parameters.AddWithValue("@CedulaCliente", cedula);
-                command.Parameters.AddWithValue("@NacioRifCliente", nacRif);
-                command.Parameters.AddWithValue("@OrdenServicio", numeroOrden);
-                command.Parameters.AddWithValue("@FechaModificacion", DateTime.Now);
-                command.Parameters.AddWithValue("@UsuarioModificacion", usuario);
-                command.Parameters.AddWithValue("@SucursalActual", sucursal);
-                command.Parameters.AddWithValue("@CorrelativoOS", correlativoOS);
+                    SqlCommand cmd = command;
+                    cmd.Parameters.Clear();
+                    cmd.CommandText = "SP_CPOS_ModificarTrabajo_TB_TRABAJO";
+                    cmd.CommandType = CommandType.StoredProcedure;
 
-                await command.ExecuteNonQueryAsync();
+                    cmd.Parameters.AddWithValue("@CedulaCliente", cedula);
+                    cmd.Parameters.AddWithValue("@NacioRifCliente", nacRif);
+                    cmd.Parameters.AddWithValue("@OrdenServicio", numeroOrden);
+                    cmd.Parameters.AddWithValue("@FechaModificacion", DateTime.Now);
+                    cmd.Parameters.AddWithValue("@UsuarioModificacion", usuario);
+                    cmd.Parameters.AddWithValue("@SucursalActual", sucursal);
+                    cmd.Parameters.AddWithValue("@CorrelativoOS", string.IsNullOrEmpty(correlativoOS) ? (object)DBNull.Value : correlativoOS);
 
-                return true;
+                    //await command.ExecuteNonQueryAsync();
+
+                    cmd.ExecuteNonQuery();
+
+                    return true;
+                });
             }
             catch
             {
