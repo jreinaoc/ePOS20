@@ -613,5 +613,10 @@ namespace CapaVisual_Login
             Focus();
 
         }
+
+        private void PnlListadoOrdenes_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }

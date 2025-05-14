@@ -2147,8 +2147,15 @@ namespace CapaVisual_Login
             
                 string saldo_ref_2 = Convert.ToString(Math.Round((double)((Convert.ToDouble(TxtSaldoOrd.Text.Replace(".", "")) - IgtfAbonado_2) / TB_TASA_Dolar.Tasa), 2));
             saldo_ref_2 = string.Format("{0:#,0.00}", Convert.ToDecimal(saldo_ref_2));
-            TxtSaldoRef_2.Text = saldo_ref_2;
-            TxtSaldoOrd_2.Text = saldo_bolivares_2;
+                if (TB_CAORDSER.OrSer_Status == "004")
+                {
+                    TxtSaldoRef_2.Text = TxtMontoRef.Text;
+                }
+                else
+                {
+                    TxtSaldoRef_2.Text = saldo_ref_2;
+                }
+                TxtSaldoOrd_2.Text = saldo_bolivares_2;
             }
 
 
