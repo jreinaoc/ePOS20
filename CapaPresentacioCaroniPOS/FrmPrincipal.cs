@@ -269,6 +269,7 @@ namespace CapaVisual_Login
             // Cambiar iconos a color oscuro
             PicBoxInicClaro.Visible = false;
             PicBoxClientClaro.Visible = false;
+            PicBoxCargaOrdenClaro.Visible = false;
             PicBoxListClaro.Visible = false;
             PicBoxConfigClaro.Visible = false;
             pictBoxPagoMovil.Visible = false;
@@ -277,6 +278,7 @@ namespace CapaVisual_Login
             PicBoxInicOsc.Visible = true;
             PicBoxListOsc.Visible = true;
             PicBoxClientOsc.Visible = true;
+            PicBoxCargaOrdenOsc.Visible = true;
             PicBoxConfigOsc.Visible = true;
            // pictBoxPagoMovilOsc.Visible = true;
             pictureBox2.Visible = true;
@@ -347,6 +349,7 @@ namespace CapaVisual_Login
             // Cambiar iconos a color claro
             PicBoxInicClaro.Visible = true;
             PicBoxClientClaro.Visible = true;
+            PicBoxCargaOrdenClaro.Visible = true;
             PicBoxListClaro.Visible = true;
             PicBoxConfigClaro.Visible = true;
             //pictBoxPagoMovil.Visible = true;
@@ -355,6 +358,7 @@ namespace CapaVisual_Login
             PicBoxInicOsc.Visible = false;
             PicBoxListOsc.Visible = false;
             PicBoxClientOsc.Visible = false;
+            PicBoxCargaOrdenOsc.Visible = false;
             PicBoxConfigOsc.Visible = false;
             //pictBoxPagoMovil.Visible = false;
             pictureBox2.Visible = false;

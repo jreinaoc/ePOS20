@@ -1265,15 +1265,85 @@ namespace CapaDatos.CargarOrdenes_Datos
 
         ////////
 
-        public async Task<string> AgregarOrdenServicio(string codSucursal, string revision, string codVenta, string cteNacio, string cteCedIden,
-                                       string numExamen, string codEmpleado, string codLaboratorio, string codServicio, string vision,
-                                       DateTime fecOfrecido, string horOfrecido, DateTime? fecEntrega, DateTime? fecEnvio,
-                                       decimal vtaSubTotal, decimal vtaImpuesto, decimal vtaDescuento, decimal vtaTotal,
-                                       bool orSerFinan, string orSerStatus, string orSerObserv, string userCrea, DateTime fecha,
-                                       bool monturaPropia, string codDetVta, bool aplica, string otCorrespondiente, bool ventaAfil,
-                                       bool cristalPropio, string tipoMonturaPropia, string codMotivoReposicion,
-                                       string cedulaCteAfil, string codigoEmpAfil, bool? asegurada, bool? exonerada,
-                                       bool monturaEnQuorum, string codColoracion, SqlCommand command = null)
+        //public async Task<string> AgregarOrdenServicio(string codSucursal, string revision, string codVenta, string cteNacio, string cteCedIden,
+        //                               string numExamen, string codEmpleado, string codLaboratorio, string codServicio, string vision,
+        //                               DateTime fecOfrecido, string horOfrecido, DateTime? fecEntrega, DateTime? fecEnvio,
+        //                               decimal vtaSubTotal, decimal vtaImpuesto, decimal vtaDescuento, decimal vtaTotal,
+        //                               bool orSerFinan, string orSerStatus, string orSerObserv, string userCrea, DateTime fecha,
+        //                               bool monturaPropia, string codDetVta, bool aplica, string otCorrespondiente, bool ventaAfil,
+        //                               bool cristalPropio, string tipoMonturaPropia, string codMotivoReposicion,
+        //                               string cedulaCteAfil, string codigoEmpAfil, bool? asegurada, bool? exonerada,
+        //                               bool monturaEnQuorum, string codColoracion, SqlCommand command = null)
+        //{
+        //    return await Task.Run(() =>
+        //    {
+        //        if (command == null)
+        //        {
+        //            SqlConnection connection = cn.LeerCadena();
+        //            command = connection.CreateCommand();
+        //        }
+
+        //        SqlCommand cmd = command;
+        //        cmd.Parameters.Clear();
+        //        cmd.CommandText = "SP_CPOS_AgregarOrdenServicio";
+        //        cmd.CommandType = CommandType.StoredProcedure;
+
+        //        cmd.Parameters.AddWithValue("@Cod_Sucursal", codSucursal);
+        //        cmd.Parameters.AddWithValue("@Revision", revision);
+        //        cmd.Parameters.AddWithValue("@Cod_Venta", codVenta);
+        //        cmd.Parameters.AddWithValue("@CTE_Nacio", cteNacio);
+        //        cmd.Parameters.AddWithValue("@CTE_CedIden", cteCedIden);
+        //        cmd.Parameters.AddWithValue("@NumExamen", numExamen);
+        //        cmd.Parameters.AddWithValue("@COD_EMPLEADO", codEmpleado);
+        //        cmd.Parameters.AddWithValue("@Cod_Laboratorio", codLaboratorio);
+        //        cmd.Parameters.AddWithValue("@Cod_Servicio", codServicio);
+        //        cmd.Parameters.AddWithValue("@Vision", vision);
+        //        cmd.Parameters.AddWithValue("@Fec_Ofrecido", fecOfrecido);
+        //        cmd.Parameters.AddWithValue("@Hor_Ofrecido", horOfrecido);
+        //        cmd.Parameters.AddWithValue("@Fec_Entrega", (object)fecEntrega ?? DBNull.Value);
+        //        cmd.Parameters.AddWithValue("@Fec_Envio", (object)fecEnvio ?? DBNull.Value);
+        //        cmd.Parameters.AddWithValue("@VtaSubTotal", vtaSubTotal);
+        //        cmd.Parameters.AddWithValue("@VtaImpuesto", vtaImpuesto);
+        //        cmd.Parameters.AddWithValue("@VtaDescuento", vtaDescuento);
+        //        cmd.Parameters.AddWithValue("@VtaTotal", vtaTotal);
+        //        cmd.Parameters.AddWithValue("@OrSer_Finan", orSerFinan);
+        //        cmd.Parameters.AddWithValue("@OrSer_Status", orSerStatus);
+        //        cmd.Parameters.AddWithValue("@OrSer_Observ", orSerObserv);
+        //        cmd.Parameters.AddWithValue("@USER_Crea", userCrea);
+        //        cmd.Parameters.AddWithValue("@Fecha", fecha);
+        //        cmd.Parameters.AddWithValue("@MonturaPropia", monturaPropia);
+        //        cmd.Parameters.AddWithValue("@Cod_DetVta", codDetVta);
+        //        cmd.Parameters.AddWithValue("@Aplica", aplica);
+        //        cmd.Parameters.AddWithValue("@OTCORRESPONDIENTE", otCorrespondiente);
+        //        cmd.Parameters.AddWithValue("@VentaAfil", ventaAfil);
+        //        cmd.Parameters.AddWithValue("@CristalPropio", cristalPropio);
+        //        cmd.Parameters.AddWithValue("@TipoMonturaPropia", (object)tipoMonturaPropia ?? DBNull.Value);
+        //        cmd.Parameters.AddWithValue("@CodMotivoReposicion", (object)codMotivoReposicion ?? DBNull.Value);
+        //        cmd.Parameters.AddWithValue("@Cedula_CteAfil", (object)cedulaCteAfil ?? DBNull.Value);
+        //        cmd.Parameters.AddWithValue("@Codigo_EmpAfil", (object)codigoEmpAfil ?? DBNull.Value);
+        //        cmd.Parameters.AddWithValue("@Asegurada", (object)asegurada ?? DBNull.Value);
+        //        cmd.Parameters.AddWithValue("@Exonerada", (object)exonerada ?? DBNull.Value);
+        //        cmd.Parameters.AddWithValue("@MonturaEnQuorum", (object)monturaEnQuorum ?? DBNull.Value);
+        //        cmd.Parameters.AddWithValue("@Cod_Coloracion", (object)codColoracion ?? DBNull.Value);
+
+        //        //cmd.ExecuteNonQuery();
+
+        //        object resultado = cmd.ExecuteScalar();
+        //        if (resultado != null && resultado.ToString() != "FALLIDO")
+        //        {
+        //            return resultado.ToString(); // Retorna el número de orden
+        //        }
+        //        else
+        //        {
+        //            //MessageBox.Show("No se generó el número de orden correctamente.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //            return null;
+        //        }
+
+
+        //    });
+        //}
+
+        public async Task<string> AgregarOrdenServicio(AgregarOrdenServicio_CargarOrdenes datos, SqlCommand command = null)
         {
             return await Task.Run(() =>
             {
@@ -1288,43 +1358,45 @@ namespace CapaDatos.CargarOrdenes_Datos
                 cmd.CommandText = "SP_CPOS_AgregarOrdenServicio";
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                cmd.Parameters.AddWithValue("@Cod_Sucursal", codSucursal);
-                cmd.Parameters.AddWithValue("@Revision", revision);
-                cmd.Parameters.AddWithValue("@Cod_Venta", codVenta);
-                cmd.Parameters.AddWithValue("@CTE_Nacio", cteNacio);
-                cmd.Parameters.AddWithValue("@CTE_CedIden", cteCedIden);
-                cmd.Parameters.AddWithValue("@NumExamen", numExamen);
-                cmd.Parameters.AddWithValue("@COD_EMPLEADO", codEmpleado);
-                cmd.Parameters.AddWithValue("@Cod_Laboratorio", codLaboratorio);
-                cmd.Parameters.AddWithValue("@Cod_Servicio", codServicio);
-                cmd.Parameters.AddWithValue("@Vision", vision);
-                cmd.Parameters.AddWithValue("@Fec_Ofrecido", fecOfrecido);
-                cmd.Parameters.AddWithValue("@Hor_Ofrecido", horOfrecido);
-                cmd.Parameters.AddWithValue("@Fec_Entrega", (object)fecEntrega ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@Fec_Envio", (object)fecEnvio ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@VtaSubTotal", vtaSubTotal);
-                cmd.Parameters.AddWithValue("@VtaImpuesto", vtaImpuesto);
-                cmd.Parameters.AddWithValue("@VtaDescuento", vtaDescuento);
-                cmd.Parameters.AddWithValue("@VtaTotal", vtaTotal);
-                cmd.Parameters.AddWithValue("@OrSer_Finan", orSerFinan);
-                cmd.Parameters.AddWithValue("@OrSer_Status", orSerStatus);
-                cmd.Parameters.AddWithValue("@OrSer_Observ", orSerObserv);
-                cmd.Parameters.AddWithValue("@USER_Crea", userCrea);
-                cmd.Parameters.AddWithValue("@Fecha", fecha);
-                cmd.Parameters.AddWithValue("@MonturaPropia", monturaPropia);
-                cmd.Parameters.AddWithValue("@Cod_DetVta", codDetVta);
-                cmd.Parameters.AddWithValue("@Aplica", aplica);
-                cmd.Parameters.AddWithValue("@OTCORRESPONDIENTE", otCorrespondiente);
-                cmd.Parameters.AddWithValue("@VentaAfil", ventaAfil);
-                cmd.Parameters.AddWithValue("@CristalPropio", cristalPropio);
-                cmd.Parameters.AddWithValue("@TipoMonturaPropia", (object)tipoMonturaPropia ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@CodMotivoReposicion", (object)codMotivoReposicion ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@Cedula_CteAfil", (object)cedulaCteAfil ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@Codigo_EmpAfil", (object)codigoEmpAfil ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@Asegurada", (object)asegurada ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@Exonerada", (object)exonerada ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@MonturaEnQuorum", (object)monturaEnQuorum ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@Cod_Coloracion", (object)codColoracion ?? DBNull.Value);
+                // Asignar los valores desde el objeto "datos"
+                cmd.Parameters.AddWithValue("@Cod_Sucursal", datos.Cod_Sucursal);
+                cmd.Parameters.AddWithValue("@Revision", datos.Revision);
+                cmd.Parameters.AddWithValue("@Cod_Venta", datos.Cod_Venta);
+                cmd.Parameters.AddWithValue("@CTE_Nacio", datos.CTE_Nacio);
+                cmd.Parameters.AddWithValue("@CTE_CedIden", datos.CTE_CedIden);
+                cmd.Parameters.AddWithValue("@NumExamen", datos.NumExamen);
+                cmd.Parameters.AddWithValue("@COD_EMPLEADO", datos.COD_EMPLEADO);
+                cmd.Parameters.AddWithValue("@Cod_Laboratorio", datos.Cod_Laboratorio);
+                cmd.Parameters.AddWithValue("@Cod_Servicio", datos.Cod_Servicio);
+                cmd.Parameters.AddWithValue("@Vision", datos.Vision);
+                cmd.Parameters.AddWithValue("@Fec_Ofrecido", datos.Fec_ofrecido);
+                cmd.Parameters.AddWithValue("@Hor_Ofrecido", datos.Hor_ofrecido);
+                cmd.Parameters.AddWithValue("@Fec_Entrega", (object)datos.Fec_Entrega ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@Fec_Envio", (object)datos.Fec_Envio ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@VtaSubTotal", datos.VtaSubTotal);
+                cmd.Parameters.AddWithValue("@VtaImpuesto", datos.VtaImpuesto);
+                cmd.Parameters.AddWithValue("@VtaDescuento", datos.VtaDescuento);
+                cmd.Parameters.AddWithValue("@VtaTotal", datos.VtaTotal);
+                cmd.Parameters.AddWithValue("@OrSer_Finan", datos.OrSer_Finan);
+                cmd.Parameters.AddWithValue("@OrSer_Status", datos.OrSer_Status);
+                cmd.Parameters.AddWithValue("@OrSer_Observ", datos.OrSer_Observ);
+                cmd.Parameters.AddWithValue("@USER_Crea", datos.User_Crea);
+                cmd.Parameters.AddWithValue("@Fecha", datos.Fecha);
+                cmd.Parameters.AddWithValue("@MonturaPropia", datos.MonturaPropia);
+                cmd.Parameters.AddWithValue("@Cod_DetVta", datos.Cod_DetVta);
+                cmd.Parameters.AddWithValue("@Aplica", datos.Aplica);
+                cmd.Parameters.AddWithValue("@OTCORRESPONDIENTE", datos.OTCORRESPONDIENTE);
+                cmd.Parameters.AddWithValue("@VentaAfil", datos.VentaAfil);
+                cmd.Parameters.AddWithValue("@CristalPropio", datos.CristalPropio);
+                cmd.Parameters.AddWithValue("@TipoMonturaPropia", (object)datos.TipoMonturaPropia ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@CodMotivoReposicion", (object)datos.CodMotivoReposicion ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@Cedula_CteAfil", (object)datos.Cedula_CteAfil ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@Codigo_EmpAfil", (object)datos.Codigo_EmpAfil ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@Asegurada", (object)datos.Asegurada ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@Exonerada", (object)datos.Exonerada ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@MonturaEnQuorum", datos.MonturaEnQuorum);
+                cmd.Parameters.AddWithValue("@Cod_Coloracion", (object)datos.Cod_Coloracion ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@Codmotivodes", (object)datos.Codmotivodes ?? DBNull.Value);
 
                 //cmd.ExecuteNonQuery();
 
@@ -1342,7 +1414,6 @@ namespace CapaDatos.CargarOrdenes_Datos
 
             });
         }
-
 
         public DataSet ObtenerInfoReposicion(string cedula, string nacio, string os,string suc,string nroExamen, SqlCommand command = null)
         {
@@ -1479,7 +1550,7 @@ namespace CapaDatos.CargarOrdenes_Datos
 
 
 
-        public List<TB_SERVICIOSLABDTO> ServiciosLaboratorio(SqlCommand command = null)
+        public List<TB_SERVICIOSLABDTO> ServiciosLaboratorio(string Cod_servicio, SqlCommand command = null)
         {
             try
             {
@@ -1494,6 +1565,7 @@ namespace CapaDatos.CargarOrdenes_Datos
                 SqlCommand cmd = command;
                 cmd.Parameters.Clear();
                 cmd.CommandText = "SP_CPOS_CodServiciosLaboratorio";
+                cmd.Parameters.AddWithValue("@Cod_servicio", Cod_servicio);
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 // Ejecutar el comando y leer los resultados
@@ -1505,7 +1577,9 @@ namespace CapaDatos.CargarOrdenes_Datos
                         TB_SERVICIOSLABDTO codServLaboratorio = new TB_SERVICIOSLABDTO
                         {
                             Cod_servicio = reader["CodServ"].ToString(),
-                            Descripcion_servicio = reader["ServicioLab"].ToString()
+                            Descripcion_servicio = reader["ServicioLab"].ToString(),
+                            CodArticulo= reader["CodArticulo"].ToString(),
+                            HorasEntrega = reader["HorasEntrega"].ToString()
                         };
 
 
@@ -1724,7 +1798,8 @@ namespace CapaDatos.CargarOrdenes_Datos
             }
         }
 
-        public async Task<bool> ModificarTrabajoAsync(string cedula, string nacRif, string numeroOrden, DateTime fecha, string usuario, string sucursal, string correlativoOS, SqlCommand command)
+        public async Task<bool> ModificarTrabajoAsync(string NUMOS, string HORIZ, string VERT, string MAX, string PTE, string DISVERT,
+            string ANPANT, string ANFAC, string ALTD, string ALTI, string OJO, string TVISD, string TVISI, string USER, string SUC, SqlCommand command)
         {
             try
             {
@@ -1738,17 +1813,24 @@ namespace CapaDatos.CargarOrdenes_Datos
 
                     SqlCommand cmd = command;
                     cmd.Parameters.Clear();
-                    cmd.CommandText = "SP_CPOS_ModificarTrabajo_TB_TRABAJO";
+                    cmd.CommandText = "SP_INSERTATB_TRABAJO";
+                    //SqlCommand cmd = new SqlCommand("SP_DETALLEFACTURAFISCAL", cn.LeerCadena());
                     cmd.CommandType = CommandType.StoredProcedure;
-
-                    cmd.Parameters.AddWithValue("@CedulaCliente", cedula);
-                    cmd.Parameters.AddWithValue("@NacioRifCliente", nacRif);
-                    cmd.Parameters.AddWithValue("@OrdenServicio", numeroOrden);
-                    cmd.Parameters.AddWithValue("@FechaModificacion", DateTime.Now);
-                    cmd.Parameters.AddWithValue("@UsuarioModificacion", usuario);
-                    cmd.Parameters.AddWithValue("@SucursalActual", sucursal);
-                    cmd.Parameters.AddWithValue("@CorrelativoOS", string.IsNullOrEmpty(correlativoOS) ? (object)DBNull.Value : correlativoOS);
-
+                    cmd.Parameters.AddWithValue("@NUMOS", NUMOS);
+                    cmd.Parameters.AddWithValue("@HORIZ", HORIZ);
+                    cmd.Parameters.AddWithValue("@VERT", VERT);
+                    cmd.Parameters.AddWithValue("@MAX", MAX);
+                    cmd.Parameters.AddWithValue("@PTE", PTE);
+                    cmd.Parameters.AddWithValue("@DISVERT", DISVERT);
+                    cmd.Parameters.AddWithValue("@ANPANT", ANPANT);
+                    cmd.Parameters.AddWithValue("@ANFAC", ANFAC);
+                    cmd.Parameters.AddWithValue("@ALTD", ALTD);
+                    cmd.Parameters.AddWithValue("@ALTI", ALTI);
+                    cmd.Parameters.AddWithValue("@OJO", OJO);
+                    cmd.Parameters.AddWithValue("@TVISD", TVISD);
+                    cmd.Parameters.AddWithValue("@TVISI", TVISI);
+                    cmd.Parameters.AddWithValue("@USER", USER);
+                    cmd.Parameters.AddWithValue("@SUC", SUC);
                     //await command.ExecuteNonQueryAsync();
 
                     cmd.ExecuteNonQuery();
@@ -1762,6 +1844,102 @@ namespace CapaDatos.CargarOrdenes_Datos
             }
         }
 
+        public DataSet TB_SUCURSALES(string CodSucursal, SqlCommand command = null)
+        {
+            if (command == null)
+            {
+                SqlConnection connection = cn.LeerCadena();
+                command = connection.CreateCommand();
+            }
+
+            SqlCommand cmd = command;
+            cmd.Parameters.Clear();
+            cmd.CommandText = "SP_CPOS_TB_SUCURSALES";
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            // Agregar el parámetro obligatorio @CODPROMO
+            cmd.Parameters.AddWithValue("@CodSucursal", CodSucursal);
+
+
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet dts = new DataSet();
+            da.Fill(dts);
+            cmd.Parameters.Clear();
+            return dts;
+        }
+
+        public DataSet tMASTER_diasHorario(string Fecha, SqlCommand command = null)
+        {
+            if (command == null)
+            {
+                SqlConnection connection = cn.LeerCadena();
+                command = connection.CreateCommand();
+            }
+
+            SqlCommand cmd = command;
+            cmd.Parameters.Clear();
+            cmd.CommandText = "SP_CPOS_tMASTER_diasHorario";
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            // Agregar el parámetro obligatorio @CODPROMO
+            cmd.Parameters.AddWithValue("@fecha", Fecha);
+
+
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet dts = new DataSet();
+            da.Fill(dts);
+            cmd.Parameters.Clear();
+            return dts;
+        }
+
+        public DataTable Inserta_TB_TRABAJO( string NUMOS, string HORIZ, string VERT, string MAX, string PTE, string DISVERT,
+            string ANPANT, string ANFAC, string ALTD,string ALTI, string OJO, string TVISD,string TVISI, string USER, string SUC,SqlCommand command = null)
+        {
+            try
+            {
+                if (command == null)
+            {
+                SqlConnection connection = cn.LeerCadena();
+                command = connection.CreateCommand();
+            }
+            SqlCommand cmd = command;
+            cmd.Parameters.Clear();
+            cmd.CommandText = "SP_INSERTATB_TRABAJO";
+            //SqlCommand cmd = new SqlCommand("SP_DETALLEFACTURAFISCAL", cn.LeerCadena());
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@NUMOS", NUMOS);
+            cmd.Parameters.AddWithValue("@HORIZ", HORIZ);
+            cmd.Parameters.AddWithValue("@VERT", VERT);
+            cmd.Parameters.AddWithValue("@MAX", MAX);
+            cmd.Parameters.AddWithValue("@PTE", PTE);
+            cmd.Parameters.AddWithValue("@DISVERT", DISVERT);
+            cmd.Parameters.AddWithValue("@ANPANT", ANPANT);
+            cmd.Parameters.AddWithValue("@ANFAC", ANFAC);
+            cmd.Parameters.AddWithValue("@ALTD", ALTD);
+            cmd.Parameters.AddWithValue("@ALTI", ALTI);
+            cmd.Parameters.AddWithValue("@OJO", OJO);
+            cmd.Parameters.AddWithValue("@TVISD", TVISD);
+            cmd.Parameters.AddWithValue("@TVISI", TVISI);
+            cmd.Parameters.AddWithValue("@USER", USER);
+            cmd.Parameters.AddWithValue("@SUC", SUC);
+
+            DataTable dt = new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            da.Fill(dt);
+
+            cmd.Parameters.Clear();
+            return dt;
+        }
+            catch (Exception ex)
+            {
+               
+                stringBuilder.Append(Environment.NewLine + string.Format("Error: {0}", ex.Message));
+                //transaction.Rollback();
+                return null;
+            }
+
+
+}
 
         //public async Task<bool> RebajarInventarioAsync(string codArticulo, string codLaboratorio, int cantidad, SqlCommand command)
         //{

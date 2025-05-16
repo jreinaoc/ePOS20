@@ -30,9 +30,7 @@ namespace CapaVisual_Login
 
         // Declarar la lista para almacenar los resultados
         List<TB_ARTICULO> listaArticulos = new List<TB_ARTICULO>();
-        // Lista temporal para relizar el filtrado 
-        private List<TB_ARTICULO> listaTemporal = new List<TB_ARTICULO>();
-        private List<TB_TRABAJO> _TRABAJO = new List<TB_TRABAJO>();
+
         private FrmClaveAutorizada _FrmClaveAutorizada = new FrmClaveAutorizada();
         private FrmClaveGerente _FrmClaveGerente = new FrmClaveGerente();
         private L_Articulo _L_Articulo = new L_Articulo();
@@ -60,14 +58,18 @@ namespace CapaVisual_Login
         private decimal PorcDctoEmpresaAfiliada = 0;
         private bool Garantia;
         private string CodColorLC = "";
+        private string Codmotivodes = "";
         private bool tipoTrabajoSeleccionado;
-        private bool ServicioExpress;
         private bool laboratorioSeleccionado;
         private bool servicioSeleccionado;
+        private string Codigo_Servicio_Agregar = "";
 
+        // Lista temporal para relizar el filtrado 
+        private List<TB_ARTICULO> listaTemporal = new List<TB_ARTICULO>();
+        private List<TB_TRABAJO> _TRABAJO = new List<TB_TRABAJO>();
         List<TB_EMPAFI> listaClienteAfiliados = new List<TB_EMPAFI>();
         List<TB_EMPAFI> listaTemporalClienteAfiliados = new List<TB_EMPAFI>();
-
+        List<FechaHoraOfrecida> _FechaHoraOfrecida = new List<FechaHoraOfrecida>();
 
 
         private void DgvListadoOrdenes_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -355,7 +357,7 @@ namespace CapaVisual_Login
                 case "CambioPrecio":
                     this.Pnl_3_CambioPrecio.Enabled = true;
                     this.Pnl_3_CambioPrecio.Visible = true;
-                    this.Pnl_3_CambioPrecio.Location = new Point(500, 1);
+                    this.Pnl_3_CambioPrecio.Location = new Point(400, 1);
                     this.Pnl_3_CambioPrecio.BringToFront();
                     break;
 
@@ -507,8 +509,8 @@ namespace CapaVisual_Login
                     this.Txt_Pnl2_Cedula.Enabled = true;
                     this.Txt_Pnl2_Examen.Enabled = true;
                     //this.Cbx_Pnl2_Trbajo.Enabled = true;
-                    this.Cbx_Pnl2_Laboratorio.Enabled = true;
-                    this.Cbx_Pnl2_Servicio.Enabled = true;
+                    //this.Cbx_Pnl2_Laboratorio.Enabled = true;
+                    //this.Cbx_Pnl2_Servicio.Enabled = true;
                     break;
 
                 case "Habilitar_CambioPrecio":
@@ -1322,16 +1324,24 @@ namespace CapaVisual_Login
                 ValidarRegistrosYHabilitar_Botones();
                 Garantia = false;
                 CodColorLC = "";
-                ServicioExpress = false;
-                txtObservacion.Text = ""; 
+                Codigo_Servicio_Agregar = "";
+                txtObservacion.Text = "";
+                Codmotivodes = "";
                 // Botones Aciones 
 
                 Cbx_Pnl2_Trbajo.Enabled = true;
                 Cbx_Pnl2_Laboratorio.Enabled = true;
                 Cbx_Pnl2_Servicio.Enabled = true;
 
+                txtHorizontal.Text = "";
+                txtVertical.Text = "";
+                txtMaxima.Text = "";
+                txtPuente.Text = "";
+                txtObservacion.Text = "";
+
                 ReiniciarBusquedaarticulo();
 
+                Lbl_Tap3_Articulo1.Text = "Ingresar Articulo";
             }
 
             catch (Exception ex)
@@ -1401,7 +1411,9 @@ namespace CapaVisual_Login
                 Formato_Dgv_Totales();
                 _L_Articulo.BucarTipoVenta(Cbx_Pnl2_Trbajo);
                 CargarComboLaboratorios();
-              
+                //_L_Articulo.ObtenerFechaHoraOfrecida(Cbx_Pnl2_Servicio.SelectedValue.ToString(), Cbx_Pnl2_Trbajo.SelectedValue.ToString());
+
+
             }
             else if (tabControl.SelectedIndex == 0)
             {
@@ -1481,9 +1493,7 @@ namespace CapaVisual_Login
 
         private void Btn_Tap3_Cancelar_Click(object sender, EventArgs e)
         {
-           
                 LimpiarGrid();
-                Lbl_Tap3_Articulo1.Text = "Ingresar Articulo";
         }
 
         private void btnPrincipal_CheckedChanged(object sender, EventArgs e)
@@ -1543,9 +1553,9 @@ namespace CapaVisual_Login
 
                     }
 
-                    if (ServicioExpress == true)
+                    if (!string.IsNullOrEmpty(Codigo_Servicio_Agregar))
                     {
-                        _L_Articulo.CargarServicioExpress(Dgv_Tap3_Articulo);
+                        _L_Articulo.CargarServicioExpress(Dgv_Tap3_Articulo, Codigo_Servicio_Agregar);
 
                     }
 
@@ -1567,6 +1577,8 @@ namespace CapaVisual_Login
             // Validar si se agrego un servicio sin codigo padre
             _L_Articulo.VerificarServicioCodigoPadre(Dgv_Tap3_Articulo);
 
+            // validar si el servicio tiene una cantidad menor al cristal 
+            _L_Articulo.Verificar_Cantidad_Articulo_Ingresada_Servicios(Dgv_Tap3_Articulo);
 
             /// Verfico y aplico Promociones 
             /// 
@@ -1746,18 +1758,67 @@ namespace CapaVisual_Login
 
         private void Txt_Pnl3_CambioPrecioNuevo_KeyPress(object sender, KeyPressEventArgs e)
         {
-            //para que solo acepte numeros
-            if (!(char.IsNumber(e.KeyChar)) && (e.KeyChar != (char)Keys.Back))
+            if (e.KeyChar == 8)
+            {
+                e.Handled = false;
+                return;
+            }
+
+
+            bool IsDec = false;
+            int nroDec = 0;
+
+
+            if (Txt_Pnl3_CambioPrecioNuevo.SelectionLength <= 0)
+            {
+
+                for (int i = 0; i < Txt_Pnl3_CambioPrecioNuevo.Text.Length; i++)
+                {
+                    if (Txt_Pnl3_CambioPrecioNuevo.Text[i] == ',')
+                        IsDec = true;
+
+                    if (IsDec && nroDec++ >= 2)
+                    {
+                        e.Handled = true;
+                        return;
+                    }
+
+
+                }
+            }
+
+            if (e.KeyChar >= 44 && e.KeyChar <= 57)
+                e.Handled = false;
+            ///46 = .
+            ///46 = ,
+            else if (e.KeyChar == 46)
+                e.Handled = (IsDec) ? true : false;
+            else
+                e.Handled = true;
+
+
+            //para que solo acepte numeros y una sola coma
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != ',')
             {
                 e.Handled = true;
             }
 
-            //validar que no sea la tecla de borrar 
-            if (e.KeyChar != (char)8)
+            if (e.KeyChar == ',' && (sender as TextBox).Text.IndexOf(',') > -1)
             {
-                if (Txt_Tap3_Articulo_Cantidad.Text.Length == 4)
+                e.Handled = true;
+            }
+
+
+            if (Txt_Pnl3_CambioPrecioNuevo.Text.Contains("") && e.KeyChar == 44)
+            {
+                //separamos por punto
+                string[] parts = Txt_Pnl3_CambioPrecioNuevo.Text.Split(',');
+                //si el primer elemento está vacío, significa que no se escribió nada antes de, entonces, añadimos el cero al textbox.
+                if (parts[0].Length <= 0)
                 {
-                    Txt_Tap3_Articulo_Cantidad.Focus();
+                    Txt_Pnl3_CambioPrecioNuevo.Text = "0" + Txt_Pnl3_CambioPrecioNuevo.Text;
+                    //UPDATE: colocamos el cursor al final del texto
+                    Txt_Pnl3_CambioPrecioNuevo.SelectionStart = Txt_Pnl3_CambioPrecioNuevo.Text.Length;
                 }
             }
         }
@@ -1847,6 +1908,7 @@ namespace CapaVisual_Login
                     CerrarPanelCambioPrecio();
                 }
 
+                _L_Articulo.ActualizarTotales(Dgv_Tap3_Articulo, Dgv_Tap3_Totales);
             }
             else
             {
@@ -1935,7 +1997,7 @@ namespace CapaVisual_Login
         private void Btn_Tap3_Descuento_Click(object sender, EventArgs e)
         {
 
-            if  (Dgv_Tap3_Articulo.CurrentCell != null)
+            if  (Dgv_Tap3_Articulo.CurrentCell != null && Dgv_Tap3_Articulo.SelectedCells.Count > 0)
             {
                 if (Dgv_Tap3_Articulo.CurrentRow != null)
                 {
@@ -1981,7 +2043,7 @@ namespace CapaVisual_Login
 
                             if (_FrmClaveAutorizada.DialogResult == DialogResult.OK && _FrmClaveAutorizada.ClaveCorrecta == true)
                             {
-
+                                 Codmotivodes = Cbx_Pnl3_MotivoDesc.SelectedValue.ToString();
                                 _L_Articulo.ActualizarTodasCelda(Dgv_Tap3_Articulo, "PORCTDESCUENTO", Txt_Pnl3_PorcDescuento.Text);
 
                             }
@@ -2005,7 +2067,7 @@ namespace CapaVisual_Login
 
                             if (_FrmClaveAutorizada.DialogResult == DialogResult.OK && _FrmClaveAutorizada.ClaveCorrecta == true)
                             {
-
+                                Codmotivodes = Cbx_Pnl3_MotivoDesc.SelectedValue.ToString();
                                 _L_Articulo.ActualizarCelda(Dgv_Tap3_Articulo, Dgv_Tap3_Articulo.CurrentRow.Index, "PORCTDESCUENTO", Txt_Pnl3_PorcDescuento.Text);
 
                             }
@@ -2359,7 +2421,7 @@ namespace CapaVisual_Login
         {
             try
             {
-                Btn_Tap3_Procesar.Enabled = false;
+                //Btn_Tap3_Procesar.Enabled = false;
 
                 int car;
                 string strMarcaC;
@@ -2372,7 +2434,7 @@ namespace CapaVisual_Login
                 if (codigosFactura == null || codigosFactura.Count == 0)
                 {
                     MessageBox.Show("No hay códigos válidos para procesar");
-                    Btn_Tap3_Procesar.Enabled = true;
+                    //Btn_Tap3_Procesar.Enabled = true;
                     return;
                 }
 
@@ -2391,7 +2453,7 @@ namespace CapaVisual_Login
                 if (string.IsNullOrWhiteSpace(codCristal))
                 {
                     MessageBox.Show("No se encontró ningún código de cristal válido");
-                    Btn_Tap3_Procesar.Enabled = true;
+                    //Btn_Tap3_Procesar.Enabled = true;
                     return;
                 }
 
@@ -2401,7 +2463,7 @@ namespace CapaVisual_Login
                 if (_servicioValidaciones.VerificoIgualAntirefCrist(Dgv_Tap3_Articulo, dsAR))
                 {
                     MessageBox.Show("La Cantidad de Antireflejos y Coloración debe ser igual a la Cantidad de Cristales.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    Btn_Tap3_Procesar.Enabled = true;
+                    //Btn_Tap3_Procesar.Enabled = true;
                     return;
                 }
 
@@ -2440,14 +2502,10 @@ namespace CapaVisual_Login
                     null
                 );
 
-                bool resultado = await _servicioValidaciones.ValidarOrdenServicioAsync(
-                    Dgv_Tap3_Totales,
-                    Dgv_Tap3_Articulo,
-                    null,
-                    mostrarPregunta,
-                    mostrarError,
-                    datos
-                );
+                if (!await _servicioValidaciones.ValidarOrdenServicioAsync(Dgv_Tap3_Totales,Dgv_Tap3_Articulo,null, mostrarPregunta, mostrarError, datos))
+                {
+                    return;
+                }
 
                 //Guardar datos en CAORDSERV
                 string codServicio = Cbx_Pnl2_Servicio.SelectedValue.ToString();
@@ -2460,6 +2518,19 @@ namespace CapaVisual_Login
                 //bool empresaAfiliada = EmpresaAfiliada;
                 //bool esEmpresaAfiliada = empresaAfiliada == "1" || empresaAfiliada.ToLower() == "true";
                 var glbManejaExisLC = _D_DetalleOrden.TB_PARAMETRO("LCManejaExist");
+                DateTime Fecha_Ofreci;
+                string Hora_Ofrecido;
+                if (_FechaHoraOfrecida != null && _FechaHoraOfrecida.Count > 0)
+                {
+                    FechaHoraOfrecida resultado = _FechaHoraOfrecida.First();
+                    Fecha_Ofreci = resultado.FechaOfrecida.Date;
+                    Hora_Ofrecido = resultado.HoraOfrecida;
+                }
+                else
+                {
+                    Fecha_Ofreci = DateTime.Today;
+                    Hora_Ofrecido= DateTime.Now.ToString("HH:mm:ss: tt");
+                }
 
                 Conexion cn = new Conexion();
                 SqlConnection connection = cn.LeerCadena();
@@ -2487,6 +2558,7 @@ namespace CapaVisual_Login
                         glbNumVision,
                         txtObservacion.Text,
                         tipoTrabajoVenta,
+                        Cbx_Pnl2_Trbajo.SelectedValue.ToString(),
                         TB_USUARIO.COD_USR,
                         Montura_Propia,
                         Promocion_Aplicada,
@@ -2497,6 +2569,9 @@ namespace CapaVisual_Login
                         cedulaAfiliado,
                         codigoEmpresaAfiliada,
                         Txt_Pnl2_Examen.Text,
+                        Codmotivodes,
+                        Fecha_Ofreci,
+                        Hora_Ofrecido,
                         command
                     );
 
@@ -2528,18 +2603,10 @@ namespace CapaVisual_Login
                     }
 
                     // --- Actualizar Trabajo y Existencias ---
-                    var actualizadoTrabajo = await _GuardarOrdenServ.ActualizarTrabajoYExistencias(
-                        Dgv_Tap3_Articulo,
-                        numeroCedula,
-                        letraInicial,
-                        numeroOrden,
-                        TB_USUARIO.COD_USR,
-                        codSucursal,
-                        "",                         // correlativoOS (¿lo manejas o queda vacío?)
-                        command,
-                        Cbx_Pnl2_Trbajo.SelectedValue.ToString(),
-                        glbManejaExisLC     
-                    );
+                    var actualizadoTrabajo = await _GuardarOrdenServ.ActualizarTrabajoYExistencias(numeroOrden, txtHorizontal.Text, txtVertical.Text, txtMaxima.Text, "0", "0", "0", "0", "0", "0", "A", "Cerca", "Cerca", TB_USUARIO.COD_USR, codSucursal, command);
+
+
+                    // _L_Articulo.Inserta_TB_TRABAJO(numeroOrden, txtHorizontal.Text, txtVertical.Text, txtMaxima.Text,"0", "0", "0", "0", "0", "0", "A", "Cerca", "Cerca", TB_USUARIO.COD_USR, codSucursal);
 
                     if (!actualizadoTrabajo)
                     {
@@ -2552,7 +2619,7 @@ namespace CapaVisual_Login
 
                     // Finaliza normalmente
                     LimpiarGrid();
-                    Btn_Tap3_Procesar.Enabled = true;
+                    //Btn_Tap3_Procesar.Enabled = true;
 
                 }
                 catch (Exception ex)
@@ -2565,7 +2632,7 @@ namespace CapaVisual_Login
             catch (Exception ex)
             {
                 mostrarError("Error al procesar el Guardado de Orden: " + ex.Message);
-                Btn_Tap3_Procesar.Enabled = true;
+                //Btn_Tap3_Procesar.Enabled = true;
             }
 
         }
@@ -3646,24 +3713,44 @@ namespace CapaVisual_Login
 
         private void Cbx_Pnl2_Servicio_SelectedIndexChanged(object sender, EventArgs e)
         {
-
-            if (Cbx_Pnl2_Servicio.SelectedValue.ToString() == "004")
+            // Validar si el usuario seleccionó algo
+            if (Cbx_Pnl2_Servicio.Items.Count > 0 && !string.IsNullOrEmpty(Cbx_Pnl2_Servicio.Text))
             {
-                ServicioExpress = true;
-            }
-            else
-            {
-                ServicioExpress = false;
+                List<TB_SERVICIOSLABDTO> TB_SERVICIOSLABD = new List<TB_SERVICIOSLABDTO>();
+                TB_SERVICIOSLABD = _D_Articulo.ServiciosLaboratorio(Cbx_Pnl2_Servicio.SelectedValue.ToString());
+                if (TB_SERVICIOSLABD != null && TB_SERVICIOSLABD.Count > 0)
+                {
+                    TB_SERVICIOSLABDTO _SERVICIOSLABDTO = TB_SERVICIOSLABD.First();
+                    Codigo_Servicio_Agregar = _SERVICIOSLABDTO.CodArticulo;
+                   
+                    try
+                    {
+                        _FechaHoraOfrecida = _L_Articulo.ObtenerFechaHoraOfrecida(Cbx_Pnl2_Servicio.SelectedValue.ToString(), Cbx_Pnl2_Trbajo.SelectedValue.ToString());
+                        if (_FechaHoraOfrecida != null && _FechaHoraOfrecida.Count > 0)
+                        {
+                            FechaHoraOfrecida resultado = _FechaHoraOfrecida.First();
+                            Txt_Pnl2_Fecha_Ofre.Text = $"{resultado.FechaOfrecida:dd/MM/yyyy}  {resultado.HoraOfrecida}";
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        _FrmMensajes.co = 2;
+                        _FrmMensajes.avisomensaje(string.Format("Error: {0}", ex.Message) + ", Error inesperado");
+                        _FrmMensajes.ShowDialog();
+                    }
+                }
+                else
+                {
+                    Codigo_Servicio_Agregar = "";
+                }
             }
 
             if (servicioSeleccionado)
-            {
                 Cbx_Pnl2_Laboratorio.Enabled = false;
-            }
             else
-            {
                 Cbx_Pnl2_Laboratorio.Enabled = true;
-            }
+
+
 
         }
 
@@ -3679,7 +3766,11 @@ namespace CapaVisual_Login
                 Cbx_Pnl2_Laboratorio.Enabled = true;
             }
         }
-        
+
+        private void tabPage1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 
 

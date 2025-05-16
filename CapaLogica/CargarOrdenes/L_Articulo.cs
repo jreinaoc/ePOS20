@@ -1001,9 +1001,9 @@ namespace CapaLogica.CargarOrdenes
                 if (row.Cells["PORCTDESCUENTO"].Value != null)
                 {
                     decimal descuento = Convert.ToDecimal(row.Cells["PORCTDESCUENTO"].Value);
-                    descuentoTotal += subtotal * (descuento / 100);
+                    descuentoTotal += (Convert.ToDecimal(row.Cells["ART_EXIST"].Value)* Convert.ToDecimal(row.Cells["ART_PVP"].Value)) * (descuento / 100);
                 }
-
+                
                 // Impuesto: Subtotal * (%Impuesto / 100)
                 if (row.Cells["Impuesto"].Value != null)
                 {
@@ -1017,7 +1017,7 @@ namespace CapaLogica.CargarOrdenes
             igtfTotal = 0;
 
             // Calcular el total general
-            totalGeneral = subtotal - descuentoTotal + ivaTotal + igtfTotal;
+            totalGeneral = Math.Round(Math.Round(subtotal,2) - Math.Round(descuentoTotal,2) + Math.Round(ivaTotal,2) + Math.Round(igtfTotal,2),2);
 
             // Actualizar los valores en el DataGridView de totales
             foreach (DataGridViewRow row in Dgv_Totales.Rows)
@@ -1757,6 +1757,7 @@ namespace CapaLogica.CargarOrdenes
                                     MessageBox.Show("No se encontraron datos del examen.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                 }
                             }
+                        
                         }
                         x++;
                     }
@@ -1941,6 +1942,73 @@ namespace CapaLogica.CargarOrdenes
                                     ActualizarCelda(Dgv_Tap3_Articulo, row.Index, "ArtPadre", CodCristal);
                                     break; // Salir del bucle interno si se encuentra el servicio
                                 }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        public void Verificar_Cantidad_Articulo_Ingresada_Servicios(DataGridView Dgv_Tap3_Articulo)
+        {
+            string CodCristal = "";
+            int Cantidad_Cristal = 0;
+            // Obtener el código del cristal
+            foreach (DataGridViewRow row in Dgv_Tap3_Articulo.Rows)
+            {
+                if (row.Cells["CodArticulo"]?.Value != null && row.Cells["CodArticulo"].Value.ToString().StartsWith("C"))
+                {
+                    CodCristal = row.Cells["CodArticulo"].Value.ToString();
+                    Cantidad_Cristal = row.Cells["ART_EXIST"].Value != null ? Convert.ToInt32(row.Cells["ART_EXIST"].Value) : 0;
+                    break; // Salir del bucle al encontrar el primer cristal
+                }
+            }
+
+            // Servicios Dioptria
+            DataSet dsServicioAgregado = _D_Articulos.BucarServicioAgregado();
+            //AR
+            DataSet dsServAR = _D_Articulos.ServiciosAR_btnProcesar("", false);
+            // Validar servicios asociados
+            foreach (DataGridViewRow row in Dgv_Tap3_Articulo.Rows)
+            {
+                string codArticulo = row.Cells["CodArticulo"]?.Value?.ToString();
+                int Cantidad_Servicio = row.Cells["ART_EXIST"].Value != null ? Convert.ToInt32(row.Cells["ART_EXIST"].Value) : 0;
+                if (string.IsNullOrEmpty(codArticulo) || string.IsNullOrEmpty(CodCristal))
+                    continue; // Saltar filas inválidas
+
+                // Otros servicios
+                else if (codArticulo.StartsWith("S") && Cantidad_Cristal> Cantidad_Servicio)
+                {
+                    // Coloración
+                    if (codArticulo == "S000004") /*|| codArticulo == "S000006")*/
+                    {
+                        ActualizarCelda(Dgv_Tap3_Articulo, row.Index, "ART_EXIST", Cantidad_Cristal.ToString());
+                    }
+
+
+                        if (dsServicioAgregado != null && dsServicioAgregado.Tables.Count > 0 && dsServicioAgregado.Tables[0].Rows.Count > 0)
+                        {
+                            foreach (DataRow dr in dsServicioAgregado.Tables[0].Rows)
+                            {
+                                string agregadoProducto = dr["Agregado_Producto"]?.ToString().Trim('"');
+                                if (!string.IsNullOrEmpty(agregadoProducto) && agregadoProducto == codArticulo && Cantidad_Cristal > Cantidad_Servicio)
+                                {
+                                    ActualizarCelda(Dgv_Tap3_Articulo, row.Index, "ART_EXIST", Cantidad_Cristal.ToString());
+                                    break; // Salir del bucle interno si se encuentra el servicio
+                                }
+                            }
+                        }
+                    
+
+                    if (dsServAR != null && dsServAR.Tables.Count > 1 && dsServAR.Tables[1].Rows.Count > 0)
+                    {
+                        foreach (DataRow dr in dsServAR.Tables[1].Rows)
+                        {
+                            string agregadoProducto = dr["CodServicio"]?.ToString().Trim('"');
+                            if (!string.IsNullOrEmpty(agregadoProducto) && agregadoProducto == codArticulo && Cantidad_Cristal > Cantidad_Servicio)
+                            {
+                                ActualizarCelda(Dgv_Tap3_Articulo, row.Index, "ART_EXIST", Cantidad_Cristal.ToString());
+                                break; // Salir del bucle interno si se encuentra el servicio
                             }
                         }
                     }
@@ -2878,27 +2946,39 @@ namespace CapaLogica.CargarOrdenes
             }
         }
 
-        public async Task<string> AgregarOrdenServicio(string codSucursal, string revision, string codVenta, string cteNacio, string cteCedIden,
-                                            string numExamen, string codEmpleado, string codLaboratorio, string codServicio,
-                                            string vision, DateTime fecOfrecido, string horOfrecido, DateTime? fecEntrega, DateTime? fecEnvio,
-                                            decimal vtaSubTotal, decimal vtaImpuesto, decimal vtaDescuento, decimal vtaTotal,
-                                            bool orSerFinan, string orSerStatus, string orSerObserv, string userCrea, DateTime fecha,
-                                            bool monturaPropia, string codDetVta, bool aplica, string otCorrespondiente, bool ventaAfil,
-                                            bool cristalPropio, string tipoMonturaPropia, string codMotivoReposicion,
-                                            string cedulaCteAfil, string codigoEmpAfil, bool? asegurada, bool? exonerada,
-                                            bool monturaEnQuorum, string codColoracion, SqlCommand command)
+        //public async Task<string> AgregarOrdenServicio(string codSucursal, string revision, string codVenta, string cteNacio, string cteCedIden,
+        //                                    string numExamen, string codEmpleado, string codLaboratorio, string codServicio,
+        //                                    string vision, DateTime fecOfrecido, string horOfrecido, DateTime? fecEntrega, DateTime? fecEnvio,
+        //                                    decimal vtaSubTotal, decimal vtaImpuesto, decimal vtaDescuento, decimal vtaTotal,
+        //                                    bool orSerFinan, string orSerStatus, string orSerObserv, string userCrea, DateTime fecha,
+        //                                    bool monturaPropia, string codDetVta, bool aplica, string otCorrespondiente, bool ventaAfil,
+        //                                    bool cristalPropio, string tipoMonturaPropia, string codMotivoReposicion,
+        //                                    string cedulaCteAfil, string codigoEmpAfil, bool? asegurada, bool? exonerada,
+        //                                    bool monturaEnQuorum, string codColoracion, SqlCommand command)
+        //{
+        //    try
+        //    {
+        //        return await _D_Articulos.AgregarOrdenServicio(
+        //            codSucursal, revision, codVenta, cteNacio, cteCedIden, numExamen,
+        //            codEmpleado, codLaboratorio, codServicio, vision, fecOfrecido, horOfrecido,
+        //            fecEntrega, fecEnvio, vtaSubTotal, vtaImpuesto, vtaDescuento, vtaTotal,
+        //            orSerFinan, orSerStatus, orSerObserv, userCrea, fecha, monturaPropia,
+        //            codDetVta, aplica, otCorrespondiente, ventaAfil, cristalPropio,
+        //            tipoMonturaPropia, codMotivoReposicion, cedulaCteAfil, codigoEmpAfil,
+        //            asegurada, exonerada, monturaEnQuorum, codColoracion, command
+        //        );
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception("Error al agregar la orden de servicio", ex);
+        //    }
+        //}
+
+        public async Task<string> AgregarOrdenServicio(AgregarOrdenServicio_CargarOrdenes datos, SqlCommand command)
         {
             try
             {
-                return await _D_Articulos.AgregarOrdenServicio(
-                    codSucursal, revision, codVenta, cteNacio, cteCedIden, numExamen,
-                    codEmpleado, codLaboratorio, codServicio, vision, fecOfrecido, horOfrecido,
-                    fecEntrega, fecEnvio, vtaSubTotal, vtaImpuesto, vtaDescuento, vtaTotal,
-                    orSerFinan, orSerStatus, orSerObserv, userCrea, fecha, monturaPropia,
-                    codDetVta, aplica, otCorrespondiente, ventaAfil, cristalPropio,
-                    tipoMonturaPropia, codMotivoReposicion, cedulaCteAfil, codigoEmpAfil,
-                    asegurada, exonerada, monturaEnQuorum, codColoracion, command
-                );
+                return await _D_Articulos.AgregarOrdenServicio(datos, command);
             }
             catch (Exception ex)
             {
@@ -3092,21 +3172,22 @@ namespace CapaLogica.CargarOrdenes
                 costoArticulo,sucursalActual, command);
         }
 
-        public Task<bool> ModificarTrabajo(string cedula, string nacRif, string numeroOrden, DateTime fecha, string usuario,
-                                            string sucursal, string correlativoOS, SqlCommand command)
+        public Task<bool> ModificarTrabajo(string NUMOS, string HORIZ, string VERT, string MAX, string PTE, string DISVERT,
+            string ANPANT, string ANFAC, string ALTD, string ALTI, string OJO, string TVISD, string TVISI, string USER, string SUC, SqlCommand command)
         {
-            return _D_Articulos.ModificarTrabajoAsync(cedula, nacRif, numeroOrden, fecha, usuario, sucursal, correlativoOS, command);
+            return _D_Articulos.ModificarTrabajoAsync(NUMOS, HORIZ, VERT, MAX, PTE, DISVERT, ANPANT, ANFAC, ALTD, ALTI, OJO, TVISD, TVISI, USER, SUC, command);
         }
 
         //public Task<bool> RebajarInventario(string codArticulo, string codLaboratorio, int cantidad, SqlCommand command)
         //{
         //    return _D_Articulos.RebajarInventarioAsync(codArticulo, codLaboratorio, cantidad, command);
         //}
-        public void CargarServicioExpress(DataGridView gridFacturas)
+        public void CargarServicioExpress(DataGridView gridFacturas, string Codigo_Servicio_Agregar)
         {
             // Agregar un nuevo servicio o prima
-            List<TB_ARTICULO> articulos = _D_Articulos.ObtenerArticulos("", "A000002");
+            List<TB_ARTICULO> articulos = _D_Articulos.ObtenerArticulos("", Codigo_Servicio_Agregar);
             string codigo = "";
+            string codigo_cristal = "";
             bool tieneServicioExpress = false;
 
             if (articulos != null && articulos.Count > 0)
@@ -3115,14 +3196,16 @@ namespace CapaLogica.CargarOrdenes
                 {
                     codigo = gridFacturas.Rows[x].Cells["CodArticulo"].Value?.ToString();
 
-                    if (codigo == "A000002")
+                    if (codigo == Codigo_Servicio_Agregar)
                     {
                         tieneServicioExpress = true;
                     }
-                    //else if (!string.IsNullOrEmpty(codigo) && codigo.StartsWith("C"))
-                    //{
 
-                    //}
+                    if (codigo.StartsWith("C"))
+                    {
+                        codigo_cristal = codigo;
+                    }
+
                 }
                 TB_ARTICULO articulo = articulos.First();
                 decimal precio = articulo.ART_PVP;
@@ -3132,12 +3215,263 @@ namespace CapaLogica.CargarOrdenes
 
                 if (!tieneServicioExpress)
                 {
-                    AgregarFila(gridFacturas, articulo.CodArticulo, "", articulo.DESART, 1, (decimal)precio, (decimal)articulo.PORCTDESCUENTO, (decimal)total, impuesto, "A", CostoPromedio, codigo);
+                    AgregarFila(gridFacturas, articulo.CodArticulo, "", articulo.DESART, 1, (decimal)precio, (decimal)articulo.PORCTDESCUENTO, (decimal)total, impuesto, "A", CostoPromedio, codigo_cristal);
                 }
             }
 
         }
 
+        public List<FechaHoraOfrecida> ObtenerFechaHoraOfrecida(string servicio, string GlbCodDetVta)
+        {
+            try
+            {
+                DateTime fechaMaxVenta;
+
+                // Obtener la fecha actual (solo la parte de la fecha, sin la hora)
+                DateTime fechaActual = DateTime.Now.Date;
+
+                // Obtener el valor del parámetro "HoraMaxVtaF12"
+                string horaMaxVtaF12 = _D_DetalleOrden.TB_PARAMETRO("HoraMaxVtaF12");
+
+                // Validar que el parámetro no sea nulo o vacío
+                if (string.IsNullOrWhiteSpace(horaMaxVtaF12))
+                {
+                    throw new Exception("El parámetro 'HoraMaxVtaF12' no tiene un valor válido.");
+                }
+
+                // Limpiar el formato de la hora eliminando "a.m." o "p.m."
+                horaMaxVtaF12 = horaMaxVtaF12.Replace("a.m.", "").Replace("p.m.", "").Trim();
+
+                // Concatenar la fecha actual con la hora obtenida
+                string fechaConcatenada = $"{fechaActual:yyyy/MM/dd} {horaMaxVtaF12}";
+
+                // Intentar convertir la cadena concatenada a un objeto DateTime
+                if (!DateTime.TryParse(fechaConcatenada, out fechaMaxVenta))
+                {
+                    throw new Exception($"No se pudo convertir la fecha y hora concatenada: {fechaConcatenada}");
+                }
+
+                // Convertir la cadena concatenada a un objeto DateTime
+                //fechaMaxVenta = DateTime.ParseExact(fechaConcatenada, "yyyy/MM/dd H:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+
+                // Variables iniciales
+                int horasServicio;
+
+                List<TB_SERVICIOSLABDTO> TB_SERVICIOSLABD = new List<TB_SERVICIOSLABDTO>();
+                TB_SERVICIOSLABD = _D_Articulos.ServiciosLaboratorio(servicio);
+                if (TB_SERVICIOSLABD != null && TB_SERVICIOSLABD.Count > 0)
+                {
+                    TB_SERVICIOSLABDTO _SERVICIOSLABDTO = TB_SERVICIOSLABD.First();
+                    horasServicio = int.Parse(_SERVICIOSLABDTO.HorasEntrega);
+                }
+                else
+                {
+                    return null;
+                }
+
+                DateTime fechaOfrecida = DateTime.Now;
+                string horaOfrecida = string.Empty;
+
+                // Lógica para HorasServicio SERVICIO EXPRESS
+                if (servicio == "004"  && (GlbCodDetVta == "01" || GlbCodDetVta == "08"))
+                {
+                    FechaHoraOfrecida resultado = Calculo_Servicio_3Horas(fechaOfrecida);
+                    return new List<FechaHoraOfrecida> { resultado };
+                }
+
+                // Lógica para HorasServicio SERVICIO ENTREGA 3 HORAS
+                else if (servicio == "018" && (GlbCodDetVta == "01" || GlbCodDetVta == "08"))
+                {
+                    FechaHoraOfrecida resultado = Calculo_Servicio_12Horas(fechaOfrecida);
+                    return new List<FechaHoraOfrecida> { resultado };
+                }
+
+                // Lógica para HorasServicio = 12 y Servicio no es '004' ni '018'
+                else if (horasServicio == 12 && servicio != "004" && servicio != "018")
+                {
+                    int diasEntrega = int.Parse(_D_DetalleOrden.TB_PARAMETRO("DiasEntregaF12"));
+                    string horaEntregaF12 = _D_DetalleOrden.TB_PARAMETRO("HoraEntregaF12");
+                    string hora2EntregaF12 = _D_DetalleOrden.TB_PARAMETRO("Hora2EntregaF12");
+                    string horaMaxVentaF12 = _D_DetalleOrden.TB_PARAMETRO("HoraMaxVtaF12");
+
+                    if (DateTime.Now < fechaMaxVenta)
+                    {
+                        // Hora actual menor a hora máxima de venta
+                        fechaOfrecida = DateTime.Now.AddDays(1);
+
+                        // Si la fecha ofrecida cae en domingo, sumar días de entrega
+                        if (fechaOfrecida.DayOfWeek == DayOfWeek.Sunday)
+                        {
+                            fechaOfrecida = fechaOfrecida.AddDays(diasEntrega);
+                        }
+
+                        horaOfrecida = horaEntregaF12;
+                    }
+                    else
+                    {
+                        // Hora actual mayor a hora máxima de venta
+                        fechaOfrecida = DateTime.Now.AddDays(diasEntrega);
+
+                        // Si la fecha ofrecida cae en lunes, sumar días de entrega
+                        if (fechaOfrecida.DayOfWeek == DayOfWeek.Monday)
+                        {
+                            fechaOfrecida = fechaOfrecida.AddDays(diasEntrega);
+                        }
+
+                        horaOfrecida = hora2EntregaF12;
+                    }
+                }
+                // Lógica para HorasServicio > 12 y Servicio no es '004' ni '018'
+                else if (horasServicio > 12 && servicio != "004" && servicio != "018")
+                {
+                    int diasAddEntrega = int.Parse(_D_DetalleOrden.TB_PARAMETRO("DiasAddEntrega"));
+                    string horaMaxVentaServ =  _D_DetalleOrden.TB_PARAMETRO("HoraMaxVtaServ");
+                    string hora2MaxVentaServ =  _D_DetalleOrden.TB_PARAMETRO("Hora2MaxVtaServ");
+
+                    // Si es día de semana (Lunes a Viernes)
+                    if (DateTime.Now.DayOfWeek > DayOfWeek.Sunday && DateTime.Now.DayOfWeek < DayOfWeek.Saturday)
+                    {
+                        DateTime horaMaxVenta = DateTime.Parse($"{DateTime.Now:yyyy-MM-dd} {horaMaxVentaServ}");
+
+                        if (DateTime.Now > horaMaxVenta)
+                        {
+                            fechaOfrecida = fechaOfrecida.AddDays(diasAddEntrega);
+                        }
+                    }
+                    // Si es fin de semana (Domingo o Sábado)
+                    else if (DateTime.Now.DayOfWeek == DayOfWeek.Sunday || DateTime.Now.DayOfWeek == DayOfWeek.Saturday)
+                    {
+                        DateTime hora2MaxVenta = DateTime.Parse($"{DateTime.Now:yyyy-MM-dd} {hora2MaxVentaServ}");
+
+                        if (DateTime.Now > hora2MaxVenta)
+                        {
+                            fechaOfrecida = fechaOfrecida.AddDays(diasAddEntrega);
+                        }
+                    }
+                }
+                // Lógica adicional para otros casos
+                if (servicio != "004" && servicio != "018")
+                {
+                    fechaOfrecida = DateTime.Now.AddDays(5);
+                    horaOfrecida = "12:01:01 P.M.";
+                }
+
+                // Retornar el resultado como una lista
+                return new List<FechaHoraOfrecida>
+                {
+                    new FechaHoraOfrecida
+                    {
+                        FechaOfrecida = fechaOfrecida,
+                        HoraOfrecida = horaOfrecida
+                    }
+                };
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error al calcular la fecha y hora ofrecida: {ex.Message}", ex);
+            }
+        }
+
+        public FechaHoraOfrecida Calculo_Servicio_3Horas(DateTime glbFechaActiva)
+        {
+            // Variables iniciales
+            DateTime fechaOfrecida = glbFechaActiva;
+            DateTime horaActual = DateTime.Now;
+            DateTime horaMas3 = horaActual.AddHours(3);
+
+            // Consulta para obtener la hora de apertura y cierre de la sucursal
+            DataSet dsSucursal = _D_Articulos.TB_SUCURSALES(_D_Inicio.Sucursal());
+
+            if (dsSucursal.Tables[0].Rows.Count > 0)
+            {
+                DateTime horaApertura = Convert.ToDateTime(dsSucursal.Tables[0].Rows[0]["HorEntLAV"]);
+                DateTime horaCierre = Convert.ToDateTime(dsSucursal.Tables[0].Rows[0]["HorSalLAV"]);
+
+                // Si la hora con 3 horas añadidas excede la hora de cierre de la sucursal
+                if (horaMas3 > horaCierre)
+                {
+                    TimeSpan horasRestantesHoy = horaCierre.Subtract(horaActual);
+                    double horasPendientes = horasRestantesHoy.TotalHours > 0 ? 3 - horasRestantesHoy.TotalHours : 3;
+
+                    // Calcular cuántos días se deben sumar
+                    int diasAdicionales = (int)Math.Ceiling(horasPendientes / horaCierre.Subtract(horaApertura).TotalHours);
+
+                    // Establecer la nueva fecha para el día siguiente y sumar las horas restantes desde la apertura
+                    horaMas3 = horaApertura.AddHours(horasPendientes);
+
+                    // Calcular la fecha ofrecida basada en días laborales
+                    DateTime currentDate = glbFechaActiva.AddDays(diasAdicionales);
+                    string formattedDate = currentDate.ToString("yyyy/MM/dd");
+
+                    DataSet ds = _D_Articulos.tMASTER_diasHorario(formattedDate);
+                    if (ds.Tables[0].Rows.Count > 0)
+                    {
+                        fechaOfrecida = Convert.ToDateTime(ds.Tables[0].Rows[0]["fecha"].ToString());
+                    }
+                }
+            }
+
+            // Retornar la fecha y hora calculada
+            return new FechaHoraOfrecida
+            {
+                FechaOfrecida = fechaOfrecida,
+                HoraOfrecida = horaMas3.ToString("HH:mm:ss tt")
+            };
+        }
+
+        public FechaHoraOfrecida Calculo_Servicio_12Horas(DateTime glbFechaActiva)
+        {
+            // Variables iniciales
+            DateTime fechaOfrecida = glbFechaActiva;
+            DateTime horaActual = DateTime.Now;
+            DateTime horaMas12 = horaActual.AddHours(12);
+
+            // Calcular la fecha ofrecida basada en días laborales
+            DateTime currentDate = glbFechaActiva.AddDays(1);
+            string formattedDate = currentDate.ToString("yyyy/MM/dd");
+
+            DataSet ds = _D_Articulos.tMASTER_diasHorario(formattedDate);
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                fechaOfrecida = Convert.ToDateTime(ds.Tables[0].Rows[0]["fecha"]);
+            }
+
+            // Retornar la fecha y hora calculada
+            return new FechaHoraOfrecida
+            {
+                FechaOfrecida = fechaOfrecida,
+                HoraOfrecida = horaMas12.ToString("HH:mm:ss tt")
+            };
+        }
+
+        public DataTable Inserta_TB_TRABAJO(string NUMOS, string HORIZ, string VERT, string MAX, string PTE, string DISVERT,
+            string ANPANT, string ANFAC, string ALTD, string ALTI, string OJO, string TVISD, string TVISI, string USER, string SUC)
+        {
+            Conexion cn = new Conexion();
+            SqlConnection connection = cn.LeerCadena();
+            SqlCommand command = connection.CreateCommand();
+            //SqlTransaction transaction;
+            // Iniciar la transacción
+            //transaction = connection.BeginTransaction();
+            command.Connection = connection;
+            //command.Transaction = transaction;
+            command.Parameters.Clear();
+            command.CommandTimeout = 120;
+
+            try
+            {
+               return _D_Articulos.Inserta_TB_TRABAJO(NUMOS, HORIZ, VERT, MAX, PTE, DISVERT, ANPANT, ANFAC, ALTD, ALTI, OJO, TVISD, TVISI, USER, SUC);
+                
+
+            }
+            catch (Exception ex)
+            {
+               
+                stringBuilder.Append(Environment.NewLine + string.Format("Error: {0}", ex.Message));
+                //transaction.Rollback();
+                return null;
+            }
+        }
     }
         
 }

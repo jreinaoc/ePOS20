@@ -10,6 +10,9 @@ namespace CapaEntidades
     {
         public string Cod_servicio { get; set; }
         public string Descripcion_servicio { get; set; }
+        public string CodArticulo { get; set; }
+        public string HorasEntrega { get; set; }
+
 
     }
 }

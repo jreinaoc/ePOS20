@@ -48,5 +48,6 @@ namespace CapaEntidades
         public bool? Exonerada { get; set; }
         public bool MonturaEnQuorum { get; set; }
         public string Cod_Coloracion { get; set; }
-    }
+        public string  Codmotivodes { get; set; }
+}
 }

@@ -25,34 +25,35 @@ namespace CapaLogica.CargarOrdenes
             _servicioValidaciones = servicioValidaciones;
         }
 
-        public async Task<string> GuardarOrdenServicioAsync(AgregarOrdenServicio_CargarOrdenes datos, SqlCommand command)
-        {
-            try
-            {
-                string numeroOrden = await _L_Articulo.AgregarOrdenServicio(
-                    datos.Cod_Sucursal, datos.Revision, datos.Cod_Venta, datos.CTE_Nacio, datos.CTE_CedIden, datos.NumExamen,
-                    datos.COD_EMPLEADO, datos.Cod_Laboratorio, datos.Cod_Servicio, datos.Vision, datos.Fec_ofrecido, datos.Hor_ofrecido,
-                    datos.Fec_Entrega, datos.Fec_Envio, datos.VtaSubTotal, datos.VtaImpuesto, datos.VtaDescuento, datos.VtaTotal,
-                    datos.OrSer_Finan, datos.OrSer_Status, datos.OrSer_Observ, datos.User_Crea, datos.Fecha, datos.MonturaPropia,
-                    datos.Cod_DetVta, datos.Aplica, datos.OTCORRESPONDIENTE, datos.VentaAfil, datos.CristalPropio,
-                    datos.TipoMonturaPropia, datos.CodMotivoReposicion, datos.Cedula_CteAfil, datos.Codigo_EmpAfil,
-                    datos.Asegurada, datos.Exonerada, datos.MonturaEnQuorum, datos.Cod_Coloracion,
-                    command // pasa el mismo SqlCommand para usar la misma transacción
-                );
+        //public async Task<string> GuardarOrdenServicioAsync(AgregarOrdenServicio_CargarOrdenes datos, SqlCommand command)
+        //{
+        //    try
+        //    {
+        //        //string numeroOrden = await _L_Articulo.AgregarOrdenServicio(
+        //        //    datos.Cod_Sucursal, datos.Revision, datos.Cod_Venta, datos.CTE_Nacio, datos.CTE_CedIden, datos.NumExamen,
+        //        //    datos.COD_EMPLEADO, datos.Cod_Laboratorio, datos.Cod_Servicio, datos.Vision, datos.Fec_ofrecido, datos.Hor_ofrecido,
+        //        //    datos.Fec_Entrega, datos.Fec_Envio, datos.VtaSubTotal, datos.VtaImpuesto, datos.VtaDescuento, datos.VtaTotal,
+        //        //    datos.OrSer_Finan, datos.OrSer_Status, datos.OrSer_Observ, datos.User_Crea, datos.Fecha, datos.MonturaPropia,
+        //        //    datos.Cod_DetVta, datos.Aplica, datos.OTCORRESPONDIENTE, datos.VentaAfil, datos.CristalPropio,
+        //        //    datos.TipoMonturaPropia, datos.CodMotivoReposicion, datos.Cedula_CteAfil, datos.Codigo_EmpAfil,
+        //        //    datos.Asegurada, datos.Exonerada, datos.MonturaEnQuorum, datos.Cod_Coloracion,
+        //        //    command // pasa el mismo SqlCommand para usar la misma transacción
 
-                if (string.IsNullOrWhiteSpace(numeroOrden))
-                {
-                    throw new Exception("No se generó número de orden. El procedimiento puede haber fallado.");
-                }
+        //            string numeroOrden = await _L_Articulo.AgregarOrdenServicio(datos, command); // pasa el mismo SqlCommand para usar la misma transacción
 
-                return numeroOrden;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error guardando orden de servicio: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return null;
-            }
-        }
+        //        if (string.IsNullOrWhiteSpace(numeroOrden))
+        //        {
+        //            throw new Exception("No se generó número de orden. El procedimiento puede haber fallado.");
+        //        }
+
+        //        return numeroOrden;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show($"Error guardando orden de servicio: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //        return null;
+        //    }
+        //}
 
         public async Task<string> GuardarOrdenServicioDesdeFormularioAsync(
     DataGridView dgvArticulos,
@@ -66,6 +67,7 @@ namespace CapaLogica.CargarOrdenes
     string vision,
     string observacion,
     string codTrabajo,
+    string codd_Venta,
     string usuarioActual,
     bool monturaPropia,
     bool promocionAplicada,
@@ -76,6 +78,9 @@ namespace CapaLogica.CargarOrdenes
     string cedulaAfiliado,
     string codigoEmpresaAfiliada,
     string numExamen,
+    string Codmotivodess,
+    DateTime Fec_ofrecido,
+    string Hor_ofrecido,
     SqlCommand command)
         {
             try
@@ -93,12 +98,12 @@ namespace CapaLogica.CargarOrdenes
                     Cod_Laboratorio = codLaboratorio,
                     Cod_Servicio = codServicio,
                     Vision = vision,
-                    Fec_ofrecido = DateTime.Now,
-                    Hor_ofrecido = DateTime.Now.ToString("HH:mm"),
-                    Fec_Entrega = DateTime.Now,
-                    Fec_Envio = DateTime.Now,
+                    Fec_ofrecido = Fec_ofrecido,
+                    Hor_ofrecido = Hor_ofrecido,
+                    Fec_Entrega = null,
+                    Fec_Envio = null,
                     VtaSubTotal = _servicioValidaciones.ObtenerValorDesdeGrid_Totales(dgvTotales, "SubTotal"),
-                    VtaImpuesto = _servicioValidaciones.ObtenerTotalImpuestoDesdeGrid(dgvArticulos),
+                    VtaImpuesto = _servicioValidaciones.ObtenerValorDesdeGrid_Totales(dgvTotales, "IVA"),
                     VtaDescuento = _servicioValidaciones.ObtenerValorDesdeGrid_Totales(dgvTotales, "Descuento"),
                     VtaTotal = _servicioValidaciones.ObtenerValorDesdeGrid_Totales(dgvTotales, "Total"),
                     OrSer_Finan = false,
@@ -107,23 +112,24 @@ namespace CapaLogica.CargarOrdenes
                     User_Crea = usuarioActual,
                     Fecha = DateTime.Now,
                     MonturaPropia = monturaPropia,
-                    Cod_DetVta = codTrabajo,
+                    Cod_DetVta = codd_Venta,
                     Aplica = promocionAplicada,
                     OTCORRESPONDIENTE = "",
                     VentaAfil = false,
                     CristalPropio = cristalPropio,
-                    TipoMonturaPropia = "",
-                    CodMotivoReposicion = "",
+                    TipoMonturaPropia = null,
+                    CodMotivoReposicion = null,
                     Cedula_CteAfil = cedulaAfiliado,
                     Codigo_EmpAfil = codigoEmpresaAfiliada,
                     Asegurada = asegurada,
                     Exonerada = false,
                     MonturaEnQuorum = monturaEnQuorum,
-                    Cod_Coloracion = codColoracion
+                    Cod_Coloracion = !string.IsNullOrEmpty(codColoracion) ? codColoracion : null,
+                    Codmotivodes = !string.IsNullOrEmpty(Codmotivodess) ? Codmotivodess : null // Asignar solo si no está vacío
                 };
 
-                string numeroOrden = await GuardarOrdenServicioAsync(datosOrden, command);
-
+                //string numeroOrden = await GuardarOrdenServicioAsync(datosOrden, command);
+                string numeroOrden = await _L_Articulo.AgregarOrdenServicio(datosOrden, command);
                 return numeroOrden;
             }
             catch (Exception ex)
@@ -140,7 +146,7 @@ namespace CapaLogica.CargarOrdenes
             try
             {
                 bool resultado = true;
-                string ojo = _L_Articulo.CalcularOjoDesdeGrid(dgvArticulos);
+                //string ojo = _L_Articulo.CalcularOjoDesdeGrid(dgvArticulos);
                 bool productosRepetidos = false;
                 string codigoProductoRepetido = null;
                 int cantidadTotalRepetida = 0;
@@ -166,13 +172,13 @@ namespace CapaLogica.CargarOrdenes
                     string codArticulo = row.Cells["CodArticulo"].Value?.ToString();
                     int cantidad = Convert.ToInt32(row.Cells["ART_EXIST"].Value);
                     decimal precio = Convert.ToDecimal(row.Cells["ART_PVP"].Value);
-                    decimal impuesto = Convert.ToDecimal(row.Cells["Impuesto"].Value);
+                    decimal impuesto = row.Cells["Impuesto"].Value!= DBNull.Value ? Convert.ToDecimal(row.Cells["Impuesto"].Value) : 0;
                     decimal precioViejo = row.Cells["PrecioViejo"].Value != DBNull.Value ? Convert.ToDecimal(row.Cells["PrecioViejo"].Value) : 0;
                     string codPromo = row.Cells["CodPromo"].Value?.ToString();
                     decimal costoPromedio = row.Cells["costoProme"].Value != DBNull.Value ? Convert.ToDecimal(row.Cells["costoProme"].Value) : 0;
                     string codigoLab = CodLab;
-                    decimal porcentajeDescuento = _L_Articulo.ObtenerPorcentajeDescuento(row, empresaAfiliada);
-
+                    decimal porcentajeDescuento = row.Cells["PORCTDESCUENTO"].Value != DBNull.Value ? Convert.ToDecimal(row.Cells["PORCTDESCUENTO"].Value) : 0;
+                    string ojo = row.Cells["ojo"].Value.ToString();
                     int cantidadFinal = cantidad;
                     if (productosRepetidos && codArticulo == codigoProductoRepetido)
                         cantidadFinal = cantidadTotalRepetida;
@@ -212,24 +218,14 @@ namespace CapaLogica.CargarOrdenes
         }
 
         //Actualizo la tabla tbTrabajo
-        public async Task<bool> ActualizarTrabajoYExistencias( DataGridView dgvArticulos, string cedula, string nacRif, 
-                                                                    string numeroOrden, string usuarioActual, string sucursal, 
-                                                                    string correlativoOS, SqlCommand command, string codDetVta, 
-                                                                    string manejaExisLC)
+        public async Task<bool> ActualizarTrabajoYExistencias(string NUMOS, string HORIZ, string VERT, string MAX, string PTE, string DISVERT,
+            string ANPANT, string ANFAC, string ALTD, string ALTI, string OJO, string TVISD, string TVISI, string USER, string SUC, SqlCommand command)
         {
             try
             {
+
                 // 1. Actualizar datos en TB_TRABAJO
-                bool trabajoActualizado = await _L_Articulo.ModificarTrabajo(
-                    cedula,
-                    nacRif,
-                    numeroOrden,
-                    DateTime.Today,
-                    usuarioActual,
-                    sucursal,
-                    correlativoOS,
-                    command
-                );
+                bool trabajoActualizado = await _L_Articulo.ModificarTrabajo(NUMOS, HORIZ, VERT, MAX, PTE, DISVERT, ANPANT, ANFAC, ALTD, ALTI, OJO, TVISD, TVISI, USER, SUC,  command);
 
                 if (!trabajoActualizado)
                 {

@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AgregarOrdenServicio_CargarOrdenes.cs" />
+    <Compile Include="FechaHoraOfrecida.cs" />
     <Compile Include="ServicioColoracion_CargarOrdenes.cs" />
     <Compile Include="ServiciosAR_CargarOrdenes.cs" />
     <Compile Include="TB_ARTICULO.cs" />

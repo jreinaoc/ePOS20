@@ -143,7 +143,7 @@ namespace CapaLogica.Anulacion_Logica
                     precio = precio.Replace(",", ".");
                     string cantidad = row["Ordserv_Cant"].ToString();
 
-                    string costo = _D_Anulacion.TraerArt(articulo, command);
+                        string costo = "0";// _D_Anulacion.TraerArt(articulo, command);
                     costo = costo.Replace(",", ".");
 
 

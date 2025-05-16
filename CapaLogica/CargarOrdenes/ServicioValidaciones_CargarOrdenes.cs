@@ -295,7 +295,7 @@ namespace CapaLogica.CargarOrdenes
                             "Verifique por favor"
                         );
 
-                        if (resultado == DialogResult.No)
+                        if (resultado != DialogResult.OK)
                             return false;
                     }
 
@@ -310,7 +310,7 @@ namespace CapaLogica.CargarOrdenes
                                 "Verifique por favor"
                             );
 
-                            if (resultado == DialogResult.No)
+                            if (resultado != DialogResult.OK)
                                 return false;
                         }
                     }
@@ -569,16 +569,15 @@ namespace CapaLogica.CargarOrdenes
         public decimal ObtenerTotalImpuestoDesdeGrid(DataGridView dgv)
         {
             decimal totalImpuesto = 0m;
-
+            decimal ivaTotal = 0;
+            decimal subtotalConIva = 0;
             foreach (DataGridViewRow row in dgv.Rows)
             {
                 if (row.Cells["Impuesto"].Value != null)
                 {
-                    string valorStr = row.Cells["Impuesto"].Value?.ToString()?.Trim();
-                    if (decimal.TryParse(valorStr, out decimal valor))
-                    {
-                        totalImpuesto += valor;
-                    }
+                    decimal impuesto = Convert.ToDecimal(row.Cells["Impuesto"].Value);
+                    subtotalConIva = Convert.ToDecimal(row.Cells["ART_PVP"].Value) * Convert.ToDecimal(row.Cells["ART_EXIST"].Value);
+                    ivaTotal += subtotalConIva * (impuesto / 100);
                 }
             }
 
@@ -632,7 +631,7 @@ namespace CapaLogica.CargarOrdenes
 
                     if (!string.IsNullOrWhiteSpace(cristalConBaja))
                     {
-                        MessageBox.Show($"El Cristal {codArticulo} {cristalConBaja} tiene baja existencia en Laboratorio.", "No Enviar", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show($"El Cristal {cristalConBaja} tiene baja existencia en Laboratorio.", "No Enviar", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
             }
