@@ -1826,7 +1826,7 @@ namespace CapaVisual_Login
         private void Dgv_Tap3_Articulo_KeyDown(object sender, KeyEventArgs e)
         {
             // Verificar si se presionó la tecla F3 Para Abrir el Panel de Cambio Precio
-            if (e.KeyCode == Keys.F3)
+            if (e.KeyCode == Keys.F3 && Btn_Tap3_CambioPrecio.Enabled)
             {
                 // Verificar si hay una fila seleccionada
                 if (Dgv_Tap3_Articulo.CurrentRow != null)
@@ -1864,7 +1864,7 @@ namespace CapaVisual_Login
                     }
                 }
             }
-            else if (e.KeyCode == Keys.F4)
+            else if (e.KeyCode == Keys.F4 && Btn_Tap3_Descuento.Enabled)
             {
                 // Verificar si hay una fila seleccionada
                 if (Dgv_Tap3_Articulo.CurrentRow != null)
@@ -2320,7 +2320,7 @@ namespace CapaVisual_Login
             // Verificar si el DataGridView tiene filas que no sean nuevas
            
            //// Descuento  
-            if (Dgv_Tap3_Articulo.Rows.Count > 0 && PorcDctoEmpresaAfiliada <= 0)
+            if (Dgv_Tap3_Articulo.Rows.Count > 0 && PorcDctoEmpresaAfiliada <= 0 && string.IsNullOrEmpty(Codigo_Promocion))
             {
                 Btn_Tap3_Descuento.Enabled = true; // Habilitar el TextBox o botón descuento
                 Btn_Tap3_CambioPrecio.Enabled = true; // Habilitar el TextBox o botón cambioPrecio
@@ -2339,7 +2339,7 @@ namespace CapaVisual_Login
                 Btn_Tap3_Promocion.Enabled = false;
 
             //// EmpresasAfiliadas
-            if (string.IsNullOrEmpty(EmpresaAfiliada) && Dgv_Tap3_Articulo.Rows.Count <= 0)
+            if (string.IsNullOrEmpty(EmpresaAfiliada) && Dgv_Tap3_Articulo.Rows.Count <= 0 && string.IsNullOrEmpty(Codigo_Promocion))
                 Btn_Tap3_ClienteAfiliado.Enabled = true;
             else
                 Btn_Tap3_ClienteAfiliado.Enabled = false;

@@ -120,7 +120,7 @@ namespace CapaVisual_Login
             this.GbxMenuPrincipal.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.GbxMenuPrincipal.Location = new System.Drawing.Point(5, 68);
             this.GbxMenuPrincipal.Name = "GbxMenuPrincipal";
-            this.GbxMenuPrincipal.Size = new System.Drawing.Size(217, 673);
+            this.GbxMenuPrincipal.Size = new System.Drawing.Size(217, 740);
             this.GbxMenuPrincipal.TabIndex = 12;
             this.GbxMenuPrincipal.TabStop = false;
             // 

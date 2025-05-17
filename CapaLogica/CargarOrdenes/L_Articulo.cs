@@ -1980,7 +1980,7 @@ namespace CapaLogica.CargarOrdenes
                 else if (codArticulo.StartsWith("S") && Cantidad_Cristal> Cantidad_Servicio)
                 {
                     // Coloración
-                    if (codArticulo == "S000004") /*|| codArticulo == "S000006")*/
+                    if (codArticulo == "S000004" || codArticulo == "S000006")
                     {
                         ActualizarCelda(Dgv_Tap3_Articulo, row.Index, "ART_EXIST", Cantidad_Cristal.ToString());
                     }
@@ -2466,7 +2466,7 @@ namespace CapaLogica.CargarOrdenes
 
                 if (!tieneServicioMonturaPropia)
                 {
-                    AgregarFila(gridFacturas, articulo.CodArticulo, "", articulo.DESART, 1, (decimal) precio, (decimal) articulo.PORCTDESCUENTO, (decimal) total, impuesto, txtOjo, CostoPromedio, codigo);
+                    AgregarFila(gridFacturas, articulo.CodArticulo, "", articulo.DESART, 1, (decimal) precio, (decimal) articulo.PORCTDESCUENTO, (decimal) total, impuesto, "", CostoPromedio, codigo);
                 }
             }
 
