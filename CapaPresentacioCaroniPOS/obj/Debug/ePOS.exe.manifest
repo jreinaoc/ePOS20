@@ -50,7 +50,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>ZKUSftBZE4TUDmZ8fhf69qI50jpQ97GGLmzhICLBN+M=</dsig:DigestValue>
+        <dsig:DigestValue>u/II7qo0GBcaX5ywjY0SZGqb3AKjGd3EMHhnkJcewLs=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -62,7 +62,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>S5Gn7sRdvicQ5FdpzCoh/0nLX/Inp768bPscEhsJAQM=</dsig:DigestValue>
+        <dsig:DigestValue>eEUznKIbHuQmrTWUKdCj6xBjqhej7CmlxSg4JGuxfs0=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -74,7 +74,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>FT4OX1QpjvnT3zrlZj+AA0tQUkkCp64Cpd5DLTaViw8=</dsig:DigestValue>
+        <dsig:DigestValue>RlM9oL1adhCdhQ1ps0dLKqNg/WjDtRPav7R6qEI4K2s=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -134,7 +134,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>szRISp4+zJ//oYgfQ/wCcJvhb8opbD4VmWCnNSyt3ts=</dsig:DigestValue>
+        <dsig:DigestValue>jak6QZ+/4nQ2ByTHqZDSfX6VGK31VzbZtwS2kV+6+eY=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -939,13 +939,13 @@
       <dsig:DigestValue>V/mIEnaNA7+y6AYCdZ7ovh0pOL9ya/R1ocUuN+BTkHw=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="ePOS.exe.config" size="1800">
+  <file name="ePOS.exe.config" size="1782">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>ZyramiyOlDjMXLlujqGmXzGPGVvjzgHkT0QwZS7edkA=</dsig:DigestValue>
+      <dsig:DigestValue>r0+31fcR58uL4v1CqZT0MGj92mzReFtX4NlBoQlF594=</dsig:DigestValue>
     </hash>
   </file>
   <file name="icono-puntoDeVenta.ico" size="205662">
