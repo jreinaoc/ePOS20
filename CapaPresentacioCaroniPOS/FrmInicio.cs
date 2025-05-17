@@ -20,10 +20,8 @@ namespace CapaVisual_Login
         //Instanciamos nuestra clase L_Inicio para poder utilizar sus miembros
         L_Inicio _L_Inicio = new L_Inicio();
 
-        List_TB_CAORDSER _CAORDSER = new List_TB_CAORDSER();
         D_Inicio _D_Inicio = new D_Inicio();
         FrmMensajes _FrmMensajes = new FrmMensajes();
-        L_Configuracion _L_Configuracion = new L_Configuracion();
 
 
 

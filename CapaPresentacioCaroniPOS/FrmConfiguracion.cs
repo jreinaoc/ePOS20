@@ -84,7 +84,7 @@ namespace CapaVisual_Login
             // Se muestra la base de datos y el servidor que se esta utilizando 
             // Con la funcion aplicacion trae la version del producto, se tiene que cambiar constantemente 
             //LblVersion.Text = "Versión: "+ Application.ProductVersion+ "\n Sucursal: " + _L_Configuracion.CargarSuc() + " " + _L_Configuracion.CargarDescSucursal() + "\nInstancia:" + BD + "(" + Servidor + ")";
-            LblVersion.Text = "Versión: FEBRERO 2025" + "\n Sucursal: " + _L_Configuracion.CargarSuc() + " " + _L_Configuracion.CargarDescSucursal() + "\nInstancia:" + BD + "(" + Servidor + ")";
+            LblVersion.Text = "Versión: Febre 25" + "\n Sucursal: " + _L_Configuracion.CargarSuc() + " " + _L_Configuracion.CargarDescSucursal() + "\nInstancia:" + BD + "(" + Servidor + ")";
             string sucursal = TB_USUARIO.COD_SUCURSAL;// numero de sucursal para mostrar los colaboradores 
             _L_Configuracion.LlenadoComboBox(CbxPeriodoDash);
             CbxPeriodoDash.SelectedIndex = 0;

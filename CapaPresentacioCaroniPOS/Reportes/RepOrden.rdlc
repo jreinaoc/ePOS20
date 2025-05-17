@@ -2696,7 +2696,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Garantia</rd:DefaultName>
-        <Top>3.42574cm</Top>
+        <Top>3.20349cm</Top>
         <Left>12.17483cm</Left>
         <Height>0.55042cm</Height>
         <Width>6.39933cm</Width>
@@ -3201,6 +3201,9 @@
         <Height>0.5cm</Height>
         <Width>6.39933cm</Width>
         <ZIndex>17</ZIndex>
+        <Visibility>
+          <Hidden>true</Hidden>
+        </Visibility>
         <Style>
           <Border>
             <Style>None</Style>
@@ -3228,7 +3231,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>RepGarantia</rd:DefaultName>
-        <Top>3.42574cm</Top>
+        <Top>3.20349cm</Top>
         <Left>10.04037cm</Left>
         <Height>0.55042cm</Height>
         <Width>8.53379cm</Width>
@@ -3443,6 +3446,34 @@
           <PaddingBottom>2pt</PaddingBottom>
         </Style>
       </Textbox>
+      <Textbox Name="Textbox1">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Documento No Fiscal</Value>
+                <Style>
+                  <FontFamily>Calibri</FontFamily>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox1</rd:DefaultName>
+        <Top>3.50992cm</Top>
+        <Left>16.02421cm</Left>
+        <Height>0.6cm</Height>
+        <Width>3.24076cm</Width>
+        <ZIndex>24</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Textbox>
     </ReportItems>
     <Height>3.64994in</Height>
     <Style>
@@ -3452,7 +3483,7 @@
       </Border>
     </Style>
   </Body>
-  <Width>7.69109in</Width>
+  <Width>7.73238in</Width>
   <Page>
     <PageHeader>
       <Height>0.3587cm</Height>

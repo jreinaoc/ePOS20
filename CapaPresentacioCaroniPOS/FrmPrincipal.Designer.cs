@@ -53,11 +53,11 @@ namespace CapaVisual_Login
             this.PicBoxListOsc = new System.Windows.Forms.PictureBox();
             this.PicBoxClientOsc = new System.Windows.Forms.PictureBox();
             this.PicBoxConfigOsc = new System.Windows.Forms.PictureBox();
+            this.pictBoxPagoMovilOsc = new System.Windows.Forms.PictureBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.BtnMinimizar = new System.Windows.Forms.Button();
-            this.pictBoxPagoMovilOsc = new System.Windows.Forms.PictureBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.GbxMenuPrincipal.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictBoxListaFactura)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -82,6 +82,7 @@ namespace CapaVisual_Login
             this.PnlListadoOrdenes.Name = "PnlListadoOrdenes";
             this.PnlListadoOrdenes.Size = new System.Drawing.Size(1130, 771);
             this.PnlListadoOrdenes.TabIndex = 13;
+            this.PnlListadoOrdenes.Paint += new System.Windows.Forms.PaintEventHandler(this.PnlListadoOrdenes_Paint);
             // 
             // GbxMenuPrincipal
             // 
@@ -404,6 +405,27 @@ namespace CapaVisual_Login
             this.PicBoxConfigOsc.TabIndex = 20;
             this.PicBoxConfigOsc.TabStop = false;
             // 
+            // pictBoxPagoMovilOsc
+            // 
+            this.pictBoxPagoMovilOsc.Image = ((System.Drawing.Image)(resources.GetObject("pictBoxPagoMovilOsc.Image")));
+            this.pictBoxPagoMovilOsc.Location = new System.Drawing.Point(9, 151);
+            this.pictBoxPagoMovilOsc.Name = "pictBoxPagoMovilOsc";
+            this.pictBoxPagoMovilOsc.Size = new System.Drawing.Size(28, 31);
+            this.pictBoxPagoMovilOsc.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictBoxPagoMovilOsc.TabIndex = 26;
+            this.pictBoxPagoMovilOsc.TabStop = false;
+            this.pictBoxPagoMovilOsc.Visible = false;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(9, 188);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(28, 31);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBox1.TabIndex = 27;
+            this.pictureBox1.TabStop = false;
+            // 
             // label2
             // 
             this.label2.BackColor = System.Drawing.Color.White;
@@ -439,27 +461,6 @@ namespace CapaVisual_Login
             this.BtnMinimizar.Text = "__";
             this.BtnMinimizar.UseVisualStyleBackColor = false;
             this.BtnMinimizar.Click += new System.EventHandler(this.BtnMinimizar_Click);
-            // 
-            // pictBoxPagoMovilOsc
-            // 
-            this.pictBoxPagoMovilOsc.Image = ((System.Drawing.Image)(resources.GetObject("pictBoxPagoMovilOsc.Image")));
-            this.pictBoxPagoMovilOsc.Location = new System.Drawing.Point(9, 151);
-            this.pictBoxPagoMovilOsc.Name = "pictBoxPagoMovilOsc";
-            this.pictBoxPagoMovilOsc.Size = new System.Drawing.Size(28, 31);
-            this.pictBoxPagoMovilOsc.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.pictBoxPagoMovilOsc.TabIndex = 26;
-            this.pictBoxPagoMovilOsc.TabStop = false;
-            this.pictBoxPagoMovilOsc.Visible = false;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(9, 188);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(28, 31);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.pictureBox1.TabIndex = 27;
-            this.pictureBox1.TabStop = false;
             // 
             // FrmPrincipal
             // 

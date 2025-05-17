@@ -7,6 +7,8 @@ using System.Data;
 using System.Text;
 using System.Windows.Forms;
 using CapaEntidades;
+//using CapaLogica.Anulacion_Logica;
+using CapaDatos.Anulacion;
 
 namespace CapaLogica.Impresora_Fiscal
 {
@@ -19,6 +21,7 @@ namespace CapaLogica.Impresora_Fiscal
         private D_DetalleOrden _D_DetalleOrden = new D_DetalleOrden();
         public string NumeroNCFiscal = "";
         //private FrmMensajes _FrmMensajes = new FrmMensajes();
+        D_Anulacion _D_Anulacion = new D_Anulacion();
 
         public void IniciarImpresora(int Opcion)
         {
@@ -616,22 +619,31 @@ namespace CapaLogica.Impresora_Fiscal
 
         public bool VerficarConexionImpresoraFiscal()
         {
-            VmaxComVe.VmaxComClass objVmax = new VmaxComVe.VmaxComClass();
+            //VmaxComVe.VmaxComClass objVmax = new VmaxComVe.VmaxComClass();
             stringBuilder.Clear();
             uint resp = 0;
             bool Conexion = false;
+            string status;
 
+           
             try
             {
-                resp = objVmax.AbrirPuerto(Convert.ToString(glbPuertoCOM));
+                VmaxComVe.VmaxComClass objVmax = new VmaxComVe.VmaxComClass();
+                uint ret = 0;
 
-                if (resp != 0)
+                ret = objVmax.AbrirPuerto(Convert.ToString(glbPuertoCOM));
+                ret = objVmax.ObtenerEstadoImpresora();
+               
+                if (ret != 16 && ret != 0)
                 {
-                    objVmax.Cancelar();
-                    objVmax.Cerrar();
+                    //resp = objVmax.AbrirCF("", "", "1", "1", "12345", "", "", 40);
+                    //objVmax.Cancelar();
+                    //objVmax.Cerrar();
                     objVmax.CerrarPuerto();
                     stringBuilder.Append(Environment.NewLine + "No hay conexión con la impresora fiscal");
                     Conexion = false;
+                    _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, "No hay conexión con la impresora fiscal");
+
 
                 }
 
@@ -641,6 +653,54 @@ namespace CapaLogica.Impresora_Fiscal
                     objVmax.Cancelar();
                     objVmax.Cerrar();
                     objVmax.CerrarPuerto();
+                }
+
+                return Conexion;
+            }
+
+            catch (Exception ex)
+            {
+                stringBuilder.Append("Por favor comunicarse con el Dpto de sistemas y reportar el siguiente error: " + Environment.NewLine + string.Format("Error: {0}", ex.Message));
+                return false;
+            }
+        }
+
+        public bool VerficarConexionImpresoraFiscalSinCerrar()
+        {
+            //VmaxComVe.VmaxComClass objVmax = new VmaxComVe.VmaxComClass();
+            stringBuilder.Clear();
+            uint resp = 0;
+            bool Conexion = false;
+            string status;
+
+
+            try
+            {
+                VmaxComVe.VmaxComClass objVmax = new VmaxComVe.VmaxComClass();
+                uint ret = 0;
+
+                ret = objVmax.AbrirPuerto(Convert.ToString(glbPuertoCOM));
+                ret = objVmax.ObtenerEstadoImpresora();
+
+                if (ret != 16 && ret != 0)
+                {
+                    //resp = objVmax.AbrirCF("", "", "1", "1", "12345", "", "", 40);
+                    //objVmax.Cancelar();
+                    //objVmax.Cerrar();
+                    objVmax.CerrarPuerto();
+                    stringBuilder.Append(Environment.NewLine + "No hay conexión con la impresora fiscal");
+                    Conexion = false;
+                    _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, "No hay conexión con la impresora fiscal");
+
+
+                }
+
+                else
+                {
+                    Conexion = true;
+                    //objVmax.Cancelar();
+                    //objVmax.Cerrar();
+                    //objVmax.CerrarPuerto();
                 }
 
                 return Conexion;
