@@ -62,11 +62,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-<<<<<<< HEAD
-        <dsig:DigestValue>u/II7qo0GBcaX5ywjY0SZGqb3AKjGd3EMHhnkJcewLs=</dsig:DigestValue>
-=======
         <dsig:DigestValue>MSEJceSYscX6TN23cu6i+r0qzRW3VS9BTBwbAOnmvFs=</dsig:DigestValue>
->>>>>>> CorreccionesVarias
       </hash>
     </dependentAssembly>
   </dependency>
@@ -78,11 +74,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-<<<<<<< HEAD
-        <dsig:DigestValue>eEUznKIbHuQmrTWUKdCj6xBjqhej7CmlxSg4JGuxfs0=</dsig:DigestValue>
-=======
         <dsig:DigestValue>yZcG8HYX+WsxX7BMpUnVLpPqMu3LdZsx1JV2zo/EDiE=</dsig:DigestValue>
->>>>>>> CorreccionesVarias
       </hash>
     </dependentAssembly>
   </dependency>
@@ -94,11 +86,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-<<<<<<< HEAD
-        <dsig:DigestValue>RlM9oL1adhCdhQ1ps0dLKqNg/WjDtRPav7R6qEI4K2s=</dsig:DigestValue>
-=======
         <dsig:DigestValue>MAzJXHrqMK8FPcW1bGkRpPkg88c7Gc0b7XTYK/qJc1M=</dsig:DigestValue>
->>>>>>> CorreccionesVarias
       </hash>
     </dependentAssembly>
   </dependency>
@@ -206,9 +194,6 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-<<<<<<< HEAD
-        <dsig:DigestValue>jak6QZ+/4nQ2ByTHqZDSfX6VGK31VzbZtwS2kV+6+eY=</dsig:DigestValue>
-=======
         <dsig:DigestValue>Z18hpq8XcqV39uhXmKWEeZUHFiVC1+KF7rMHP8FX/og=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
@@ -294,7 +279,6 @@
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
         <dsig:DigestValue>6lzgk/XI8LbL/2zgv7w9IfETsiB2GbLS0M0kki7Dvdk=</dsig:DigestValue>
->>>>>>> CorreccionesVarias
       </hash>
     </dependentAssembly>
   </dependency>
@@ -1303,21 +1287,13 @@
       <dsig:DigestValue>V/mIEnaNA7+y6AYCdZ7ovh0pOL9ya/R1ocUuN+BTkHw=</dsig:DigestValue>
     </hash>
   </file>
-<<<<<<< HEAD
-  <file name="ePOS.exe.config" size="1782">
-=======
-  <file name="ePOS.exe.config" size="2509">
->>>>>>> CorreccionesVarias
+  <file name="ePOS.exe.config" size="2489">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-<<<<<<< HEAD
-      <dsig:DigestValue>r0+31fcR58uL4v1CqZT0MGj92mzReFtX4NlBoQlF594=</dsig:DigestValue>
-=======
-      <dsig:DigestValue>g35v21Oq1mR8x5Y44HFB3bhXSSGyrhIPrrwfm/fS/Vc=</dsig:DigestValue>
->>>>>>> CorreccionesVarias
+      <dsig:DigestValue>9/ClwygD6J/t/kBoOUqZWjRePAxaiv1n1+hnHOKR+TA=</dsig:DigestValue>
     </hash>
   </file>
   <file name="icono-puntoDeVenta.ico" size="205662">

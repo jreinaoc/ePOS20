@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 C:\Programacion\CaroniPOS1\CapaLogica\bin\Debug\CapaLogica.dll
 C:\Programacion\CaroniPOS1\CapaLogica\bin\Debug\CapaLogica.pdb
 C:\Programacion\CaroniPOS1\CapaLogica\bin\Debug\CapaDatos.dll
@@ -50,17 +49,6 @@ C:\Users\jreina\source\repos\CaroniPOS3\CapaLogica\obj\Debug\CapaLogica.csproj.C
 C:\Users\jreina\source\repos\CaroniPOS3\CapaLogica\obj\Debug\CapaLogica.csproj.CopyComplete
 C:\Users\jreina\source\repos\CaroniPOS3\CapaLogica\obj\Debug\CapaLogica.dll
 C:\Users\jreina\source\repos\CaroniPOS3\CapaLogica\obj\Debug\CapaLogica.pdb
-C:\Desarrollo2022\CaroniPOS1\CapaLogica\bin\Debug\CapaLogica.dll
-C:\Desarrollo2022\CaroniPOS1\CapaLogica\bin\Debug\CapaLogica.pdb
-C:\Desarrollo2022\CaroniPOS1\CapaLogica\bin\Debug\CapaDatos.dll
-C:\Desarrollo2022\CaroniPOS1\CapaLogica\bin\Debug\CapaEntidades.dll
-C:\Desarrollo2022\CaroniPOS1\CapaLogica\bin\Debug\log4net.dll
-C:\Desarrollo2022\CaroniPOS1\CapaLogica\bin\Debug\Newtonsoft.Json.dll
-C:\Desarrollo2022\CaroniPOS1\CapaLogica\bin\Debug\System.Configuration.ConfigurationManager.dll
-C:\Desarrollo2022\CaroniPOS1\CapaLogica\bin\Debug\System.Security.AccessControl.dll
-C:\Desarrollo2022\CaroniPOS1\CapaLogica\bin\Debug\System.Security.Permissions.dll
-C:\Desarrollo2022\CaroniPOS1\CapaLogica\bin\Debug\System.Security.Principal.Windows.dll
-=======
 C:\projects\EPOS20\CapaLogica\bin\Debug\CapaLogica.dll.config
 C:\projects\EPOS20\CapaLogica\bin\Debug\CapaLogica.dll
 C:\projects\EPOS20\CapaLogica\bin\Debug\CapaLogica.pdb
@@ -143,6 +131,9 @@ C:\projects\EPOS20\CapaLogica\obj\Debug\CapaLogica.csproj.CoreCompileInputs.cach
 C:\projects\EPOS20\CapaLogica\obj\Debug\CapaLogica.csproj.CopyComplete
 C:\projects\EPOS20\CapaLogica\obj\Debug\CapaLogica.dll
 C:\projects\EPOS20\CapaLogica\obj\Debug\CapaLogica.pdb
+C:\Desarrollo2022\CaroniPOS1\CapaLogica\obj\Debug\CapaLogica.csproj.ResolveComReference.cache
+C:\Desarrollo2022\CaroniPOS1\CapaLogica\obj\Debug\CapaLogica.csproj.CoreCompileInputs.cache
+C:\Desarrollo2022\CaroniPOS1\CapaLogica\obj\Debug\CapaLogica.csproj.AssemblyReference.cache
 C:\Desarrollo2022\CaroniPOS1\CapaLogica\bin\Debug\CapaLogica.dll.config
 C:\Desarrollo2022\CaroniPOS1\CapaLogica\bin\Debug\CapaLogica.dll
 C:\Desarrollo2022\CaroniPOS1\CapaLogica\bin\Debug\CapaLogica.pdb
@@ -190,20 +181,11 @@ C:\Desarrollo2022\CaroniPOS1\CapaLogica\bin\Debug\System.Security.Permissions.dl
 C:\Desarrollo2022\CaroniPOS1\CapaLogica\bin\Debug\System.Security.Principal.Windows.dll
 C:\Desarrollo2022\CaroniPOS1\CapaLogica\bin\Debug\System.Threading.Tasks.Extensions.dll
 C:\Desarrollo2022\CaroniPOS1\CapaLogica\bin\Debug\System.ValueTuple.dll
->>>>>>> CorreccionesVarias
 C:\Desarrollo2022\CaroniPOS1\CapaLogica\bin\Debug\VmaxComVe.dll
 C:\Desarrollo2022\CaroniPOS1\CapaLogica\bin\Debug\CapaDatos.pdb
 C:\Desarrollo2022\CaroniPOS1\CapaLogica\bin\Debug\CapaDatos.dll.config
 C:\Desarrollo2022\CaroniPOS1\CapaLogica\bin\Debug\CapaEntidades.pdb
 C:\Desarrollo2022\CaroniPOS1\CapaLogica\bin\Debug\CapaEntidades.dll.config
-<<<<<<< HEAD
-C:\Desarrollo2022\CaroniPOS1\CapaLogica\bin\Debug\log4net.xml
-C:\Desarrollo2022\CaroniPOS1\CapaLogica\bin\Debug\Newtonsoft.Json.xml
-C:\Desarrollo2022\CaroniPOS1\CapaLogica\bin\Debug\System.Configuration.ConfigurationManager.xml
-C:\Desarrollo2022\CaroniPOS1\CapaLogica\bin\Debug\System.Security.AccessControl.xml
-C:\Desarrollo2022\CaroniPOS1\CapaLogica\bin\Debug\System.Security.Permissions.xml
-C:\Desarrollo2022\CaroniPOS1\CapaLogica\bin\Debug\System.Security.Principal.Windows.xml
-=======
 C:\Desarrollo2022\CaroniPOS1\CapaLogica\bin\Debug\BouncyCastle.Cryptography.xml
 C:\Desarrollo2022\CaroniPOS1\CapaLogica\bin\Debug\ClosedXML.xml
 C:\Desarrollo2022\CaroniPOS1\CapaLogica\bin\Debug\ClosedXML.Parser.xml
@@ -246,10 +228,6 @@ C:\Desarrollo2022\CaroniPOS1\CapaLogica\bin\Debug\System.Security.Permissions.xm
 C:\Desarrollo2022\CaroniPOS1\CapaLogica\bin\Debug\System.Security.Principal.Windows.xml
 C:\Desarrollo2022\CaroniPOS1\CapaLogica\bin\Debug\System.Threading.Tasks.Extensions.xml
 C:\Desarrollo2022\CaroniPOS1\CapaLogica\bin\Debug\System.ValueTuple.xml
->>>>>>> CorreccionesVarias
-C:\Desarrollo2022\CaroniPOS1\CapaLogica\obj\Debug\CapaLogica.csproj.AssemblyReference.cache
-C:\Desarrollo2022\CaroniPOS1\CapaLogica\obj\Debug\CapaLogica.csproj.ResolveComReference.cache
-C:\Desarrollo2022\CaroniPOS1\CapaLogica\obj\Debug\CapaLogica.csproj.CoreCompileInputs.cache
 C:\Desarrollo2022\CaroniPOS1\CapaLogica\obj\Debug\CapaLogica.csproj.CopyComplete
 C:\Desarrollo2022\CaroniPOS1\CapaLogica\obj\Debug\CapaLogica.dll
 C:\Desarrollo2022\CaroniPOS1\CapaLogica\obj\Debug\CapaLogica.pdb
