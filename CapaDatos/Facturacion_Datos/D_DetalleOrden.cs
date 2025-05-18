@@ -616,7 +616,7 @@ namespace CapaDatos.DetalleOrden_Datos
 
         public string GetAbono(string Cod_Sucursal, string NumOrdserv, string Revision, string Tipo_Pago, string Cod_Banco, string Abo_CTATARJETA, string Abo_CVCNROCHEQUE, string Abo_Fecha, double Abo_Monto, string Abo_Tipo,
     string Tipo_Pto, string CodPunto, string Anulado, string Fec_Crea, string Fec_Mod, string USER_Crea, string USER_Mod, string Fecha, string Fecha_Abono, string Cod_BancoRecep, Double Tasa_Abono, Double Abo_Monto_Divisa, string Abo_Monto_SinIGTF,
-    string Abo_IGTF, string OrSer_Tipo_Mon, Double Tasa_Dolar)
+    string Abo_IGTF, string OrSer_Tipo_Mon, Double Tasa_Dolar, Double recibidoREF)
         {
             try
             {
@@ -648,7 +648,8 @@ namespace CapaDatos.DetalleOrden_Datos
                 cmd.Parameters.AddWithValue("@Abo_Monto_SinIGTF", Abo_Monto_SinIGTF);
                 cmd.Parameters.AddWithValue("@Abo_IGTF", Abo_IGTF);
                 cmd.Parameters.AddWithValue("@OrSer_Tipo_Mon", OrSer_Tipo_Mon);
-                cmd.Parameters.AddWithValue("@Tasa_Dolar", Tasa_Dolar);    
+                cmd.Parameters.AddWithValue("@Tasa_Dolar", Tasa_Dolar);
+                cmd.Parameters.AddWithValue("@RecibidoREF", recibidoREF);
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(dt);
@@ -1682,7 +1683,8 @@ public void MovimientoInventario(string CodArticulo, string TipoDoc, string Docu
         {
             try
             {
-                SqlCommand cmd = new SqlCommand(" INSERT INTO TEMP_ABONO select c.* FROM TB_ABONO  C left join TEMP_ABONO d on d.Cod_Sucursal = c.Cod_Sucursal and d.NumOrdserv = c.NumOrdserv and d.Revision = c.Revision WHERE c.cod_sucursal = @Cod_Sucursal AND c.NumOrdserv = @NumOrdserv and c.Revision = @Revision", cn.LeerCadena());
+     
+                SqlCommand cmd = new SqlCommand(" INSERT INTO TEMP_ABONO select c.*,null FROM TB_ABONO  C left join TEMP_ABONO d on d.Cod_Sucursal = c.Cod_Sucursal and d.NumOrdserv = c.NumOrdserv and d.Revision = c.Revision WHERE c.cod_sucursal = @Cod_Sucursal AND c.NumOrdserv = @NumOrdserv and c.Revision = @Revision", cn.LeerCadena());
                 cmd.CommandType = CommandType.Text;
                 cmd.Parameters.AddWithValue("@Cod_Sucursal", Cod_Sucursal);
                 cmd.Parameters.AddWithValue("@NumOrdserv", NumOrdserv);

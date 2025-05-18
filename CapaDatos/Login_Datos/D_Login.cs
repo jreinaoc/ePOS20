@@ -68,5 +68,30 @@ namespace CapaDatos.Login_Datos
             return HASH;
             
         }
+
+        public void BloquearUsuario(string IdUsuario)
+        {
+            SqlCommand cmd = new SqlCommand("UPDATE TB_USUARIO SET Bloqueado=1 where COD_EMPLEADO= @usuario", cn.LeerCadena());
+            cmd.CommandType = CommandType.Text;
+            cmd.Parameters.AddWithValue("@usuario", IdUsuario);
+            cmd.ExecuteNonQuery();
+        }
+
+        public int IntentoLogInMax()
+        {
+            int intentosPermitidos = 3; 
+
+            SqlCommand cmd = new SqlCommand("SELECT Valor FROM TB_PARAMETRO WHERE Parametro = 'IntentoLoginMax'", cn.LeerCadena());
+               
+            object result = cmd.ExecuteScalar();
+                   if (result != null && int.TryParse(result.ToString(), out int valorDB))
+                   {
+                      intentosPermitidos = valorDB;
+                   }
+
+            return intentosPermitidos;
+
+        }
+
     }
 }

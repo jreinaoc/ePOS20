@@ -87,6 +87,7 @@ namespace CapaVisual_Login
             this.PnlListadoOrdenes.Name = "PnlListadoOrdenes";
             this.PnlListadoOrdenes.Size = new System.Drawing.Size(1130, 771);
             this.PnlListadoOrdenes.TabIndex = 13;
+            this.PnlListadoOrdenes.Paint += new System.Windows.Forms.PaintEventHandler(this.PnlListadoOrdenes_Paint);
             // 
             // GbxMenuPrincipal
             // 

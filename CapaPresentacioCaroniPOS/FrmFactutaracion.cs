@@ -133,6 +133,8 @@ namespace CapaVisual_Login
             CbxBillete.Items.Add("50");
             CbxBillete.Items.Add("100");
             _L_Facturacion.CrearTablaBilletes(Dt_Billetes);
+
+            
         }
 
         public void ColorearStatus()
@@ -182,7 +184,6 @@ namespace CapaVisual_Login
             string DiaActual = (DateTime.Now.ToString("dd/MM/yyyy"));
             string DiaActivo = _D_Inicio.DiaActivo().ToShortDateString();
 
-            
             if (DiaActivo != DiaActual)
             {
                 _FrmMensajes.co = 2;
@@ -193,7 +194,7 @@ namespace CapaVisual_Login
             }
 
             //validar si es factura manual 
-            
+
             if (_L_Facturacion.ValidaFactManual() == false)
             {
                 if (_L_Facturacion.stringBuilder.ToString().Length > 2)
@@ -371,7 +372,7 @@ namespace CapaVisual_Login
                 BolivaresConveridos(Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos)), txtMontoBs);
                 //-----------ConvertirBolivares---------------------------
                 //txtMontoBs.Text = _L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos);
-
+                
                 string Resultado_Parametro = _D_DetalleOrden.TB_PARAMETRO("ActivaIGTF");
                 bool Cobro_IGTF = Convert.ToBoolean(Convert.ToInt32(Resultado_Parametro));
                 double MontoFaltanteIgtfbs = 0.00;
@@ -397,7 +398,24 @@ namespace CapaVisual_Login
                         if (Convert.ToDouble(TxtRecibidoREF.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtRecibidoREF.Text)) >= Convert.ToDouble(txtRef.Text == "" ? (Double)0.00 : Convert.ToDouble(txtRef.Text)))
                         {
                             TxtVuelto.Text = String.Format(CultureInfo.InvariantCulture, "{0:0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtRecibidoREF.Text))) - Convert.ToDouble(txtRef.Text == "" ? (Double)0.00 : Convert.ToDouble(txtRef.Text)), 2));
-                            TxtMontoPagoMovil.Text = String.Format(CultureInfo.InvariantCulture, "{0:0.00}", Math.Round(Convert.ToDouble(TB_TASA_Dolar.Tasa) * ((Convert.ToDouble(TxtRecibidoREF.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtRecibidoREF.Text))) - Convert.ToDouble(txtRef.Text == "" ? (Double)0.00 : Convert.ToDouble(txtRef.Text))), 2));
+                            //TxtMontoPagoMovil.Text = String.Format(CultureInfo.InvariantCulture, "{0:0.00}", Math.Round(Convert.ToDouble(TB_TASA_Dolar.Tasa) * ((Convert.ToDouble(TxtRecibidoREF.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtRecibidoREF.Text))) - Convert.ToDouble(txtRef.Text == "" ? (Double)0.00 : Convert.ToDouble(txtRef.Text))), 2));
+                            Double OtrosAbonos = Convert.ToDouble(_L_Facturacion.TotalizarAbono(DgvAbonos));
+                            string saldo_bolivares = Convert.ToString(Math.Round((double)((Convert.ToDouble(TxtSaldoOrd.Text.Replace(".", "")))), 2));
+                            //fact solo con divisa o haciendo un pago sin cambiar el monto
+                            //if (Convert.ToDouble(txtRef.Text) >= Convert.ToDouble(TxtSaldoRef_2.Text))
+                            //{
+                            //    TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - (Convert.ToDouble(TxtSaldoOrd.Text) + Convert.ToDouble(txtIGTF.Text)), 2));
+                            //}
+                            //else
+                            //{
+                            if (Convert.ToDouble(txtRef.Text) >= Convert.ToDouble(TxtSaldoRef_2.Text) || OtrosAbonos > 0)
+                            {
+                                TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - ((Convert.ToDouble(saldo_bolivares) - OtrosAbonos) + Convert.ToDouble(txtIGTF.Text)), 2));
+                            }
+                            else
+                            {
+                                TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - ((Convert.ToDouble(txtRef.Text)) * Convert.ToDouble(txtTasaFact.Text)), 2));
+                            }
                         }
 
                     }
@@ -427,7 +445,24 @@ namespace CapaVisual_Login
                             if (Convert.ToDouble(TxtRecibidoREF.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtRecibidoREF.Text)) >= Convert.ToDouble(txtRef.Text == "" ? (Double)0.00 : Convert.ToDouble(txtRef.Text)))
                             {
                                 TxtVuelto.Text = String.Format(CultureInfo.InvariantCulture, "{0:0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtRecibidoREF.Text))) - Convert.ToDouble(txtRef.Text == "" ? (Double)0.00 : Convert.ToDouble(txtRef.Text)), 2));
-                                TxtMontoPagoMovil.Text = String.Format(CultureInfo.InvariantCulture, "{0:0.00}", Math.Round(Convert.ToDouble(TB_TASA_Euro.Tasa) * ((Convert.ToDouble(TxtRecibidoREF.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtRecibidoREF.Text))) - Convert.ToDouble(txtRef.Text == "" ? (Double)0.00 : Convert.ToDouble(txtRef.Text))), 2));
+                                //TxtMontoPagoMovil.Text = String.Format(CultureInfo.InvariantCulture, "{0:0.00}", Math.Round(Convert.ToDouble(TB_TASA_Euro.Tasa) * ((Convert.ToDouble(TxtRecibidoREF.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtRecibidoREF.Text))) - Convert.ToDouble(txtRef.Text == "" ? (Double)0.00 : Convert.ToDouble(txtRef.Text))), 2));
+                                Double OtrosAbonos = Convert.ToDouble(_L_Facturacion.TotalizarAbono(DgvAbonos));
+                                string saldo_bolivares = Convert.ToString(Math.Round((double)((Convert.ToDouble(TxtSaldoOrd.Text.Replace(".", "")))), 2));
+                                //fact solo con divisa o haciendo un pago sin cambiar el monto
+                                //if (Convert.ToDouble(txtRef.Text) >= Convert.ToDouble(TxtSaldoRef_2.Text))
+                                //{
+                                //    TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - (Convert.ToDouble(TxtSaldoOrd.Text) + Convert.ToDouble(txtIGTF.Text)), 2));
+                                //}
+                                //else
+                                //{
+                                if (Convert.ToDouble(txtRef.Text) >= Convert.ToDouble(TxtSaldoRef_2.Text) || OtrosAbonos > 0)
+                                {
+                                    TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - ((Convert.ToDouble(saldo_bolivares) - OtrosAbonos) + Convert.ToDouble(txtIGTF.Text)), 2));
+                                }
+                                else
+                                {
+                                    TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - ((Convert.ToDouble(txtRef.Text)) * Convert.ToDouble(txtTasaFact.Text)), 2));
+                                }
                             }
 
                         }
@@ -452,7 +487,11 @@ namespace CapaVisual_Login
                         _FrmMensajes.ShowDialog();
                     }
 
+
                 }
+
+                txtTotalRef.Text = string.Format("{0:#,0.00}", Convert.ToDecimal(Convert.ToDouble(txtRef.Text.Replace(".", "")) + Convert.ToDouble(txtIGTF.Text.Replace(".", ""))));
+
 
             }
 
@@ -744,6 +783,7 @@ namespace CapaVisual_Login
 
         private void btnCancelar2_Click(object sender, EventArgs e)
         {
+            
             LimpiaVariablesIdAbonoPagoMovil();
             VisualizarPanel("MostrarPanelPrincipal");
             LimpiarTxbox();
@@ -816,7 +856,7 @@ namespace CapaVisual_Login
             label21.Location = new Point(199, 156);
             DtpFecha.Visible = true;
             DtpFecha.Location = new Point(203, 178);
-            label6.Location = new Point(324, 155);
+            label6.Location = new Point(32, 184);
             TxtVuelto.Location = new Point(328, 178);
             label22.Visible = true;
             label71.Visible = false;
@@ -1111,8 +1151,16 @@ namespace CapaVisual_Login
 
                                 }
                                 idAbonoPagoMovil = CantAbonosPrevios + Dt_Abonos.Rows.Count + 1;
+
+                                double recibidoREF = 0; ;
+                                if (TxtRecibidoREF.Text != "" && TxtRecibidoREF.Text != "0.00")
+                                {
+                                    double reftotal = Convert.ToDouble(TxtRecibidoREF.Text.Replace(".", ""));
+                                    double tasa = Convert.ToDouble(txtTasaFact.Text.Replace(".", ""));
+                                    recibidoREF = reftotal * tasa;
+                                }
                                 // Guardo el Abono y retotno a la pantalla principal 
-                                _L_Facturacion.GuardarAbonoGrid(idAbonoPagoMovil, Dt_Abonos, CbxMetodosPago2.Text, CbxMoneda.Text, CbxBanco.Text, txtMonto2Bs.Text, "0000", DtpFecha.Value.ToString(), "021", CbxBanco.SelectedValue.ToString(), "", TxtVuelto.Text, txtRef.Text, txtIGTF.Text);
+                                _L_Facturacion.GuardarAbonoGrid(idAbonoPagoMovil, Dt_Abonos, CbxMetodosPago2.Text, CbxMoneda.Text, CbxBanco.Text, txtMonto2Bs.Text, "0000", DtpFecha.Value.ToString(), "021", CbxBanco.SelectedValue.ToString(), "", TxtVuelto.Text, txtRef.Text, txtIGTF.Text,"","","","","000", Convert.ToString(recibidoREF));
 
                                 //'Valido que recibido ref no este vacio para guardar el pago si no continuo mi proceso normal 
                                 if (TxtRecibidoREF.Text != "" && TxtRecibidoREF.Text != "0.00")
@@ -1121,7 +1169,7 @@ namespace CapaVisual_Login
                                     if (Convert.ToDouble(TxtRecibidoREF.Text) <= Convert.ToDouble(txtRef.Text))
                                     {
                                         _FrmMensajes.co = 2;
-                                        _FrmMensajes.avisomensaje("El Monto recibido debe ser mayor a: " + txtRef.Text + ".");
+                                        _FrmMensajes.avisomensaje("El Monto recibido debe ser mayor a: " + txtRef.Text + "");
                                         _FrmMensajes.ShowDialog();
                                         TxtRecibidoREF.Text = "";
                                         TxtRecibidoREF.Focus();
@@ -1463,18 +1511,18 @@ namespace CapaVisual_Login
                     if (TotalAbono == Math.Round(TB_CAORDSER.OrSer_Saldo + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos)), 2))
                     {
                         if (_L_Facturacion.ValidaFactManual() == false)
-                    {
-                        if (_Impresora_Fiscal.VerficarConexionImpresoraFiscal() == false)
                         {
-                            mensaje = _Impresora_Fiscal.stringBuilder.ToString();
-                            rept = "Error";
-                            _FrmMensajes.co = 2;
-                            _FrmMensajes.avisomensaje(mensaje);
-                            _FrmMensajes.ShowDialog();
-                            btnCancelar1.PerformClick();
-                            return;
+                            if (_Impresora_Fiscal.VerficarConexionImpresoraFiscal() == false)
+                            {
+                                mensaje = _Impresora_Fiscal.stringBuilder.ToString();
+                                rept = "Error";
+                                _FrmMensajes.co = 2;
+                                _FrmMensajes.avisomensaje(mensaje);
+                                _FrmMensajes.ShowDialog();
+                                btnCancelar1.PerformClick();
+                                return;
+                            }
                         }
-                    }
 
                     }
 
@@ -2099,8 +2147,15 @@ namespace CapaVisual_Login
             
                 string saldo_ref_2 = Convert.ToString(Math.Round((double)((Convert.ToDouble(TxtSaldoOrd.Text.Replace(".", "")) - IgtfAbonado_2) / TB_TASA_Dolar.Tasa), 2));
             saldo_ref_2 = string.Format("{0:#,0.00}", Convert.ToDecimal(saldo_ref_2));
-            TxtSaldoRef_2.Text = saldo_ref_2;
-            TxtSaldoOrd_2.Text = saldo_bolivares_2;
+                if (TB_CAORDSER.OrSer_Status == "004")
+                {
+                    TxtSaldoRef_2.Text = TxtMontoRef.Text;
+                }
+                else
+                {
+                    TxtSaldoRef_2.Text = saldo_ref_2;
+                }
+                TxtSaldoOrd_2.Text = saldo_bolivares_2;
             }
 
 
@@ -2155,6 +2210,17 @@ namespace CapaVisual_Login
                 txtRef.Text = String.Format(CultureInfo.InvariantCulture, "{0:0.00}", txtRef.Text).Replace(".", ",");
             }
 
+            //if (TxtRecibidoREF.Text == "")
+            //{
+            //    TxtRecibidoREF.Text = "0,00";
+            //}
+            //else
+            //{
+            //    TxtRecibidoREF.Text = String.Format(CultureInfo.InvariantCulture, "{0:0.00}", TxtRecibidoREF.Text).Replace(".", ",");
+            //}
+
+           
+
             BolivaresConveridos(Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos)), txtMontoBs);
             //-----------ConvertirBolivares---------------------------
             //txtMontoBs.Text = _L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos);
@@ -2185,7 +2251,24 @@ namespace CapaVisual_Login
                     if (Convert.ToDouble(TxtRecibidoREF.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtRecibidoREF.Text)) >= Convert.ToDouble(txtRef.Text == "" ? (Double)0.00 : Convert.ToDouble(txtRef.Text)))
                     {
                         TxtVuelto.Text = String.Format(CultureInfo.InvariantCulture, "{0:0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtRecibidoREF.Text))) - Convert.ToDouble(txtRef.Text == "" ? (Double)0.00 : Convert.ToDouble(txtRef.Text)), 2));
-                        TxtMontoPagoMovil.Text = String.Format(CultureInfo.InvariantCulture, "{0:0.00}", Math.Round(Convert.ToDouble(TB_TASA_Dolar.Tasa) * ((Convert.ToDouble(TxtRecibidoREF.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtRecibidoREF.Text))) - Convert.ToDouble(txtRef.Text == "" ? (Double)0.00 : Convert.ToDouble(txtRef.Text))), 2));
+                        //TxtMontoPagoMovil.Text = String.Format(CultureInfo.InvariantCulture, "{0:0.00}", Math.Round(Convert.ToDouble(TB_TASA_Dolar.Tasa) * ((Convert.ToDouble(TxtRecibidoREF.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtRecibidoREF.Text))) - Convert.ToDouble(txtRef.Text == "" ? (Double)0.00 : Convert.ToDouble(txtRef.Text))), 2));
+                        Double OtrosAbonos = Convert.ToDouble(_L_Facturacion.TotalizarAbono(DgvAbonos));
+                        string saldo_bolivares = Convert.ToString(Math.Round((double)((Convert.ToDouble(TxtSaldoOrd.Text.Replace(".", "")))), 2));
+                        //fact solo con divisa o haciendo un pago sin cambiar el monto
+                        //if (Convert.ToDouble(txtRef.Text) >= Convert.ToDouble(TxtSaldoRef_2.Text))
+                        //{
+                        //    TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - (Convert.ToDouble(TxtSaldoOrd.Text) + Convert.ToDouble(txtIGTF.Text)), 2));
+                        //}
+                        //else
+                        //{
+                        //if (Convert.ToDouble(txtRef.Text) >= Convert.ToDouble(TxtSaldoRef_2.Text) || OtrosAbonos > 0)
+                        //{
+                        //    TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - ((Convert.ToDouble(saldo_bolivares) - OtrosAbonos) + Convert.ToDouble(txtIGTF.Text)), 2));
+                        //}
+                        //else
+                        //{
+                        //    TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - ((Convert.ToDouble(txtRef.Text)) * Convert.ToDouble(txtTasaFact.Text)), 2));
+                        //}
                     }
 
                 }
@@ -2216,7 +2299,24 @@ namespace CapaVisual_Login
                         if (Convert.ToDouble(TxtRecibidoREF.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtRecibidoREF.Text)) >= Convert.ToDouble(txtRef.Text == "" ? (Double)0.00 : Convert.ToDouble(txtRef.Text)))
                         {
                             TxtVuelto.Text = String.Format(CultureInfo.InvariantCulture, "{0:0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtRecibidoREF.Text))) - Convert.ToDouble(txtRef.Text == "" ? (Double)0.00 : Convert.ToDouble(txtRef.Text)), 2));
-                            TxtMontoPagoMovil.Text = String.Format(CultureInfo.InvariantCulture, "{0:0.00}", Math.Round(Convert.ToDouble(TB_TASA_Euro.Tasa) * ((Convert.ToDouble(TxtRecibidoREF.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtRecibidoREF.Text))) - Convert.ToDouble(txtRef.Text == "" ? (Double)0.00 : Convert.ToDouble(txtRef.Text))), 2));
+                            //TxtMontoPagoMovil.Text = String.Format(CultureInfo.InvariantCulture, "{0:0.00}", Math.Round(Convert.ToDouble(TB_TASA_Euro.Tasa) * ((Convert.ToDouble(TxtRecibidoREF.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtRecibidoREF.Text))) - Convert.ToDouble(txtRef.Text == "" ? (Double)0.00 : Convert.ToDouble(txtRef.Text))), 2));
+                            Double OtrosAbonos = Convert.ToDouble(_L_Facturacion.TotalizarAbono(DgvAbonos));
+                            string saldo_bolivares = Convert.ToString(Math.Round((double)((Convert.ToDouble(TxtSaldoOrd.Text.Replace(".", "")))), 2));
+                            //fact solo con divisa o haciendo un pago sin cambiar el monto
+                            //if (Convert.ToDouble(txtRef.Text) >= Convert.ToDouble(TxtSaldoRef_2.Text))
+                            //{
+                            //    TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - (Convert.ToDouble(TxtSaldoOrd.Text) + Convert.ToDouble(txtIGTF.Text)), 2));
+                            //}
+                            //else
+                            //{
+                            if (Convert.ToDouble(txtRef.Text) >= Convert.ToDouble(TxtSaldoRef_2.Text) || OtrosAbonos > 0)
+                            {
+                                TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - ((Convert.ToDouble(saldo_bolivares) - OtrosAbonos) + Convert.ToDouble(txtIGTF.Text)), 2));
+                            }
+                            else
+                            {
+                                TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - ((Convert.ToDouble(txtRef.Text)) * Convert.ToDouble(txtTasaFact.Text)), 2));
+                            }
                         }
 
                     }
@@ -2376,6 +2476,26 @@ namespace CapaVisual_Login
         {
             if (CbxMetodosPago.SelectedIndex != -1)
             {
+                if (_L_Facturacion.ValidaFactManual() == false)
+                {
+                    if (_Impresora_Fiscal.VerficarConexionImpresoraFiscal() == false)
+                    {
+                        mensaje = _Impresora_Fiscal.stringBuilder.ToString();
+                        //rept = "Error";
+                        _FrmMensajes.co = 2;
+                        _FrmMensajes.avisomensaje(mensaje);
+                        _FrmMensajes.ShowDialog();
+                        //btnCancelar1.PerformClick();
+                        //return;
+                    }
+                }
+
+                //Tasa
+                label74.Visible = false;
+                txtTasaFact.Visible = false;
+                //TOTAL REF
+                label73.Visible  = false;
+                txtTotalRef.Visible = false;
 
                 if (CbxMetodosPago.Text == "Transferencia Divisa")
                 {
@@ -2432,7 +2552,7 @@ namespace CapaVisual_Login
                     label22.Visible = true;
                     label28.Visible = false;
                     CbxMoneda.Enabled = true;
-                    _L_Facturacion.ComboboxTipoMonedaTranferenciaDivisa(CbxMoneda);
+                    _L_Facturacion.ComboboxTipoMonedaTranferenciaDivisa(CbxMoneda,txtTasaFact);
                     CbxMoneda.SelectedIndex = 0;
                     label5.Visible = true;
                     CbxMoneda.Visible = true;
@@ -2456,6 +2576,7 @@ namespace CapaVisual_Login
                     label45.Text = "Banco";
                     label28.Text = "N° Cuenta/Tarjeta";
                     Bs.Text = "Monto en Bs.";
+                    Bs.Visible = true;
                     CbxPunto_Venta.Visible = false;
                     TxtVuelto.Visible = false;
                     TxtVuelto.Enabled = false;
@@ -2463,23 +2584,45 @@ namespace CapaVisual_Login
                     FalBod = false;
                     Validar_FalBod(CbxBanco, txtTranferencia);
 
+                    //Tasa
+                    label74.Location = new System.Drawing.Point(418, 53);
+                    txtTasaFact.Location = new System.Drawing.Point(418, 75);
+                    label74.Visible = true;
+                    txtTasaFact.Visible = true;
+
+                    //REF
+                    label4.Location = new System.Drawing.Point(33, 118);
+                    txtRef.Location = new System.Drawing.Point(33, 140);
+
+                    //FECHA
+                    label21.Location = new System.Drawing.Point(417, 183);
+                    DtpFecha.Location = new System.Drawing.Point(417, 205);
+
+                    //NRO TRN
+                    label22.Location = new System.Drawing.Point(225, 183);
+                    txtTranferencia.Location = new System.Drawing.Point(225, 205);
+
+                    //BNCO
+                    label45.Location = new System.Drawing.Point(33, 183);
+                    CbxBanco.Location = new System.Drawing.Point(33, 205);
+
                     //Reubicacion de los objetos 
                     label41.Location = new System.Drawing.Point(33, 53);
                     CbxMetodosPago2.Location = new System.Drawing.Point(33, 75);
                     label5.Location = new System.Drawing.Point(226, 53);
                     CbxMoneda.Location = new System.Drawing.Point(226, 75);
-                    label4.Location = new System.Drawing.Point(418, 53);
-                    txtRef.Location = new System.Drawing.Point(418, 75);
-                    label45.Location = new System.Drawing.Point(33, 118);
-                    CbxBanco.Location = new System.Drawing.Point(33, 140);
+                    //label4.Location = new System.Drawing.Point(418, 53);
+                    //txtRef.Location = new System.Drawing.Point(418, 75);
+                    //label45.Location = new System.Drawing.Point(33, 118);
+                    //CbxBanco.Location = new System.Drawing.Point(33, 140);
                     label42.Location = new System.Drawing.Point(225, 118);
                     txtIGTF.Location = new System.Drawing.Point(225, 140);
                     Bs.Location = new System.Drawing.Point(417, 118);
                     txtMonto2Bs.Location = new System.Drawing.Point(417, 140);
-                    label22.Location = new System.Drawing.Point(33, 183);
-                    txtTranferencia.Location = new System.Drawing.Point(33, 205);
-                    label21.Location = new System.Drawing.Point(225, 183);
-                    DtpFecha.Location = new System.Drawing.Point(225, 205);
+                    //label22.Location = new System.Drawing.Point(33, 183);
+                    //txtTranferencia.Location = new System.Drawing.Point(33, 205);
+                    //label21.Location = new System.Drawing.Point(225, 183);
+                    //DtpFecha.Location = new System.Drawing.Point(225, 205);
                     btnCancelar2.Location = new Point(370, 255);
                     btnProcesar2.Location = new Point(491, 255);
 
@@ -2553,7 +2696,7 @@ namespace CapaVisual_Login
                     BolivaresConveridos(Convert.ToDouble(Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) + Convert.ToDouble(txtIGTF.Text)), txtMonto2Bs);
                     //txtMonto2Bs.Text = Convert.ToString(Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) + Convert.ToDouble(txtIGTF.Text));
                     VisualizarPanel("MostrarPanelSecundario");
-                    _L_Facturacion.ComboboxTipoMonedaTranferenciaDivisa(CbxMoneda);
+                    _L_Facturacion.ComboboxTipoMonedaTranferenciaDivisa(CbxMoneda, txtTasaFact );
 
                     label26.Visible = false;
                     txtCVC.Enabled = false;
@@ -2621,6 +2764,12 @@ namespace CapaVisual_Login
                     LimpiarCamposBill();
                     Dt_Billetes.Rows.Clear();
 
+                    //txtTotalRef.Visible = true;
+                    //label73.Visible = true;
+
+                    txtTasaFact.Visible = true;
+                    label74.Visible = true;
+                    Bs.Visible = true;
                     Bs.Font = new Font("Century Gothic", 12, FontStyle.Bold);
                     label71.Font = new Font("Century Gothic", 12, FontStyle.Bold);
                     LblMontoBillete.Font = new Font("Century Gothic", 12, FontStyle.Bold);
@@ -2629,30 +2778,65 @@ namespace CapaVisual_Login
                     label42.Font = new Font("Century Gothic", 12, FontStyle.Bold);
                     label41.Font = new Font("Century Gothic", 12, FontStyle.Bold);
                     label4.Font = new Font("Century Gothic", 12, FontStyle.Bold);
+
+                    //Tasa
+                    label74.Location = new System.Drawing.Point(418, 53);
+                    txtTasaFact.Location = new System.Drawing.Point(418, 75);
+                    label74.Visible = true;
+                    txtTasaFact.Visible = true;
+
+                    //REF
+                    label4.Location = new System.Drawing.Point(33, 118);
+                    txtRef.Location = new System.Drawing.Point(33, 140);
+
+                    //IGTF
+                    label42.Location = new System.Drawing.Point(226, 118);
+                    txtIGTF.Location = new System.Drawing.Point(226, 140);
+
+                    //TOTAL REF
+                    label73.Location = new System.Drawing.Point(418, 118);
+                    txtTotalRef.Location = new System.Drawing.Point(418, 140);
+
+                    //MONTO BS
+                    Bs.Location = new System.Drawing.Point(418, 180);
+                    txtMonto2Bs.Location = new System.Drawing.Point(418, 202);
+
+                    //SERIAL BILLETE
+                    LblCodBillete.Location = new System.Drawing.Point(33, 240);
+                    TxtCodBillete.Location = new System.Drawing.Point(33, 262);
+
+                    //DENOM BILLETE
+                    LblMontoBillete.Location = new System.Drawing.Point(226, 240);
+                    CbxBillete.Location = new System.Drawing.Point(226, 262);
+
                     lbCedulaPago.Font = new Font("Century Gothic", 12, FontStyle.Bold);
                     lbMontoPago.Font = new Font("Century Gothic", 12, FontStyle.Bold);
                     lbBancoPago.Font = new Font("Century Gothic", 12, FontStyle.Bold);
 
+
+                    //RECIBIDO REF
+                    label71.Location = new System.Drawing.Point(33, 180);
+                    TxtRecibidoREF.Location = new System.Drawing.Point(33, 202);
+
+                    //VUELTO
+                    label6.Location = new System.Drawing.Point(226, 180);
+                    TxtVuelto.Location = new System.Drawing.Point(226, 202);
+
                     //Reubicacion de los objetos 
-                    TxtRecibidoREF.Location = new System.Drawing.Point(418, 140);
-                    label71.Location = new System.Drawing.Point(418, 118);
-                    TxtCodBillete.Location = new System.Drawing.Point(226, 202);
-                    LblMontoBillete.Location = new System.Drawing.Point(418, 180);
-                    CbxBillete.Location = new System.Drawing.Point(418, 202);
-                    LblCodBillete.Location = new System.Drawing.Point(226, 180);
-                    DgvBilletes.Location = new System.Drawing.Point(33, 241);
+
+
+
+
+                    DgvBilletes.Location = new System.Drawing.Point(33, 300);
                     label5.Location = new System.Drawing.Point(226, 53);
-                    label42.Location = new System.Drawing.Point(33, 118);
+                   
                     label41.Location = new System.Drawing.Point(33, 53);
-                    label6.Location = new System.Drawing.Point(33, 180);
-                    Bs.Location = new System.Drawing.Point(226, 118);
-                    txtMonto2Bs.Location = new System.Drawing.Point(226, 140);
-                    TxtVuelto.Location = new System.Drawing.Point(33, 202);
+                    
+       
                     CbxMoneda.Location = new System.Drawing.Point(226, 75);
-                    txtIGTF.Location = new System.Drawing.Point(33, 140);
+                   
                     CbxMetodosPago2.Location = new System.Drawing.Point(33, 75);
-                    label4.Location = new System.Drawing.Point(418, 53);
-                    txtRef.Location = new System.Drawing.Point(418, 75);
+                  
                     LbePagoMovil.Location = new System.Drawing.Point(0, 378);
                     btnProcesar2.Location = new System.Drawing.Point(512, 568);
                     btnCancelar2.Location = new System.Drawing.Point(391, 568);
@@ -2686,7 +2870,7 @@ namespace CapaVisual_Login
                     LblMontoBillete.Size = new System.Drawing.Size(207, 19);
                     CbxBillete.Size = new System.Drawing.Size(168, 24);
                     LblCodBillete.Size = new System.Drawing.Size(133, 19);
-                    DgvBilletes.Size = new System.Drawing.Size(553, 120);
+                    DgvBilletes.Size = new System.Drawing.Size(553, 75);
                     label5.Size = new System.Drawing.Size(121, 19);
                     label42.Size = new System.Drawing.Size(41, 19);
                     label41.Size = new System.Drawing.Size(140, 19);
@@ -2703,6 +2887,14 @@ namespace CapaVisual_Login
                     txtRef.Size = new System.Drawing.Size(168, 21);
                     label2.Size = new System.Drawing.Size(653, 35);
                     LbePagoMovil.Size = new System.Drawing.Size(653, 35);
+
+                    double reftotal = Convert.ToDouble(txtRef.Text.Replace(".", ""));
+                    double igtftotal = Convert.ToDouble(txtIGTF.Text.Replace(".", ""));
+                    double tasa = Convert.ToDouble(txtTasaFact.Text.Replace(".", ""));
+
+                    //txtTotalRef.Text = Convert.ToString(reftotal + (igtftotal / tasa));
+                    txtTotalRef.Text = string.Format("{0:#,0.00}", Convert.ToDecimal(reftotal + (igtftotal)));
+
 
 
                 }
@@ -2761,6 +2953,8 @@ namespace CapaVisual_Login
                     LblBancoRecep.Visible = true;
                     CbxBancoRecp.Visible = true;
                     CbxBancoRecp.Enabled = true;
+                    Bs.Visible = true;
+                    
 
                     label45.Text = "Banco Emisor";
                     label28.Text = "N° Cuenta/Tarjeta";
@@ -2865,7 +3059,7 @@ namespace CapaVisual_Login
                     CbxPunto_Venta.Visible = false;
                     CbxPunto_Venta.Enabled = false;
                     LbePagoMovil.Visible = false;
-
+                   
                     label45.Text = "Banco Emisor";
                     label28.Text = "Referencia";
                     Bs.Text = "Monto";
@@ -2969,6 +3163,7 @@ namespace CapaVisual_Login
 
                     label4.Visible = false;
                     txtRef.Visible = false;
+                   
 
 
                     // agregadp para el billete de falbod  13/06/2023
@@ -3042,6 +3237,7 @@ namespace CapaVisual_Login
                     LblBancoRecep.Visible = false;
                     CbxBancoRecp.Visible = false;
                     LbePagoMovil.Visible = false;
+                    Bs.Visible = true;
 
                     label45.Text = "Banco";
                     label28.Text = "N° Tarjeta";
@@ -3139,6 +3335,7 @@ namespace CapaVisual_Login
                         label45.Visible = false;
                         CbxBanco.Enabled = false;
                         LbePagoMovil.Visible = false;
+                        Bs.Visible = true;
 
                         label28.Text = "N° Tarjeta";
                         CbxBanco.SelectedIndex = 30;
@@ -4013,43 +4210,50 @@ namespace CapaVisual_Login
                     ImprimirFacturaFiscall = true;
 
                     uint resp = 0;
-
                     resp = objVmax.AbrirPuerto(Convert.ToString(glbPuertoCOM));
 
-                    if (resp != 0)
+                    //(ret != 16 && ret != 0)
+                    
+                    if (resp != 16 && resp != 0)
                     {
-                        objVmax.CerrarPuerto();
+                        //objVmax.CerrarPuerto();
                         ImprimirFacturaFiscall = false;
 
+                        
                         mensaje = "No hay conexión con la impresora fiscal";
                         _FrmMensajes.co = 2;
                         _FrmMensajes.avisomensaje(mensaje);
                         _FrmMensajes.ShowDialog();
-                        objVmax.Cancelar();
-                        objVmax.Cerrar();
-                        objVmax.CerrarPuerto();
+                        btnCancelar1.PerformClick();
+                        //objVmax.Cancelar();
+                        //objVmax.Cerrar();
+                        //objVmax.CerrarPuerto();
                         return "Error";
                     }
 
                     else
                     {
-
+                       
                         objVmax.AbrirPuerto(Convert.ToString(glbPuertoCOM));
                         bool respuesta = false;
                         // ''''' ********* DATOS DEL CLIENTE ************
                         //resp = objVmax.AbrirCF(txtNombreCliente.Text, (txtCedula.Text.Replace("-","")) , "1", "294", "12345", "", "", 40);
                         resp = objVmax.AbrirCF(txtNombreCliente.Text, txtCedula.Text, "1", "294", "12345", "", "", 40);
 
-                        if (resp != 0)
+                        if (resp != 16 && resp != 0)
                         {
+                            //objVmax.CerrarPuerto();
+                            ImprimirFacturaFiscall = false;
+
+                            
                             mensaje = "No hay conexión con la impresora fiscal";
                             _FrmMensajes.co = 2;
                             _FrmMensajes.avisomensaje(mensaje);
                             _FrmMensajes.ShowDialog();
-                            ImprimirFacturaFiscall = false;
-                            objVmax.Cancelar();
-                            objVmax.Cerrar();
-                            objVmax.CerrarPuerto();
+                            btnCancelar1.PerformClick();
+                            //objVmax.Cancelar();
+                            //objVmax.Cerrar();
+                            //objVmax.CerrarPuerto();
                             return "Error";
                         }
                         else
@@ -4094,19 +4298,36 @@ namespace CapaVisual_Login
 
 
                             resp = objVmax.Item(desart, Convert.ToString(Convert.ToDouble(drItem["Ordserv_Cant"]) * 1000), drItem["OrdServ_Precio"].ToString(), TipoTasaIVA, "1", 40);
+                            if (resp != 16 && resp != 0)
+                            {
+                                //objVmax.CerrarPuerto();
+                                ImprimirFacturaFiscall = false;
 
-                            TotalItems = TotalItems + ((Convert.ToDouble(drItem["OrdServ_Precio"]) * Convert.ToInt32(drItem["Ordserv_Cant"]))) + Convert.ToDouble(drItem["OrdServ_Impuesto"]);
-
+                                //rollbackRealizado = true;
+                                mensaje = "No hay conexión con la impresora fiscal";
+                                _FrmMensajes.co = 2;
+                                _FrmMensajes.avisomensaje(mensaje);
+                                _FrmMensajes.ShowDialog();
+                                btnCancelar1.PerformClick();
+                                //objVmax.Cancelar();
+                                //objVmax.Cerrar();
+                                //objVmax.CerrarPuerto();
+                                return "Error";
+                            }
+                            else
+                            {
+                                TotalItems = TotalItems + ((Convert.ToDouble(drItem["OrdServ_Precio"]) * Convert.ToInt32(drItem["Ordserv_Cant"]))) + Convert.ToDouble(drItem["OrdServ_Impuesto"]);
+                            }
                         }
 
 
                         Double totalpagos = 0;
                         bool sumo01 = false;
 
-
+                        
                         // ************SUB TOTAL DEL CF ********************
                         // Si la impresora devuelve true imprimo  subtotal
-                        if (resp == 0)
+                        if (resp == 16 || resp == 0)
                         {
 
                             // OBTENGO LA SUMATORIA DE LOS ABONOS PARA SABER SI COINCIDEN CON EL TOTAL DE LOS ARTICULOS  PARA CANCELAR EL CF ANTES DE ENVIAR EL SUBTOTAL. 
@@ -4120,7 +4341,9 @@ namespace CapaVisual_Login
                             // ----CONSULTO PAGOS EN DIVISA
                             foreach (DataRow drIgtf in DtIGTF.Tables[0].Rows)
                             {
-                                if (DtIGTF.Tables[0].Rows[0]["Abo_Monto"].ToString() != "0" & Convert.ToBoolean(DtIGTF.Tables[0].Rows[0]["ActivaIGTF"]) == true)
+                                //if (DtIGTF.Tables[0].Rows[0]["Abo_Monto"].ToString() != "0" & Convert.ToBoolean(DtIGTF.Tables[0].Rows[0]["ActivaIGTF"]) == true)
+                                if (DtIGTF.Tables[0].Rows[0]["Abo_Monto"].ToString() != "0")
+
                                 {
                                     TotalItems = TotalItems + Convert.ToDouble(drIgtf["Abo_IGTF"]);
                                 }
@@ -4128,6 +4351,7 @@ namespace CapaVisual_Login
                             }
 
                             // ----CONSULTO LOS DESCUENTOS DE LA FACTURA 
+                            
                             DataSet dsDcto = _D_DetalleOrden.DESCUENTOSFACTURAFISCAL(txtNumeroOrden.Text, command);
                             DataTable dtcto = dsDcto.Tables[0];
                             Double DescuentoExento = Math.Round(Convert.ToDouble(dtcto.Rows[0]["DescuentoExento"].ToString()), 2);
@@ -4225,7 +4449,7 @@ namespace CapaVisual_Login
                                 Double subtotalIgtf = 0.00;
 
                                 // ******ENVIO EL SUBTOTAL DE LA FACTURA**************
-                                if (resp == 0)
+                                if (resp == 16 || resp == 0)
                                 {
 
                                     foreach (DataRow drIgtf in DtIGTF.Tables[0].Rows)
@@ -4235,13 +4459,32 @@ namespace CapaVisual_Login
                                         subtotalIgtf = subtotalIgtf + Convert.ToDouble(drIgtf["IGTFCALC1"].ToString());
                                     }
 
-                                    // Verifico si la orden tiene Igtf
+                                    // Verifico si la orden tiene Igtf 1
                                     if (Convert.ToBoolean(DtIGTF.Tables[0].Rows[0]["ActivaIGTF"].ToString()) == true & DtIGTF.Tables[0].Rows[0]["Abo_Monto"].ToString() != "0")
                                     {
 
                                         if (DtIGTF.Tables[0].Rows[0]["IGTFCAORDSER"].ToString().Replace(",", "") == (subtotalIgtf * 100).ToString().Replace(",", ""))
                                         {
-                                            resp = objVmax.SubtotalT_sinRetorno(Convert.ToString(subtotal * 100).Replace(".", ","));
+                                            if (resp != 16 && resp != 0)
+                                            {
+                                               // objVmax.CerrarPuerto();
+                                                ImprimirFacturaFiscall = false;
+
+                                                
+                                                mensaje = "No hay conexión con la impresora fiscal";
+                                                _FrmMensajes.co = 2;
+                                                _FrmMensajes.avisomensaje(mensaje);
+                                                _FrmMensajes.ShowDialog();
+                                                btnCancelar1.PerformClick();
+                                                //objVmax.Cancelar();
+                                                //objVmax.Cerrar();
+                                                //objVmax.CerrarPuerto();
+                                                return "Error";
+                                            }
+                                            else
+                                            {
+                                                resp = objVmax.SubtotalT_sinRetorno(Convert.ToString(subtotal * 100).Replace(".", ","));
+                                            }
                                         }
                                         else
                                             respuesta = false;
@@ -4249,7 +4492,26 @@ namespace CapaVisual_Login
 
                                     else
                                     {
-                                        resp = objVmax.Subtotal();
+                                        if (resp != 16 && resp != 0)
+                                        {
+                                            //objVmax.CerrarPuerto();
+                                            ImprimirFacturaFiscall = false;
+
+                                           
+                                            mensaje = "No hay conexión con la impresora fiscal";
+                                            _FrmMensajes.co = 2;
+                                            _FrmMensajes.avisomensaje(mensaje);
+                                            _FrmMensajes.ShowDialog();
+                                            btnCancelar1.PerformClick();
+                                            //objVmax.Cancelar();
+                                            //objVmax.Cerrar();
+                                            //objVmax.CerrarPuerto();
+                                            return "Error";
+                                        }
+                                        else
+                                        {
+                                            resp = objVmax.Subtotal();
+                                        }
                                         //Modificarrrr
                                         TotalFacturaFiscal = objVmax.RetornoSubtotal.llSubtotal.ToString();
                                         NumeroComprobanteFiscal = objVmax.RetornoAbrirFactura.uiNumeroFactura.ToString();
@@ -4328,7 +4590,7 @@ namespace CapaVisual_Login
 
 
                                 // ******ENVIO EL SUBTOTAL DE LA FACTURA**************
-                                if (resp == 0)
+                                if (resp == 16 || resp == 0)
                                 {
    
                                     Double subtotal = 0.00;
@@ -4341,13 +4603,32 @@ namespace CapaVisual_Login
                                         subtotalIgtf = subtotalIgtf + Convert.ToDouble(drIgtf["IGTFCALC1"].ToString());
                                     }
 
-                                    // Verifico si la orden tiene Igtf
+                                    // Verifico si la orden tiene Igtf 2
                                     if (Convert.ToBoolean(DtIGTF.Tables[0].Rows[0]["ActivaIGTF"].ToString()) == true & DtIGTF.Tables[0].Rows[0]["Abo_Monto"].ToString() != "0")
                                     {
 
                                         if (DtIGTF.Tables[0].Rows[0]["IGTFCAORDSER"].ToString().Replace(",", "") == (subtotalIgtf * 100).ToString().Replace(",", ""))
                                         {
-                                            resp = objVmax.SubtotalT_sinRetorno(Convert.ToString(subtotal * 100).Replace(".", ","));
+                                            if (resp != 16 && resp != 0)
+                                            {
+                                                //objVmax.CerrarPuerto();
+                                                ImprimirFacturaFiscall = false;
+
+                                               
+                                                mensaje = "No hay conexión con la impresora fiscal";
+                                                _FrmMensajes.co = 2;
+                                                _FrmMensajes.avisomensaje(mensaje);
+                                                _FrmMensajes.ShowDialog();
+                                                btnCancelar1.PerformClick();
+                                                //objVmax.Cancelar();
+                                                //objVmax.Cerrar();
+                                                //objVmax.CerrarPuerto();
+                                                return "Error";
+                                            }
+                                            else
+                                            {
+                                                resp = objVmax.SubtotalT_sinRetorno(Convert.ToString(subtotal * 100).Replace(".", ","));
+                                            }
                                         }
                                         else
                                             respuesta = false;
@@ -4383,13 +4664,16 @@ namespace CapaVisual_Login
                             objVmax.Cerrar();
                             objVmax.CerrarPuerto();
                             ImprimirFacturaFiscall = false;
+                            //rollbackRealizado = true;
                             respuesta = false;
                             return "Error";
+
+                           
 
                         }
 
                         // *************ENVIO LOS PAGOS***********************
-                        if (resp == 0)
+                        if (resp == 16 || resp == 0)
                         {
                             DataTable dtPago = _D_DetalleOrden.Pasgos(TB_CAORDSER.Cod_Sucursal, txtNumeroOrden.Text, TB_CAORDSER.Revision, command);
                             TotalFacturaFiscal = objVmax.RetornoSubtotal.llSubtotal.ToString(); 
@@ -4399,7 +4683,52 @@ namespace CapaVisual_Login
                                 if (Convert.ToDecimal(drPago["Abo_Monto"].ToString()) > 0)
                                 {
                                     int NumeroMaximoCaracteres = Convert.ToInt32(drPago["Abo_Tipo"].ToString().Length); 
-                                    resp = objVmax.PagoCF(drPago["Abo_Monto"].ToString(), drPago["Abo_Tipo"].ToString(), 1);
+                                    if(Convert.ToDecimal(drPago["Abo_Monto_RecibidoREF"].ToString()) == 0)
+                                    {
+                                        if (resp != 16 && resp != 0)
+                                        {
+                                            //objVmax.CerrarPuerto();
+                                            ImprimirFacturaFiscall = false;
+
+                                            
+                                            mensaje = "No hay conexión con la impresora fiscal";
+                                            _FrmMensajes.co = 2;
+                                            _FrmMensajes.avisomensaje(mensaje);
+                                            _FrmMensajes.ShowDialog();
+                                            btnCancelar1.PerformClick();
+                                            //objVmax.Cancelar();
+                                            //objVmax.Cerrar();
+                                            //objVmax.CerrarPuerto();
+                                            return "Error";
+                                        }
+                                        else
+                                        {
+                                            resp = objVmax.PagoCF(drPago["Abo_Monto"].ToString(), drPago["Abo_Tipo"].ToString(), 1);
+                                        }
+                                    }
+                                    else
+                                    {
+                                            if (resp != 16 && resp != 0)
+                                            {
+                                            //objVmax.CerrarPuerto();
+                                            ImprimirFacturaFiscall = false;
+
+                                            
+                                            mensaje = "No hay conexión con la impresora fiscal";
+                                            _FrmMensajes.co = 2;
+                                            _FrmMensajes.avisomensaje(mensaje);
+                                            _FrmMensajes.ShowDialog();
+                                            btnCancelar1.PerformClick();
+                                            //objVmax.Cancelar();
+                                            //objVmax.Cerrar();
+                                            //objVmax.CerrarPuerto();
+                                            return "Error";
+                                        }
+                                            else
+                                            {
+                                                resp = objVmax.PagoCF(drPago["Abo_Monto_RecibidoREF"].ToString(), drPago["Abo_Tipo"].ToString(), 1);
+                                            }
+                                    }
                                     PagosEnviados = PagosEnviados + Convert.ToDecimal(drPago["Abo_Monto"].ToString());
                                 }
                             }
@@ -4407,66 +4736,86 @@ namespace CapaVisual_Login
                             TotalFacturaFiscal = objVmax.RetornoSubtotal.llSubtotal.ToString();                      
                             decimal Calculo = Convert.ToDecimal(TotalFacturaFiscal) - PagosEnviados;
 
-                            if (Convert.ToString(Convert.ToDecimal(TotalFacturaFiscal) - PagosEnviados) == "1")
+                            if (resp != 16 && resp != 0)
                             {
+                                //objVmax.CerrarPuerto();
+                                ImprimirFacturaFiscall = false;
+
+
+                                mensaje = "No hay conexión con la impresora fiscal";
+                                _FrmMensajes.co = 2;
+                                _FrmMensajes.avisomensaje(mensaje);
+                                _FrmMensajes.ShowDialog();
+                                btnCancelar1.PerformClick();
+                                //objVmax.Cancelar();
+                                //objVmax.Cerrar();
+                                //objVmax.CerrarPuerto();
+                                return "Error";
+                            }
+                            else
+                            {
+
+                                if (Convert.ToString(Convert.ToDecimal(TotalFacturaFiscal) - PagosEnviados) == "1")
+                                {
                              
                                 resp = objVmax.PagoCF("1", "EFECTIVO", 1);
                                 _D_DetalleOrden.SP_SUMOFACTURA(TB_CAORDSER.Cod_Sucursal, NumeroComprobanteFiscal, SerialImpresora, txtNumeroOrden.Text, TotalFacturaFiscal, DctoExento, DctoGravable, command);
-                            }
-                            else if (Convert.ToString(Convert.ToDecimal(TotalFacturaFiscal) - PagosEnviados) == "2")
-                            {
+                                }
+                                else if (Convert.ToString(Convert.ToDecimal(TotalFacturaFiscal) - PagosEnviados) == "2")
+                                {
                                
-                                resp = objVmax.PagoCF("2", "EFECTIVO", 1);
-                                _D_DetalleOrden.SP_SUMOFACTURA(TB_CAORDSER.Cod_Sucursal, NumeroComprobanteFiscal, SerialImpresora, txtNumeroOrden.Text, TotalFacturaFiscal, DctoExento, DctoGravable, command);
-                            }
-                            else if (Convert.ToString(Convert.ToDecimal(TotalFacturaFiscal) - PagosEnviados) == "3")
-                            {
+                                    resp = objVmax.PagoCF("2", "EFECTIVO", 1);
+                                    _D_DetalleOrden.SP_SUMOFACTURA(TB_CAORDSER.Cod_Sucursal, NumeroComprobanteFiscal, SerialImpresora, txtNumeroOrden.Text, TotalFacturaFiscal, DctoExento, DctoGravable, command);
+                                }
+                                else if (Convert.ToString(Convert.ToDecimal(TotalFacturaFiscal) - PagosEnviados) == "3")
+                                {
                               
-                                resp = objVmax.PagoCF("3", "EFECTIVO", 1);
-                                _D_DetalleOrden.SP_SUMOFACTURA(TB_CAORDSER.Cod_Sucursal, NumeroComprobanteFiscal, SerialImpresora, txtNumeroOrden.Text, TotalFacturaFiscal, DctoExento, DctoGravable, command);
-                            }
-                            else if (Convert.ToString(Convert.ToDecimal(TotalFacturaFiscal) - PagosEnviados) == "4")
-                            {
+                                    resp = objVmax.PagoCF("3", "EFECTIVO", 1);
+                                    _D_DetalleOrden.SP_SUMOFACTURA(TB_CAORDSER.Cod_Sucursal, NumeroComprobanteFiscal, SerialImpresora, txtNumeroOrden.Text, TotalFacturaFiscal, DctoExento, DctoGravable, command);
+                                }
+                                else if (Convert.ToString(Convert.ToDecimal(TotalFacturaFiscal) - PagosEnviados) == "4")
+                                {
                                 
-                                resp = objVmax.PagoCF("4", "EFECTIVO", 1);
-                                _D_DetalleOrden.SP_SUMOFACTURA(TB_CAORDSER.Cod_Sucursal, NumeroComprobanteFiscal, SerialImpresora , txtNumeroOrden.Text, TotalFacturaFiscal, DctoExento, DctoGravable, command);
-                            }
-                            else if (Convert.ToString(Convert.ToDecimal(TotalFacturaFiscal) - PagosEnviados) == "5")
-                            {
+                                    resp = objVmax.PagoCF("4", "EFECTIVO", 1);
+                                    _D_DetalleOrden.SP_SUMOFACTURA(TB_CAORDSER.Cod_Sucursal, NumeroComprobanteFiscal, SerialImpresora , txtNumeroOrden.Text, TotalFacturaFiscal, DctoExento, DctoGravable, command);
+                                }
+                                else if (Convert.ToString(Convert.ToDecimal(TotalFacturaFiscal) - PagosEnviados) == "5")
+                                {
                                 
-                                resp = objVmax.PagoCF("5", "EFECTIVO", 1);
-                                _D_DetalleOrden.SP_SUMOFACTURA(TB_CAORDSER.Cod_Sucursal, NumeroComprobanteFiscal, SerialImpresora, txtNumeroOrden.Text, TotalFacturaFiscal, DctoExento, DctoGravable, command);
+                                    resp = objVmax.PagoCF("5", "EFECTIVO", 1);
+                                    _D_DetalleOrden.SP_SUMOFACTURA(TB_CAORDSER.Cod_Sucursal, NumeroComprobanteFiscal, SerialImpresora, txtNumeroOrden.Text, TotalFacturaFiscal, DctoExento, DctoGravable, command);
 
+                                }
                             }
 
                         }
                         else
                         {
-                            objVmax.Cancelar();
-                            objVmax.Cerrar();
-                            objVmax.CerrarPuerto();
                             ImprimirFacturaFiscall = false;
+
+
+                            mensaje = "No hay conexión con la impresora fiscal";
+                            _FrmMensajes.co = 2;
+                            _FrmMensajes.avisomensaje(mensaje);
+                            _FrmMensajes.ShowDialog();
+                            btnCancelar1.PerformClick();
+                            
+                            //objVmax.Cancelar();
+                            //objVmax.Cerrar();
+                            //objVmax.CerrarPuerto();
+                           
                             respuesta = false;
                             return "Error";
 
                         }
 
 
-                        if (resp == 0)
+                        if (resp == 16 || resp == 0)
                         {
-                            
+                            //if ("1" == "1")
+                            //{
 
-                            // Si la impresora devuelve true imprimo los comentarios y cierro el CF
-
-                            resp = objVmax.TextoNoFiscal("");
-                            resp = objVmax.TextoNoFiscal("Numero Orden: " + txtNumeroOrden.Text);
-                            resp = objVmax.TextoNoFiscal("");
-
-
-                            if ((_D_DetalleOrden.TB_PARAMETROSPGE("FactFiscalconRxPGE")) == "1")
-                            {
-
-                                if (TB_CAORDSER.Asegurada == true)
+                                if ((_D_DetalleOrden.TB_PARAMETROSPGE("FactFiscalconRxPGE")) == "1" && TB_CAORDSER.Asegurada == true)
                                 {
                                     double ESFD = 0.00;
                                     double ESFI = 0.00;
@@ -4569,27 +4918,146 @@ namespace CapaVisual_Login
                                     }
 
                                 }
-
-
-                                //// Texto de GRACIAS POR SU COMPRA
-                                DataTable DtTexto = _D_DetalleOrden.TB_INUTILIZADO();
-
-                                foreach (DataRow row in DtTexto.Rows)
-                                {
-                                    resp = objVmax.TextoNoFiscal(row["texto"].ToString());
-                                }
-
-
-                                objVmax.ObtenerReporteInformativo();
+                                
+                                resp = objVmax.ObtenerReporteInformativo();
                                 //objVmax.AbrirDNF();
                                 SerialImpresora = objVmax.RetornoMI.sSerial;
                                 FechaImpresora = objVmax.RetornoMI.sFecha;
                                 // string Fecha2 = DateTime.Today.ToString("yyyyMMdd");
-                                resp = objVmax.Cerrar();
-                                resp = objVmax.CerrarPuerto();
 
-                                if (resp == 0)
+                                if (resp != 16 && resp != 0)
                                 {
+                                    //objVmax.CerrarPuerto();
+                                    ImprimirFacturaFiscall = false;
+
+
+                                    mensaje = "No hay conexión con la impresora fiscal";
+                                    _FrmMensajes.co = 2;
+                                    _FrmMensajes.avisomensaje(mensaje);
+                                    _FrmMensajes.ShowDialog();
+                                    btnCancelar1.PerformClick();
+                                    //objVmax.Cancelar();
+                                    //objVmax.Cerrar();
+                                    //objVmax.CerrarPuerto();
+                                    return "Error";
+                                }
+                                else
+                                {
+
+
+                                
+
+                                // Si la impresora devuelve true imprimo los comentarios y cierro el CF
+
+                                resp = objVmax.TextoNoFiscal("");
+
+                                    if (resp != 16 && resp != 0)
+                                    {
+                                        //objVmax.CerrarPuerto();
+                                        ImprimirFacturaFiscall = false;
+
+
+                                        mensaje = "No hay conexión con la impresora fiscal";
+                                        _FrmMensajes.co = 2;
+                                        _FrmMensajes.avisomensaje(mensaje);
+                                        _FrmMensajes.ShowDialog();
+                                        btnCancelar1.PerformClick();
+                                        //objVmax.Cancelar();
+                                        //objVmax.Cerrar();
+                                        //objVmax.CerrarPuerto();
+                                        return "Error";
+                                    }
+                                    else
+                                    {
+
+                                        resp = objVmax.TextoNoFiscal("Numero Orden: " + txtNumeroOrden.Text);
+                                    }
+
+                                    if (resp != 16 && resp != 0)
+                                    {
+                                        //objVmax.CerrarPuerto();
+                                        ImprimirFacturaFiscall = false;
+
+
+                                        mensaje = "No hay conexión con la impresora fiscal";
+                                        _FrmMensajes.co = 2;
+                                        _FrmMensajes.avisomensaje(mensaje);
+                                        _FrmMensajes.ShowDialog();
+                                        btnCancelar1.PerformClick();
+                                        //objVmax.Cancelar();
+                                        //objVmax.Cerrar();
+                                        //objVmax.CerrarPuerto();
+                                        return "Error";
+                                    }
+                                    else
+                                    {
+
+                                        resp = objVmax.TextoNoFiscal("");
+                                    }
+
+                                  
+
+                                string ImpTextNoFiscal = _D_DetalleOrden.TB_PARAMETRO("ImpTextNoFiscal");
+                                
+                                if (ImpTextNoFiscal == "1")
+                                {
+                                    //// Texto de GRACIAS POR SU COMPRA
+                                    DataTable DtTexto = _D_DetalleOrden.TB_INUTILIZADO();
+
+                                    foreach (DataRow row in DtTexto.Rows)
+                                    {
+                                        resp = objVmax.TextoNoFiscal(row["texto"].ToString());
+                                    }
+                                }
+
+
+                                    if (resp == 16 || resp == 0)
+                                    {
+                                        resp = objVmax.Cerrar();
+                                    }
+                                    else
+                                    {
+                                        //objVmax.CerrarPuerto();
+                                        ImprimirFacturaFiscall = false;
+
+
+                                        mensaje = "No hay conexión con la impresora fiscal";
+                                        _FrmMensajes.co = 2;
+                                        _FrmMensajes.avisomensaje(mensaje);
+                                        _FrmMensajes.ShowDialog();
+                                        btnCancelar1.PerformClick();
+                                        //objVmax.Cancelar();
+                                        //objVmax.Cerrar();
+                                        //objVmax.CerrarPuerto();
+                                        return "Error";
+                                    }
+
+                                    //if (resp != 16 && resp != 0)
+                                    //{
+                                    //    //objVmax.CerrarPuerto();
+                                    //    ImprimirFacturaFiscall = false;
+
+
+                                    //    mensaje = "No hay conexión con la impresora fiscal";
+                                    //    _FrmMensajes.co = 2;
+                                    //    _FrmMensajes.avisomensaje(mensaje);
+                                    //    _FrmMensajes.ShowDialog();
+                                    //    btnCancelar1.PerformClick();
+                                    //    //objVmax.Cancelar();
+                                    //    //objVmax.Cerrar();
+                                    //    //objVmax.CerrarPuerto();
+                                    //    return "Error";
+                                    //}
+                                    //else
+                                    //{
+
+                                    resp = objVmax.CerrarPuerto();
+                                    //}
+                                }
+
+
+                                //if (resp == 16 || resp == 0)
+                                //{
                                    
 
                                     ImprimirFacturaFiscall = true;
@@ -4690,16 +5158,21 @@ namespace CapaVisual_Login
                                         ImprimirFacturaFiscall = false;
                                     }
 
-                                }
-                                else
-                                {
-                                    objVmax.Cancelar();
-                                    objVmax.Cerrar();
-                                    resp = objVmax.CerrarPuerto();
-                                    ImprimirFacturaFiscall = false;
-                                    return "Error";
-                                }
-                            }
+                                //}
+                                //else
+                                //{
+                                //    objVmax.Cancelar();
+                                //    objVmax.Cerrar();
+                                //    resp = objVmax.CerrarPuerto();
+                                //    ImprimirFacturaFiscall = false;
+                                //    mensaje = "No hay conexión con la impresora fiscal";
+                                //    _FrmMensajes.co = 2;
+                                //    _FrmMensajes.avisomensaje(mensaje);
+                                //    _FrmMensajes.ShowDialog();
+                                //    btnCancelar1.PerformClick();
+                                //    return "Error";
+                                //}
+                           // }
 
 
                         }
@@ -4707,6 +5180,7 @@ namespace CapaVisual_Login
                         {
 
                             // SI NO COINCIDEN, ANULO EL TICKET
+                           
                             objVmax.Cancelar();
                             objVmax.Cerrar();
                             objVmax.CerrarPuerto();
@@ -5527,6 +6001,9 @@ namespace CapaVisual_Login
                     txtIGTF.Text = Convert.ToString(_L_Facturacion.CalculoIgtf(txtNumeroOrden, Convert.ToString(Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) - Igtf_TotalAboTranferenciaDolar), DgvAbonos));
                     BolivaresConveridos(Convert.ToDouble(Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) + Convert.ToDouble(txtIGTF.Text)), txtMonto2Bs);
                     //txtMonto2Bs.Text = Convert.ToString(Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) + Convert.ToDouble(txtIGTF.Text));
+
+                    txtTasaFact.Text = string.Format("{0:#,0.00}", Convert.ToDecimal(TB_TASA_Dolar.Tasa.ToString()));
+
                 }
 
                 if (CbxMoneda.Text == "Euros")
@@ -5563,6 +6040,7 @@ namespace CapaVisual_Login
                         BolivaresConveridos(Convert.ToDouble(Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) + Convert.ToDouble(txtIGTF.Text)), txtMonto2Bs);
                         //txtMonto2Bs.Text = Convert.ToString(Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) + Convert.ToDouble(txtIGTF.Text));
 
+                        txtTasaFact.Text = string.Format("{0:#,0.00}", Convert.ToDecimal(TB_TASA_Euro.Tasa.ToString()));
 
                     }
                     else
@@ -5571,6 +6049,14 @@ namespace CapaVisual_Login
                         _FrmMensajes.avisomensaje("Debe Actualizar la Tasa de las Monedas y Activación de Secuencia Diaria, verifique");
                         _FrmMensajes.ShowDialog();
                     }
+                    double reftotal = Convert.ToDouble(txtRef.Text.Replace(".", ""));
+                    double igtftotal = Convert.ToDouble(txtIGTF.Text.Replace(".", ""));
+                    double tasa = Convert.ToDouble(txtTasaFact.Text.Replace(".", ""));
+
+                    txtTotalRef.Text = string.Format("{0:#,0.00}",  Convert.ToDecimal(reftotal + (igtftotal)));
+                   
+
+
 
                 }
 
@@ -5773,7 +6259,7 @@ namespace CapaVisual_Login
             command.Connection = connection;
             command.Transaction = transaction;
             command.Parameters.Clear();
-            command.CommandTimeout = 120;
+            command.CommandTimeout = 300000;
             string Correlativo = "";
             Num_Factura = "";
             rollbackRealizado = false;
@@ -5792,6 +6278,13 @@ namespace CapaVisual_Login
                 {
                     rept = MovInventario(command);
                     MovInventarioo = true;
+
+                    if (rept != "SATISFACTORIO")
+                    {
+                        transaction.Rollback();
+                        return "";
+                    }
+
 
                     // Cuando la orden es lentes de contacto rebajo la reserva; ejecuto la modificacion en TB_LENTESCONTACTO y RelacionMovimientosLC
                     if (TB_CAORDSER.Cod_DetVta == "02" & _D_DetalleOrden.TB_PARAMETRO("LCManejaExist") == "1")
@@ -5824,10 +6317,24 @@ namespace CapaVisual_Login
                 string PMAutomatico = _D_DetalleOrden.TB_PARAMETRO("PMAutomatico");
 
                 // Verifico si esta lista Para Facturar 
+                
                 if (TotalAbono == TotalSaldoOrdenConIgtf)
                 {
                     // Imprimo La Factura
                     if (rept == "SATISFACTORIO" )
+                        if (_L_Facturacion.ValidaFactManual() == false)
+                        {
+                            if (_Impresora_Fiscal.VerficarConexionImpresoraFiscal() == false)
+                            {
+                                mensaje = _Impresora_Fiscal.stringBuilder.ToString();
+                                //rept = "Error";
+                                _FrmMensajes.co = 2;
+                                _FrmMensajes.avisomensaje(mensaje);
+                                _FrmMensajes.ShowDialog();
+                                //btnCancelar1.PerformClick();
+                                //return;
+                            }
+                        }
                     rept = ImprimirFacturaFiscal(txtNumeroOrden.Text, txtCedula.Text, txtNombreCliente.Text, command);
 
                     // Imprimo el Pago Movil 
@@ -5842,11 +6349,11 @@ namespace CapaVisual_Login
                         rept = ImprimirCambio(Correlativo, Dt_PagoMovil, TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision, Num_Factura, command);
                 }
 
-                // Attempt to commit the transaction.
+                //Attempt to commit the transaction.
                 if (rept == "SATISFACTORIO")
                     transaction.Commit();
                 else
-                if (transaction != null && !rollbackRealizado)
+                if ((transaction != null && !rollbackRealizado))
                 {
                     transaction.Rollback();
                 }
@@ -6392,6 +6899,7 @@ namespace CapaVisual_Login
         //Comentar
         private void btnCancelar4_Click(object sender, EventArgs e)
         {
+            txtRef.Text = "1"; 
             LimpiaVariablesIdAbonoPagoMovil();
             LimpiarNotasDevolucion();
             VisualizarPanel("MostrarPanelPrincipal");
@@ -7657,19 +8165,59 @@ namespace CapaVisual_Login
                         if (CbxMoneda.SelectedIndex.ToString() == "1")
                         {
                             TxtVuelto.Text = String.Format(CultureInfo.InvariantCulture, "{0:0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtRecibidoREF.Text))) - Convert.ToDouble(txtRef.Text == "" ? (Double)0.00 : Convert.ToDouble(txtRef.Text)), 2));
-                            TxtMontoPagoMovil.Text = String.Format(CultureInfo.InvariantCulture, "{0:0.00}", Math.Round(Convert.ToDouble(TB_TASA_Euro.Tasa) * ((Convert.ToDouble(TxtRecibidoREF.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtRecibidoREF.Text))) - Convert.ToDouble(txtRef.Text == "" ? (Double)0.00 : Convert.ToDouble(txtRef.Text))), 2));
+                            //TxtMontoPagoMovil.Text = String.Format(CultureInfo.InvariantCulture, "{0:0.00}", Math.Round(Convert.ToDouble(TB_TASA_Euro.Tasa) * ((Convert.ToDouble(TxtRecibidoREF.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtRecibidoREF.Text))) - Convert.ToDouble(txtRef.Text == "" ? (Double)0.00 : Convert.ToDouble(txtRef.Text))), 2));
+                            Double OtrosAbonos = Convert.ToDouble(_L_Facturacion.TotalizarAbono(DgvAbonos));
+                            string saldo_bolivares = Convert.ToString(Math.Round((double)((Convert.ToDouble(TxtSaldoOrd.Text.Replace(".", "")))), 2));
+                            //fact solo con divisa o haciendo un pago sin cambiar el monto
+                            //if (Convert.ToDouble(txtRef.Text) >= Convert.ToDouble(TxtSaldoRef_2.Text))
+                            //{
+                            //    TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - (Convert.ToDouble(TxtSaldoOrd.Text) + Convert.ToDouble(txtIGTF.Text)), 2));
+                            //}
+                            //else
+                            //{
+                            if (Convert.ToDouble(txtRef.Text) >= Convert.ToDouble(TxtSaldoRef_2.Text) || OtrosAbonos > 0)
+                            {
+                                TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - ((Convert.ToDouble(saldo_bolivares) - OtrosAbonos) + Convert.ToDouble(txtIGTF.Text)), 2));
+                            }
+                            else
+                            {
+                                TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - ((Convert.ToDouble(txtRef.Text)) * Convert.ToDouble(txtTasaFact.Text)), 2));
+                            }
                         }
                         else
                         {
                             TxtVuelto.Text = String.Format(CultureInfo.InvariantCulture, "{0:0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtRecibidoREF.Text))) - Convert.ToDouble(txtRef.Text == "" ? (Double)0.00 : Convert.ToDouble(txtRef.Text)), 2));
-                            TxtMontoPagoMovil.Text = String.Format(CultureInfo.InvariantCulture, "{0:0.00}", Math.Round(Convert.ToDouble(TB_TASA_Dolar.Tasa) * ((Convert.ToDouble(TxtRecibidoREF.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtRecibidoREF.Text))) - Convert.ToDouble(txtRef.Text == "" ? (Double)0.00 : Convert.ToDouble(txtRef.Text))), 2));
+                            //TxtMontoPagoMovil.Text = String.Format(CultureInfo.InvariantCulture, "{0:0.00}", Math.Round(Convert.ToDouble(TB_TASA_Dolar.Tasa) * ((Convert.ToDouble(TxtRecibidoREF.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtRecibidoREF.Text))) - Convert.ToDouble(txtRef.Text == "" ? (Double)0.00 : Convert.ToDouble(txtRef.Text))), 2));
+                            //TxtMontoPagoMovil.Text = String.Format(CultureInfo.InvariantCulture, "{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - (Convert.ToDouble(TxtSaldoOrd_2.Text) + Convert.ToDouble(txtIGTF.Text)),2));
+                            
+                            //double BsRestaCambio = 0.00;
+                            //BsRestaCambio = Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos));
+                           
+                            Double OtrosAbonos = Convert.ToDouble(_L_Facturacion.TotalizarAbono(DgvAbonos));
+                            string saldo_bolivares = Convert.ToString(Math.Round((double)((Convert.ToDouble(TxtSaldoOrd.Text.Replace(".", "")))), 2));
+                            //fact solo con divisa o haciendo un pago sin cambiar el monto
+                            //if (Convert.ToDouble(txtRef.Text) >= Convert.ToDouble(TxtSaldoRef_2.Text))
+                            //{
+                            //    TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - (Convert.ToDouble(TxtSaldoOrd.Text) + Convert.ToDouble(txtIGTF.Text)), 2));
+                            //}
+                            //else
+                            //{
+                                if (Convert.ToDouble(txtRef.Text) >= Convert.ToDouble(TxtSaldoRef_2.Text) || OtrosAbonos > 0)
+                                {
+                                    TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - ((Convert.ToDouble(saldo_bolivares) - OtrosAbonos) + Convert.ToDouble(txtIGTF.Text)), 2));
+                                }
+                                else
+                                {
+                                    TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - ((Convert.ToDouble(txtRef.Text)) * Convert.ToDouble(txtTasaFact.Text)), 2));
+                                }
+                            //}
                         }
                     }
 
                     else
                     {
                         _FrmMensajes.co = 2;
-                        _FrmMensajes.avisomensaje("El monto recibido REF debe ser mayor al total en divisa.");
+                        _FrmMensajes.avisomensaje("El monto recibido REF debe ser mayor al total en divisa");
                         _FrmMensajes.ShowDialog();
                         TxtRecibidoREF.Text = "";
                         TxtRecibidoREF.Focus();
@@ -7694,19 +8242,54 @@ namespace CapaVisual_Login
                     if (CbxMoneda.SelectedIndex.ToString() == "1")
                     {
                         TxtVuelto.Text = String.Format(CultureInfo.InvariantCulture, "{0:0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtRecibidoREF.Text))) - Convert.ToDouble(txtRef.Text == "" ? (Double)0.00 : Convert.ToDouble(txtRef.Text)), 2));
-                        TxtMontoPagoMovil.Text = String.Format(CultureInfo.InvariantCulture, "{0:0.00}", Math.Round(Convert.ToDouble(TB_TASA_Euro.Tasa) * ((Convert.ToDouble(TxtRecibidoREF.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtRecibidoREF.Text))) - Convert.ToDouble(txtRef.Text == "" ? (Double)0.00 : Convert.ToDouble(txtRef.Text))), 2));
+                        //TxtMontoPagoMovil.Text = String.Format(CultureInfo.InvariantCulture, "{0:#,0.00}", Math.Round(Convert.ToDouble(TB_TASA_Euro.Tasa) * ((Convert.ToDouble(TxtRecibidoREF.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtRecibidoREF.Text))) - Convert.ToDouble(txtRef.Text == "" ? (Double)0.00 : Convert.ToDouble(txtRef.Text))), 2));
+                        Double OtrosAbonos = Convert.ToDouble(_L_Facturacion.TotalizarAbono(DgvAbonos));
+                        string saldo_bolivares = Convert.ToString(Math.Round((double)((Convert.ToDouble(TxtSaldoOrd.Text.Replace(".", "")))), 2));
+                        //fact solo con divisa o haciendo un pago sin cambiar el monto
+                        //if (Convert.ToDouble(txtRef.Text) >= Convert.ToDouble(TxtSaldoRef_2.Text))
+                        //{
+                        //    TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - (Convert.ToDouble(TxtSaldoOrd.Text) + Convert.ToDouble(txtIGTF.Text)), 2));
+                        //}
+                        //else
+                        //{
+                        if (Convert.ToDouble(txtRef.Text) >= Convert.ToDouble(TxtSaldoRef_2.Text) || OtrosAbonos > 0)
+                        {
+                            TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - ((Convert.ToDouble(saldo_bolivares) - OtrosAbonos) + Convert.ToDouble(txtIGTF.Text)), 2));
+                        }
+                        else
+                        {
+                            TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - ((Convert.ToDouble(txtRef.Text)) * Convert.ToDouble(txtTasaFact.Text)), 2));
+                        }
                     }
                     else
                     {
                         TxtVuelto.Text = String.Format(CultureInfo.InvariantCulture, "{0:0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtRecibidoREF.Text))) - Convert.ToDouble(txtRef.Text == "" ? (Double)0.00 : Convert.ToDouble(txtRef.Text)), 2));
-                        TxtMontoPagoMovil.Text = String.Format(CultureInfo.InvariantCulture, "{0:0.00}", Math.Round(Convert.ToDouble(TB_TASA_Dolar.Tasa) * ((Convert.ToDouble(TxtRecibidoREF.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtRecibidoREF.Text))) - Convert.ToDouble(txtRef.Text == "" ? (Double)0.00 : Convert.ToDouble(txtRef.Text))), 2));
+                        //TxtMontoPagoMovil.Text = String.Format(CultureInfo.InvariantCulture, "{0:#,0.00}", Math.Round(Convert.ToDouble(TB_TASA_Dolar.Tasa) * ((Convert.ToDouble(TxtRecibidoREF.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtRecibidoREF.Text))) - Convert.ToDouble(txtRef.Text == "" ? (Double)0.00 : Convert.ToDouble(txtRef.Text))), 2));
+                        Double OtrosAbonos = Convert.ToDouble(_L_Facturacion.TotalizarAbono(DgvAbonos));
+                        string saldo_bolivares = Convert.ToString(Math.Round((double)((Convert.ToDouble(TxtSaldoOrd.Text.Replace(".", "")))), 2));
+                        //fact solo con divisa o haciendo un pago sin cambiar el monto
+                        //if (Convert.ToDouble(txtRef.Text) >= Convert.ToDouble(TxtSaldoRef_2.Text))
+                        //{
+                        //    TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - (Convert.ToDouble(TxtSaldoOrd.Text) + Convert.ToDouble(txtIGTF.Text)), 2));
+                        //}
+                        //else
+                        //{
+                        if (Convert.ToDouble(txtRef.Text) >= Convert.ToDouble(TxtSaldoRef_2.Text) || OtrosAbonos > 0)
+                        {
+                            TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - ((Convert.ToDouble(saldo_bolivares) - OtrosAbonos) + Convert.ToDouble(txtIGTF.Text)), 2));
+                        }
+                        else
+                        {
+                            TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - ((Convert.ToDouble(txtRef.Text)) * Convert.ToDouble(txtTasaFact.Text)), 2));
+                        }
+
                     }
 
                 }
                 else
                 {
                     _FrmMensajes.co = 2;
-                    _FrmMensajes.avisomensaje("El monto recibido REF debe ser mayor al total en divisa.");
+                    _FrmMensajes.avisomensaje("El monto recibido REF debe ser mayor al total en divisa");
                     _FrmMensajes.ShowDialog();
                     TxtRecibidoREF.Text = "";
                     TxtRecibidoREF.Focus();
@@ -7723,7 +8306,24 @@ namespace CapaVisual_Login
             }
             else
             {
-                TxtMontoPagoMovil.Text = String.Format(CultureInfo.InvariantCulture, "{0:0.00}", TxtMontoPagoMovil.Text).Replace(".", ",");
+                //TxtMontoPagoMovil.Text = String.Format(CultureInfo.InvariantCulture, "{0:0.00}", TxtMontoPagoMovil.Text).Replace(".", ",");
+                Double OtrosAbonos = Convert.ToDouble(_L_Facturacion.TotalizarAbono(DgvAbonos));
+                string saldo_bolivares = Convert.ToString(Math.Round((double)((Convert.ToDouble(TxtSaldoOrd.Text.Replace(".", "")))), 2));
+                //fact solo con divisa o haciendo un pago sin cambiar el monto
+                //if (Convert.ToDouble(txtRef.Text) >= Convert.ToDouble(TxtSaldoRef_2.Text))
+                //{
+                //    TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - (Convert.ToDouble(TxtSaldoOrd.Text) + Convert.ToDouble(txtIGTF.Text)), 2));
+                //}
+                //else
+                //{
+                if (Convert.ToDouble(txtRef.Text) >= Convert.ToDouble(TxtSaldoRef_2.Text) || OtrosAbonos > 0)
+                {
+                    TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - ((Convert.ToDouble(saldo_bolivares) - OtrosAbonos) + Convert.ToDouble(txtIGTF.Text)), 2));
+                }
+                else
+                {
+                    TxtMontoPagoMovil.Text = string.Format("{0:#,0.00}", Math.Round((Convert.ToDouble(TxtRecibidoREF.Text) * Convert.ToDouble(txtTasaFact.Text)) - ((Convert.ToDouble(txtRef.Text)) * Convert.ToDouble(txtTasaFact.Text)), 2));
+                }
             }
 
 
@@ -8047,12 +8647,32 @@ namespace CapaVisual_Login
         {
             idAbonoPagoMovil = 0;
             CantAbonosPrevios = 0;
-            textBox8.Text = "0,00";
-            TxtCambioRef.Text = "0,00";
+            //textBox8.Text = "0,00";
+            //TxtCambioRef.Text = "0,00";
             return;
         }
 
         private void label110_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtRef_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label74_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Bs_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtTotalRef_TextChanged(object sender, EventArgs e)
         {
 
         }

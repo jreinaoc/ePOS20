@@ -108,6 +108,10 @@ namespace CapaVisual_Login
             this.txtMontoBs = new System.Windows.Forms.TextBox();
             this.CbxMetodosPago = new System.Windows.Forms.ComboBox();
             this.PnlSecundario = new System.Windows.Forms.Panel();
+            this.label74 = new System.Windows.Forms.Label();
+            this.label73 = new System.Windows.Forms.Label();
+            this.txtTotalRef = new System.Windows.Forms.TextBox();
+            this.txtTasaFact = new System.Windows.Forms.TextBox();
             this.TxtMontoPagoMovil = new System.Windows.Forms.TextBox();
             this.CbxBancoPagoMovil = new System.Windows.Forms.ComboBox();
             this.lbBancoPago = new System.Windows.Forms.Label();
@@ -860,6 +864,10 @@ namespace CapaVisual_Login
             // PnlSecundario
             // 
             this.PnlSecundario.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PnlSecundario.Controls.Add(this.label74);
+            this.PnlSecundario.Controls.Add(this.label73);
+            this.PnlSecundario.Controls.Add(this.txtTotalRef);
+            this.PnlSecundario.Controls.Add(this.txtTasaFact);
             this.PnlSecundario.Controls.Add(this.TxtMontoPagoMovil);
             this.PnlSecundario.Controls.Add(this.CbxBancoPagoMovil);
             this.PnlSecundario.Controls.Add(this.lbBancoPago);
@@ -911,11 +919,60 @@ namespace CapaVisual_Login
             this.PnlSecundario.Controls.Add(this.label22);
             this.PnlSecundario.Controls.Add(this.txtCVC);
             this.PnlSecundario.Controls.Add(this.LbePagoMovil);
-            this.PnlSecundario.Location = new System.Drawing.Point(1162, 380);
+            this.PnlSecundario.Location = new System.Drawing.Point(893, 380);
             this.PnlSecundario.Name = "PnlSecundario";
             this.PnlSecundario.Size = new System.Drawing.Size(479, 606);
             this.PnlSecundario.TabIndex = 30;
             this.PnlSecundario.Visible = false;
+            // 
+            // label74
+            // 
+            this.label74.AutoSize = true;
+            this.label74.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label74.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this.label74.Location = new System.Drawing.Point(305, 43);
+            this.label74.Name = "label74";
+            this.label74.Size = new System.Drawing.Size(44, 19);
+            this.label74.TabIndex = 87;
+            this.label74.Text = "Tasa";
+            this.label74.Visible = false;
+            this.label74.Click += new System.EventHandler(this.label74_Click);
+            // 
+            // label73
+            // 
+            this.label73.AutoSize = true;
+            this.label73.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label73.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this.label73.Location = new System.Drawing.Point(302, 102);
+            this.label73.Name = "label73";
+            this.label73.Size = new System.Drawing.Size(82, 19);
+            this.label73.TabIndex = 86;
+            this.label73.Text = "Total REF. ";
+            this.label73.Visible = false;
+            // 
+            // txtTotalRef
+            // 
+            this.txtTotalRef.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtTotalRef.ForeColor = System.Drawing.Color.Black;
+            this.txtTotalRef.Location = new System.Drawing.Point(301, 125);
+            this.txtTotalRef.MaxLength = 12;
+            this.txtTotalRef.Name = "txtTotalRef";
+            this.txtTotalRef.Size = new System.Drawing.Size(168, 21);
+            this.txtTotalRef.TabIndex = 85;
+            this.txtTotalRef.Text = "0.00";
+            this.txtTotalRef.Visible = false;
+            this.txtTotalRef.WordWrap = false;
+            this.txtTotalRef.TextChanged += new System.EventHandler(this.txtTotalRef_TextChanged);
+            // 
+            // txtTasaFact
+            // 
+            this.txtTasaFact.Enabled = false;
+            this.txtTasaFact.Font = new System.Drawing.Font("Century Gothic", 8.25F);
+            this.txtTasaFact.Location = new System.Drawing.Point(304, 66);
+            this.txtTasaFact.Name = "txtTasaFact";
+            this.txtTasaFact.Size = new System.Drawing.Size(165, 21);
+            this.txtTasaFact.TabIndex = 84;
+            this.txtTasaFact.Visible = false;
             // 
             // TxtMontoPagoMovil
             // 
@@ -1048,7 +1105,7 @@ namespace CapaVisual_Login
             // 
             this.TxtRecibidoREF.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TxtRecibidoREF.ForeColor = System.Drawing.Color.Black;
-            this.TxtRecibidoREF.Location = new System.Drawing.Point(392, 177);
+            this.TxtRecibidoREF.Location = new System.Drawing.Point(9, 177);
             this.TxtRecibidoREF.MaxLength = 4;
             this.TxtRecibidoREF.Name = "TxtRecibidoREF";
             this.TxtRecibidoREF.Size = new System.Drawing.Size(72, 21);
@@ -1064,7 +1121,7 @@ namespace CapaVisual_Login
             this.label71.AutoSize = true;
             this.label71.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label71.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
-            this.label71.Location = new System.Drawing.Point(388, 156);
+            this.label71.Location = new System.Drawing.Point(5, 156);
             this.label71.Name = "label71";
             this.label71.Size = new System.Drawing.Size(107, 19);
             this.label71.TabIndex = 69;
@@ -1078,7 +1135,7 @@ namespace CapaVisual_Login
             this.CbxBanco.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.CbxBanco.ForeColor = System.Drawing.Color.Black;
             this.CbxBanco.FormattingEnabled = true;
-            this.CbxBanco.Location = new System.Drawing.Point(8, 124);
+            this.CbxBanco.Location = new System.Drawing.Point(7, 177);
             this.CbxBanco.Name = "CbxBanco";
             this.CbxBanco.Size = new System.Drawing.Size(175, 25);
             this.CbxBanco.TabIndex = 32;
@@ -1088,7 +1145,7 @@ namespace CapaVisual_Login
             // 
             this.TxtCodBillete.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TxtCodBillete.ForeColor = System.Drawing.Color.Black;
-            this.TxtCodBillete.Location = new System.Drawing.Point(9, 236);
+            this.TxtCodBillete.Location = new System.Drawing.Point(85, 236);
             this.TxtCodBillete.MaxLength = 20;
             this.TxtCodBillete.Name = "TxtCodBillete";
             this.TxtCodBillete.Size = new System.Drawing.Size(175, 21);
@@ -1125,7 +1182,7 @@ namespace CapaVisual_Login
             this.LblCodBillete.AutoSize = true;
             this.LblCodBillete.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LblCodBillete.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
-            this.LblCodBillete.Location = new System.Drawing.Point(5, 213);
+            this.LblCodBillete.Location = new System.Drawing.Point(81, 213);
             this.LblCodBillete.Name = "LblCodBillete";
             this.LblCodBillete.Size = new System.Drawing.Size(133, 19);
             this.LblCodBillete.TabIndex = 62;
@@ -1229,7 +1286,7 @@ namespace CapaVisual_Login
             this.label45.AutoSize = true;
             this.label45.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label45.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
-            this.label45.Location = new System.Drawing.Point(4, 102);
+            this.label45.Location = new System.Drawing.Point(3, 155);
             this.label45.Name = "label45";
             this.label45.Size = new System.Drawing.Size(59, 19);
             this.label45.TabIndex = 56;
@@ -1308,11 +1365,13 @@ namespace CapaVisual_Login
             this.Bs.AutoSize = true;
             this.Bs.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Bs.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
-            this.Bs.Location = new System.Drawing.Point(278, 102);
+            this.Bs.Location = new System.Drawing.Point(185, 156);
             this.Bs.Name = "Bs";
             this.Bs.Size = new System.Drawing.Size(100, 19);
             this.Bs.TabIndex = 40;
             this.Bs.Text = "Monto en Bs";
+            this.Bs.Visible = false;
+            this.Bs.Click += new System.EventHandler(this.Bs_Click);
             // 
             // DtpFecha
             // 
@@ -1328,7 +1387,7 @@ namespace CapaVisual_Login
             // 
             this.txtMonto2Bs.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtMonto2Bs.ForeColor = System.Drawing.Color.Black;
-            this.txtMonto2Bs.Location = new System.Drawing.Point(279, 124);
+            this.txtMonto2Bs.Location = new System.Drawing.Point(186, 178);
             this.txtMonto2Bs.MaxLength = 12;
             this.txtMonto2Bs.Name = "txtMonto2Bs";
             this.txtMonto2Bs.Size = new System.Drawing.Size(113, 21);
@@ -1492,7 +1551,7 @@ namespace CapaVisual_Login
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
-            this.label4.Location = new System.Drawing.Point(315, 45);
+            this.label4.Location = new System.Drawing.Point(4, 102);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(42, 19);
             this.label4.TabIndex = 41;
@@ -1502,14 +1561,15 @@ namespace CapaVisual_Login
             // 
             this.txtRef.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtRef.ForeColor = System.Drawing.Color.Black;
-            this.txtRef.Location = new System.Drawing.Point(318, 66);
+            this.txtRef.Location = new System.Drawing.Point(8, 124);
             this.txtRef.MaxLength = 12;
             this.txtRef.Name = "txtRef";
-            this.txtRef.Size = new System.Drawing.Size(100, 21);
+            this.txtRef.Size = new System.Drawing.Size(168, 21);
             this.txtRef.TabIndex = 38;
             this.txtRef.Text = "0.00";
             this.txtRef.WordWrap = false;
             this.txtRef.Click += new System.EventHandler(this.txtRef_Click);
+            this.txtRef.TextChanged += new System.EventHandler(this.txtRef_TextChanged);
             this.txtRef.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtRef_KeyDown);
             this.txtRef.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtRef_KeyPress);
             this.txtRef.Validating += new System.ComponentModel.CancelEventHandler(this.txtRef_Validating);
@@ -3492,5 +3552,9 @@ namespace CapaVisual_Login
         private System.Windows.Forms.Label lbPromocion;
         private System.Windows.Forms.TextBox TxtSaldoOrd_2;
         private System.Windows.Forms.TextBox TxtSaldoRef_2;
+        private System.Windows.Forms.TextBox txtTasaFact;
+        private System.Windows.Forms.Label label73;
+        private System.Windows.Forms.TextBox txtTotalRef;
+        private System.Windows.Forms.Label label74;
     }
 }

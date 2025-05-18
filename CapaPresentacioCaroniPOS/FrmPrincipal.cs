@@ -12,6 +12,8 @@ using CapaLogica.Colores_Logica;
 using CapaDatos.Inicio_Datos;
 using EnvioPagoMovil;
 using CapaDatos.DetalleOrden_Datos;
+using CapaEntidades;
+using CapaDatos.Anulacion;
 
 namespace CapaVisual_Login
 {
@@ -39,6 +41,7 @@ namespace CapaVisual_Login
         L_Colores _L_Colores = new L_Colores();
         FrmPagoMovil _FrmPagoMovil = new FrmPagoMovil();
         FrmListaFactura _FrmListaFactura = new FrmListaFactura();
+        D_Anulacion _D_Anulacion = new D_Anulacion();
         FrmCargarOrden _FrmCargarOrden = new FrmCargarOrden();
 
         private D_DetalleOrden _D_DetalleOrden = new D_DetalleOrden();
@@ -170,6 +173,9 @@ namespace CapaVisual_Login
             Focus();
             //_FrmListaOrdenes.cerrar();
             //_FrmListaOrdenes.ListadoOrdenosRebot();
+
+            string Sucursal = _D_DetalleOrden.TB_PARAMETRO("SucursalId");
+            _D_Anulacion.CaragarAuditor(Sucursal, "010", TB_USUARIO.COD_EMPLEADO, "Entrada a ventas pendientes");
         }
 
         private void FrmPrincipal_Load_1(object sender, EventArgs e)
@@ -200,7 +206,11 @@ namespace CapaVisual_Login
         private void BtnCerrar_Click(object sender, EventArgs e)
         {
             //this.Close();
+            string Sucursal = _D_DetalleOrden.TB_PARAMETRO("SucursalId");
+            _D_Anulacion.CaragarAuditor(Sucursal, "002", TB_USUARIO.COD_EMPLEADO, "Cerrar Sesión (Salida del Sistema)");
+
             Application.Exit();
+
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -673,6 +683,11 @@ namespace CapaVisual_Login
             Focus();
             //_FrmListaOrdenes.cerrar();
             //_FrmListaOrdenes.ListadoOrdenosRebot();
+
+        }
+
+        private void PnlListadoOrdenes_Paint(object sender, PaintEventArgs e)
+        {
 
         }
     }
