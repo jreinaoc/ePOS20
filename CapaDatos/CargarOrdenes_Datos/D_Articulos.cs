@@ -1681,7 +1681,7 @@ namespace CapaDatos.CargarOrdenes_Datos
             }
         }
 
-        public DataTable ObtenerBajaExistenciaCristales(string cedNacio, string cedId, string sucursal, string examen, string codArticulo, SqlCommand command = null)
+        public DataSet ObtenerBajaExistenciaCristales(string cedNacio, string cedId, string sucursal, string examen, string codArticulo, SqlCommand command = null)
         {
             if (command == null)
             {
@@ -1700,10 +1700,10 @@ namespace CapaDatos.CargarOrdenes_Datos
             cmd.Parameters.AddWithValue("@NUM_Examen", examen);
             cmd.Parameters.AddWithValue("@CodArticulo", codArticulo);
 
-            DataTable dt = new DataTable();
+            DataSet dts = new DataSet();
             SqlDataAdapter da = new SqlDataAdapter(cmd);
-            da.Fill(dt);
-            return dt;
+            da.Fill(dts);
+            return dts;
         }
 
         public string ObtenerCodVentaDesdeCodModo(string codModo, SqlCommand command = null)
@@ -1939,7 +1939,37 @@ namespace CapaDatos.CargarOrdenes_Datos
             }
 
 
-}
+        }
+
+        public DataSet ActulizaFechaOfre(Dictionary<string, string> Datos_Calculo, SqlCommand command = null)
+        {
+            if (command == null)
+            {
+                SqlConnection connection = cn.LeerCadena();
+                command = connection.CreateCommand();
+            }
+
+            SqlCommand cmd = command;
+            cmd.Parameters.Clear();
+            cmd.CommandText = "pFechaOfrecido";
+            cmd.CommandType = CommandType.StoredProcedure;
+
+
+            // Agregar los parámetros opcionales si existen
+            if (Datos_Calculo != null)
+            {
+                foreach (var parametro in Datos_Calculo)
+                {
+                    cmd.Parameters.AddWithValue(parametro.Key, parametro.Value ?? (object)DBNull.Value);
+                }
+            }
+            
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet dts = new DataSet();
+            da.Fill(dts);
+            cmd.Parameters.Clear();
+            return dts;
+        }
 
         //public async Task<bool> RebajarInventarioAsync(string codArticulo, string codLaboratorio, int cantidad, SqlCommand command)
         //{

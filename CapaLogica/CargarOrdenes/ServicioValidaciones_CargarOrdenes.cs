@@ -379,8 +379,7 @@ namespace CapaLogica.CargarOrdenes
                 }
                 else
                 {
-                    mostrarError("Hay una disparidad de montos entre el detalle de esta orden y su encabezado. " +
-                        "No se puede guardar esta orden");
+                    mostrarError("No se puede guardar esta orden, hay disparidad en los montos");
                     return false;
                 }
 

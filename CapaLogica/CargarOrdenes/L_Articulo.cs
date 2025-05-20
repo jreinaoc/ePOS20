@@ -446,7 +446,7 @@ namespace CapaLogica.CargarOrdenes
                 //Ancho de columna
                 Dgv_Tap3_Articulo.Columns["CodArticulo"].Width = 70;
             Dgv_Tap3_Articulo.Columns["ColorLC"].Width = 35;
-            Dgv_Tap3_Articulo.Columns["DESART"].Width = 320;
+            Dgv_Tap3_Articulo.Columns["DESART"].Width = 335;
                 Dgv_Tap3_Articulo.Columns["ART_EXIST"].Width = 60;
                 Dgv_Tap3_Articulo.Columns["ART_PVP"].Width = 100;
                 Dgv_Tap3_Articulo.Columns["PORCTDESCUENTO"].Width = 100;
@@ -1008,7 +1008,7 @@ namespace CapaLogica.CargarOrdenes
                 if (row.Cells["Impuesto"].Value != null)
                 {
                     decimal impuesto = Convert.ToDecimal(row.Cells["Impuesto"].Value);
-                    subtotalConIva = Convert.ToDecimal(row.Cells["ART_PVP"].Value) * Convert.ToDecimal(row.Cells["ART_EXIST"].Value);
+                    subtotalConIva = Convert.ToDecimal(row.Cells["ART_PVP"].Value) * Convert.ToDecimal(row.Cells["ART_EXIST"].Value)- (Convert.ToDecimal(row.Cells["ART_PVP"].Value) * Convert.ToDecimal(row.Cells["ART_EXIST"].Value) * (Convert.ToDecimal(row.Cells["PORCTDESCUENTO"].Value) / 100));
                     ivaTotal += subtotalConIva * (impuesto / 100);
                 }
             }
@@ -1175,7 +1175,7 @@ namespace CapaLogica.CargarOrdenes
             }
         }
 
-        public void CargarServicioOPrima(DataGridView gridFacturas, string tipoServicio, int NumeroExamen = 0, string Nacionalidad = null, string txtCedula = null, string txtOjo = null)
+        public void CargarServicioOPrima(decimal PorcDcto , DataGridView gridFacturas, string tipoServicio, int NumeroExamen = 0, string Nacionalidad = null, string txtCedula = null, string txtOjo = null)
         {
             try
             {
@@ -1272,7 +1272,7 @@ namespace CapaLogica.CargarOrdenes
                             decimal CostoPromedio = (decimal) articulo.COSTOPROME;
                             decimal impuesto = articulo.ART_EXENTO ? 0 : BuscarIva("I");
 
-                           AgregarFila(gridFacturas, articulo.CodArticulo, "", articulo.DESART, cantidad, (decimal)precio, (decimal)articulo.PORCTDESCUENTO, (decimal)total, impuesto, txtOjo, CostoPromedio, codigo);
+                           AgregarFila(gridFacturas, articulo.CodArticulo, "", articulo.DESART, cantidad, (decimal)precio, PorcDcto, (decimal)total, impuesto, txtOjo, CostoPromedio, codigo);
           
                         }
                     }
@@ -1306,7 +1306,7 @@ namespace CapaLogica.CargarOrdenes
             return "";
         }
 
-        private void EjecutarAccionServicioAgregado(DataGridView gridFacturas, int fila, int filaServicioAgregado, string ladoOjo, string TipoTrabajo, SqlCommand sqlCom = null)
+        private void EjecutarAccionServicioAgregado(decimal PorcDcto, DataGridView gridFacturas, int fila, int filaServicioAgregado, string ladoOjo, string TipoTrabajo, SqlCommand sqlCom = null)
         {
             try
             {
@@ -1396,7 +1396,7 @@ namespace CapaLogica.CargarOrdenes
                                     decimal CostoPromedio = (decimal)articulo.COSTOPROME;
                                     decimal impuesto = articulo.ART_EXENTO ? 0 : BuscarIva("I");
                                     // Agregar nueva fila al DataGridView
-                                    AgregarFila(gridFacturas, articulo.CodArticulo,"", articulo.DESART, cantidad, (decimal)precio, (decimal)articulo.PORCTDESCUENTO, (decimal)total, impuesto, ladoOjo, CostoPromedio, codPadre,"SI", AgreDer, AgreIzq);
+                                    AgregarFila(gridFacturas, articulo.CodArticulo,"", articulo.DESART, cantidad, (decimal)precio, PorcDcto, (decimal)total, impuesto, ladoOjo, CostoPromedio, codPadre,"SI", AgreDer, AgreIzq);
                                     //Actualizo la fila del cristal 
                                     switch (ladoOjo)
                                     {
@@ -1615,7 +1615,7 @@ namespace CapaLogica.CargarOrdenes
             return new float[] { nuevoEsf, nuevoCil, nuevoEje };
         }
 
-        public void EvaluoServicioAgregado(DataGridView gridFacturas, int fila, string ladoOjo, int NunExamen, string TipoTrabajo, string Nacionalidad, string txtCedula)
+        public void EvaluoServicioAgregado(decimal PorcDcto, DataGridView gridFacturas, int fila, string ladoOjo, int NunExamen, string TipoTrabajo, string Nacionalidad, string txtCedula)
         {
             // Declaración de variables
             double ESFD;
@@ -1629,20 +1629,20 @@ namespace CapaLogica.CargarOrdenes
 
             try
             {
-                // Determinar el lado del ojo basado en los valores del DataGridView
-                var ojo = gridFacturas.Rows[fila].Cells["Ojo"].Value?.ToString();
-                if (ojo == "D")
-                {
-                    ladoOjo = "D";
-                }
-                else if (ojo == "I")
-                {
-                    ladoOjo = "I";
-                }
-                else if (ojo == "A")
-                {
-                    ladoOjo = "Ambos";
-                }
+                //// Determinar el lado del ojo basado en los valores del DataGridView
+                //var ojo = gridFacturas.Rows[fila].Cells["Ojo"].Value?.ToString();
+                //if (ojo == "D")
+                //{
+                //    ladoOjo = "D";
+                //}
+                //else if (ojo == "I")
+                //{
+                //    ladoOjo = "I";
+                //}
+                //else if (ojo == "A")
+                //{
+                //    ladoOjo = "Ambos";
+                //}
 
                 // Evaluar si los artículos tienen promociones y si se pueden cumplir
                 int x = 0;
@@ -1748,7 +1748,7 @@ namespace CapaLogica.CargarOrdenes
 
                                     if (resultado != null && (bool)resultado == true)
                                     {
-                                        EjecutarAccionServicioAgregado(gridFacturas, fila, x, ladoOjo, TipoTrabajo);
+                                        EjecutarAccionServicioAgregado(PorcDcto, gridFacturas, fila, x, ladoOjo, TipoTrabajo);
                                     }
                                 }
                                 else
@@ -1977,7 +1977,7 @@ namespace CapaLogica.CargarOrdenes
                     continue; // Saltar filas inválidas
 
                 // Otros servicios
-                else if (codArticulo.StartsWith("S") && Cantidad_Cristal> Cantidad_Servicio)
+                else if (codArticulo.StartsWith("S") && Cantidad_Cristal !=  Cantidad_Servicio)
                 {
                     // Coloración
                     if (codArticulo == "S000004" || codArticulo == "S000006")
@@ -1991,7 +1991,7 @@ namespace CapaLogica.CargarOrdenes
                             foreach (DataRow dr in dsServicioAgregado.Tables[0].Rows)
                             {
                                 string agregadoProducto = dr["Agregado_Producto"]?.ToString().Trim('"');
-                                if (!string.IsNullOrEmpty(agregadoProducto) && agregadoProducto == codArticulo && Cantidad_Cristal > Cantidad_Servicio)
+                                if (!string.IsNullOrEmpty(agregadoProducto) && agregadoProducto == codArticulo && Cantidad_Cristal != Cantidad_Servicio)
                                 {
                                     ActualizarCelda(Dgv_Tap3_Articulo, row.Index, "ART_EXIST", Cantidad_Cristal.ToString());
                                     break; // Salir del bucle interno si se encuentra el servicio
@@ -2005,7 +2005,7 @@ namespace CapaLogica.CargarOrdenes
                         foreach (DataRow dr in dsServAR.Tables[1].Rows)
                         {
                             string agregadoProducto = dr["CodServicio"]?.ToString().Trim('"');
-                            if (!string.IsNullOrEmpty(agregadoProducto) && agregadoProducto == codArticulo && Cantidad_Cristal > Cantidad_Servicio)
+                            if (!string.IsNullOrEmpty(agregadoProducto) && agregadoProducto == codArticulo && Cantidad_Cristal != Cantidad_Servicio)
                             {
                                 ActualizarCelda(Dgv_Tap3_Articulo, row.Index, "ART_EXIST", Cantidad_Cristal.ToString());
                                 break; // Salir del bucle interno si se encuentra el servicio
@@ -3054,7 +3054,7 @@ namespace CapaLogica.CargarOrdenes
         public string ObtenerBajaExistenciaCristales(string cedNacio, string cedId, string sucursal, string examen, string codArticulo, SqlCommand command = null)
         {
             var dt = _D_Articulos.ObtenerBajaExistenciaCristales(cedNacio, cedId, sucursal, examen, codArticulo, command = null);
-            if (dt != null && dt.Rows.Count > 0)
+            if (dt != null && dt.Tables[1].Rows.Count > 0)
             {
                 return codArticulo;
             }
@@ -3255,7 +3255,7 @@ namespace CapaLogica.CargarOrdenes
                 //fechaMaxVenta = DateTime.ParseExact(fechaConcatenada, "yyyy/MM/dd H:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
 
                 // Variables iniciales
-                int horasServicio;
+                int horasServicio= 0;
 
                 List<TB_SERVICIOSLABDTO> TB_SERVICIOSLABD = new List<TB_SERVICIOSLABDTO>();
                 TB_SERVICIOSLABD = _D_Articulos.ServiciosLaboratorio(servicio);
@@ -3264,26 +3264,37 @@ namespace CapaLogica.CargarOrdenes
                     TB_SERVICIOSLABDTO _SERVICIOSLABDTO = TB_SERVICIOSLABD.First();
                     horasServicio = int.Parse(_SERVICIOSLABDTO.HorasEntrega);
                 }
-                else
-                {
-                    return null;
-                }
 
                 DateTime fechaOfrecida = DateTime.Now;
+                //fechaOfrecida = _D_Inicio.DiaActivo();
                 string horaOfrecida = string.Empty;
 
                 // Lógica para HorasServicio SERVICIO EXPRESS
-                if (servicio == "004"  && (GlbCodDetVta == "01" || GlbCodDetVta == "08"))
+                if (servicio == "018"  && (GlbCodDetVta == "01" || GlbCodDetVta == "08"))
                 {
-                    FechaHoraOfrecida resultado = Calculo_Servicio_3Horas(fechaOfrecida);
+                    FechaHoraOfrecida resultado = Calculo_Servicio_3Horas(_D_Inicio.DiaActivo());
                     return new List<FechaHoraOfrecida> { resultado };
                 }
 
                 // Lógica para HorasServicio SERVICIO ENTREGA 3 HORAS
-                else if (servicio == "018" && (GlbCodDetVta == "01" || GlbCodDetVta == "08"))
+                else if (servicio == "004" && (GlbCodDetVta == "01" || GlbCodDetVta == "08"))
                 {
-                    FechaHoraOfrecida resultado = Calculo_Servicio_12Horas(fechaOfrecida);
+                    FechaHoraOfrecida resultado = Calculo_Servicio_12Horas(_D_Inicio.DiaActivo());
                     return new List<FechaHoraOfrecida> { resultado };
+                }
+
+                // Lógica para HorasServicio SERVICIO ENTREGA 3 HORAS
+                else if (servicio == "017" && (GlbCodDetVta == "01" || GlbCodDetVta == "08"))
+                {
+                    // Retornar el resultado como una lista
+                    return new List<FechaHoraOfrecida>
+                    {
+                    new FechaHoraOfrecida
+                    {
+                        FechaOfrecida = fechaOfrecida,
+                        HoraOfrecida = DateTime.Now.ToString("HH:mm:ss: tt")
+                    }
+                    };
                 }
 
                 // Lógica para HorasServicio = 12 y Servicio no es '004' ni '018'
@@ -3352,6 +3363,7 @@ namespace CapaLogica.CargarOrdenes
                 // Lógica adicional para otros casos
                 if (servicio != "004" && servicio != "018")
                 {
+                    //fechaOfrecida = _D_Inicio.DiaActivo().AddDays(5); /*DateTime.Now.AddDays(5);*/
                     fechaOfrecida = DateTime.Now.AddDays(5);
                     horaOfrecida = "12:01:01 P.M.";
                 }
@@ -3471,6 +3483,93 @@ namespace CapaLogica.CargarOrdenes
                 //transaction.Rollback();
                 return null;
             }
+        }
+
+        public List<FechaHoraOfrecida> ActualizarFechaOfre(DataGridView Dgv_Tap3_Articulo, string _MonturaPropia, string _Quorum, string _Color)
+        {
+            string CRISTAL = "";
+            string ANTIREFL = "0";
+            string MONTURA = "";
+            string MONTURAPROPIA = _MonturaPropia== "False"? "0":"1";
+            string LC = "";
+            string Quorum = _Quorum == "False" ? "0" : "1"; 
+            string Remoto = "0";
+            string Color = _Color;
+            string Laboratorio = "";
+            string Sucursal = _D_Inicio.Sucursal();
+
+            DataSet dsServAR = _D_Articulos.ServiciosAR_btnProcesar("", false);
+
+            // Iterar sobre las filas del DataGridView base para calcular los totales
+            foreach (DataGridViewRow row in Dgv_Tap3_Articulo.Rows)
+            {
+                // Verificar que la fila no sea nueva
+                if (row.IsNewRow) continue;
+
+                // Subtotal: Cantidad * Precio
+                if (row.Cells["CodArticulo"].Value != null)
+                {
+                    string codigo = row.Cells["CodArticulo"].Value.ToString();
+                    if (codigo.StartsWith("C"))
+                        CRISTAL = codigo;
+                    else if (codigo.StartsWith("M") || codigo.StartsWith("L"))
+                        MONTURA = codigo;
+                    else if (codigo.StartsWith("W"))
+                        LC = codigo;
+                    else if (codigo.StartsWith("S"))
+                        if (dsServAR.Tables.Count > 1)
+                        {
+                            foreach (DataRow dr in dsServAR.Tables[1].Rows)
+                            {
+                                if (codigo == dr["CodServicio"].ToString())
+                                    ANTIREFL = "1";
+                            }
+                        }
+                }
+
+            }
+
+            Dictionary<string, string> Variables_calculo = new Dictionary<string, string>
+            {
+                    { "@CRISTAL", CRISTAL },
+                    { "@ANTIREFL", ANTIREFL},
+                    { "@MONTURA",  MONTURA },
+                    { "@MONTURAPROPIA", MONTURAPROPIA },
+                    { "@LC", LC },
+                    { "@Quorum", Quorum },
+                    { "@Remoto", Remoto},
+                    { "@Color", Color },
+                    { "@Laboratorio", Laboratorio },
+                    { "@Sucursal", Sucursal }
+            };
+
+            DataSet Calculos_Fecha = _D_Articulos.ActulizaFechaOfre(Variables_calculo, null);
+
+            if (Calculos_Fecha.Tables[1].Rows.Count > 0)
+            {
+                DateTime fechaOfrecida= DateTime.Now;
+                DateTime Hora_ofrecida= DateTime.Now;
+
+                foreach (DataRow dr in Calculos_Fecha.Tables[1].Rows)
+                {
+                    fechaOfrecida = Convert.ToDateTime (dr["Dias"].ToString());
+                    Hora_ofrecida = Convert.ToDateTime(dr["Hora"].ToString());
+                    break;
+
+                }
+
+                // Retornar el resultado como una lista
+                return new List<FechaHoraOfrecida>
+                {
+                    new FechaHoraOfrecida
+                    {
+                    FechaOfrecida = fechaOfrecida,
+                    HoraOfrecida = Hora_ofrecida.ToString("HH:mm:ss tt")
+                    }
+                };
+            }
+
+            return null;
         }
     }
         

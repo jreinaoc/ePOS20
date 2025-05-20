@@ -59,7 +59,6 @@ namespace CapaVisual_Login
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.LblVentasDia = new System.Windows.Forms.Label();
             this.GbxTasaDia = new System.Windows.Forms.GroupBox();
-            this.button1 = new System.Windows.Forms.Button();
             this.LblTasaSec = new System.Windows.Forms.Label();
             this.LblTasa = new System.Windows.Forms.Label();
             this.LblBs = new System.Windows.Forms.Label();
@@ -212,7 +211,6 @@ namespace CapaVisual_Login
             // GbxTasaDia
             // 
             this.GbxTasaDia.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(185)))), ((int)(((byte)(51)))));
-            this.GbxTasaDia.Controls.Add(this.button1);
             this.GbxTasaDia.Controls.Add(this.LblTasaSec);
             this.GbxTasaDia.Controls.Add(this.LblTasa);
             this.GbxTasaDia.Controls.Add(this.LblBs);
@@ -223,15 +221,6 @@ namespace CapaVisual_Login
             this.GbxTasaDia.Size = new System.Drawing.Size(573, 201);
             this.GbxTasaDia.TabIndex = 12;
             this.GbxTasaDia.TabStop = false;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(140, 107);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(57, 42);
-            this.button1.TabIndex = 7;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
             // 
             // LblTasaSec
             // 
@@ -799,6 +788,5 @@ namespace CapaVisual_Login
         private System.Windows.Forms.Label label35;
         private System.Windows.Forms.Label label5;
         public System.Windows.Forms.Panel PnlClientesEspera;
-        private System.Windows.Forms.Button button1;
     }
 }
