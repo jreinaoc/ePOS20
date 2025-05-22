@@ -47,6 +47,7 @@ namespace CapaVisual_Login
         private D_DetalleOrden _D_DetalleOrden = new D_DetalleOrden();
         public bool osc;
         public string mostrarclientes;
+        private string mensaje = "";
 
         public void addformulario(Form F)
         {
@@ -164,18 +165,28 @@ namespace CapaVisual_Login
 
 
 
+            string bloqFacturacion = _D_DetalleOrden.TB_PARAMETRO("BloqFacturacion");
 
+            if (bloqFacturacion == "0")
+            {
+                PnlListadoOrdenes.Controls.Clear();
+                addformulario(_FrmListaOrdenes);
+                Focus();
+                //_FrmListaOrdenes.cerrar();
+                //_FrmListaOrdenes.ListadoOrdenosRebot();
 
-
-
-            PnlListadoOrdenes.Controls.Clear();
-            addformulario(_FrmListaOrdenes);
-            Focus();
-            //_FrmListaOrdenes.cerrar();
-            //_FrmListaOrdenes.ListadoOrdenosRebot();
-
-            string Sucursal = _D_DetalleOrden.TB_PARAMETRO("SucursalId");
-            _D_Anulacion.CaragarAuditor(Sucursal, "010", TB_USUARIO.COD_EMPLEADO, "Entrada a ventas pendientes");
+                string Sucursal = _D_DetalleOrden.TB_PARAMETRO("SucursalId");
+                _D_Anulacion.CaragarAuditor(Sucursal, "010", TB_USUARIO.COD_EMPLEADO, "Entrada a ventas pendientes");
+            }
+            else
+            {
+                mensaje = "Existen inconsistencias en las facturas, comuníquese con Sistemas";
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje(mensaje);
+                _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                _FrmMensajes.ShowDialog();
+            }
         }
 
         private void FrmPrincipal_Load_1(object sender, EventArgs e)
@@ -687,6 +698,11 @@ namespace CapaVisual_Login
         }
 
         private void PnlListadoOrdenes_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void GbxMenuPrincipal_Enter(object sender, EventArgs e)
         {
 
         }

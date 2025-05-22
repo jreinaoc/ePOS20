@@ -184,6 +184,19 @@ namespace CapaVisual_Login
             string DiaActual = (DateTime.Now.ToString("dd/MM/yyyy"));
             string DiaActivo = _D_Inicio.DiaActivo().ToShortDateString();
 
+            string bloqFacturacion = _D_DetalleOrden.TB_PARAMETRO("BloqFacturacion");
+
+            if (bloqFacturacion == "1")
+            {
+                mensaje = "Existen inconsistencias en las facturas, comuníquese con Sistemas";
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje(mensaje);
+                _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                _FrmMensajes.ShowDialog();
+                return;
+            }
+
             if (DiaActivo != DiaActual)
             {
                 _FrmMensajes.co = 2;
@@ -6758,7 +6771,7 @@ namespace CapaVisual_Login
                     this.btnIngresar.Enabled = true;
                     LLenar_Datos_Convencional();
                     LLenar_Datos_Orden();
-                    this.btnPrincipal.Enabled = true;
+                   // this.btnPrincipal.Enabled = true;
                     break;
 
                 case "Bloquear":
@@ -7717,7 +7730,7 @@ namespace CapaVisual_Login
                         label70.Size = (Size)new Point(1054, 21);
                         DgvObservaconExamen.Location = new Point(-8, 403);
                         DgvObservaconExamen.Size = (Size)new Point(1061, 19);
-                        btnExamen.Enabled = true;
+                        //btnExamen.Enabled = true;
 
                     }
 
@@ -7736,7 +7749,7 @@ namespace CapaVisual_Login
 
                         DgvObservaconExamen.Location = new Point(3, 266);
                         DgvObservaconExamen.Size = (Size)new Point(1061, 19);
-                        btnExamen.Enabled = true;
+                        //btnExamen.Enabled = true;
 
                     }
                 }

@@ -1647,7 +1647,7 @@ namespace CapaDatos.CargarOrdenes_Datos
 
         }
 
-        public DataTable ValidacionMonturaQuorum(string codArticulo, string codSucursal, string codServicio, SqlCommand command = null)
+        public DataSet ValidacionMonturaQuorum(string codArticulo, string codSucursal, string codServicio, SqlCommand command = null)
         {
             try
             {
@@ -1659,7 +1659,7 @@ namespace CapaDatos.CargarOrdenes_Datos
 
                 SqlCommand cmd = command;
                 cmd.Parameters.Clear();
-                cmd.CommandText = "SP_CPOS_pGetMonturaAlmacenQUORUM";
+                cmd.CommandText = "pGetMonturaAlmacenQUORUM";
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 cmd.Parameters.AddWithValue("@NumordServ", ""); // vacío
@@ -1667,12 +1667,10 @@ namespace CapaDatos.CargarOrdenes_Datos
                 cmd.Parameters.AddWithValue("@suc", codSucursal);
                 cmd.Parameters.AddWithValue("@CodServicio", codServicio);
 
-                DataTable dt = new DataTable();
+                DataSet dts = new DataSet();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-
-                cmd.Parameters.Clear();
-                return dt;
+                da.Fill(dts);
+                return dts;
             }
             catch (Exception ex)
             {
@@ -1969,6 +1967,38 @@ namespace CapaDatos.CargarOrdenes_Datos
             da.Fill(dts);
             cmd.Parameters.Clear();
             return dts;
+        }
+
+        public DataTable ObtenerCliente(string nacio, string cedula,SqlCommand command = null)
+        {
+            try
+            {
+                if (command == null)
+                {
+                    SqlConnection connection = cn.LeerCadena();
+                    command = connection.CreateCommand();
+                }
+                SqlCommand cmd = command;
+                cmd.Parameters.Clear();
+
+                cmd.CommandText = "SP_CPOS_ObtenerCliente";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@nacio", nacio);
+                cmd.Parameters.AddWithValue("@cedula", cedula);
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                cmd.Parameters.Clear();
+                return dt;
+
+            }
+            catch (Exception ex)
+            {
+                string Error = string.Format("Error: {0}", ex.Message);
+                return null;
+            }
+
+
         }
 
         //public async Task<bool> RebajarInventarioAsync(string codArticulo, string codLaboratorio, int cantidad, SqlCommand command)

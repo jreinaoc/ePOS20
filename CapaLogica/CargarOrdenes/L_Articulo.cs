@@ -1206,7 +1206,7 @@ namespace CapaLogica.CargarOrdenes
                 if (!string.IsNullOrEmpty(PrismaD) && PrismaD != "0") cantidad++;
                 if (!string.IsNullOrEmpty(PrismaI) && PrismaI != "0") cantidad++;
 
-                if (PrismaD == "0" || PrismaI == "0")
+                if (PrismaD == "0" && PrismaI == "0")
                 {
                     return; // No hay datos de prisma
                 }
@@ -1224,7 +1224,7 @@ namespace CapaLogica.CargarOrdenes
                     else if (!string.IsNullOrEmpty(codigo) && codigo.StartsWith("C"))
                     {
                         found = true;
-                        cantidad = Convert.ToInt32(gridFacturas.Rows[x].Cells["ART_EXIST"].Value);
+                        //cantidad = Convert.ToInt32(gridFacturas.Rows[x].Cells["ART_EXIST"].Value);
                     }
                 }
 
@@ -1272,7 +1272,7 @@ namespace CapaLogica.CargarOrdenes
                             decimal CostoPromedio = (decimal) articulo.COSTOPROME;
                             decimal impuesto = articulo.ART_EXENTO ? 0 : BuscarIva("I");
 
-                           AgregarFila(gridFacturas, articulo.CodArticulo, "", articulo.DESART, cantidad, (decimal)precio, PorcDcto, (decimal)total, impuesto, txtOjo, CostoPromedio, codigo);
+                           AgregarFila(gridFacturas, articulo.CodArticulo, "", articulo.DESART, cantidad, (decimal)precio, PorcDcto, (decimal)total, impuesto, "", CostoPromedio, codigo);
           
                         }
                     }
@@ -1980,38 +1980,41 @@ namespace CapaLogica.CargarOrdenes
                 else if (codArticulo.StartsWith("S") && Cantidad_Cristal !=  Cantidad_Servicio)
                 {
                     // Coloración
-                    if (codArticulo == "S000004" || codArticulo == "S000006")
+                    //if (codArticulo == "S000004" || codArticulo == "S000006")
+                    if (codArticulo == "S000004" )
                     {
                         ActualizarCelda(Dgv_Tap3_Articulo, row.Index, "ART_EXIST", Cantidad_Cristal.ToString());
                     }
 
 
-                        if (dsServicioAgregado != null && dsServicioAgregado.Tables.Count > 0 && dsServicioAgregado.Tables[0].Rows.Count > 0)
-                        {
-                            foreach (DataRow dr in dsServicioAgregado.Tables[0].Rows)
-                            {
-                                string agregadoProducto = dr["Agregado_Producto"]?.ToString().Trim('"');
-                                if (!string.IsNullOrEmpty(agregadoProducto) && agregadoProducto == codArticulo && Cantidad_Cristal != Cantidad_Servicio)
-                                {
-                                    ActualizarCelda(Dgv_Tap3_Articulo, row.Index, "ART_EXIST", Cantidad_Cristal.ToString());
-                                    break; // Salir del bucle interno si se encuentra el servicio
-                                }
-                            }
-                        }
+                        //if (dsServicioAgregado != null && dsServicioAgregado.Tables.Count > 0 && dsServicioAgregado.Tables[0].Rows.Count > 0)
+                        //{
+                        //    foreach (DataRow dr in dsServicioAgregado.Tables[0].Rows)
+                        //    {
+                        //        string agregadoProducto = dr["Agregado_Producto"]?.ToString().Trim('"');
+                        //        //if (!string.IsNullOrEmpty(agregadoProducto) && agregadoProducto == codArticulo && Cantidad_Cristal != Cantidad_Servicio)
+                        //        if (!string.IsNullOrEmpty(agregadoProducto) && agregadoProducto == codArticulo)
+                        //        {
+                        //            ActualizarCelda(Dgv_Tap3_Articulo, row.Index, "ART_EXIST", Cantidad_Cristal.ToString());
+                        //            break; // Salir del bucle interno si se encuentra el servicio
+                        //        }
+                        //    }
+                        //}
                     
 
-                    if (dsServAR != null && dsServAR.Tables.Count > 1 && dsServAR.Tables[1].Rows.Count > 0)
-                    {
-                        foreach (DataRow dr in dsServAR.Tables[1].Rows)
-                        {
-                            string agregadoProducto = dr["CodServicio"]?.ToString().Trim('"');
-                            if (!string.IsNullOrEmpty(agregadoProducto) && agregadoProducto == codArticulo && Cantidad_Cristal != Cantidad_Servicio)
-                            {
-                                ActualizarCelda(Dgv_Tap3_Articulo, row.Index, "ART_EXIST", Cantidad_Cristal.ToString());
-                                break; // Salir del bucle interno si se encuentra el servicio
-                            }
-                        }
-                    }
+                    //if (dsServAR != null && dsServAR.Tables.Count > 1 && dsServAR.Tables[1].Rows.Count > 0)
+                    //{
+                    //    foreach (DataRow dr in dsServAR.Tables[1].Rows)
+                    //    {
+                    //        string agregadoProducto = dr["CodServicio"]?.ToString().Trim('"');
+                    //        //if (!string.IsNullOrEmpty(agregadoProducto) && agregadoProducto == codArticulo && Cantidad_Cristal != Cantidad_Servicio)
+                    //        if (!string.IsNullOrEmpty(agregadoProducto) && agregadoProducto == codArticulo)
+                    //        {
+                    //            ActualizarCelda(Dgv_Tap3_Articulo, row.Index, "ART_EXIST", Cantidad_Cristal.ToString());
+                    //            break; // Salir del bucle interno si se encuentra el servicio
+                    //        }
+                    //    }
+                    //}
                 }
             }
         }
@@ -2912,31 +2915,34 @@ namespace CapaLogica.CargarOrdenes
 
             try
             {
-                // Obtener los artículos desde la base de datos
-                //var colores = _D_Articulos.ObtenerColorLC(CodArticulo);
+               
                 return _D_Articulos.ObtenerColorLC(CodArticulo);
-                //DataSet dsColorLC = _D_Articulos.ObtenerColorLC(CodArticulo);
-                //DgvColoresLC.DataSource = dsColorLC;
-                // Limpiar la lista pasada como parámetro y llenarla con los nuevos datos
-                //listaColoresLC.Clear(); // Limpiar la lista para evitar duplicados
-                //listaColoresLC.AddRange(dsGColorLC); // Agregar los datos obtenidos
+            }
+            catch (Exception ex)
+            {
+                return null;
+                stringBuilder.Append(Environment.NewLine + string.Format("Error: {0}", ex.Message));
+                transaction.Rollback();
+            }
+        }
 
-                //// Asignar la lista como fuente de datos del DataGridView
-                //if (listaColoresLC != null && listaColoresLC.Count > 0 && _D_Articulos.stringBuilder.Length == 0)
-                //{
-                //    //DgvArticulo.DataSource = listaArticulos;
+        public DataTable  ObtenerCliente( string nacio, string cedula)
+        {
+            Conexion cn = new Conexion();
+            SqlConnection connection = cn.LeerCadena();
+            SqlCommand command = connection.CreateCommand();
+            SqlTransaction transaction;
+            // Iniciar la transacción
+            transaction = connection.BeginTransaction();
+            command.Connection = connection;
+            command.Transaction = transaction;
+            command.Parameters.Clear();
+            command.CommandTimeout = 120;
 
-                //    // Confirmar la transacción
-                //    transaction.Commit();
-                //}
-                //else
-                //{
-                //    //DgvArticulo.DataSource = null; // Si no hay datos, limpiar el DataGridView
-                //    _D_Articulos.stringBuilder.AppendLine("No se pudieron cargar los artículos correctamente");
-                //    transaction.Rollback();
-                //}
+            try
+            {
 
-
+                return _D_Articulos.ObtenerCliente(nacio, cedula);
             }
             catch (Exception ex)
             {
@@ -3031,7 +3037,7 @@ namespace CapaLogica.CargarOrdenes
                 if (!string.IsNullOrWhiteSpace(codArticulo))
                 {
                     var dt = _D_Articulos.ValidacionMonturaQuorum(codArticulo, sucursal, codServicio);
-                    if (dt != null && dt.Rows.Count > 0)
+                    if (dt != null && dt.Tables[1].Rows.Count > 0)
                     {
                         monturasEnQuorum.Add(codArticulo);
                     }
@@ -3044,7 +3050,7 @@ namespace CapaLogica.CargarOrdenes
         public string ObtenerMonturaQuorumPorArticulo(string codArticulo, string sucursal, string codServicio)
         {
             var dt = _D_Articulos.ValidacionMonturaQuorum(codArticulo, sucursal, codServicio);
-            if (dt != null && dt.Rows.Count > 0)
+            if (dt != null && dt.Tables[1].Rows.Count > 0)
             {
                 return codArticulo;
             }

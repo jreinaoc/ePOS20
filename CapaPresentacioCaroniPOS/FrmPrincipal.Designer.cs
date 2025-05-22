@@ -61,6 +61,10 @@ namespace CapaVisual_Login
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.BtnMinimizar = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.GbxMenuPrincipal.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicBoxCargaOrdenClaro)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicBoxCargaOrdenOsc)).BeginInit();
@@ -77,6 +81,8 @@ namespace CapaVisual_Login
             ((System.ComponentModel.ISupportInitialize)(this.PicBoxConfigOsc)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictBoxPagoMovilOsc)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             this.SuspendLayout();
             // 
             // PnlListadoOrdenes
@@ -92,6 +98,10 @@ namespace CapaVisual_Login
             // GbxMenuPrincipal
             // 
             this.GbxMenuPrincipal.BackColor = System.Drawing.Color.White;
+            this.GbxMenuPrincipal.Controls.Add(this.pictureBox4);
+            this.GbxMenuPrincipal.Controls.Add(this.pictureBox3);
+            this.GbxMenuPrincipal.Controls.Add(this.button2);
+            this.GbxMenuPrincipal.Controls.Add(this.button1);
             this.GbxMenuPrincipal.Controls.Add(this.PicBoxCargaOrdenClaro);
             this.GbxMenuPrincipal.Controls.Add(this.PicBoxCargaOrdenOsc);
             this.GbxMenuPrincipal.Controls.Add(this.btnCargarOrdenes);
@@ -124,6 +134,7 @@ namespace CapaVisual_Login
             this.GbxMenuPrincipal.Size = new System.Drawing.Size(217, 740);
             this.GbxMenuPrincipal.TabIndex = 12;
             this.GbxMenuPrincipal.TabStop = false;
+            this.GbxMenuPrincipal.Enter += new System.EventHandler(this.GbxMenuPrincipal_Enter);
             // 
             // PicBoxCargaOrdenClaro
             // 
@@ -229,7 +240,7 @@ namespace CapaVisual_Login
             this.btnPagoMovil.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
             this.btnPagoMovil.Location = new System.Drawing.Point(43, 215);
             this.btnPagoMovil.Name = "btnPagoMovil";
-            this.btnPagoMovil.Size = new System.Drawing.Size(140, 34);
+            this.btnPagoMovil.Size = new System.Drawing.Size(168, 34);
             this.btnPagoMovil.TabIndex = 21;
             this.btnPagoMovil.Text = "Vuelto";
             this.btnPagoMovil.TextAlign = System.Drawing.ContentAlignment.TopLeft;
@@ -279,7 +290,7 @@ namespace CapaVisual_Login
             // PicBoxConfigClaro
             // 
             this.PicBoxConfigClaro.Image = ((System.Drawing.Image)(resources.GetObject("PicBoxConfigClaro.Image")));
-            this.PicBoxConfigClaro.Location = new System.Drawing.Point(9, 252);
+            this.PicBoxConfigClaro.Location = new System.Drawing.Point(9, 327);
             this.PicBoxConfigClaro.Name = "PicBoxConfigClaro";
             this.PicBoxConfigClaro.Size = new System.Drawing.Size(28, 31);
             this.PicBoxConfigClaro.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -307,7 +318,7 @@ namespace CapaVisual_Login
             this.btnconfiguracion.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnconfiguracion.ForeColor = System.Drawing.Color.Black;
             this.btnconfiguracion.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.btnconfiguracion.Location = new System.Drawing.Point(43, 252);
+            this.btnconfiguracion.Location = new System.Drawing.Point(43, 326);
             this.btnconfiguracion.Name = "btnconfiguracion";
             this.btnconfiguracion.Size = new System.Drawing.Size(168, 34);
             this.btnconfiguracion.TabIndex = 12;
@@ -446,7 +457,7 @@ namespace CapaVisual_Login
             // PicBoxConfigOsc
             // 
             this.PicBoxConfigOsc.Image = ((System.Drawing.Image)(resources.GetObject("PicBoxConfigOsc.Image")));
-            this.PicBoxConfigOsc.Location = new System.Drawing.Point(9, 252);
+            this.PicBoxConfigOsc.Location = new System.Drawing.Point(9, 327);
             this.PicBoxConfigOsc.Name = "PicBoxConfigOsc";
             this.PicBoxConfigOsc.Size = new System.Drawing.Size(28, 31);
             this.PicBoxConfigOsc.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -510,6 +521,64 @@ namespace CapaVisual_Login
             this.BtnMinimizar.UseVisualStyleBackColor = false;
             this.BtnMinimizar.Click += new System.EventHandler(this.BtnMinimizar_Click);
             // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.Color.Transparent;
+            this.button1.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.button1.FlatAppearance.BorderSize = 0;
+            this.button1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(4)))), ((int)(((byte)(185)))), ((int)(((byte)(166)))));
+            this.button1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(4)))), ((int)(((byte)(185)))), ((int)(((byte)(166)))));
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.ForeColor = System.Drawing.Color.Black;
+            this.button1.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.button1.Location = new System.Drawing.Point(43, 252);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(168, 34);
+            this.button1.TabIndex = 31;
+            this.button1.Text = "Utilitarios";
+            this.button1.TextAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.button1.UseVisualStyleBackColor = false;
+            // 
+            // button2
+            // 
+            this.button2.BackColor = System.Drawing.Color.Transparent;
+            this.button2.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.button2.FlatAppearance.BorderSize = 0;
+            this.button2.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(4)))), ((int)(((byte)(185)))), ((int)(((byte)(166)))));
+            this.button2.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(4)))), ((int)(((byte)(185)))), ((int)(((byte)(166)))));
+            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button2.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button2.ForeColor = System.Drawing.Color.Black;
+            this.button2.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.button2.Location = new System.Drawing.Point(43, 289);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(168, 34);
+            this.button2.TabIndex = 32;
+            this.button2.Text = "Reportes";
+            this.button2.TextAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.button2.UseVisualStyleBackColor = false;
+            // 
+            // pictureBox3
+            // 
+            this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
+            this.pictureBox3.Location = new System.Drawing.Point(13, 254);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(20, 25);
+            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox3.TabIndex = 33;
+            this.pictureBox3.TabStop = false;
+            // 
+            // pictureBox4
+            // 
+            this.pictureBox4.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox4.Image")));
+            this.pictureBox4.Location = new System.Drawing.Point(16, 293);
+            this.pictureBox4.Name = "pictureBox4";
+            this.pictureBox4.Size = new System.Drawing.Size(15, 20);
+            this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBox4.TabIndex = 34;
+            this.pictureBox4.TabStop = false;
+            // 
             // FrmPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -545,6 +614,8 @@ namespace CapaVisual_Login
             ((System.ComponentModel.ISupportInitialize)(this.PicBoxConfigOsc)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictBoxPagoMovilOsc)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -583,5 +654,9 @@ namespace CapaVisual_Login
         private System.Windows.Forms.Button btnCargarOrdenes;
         private System.Windows.Forms.PictureBox PicBoxCargaOrdenClaro;
         private System.Windows.Forms.PictureBox PicBoxCargaOrdenOsc;
+        internal System.Windows.Forms.Button button2;
+        internal System.Windows.Forms.Button button1;
+        private System.Windows.Forms.PictureBox pictureBox4;
+        private System.Windows.Forms.PictureBox pictureBox3;
     }
 }

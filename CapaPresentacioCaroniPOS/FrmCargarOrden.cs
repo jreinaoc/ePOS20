@@ -70,7 +70,7 @@ namespace CapaVisual_Login
         List<TB_EMPAFI> listaClienteAfiliados = new List<TB_EMPAFI>();
         List<TB_EMPAFI> listaTemporalClienteAfiliados = new List<TB_EMPAFI>();
         List<FechaHoraOfrecida> _FechaHoraOfrecida = new List<FechaHoraOfrecida>();
-
+        private string mensaje = "";
 
         private void DgvListadoOrdenes_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -498,8 +498,8 @@ namespace CapaVisual_Login
                     this.Rd_Pnl3_Codigo.Enabled = false;
                     this.btnCancelar3.Enabled = false;
 
-                    this.btnPrincipal.Enabled = true;
-                    this.btnExamen.Enabled = true;
+                    //this.btnPrincipal.Enabled = true;
+                    //this.btnExamen.Enabled = true;
                     this.btnCargarOrden.Enabled = true;
 
                     // Botones Aciones 
@@ -2550,7 +2550,7 @@ namespace CapaVisual_Login
                 string codServicio = Cbx_Pnl2_Servicio.SelectedValue.ToString();
                 var glbCodDetVta = Cbx_Pnl2_Trbajo.SelectedValue.ToString();
                 string sucursal = TB_USUARIO.COD_SUCURSAL;
-                string cedulaAfiliado = Dgv_Pnl3_ClienteAfiliado.CurrentRow?.Cells["Rif"]?.Value?.ToString();
+                string cedulaAfiliado = Dgv_Pnl3_ClienteAfiliado.CurrentRow?.Cells["Codigo_Emp"]?.Value?.ToString();
                 string codigoEmpresaAfiliada = Dgv_Pnl3_ClienteAfiliado.CurrentRow?.Cells["Codigo_Emp"]?.Value?.ToString();
                 bool monturaEstaEnQuorum = _servicioValidaciones.MonturaEstaEnQuorum(codMonturaSeleccionada, sucursal, codServicio);
                 //bool empresaAfiliada = EmpresaAfiliada;
@@ -3142,7 +3142,7 @@ namespace CapaVisual_Login
 
         private void FrmCargarOrden_Load(object sender, EventArgs e)
         {
-
+            tabControl.SelectedIndex = 2;
             _L_Articulo.CargarClientesAfiliados(Dgv_Pnl3_ClienteAfiliado, listaClienteAfiliados);
 
             Dgv_Pnl3_ClienteAfiliado.DataSource = listaClienteAfiliados;
@@ -3609,7 +3609,7 @@ namespace CapaVisual_Login
                 if (_FechaHoraOfrecida != null && _FechaHoraOfrecida.Count > 0)
                 {
                     FechaHoraOfrecida resultado = _FechaHoraOfrecida.First();
-                    Txt_Pnl2_Fecha_Ofre.Text = $"{resultado.FechaOfrecida:dd/MM/yyyy}  {resultado.HoraOfrecida}";
+                    Txt_Pnl2_Fecha_Ofre.Text = $"{resultado.FechaOfrecida:dd/MM/yyyy}";
                 }
             }
             else
@@ -3793,7 +3793,7 @@ namespace CapaVisual_Login
                         if (_FechaHoraOfrecida != null && _FechaHoraOfrecida.Count > 0)
                         {
                             FechaHoraOfrecida resultado = _FechaHoraOfrecida.First();
-                            Txt_Pnl2_Fecha_Ofre.Text = $"{resultado.FechaOfrecida:dd/MM/yyyy}  {resultado.HoraOfrecida}";
+                            Txt_Pnl2_Fecha_Ofre.Text = $"{resultado.FechaOfrecida:dd/MM/yyyy}";
                         }
                     }
                     catch (Exception ex)
@@ -3841,7 +3841,7 @@ namespace CapaVisual_Login
                     if (_FechaHoraOfrecida != null && _FechaHoraOfrecida.Count > 0)
                     {
                         FechaHoraOfrecida resultado = _FechaHoraOfrecida.First();
-                        Txt_Pnl2_Fecha_Ofre.Text = $"{resultado.FechaOfrecida:dd/MM/yyyy}  {resultado.HoraOfrecida}";
+                        Txt_Pnl2_Fecha_Ofre.Text = $"{resultado.FechaOfrecida:dd/MM/yyyy}";
                     }
                 }
 
@@ -3860,11 +3860,199 @@ namespace CapaVisual_Login
         {
 
         }
+
+        private void txtHorizontal_Validated(object sender, EventArgs e)
+        {
+            if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01" && !string.IsNullOrEmpty(txtHorizontal.Text))
+            {
+               
+                bool Band = false;
+
+                if (!decimal.TryParse(txtHorizontal.Text, out decimal valor))
+                {
+                     mensaje = "Valor inválido, debe escribir números";
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje(mensaje);
+                    _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                    _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                    _FrmMensajes.ShowDialog(); 
+                    // MessageBox.Show("Valor inválido, debe escribir números", "Inválido", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    txtHorizontal.Text = "";
+                    return;
+                }
+
+                if (valor < 10 || valor > 90)
+                {
+                    mensaje = "Valor inválido, rango entre 10 y 90";
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje(mensaje);
+                    _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                    _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                    _FrmMensajes.ShowDialog(); 
+                    //MessageBox.Show($"Valor inválido, rango entre 10 y 90", "Rango", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    Band = true;
+                }
+                else
+                {
+                    txtHorizontal.Text = valor.ToString("N2");
+                }
+
+                if (Band)
+                {
+                    txtHorizontal.Text = "";
+                    txtHorizontal.Focus();
+                }
+            }
+        }
+
+        private void txtVertical_Validated(object sender, EventArgs e)
+        {
+            if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01" && !string.IsNullOrEmpty(txtVertical.Text))
+            {
+
+                bool Band = false;
+
+                if (!decimal.TryParse(txtVertical.Text, out decimal valor))
+                {
+                    mensaje = "Valor inválido, debe escribir números";
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje(mensaje);
+                    _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                    _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                    _FrmMensajes.ShowDialog(); 
+                    //MessageBox.Show("Valor inválido, debe escribir números", "Inválido", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    txtVertical.Text = "";
+                    return;
+                }
+
+                if (valor < 10 || valor > 90)
+                {
+                    mensaje = "Valor inválido, rango entre 10 y 90";
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje(mensaje);
+                    _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                    _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                    _FrmMensajes.ShowDialog();
+                    //MessageBox.Show($"Valor inválido, rango entre 10 y 90", "Rango", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    Band = true;
+                }
+                else
+                {
+                    txtVertical.Text = valor.ToString("N2");
+                }
+
+                if (Band)
+                {
+                    txtVertical.Text = "";
+                    txtVertical.Focus();
+                }
+            }
+        }
+
+        private void txtMaxima_Validated(object sender, EventArgs e)
+        {
+            if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01" && !string.IsNullOrEmpty(txtMaxima.Text))
+            {
+
+                bool Band = false;
+
+                if (!decimal.TryParse(txtMaxima.Text, out decimal valor))
+                {
+                    mensaje = "Valor inválido, debe escribir números";
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje(mensaje);
+                    _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                    _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                    _FrmMensajes.ShowDialog();
+                    //MessageBox.Show("Valor inválido, debe escribir números", "Inválido", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    txtMaxima.Text = "";
+                    return;
+                }
+
+                if (valor < 10 || valor > 90)
+                {
+                    mensaje = "Valor inválido, rango entre 10 y 90";
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje(mensaje);
+                    _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                    _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                    _FrmMensajes.ShowDialog();
+                    //MessageBox.Show($"Valor inválido, rango entre 10 y 90", "Rango", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    Band = true;
+                }
+                else
+                {
+                    txtMaxima.Text = valor.ToString("N2");
+                }
+
+                if (Band)
+                {
+                    txtMaxima.Text = "";
+                    txtMaxima.Focus();
+                }
+            }
+        }
+
+        private void txtPuente_Validated(object sender, EventArgs e)
+        {
+            if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01" && !string.IsNullOrEmpty(txtPuente.Text))
+            {
+
+                bool Band = false;
+
+                if (!decimal.TryParse(txtPuente.Text, out decimal valor))
+                {
+
+                    mensaje = "Valor inválido, debe escribir números";
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje(mensaje);
+                    _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                    _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                    _FrmMensajes.ShowDialog();
+                    //_FrmMensajes.Location = new Point(1, 1);
+
+                    //MessageBox.Show("Valor inválido, debe escribir números", "Inválido", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    txtPuente.Text = "";
+                    return;
+                }
+
+                if (valor < 5 || valor > 30)
+                {
+                    mensaje = "Valor inválido, rango entre 5 y 30";
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje(mensaje);
+                    // Establece la posición del formulario
+                    _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                    _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                    _FrmMensajes.ShowDialog();
+                    //MessageBox.Show($"Valor inválido, rango entre 50 y 30", "Rango", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    Band = true;
+                }
+                else
+                {
+                    txtPuente.Text = valor.ToString("N2");
+                }
+
+                if (Band)
+                {
+                    txtPuente.Text = "";
+                    txtPuente.Focus();
+                }
+            }
+        }
+
+        private void Txt_Pnl2_Cedula_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                DataTable dtCliente = _L_Articulo.ObtenerCliente(Txt_Pnl2_Cedula.Text.Substring(0,1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length-2));
+                Txt_Pnl2_Nombre.Text = dtCliente.Rows[0][0].ToString();
+            }
+        }
+
     }
 
 
-    
-    
 }
  
 

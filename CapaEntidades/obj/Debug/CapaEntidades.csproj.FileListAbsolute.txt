@@ -136,7 +136,6 @@ C:\Programacion\CaroniPOS1\CapaEntidades\bin\Debug\System.Numerics.Vectors.xml
 C:\Programacion\CaroniPOS1\CapaEntidades\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
 C:\Programacion\CaroniPOS1\CapaEntidades\bin\Debug\System.Threading.Tasks.Extensions.xml
 C:\Programacion\CaroniPOS1\CapaEntidades\bin\Debug\System.ValueTuple.xml
-C:\Programacion\CaroniPOS1\CapaEntidades\obj\Debug\CapaEntidades.csproj.AssemblyReference.cache
 C:\Programacion\CaroniPOS1\CapaEntidades\obj\Debug\CapaEntidades.csproj.CoreCompileInputs.cache
 C:\Programacion\CaroniPOS1\CapaEntidades\obj\Debug\CapaEntidades.csproj.CopyComplete
 C:\Programacion\CaroniPOS1\CapaEntidades\obj\Debug\CapaEntidades.dll
