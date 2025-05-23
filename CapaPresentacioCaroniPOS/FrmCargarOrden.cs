@@ -1180,12 +1180,14 @@ namespace CapaVisual_Login
         {
             try
             {
+                //string artPadre = "";
                 // Buscar el artículo en la listaArticulos por el código
                 var articulo = listaArticulos.FirstOrDefault(a => a.CodArticulo == Txt_Tap3_Articulo_Codigo.Text);
 
                 if (articulo == null)
                 {
                     _FrmMensajes.co = 2;
+
                     _FrmMensajes.avisomensaje("El artículo no existe en la lista");
                     _FrmMensajes.ShowDialog();
                     return;
@@ -1239,10 +1241,20 @@ namespace CapaVisual_Login
                     ojo = "";
                 }
 
+                //Consultar servicios AR
+                
+                
+
+
+
+
                 //_L_Articulo.AgregarFila(Dgv_Tap3_Articulo, articulo.CodArticulo, articulo.DESART, cantidad, (decimal) precio, (decimal)articulo.PORCTDESCUENTO, (decimal) total, impuesto, _Trabajo.T_OJO);
                 _L_Articulo.AgregarFila(Dgv_Tap3_Articulo, articulo.CodArticulo, CodColorLC,articulo.DESART, cantidad, (decimal)precio, EmpresaAfiliada != "" && PorcDctoEmpresaAfiliada > 0 ? PorcDctoEmpresaAfiliada : (decimal)articulo.PORCTDESCUENTO, (decimal)total, impuesto, ojo, (decimal) articulo.COSTOPROME);
 
-
+                //if (artPadre != "")
+                //{
+                //    _L_Articulo.CargarServicioGarantia(Dgv_Tap3_Articulo);
+                //}
                 // Limpiar los TextBox después de agregar el artículo
                 ReiniciarBusquedaarticulo();
 
@@ -1332,6 +1344,7 @@ namespace CapaVisual_Login
                 Cbx_Pnl2_Trbajo.Enabled = true;
                 Cbx_Pnl2_Laboratorio.Enabled = true;
                 Cbx_Pnl2_Servicio.Enabled = true;
+                laboratorioSeleccionado = false;
 
                 txtHorizontal.Text = "";
                 txtVertical.Text = "";
@@ -1594,6 +1607,12 @@ namespace CapaVisual_Login
 
             // Validar si se agrego un servicio sin codigo padre
             _L_Articulo.VerificarServicioCodigoPadre(Dgv_Tap3_Articulo);
+
+            if (Garantia == true)
+            {
+                _L_Articulo.CargarServicioGarantia(Dgv_Tap3_Articulo);
+
+            }
 
             // validar si el servicio tiene una cantidad menor al cristal 
             _L_Articulo.Verificar_Cantidad_Articulo_Ingresada_Servicios(Dgv_Tap3_Articulo);
@@ -2422,19 +2441,18 @@ namespace CapaVisual_Login
 
         private void CargarComboLaboratorios()
         {
-            var lista = _L_Articulo.ObtenerLaboratoriosParaCombo();
-
-            Cbx_Pnl2_Laboratorio.DataSource = lista;
-            Cbx_Pnl2_Laboratorio.ValueMember = "CODIGO_LAB";
-            Cbx_Pnl2_Laboratorio.DisplayMember = "DESCRIPCION";
+            _L_Articulo.ComboLaboratorio(Cbx_Pnl2_Trbajo, Cbx_Pnl2_Laboratorio, _D_Inicio.Sucursal());
+            //_L_Articulo.Co
+            //mboLaboratorio()
+            //Cbx_Pnl2_Laboratorio.DataSource = lista;
+            //Cbx_Pnl2_Laboratorio.ValueMember = "CODIGO_LAB";
+            //Cbx_Pnl2_Laboratorio.DisplayMember = "DESCRIPCION";
         }
         private void CargarComboServicioLaboratorios()
         {
-            var lista = _L_Articulo.ObtenerServicioLaboratorioCbx(_D_Inicio.Sucursal() ,Cbx_Pnl2_Laboratorio.SelectedValue.ToString());
+           _L_Articulo.ObtenerServicioLaboratorioCbx(Cbx_Pnl2_Servicio, Cbx_Pnl2_Trbajo, Cbx_Pnl2_Laboratorio, _D_Inicio.Sucursal() ,Cbx_Pnl2_Laboratorio.SelectedValue.ToString());
 
-            Cbx_Pnl2_Servicio.DataSource = lista;
-            Cbx_Pnl2_Servicio.ValueMember = "Cod_servicio";
-            Cbx_Pnl2_Servicio.DisplayMember = "Descripcion_servicio";
+           
         }
 
 
@@ -2501,7 +2519,16 @@ namespace CapaVisual_Login
 
                 if (_servicioValidaciones.VerificoIgualAntirefCrist(Dgv_Tap3_Articulo, dsAR))
                 {
+                    if (Garantia == true)
+                    {
+                        _L_Articulo.VerificarServicioCodigoPadre(Dgv_Tap3_Articulo);
+
+                   
+                        _L_Articulo.CargarServicioGarantia(Dgv_Tap3_Articulo);
+
+                    }
                     MessageBox.Show("La Cantidad de Antireflejos y Coloración debe ser igual a la Cantidad de Cristales.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    _L_Articulo.ActualizarTotales(Dgv_Tap3_Articulo, Dgv_Tap3_Totales);
                     //Btn_Tap3_Procesar.Enabled = true;
                     return;
                 }
@@ -2593,7 +2620,8 @@ namespace CapaVisual_Login
                         TB_USUARIO.COD_EMPLEADO,
                         Cbx_Pnl2_Laboratorio.Visible== false? "000": Cbx_Pnl2_Laboratorio.SelectedValue.ToString(),
                         Cbx_Pnl2_Servicio.Visible == false ? "000" : Cbx_Pnl2_Servicio.SelectedValue.ToString(),
-                        glbNumVision,
+                        //glbNumVision,
+                        codigoEmpresaAfiliada,
                         txtObservacion.Text,
                         tipoTrabajoVenta,
                         Cbx_Pnl2_Trbajo.SelectedValue.ToString(),
@@ -2610,6 +2638,7 @@ namespace CapaVisual_Login
                         Codmotivodes,
                         Fecha_Ofreci,
                         Hora_Ofrecido,
+                        EmpresaAfiliada == "" ? false :true,
                         command
                     );
 
@@ -2641,7 +2670,8 @@ namespace CapaVisual_Login
                     }
 
                     // --- Actualizar Trabajo y Existencias ---
-                    var actualizadoTrabajo = await _GuardarOrdenServ.ActualizarTrabajoYExistencias(numeroOrden, txtHorizontal.Text, txtVertical.Text, txtMaxima.Text, "0", "0", "0", "0", "0", "0", "A", "Cerca", "Cerca", TB_USUARIO.COD_USR, codSucursal, command);
+                    var actualizadoTrabajo = await _GuardarOrdenServ.ActualizarTrabajoYExistencias(numeroOrden, txtHorizontal.Text.Replace(',', '.'), txtVertical.Text.Replace(',', '.')
+, txtMaxima.Text.Replace(',', '.'), txtPuente.Text.Replace(',', '.'), "0", "0", "0", "0", "0", "A", "Cerca", "Cerca", TB_USUARIO.COD_USR, codSucursal, command);
 
 
                     // _L_Articulo.Inserta_TB_TRABAJO(numeroOrden, txtHorizontal.Text, txtVertical.Text, txtMaxima.Text,"0", "0", "0", "0", "0", "0", "A", "Cerca", "Cerca", TB_USUARIO.COD_USR, codSucursal);
@@ -3623,7 +3653,8 @@ namespace CapaVisual_Login
 
         private void Cbx_Pnl2_Trbajo_SelectedIndexChanged(object sender, EventArgs e)
         {
-                if (tipoTrabajoSeleccionado)
+            CargarComboLaboratorios();
+            if (tipoTrabajoSeleccionado)
                 {
                 Cbx_Pnl2_Trbajo.Enabled = false;
                 ValidarTipoVenta(Cbx_Pnl2_Trbajo.Text);
@@ -3633,6 +3664,7 @@ namespace CapaVisual_Login
                 {
                 Cbx_Pnl2_Trbajo.Enabled = true;
                 }
+
         }// Cbx_Pnl2_Trbajo.Enabled = false;
 
         private void Cbx_Pnl2_Trbajo_Click(object sender, EventArgs e)
@@ -3780,33 +3812,47 @@ namespace CapaVisual_Login
             // Validar si el usuario seleccionó algo
             if (Cbx_Pnl2_Servicio.Items.Count > 0 && !string.IsNullOrEmpty(Cbx_Pnl2_Servicio.Text))
             {
-                List<TB_SERVICIOSLABDTO> TB_SERVICIOSLABD = new List<TB_SERVICIOSLABDTO>();
-                TB_SERVICIOSLABD = _D_Articulo.ServiciosLaboratorio(Cbx_Pnl2_Servicio.SelectedValue.ToString());
-                if (TB_SERVICIOSLABD != null && TB_SERVICIOSLABD.Count > 0)
+                if (_L_Articulo.Disponible_Servicio_3Horas(Cbx_Pnl2_Servicio.Text, Cbx_Pnl2_Laboratorio.Text))
                 {
-                    TB_SERVICIOSLABDTO _SERVICIOSLABDTO = TB_SERVICIOSLABD.First();
-                    Codigo_Servicio_Agregar = _SERVICIOSLABDTO.CodArticulo;
-                   
-                    try
+                    List<TB_SERVICIOSLABDTO> TB_SERVICIOSLABD = new List<TB_SERVICIOSLABDTO>();
+                    TB_SERVICIOSLABD = _D_Articulo.ServiciosLaboratorio(Cbx_Pnl2_Servicio.SelectedValue.ToString());
+                    if (TB_SERVICIOSLABD != null && TB_SERVICIOSLABD.Count > 0)
                     {
-                        _FechaHoraOfrecida = _L_Articulo.ObtenerFechaHoraOfrecida(Cbx_Pnl2_Servicio.SelectedValue.ToString(), Cbx_Pnl2_Trbajo.SelectedValue.ToString());
-                        if (_FechaHoraOfrecida != null && _FechaHoraOfrecida.Count > 0)
+                        TB_SERVICIOSLABDTO _SERVICIOSLABDTO = TB_SERVICIOSLABD.First();
+                        Codigo_Servicio_Agregar = _SERVICIOSLABDTO.CodArticulo;
+
+                        try
                         {
-                            FechaHoraOfrecida resultado = _FechaHoraOfrecida.First();
-                            Txt_Pnl2_Fecha_Ofre.Text = $"{resultado.FechaOfrecida:dd/MM/yyyy}";
+                            _FechaHoraOfrecida = _L_Articulo.ObtenerFechaHoraOfrecida(Cbx_Pnl2_Servicio.SelectedValue.ToString(), Cbx_Pnl2_Trbajo.SelectedValue.ToString());
+                            if (_FechaHoraOfrecida != null && _FechaHoraOfrecida.Count > 0)
+                            {
+                                FechaHoraOfrecida resultado = _FechaHoraOfrecida.First();
+                                Txt_Pnl2_Fecha_Ofre.Text = $"{resultado.FechaOfrecida:dd/MM/yyyy}";
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            _FrmMensajes.co = 2;
+                            _FrmMensajes.avisomensaje(string.Format("Error: {0}", ex.Message) + ", Error inesperado");
+                            _FrmMensajes.ShowDialog();
                         }
                     }
-                    catch (Exception ex)
+                    else
                     {
-                        _FrmMensajes.co = 2;
-                        _FrmMensajes.avisomensaje(string.Format("Error: {0}", ex.Message) + ", Error inesperado");
-                        _FrmMensajes.ShowDialog();
+                        Codigo_Servicio_Agregar = "";
                     }
                 }
                 else
                 {
-                    Codigo_Servicio_Agregar = "";
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje("El servicio no está disponible en este horario");
+                    _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                    _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                    _FrmMensajes.ShowDialog(); 
+                    //Codigo_Servicio_Agregar = "";
                 }
+
+
             }
 
             if (servicioSeleccionado)
@@ -4046,9 +4092,14 @@ namespace CapaVisual_Login
             if (e.KeyCode == Keys.Enter)
             {
                 DataTable dtCliente = _L_Articulo.ObtenerCliente(Txt_Pnl2_Cedula.Text.Substring(0,1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length-2));
-                Txt_Pnl2_Nombre.Text = dtCliente.Rows[0][0].ToString();
+                if (dtCliente.Rows.Count > 0)
+                {
+                    Txt_Pnl2_Nombre.Text = dtCliente.Rows[0][0].ToString();
+                }
             }
         }
+
+        
 
     }
 

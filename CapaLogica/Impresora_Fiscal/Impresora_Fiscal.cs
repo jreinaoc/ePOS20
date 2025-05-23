@@ -449,7 +449,8 @@ namespace CapaLogica.Impresora_Fiscal
                         objVmax.Cancelar();
                         objVmax.Cerrar();
                         objVmax.CerrarPuerto();
-                        stringBuilder.Append(Environment.NewLine + "No hay conexión con la impresora fiscal");                      
+                        stringBuilder.Append(Environment.NewLine + "No hay conexión con la impresora fiscal");
+                        _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, "No hay conexión con la impresora fiscal");
                         StatusNoataCredito = false;
                         return StatusNoataCredito;
 
@@ -464,6 +465,7 @@ namespace CapaLogica.Impresora_Fiscal
                         if (resp != 0)
                         {
                             stringBuilder.Append(Environment.NewLine + "No hay conexión con la impresora fiscal");
+                            _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, "No hay conexión con la impresora fiscal");
                             StatusNoataCredito = false;
                             objVmax.Cancelar();
                             objVmax.Cerrar();

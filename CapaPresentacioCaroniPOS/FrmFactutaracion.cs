@@ -4234,6 +4234,7 @@ namespace CapaVisual_Login
 
                         
                         mensaje = "No hay conexión con la impresora fiscal";
+                        _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, "No hay conexión con la impresora fiscal");
                         _FrmMensajes.co = 2;
                         _FrmMensajes.avisomensaje(mensaje);
                         _FrmMensajes.ShowDialog();
@@ -4260,6 +4261,7 @@ namespace CapaVisual_Login
 
                             
                             mensaje = "No hay conexión con la impresora fiscal";
+                            _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, "No hay conexión con la impresora fiscal");
                             _FrmMensajes.co = 2;
                             _FrmMensajes.avisomensaje(mensaje);
                             _FrmMensajes.ShowDialog();
@@ -4318,6 +4320,7 @@ namespace CapaVisual_Login
 
                                 //rollbackRealizado = true;
                                 mensaje = "No hay conexión con la impresora fiscal";
+                                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, "No hay conexión con la impresora fiscal");
                                 _FrmMensajes.co = 2;
                                 _FrmMensajes.avisomensaje(mensaje);
                                 _FrmMensajes.ShowDialog();
@@ -4485,6 +4488,7 @@ namespace CapaVisual_Login
 
                                                 
                                                 mensaje = "No hay conexión con la impresora fiscal";
+                                                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, "No hay conexión con la impresora fiscal");
                                                 _FrmMensajes.co = 2;
                                                 _FrmMensajes.avisomensaje(mensaje);
                                                 _FrmMensajes.ShowDialog();
@@ -4512,6 +4516,7 @@ namespace CapaVisual_Login
 
                                            
                                             mensaje = "No hay conexión con la impresora fiscal";
+                                            _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, "No hay conexión con la impresora fiscal");
                                             _FrmMensajes.co = 2;
                                             _FrmMensajes.avisomensaje(mensaje);
                                             _FrmMensajes.ShowDialog();
@@ -4629,6 +4634,7 @@ namespace CapaVisual_Login
 
                                                
                                                 mensaje = "No hay conexión con la impresora fiscal";
+                                                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, "No hay conexión con la impresora fiscal");
                                                 _FrmMensajes.co = 2;
                                                 _FrmMensajes.avisomensaje(mensaje);
                                                 _FrmMensajes.ShowDialog();
@@ -4705,6 +4711,7 @@ namespace CapaVisual_Login
 
                                             
                                             mensaje = "No hay conexión con la impresora fiscal";
+                                            _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, "No hay conexión con la impresora fiscal");
                                             _FrmMensajes.co = 2;
                                             _FrmMensajes.avisomensaje(mensaje);
                                             _FrmMensajes.ShowDialog();
@@ -4728,6 +4735,7 @@ namespace CapaVisual_Login
 
                                             
                                             mensaje = "No hay conexión con la impresora fiscal";
+                                            _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, "No hay conexión con la impresora fiscal");
                                             _FrmMensajes.co = 2;
                                             _FrmMensajes.avisomensaje(mensaje);
                                             _FrmMensajes.ShowDialog();
@@ -4756,6 +4764,7 @@ namespace CapaVisual_Login
 
 
                                 mensaje = "No hay conexión con la impresora fiscal";
+                                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, "No hay conexión con la impresora fiscal");
                                 _FrmMensajes.co = 2;
                                 _FrmMensajes.avisomensaje(mensaje);
                                 _FrmMensajes.ShowDialog();
@@ -4808,6 +4817,7 @@ namespace CapaVisual_Login
 
 
                             mensaje = "No hay conexión con la impresora fiscal";
+                            _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, "No hay conexión con la impresora fiscal");
                             _FrmMensajes.co = 2;
                             _FrmMensajes.avisomensaje(mensaje);
                             _FrmMensajes.ShowDialog();
@@ -4945,7 +4955,8 @@ namespace CapaVisual_Login
 
 
                                     mensaje = "No hay conexión con la impresora fiscal";
-                                    _FrmMensajes.co = 2;
+                                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, "No hay conexión con la impresora fiscal");
+                                _FrmMensajes.co = 2;
                                     _FrmMensajes.avisomensaje(mensaje);
                                     _FrmMensajes.ShowDialog();
                                     btnCancelar1.PerformClick();
@@ -4971,7 +4982,8 @@ namespace CapaVisual_Login
 
 
                                         mensaje = "No hay conexión con la impresora fiscal";
-                                        _FrmMensajes.co = 2;
+                                    _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, "No hay conexión con la impresora fiscal");
+                                    _FrmMensajes.co = 2;
                                         _FrmMensajes.avisomensaje(mensaje);
                                         _FrmMensajes.ShowDialog();
                                         btnCancelar1.PerformClick();
@@ -4993,7 +5005,8 @@ namespace CapaVisual_Login
 
 
                                         mensaje = "No hay conexión con la impresora fiscal";
-                                        _FrmMensajes.co = 2;
+                                    _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, "No hay conexión con la impresora fiscal");
+                                    _FrmMensajes.co = 2;
                                         _FrmMensajes.avisomensaje(mensaje);
                                         _FrmMensajes.ShowDialog();
                                         btnCancelar1.PerformClick();
@@ -5035,7 +5048,8 @@ namespace CapaVisual_Login
 
 
                                         mensaje = "No hay conexión con la impresora fiscal";
-                                        _FrmMensajes.co = 2;
+                                    _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, "No hay conexión con la impresora fiscal");
+                                    _FrmMensajes.co = 2;
                                         _FrmMensajes.avisomensaje(mensaje);
                                         _FrmMensajes.ShowDialog();
                                         btnCancelar1.PerformClick();
@@ -7730,7 +7744,7 @@ namespace CapaVisual_Login
                         label70.Size = (Size)new Point(1054, 21);
                         DgvObservaconExamen.Location = new Point(-8, 403);
                         DgvObservaconExamen.Size = (Size)new Point(1061, 19);
-                        //btnExamen.Enabled = true;
+                        btnExamen.Enabled = true;
 
                     }
 
@@ -7749,7 +7763,7 @@ namespace CapaVisual_Login
 
                         DgvObservaconExamen.Location = new Point(3, 266);
                         DgvObservaconExamen.Size = (Size)new Point(1061, 19);
-                        //btnExamen.Enabled = true;
+                        btnExamen.Enabled = true;
 
                     }
                 }

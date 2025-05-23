@@ -1368,7 +1368,7 @@ namespace CapaDatos.CargarOrdenes_Datos
                 cmd.Parameters.AddWithValue("@COD_EMPLEADO", datos.COD_EMPLEADO);
                 cmd.Parameters.AddWithValue("@Cod_Laboratorio", datos.Cod_Laboratorio);
                 cmd.Parameters.AddWithValue("@Cod_Servicio", datos.Cod_Servicio);
-                cmd.Parameters.AddWithValue("@Vision", datos.Vision);
+                cmd.Parameters.AddWithValue("@Vision", (object)datos.Vision ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@Fec_Ofrecido", datos.Fec_ofrecido);
                 cmd.Parameters.AddWithValue("@Hor_Ofrecido", datos.Hor_ofrecido);
                 cmd.Parameters.AddWithValue("@Fec_Entrega", (object)datos.Fec_Entrega ?? DBNull.Value);
@@ -1476,7 +1476,53 @@ namespace CapaDatos.CargarOrdenes_Datos
 
 
 
-        public List<TB_LABORATORIOSDTO> DatosLaboratorio(SqlCommand command = null)
+        //public List<TB_LABORATORIOSDTO> DatosLaboratorio(SqlCommand command = null)
+        //{
+        //    try
+        //    {
+        //        if (command == null)
+        //        {
+        //            SqlConnection connection = cn.LeerCadena();
+        //            command = connection.CreateCommand();
+        //        }
+        //        // Declarar la lista para almacenar los resultados
+        //        List<TB_LABORATORIOSDTO> listaCodLaboratorio = new List<TB_LABORATORIOSDTO>();
+
+        //        SqlCommand cmd = command;
+        //        cmd.Parameters.Clear();
+        //        cmd.CommandText = "SP_CPOS_ListaLaboratorios";
+        //        cmd.CommandType = CommandType.StoredProcedure;
+
+        //        // Ejecutar el comando y leer los resultados
+        //        using (SqlDataReader reader = cmd.ExecuteReader())
+        //        {
+        //            while (reader.Read())
+        //            {
+        //                // Mapear cada fila a un objeto TB_ARTICULO
+        //                TB_LABORATORIOSDTO codLaboratorio = new TB_LABORATORIOSDTO
+        //                {
+        //                    CODIGO_LAB = reader["CodLab"].ToString(),
+        //                    DESCRIPCION = reader["Laboratorio"].ToString()
+        //                };
+
+
+        //                // Agregar el objeto a la lista
+        //                listaCodLaboratorio.Add(codLaboratorio);
+        //            }
+        //        }
+
+        //        return listaCodLaboratorio;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show("Error al obtener laboratorios: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //        return null;
+        //    }
+
+
+        //}
+
+        public DataSet DatosLaboratorio(string sucursal, SqlCommand command = null)
         {
             try
             {
@@ -1490,28 +1536,18 @@ namespace CapaDatos.CargarOrdenes_Datos
 
                 SqlCommand cmd = command;
                 cmd.Parameters.Clear();
-                cmd.CommandText = "SP_CPOS_ListaLaboratorios";
+                cmd.CommandText = "Sucursal_ObtenerLaboratorios";
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                // Ejecutar el comando y leer los resultados
-                using (SqlDataReader reader = cmd.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        // Mapear cada fila a un objeto TB_ARTICULO
-                        TB_LABORATORIOSDTO codLaboratorio = new TB_LABORATORIOSDTO
-                        {
-                            CODIGO_LAB = reader["CodLab"].ToString(),
-                            DESCRIPCION = reader["Laboratorio"].ToString()
-                        };
+                cmd.Parameters.AddWithValue("@sucursal", sucursal);
 
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataSet dts = new DataSet();
+                da.Fill(dts);
+                cmd.Parameters.Clear();
+                return dts;
 
-                        // Agregar el objeto a la lista
-                        listaCodLaboratorio.Add(codLaboratorio);
-                    }
-                }
-
-                return listaCodLaboratorio;
+              //  return listaCodLaboratorio;
             }
             catch (Exception ex)
             {
@@ -1522,7 +1558,7 @@ namespace CapaDatos.CargarOrdenes_Datos
 
         }
 
-       
+
 
         public DataSet ObtenerColorLC(string CodArticulo, SqlCommand command = null)
         {
@@ -1599,7 +1635,54 @@ namespace CapaDatos.CargarOrdenes_Datos
 
         }
 
-        public List<TB_SERVICIOSLABDTO> ObtenerLaboratorioServicio(string sucursal, string descripcionLaboratorio ,SqlCommand command = null)
+        //public List<TB_SERVICIOSLABDTO> ObtenerLaboratorioServicio(string sucursal, string descripcionLaboratorio ,SqlCommand command = null)
+        //{
+        //    try
+        //    {
+        //        if (command == null)
+        //        {
+        //            SqlConnection connection = cn.LeerCadena();
+        //            command = connection.CreateCommand();
+        //        }
+        //        // Declarar la lista para almacenar los resultados
+        //        List<TB_SERVICIOSLABDTO> listaServLaboratorio = new List<TB_SERVICIOSLABDTO>();
+
+        //        SqlCommand cmd = command;
+        //        cmd.Parameters.Clear();
+        //        cmd.CommandText = "Laboratorio_ObtenerServicios";
+        //        cmd.CommandType = CommandType.StoredProcedure;
+
+        //        cmd.Parameters.AddWithValue("@sucursal", sucursal);
+        //        cmd.Parameters.AddWithValue("@laboratorio", descripcionLaboratorio);
+        //        // Ejecutar el comando y leer los resultados
+        //        using (SqlDataReader reader = cmd.ExecuteReader())
+        //        {
+        //            while (reader.Read())
+        //            {
+        //                // Mapear cada fila a un objeto TB_ARTICULO
+        //                TB_SERVICIOSLABDTO codServLaboratorio = new TB_SERVICIOSLABDTO
+        //                {
+        //                    Cod_servicio = reader["Cod_servicio"].ToString(),
+        //                    Descripcion_servicio = reader["Descripcion_servicio"].ToString()
+        //                };
+
+
+        //                // Agregar el objeto a la lista
+        //                listaServLaboratorio.Add(codServLaboratorio);
+        //            }
+        //        }
+
+        //        return listaServLaboratorio;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show("Error al obtener Servicios de laboratorios: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //        return null;
+        //    }
+
+
+        //}
+        public DataSet ObtenerLaboratorioServicio(string sucursal, string descripcionLaboratorio, SqlCommand command = null)
         {
             try
             {
@@ -1608,8 +1691,6 @@ namespace CapaDatos.CargarOrdenes_Datos
                     SqlConnection connection = cn.LeerCadena();
                     command = connection.CreateCommand();
                 }
-                // Declarar la lista para almacenar los resultados
-                List<TB_SERVICIOSLABDTO> listaServLaboratorio = new List<TB_SERVICIOSLABDTO>();
 
                 SqlCommand cmd = command;
                 cmd.Parameters.Clear();
@@ -1618,33 +1699,17 @@ namespace CapaDatos.CargarOrdenes_Datos
 
                 cmd.Parameters.AddWithValue("@sucursal", sucursal);
                 cmd.Parameters.AddWithValue("@laboratorio", descripcionLaboratorio);
-                // Ejecutar el comando y leer los resultados
-                using (SqlDataReader reader = cmd.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        // Mapear cada fila a un objeto TB_ARTICULO
-                        TB_SERVICIOSLABDTO codServLaboratorio = new TB_SERVICIOSLABDTO
-                        {
-                            Cod_servicio = reader["Cod_servicio"].ToString(),
-                            Descripcion_servicio = reader["Descripcion_servicio"].ToString()
-                        };
 
-
-                        // Agregar el objeto a la lista
-                        listaServLaboratorio.Add(codServLaboratorio);
-                    }
-                }
-
-                return listaServLaboratorio;
+                DataSet dts = new DataSet();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dts);
+                return dts;
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al obtener Servicios de laboratorios: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Console.WriteLine("Error: " + ex.Message);
                 return null;
             }
-
-
         }
 
         public DataSet ValidacionMonturaQuorum(string codArticulo, string codSucursal, string codServicio, SqlCommand command = null)
@@ -2000,6 +2065,33 @@ namespace CapaDatos.CargarOrdenes_Datos
 
 
         }
+
+        public DataSet ObtenerSucursalMontaje(string CodSucursal, SqlCommand command = null)
+        {
+            if (command == null)
+            {
+                SqlConnection connection = cn.LeerCadena();
+                command = connection.CreateCommand();
+
+            }
+
+            SqlCommand cmd = command;
+            cmd.Parameters.Clear();
+            cmd.CommandText = "pGetSucursalMontaje";
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            // Agregar el parámetro obligatorio @CODPROMO
+            cmd.Parameters.AddWithValue("@Sucursal", CodSucursal);
+
+
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet dts = new DataSet();
+            da.Fill(dts);
+            cmd.Parameters.Clear();
+            return dts;
+        }
+
+       
 
         //public async Task<bool> RebajarInventarioAsync(string codArticulo, string codLaboratorio, int cantidad, SqlCommand command)
         //{

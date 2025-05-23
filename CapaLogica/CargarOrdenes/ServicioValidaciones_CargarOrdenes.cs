@@ -288,7 +288,7 @@ namespace CapaLogica.CargarOrdenes
                     return true;
 
                 case "002":
-                    if (string.IsNullOrEmpty(datos.Observacion) && !datos.Garantia)
+                    if (string.IsNullOrEmpty(datos.Observacion))
                     {
                         var resultado = mostrarPregunta(
                             "Esta orden no posee observación, ¿Desea continuar?",
@@ -315,11 +315,11 @@ namespace CapaLogica.CargarOrdenes
                         }
                     }
 
-                    if (datos.Garantia && string.IsNullOrEmpty(datos.Observacion))
-                    {
-                        mostrarError("Esta Orden no posee OBSERVACION. Recuerde incluir el número de Aprobación de Asegurado");
-                        return false;
-                    }
+                    //if (datos.Garantia && string.IsNullOrEmpty(datos.Observacion))
+                    //{
+                    //    mostrarError("Esta Orden no posee OBSERVACION. Recuerde incluir el número de Aprobación de Asegurado");
+                    //    return false;
+                    //}
 
                     return true;
 
@@ -640,6 +640,8 @@ namespace CapaLogica.CargarOrdenes
         {
             return _L_Articulo.ObtenerMonturaQuorumPorArticulo(codArticulo, sucursal, codServicio) != null;
         }
+
+     
 
 
 

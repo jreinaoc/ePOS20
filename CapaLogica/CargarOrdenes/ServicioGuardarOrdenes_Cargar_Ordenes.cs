@@ -81,6 +81,7 @@ namespace CapaLogica.CargarOrdenes
     string Codmotivodess,
     DateTime Fec_ofrecido,
     string Hor_ofrecido,
+    bool ventaAfil,
     SqlCommand command)
         {
             try
@@ -115,7 +116,7 @@ namespace CapaLogica.CargarOrdenes
                     Cod_DetVta = codd_Venta,
                     Aplica = promocionAplicada,
                     OTCORRESPONDIENTE = "",
-                    VentaAfil = false,
+                    VentaAfil = ventaAfil,
                     CristalPropio = cristalPropio,
                     TipoMonturaPropia = null,
                     CodMotivoReposicion = null,

@@ -14,7 +14,7 @@ using CapaDatos.DetalleOrden_Datos;
 using CapaDatos.Inicio_Datos;
 using System.Text.RegularExpressions;
 using CapaDatos.Login_Datos; // Necesario para usar Regex
-
+using System.Globalization;
 
 namespace CapaLogica.CargarOrdenes
 {
@@ -1183,7 +1183,8 @@ namespace CapaLogica.CargarOrdenes
                 bool found = false;
                 decimal montoTotal = 0;
                 decimal prima = 0;
-                int cantidad = 0;
+                int cantidadCristales = 0;
+                int cantidadPrisma = 0;
                 string codigo = "";
                 string PrismaD = "0";
                 string PrismaI = "0";
@@ -1203,8 +1204,8 @@ namespace CapaLogica.CargarOrdenes
                 PrismaD = dsExamenConPrisma.Tables[0].Rows[0]["PrismaD"].ToString();
                 PrismaI = dsExamenConPrisma.Tables[0].Rows[0]["PrismaI"].ToString();
 
-                if (!string.IsNullOrEmpty(PrismaD) && PrismaD != "0") cantidad++;
-                if (!string.IsNullOrEmpty(PrismaI) && PrismaI != "0") cantidad++;
+                if (!string.IsNullOrEmpty(PrismaD) && PrismaD != "0") cantidadPrisma++;
+                if (!string.IsNullOrEmpty(PrismaI) && PrismaI != "0") cantidadPrisma++;
 
                 if (PrismaD == "0" && PrismaI == "0")
                 {
@@ -1224,7 +1225,7 @@ namespace CapaLogica.CargarOrdenes
                     else if (!string.IsNullOrEmpty(codigo) && codigo.StartsWith("C"))
                     {
                         found = true;
-                        //cantidad = Convert.ToInt32(gridFacturas.Rows[x].Cells["ART_EXIST"].Value);
+                        cantidadCristales = Convert.ToInt32(gridFacturas.Rows[x].Cells["ART_EXIST"].Value);
                     }
                 }
 
@@ -1266,13 +1267,21 @@ namespace CapaLogica.CargarOrdenes
 
                         if (articulos != null && articulos.Count > 0)
                         {
+                            decimal total;
                             TB_ARTICULO articulo = articulos.First();
                             decimal precio = articulo.ART_PVP;
-                            decimal total = precio * cantidad;
+                            if (articulo.CodArticulo == "A000004")
+                            {
+                                total = precio * cantidadCristales;
+                            }
+                            else
+                            {
+                                total = precio;
+                            }
                             decimal CostoPromedio = (decimal) articulo.COSTOPROME;
                             decimal impuesto = articulo.ART_EXENTO ? 0 : BuscarIva("I");
 
-                           AgregarFila(gridFacturas, articulo.CodArticulo, "", articulo.DESART, cantidad, (decimal)precio, PorcDcto, (decimal)total, impuesto, "", CostoPromedio, codigo);
+                           AgregarFila(gridFacturas, articulo.CodArticulo, "", articulo.DESART, tipoServicio == "Prisma" ? cantidadPrisma :  1, (decimal)precio, PorcDcto, (decimal)total, impuesto, "", CostoPromedio, codigo);
           
                         }
                     }
@@ -1947,6 +1956,36 @@ namespace CapaLogica.CargarOrdenes
                     }
                 }
             }
+
+            //Si se agrego algun AR manual le coloco el cristal como padre
+            foreach (DataGridViewRow row in Dgv_Tap3_Articulo.Rows)
+            {
+               if (row.Cells["CodArticulo"]?.Value != null && row.Cells["CodArticulo"].Value.ToString().StartsWith("C"))
+               {
+                    CodCristal = row.Cells["CodArticulo"].Value.ToString();
+                    break; // Salir del bucle al encontrar el primer cristal
+               }
+            }
+            
+
+
+            foreach (DataGridViewRow row in Dgv_Tap3_Articulo.Rows)
+            {
+                    DataSet dsServAR = _D_Articulos.ServiciosAR_btnProcesar(CodCristal, false, null);
+                    //Si es un AR (validar con tabla 1 del dataset)
+                    foreach (DataRow filaAR in dsServAR.Tables[1].Rows)
+                    {
+                        string codAR = filaAR["CodServicio"].ToString();
+                        if (row.Cells["CodArticulo"].Value.ToString() == codAR)
+                        {
+                            //artPAdre = codigo;
+                            ActualizarCelda(Dgv_Tap3_Articulo, row.Index, "ArtPadre", CodCristal);
+                            break;
+                        }
+                    }
+            }
+
+            //artPadre = _L_Articulo.EsARManual(Dgv_Tap3_Articulo, articulo.CodArticulo, null);
         }
 
         public void Verificar_Cantidad_Articulo_Ingresada_Servicios(DataGridView Dgv_Tap3_Articulo)
@@ -2484,6 +2523,9 @@ namespace CapaLogica.CargarOrdenes
             decimal prima = 0;
             int cantidad = 0;
             string codigo = "";
+            string codigoCristal;
+            decimal montoTotalServicios = 0;
+            int filaSeleccionada = 0;
 
             prima = Convert.ToDecimal(_D_DetalleOrden.TB_PARAMETROSPGE("PorcPrimaPGE")) / 100;
 
@@ -2494,17 +2536,69 @@ namespace CapaLogica.CargarOrdenes
                 if (codigo == "A000004")
                 {
                     tieneServicio = true;
+                    filaSeleccionada = x;
                 }
                 else if (!string.IsNullOrEmpty(codigo) && codigo.StartsWith("C"))
                 {
                     found = true;
+                    codigoCristal = gridFacturas.Rows[x].Cells["CodArticulo"].Value?.ToString();
                     cantidad = Convert.ToInt32(gridFacturas.Rows[x].Cells["ART_EXIST"].Value);
                   
                 }
             }
 
-            if (!tieneServicio)
-            {
+            //if (!tieneServicio)
+            //{
+
+            //    for (int x = 0; x < gridFacturas.RowCount; x++)
+            //    {
+            //        string codArticulo =  gridFacturas.Rows[x].Cells["CodArticulo"].Value?.ToString();
+            //        string artPadre = gridFacturas.Rows[x].Cells["ArtPadre"].Value?.ToString();
+
+            //        if (artPadre != "" && gridFacturas.Rows[x].Cells["ArtPadre"].Value != DBNull.Value)
+            //        {
+            //            montoTotalServicios += Convert.ToDecimal(gridFacturas.Rows[x].Cells["ART_PVP"].Value)* Convert.ToInt32(gridFacturas.Rows[x].Cells["ART_EXIST"].Value);
+            //        }
+            //    }
+
+            //    // Calcular el monto total
+            //    for (int x = 0; x < gridFacturas.RowCount; x++)
+            //    {
+            //        string codigo2 = gridFacturas.Rows[x].Cells["CodArticulo"].Value?.ToString();
+
+            //        if (!string.IsNullOrEmpty(codigo2) && codigo2.StartsWith("C"))
+            //        {
+            //            montoTotal += Convert.ToDecimal(gridFacturas.Rows[x].Cells["ART_PVP"].Value)* Convert.ToInt32(gridFacturas.Rows[x].Cells["ART_EXIST"].Value);
+            //        }
+            //    }
+            //    List<TB_ARTICULO> articulos = _D_Articulos.ObtenerArticulos("", "A000004");
+
+            //    if (articulos != null && articulos.Count > 0)
+            //    {
+            //        decimal totalprima;
+            //        totalprima = montoTotal + montoTotalServicios;
+            //        TB_ARTICULO articulo = articulos.First();
+            //        decimal precio = totalprima*= prima;
+            //        decimal total = precio * 1;
+            //        decimal CostoPromedio = (decimal)articulo.COSTOPROME;
+            //        decimal impuesto = articulo.ART_EXENTO ? 0 : BuscarIva("I");
+
+            //        AgregarFila(gridFacturas, articulo.CodArticulo, "", articulo.DESART, 1, (decimal)precio, (decimal)articulo.PORCTDESCUENTO, (decimal)total, impuesto, "", CostoPromedio, codigo);
+            //    }
+            //}
+            //else
+            //{
+                for (int x = 0; x < gridFacturas.RowCount; x++)
+                {
+                    string codArticulo = gridFacturas.Rows[x].Cells["CodArticulo"].Value?.ToString();
+                    string artPadre = gridFacturas.Rows[x].Cells["ArtPadre"].Value?.ToString();
+
+                    if (artPadre != "" && gridFacturas.Rows[x].Cells["ArtPadre"].Value != DBNull.Value && codArticulo != "A000004")
+                    {
+                        montoTotalServicios += Convert.ToDecimal(gridFacturas.Rows[x].Cells["ART_PVP"].Value) * Convert.ToInt32(gridFacturas.Rows[x].Cells["ART_EXIST"].Value);
+                    }
+                }
+
                 // Calcular el monto total
                 for (int x = 0; x < gridFacturas.RowCount; x++)
                 {
@@ -2512,23 +2606,36 @@ namespace CapaLogica.CargarOrdenes
 
                     if (!string.IsNullOrEmpty(codigo2) && codigo2.StartsWith("C"))
                     {
-                        montoTotal += Convert.ToDecimal(gridFacturas.Rows[x].Cells["ART_PVP"].Value);
+                        montoTotal += Convert.ToDecimal(gridFacturas.Rows[x].Cells["ART_PVP"].Value) * Convert.ToInt32(gridFacturas.Rows[x].Cells["ART_EXIST"].Value);
                     }
                 }
                 List<TB_ARTICULO> articulos = _D_Articulos.ObtenerArticulos("", "A000004");
 
                 if (articulos != null && articulos.Count > 0)
                 {
+                    decimal totalprima;
+                    totalprima = montoTotal + montoTotalServicios;
                     TB_ARTICULO articulo = articulos.First();
-                    decimal precio = montoTotal*= prima;
+                    decimal precio = totalprima *= prima;
+
                     decimal total = precio * 1;
                     decimal CostoPromedio = (decimal)articulo.COSTOPROME;
                     decimal impuesto = articulo.ART_EXENTO ? 0 : BuscarIva("I");
 
-                    AgregarFila(gridFacturas, articulo.CodArticulo, "", articulo.DESART, 1, (decimal)precio, (decimal)articulo.PORCTDESCUENTO, (decimal)total, impuesto, txtOjo, CostoPromedio, codigo);
+
+                    if (!tieneServicio)
+                    {
+                        AgregarFila(gridFacturas, articulo.CodArticulo, "", articulo.DESART, 1, (decimal)precio, (decimal)articulo.PORCTDESCUENTO, (decimal)total, impuesto, "", CostoPromedio, codigo);
+                    }
+                    else
+                    {
+                        ActualizarCelda(gridFacturas, filaSeleccionada, "ART_PVP", precio.ToString("#,##0.00", new CultureInfo("es-ES")));
+                    }
+                   
                 }
-            }
-            
+
+            //}
+
 
         }
 
@@ -3016,14 +3123,138 @@ namespace CapaLogica.CargarOrdenes
             }
         }
 
-        public List<TB_LABORATORIOSDTO> ObtenerLaboratoriosParaCombo()
+        //public DataSet  ObtenerLaboratoriosParaCombo()
+        //{
+        //    return _D_Articulos.DatosLaboratorio();
+        //}
+
+        public void ComboLaboratorio(System.Windows.Forms.ComboBox Cbx_Pnl2_Trbajo, System.Windows.Forms.ComboBox Cbx_Pnl2_Laboratorio, string sucursal)
         {
-            return _D_Articulos.DatosLaboratorio();
+            try
+            {
+                //var oSucursal = new CapaNegocio.ConfiguraSucursal();
+                //var oLaboratorio = new CapaNegocio.Laboratorio();
+                DataSet dsLaboratorio = _D_Articulos.DatosLaboratorio(sucursal);
+                //oLaboratorio.ObtenerSucursalLaboratorio(oSucursal.CodSucur);
+
+                //Cbx_Pnl2_Laboratorio.Items.Clear();
+
+                // Crear un DataTable
+                DataTable dt = new DataTable();
+
+                // Definir columnas
+                dt.Columns.Add("CODIGO_LAB", typeof(string));
+                dt.Columns.Add("DESCRIPCION", typeof(string));
+
+                //dt.Rows.Add("", "");
+
+
+                // Si es una reposición de garantía, solo mostrar laboratorio Quorum
+                if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "09")
+                {
+                    if (_D_DetalleOrden.TB_PARAMETRO("LabQuorum") == "1")
+                    {
+                        foreach (DataRow dr in dsLaboratorio.Tables[0].Rows)
+                        {
+                            if (dr["CODIGO_LAB"].ToString() == "QUO")
+                            {
+                                DataRow fila = dt.NewRow();
+                                dt.Rows.Add(dr[0].ToString(), dr[1].ToString());
+                                //Cbx_Pnl2_Laboratorio.Items.Add(dr[1].ToString());
+                            }
+                        }
+                    }
+                    else
+                    {
+                        foreach (DataRow dr in dsLaboratorio.Tables[0].Rows)
+                        {
+                            DataRow fila = dt.NewRow();
+                            dt.Rows.Add(dr[0].ToString(), dr[1].ToString());
+                        }
+                    }
+                }
+                else if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "05")
+                {
+                    if (_D_DetalleOrden.TB_PARAMETRO("RepLabBoleita") == "1")
+                    {
+                        foreach (DataRow dr in dsLaboratorio.Tables[0].Rows)
+                        {
+                            if (dr[0].ToString() == "BOL")
+                            {
+                                DataRow fila = dt.NewRow();
+                                dt.Rows.Add(dr[0].ToString(), dr[1].ToString());
+                            }
+                        }
+                    }
+                    else
+                    {
+                        foreach (DataRow dr in dsLaboratorio.Tables[0].Rows)
+                        {
+                            DataRow fila = dt.NewRow();
+                            dt.Rows.Add(dr[0].ToString(), dr[1].ToString());
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (DataRow dr in dsLaboratorio.Tables[0].Rows)
+                    {
+                        DataRow fila = dt.NewRow();
+                        dt.Rows.Add(dr[0].ToString(), dr[1].ToString());
+                    }
+                }
+
+                Cbx_Pnl2_Laboratorio.DataSource = dt;
+
+                Cbx_Pnl2_Laboratorio.ValueMember = "CODIGO_LAB";
+                Cbx_Pnl2_Laboratorio.DisplayMember = "DESCRIPCION";
+            }
+            catch (Exception ex)
+            {
+                //MensajeError.MuestroMensaje("Error en la función", "frmParametrosVentas.ComboLaboratorio",
+                //    "Por favor comunicarse con el Dpto de Sistemas y reportar el siguiente error: ", ex.Message,
+                //    CapaNegocio.MensajesGenerales.TiposIconos.IconoError, glbUsuarioActual);
+                //MensajeError.ShowDialog();
+            }
         }
-        public List<TB_SERVICIOSLABDTO> ObtenerServicioLaboratorioCbx(string sucursal, string descripcionLaboratorio)
+        public void ObtenerServicioLaboratorioCbx(System.Windows.Forms.ComboBox Cbx_Pnl2_Servicio, System.Windows.Forms.ComboBox Cbx_Pnl2_Trbajo, System.Windows.Forms.ComboBox Cbx_Pnl2_Laboratorio, string sucursal, string descripcionLaboratorio)
         {
+            //Cbx_Pnl2_Servicio.Items.Clear();
             //return _D_Articulos.ServiciosLaboratorio();
-            return _D_Articulos.ObtenerLaboratorioServicio(sucursal, descripcionLaboratorio);
+            DataSet dsLaboratorioNew = new DataSet();
+
+            DataTable dt = new DataTable();
+
+            // Definir columnas
+            dt.Columns.Add("Cod_servicio", typeof(string));
+            dt.Columns.Add("Descripcion_servicio", typeof(string));
+
+            DataSet dsLaboratorio = _D_Articulos.ObtenerLaboratorioServicio(sucursal, descripcionLaboratorio);
+            foreach (DataRow dr in dsLaboratorio.Tables[0].Rows)
+            {
+                if ((Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01" || Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "08") && Cbx_Pnl2_Laboratorio.SelectedValue.ToString() == "QUO")
+                {
+                    if (dr[1].ToString() == "SERVICIO QUORUM" || dr[0].ToString() == "004" || dr[0].ToString() == "005" || dr[0].ToString() == "007" || dr[0].ToString() == "018")
+                    {
+                        dt.Rows.Add(dr[0].ToString(), dr[1].ToString());
+                    }
+                }
+                else if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "02" && Cbx_Pnl2_Laboratorio.SelectedValue.ToString() == "QUO")
+                {
+                    if (dr[1].ToString() == "SERVICIO QUORUM" || dr[0].ToString() == "004" || dr[0].ToString() == "005" || dr[0].ToString() == "007" || dr[0].ToString() == "018")
+                    {
+                        dt.Rows.Add(dr[0].ToString(), dr[1].ToString());
+                    }
+                }
+                else
+                {
+                    dt.Rows.Add(dr[0].ToString(), dr[1].ToString());
+                }
+            }
+
+            Cbx_Pnl2_Servicio.DataSource = dt;
+            Cbx_Pnl2_Servicio.ValueMember = "Cod_servicio";
+            Cbx_Pnl2_Servicio.DisplayMember = "Descripcion_servicio";
         }
 
         public List<string> ObtenerMonturasEnQuorum(DataGridView dgvArticulos, string sucursal, string codServicio)
@@ -3577,7 +3808,114 @@ namespace CapaLogica.CargarOrdenes
 
             return null;
         }
+
+        public bool Disponible_Servicio_3Horas(string servicio, string laboratorio)
+        {
+            // ----------------- Calculo si está disponible el servicio ENTREGA 3 HORAS -------------
+            DateTime horaActual = DateTime.Now; // Obtener la hora actual completa (incluye minutos)
+
+            //DataSet dsMontaje = ManBD.ExecutaSqlDataSet($"pGetSucursalMontaje '{glbSucursalActual}'", "", Command);
+            DataSet dsMontaje = _D_Articulos.ObtenerSucursalMontaje(_D_Inicio.Sucursal());
+
+            // Si es la sucursal que tiene el montaje
+            if (dsMontaje.Tables[0].Rows.Count > 0)
+            {
+                
+                DateTime horaMaxima = DateTime.Today.AddHours(Convert.ToDouble(_D_DetalleOrden.TB_PARAMETRO("HoraMaxServ3Hrs")));
+                //DateTime.Today.AddHours(ValorParametro("HoraMaxServ3Hrs", Command));
+
+                // Validar si la fecha es laboral
+                //DateTime currentDate = glbFechaActiva;
+                DateTime currentDate = _D_Inicio.DiaActivo();
+                string formattedDate = currentDate.ToString("yyyy/MM/dd");
+                bool Fecha_Laborable;
+
+                //DataSet ds = ManBD.EjecutaSPSelectNuevo("fecha as Fecha_Laborable", "tMASTER_diasHorario", $"fecha = '{formattedDate}' AND laboral = 'True'", Command);
+                DataSet ds = _D_Articulos.tMASTER_diasHorario(formattedDate);
+                Fecha_Laborable = ds.Tables[0].Rows.Count > 0;
+
+                if (servicio == "ENTREGA 3 HORAS" && laboratorio  == "QUORUM" && (horaActual > horaMaxima || !Fecha_Laborable))
+                {
+                    //MessageBox.Show("El servicio no está disponible en este horario", "Servicio no disponible", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    return false;
+                }
+            }
+            else
+            {
+                if (servicio == "ENTREGA 3 HORAS")
+                {
+                    //DateTime horaMaxima = DateTime.Today.AddHours(Convert.ToDateTime(_D_DetalleOrden.TB_PARAMETRO("HoraMaxServ3Hrs")));
+                    DateTime horaMaxima = DateTime.Today.AddHours(Convert.ToDouble(_D_DetalleOrden.TB_PARAMETRO("HoraMaxServ3Hrs")));
+
+                    // Validar si la fecha es laboral
+                    //DateTime currentDate = glbFechaActiva;
+                    DateTime currentDate = _D_Inicio.DiaActivo();
+                    string formattedDate = currentDate.ToString("yyyy/MM/dd");
+                    bool Fecha_Laborable;
+
+                    //DataSet ds = ManBD.EjecutaSPSelectNuevo("fecha as Fecha_Laborable", "tMASTER_diasHorario", $"fecha = '{formattedDate}' AND laboral = 'True'", Command);
+                    DataSet ds = _D_Articulos.tMASTER_diasHorario(formattedDate);
+                    Fecha_Laborable = ds.Tables[0].Rows.Count > 0;
+
+                    // Valido si Laboratorio es diferente de Quorum y tiene montaje remoto
+                    if (laboratorio != "QUORUM" && dsMontaje.Tables[1].Rows.Count > 0)
+                    {
+                        if (horaActual > horaMaxima)
+                        {
+                            //MessageBox.Show("El servicio no está disponible en este horario", "Servicio no disponible", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        // Laboratorio igual a Quorum o no tiene montaje remoto
+                        // Si la hora actual supera la hora máxima o no es día laboral
+                        if (horaActual > horaMaxima || !Fecha_Laborable)
+                        {
+                            //MessageBox.Show("El servicio no está disponible en este horario", "Servicio no disponible", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            return false;
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+
+        public string EsARManual(DataGridView Dgv_Tap3_Articulo,string codServicio, SqlCommand command = null)
+        {
+            
+            string artPAdre = "";
+            // 2. Recorrer el grid para igualar cantidades
+            foreach (DataGridViewRow row in Dgv_Tap3_Articulo.Rows)
+            {
+                if (row.IsNewRow || row.Cells["CodArticulo"].Value == null)
+                    continue;
+
+                string codigo = row.Cells["CodArticulo"].Value.ToString();
+
+                //Si es coloración
+                if (codigo.StartsWith("C"))
+                {
+                    DataSet dsServAR = _D_Articulos.ServiciosAR_btnProcesar(codigo, false, command);
+                    //Si es un AR (validar con tabla 1 del dataset)
+                    foreach (DataRow filaAR in dsServAR.Tables[1].Rows)
+                    {
+                        string codAR = filaAR["CodServicio"].ToString();
+                        if (codServicio == codAR)
+                        {
+                            artPAdre = codigo;
+                            
+                            break;
+                        }
+                    }
+                }
+            }
+            return artPAdre;
+        }
+
+
+
     }
-        
+
 }
 
