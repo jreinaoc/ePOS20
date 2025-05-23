@@ -2832,7 +2832,7 @@ namespace CapaLogica.CargarOrdenes
                 return false;
             }
         }
-        public TB_ARTICULO ObtenerArticuloPorCodigo(List<TB_ARTICULO> listaArticulos, string codArticulo)
+        public TB_ARTICULO ObtenerArticuloPorCodigo(List<TB_ARTICULO> listaArticulos, string codArticulo, DataGridView gridFacturas)
         {
             // Recorrer la lista para buscar el artículo por su código
             foreach (var articulo in listaArticulos)
@@ -2841,6 +2841,43 @@ namespace CapaLogica.CargarOrdenes
                 {
                     // Retornar el artículo completo si se encuentra
                     return articulo;
+                }
+            }
+
+
+
+            // si No consigue el articulo buscamos el articulo en la base de datos de forma individual 
+            // Agregar un nuevo servicio o prima
+            List<TB_ARTICULO> articulos = _D_Articulos.ObtenerArticulos("", codArticulo);
+
+            if (articulos != null && articulos.Count > 0)
+            {
+                foreach (var articulo in articulos)
+                {
+                    if (articulo.CodArticulo != null && articulo.CodArticulo.Equals(codArticulo, StringComparison.OrdinalIgnoreCase))
+                    {
+                        // Si es A000004, calcula el precio y asígnalo
+                        if (articulo.CodArticulo == "A000004")
+                        {
+                            // Calcula el monto total de los artículos C*
+                            decimal montoTotal = 0;
+                            for (int x = 0; x < gridFacturas.RowCount; x++)
+                            {
+                                string codigo2 = gridFacturas.Rows[x].Cells["CodArticulo"].Value?.ToString();
+                                if (!string.IsNullOrEmpty(codigo2) && codigo2.StartsWith("C"))
+                                {
+                                    montoTotal += Convert.ToDecimal(gridFacturas.Rows[x].Cells["PrecioViejo"].Value);
+                                }
+                            }
+                            decimal prima = Convert.ToDecimal(_D_DetalleOrden.TB_PARAMETROSPGE("PorcPrimaPGE")) / 100;
+                            decimal precio = montoTotal * prima;
+
+                            // Asigna el precio calculado al artículo
+                            articulo.ART_PVP = precio;
+                        }
+                        // Retorna el artículo con el precio actualizado
+                        return articulo;
+                    }
                 }
             }
 
@@ -2853,7 +2890,7 @@ namespace CapaLogica.CargarOrdenes
 
             // Obtener la lista de códigos de artículos que no deben recibir promoción (si existe la segunda tabla)
             HashSet<string> codigosSinPromocion = new HashSet<string>();
-            if (dsLl1so.Tables.Count > 1 && dsLl1so.Tables[0].Columns.Contains("CodArticulo"))
+            if (dsLl1so.Tables.Count > 1 && dsLl1so.Tables[1].Columns.Contains("CodArticulo"))
             {
                 foreach (DataRow row in dsLl1so.Tables[1].Rows)
                 {
@@ -2943,7 +2980,7 @@ namespace CapaLogica.CargarOrdenes
                                     // preguntamos si existe el campo PORCDCTO  antes de accede a su valor 
                                     else if (dsLl1so.Tables[0].Columns.Contains("PORC_SERVICIO_DESC") && !string.IsNullOrEmpty(dsLl1so.Tables[0].Rows[0]["PORC_SERVICIO_DESC"].ToString()))
                                     {
-                                        TB_ARTICULO articuloEncontrado = ObtenerArticuloPorCodigo(listaArticulos, codigo);
+                                        TB_ARTICULO articuloEncontrado = ObtenerArticuloPorCodigo(listaArticulos, codigo, DgvArticulo);
                                         decimal montoArtic = articuloEncontrado.ART_PVP; // Método para obtener el precio del artículo
                                         row.Cells["TienePromo"].Value = "Si";
                                         row.Cells["ART_PVP"].Value = (decimal)(montoArtic - (montoArtic * Convert.ToDecimal(dsLl1so.Tables[0].Rows[0]["PORC_SERVICIO_DESC"]) / 100));
@@ -2969,7 +3006,7 @@ namespace CapaLogica.CargarOrdenes
                         {    // Pregunto si Exte esta colunma para dar descuento 
                             if (dsLl1so.Tables[0].Columns.Contains("PORCDCTO") && !string.IsNullOrEmpty(dsLl1so.Tables[0].Rows[0]["PORCDCTO"].ToString()))
                             {
-                            TB_ARTICULO articuloEncontrado = ObtenerArticuloPorCodigo(listaArticulos, codigo);
+                            TB_ARTICULO articuloEncontrado = ObtenerArticuloPorCodigo(listaArticulos, codigo, DgvArticulo);
                             decimal montoArtic = articuloEncontrado.ART_PVP; // Método para obtener el precio del artículo
                             row.Cells["TienePromo"].Value = "Si";
                             row.Cells["ART_PVP"].Value = (decimal)(montoArtic - (montoArtic * Convert.ToDecimal(dsLl1so.Tables[0].Rows[0]["PORCDCTO"]) / 100));
