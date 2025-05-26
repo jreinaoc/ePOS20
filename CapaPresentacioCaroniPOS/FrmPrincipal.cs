@@ -137,6 +137,7 @@ namespace CapaVisual_Login
         private void BtnListadoOrdenes_Click(object sender, EventArgs e)
         {
 
+
             System.Drawing.Color col2 = System.Drawing.ColorTranslator.FromHtml("#257b78");
 
 

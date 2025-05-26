@@ -856,11 +856,12 @@ namespace CapaLogica.CargarOrdenes
 
         public bool VerificoCantidadCristales(string codigoProducto, int cantidadIngresada, List<TB_TRABAJO> trabajos)
         {
-            // Validar que la lista no sea nula o vacía
-            if (trabajos == null || trabajos.Count == 0)
-            {
-                throw new ArgumentException("La lista de trabajos no puede estar vacía");
-            }
+            //// Validar que la lista no sea nula o vacía
+            //if (trabajos == null || trabajos.Count == 0)
+            //{
+                
+            //    throw new ArgumentException("La lista de trabajos no puede estar vacía");
+            //}
 
             // Iterar sobre los trabajos para verificar las condiciones
             foreach (var trabajo in trabajos)
@@ -3958,10 +3959,21 @@ namespace CapaLogica.CargarOrdenes
             if (articulos != null && articulos.Count > 0)
             {
                 TB_ARTICULO articulo = articulos.First();
-                horizontal.Text = articulo.MHorizontal.ToString();
-                vertical.Text = articulo.MHorizontal.ToString();
-                maxima.Text = articulo.MHorizontal.ToString();
-                puente.Text = articulo.MHorizontal.ToString();
+                if (articulo.MHorizontal == null)
+                {
+                    horizontal.Enabled = true;
+                    vertical.Enabled = true;
+                    maxima.Enabled = true;
+                    puente.Enabled = true;
+                }
+                else
+                {
+                    //TB_ARTICULO articulo = articulos.First();
+                    horizontal.Text = articulo.MHorizontal.ToString();
+                    vertical.Text = articulo.MVertical.ToString();
+                    maxima.Text = articulo.MMaxima.ToString();
+                    puente.Text = articulo.MPuente.ToString();
+                }
                 return true;
             }
             // Si todos los campos tienen valores, devolver false

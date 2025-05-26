@@ -7724,6 +7724,7 @@ namespace CapaVisual_Login
             {
                 bool resultado = _L_Facturacion.Cargar_Examen_Coloracion_Montura(DgvFormula, DgvMedidasMontura, DgvColoracion, DgvMimesys, DgvObservaconExamen, TxtTrabajo, TxtLabo, TxtServ, TxtFecOfre, TxtOptome, TxtNunExa, TxtFechaExa);
                 if (resultado == true)
+
                 {
                     if (TxtTrabajo.Text == "CONVENCIONAL")
                     {

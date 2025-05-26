@@ -577,7 +577,7 @@ namespace CapaVisual_Login
             this.Txt_Pnl2_Cedula.Name = "Txt_Pnl2_Cedula";
             this.Txt_Pnl2_Cedula.Size = new System.Drawing.Size(180, 20);
             this.Txt_Pnl2_Cedula.TabIndex = 33;
-            this.Txt_Pnl2_Cedula.Text = "V-11550487";
+            this.Txt_Pnl2_Cedula.Text = "V-14661652";
             this.Txt_Pnl2_Cedula.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.Txt_Pnl2_Cedula.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Txt_Pnl2_Cedula_KeyDown);
             // 
@@ -1483,7 +1483,7 @@ namespace CapaVisual_Login
             this.btnCodigoQR.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCodigoQR.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCodigoQR.ForeColor = System.Drawing.SystemColors.Window;
-            this.btnCodigoQR.Location = new System.Drawing.Point(597, 481);
+            this.btnCodigoQR.Location = new System.Drawing.Point(597, 439);
             this.btnCodigoQR.Name = "btnCodigoQR";
             this.btnCodigoQR.Size = new System.Drawing.Size(142, 32);
             this.btnCodigoQR.TabIndex = 316;
@@ -1498,7 +1498,7 @@ namespace CapaVisual_Login
             this.Btn_Tap3_CambioPrecio.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Btn_Tap3_CambioPrecio.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Btn_Tap3_CambioPrecio.ForeColor = System.Drawing.SystemColors.Window;
-            this.Btn_Tap3_CambioPrecio.Location = new System.Drawing.Point(151, 443);
+            this.Btn_Tap3_CambioPrecio.Location = new System.Drawing.Point(151, 401);
             this.Btn_Tap3_CambioPrecio.Name = "Btn_Tap3_CambioPrecio";
             this.Btn_Tap3_CambioPrecio.Size = new System.Drawing.Size(142, 32);
             this.Btn_Tap3_CambioPrecio.TabIndex = 315;
@@ -1513,7 +1513,7 @@ namespace CapaVisual_Login
             this.Btn_Tap3_Garantia.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Btn_Tap3_Garantia.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Btn_Tap3_Garantia.ForeColor = System.Drawing.SystemColors.Window;
-            this.Btn_Tap3_Garantia.Location = new System.Drawing.Point(897, 443);
+            this.Btn_Tap3_Garantia.Location = new System.Drawing.Point(897, 401);
             this.Btn_Tap3_Garantia.Name = "Btn_Tap3_Garantia";
             this.Btn_Tap3_Garantia.Size = new System.Drawing.Size(142, 32);
             this.Btn_Tap3_Garantia.TabIndex = 314;
@@ -1528,7 +1528,7 @@ namespace CapaVisual_Login
             this.Btn_Tap3_ClienteAfiliado.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Btn_Tap3_ClienteAfiliado.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Btn_Tap3_ClienteAfiliado.ForeColor = System.Drawing.SystemColors.Window;
-            this.Btn_Tap3_ClienteAfiliado.Location = new System.Drawing.Point(749, 443);
+            this.Btn_Tap3_ClienteAfiliado.Location = new System.Drawing.Point(749, 401);
             this.Btn_Tap3_ClienteAfiliado.Name = "Btn_Tap3_ClienteAfiliado";
             this.Btn_Tap3_ClienteAfiliado.Size = new System.Drawing.Size(142, 32);
             this.Btn_Tap3_ClienteAfiliado.TabIndex = 313;
@@ -1543,7 +1543,7 @@ namespace CapaVisual_Login
             this.Btn_Tap3_CristalPropio.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Btn_Tap3_CristalPropio.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Btn_Tap3_CristalPropio.ForeColor = System.Drawing.SystemColors.Window;
-            this.Btn_Tap3_CristalPropio.Location = new System.Drawing.Point(597, 443);
+            this.Btn_Tap3_CristalPropio.Location = new System.Drawing.Point(597, 401);
             this.Btn_Tap3_CristalPropio.Name = "Btn_Tap3_CristalPropio";
             this.Btn_Tap3_CristalPropio.Size = new System.Drawing.Size(142, 32);
             this.Btn_Tap3_CristalPropio.TabIndex = 312;
@@ -1558,7 +1558,7 @@ namespace CapaVisual_Login
             this.Btn_Tap3_MonturaPropia.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Btn_Tap3_MonturaPropia.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Btn_Tap3_MonturaPropia.ForeColor = System.Drawing.SystemColors.Window;
-            this.Btn_Tap3_MonturaPropia.Location = new System.Drawing.Point(448, 443);
+            this.Btn_Tap3_MonturaPropia.Location = new System.Drawing.Point(448, 401);
             this.Btn_Tap3_MonturaPropia.Name = "Btn_Tap3_MonturaPropia";
             this.Btn_Tap3_MonturaPropia.Size = new System.Drawing.Size(142, 32);
             this.Btn_Tap3_MonturaPropia.TabIndex = 311;
@@ -1573,7 +1573,7 @@ namespace CapaVisual_Login
             this.Btn_Tap3_Promocion.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Btn_Tap3_Promocion.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Btn_Tap3_Promocion.ForeColor = System.Drawing.SystemColors.Window;
-            this.Btn_Tap3_Promocion.Location = new System.Drawing.Point(299, 443);
+            this.Btn_Tap3_Promocion.Location = new System.Drawing.Point(299, 401);
             this.Btn_Tap3_Promocion.Name = "Btn_Tap3_Promocion";
             this.Btn_Tap3_Promocion.Size = new System.Drawing.Size(142, 32);
             this.Btn_Tap3_Promocion.TabIndex = 310;
@@ -1589,7 +1589,7 @@ namespace CapaVisual_Login
             this.Btn_Tap3_Descuento.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Btn_Tap3_Descuento.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Btn_Tap3_Descuento.ForeColor = System.Drawing.SystemColors.Window;
-            this.Btn_Tap3_Descuento.Location = new System.Drawing.Point(3, 443);
+            this.Btn_Tap3_Descuento.Location = new System.Drawing.Point(3, 401);
             this.Btn_Tap3_Descuento.Name = "Btn_Tap3_Descuento";
             this.Btn_Tap3_Descuento.Size = new System.Drawing.Size(142, 32);
             this.Btn_Tap3_Descuento.TabIndex = 309;
@@ -1642,7 +1642,7 @@ namespace CapaVisual_Login
             this.Dgv_Tap3_Articulo.RowHeadersVisible = false;
             this.Dgv_Tap3_Articulo.RowHeadersWidth = 51;
             this.Dgv_Tap3_Articulo.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.Dgv_Tap3_Articulo.Size = new System.Drawing.Size(1040, 161);
+            this.Dgv_Tap3_Articulo.Size = new System.Drawing.Size(1040, 106);
             this.Dgv_Tap3_Articulo.TabIndex = 308;
             this.Dgv_Tap3_Articulo.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_Tap3_Articulo_CellContentClick);
             this.Dgv_Tap3_Articulo.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.Dgv_Tap3_Articulo_CellPainting);
@@ -1657,7 +1657,7 @@ namespace CapaVisual_Login
             this.Btn_Tap3_Cancelar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Btn_Tap3_Cancelar.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Btn_Tap3_Cancelar.ForeColor = System.Drawing.SystemColors.Window;
-            this.Btn_Tap3_Cancelar.Location = new System.Drawing.Point(749, 480);
+            this.Btn_Tap3_Cancelar.Location = new System.Drawing.Point(749, 438);
             this.Btn_Tap3_Cancelar.Name = "Btn_Tap3_Cancelar";
             this.Btn_Tap3_Cancelar.Size = new System.Drawing.Size(142, 32);
             this.Btn_Tap3_Cancelar.TabIndex = 307;
@@ -1672,7 +1672,7 @@ namespace CapaVisual_Login
             this.Btn_Tap3_Procesar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Btn_Tap3_Procesar.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Btn_Tap3_Procesar.ForeColor = System.Drawing.SystemColors.Window;
-            this.Btn_Tap3_Procesar.Location = new System.Drawing.Point(897, 479);
+            this.Btn_Tap3_Procesar.Location = new System.Drawing.Point(897, 437);
             this.Btn_Tap3_Procesar.Name = "Btn_Tap3_Procesar";
             this.Btn_Tap3_Procesar.Size = new System.Drawing.Size(142, 32);
             this.Btn_Tap3_Procesar.TabIndex = 306;
@@ -1683,7 +1683,7 @@ namespace CapaVisual_Login
             // Pnl_3_Tap3
             // 
             this.Pnl_3_Tap3.Controls.Add(this.Dgv_Tap3_Totales);
-            this.Pnl_3_Tap3.Location = new System.Drawing.Point(523, 267);
+            this.Pnl_3_Tap3.Location = new System.Drawing.Point(523, 225);
             this.Pnl_3_Tap3.Name = "Pnl_3_Tap3";
             this.Pnl_3_Tap3.Size = new System.Drawing.Size(519, 170);
             this.Pnl_3_Tap3.TabIndex = 305;
@@ -1748,7 +1748,7 @@ namespace CapaVisual_Login
             this.Pnl_2_Tap3.Controls.Add(this.txtHorizontal);
             this.Pnl_2_Tap3.Controls.Add(this.Lbl_Tap3_);
             this.Pnl_2_Tap3.Controls.Add(this.Lbl_Tap3_Medidas_Montura);
-            this.Pnl_2_Tap3.Location = new System.Drawing.Point(2, 267);
+            this.Pnl_2_Tap3.Location = new System.Drawing.Point(2, 225);
             this.Pnl_2_Tap3.Name = "Pnl_2_Tap3";
             this.Pnl_2_Tap3.Size = new System.Drawing.Size(519, 171);
             this.Pnl_2_Tap3.TabIndex = 304;

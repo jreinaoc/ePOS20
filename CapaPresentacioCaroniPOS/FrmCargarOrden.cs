@@ -1614,6 +1614,7 @@ namespace CapaVisual_Login
                 //Validar si agregaron coloracion y el grid tiene un crsital 
                 if (_L_Articulo.ServicioColoracion(Dgv_Tap3_Articulo, Dgv_Pnl3_Coloracion, Rd_Pnl3_FullColor))
                 {
+
                     //Abro el panel de coloracion 
                     VisualizarPanel("Coloracion");
                     HabilitacionControl("Habilitar_Coloracion");
@@ -1669,6 +1670,21 @@ namespace CapaVisual_Login
                 txtVertical.Text = "";
                 txtMaxima.Text = "";
                 txtPuente.Text = "";
+            }
+
+            if (Montura_Propia)
+            {
+                txtHorizontal.Enabled  = true;
+                txtVertical.Enabled = true;
+                txtMaxima.Enabled = true;
+                txtPuente.Enabled = true;
+            }
+            else
+            {
+                txtHorizontal.Enabled = false;
+                txtVertical.Enabled = false;
+                txtMaxima.Enabled = false;
+                txtPuente.Enabled = false;
             }
 
             // Totalizo el grivew Totales cuando se quita una fila 
@@ -2511,7 +2527,7 @@ namespace CapaVisual_Login
                     return;
                 }
 
-                if (txtHorizontal.Text == "" || txtHorizontal.Text == "" || txtHorizontal.Text == "" || txtHorizontal.Text == "")
+                if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01" &  (txtHorizontal.Text == "" || txtVertical.Text == "" || txtMaxima.Text == "" || txtPuente.Text == ""))
                 {
                     _FrmMensajes.co = 2;
                     _FrmMensajes.avisomensaje("Ingrese las medidas de la montura");
@@ -2603,7 +2619,10 @@ namespace CapaVisual_Login
                 string letraInicial, numeroCedula;
                 _L_Articulo.DividirValoresCedula(Txt_Pnl2_Cedula.Text, out letraInicial, out numeroCedula);
 
-                _servicioValidaciones.ValidarMonturaQuorumYCristales(
+
+                if ((Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01"))//Convencional
+                   {
+                    _servicioValidaciones.ValidarMonturaQuorumYCristales(
                     Dgv_Tap3_Articulo,
                     Cbx_Pnl2_Laboratorio.SelectedValue.ToString(),
                     TB_USUARIO.COD_SUCURSAL,
@@ -2611,8 +2630,9 @@ namespace CapaVisual_Login
                     letraInicial,
                     numeroCedula,
                     Txt_Pnl2_Examen.Text,
-                    null
-                );
+                    null);
+                    }
+               
 
                 if (!await _servicioValidaciones.ValidarOrdenServicioAsync(Dgv_Tap3_Totales,Dgv_Tap3_Articulo,null, mostrarPregunta, mostrarError, datos))
                 {
@@ -3227,6 +3247,11 @@ namespace CapaVisual_Login
 
             Dgv_Pnl3_ClienteAfiliado.DataSource = listaClienteAfiliados;
             Formato_Dgv_Pnl3_ClienteAfiliado();
+
+            //Guarda en tb_trabajo temporal
+            _D_Articulo.Agregar_TB_TRABAJO(_D_DetalleOrden.TB_PARAMETRO("SucursalId"), "", "", Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), "002", Convert.ToInt32(Txt_Pnl2_Examen.Text)
+              , txtHorizontal.Text, txtVertical.Text, txtMaxima.Text, txtPuente.Text, "0", "0", "A", "Cerca", "Cerca", "QUO", "001", "T", TB_USUARIO.COD_USR, "02", "CONVENCIONAL", "0", "0", "0", "0");
+
         }
 
 
@@ -4145,6 +4170,10 @@ namespace CapaVisual_Login
                 if (dtCliente.Rows.Count > 0)
                 {
                     Txt_Pnl2_Nombre.Text = dtCliente.Rows[0][0].ToString();
+                    //Guarda en tb_trabajo temporal
+                    _D_Articulo.Agregar_TB_TRABAJO(_D_DetalleOrden.TB_PARAMETRO("SucursalId"), "", "", Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), "002", Convert.ToInt32(Txt_Pnl2_Examen.Text)
+                      , txtHorizontal.Text, txtVertical.Text, txtMaxima.Text, txtPuente.Text, "0", "0", "A", "Cerca", "Cerca", "QUO", "001", "T", TB_USUARIO.COD_USR, "02", "CONVENCIONAL", "0", "0", "0", "0");
+
                 }
             }
         }
