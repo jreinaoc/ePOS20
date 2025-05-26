@@ -1154,6 +1154,21 @@ namespace CapaVisual_Login
                     return;
             }
 
+            // Verifico Existencia LC
+            if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "02" && !_L_Articulo.BuscoCodigoLabLC(Txt_Tap3_Articulo_Codigo.Text, CodColorLC, Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Convert.ToInt16(Txt_Pnl2_Examen.Text), Txt_Tap3_Articulo_Cantidad.Text == "2" ? "A": "I", Txt_Tap3_Articulo_Cantidad.Text) && _L_Articulo.stringBuilder.Length > 0)
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje(_L_Articulo.stringBuilder.ToString());
+                _FrmMensajes.ShowDialog();
+                return; // Salir 
+            }
+            else if (_L_Articulo.stringBuilder.Length > 0)
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje(_L_Articulo.stringBuilder.ToString());
+                _FrmMensajes.ShowDialog();
+            }
+
            
             AgregarArticuloAlGrid();
 
@@ -4178,7 +4193,6 @@ namespace CapaVisual_Login
             }
         }
 
-        
 
     }
 

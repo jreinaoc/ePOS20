@@ -69,6 +69,7 @@ C:\Desarrollo2022\CaroniPOS1\CapaEntidades\obj\Debug\CapaEntidades.csproj.CoreCo
 C:\Desarrollo2022\CaroniPOS1\CapaEntidades\obj\Debug\CapaEntidades.csproj.CopyComplete
 C:\Desarrollo2022\CaroniPOS1\CapaEntidades\obj\Debug\CapaEntidades.dll
 C:\Desarrollo2022\CaroniPOS1\CapaEntidades\obj\Debug\CapaEntidades.pdb
+C:\Desarrollo2022\CaroniPOS1\CapaEntidades\obj\Debug\CapaEntidades.csproj.AssemblyReference.cache
 C:\Programacion\CaroniPOS1\CapaEntidades\bin\Debug\CapaEntidades.dll.config
 C:\Programacion\CaroniPOS1\CapaEntidades\bin\Debug\CapaEntidades.dll
 C:\Programacion\CaroniPOS1\CapaEntidades\bin\Debug\CapaEntidades.pdb
@@ -136,6 +137,7 @@ C:\Programacion\CaroniPOS1\CapaEntidades\bin\Debug\System.Numerics.Vectors.xml
 C:\Programacion\CaroniPOS1\CapaEntidades\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
 C:\Programacion\CaroniPOS1\CapaEntidades\bin\Debug\System.Threading.Tasks.Extensions.xml
 C:\Programacion\CaroniPOS1\CapaEntidades\bin\Debug\System.ValueTuple.xml
+C:\Programacion\CaroniPOS1\CapaEntidades\obj\Debug\CapaEntidades.csproj.AssemblyReference.cache
 C:\Programacion\CaroniPOS1\CapaEntidades\obj\Debug\CapaEntidades.csproj.CoreCompileInputs.cache
 C:\Programacion\CaroniPOS1\CapaEntidades\obj\Debug\CapaEntidades.csproj.CopyComplete
 C:\Programacion\CaroniPOS1\CapaEntidades\obj\Debug\CapaEntidades.dll

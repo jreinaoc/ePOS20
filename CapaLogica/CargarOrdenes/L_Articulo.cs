@@ -3728,7 +3728,7 @@ namespace CapaLogica.CargarOrdenes
             return new FechaHoraOfrecida
             {
                 FechaOfrecida = fechaOfrecida,
-                HoraOfrecida = horaMas12.ToString("HH:mm:ss tt")
+                HoraOfrecida = horaActual.ToString("HH:mm:ss tt")
             };
         }
 
@@ -4000,7 +4000,71 @@ namespace CapaLogica.CargarOrdenes
 
         }
 
+        public bool BuscoCodigoLabLC(string codArticulo, string codColor, string Nacionalidad, string Cedula, int NumExamen, string ojo, string cant)
+        {
+            stringBuilder.Clear();
 
+            try
+            {
+
+                if (cant == "0")
+                {
+                    stringBuilder.AppendLine("Indique la cantidad de este artículo");
+                    return false;
+                }
+
+                // Ejecuta el procedimiento almacenado
+                DataSet dsGetLC = _D_Articulos.lenteContacto_Color_Existencia(ojo, codColor, Nacionalidad, Cedula, NumExamen.ToString(), codArticulo, null);
+
+                if (dsGetLC.Tables[0].Rows.Count == 1)
+                {
+                    var row = dsGetLC.Tables[0].Rows[0];
+                    ////gexFacturas.GetRow(gexFacturas.Row).Cells["CodigoLab"].Value = row["CodLabarticulo"];
+                    ////gexFacturas.GetRow(gexFacturas.Row).Cells["Existencia"].Value = row["CANTIDAD"];
+                    ////gexFacturas.GetRow(gexFacturas.Row).Cells["ManejaExistencia"].Value = row["Stock"];
+                    ////gexFacturas.GetRow(gexFacturas.Row).Cells["Generico"].Value = row["Generico"];
+
+                    bool result = true;
+                    DataSet dsGetEX = _D_Articulos.lenteContacto_Tranferencia(codArticulo, Convert.ToInt32(cant), null);
+
+                    if (Convert.ToInt32(row["CANTIDAD"]) - Convert.ToInt32(cant) < 0)
+                    {
+                        if (dsGetEX.Tables[0].Rows.Count == 1 && dsGetEX.Tables[0].Rows[0][0].ToString() != "HAY EXISTENCIA" && dsGetEX.Tables[1].Rows.Count == 1)
+                        {
+                            stringBuilder.AppendLine("Este artículo está pendiente POR RECIBIR en una Transferencia. Realice primero este proceso y luego facture este artículo");
+                            result = false;
+                        }
+                    }
+
+                    ////if (dsGetEX.Tables[0].Rows.Count == 1 && dsGetEX.Tables[0].Rows[0][0].ToString() != "HAY EXISTENCIA")
+                    ////{
+                    ////    if (dsGetEX.Tables.Count > 1 && dsGetEX.Tables[1].Rows.Count == 1)
+                    ////    {
+                    ////        result = false;
+                    ////    }
+                    ////}
+
+                    stringBuilder.AppendLine("Este artículo se encuentra en estatus" + row["StatusLab"] + "en el Laboratorio");
+
+                    return result;
+                }
+                else if (dsGetLC.Tables[0].Rows.Count > 1)
+                {
+                    stringBuilder.AppendLine("La combinación de atributos para Lentes de Contacto genera 2 códigos diferentes. Si el cliente tiene esferas diferentes, debe especificar cada ojo por separado");
+                    return false;
+                }
+                else
+                {
+                    stringBuilder.AppendLine("No se encontró coincidencia con el Código de Laboratorio para Lente de Contacto");
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                stringBuilder.Append(Environment.NewLine + string.Format("Error: {0}", ex.Message));
+                return false;
+            }
+        }
 
     }
 

@@ -2091,7 +2091,60 @@ namespace CapaDatos.CargarOrdenes_Datos
             return dts;
         }
 
-       
+        public DataSet lenteContacto_Color_Existencia(string Ojo, string CodColor, string Nacionalidad, string Cedula, string NumExamen, string CodArticulo, SqlCommand command = null)
+        {
+            if (command == null)
+            {
+                SqlConnection connection = cn.LeerCadena();
+                command = connection.CreateCommand();
+
+            }
+
+            SqlCommand cmd = command;
+            cmd.Parameters.Clear();
+            cmd.CommandText = "pGetLenteContacto";
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            // Agregar el parámetro obligatorio @CODPROMO
+            cmd.Parameters.AddWithValue("@OJO", Ojo);
+            cmd.Parameters.AddWithValue("@COLORLC", CodColor);
+            cmd.Parameters.AddWithValue("@NAC", Nacionalidad);
+            cmd.Parameters.AddWithValue("@CI", Cedula);
+            cmd.Parameters.AddWithValue("@EXAMEN", NumExamen);
+            cmd.Parameters.AddWithValue("@CODARTICULO", CodArticulo);
+
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet dts = new DataSet();
+            da.Fill(dts);
+            cmd.Parameters.Clear();
+            return dts;
+        }
+
+        public DataSet lenteContacto_Tranferencia(string CodArticulo, int Cantidad, SqlCommand command = null)
+        {
+            if (command == null)
+            {
+                SqlConnection connection = cn.LeerCadena();
+                command = connection.CreateCommand();
+
+            }
+
+            SqlCommand cmd = command;
+            cmd.Parameters.Clear();
+            cmd.CommandText = "pConsExistTransf";
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            // Agregar el parámetro obligatorio @CODPROMO
+            cmd.Parameters.AddWithValue("@articulo", CodArticulo);
+            cmd.Parameters.AddWithValue("@cant", Cantidad);
+           
+
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet dts = new DataSet();
+            da.Fill(dts);
+            cmd.Parameters.Clear();
+            return dts;
+        }
 
         //public async Task<bool> RebajarInventarioAsync(string codArticulo, string codLaboratorio, int cantidad, SqlCommand command)
         //{
