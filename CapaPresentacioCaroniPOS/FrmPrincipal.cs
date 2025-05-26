@@ -180,7 +180,7 @@ namespace CapaVisual_Login
             }
             else
             {
-                mensaje = "Existen inconsistencias en las facturas, comuníquese con Sistemas";
+                mensaje = "Se eliminaron registros de la base de datos, comuníquese con el Departamento de sistemas";
                 _FrmMensajes.co = 2;
                 _FrmMensajes.avisomensaje(mensaje);
                 _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente

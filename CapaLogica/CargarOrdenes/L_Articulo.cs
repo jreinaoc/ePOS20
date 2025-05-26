@@ -744,7 +744,7 @@ namespace CapaLogica.CargarOrdenes
                 var articulo = listaArticulos.FirstOrDefault(a => a.CodArticulo == codigoProducto);
 
                 // Validar si el código del producto no comienza con "A", "C", "S" o "W"
-                if (!(codigoProducto.StartsWith("A") || codigoProducto.StartsWith("C") || codigoProducto.StartsWith("S") || codigoProducto.StartsWith("W")))
+                if (!(codigoProducto.StartsWith("A") || codigoProducto.StartsWith("C") || codigoProducto.StartsWith("S") || codigoProducto.StartsWith("W") || codigoProducto.StartsWith("E")))
                 {
                     if (articulo == null)
                     {
@@ -1701,7 +1701,7 @@ namespace CapaLogica.CargarOrdenes
                                 List<TB_Examen> examenes = _D_Articulos.ObtenerExamen(Nacionalidad, txtCedula, _D_Inicio.Sucursal(), NunExamen);
 
                                 // Validar si se obtuvieron resultados
-                                if (TipoTrabajo != "01" && examenes != null && examenes.Count > 0)
+                                if ((TipoTrabajo == "08") || (examenes != null && examenes.Count > 0))
                                 {
                                     // Tomar el primer resultado (o manejar múltiples resultados si es necesario)
                                     TB_Examen exa = examenes.First();
