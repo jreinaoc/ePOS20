@@ -271,11 +271,17 @@ namespace CapaLogica.ExportarArchivos
             ws.Cell("F8").Value = "Descuento";
             ws.Cell("G8").Value = "IVA";
             ws.Cell("H8").Value = "IGTF";
-            ws.Cell("I8").Value = "Total";
+            ws.Cell("I8").Value = "Monto Exento";
+            ws.Cell("J8").Value = "Monto Gravable";
+            ws.Cell("K8").Value = "Alicuota Iva";
+            ws.Cell("L8").Value = "Alicuota IGTF";
+            ws.Cell("M8").Value = "Serial Impresora";
+            ws.Cell("N8").Value = "Total";
+           
 
-            ws.Columns("A", "I").Width = 20;
+            ws.Columns("A", "N").Width = 20;
 
-            var headerRange = ws.Range("A8:I8");
+            var headerRange = ws.Range("A8:N8");
             headerRange.Style.Font.Bold = true;
             headerRange.Style.Fill.BackgroundColor = XLColor.FromHtml("#027a65");
             headerRange.Style.Font.FontColor = XLColor.White;
@@ -297,9 +303,15 @@ namespace CapaLogica.ExportarArchivos
                     ws.Cell(fila, 6).Value = factura.Fact_Descuento;
                     ws.Cell(fila, 7).Value = factura.Fact_Impuesto;
                     ws.Cell(fila, 8).Value = factura.Fact_IGTF;
-                    ws.Cell(fila, 9).Value = factura.Fact_Total;
+                    ws.Cell(fila, 9).Value = factura.Fact_MontoExento;
+                    ws.Cell(fila, 10).Value = factura.Fact_MontoGravable;
+                    ws.Cell(fila, 11).Value = factura.Fact_AlicuotaIva;
+                    ws.Cell(fila, 12).Value = factura.Fact_AlicuotaIGTF;
+                    ws.Cell(fila, 13).Value = factura.Fact_SerialImpresora;
+                    ws.Cell(fila, 14).Value = factura.Fact_Total;
+                    
 
-                    ws.Range($"E{fila}:I{fila}").Style.NumberFormat.Format = "#,##0.00";
+                    ws.Range($"E{fila}:N{fila}").Style.NumberFormat.Format = "#,##0.00";
 
                     filaDatosFinal = fila; // marcamos la última fila de datos reales
                 }
@@ -309,8 +321,8 @@ namespace CapaLogica.ExportarArchivos
 
             // ======= LÍNEA NEGRA SEPARADORA DINÁMICA =======
             int filaSeparadora = filaDatosFinal + 1;
-            ws.Range($"A{filaSeparadora}:I{filaSeparadora}").Style.Border.TopBorder = XLBorderStyleValues.Thick;
-            ws.Range($"A{filaSeparadora}:I{filaSeparadora}").Style.Border.TopBorderColor = XLColor.Black;
+            ws.Range($"A{filaSeparadora}:N{filaSeparadora}").Style.Border.TopBorder = XLBorderStyleValues.Thick;
+            ws.Range($"A{filaSeparadora}:N{filaSeparadora}").Style.Border.TopBorderColor = XLColor.Black;
 
             // ======= TOTALES =======
             var filaTotales = filaSeparadora + 1;
@@ -323,11 +335,16 @@ namespace CapaLogica.ExportarArchivos
                 ws.Cell(filaTotales, 5).Value = totales.TotalSubtotal;
                 ws.Cell(filaTotales, 7).Value = totales.TotalImpuesto;
                 ws.Cell(filaTotales, 8).Value = totales.TotalIGTF;
-                ws.Cell(filaTotales, 9).Value = totales.Totaltotal;
+                ws.Cell(filaTotales, 9).Value = totales.Fact_MontoExento;
+                ws.Cell(filaTotales, 10).Value = totales.Fact_MontoGravable;
+                ws.Cell(filaTotales, 11).Value = totales.Fact_AlicuotaIva;
+                ws.Cell(filaTotales, 12).Value = totales.Fact_AlicuotaIGTF;
+                ws.Cell(filaTotales, 13).Value = totales.Fact_SerialImpresora;
+                ws.Cell(filaTotales, 14).Value = totales.Totaltotal;
 
-                ws.Range($"A{filaTotales}:I{filaTotales}").Style.Font.Bold = true;
-                ws.Range($"E{filaTotales}:I{filaTotales}").Style.NumberFormat.Format = "#,##0.00";
-                ws.Range($"A{filaTotales}:I{filaTotales}").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                ws.Range($"A{filaTotales}:N{filaTotales}").Style.Font.Bold = true;
+                ws.Range($"E{filaTotales}:N{filaTotales}").Style.NumberFormat.Format = "#,##0.00";
+                ws.Range($"A{filaTotales}:N{filaTotales}").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Right;
             }
 
             ws.Columns().AdjustToContents();
@@ -585,10 +602,15 @@ namespace CapaLogica.ExportarArchivos
             ws.Cell("G8").Value = "Monto";
             ws.Cell("H8").Value = "Aplicado";
             ws.Cell("I8").Value = "Saldo";
+            ws.Cell("J8").Value = "Monto Exento";
+            ws.Cell("K8").Value = "Monto Gravable";
+            ws.Cell("L8").Value = "Monto Iva";
+            ws.Cell("M8").Value = "Alicuota Iva";
+            ws.Cell("N8").Value = "Serial Impresora";
 
-            ws.Columns("B", "I").Width = 20;
+            ws.Columns("B", "N").Width = 20;
 
-            var headerRange = ws.Range("B8:I8");
+            var headerRange = ws.Range("B8:N8");
             headerRange.Style.Font.Bold = true;
             headerRange.Style.Fill.BackgroundColor = XLColor.FromHtml("#027a65");
             headerRange.Style.Font.FontColor = XLColor.White;
@@ -607,9 +629,15 @@ namespace CapaLogica.ExportarArchivos
                     ws.Cell(fila, 8).Value = nota.TotalAplicado;
                     ws.Cell(fila, 9).Value = nota.TotalSaldo;
 
-                    ws.Range($"B{fila}:I{fila}").Style.Font.Bold = true;
-                    ws.Range($"B{fila}:I{fila}").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
-                    ws.Range($"F{fila}:I{fila}").Style.NumberFormat.Format = "#,##0.00";
+                    ws.Cell(fila, 10).Value = nota.MontoExento;
+                    ws.Cell(fila, 11).Value = nota.MontoGravable;
+                    ws.Cell(fila, 12).Value = nota.MontoIva;
+                    ws.Cell(fila, 13).Value = nota.AlicuotaIva;
+                    ws.Cell(fila, 14).Value = nota.NC_SerialImpresora;
+
+                    ws.Range($"B{fila}:N{fila}").Style.Font.Bold = true;
+                    ws.Range($"B{fila}:N{fila}").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Right;
+                    ws.Range($"F{fila}:N{fila}").Style.NumberFormat.Format = "#,##0.00";
 
                     //filaDatosFinal = fila;
                 }
@@ -624,8 +652,14 @@ namespace CapaLogica.ExportarArchivos
                     ws.Cell(fila, 8).Value = nota.Aplicado;
                     ws.Cell(fila, 9).Value = nota.Saldo;
 
-                    ws.Range($"B{fila}:I{fila}").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
-                    ws.Range($"F{fila}:HI{fila}").Style.NumberFormat.Format = "#,##0.00";
+                    ws.Cell(fila, 10).Value = nota.MontoExento;
+                    ws.Cell(fila, 11).Value = nota.MontoGravable;
+                    ws.Cell(fila, 12).Value = nota.MontoIva;
+                    ws.Cell(fila, 13).Value = nota.AlicuotaIva;
+                    ws.Cell(fila, 14).Value = nota.NC_SerialImpresora;
+
+                    ws.Range($"B{fila}:N{fila}").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Right;
+                    ws.Range($"F{fila}:HN{fila}").Style.NumberFormat.Format = "#,##0.00";
 
                     filaDatosFinal = fila;
                 }
@@ -635,8 +669,8 @@ namespace CapaLogica.ExportarArchivos
 
             // LÍNEA NEGRA SEPARADORA DINÁMICA
             int filaSeparadora = filaDatosFinal + 1;
-            ws.Range($"B{filaSeparadora}:I{filaSeparadora}").Style.Border.TopBorder = XLBorderStyleValues.Thick;
-            ws.Range($"B{filaSeparadora}:I{filaSeparadora}").Style.Border.TopBorderColor = XLColor.Black;
+            ws.Range($"B{filaSeparadora}:N{filaSeparadora}").Style.Border.TopBorder = XLBorderStyleValues.Thick;
+            ws.Range($"B{filaSeparadora}:N{filaSeparadora}").Style.Border.TopBorderColor = XLColor.Black;
 
             ws.Columns().AdjustToContents();
         }

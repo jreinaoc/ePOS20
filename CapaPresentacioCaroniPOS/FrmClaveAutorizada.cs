@@ -173,7 +173,7 @@ namespace CapaVisual_Login
              {
                 if (!string.IsNullOrEmpty(Parametro_Nuevo))
                 {
-                    CbxSelecGerent.DataSource = _D_ClaveAutorizada.ClaveAutorizadaII(Parametro_Nuevo);// Antes tenia el valor steado ahora es por codigo de sucursal 
+                    CbxSelecGerent.DataSource = _D_ClaveAutorizada.ObtengoGerentesClaveAutorizadaII(Parametro_Nuevo);// Antes tenia el valor steado ahora es por codigo de sucursal 
                     CbxSelecGerent.DisplayMember = "NOMBRE";
                     CbxSelecGerent.ValueMember = "COD_USR";
                 }
@@ -189,10 +189,10 @@ namespace CapaVisual_Login
              }
              else
              { 
-            CbxSelecGerent.DataSource = _D_ClaveAutorizada.ClaveAutorizada(TB_USUARIO.COD_SUCURSAL);// Antes tenia el valor steado ahora es por codigo de sucursal 
-            CbxSelecGerent.DisplayMember = "NOMBRE";
-            CbxSelecGerent.ValueMember = "COD_USR";
-            }
+                CbxSelecGerent.DataSource = _D_ClaveAutorizada.ClaveAutorizada(TB_USUARIO.COD_SUCURSAL);// Antes tenia el valor steado ahora es por codigo de sucursal 
+                CbxSelecGerent.DisplayMember = "NOMBRE";
+                CbxSelecGerent.ValueMember = "COD_USR";
+             }
 
             if(L_Colores.Oscuro == true)
             {
@@ -292,7 +292,9 @@ namespace CapaVisual_Login
             //CbxSelecGerent.Text = "";
             LblClaveAleatoria.Text = "";
             CbxSelecGerent.SelectedIndex = - 1;
-
+            // Eliminar el DataSource antes de limpiar los elementos
+            CbxSelecGerent.DataSource = null;
+            CbxSelecGerent.Items.Clear();
         }
 
         public string RetornoNombreUsuario()

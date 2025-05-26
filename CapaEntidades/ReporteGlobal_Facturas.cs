@@ -27,6 +27,16 @@ namespace CapaEntidades
         public decimal TotalSubtotal { get; set; }
         public decimal TotalImpuesto { get; set; }
         public decimal TotalIGTF { get; set; }
+       
+
+        public decimal Fact_MontoExento { get; set; }
+        public decimal Fact_MontoGravable { get; set; }
+        public decimal Fact_AlicuotaIva { get; set; }
+       // public decimal Fact_IGTF { get; set; }
+        public decimal Fact_AlicuotaIGTF { get; set; }
+        public string Fact_SerialImpresora { get; set; }
+
         public decimal Totaltotal { get; set; }
+
     }
 }

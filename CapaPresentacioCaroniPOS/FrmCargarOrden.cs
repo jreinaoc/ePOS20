@@ -278,7 +278,8 @@ namespace CapaVisual_Login
                     rbCompleta.Checked = false;
                     rbRanurada.Checked = false;
                     rbAlaire.Checked = false;
-                  
+                    
+
                     break;
                 case "CristalPropio":
                     this.Btn_Tap3_CristalPropio.BackColor = Color.GreenYellow;
@@ -1288,7 +1289,9 @@ namespace CapaVisual_Login
                 if (puedeBorrar)
                 {
                     // Si se puede borrar, eliminar la fila
+                    
                     Dgv_Tap3_Articulo.Rows.RemoveAt(FilaPorBorrar);
+                    
                 }
                 else
                 {
@@ -1350,6 +1353,11 @@ namespace CapaVisual_Login
                 txtVertical.Text = "";
                 txtMaxima.Text = "";
                 txtPuente.Text = "";
+                txtHorizontal.Enabled = false;
+                txtVertical.Enabled = false;
+                txtMaxima.Enabled = false;
+                txtPuente.Enabled = false;
+
                 txtObservacion.Text = "";
 
                 ReiniciarBusquedaarticulo();
@@ -1591,6 +1599,13 @@ namespace CapaVisual_Login
                     }
 
                 }
+
+                if (Dgv_Tap3_Articulo.Rows[numFilas].Cells["CodArticulo"].Value != null &&
+                    (Dgv_Tap3_Articulo.Rows[numFilas].Cells["CodArticulo"].Value.ToString().StartsWith("M") ||
+                     Dgv_Tap3_Articulo.Rows[numFilas].Cells["CodArticulo"].Value.ToString().StartsWith("L")))
+                {
+                    _L_Articulo.CargarMedidasMontura(txtHorizontal, txtVertical, txtMaxima, txtPuente, Dgv_Tap3_Articulo.Rows[numFilas].Cells["CodArticulo"].Value.ToString());
+                }
             }
 
             //Validar si Existe colorocaion agregada SI ya agregaron la coloracion no abro el panel 
@@ -1648,9 +1663,24 @@ namespace CapaVisual_Login
             // La palabra clave ref permite que la función modifique directamente la variable Codigo_Coloracion que se pasa desde la capa visual.
             _L_Articulo.RemoveColoracion(Dgv_Tap3_Articulo, ref Codigo_Coloracion);
 
+            if (!_L_Articulo.TieneMontura(Dgv_Tap3_Articulo))
+             {
+                txtHorizontal.Text = "";
+                txtVertical.Text = "";
+                txtMaxima.Text = "";
+                txtPuente.Text = "";
+            }
+
             // Totalizo el grivew Totales cuando se quita una fila 
             _L_Articulo.ActualizarTotales(Dgv_Tap3_Articulo, Dgv_Tap3_Totales);
 
+            //if (Dgv_Tap3_Articulo.Rows[FilaPorBorrar].Cells["CodArticulo"].Value.ToString().StartsWith("M"))
+            //{
+            //    txtHorizontal.Text = "";
+            //    txtVertical.Text = "";
+            //    txtMaxima.Text = "";
+            //    txtPuente.Text = "";
+            //}
             // Habilito o desabilito Botones 
             ValidarRegistrosYHabilitar_Botones();
 
@@ -2481,6 +2511,22 @@ namespace CapaVisual_Login
                     return;
                 }
 
+                if (txtHorizontal.Text == "" || txtHorizontal.Text == "" || txtHorizontal.Text == "" || txtHorizontal.Text == "")
+                {
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje("Ingrese las medidas de la montura");
+                    _FrmMensajes.ShowDialog();
+                    return;
+                }
+
+                if(Montura_Propia  & txtObservacion.Text == "")
+                {
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje("Debe escribir una descripción de la montura para poder procesar los datos");
+                    _FrmMensajes.ShowDialog();
+                    return;
+                }
+
                 foreach (string elemento in codigosFactura)
                 {
                     string codigo =elemento;
@@ -3140,6 +3186,10 @@ namespace CapaVisual_Login
                     TipoMonturaPropia = "Alaire";
                 }
                 Montura_Propia = true;
+                txtHorizontal.Enabled = true;
+                txtVertical.Enabled = true;
+                txtMaxima.Enabled = true;
+                txtPuente.Enabled = true;
                 CerrarPanelMonturaPropia();
             }
 

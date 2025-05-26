@@ -49,7 +49,9 @@ namespace CapaLogica.Servicios
                 TotalSubtotal = facturas.Sum(f => f.Fact_SubTotal),
                 TotalImpuesto = facturas.Sum(f => f.Fact_Impuesto),
                 TotalIGTF = facturas.Sum(f => f.Fact_IGTF),
-                Totaltotal = facturas.Sum(f => f.Fact_Total)
+                Totaltotal = facturas.Sum(f => f.Fact_Total),
+                Fact_MontoExento = facturas.Sum(f => f.Fact_MontoExento),
+                Fact_MontoGravable = facturas.Sum(f => f.Fact_MontoExento)
             };
 
             facturas.Add(totales);
@@ -111,7 +113,11 @@ namespace CapaLogica.Servicios
                 TotalOrden = notas.Count,
                 TotalMonto = notas.Sum(n => n.Monto),
                 TotalAplicado = notas.Sum(n => n.Aplicado),
-                TotalSaldo = notas.Sum(n => n.Saldo)
+                TotalSaldo = notas.Sum(n => n.Saldo),
+                MontoExento = notas.Sum(n => n.MontoExento),
+                MontoGravable = notas.Sum(n => n.MontoGravable),
+                MontoIva = notas.Sum(n => n.MontoIva)
+                
             };
 
             notas.Add(totales);
