@@ -132,6 +132,11 @@ namespace CapaDatos.ListaFacturas_Datos
                        ISNULL(fc.Fact_Descuento, 0) AS Fact_Descuento, 
                        ISNULL(fc.Fact_Impuesto, 0) AS Fact_Impuesto, 
                        ISNULL(fc.Fact_IGTF, 0) AS Fact_IGTF, 
+                       ISNULL(fc.Fact_MontoExento, 0) AS Fact_MontoExento,
+                       ISNULL(fc.Fact_MontoGravable, 0) AS Fact_MontoGravable,
+                       ISNULL(fc.Fact_AlicuotaIva, 0) AS Fact_AlicuotaIva,
+                       ISNULL(fc.Fact_AlicuotaIGTF, 0) AS Fact_AlicuotaIGTF,
+                       ISNULL(fc.Fact_SerialImpresora, 0) AS Fact_SerialImpresora,
                        ISNULL(fc.Fact_Total, 0) AS Fact_Total
                    FROM TB_FACTURAS fc
 				   INNER JOIN TB_CTEPPAL cl on fc.CTE_CedIdenPAG = cl.CTE_CedIden
@@ -202,7 +207,12 @@ namespace CapaDatos.ListaFacturas_Datos
                     ISNULL(NT.Fact_Num, '') AS Factura, 
                     ISNULL(NT.MontoNota, 0) AS Monto, 
                     ISNULL(NT.MontoAplicado, 0) AS Aplicado, 
-                    ISNULL(NT.SaldoNota, 0) AS Saldo
+                    ISNULL(NT.SaldoNota, 0) AS Saldo,
+                    ISNULL(NT.MontoExento, 0) AS MontoExento,
+                    ISNULL(NT.MontoGravable, 0) AS MontoGravable,
+                    ISNULL(NT.MontoIva, 0) AS MontoIva,
+                    ISNULL(NT.AlicuotaIva, 0) AS AlicuotaIva,
+                    ISNULL(NT.NC_SerialImpresora, 0) AS NC_SerialImpresora
 
                 FROM TB_NOTASCREDITODEBITO NT
 

@@ -210,7 +210,15 @@ namespace CapaLogica.ListaFactura_Logica
                         Fact_Descuento = Convert.ToDecimal(row["Fact_Descuento"]),
                         Fact_Impuesto = Convert.ToDecimal(row["Fact_Impuesto"]),
                         Fact_IGTF = Convert.ToDecimal(row["Fact_IGTF"]),
+                        Fact_MontoExento = Convert.ToDecimal(row["Fact_MontoExento"]),
+                        Fact_MontoGravable = Convert.ToDecimal(row["Fact_MontoGravable"]),
+
+                        Fact_AlicuotaIva = Convert.ToDecimal(row["Fact_AlicuotaIva"]),
+                        //Fact_IGTF = Convert.ToDecimal(row["Fact_IGTF"]),
+                        Fact_AlicuotaIGTF = Convert.ToDecimal(row["Fact_AlicuotaIGTF"]),
+                        Fact_SerialImpresora = (string)row["Fact_SerialImpresora"],
                         Fact_Total = Convert.ToDecimal(row["Fact_Total"])
+                       
                     });
                 }
 
@@ -297,7 +305,13 @@ namespace CapaLogica.ListaFactura_Logica
                         Factura = row["Factura"]?.ToString(),
                         Monto = Convert.ToDecimal(row["Monto"] ?? 0),
                         Aplicado = Convert.ToDecimal(row["Aplicado"] ?? 0),
-                        Saldo = Convert.ToDecimal(row["Saldo"] ?? 0)
+                        Saldo = Convert.ToDecimal(row["Saldo"] ?? 0),
+
+                        MontoExento = Convert.ToDecimal(row["MontoExento"] ?? 0),
+                        MontoGravable = Convert.ToDecimal(row["MontoGravable"] ?? 0),
+                        MontoIva = Convert.ToDecimal(row["MontoIva"] ?? 0),
+                        AlicuotaIva = Convert.ToDecimal(row["AlicuotaIva"] ?? 0),
+                        NC_SerialImpresora = (string)row["NC_SerialImpresora"]
                     });
                 }
                 return lista_Facturas;

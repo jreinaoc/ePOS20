@@ -1813,7 +1813,8 @@ namespace CapaVisual_Login
             // 
             // txtPuente
             // 
-            this.txtPuente.Location = new System.Drawing.Point(396, 69);
+            this.txtPuente.Enabled = false;
+            this.txtPuente.Location = new System.Drawing.Point(396, 70);
             this.txtPuente.Name = "txtPuente";
             this.txtPuente.Size = new System.Drawing.Size(117, 20);
             this.txtPuente.TabIndex = 309;
@@ -1823,6 +1824,7 @@ namespace CapaVisual_Login
             // 
             // txtMaxima
             // 
+            this.txtMaxima.Enabled = false;
             this.txtMaxima.Location = new System.Drawing.Point(260, 70);
             this.txtMaxima.Name = "txtMaxima";
             this.txtMaxima.Size = new System.Drawing.Size(130, 20);
@@ -1833,6 +1835,7 @@ namespace CapaVisual_Login
             // 
             // txtVertical
             // 
+            this.txtVertical.Enabled = false;
             this.txtVertical.Location = new System.Drawing.Point(124, 70);
             this.txtVertical.Name = "txtVertical";
             this.txtVertical.Size = new System.Drawing.Size(130, 20);
@@ -1843,6 +1846,7 @@ namespace CapaVisual_Login
             // 
             // txtHorizontal
             // 
+            this.txtHorizontal.Enabled = false;
             this.txtHorizontal.Location = new System.Drawing.Point(4, 70);
             this.txtHorizontal.Name = "txtHorizontal";
             this.txtHorizontal.Size = new System.Drawing.Size(114, 20);

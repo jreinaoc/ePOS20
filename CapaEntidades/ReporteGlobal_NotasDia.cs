@@ -27,5 +27,10 @@ namespace CapaEntidades
         public decimal TotalAplicado { get; set; }
         public decimal TotalSaldo { get; set; }
 
+        public decimal MontoExento { get; set; }
+        public decimal MontoGravable { get; set; }
+        public decimal MontoIva { get; set; }
+        public decimal AlicuotaIva { get; set; }
+        public string NC_SerialImpresora { get; set; }
     }
 }

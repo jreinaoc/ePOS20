@@ -645,7 +645,8 @@ namespace CapaLogica.CargarOrdenes
                     List<int> filasParaEliminar = new List<int>();
 
                     // Recopilar las filas que deben eliminarse
-                    foreach (DataGridViewRow fila in gexFacturas.Rows)
+                    foreach (DataGridViewRow fila in 
+                        gexFacturas.Rows)
                     {
                         if (fila.Cells["ArtPadre"].Value != DBNull.Value)
                         {
@@ -743,7 +744,7 @@ namespace CapaLogica.CargarOrdenes
                 var articulo = listaArticulos.FirstOrDefault(a => a.CodArticulo == codigoProducto);
 
                 // Validar si el código del producto no comienza con "A", "C", "S" o "W"
-                if (!(codigoProducto.StartsWith("A") || codigoProducto.StartsWith("C") || codigoProducto.StartsWith("S") || codigoProducto.StartsWith("W")))
+                if (!(codigoProducto.StartsWith("A") || codigoProducto.StartsWith("C") || codigoProducto.StartsWith("S") || codigoProducto.StartsWith("W") || codigoProducto.StartsWith("E")))
                 {
                     if (articulo == null)
                     {
@@ -1700,7 +1701,7 @@ namespace CapaLogica.CargarOrdenes
                                 List<TB_Examen> examenes = _D_Articulos.ObtenerExamen(Nacionalidad, txtCedula, _D_Inicio.Sucursal(), NunExamen);
 
                                 // Validar si se obtuvieron resultados
-                                if (examenes != null && examenes.Count > 0)
+                                if ((TipoTrabajo == "08") || (examenes != null && examenes.Count > 0))
                                 {
                                     // Tomar el primer resultado (o manejar múltiples resultados si es necesario)
                                     TB_Examen exa = examenes.First();
@@ -3948,6 +3949,43 @@ namespace CapaLogica.CargarOrdenes
                 }
             }
             return artPAdre;
+        }
+
+        public bool CargarMedidasMontura(TextBox horizontal, TextBox vertical, TextBox maxima, TextBox puente, string CodMontura)
+        {
+            List<TB_ARTICULO> articulos = _D_Articulos.ObtenerArticulos("", CodMontura);
+
+            if (articulos != null && articulos.Count > 0)
+            {
+                TB_ARTICULO articulo = articulos.First();
+                horizontal.Text = articulo.MHorizontal.ToString();
+                vertical.Text = articulo.MHorizontal.ToString();
+                maxima.Text = articulo.MHorizontal.ToString();
+                puente.Text = articulo.MHorizontal.ToString();
+                return true;
+            }
+            // Si todos los campos tienen valores, devolver false
+            return false;
+
+        }
+
+        public bool TieneMontura(DataGridView Dgv_Tap3_Articulo)
+        {
+
+            bool encontrado = false;
+
+            // Recorrer todas las filas del DataGridView
+            foreach (DataGridViewRow row in Dgv_Tap3_Articulo.Rows)
+            {
+                if (row.Cells["CodArticulo"].Value.ToString().StartsWith("M") || row.Cells["CodArticulo"].Value.ToString().StartsWith("L"))
+                {
+                    return true; // Se encontró montura
+                    
+                }
+                
+            }
+            return false;
+
         }
 
 
