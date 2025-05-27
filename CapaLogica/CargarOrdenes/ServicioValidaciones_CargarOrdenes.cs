@@ -601,10 +601,10 @@ namespace CapaLogica.CargarOrdenes
         //    return 0m; // si no se encuentra o no es válido
         //}
 
-        public void ValidarMonturaQuorumYCristales(DataGridView dgvArticulos, string laboratorio, string sucursal, string servicio, string cedNacio, string cedId, string examen, SqlCommand command)
+        public string ValidarMonturaQuorumYCristales(DataGridView dgvArticulos, string laboratorio, string sucursal, string servicio, string cedNacio, string cedId, string examen, SqlCommand command)
         {
             if (!laboratorio.Equals("QUO", StringComparison.OrdinalIgnoreCase))
-                return;
+                return "OK";
 
             foreach (DataGridViewRow row in dgvArticulos.Rows)
             {
@@ -619,7 +619,8 @@ namespace CapaLogica.CargarOrdenes
 
                     if (!string.IsNullOrWhiteSpace(monturaQuorum))
                     {
-                        MessageBox.Show($"La Montura {codArticulo} no requiere el envío al Laboratorio QUORUM.", "No Enviar", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        return codArticulo;
+                       //MessageBox.Show($"La Montura {codArticulo} no requiere el envío al Laboratorio QUORUM.", "No Enviar", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
 
@@ -630,10 +631,13 @@ namespace CapaLogica.CargarOrdenes
 
                     if (!string.IsNullOrWhiteSpace(cristalConBaja))
                     {
-                        MessageBox.Show($"El Cristal {cristalConBaja} tiene baja existencia en Laboratorio.", "No Enviar", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        return codArticulo;
+                        //MessageBox.Show($"El Cristal {cristalConBaja} tiene baja existencia en Laboratorio.", "No Enviar", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
+                return "OK";
             }
+            return "OK";
         }
 
         public bool MonturaEstaEnQuorum(string codArticulo, string sucursal, string codServicio)

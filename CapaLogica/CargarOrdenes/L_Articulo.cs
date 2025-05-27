@@ -1766,6 +1766,7 @@ namespace CapaLogica.CargarOrdenes
                                 {
                                     // Manejar el caso en que no se obtuvieron resultados
                                     MessageBox.Show("No se encontraron datos del examen.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    //return;
                                 }
                             }
                         
@@ -3959,8 +3960,12 @@ namespace CapaLogica.CargarOrdenes
             if (articulos != null && articulos.Count > 0)
             {
                 TB_ARTICULO articulo = articulos.First();
-                if (articulo.MHorizontal == null)
+                if (articulo.MHorizontal == null || articulo.MVertical == null || articulo.MMaxima == null || articulo.MPuente == null)
                 {
+                    horizontal.Text = articulo.MHorizontal.ToString();
+                    vertical.Text = articulo.MVertical.ToString();
+                    maxima.Text = articulo.MMaxima.ToString();
+                    puente.Text = articulo.MPuente.ToString();
                     horizontal.Enabled = true;
                     vertical.Enabled = true;
                     maxima.Enabled = true;

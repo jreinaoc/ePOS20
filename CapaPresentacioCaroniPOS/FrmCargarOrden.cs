@@ -2636,18 +2636,35 @@ namespace CapaVisual_Login
 
 
                 if ((Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01"))//Convencional
-                   {
-                    _servicioValidaciones.ValidarMonturaQuorumYCristales(
-                    Dgv_Tap3_Articulo,
-                    Cbx_Pnl2_Laboratorio.SelectedValue.ToString(),
-                    TB_USUARIO.COD_SUCURSAL,
-                    Cbx_Pnl2_Servicio.SelectedValue.ToString(),
-                    letraInicial,
-                    numeroCedula,
-                    Txt_Pnl2_Examen.Text,
-                    null);
+                {
+                    string valida = _servicioValidaciones.ValidarMonturaQuorumYCristales(Dgv_Tap3_Articulo,Cbx_Pnl2_Laboratorio.SelectedValue.ToString(),
+                                    TB_USUARIO.COD_SUCURSAL,Cbx_Pnl2_Servicio.SelectedValue.ToString(),letraInicial,numeroCedula,Txt_Pnl2_Examen.Text, null);
+
+                    if (valida != "OK")
+                    {
+                        if (valida.StartsWith("M"))
+                        {
+                            _FrmMensajes.co = 2;
+                            _FrmMensajes.avisomensaje($"La Montura {valida} no requiere el envío al Laboratorio QUORUM");
+                            _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                            _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                            _FrmMensajes.ShowDialog(); 
+                            //MessageBox.Show($"La Montura {valida} no requiere el envío al Laboratorio QUORUM.", "No Enviar", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        if (valida.StartsWith("C"))
+                        {
+                            _FrmMensajes.co = 2;
+
+                            _FrmMensajes.avisomensaje($"El Cristal {valida} tiene baja existencia en Laboratorio");
+                            _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                            _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                            _FrmMensajes.ShowDialog();
+                            //MessageBox.Show($"El Cristal {valida} tiene baja existencia en Laboratorio.", "No Enviar", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        //return;
                     }
-               
+                }
+
 
                 if (!await _servicioValidaciones.ValidarOrdenServicioAsync(Dgv_Tap3_Totales,Dgv_Tap3_Articulo,null, mostrarPregunta, mostrarError, datos))
                 {
@@ -3725,6 +3742,8 @@ namespace CapaVisual_Login
                 Lbl_Pnl2_Laboratorio.Visible = false;
                 Lbl_Pnl2_Servicio.Visible = false;
                 Cbx_Pnl2_Servicio.Visible = false;
+                Txt_Pnl2_Examen.Visible = false;
+               Lbl_Pnl2_Num_Examen.Visible = false;
                 _FechaHoraOfrecida = _L_Articulo.ObtenerFechaHoraOfrecida("", Cbx_Pnl2_Trbajo.SelectedValue.ToString());
                 if (_FechaHoraOfrecida != null && _FechaHoraOfrecida.Count > 0)
                 {
@@ -3738,6 +3757,8 @@ namespace CapaVisual_Login
                 Lbl_Pnl2_Laboratorio.Visible = true;
                 Lbl_Pnl2_Servicio.Visible = true;
                 Cbx_Pnl2_Servicio.Visible = true;
+                Txt_Pnl2_Examen.Visible = true;
+                Lbl_Pnl2_Num_Examen.Visible = true;
             }
         }
 
