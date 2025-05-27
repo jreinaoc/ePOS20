@@ -529,6 +529,21 @@ namespace CapaDatos.DetalleOrden_Datos
 
         }
 
+        public string TB_PARAMETROSPAIS(string Parametro)
+        {
+            SqlCommand cmd = new SqlCommand("SELECT Venezuela from  TB_PARAMETROSPAIS where Parametro= @Parametro", cn.LeerCadena());
+            cmd.CommandType = CommandType.Text;
+            cmd.Parameters.AddWithValue("@Parametro", Parametro);
+            cmd.CommandTimeout = 120;
+            DataTable dt = new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            da.Fill(dt);
+            cmd.Parameters.Clear();
+            string Valor = dt.Rows[0]["Venezuela"].ToString();
+            return Valor;
+
+        }
+
         public DataTable TB_INUTILIZADO()
         {
             SqlCommand cmd = new SqlCommand("select * from TB_INUTILIZADO", cn.LeerCadena());

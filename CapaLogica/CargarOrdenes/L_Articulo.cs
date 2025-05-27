@@ -4071,7 +4071,112 @@ namespace CapaLogica.CargarOrdenes
             }
         }
 
-    }
+        public bool VerificoCodigoLabLC(string TxtOjo, DataGridView Dgv_Tap3_Articulo, string Nacionalidad, string Cedula, int NumExamen)
+        {
+                bool ojoD = false, ojoI = false, ojoA = false;
+                bool lcSinExist = false, lcConExist = false;
+                stringBuilder.Clear();
 
+
+            // Validar stock si aplica
+            if (_D_DetalleOrden.TB_PARAMETROSPAIS("ValidaStockLC") == "1")
+            {
+                foreach (DataGridViewRow row in Dgv_Tap3_Articulo.Rows)
+                {
+                    if (row.IsNewRow) continue;
+
+                    string codArticulo = row.Cells["CodArticulo"].Value?.ToString() ?? "";
+                    string codColor = row.Cells["ColorLC"].Value?.ToString() ?? "";
+                    string cantidad = row.Cells["ART_EXIST"].Value?.ToString() ?? "0";
+                    string ojo = row.Cells["Ojo"].Value?.ToString() ?? "";
+                    string codigoLab = "";
+                    // Solo valida artículos de lentes de contacto (por ejemplo, los que empiezan con "W")
+                    if (!codArticulo.StartsWith("W")) continue;
+
+                    // Marcar qué ojos están presentes
+                    if (ojo == "A") ojoA = true;
+                    else if (ojo == "I") ojoI = true;
+                    else if (ojo == "D") ojoD = true;
+
+                    // Validar existencia
+                    int existencia = 0, cant = 0;
+                    int.TryParse(row.Cells["ART_EXIST"].Value?.ToString(), out existencia);
+
+                    // Ejecuta el procedimiento almacenado
+                    DataSet dsGetLC = _D_Articulos.lenteContacto_Color_Existencia(ojo, codColor, Nacionalidad, Cedula, NumExamen.ToString(), codArticulo, null);
+                    if (dsGetLC.Tables[0].Rows.Count == 1)
+                    {
+                        var row2 = dsGetLC.Tables[0].Rows[0];
+                        int.TryParse(row2["CANTIDAD"].ToString(), out cant);
+                        codigoLab = row2["CodLabarticulo"].ToString();
+                    }
+
+                    if (string.IsNullOrEmpty(codigoLab))
+                    {
+                        stringBuilder.AppendLine("El código de laboratorio para el Lente de Contacto se encuentra vacío. Presione el Botón Cancelar y cargue los artículos nuevamente");
+                        return false;
+                    }
+
+                    if (existencia <= 0)
+                        lcSinExist = true;
+                    else
+                    {
+                        lcConExist = true;
+                        if (existencia < cant)
+                        {
+                        stringBuilder.AppendLine(
+                            $"La existencia del lente no cubre la cantidad que desea vender. Solo puede vender {existencia} del artículo {codArticulo} en esta orden");
+                            return false;
+                        }
+                    }
+
+                  
+                }
+
+                // Validar combinación de ojos
+                if (TxtOjo == "Ambos" && (ojoA || (ojoD && ojoI)))
+                {
+                    // válido
+                }
+                else if (TxtOjo == "Izquierdo" && !ojoA && !ojoD && ojoI)
+                {
+                    // válido
+                }
+                else if (TxtOjo == "Derecho" && !ojoA && ojoD && !ojoI)
+                {
+                    // válido
+                }
+                else
+                {
+                    stringBuilder.AppendLine("La cantidad de Ojos seleccionada no corresponde con los artículos cargados");
+                    return false;
+                }
+
+                // Validar stock mixto
+                if (lcSinExist && lcConExist)
+                {
+                    stringBuilder.AppendLine(
+                    "No puede vender artículos con existencia y contra pedido en la misma Orden. Facture los artículos en órdenes separadas");
+                    return false;
+                }
+            }
+                return true;
+
+        }
+
+        public void LlenarComboOjos(ComboBox combo)
+        {
+            combo.Items.Clear();
+            combo.DisplayMember = "Text";
+            combo.ValueMember = "Value";
+
+            combo.Items.Add(new { Text = "Ambos", Value = "A" });
+            combo.Items.Add(new { Text = "Izquierdo", Value = "I" });
+            combo.Items.Add(new { Text = "Derecho", Value = "D" });
+
+            if (combo.Items.Count > 0)
+                combo.SelectedIndex = 0;
+        }
+    }
 }
 

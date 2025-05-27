@@ -265,6 +265,8 @@ namespace CapaVisual_Login
             this.radioButton4 = new System.Windows.Forms.RadioButton();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label22 = new System.Windows.Forms.Label();
+            this.Cbx_Pnl2_Ojo = new System.Windows.Forms.ComboBox();
+            this.label24 = new System.Windows.Forms.Label();
             this.Pnl_1.SuspendLayout();
             this.Pnl_2.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -392,6 +394,8 @@ namespace CapaVisual_Login
             // Pnl_2
             // 
             this.Pnl_2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(166)))), ((int)(((byte)(156)))));
+            this.Pnl_2.Controls.Add(this.label24);
+            this.Pnl_2.Controls.Add(this.Cbx_Pnl2_Ojo);
             this.Pnl_2.Controls.Add(this.Lbl_Pnl2_Num_Examen);
             this.Pnl_2.Controls.Add(this.Txt_Pnl2_Examen);
             this.Pnl_2.Controls.Add(this.Cbx_Pnl2_Servicio);
@@ -418,7 +422,7 @@ namespace CapaVisual_Login
             this.Lbl_Pnl2_Num_Examen.AutoSize = true;
             this.Lbl_Pnl2_Num_Examen.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Lbl_Pnl2_Num_Examen.ForeColor = System.Drawing.SystemColors.Window;
-            this.Lbl_Pnl2_Num_Examen.Location = new System.Drawing.Point(855, 66);
+            this.Lbl_Pnl2_Num_Examen.Location = new System.Drawing.Point(859, 19);
             this.Lbl_Pnl2_Num_Examen.Name = "Lbl_Pnl2_Num_Examen";
             this.Lbl_Pnl2_Num_Examen.Size = new System.Drawing.Size(73, 19);
             this.Lbl_Pnl2_Num_Examen.TabIndex = 307;
@@ -429,7 +433,7 @@ namespace CapaVisual_Login
             this.Txt_Pnl2_Examen.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.Txt_Pnl2_Examen.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.Txt_Pnl2_Examen.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Txt_Pnl2_Examen.Location = new System.Drawing.Point(855, 90);
+            this.Txt_Pnl2_Examen.Location = new System.Drawing.Point(859, 43);
             this.Txt_Pnl2_Examen.MaxLength = 2;
             this.Txt_Pnl2_Examen.Name = "Txt_Pnl2_Examen";
             this.Txt_Pnl2_Examen.Size = new System.Drawing.Size(75, 20);
@@ -444,7 +448,7 @@ namespace CapaVisual_Login
             this.Cbx_Pnl2_Servicio.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Cbx_Pnl2_Servicio.ForeColor = System.Drawing.Color.Black;
             this.Cbx_Pnl2_Servicio.FormattingEnabled = true;
-            this.Cbx_Pnl2_Servicio.Location = new System.Drawing.Point(586, 88);
+            this.Cbx_Pnl2_Servicio.Location = new System.Drawing.Point(576, 88);
             this.Cbx_Pnl2_Servicio.Name = "Cbx_Pnl2_Servicio";
             this.Cbx_Pnl2_Servicio.Size = new System.Drawing.Size(238, 25);
             this.Cbx_Pnl2_Servicio.TabIndex = 305;
@@ -456,7 +460,7 @@ namespace CapaVisual_Login
             this.Lbl_Pnl2_Servicio.AutoSize = true;
             this.Lbl_Pnl2_Servicio.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Lbl_Pnl2_Servicio.ForeColor = System.Drawing.SystemColors.Window;
-            this.Lbl_Pnl2_Servicio.Location = new System.Drawing.Point(665, 66);
+            this.Lbl_Pnl2_Servicio.Location = new System.Drawing.Point(655, 66);
             this.Lbl_Pnl2_Servicio.Name = "Lbl_Pnl2_Servicio";
             this.Lbl_Pnl2_Servicio.Size = new System.Drawing.Size(69, 19);
             this.Lbl_Pnl2_Servicio.TabIndex = 304;
@@ -3215,6 +3219,28 @@ namespace CapaVisual_Login
             this.label22.Text = "Listado de Colores ";
             this.label22.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
+            // Cbx_Pnl2_Ojo
+            // 
+            this.Cbx_Pnl2_Ojo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.Cbx_Pnl2_Ojo.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Cbx_Pnl2_Ojo.ForeColor = System.Drawing.Color.Black;
+            this.Cbx_Pnl2_Ojo.FormattingEnabled = true;
+            this.Cbx_Pnl2_Ojo.Location = new System.Drawing.Point(833, 87);
+            this.Cbx_Pnl2_Ojo.Name = "Cbx_Pnl2_Ojo";
+            this.Cbx_Pnl2_Ojo.Size = new System.Drawing.Size(115, 25);
+            this.Cbx_Pnl2_Ojo.TabIndex = 308;
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label24.ForeColor = System.Drawing.SystemColors.Window;
+            this.label24.Location = new System.Drawing.Point(870, 65);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(36, 19);
+            this.label24.TabIndex = 309;
+            this.label24.Text = "Ojo";
+            // 
             // FrmCargarOrden
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -3223,7 +3249,7 @@ namespace CapaVisual_Login
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(1620, 788);
+            this.ClientSize = new System.Drawing.Size(1940, 788);
             this.Controls.Add(this.Pnl_3_Lista_ColoresLC);
             this.Controls.Add(this.pnlRangoCrt);
             this.Controls.Add(this.Pnl_3_Promociones);
@@ -3512,5 +3538,7 @@ namespace CapaVisual_Login
         public System.Windows.Forms.Button Btn_Tap3_CambioPrecio;
         private System.Windows.Forms.TextBox txtObservacion;
         public System.Windows.Forms.Button btnCodigoQR;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.ComboBox Cbx_Pnl2_Ojo;
     }
 }

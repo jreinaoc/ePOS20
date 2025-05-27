@@ -1155,7 +1155,7 @@ namespace CapaVisual_Login
             }
 
             // Verifico Existencia LC
-            if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "02" && !_L_Articulo.BuscoCodigoLabLC(Txt_Tap3_Articulo_Codigo.Text, CodColorLC, Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Convert.ToInt16(Txt_Pnl2_Examen.Text), Txt_Tap3_Articulo_Cantidad.Text == "2" ? "A": "I", Txt_Tap3_Articulo_Cantidad.Text) && _L_Articulo.stringBuilder.Length > 0)
+            if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "02" && Txt_Tap3_Articulo_Codigo.Text.StartsWith("W") && !_L_Articulo.BuscoCodigoLabLC(Txt_Tap3_Articulo_Codigo.Text, CodColorLC, Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Convert.ToInt16(Txt_Pnl2_Examen.Text), Txt_Tap3_Articulo_Cantidad.Text == "2" ? "A": "I", Txt_Tap3_Articulo_Cantidad.Text) && _L_Articulo.stringBuilder.Length > 0)
             {
                 _FrmMensajes.co = 2;
                 _FrmMensajes.avisomensaje(_L_Articulo.stringBuilder.ToString());
@@ -1246,23 +1246,58 @@ namespace CapaVisual_Login
                 }
 
                 string ojo = "";
-                if (articulo.CodArticulo.StartsWith("C"))
+
+                if (articulo.CodArticulo.StartsWith("C") || articulo.CodArticulo.StartsWith("W"))
                 {
-                    //depende del tipo mvision por ahora seteamos A
-                    ojo = "A";
+                    string seleccionOjo = Cbx_Pnl2_Ojo.Text ?? "";
+                    int cantidadInt = 0;
+                    int.TryParse(Txt_Tap3_Articulo_Cantidad.Text, out cantidadInt);
+
+                    if (seleccionOjo == "Ambos")
+                    {
+                        if (cantidadInt == 2)
+                        {
+                            ojo = "A";
+                        }
+                        else if (cantidadInt == 1)
+                        {
+                            // Verifica si ya hay un artículo C o W con ojo D en el grid
+                            bool existeD = false;
+                            foreach (DataGridViewRow row in Dgv_Tap3_Articulo.Rows)
+                            {
+                                if (row.IsNewRow) continue;
+                                string cod = row.Cells["CodArticulo"].Value?.ToString() ?? "";
+                                string ojoGrid = row.Cells["Ojo"].Value?.ToString() ?? "";
+                                if ((cod.StartsWith("C") || cod.StartsWith("W")) && ojoGrid == "D")
+                                {
+                                    existeD = true;
+                                    break;
+                                }
+                            }
+                            ojo = existeD ? "I" : "D";
+                        }
+                        else
+                        {
+                            _FrmMensajes.avisomensaje("No puede seleccionar cantidad: " + cantidadInt + " para ambos ojo");
+                            _FrmMensajes.ShowDialog();
+                            return;
+                        }
+                    }
+                    else if (seleccionOjo == "Izquierdo" || seleccionOjo == "Derecho")
+                    {
+                        if (cantidadInt == 1)
+                        {
+                            ojo = seleccionOjo.Substring(0,1);
+                        }
+                        else if (cantidadInt >= 2)
+                        {
+                            _FrmMensajes.avisomensaje("No puede seleccionar cantidad: " + cantidadInt  + " para un solo ojo");
+                            _FrmMensajes.ShowDialog();
+                            return;
+                            
+                        }
+                    }
                 }
-                else
-                {
-                    //depende del tipo mvision por ahora seteamos A
-                    ojo = "";
-                }
-
-                //Consultar servicios AR
-                
-                
-
-
-
 
                 //_L_Articulo.AgregarFila(Dgv_Tap3_Articulo, articulo.CodArticulo, articulo.DESART, cantidad, (decimal) precio, (decimal)articulo.PORCTDESCUENTO, (decimal) total, impuesto, _Trabajo.T_OJO);
                 _L_Articulo.AgregarFila(Dgv_Tap3_Articulo, articulo.CodArticulo, CodColorLC,articulo.DESART, cantidad, (decimal)precio, EmpresaAfiliada != "" && PorcDctoEmpresaAfiliada > 0 ? PorcDctoEmpresaAfiliada : (decimal)articulo.PORCTDESCUENTO, (decimal)total, impuesto, ojo, (decimal) articulo.COSTOPROME);
@@ -1276,9 +1311,7 @@ namespace CapaVisual_Login
 
                 // Establecer el foco en el campo de código
                 Txt_Tap3_Articulo_Codigo.Focus();
-
-
-                
+   
 
             }
             catch (Exception ex)
@@ -1464,6 +1497,7 @@ namespace CapaVisual_Login
                 _L_Articulo.InicializarDataGridViewTotales(Dgv_Tap3_Totales);
                 Formato_Dgv_Totales();
                 _L_Articulo.BucarTipoVenta(Cbx_Pnl2_Trbajo);
+                _L_Articulo.LlenarComboOjos(Cbx_Pnl2_Ojo);
                 CargarComboLaboratorios();
                 //_L_Articulo.ObtenerFechaHoraOfrecida(Cbx_Pnl2_Servicio.SelectedValue.ToString(), Cbx_Pnl2_Trbajo.SelectedValue.ToString());
 
@@ -2670,6 +2704,16 @@ namespace CapaVisual_Login
                 {
                     return;
                 }
+
+
+                // Validar Lc CodigoLabLC
+                 if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "02" && !_L_Articulo.VerificoCodigoLabLC(Cbx_Pnl2_Ojo.Text, Dgv_Tap3_Articulo, Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Convert.ToInt16(Txt_Pnl2_Examen.Text)) && _L_Articulo.stringBuilder.Length > 0)
+                 {
+                        _FrmMensajes.co = 2;
+                        _FrmMensajes.avisomensaje(_L_Articulo.stringBuilder.ToString());
+                        _FrmMensajes.ShowDialog();
+                        return; // Salir 
+                 }
 
                 //Guardar datos en CAORDSERV
                 string codServicio = Cbx_Pnl2_Servicio.SelectedValue.ToString();
