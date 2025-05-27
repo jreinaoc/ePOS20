@@ -453,6 +453,8 @@ namespace CapaVisual_Login
                     this.Txt_Pnl2_Examen.Enabled = false;
                     this.Cbx_Pnl2_Trbajo.Enabled = false;
                     this.Cbx_Pnl2_Laboratorio.Enabled = false;
+                    this.Cbx_Pnl2_Ojo.Enabled = false;
+                    this.Txt_Pnl2_Examen.Enabled = false;
                     this.Cbx_Pnl2_Servicio.Enabled = false;
 
                     break;
@@ -541,6 +543,8 @@ namespace CapaVisual_Login
                     this.Txt_Pnl2_Examen.Enabled = false;
                     this.Cbx_Pnl2_Trbajo.Enabled = false;
                     this.Cbx_Pnl2_Laboratorio.Enabled = false;
+                    this.Cbx_Pnl2_Ojo.Enabled = false;
+                    this.Txt_Pnl2_Examen.Enabled = false;
                     this.Cbx_Pnl2_Servicio.Enabled = false;
 
 
@@ -593,6 +597,7 @@ namespace CapaVisual_Login
                     this.Txt_Pnl2_Examen.Enabled = false;
                     this.Cbx_Pnl2_Trbajo.Enabled = false;
                     this.Cbx_Pnl2_Laboratorio.Enabled = false;
+                    this.Cbx_Pnl2_Ojo.Enabled = false;
                     this.Cbx_Pnl2_Servicio.Enabled = false;
 
 
@@ -650,6 +655,8 @@ namespace CapaVisual_Login
                     this.Txt_Pnl2_Examen.Enabled = false;
                     this.Cbx_Pnl2_Trbajo.Enabled = false;
                     this.Cbx_Pnl2_Laboratorio.Enabled = false;
+                    this.Cbx_Pnl2_Ojo.Enabled = false;
+                    this.Txt_Pnl2_Examen.Enabled = false;
                     this.Cbx_Pnl2_Servicio.Enabled = false;
 
                     // Controles del Panel Coloración 
@@ -704,6 +711,8 @@ namespace CapaVisual_Login
                     this.Txt_Pnl2_Examen.Enabled = false;
                     this.Cbx_Pnl2_Trbajo.Enabled = false;
                     this.Cbx_Pnl2_Laboratorio.Enabled = false;
+                    this.Cbx_Pnl2_Ojo.Enabled = false;
+                    this.Txt_Pnl2_Examen.Enabled = false;
                     this.Cbx_Pnl2_Servicio.Enabled = false;
 
                     // Controles del Panel Promocion
@@ -752,6 +761,8 @@ namespace CapaVisual_Login
                     this.Txt_Pnl2_Examen.Enabled = false;
                     this.Cbx_Pnl2_Trbajo.Enabled = false;
                     this.Cbx_Pnl2_Laboratorio.Enabled = false;
+                    this.Cbx_Pnl2_Ojo.Enabled = false;
+                    this.Txt_Pnl2_Examen.Enabled = false;
                     this.Cbx_Pnl2_Servicio.Enabled = false;
 
                     // Controles del Panel monturaPropia
@@ -805,6 +816,8 @@ namespace CapaVisual_Login
                     this.Txt_Pnl2_Examen.Enabled = false;
                     this.Cbx_Pnl2_Trbajo.Enabled = false;
                     this.Cbx_Pnl2_Laboratorio.Enabled = false;
+                    this.Cbx_Pnl2_Ojo.Enabled = false;
+                    this.Txt_Pnl2_Examen.Enabled = false;
                     this.Cbx_Pnl2_Servicio.Enabled = false;
 
                     // Controles del Panel ClienteAfiliado
@@ -1255,11 +1268,8 @@ namespace CapaVisual_Login
 
                     if (seleccionOjo == "Ambos")
                     {
-                        if (cantidadInt == 2)
-                        {
-                            ojo = "A";
-                        }
-                        else if (cantidadInt == 1)
+
+                        if (cantidadInt == 1)
                         {
                             // Verifica si ya hay un artículo C o W con ojo D en el grid
                             bool existeD = false;
@@ -1278,24 +1288,22 @@ namespace CapaVisual_Login
                         }
                         else
                         {
-                            _FrmMensajes.avisomensaje("No puede seleccionar cantidad: " + cantidadInt + " para ambos ojo");
-                            _FrmMensajes.ShowDialog();
-                            return;
+                            ojo = "A";
                         }
+                       
                     }
                     else if (seleccionOjo == "Izquierdo" || seleccionOjo == "Derecho")
                     {
-                        if (cantidadInt == 1)
-                        {
-                            ojo = seleccionOjo.Substring(0,1);
-                        }
-                        else if (cantidadInt >= 2)
-                        {
-                            _FrmMensajes.avisomensaje("No puede seleccionar cantidad: " + cantidadInt  + " para un solo ojo");
-                            _FrmMensajes.ShowDialog();
-                            return;
+                       
+                       ojo = seleccionOjo.Substring(0,1);
+
+                        //else if (cantidadInt >= 2)
+                        //{
+                        //    _FrmMensajes.avisomensaje("No puede seleccionar cantidad: " + cantidadInt  + " para un solo ojo");
+                        //    _FrmMensajes.ShowDialog();
+                        //    return;
                             
-                        }
+                        //}
                     }
                 }
 
@@ -1394,6 +1402,8 @@ namespace CapaVisual_Login
 
                 Cbx_Pnl2_Trbajo.Enabled = true;
                 Cbx_Pnl2_Laboratorio.Enabled = true;
+                this.Cbx_Pnl2_Ojo.Enabled = true;
+                this.Txt_Pnl2_Examen.Enabled = true; 
                 Cbx_Pnl2_Servicio.Enabled = true;
                 laboratorioSeleccionado = false;
 
@@ -2715,6 +2725,15 @@ namespace CapaVisual_Login
                         return; // Salir 
                  }
 
+                // validar cantidad Maxima 
+                if (!_L_Articulo.VerificoCantidadProducto(Dgv_Tap3_Articulo) && _L_Articulo.stringBuilder.Length > 0)
+                {
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje(_L_Articulo.stringBuilder.ToString());
+                    _FrmMensajes.ShowDialog();
+                    return; // Salir 
+                }
+
                 //Guardar datos en CAORDSERV
                 string codServicio = Cbx_Pnl2_Servicio.SelectedValue.ToString();
                 var glbCodDetVta = Cbx_Pnl2_Trbajo.SelectedValue.ToString();
@@ -3783,6 +3802,12 @@ namespace CapaVisual_Login
             if (TipoVenta == "Venta Directa")
             {
                 Cbx_Pnl2_Laboratorio.Visible = false;
+                this.Cbx_Pnl2_Ojo.Visible = false;
+                this.Txt_Pnl2_Examen.Visible = false;
+                Lbl_Pnl2_Num_Examen.Visible = false;
+                label24.Visible = false;
+                Lbl_Pnl2_Fecha_Ofre.Visible = false;
+                Txt_Pnl2_Fecha_Ofre.Visible = false;
                 Lbl_Pnl2_Laboratorio.Visible = false;
                 Lbl_Pnl2_Servicio.Visible = false;
                 Cbx_Pnl2_Servicio.Visible = false;
@@ -3795,8 +3820,24 @@ namespace CapaVisual_Login
                     Txt_Pnl2_Fecha_Ofre.Text = $"{resultado.FechaOfrecida:dd/MM/yyyy}";
                 }
             }
+            else if (TipoVenta == "Reparacion")
+            {
+                this.Cbx_Pnl2_Ojo.Visible = false;
+                this.Txt_Pnl2_Examen.Visible = false;
+                Lbl_Pnl2_Num_Examen.Visible = false;
+                label24.Visible = false;
+                Lbl_Pnl2_Fecha_Ofre.Visible = false;
+                Txt_Pnl2_Fecha_Ofre.Visible = false;
+            }
+
             else
             {
+                this.Cbx_Pnl2_Ojo.Visible = true;
+                this.Txt_Pnl2_Examen.Visible = true;
+                Lbl_Pnl2_Num_Examen.Visible = true;
+                label24.Visible = true;
+                Lbl_Pnl2_Fecha_Ofre.Visible = true;
+                Txt_Pnl2_Fecha_Ofre.Visible = true;
                 Cbx_Pnl2_Laboratorio.Visible = true;
                 Lbl_Pnl2_Laboratorio.Visible = true;
                 Lbl_Pnl2_Servicio.Visible = true;

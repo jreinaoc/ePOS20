@@ -4049,7 +4049,7 @@ namespace CapaLogica.CargarOrdenes
                     ////    }
                     ////}
 
-                    stringBuilder.AppendLine("Este artículo se encuentra en estatus" + row["StatusLab"] + "en el Laboratorio");
+                    stringBuilder.AppendLine("Este artículo se encuentra en estatus amarillo en el laboratorio");
 
                     return result;
                 }
@@ -4060,7 +4060,7 @@ namespace CapaLogica.CargarOrdenes
                 }
                 else
                 {
-                    stringBuilder.AppendLine("No se encontró coincidencia con el Código de Laboratorio para Lente de Contacto");
+                    stringBuilder.AppendLine("No se encontró coincidencia con el código de laboratorio para lente de contacto");
                     return false;
                 }
             }
@@ -4176,6 +4176,96 @@ namespace CapaLogica.CargarOrdenes
 
             if (combo.Items.Count > 0)
                 combo.SelectedIndex = 0;
+        }
+
+        public bool VerificoCantidadProducto(DataGridView Dgv_Tap3_Articulo)
+        {
+            stringBuilder.Clear();
+            try
+            {
+                // Contadores por tipo de artículo
+                int C = 0, E = 0, L = 0, M = 0, Q = 0, S = 0, W = 0, V = 0, B = 0, Misc = 0;
+
+                foreach (DataGridViewRow row in Dgv_Tap3_Articulo.Rows)
+                {
+                    if (row.IsNewRow) continue;
+
+                    string codigoProducto = row.Cells["CodArticulo"].Value?.ToString() ?? "";
+                    int cantidad = 0;
+                    int.TryParse(row.Cells["ART_EXIST"].Value?.ToString(), out cantidad);
+
+                    if (string.IsNullOrEmpty(codigoProducto)) continue;
+
+                    string tipo = codigoProducto.Substring(0, 1).ToUpper();
+
+                    switch (tipo)
+                    {
+                        case "C":
+                            C += cantidad;
+                            break;
+                        case "E":
+                            E += cantidad;
+                            break;
+                        case "L":
+                            L += cantidad;
+                            break;
+                        case "M":
+                            M += cantidad;
+                            break;
+                        case "Q":
+                            Q += cantidad;
+                            break;
+                        case "S":
+                            S += cantidad;
+                            break;
+                        case "W":
+                            W += cantidad;
+                            break;
+                        case "V":
+                            V += cantidad;
+                            break;
+                        case "X":
+                            Misc += cantidad;
+                            break;
+                    }
+                }
+
+                // Validar máximos por tipo de artículo
+                var tipos = new Dictionary<string, int>
+        {
+            { "C", C },
+            { "E", E },
+            { "L", L },
+            { "M", M },
+            { "Q", Q },
+            { "S", S },
+            { "W", W },
+            { "V", V },
+            { "X", Misc }
+        };
+
+                foreach (var tipo in tipos)
+                {
+                    // Consulta el máximo permitido para este tipo
+                    DataTable DT_ValorMaximo = _D_Articulos.BucarArticuloMaximoPorVenta(tipo.Key);
+                    if (DT_ValorMaximo.Rows.Count > 0)
+                    {
+                        int maxVta = Convert.ToInt32(DT_ValorMaximo.Rows[0]["Max_Vta"]);
+                        if (tipo.Value > maxVta)
+                        {
+                            stringBuilder.AppendLine($"La cantidad de artículos tipo {tipo.Key} ({tipo.Value}) sobrepasa el límite máximo por venta ({maxVta}). Modifique la cantidad o elimine el producto.");
+                        }
+                    }
+                }
+
+                // Si hay mensajes en el stringBuilder, hubo errores
+                return stringBuilder.Length == 0;
+            }
+            catch (Exception ex)
+            {
+                stringBuilder.AppendLine("Error: " + ex.Message);
+                return false;
+            }
         }
     }
 }
