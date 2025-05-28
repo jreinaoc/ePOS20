@@ -1462,7 +1462,7 @@ namespace CapaVisual_Login
                 HabEliminar = true; //Se manda señal de boton ACTIVADO para realizar validaciones posteriores
 
                 // Calcula un nuevo tamaño para el icono si quieres hacerlo más pequeño
-                int nuevoAncho = IconAtomico.Width-21 ; // Ejemplo: reducir a la mitad
+                int nuevoAncho = IconAtomico.Width-35 ; // Ejemplo: reducir a la mitad
                 int nuevoAlto = IconAtomico.Height-8 ; // Ejemplo: reducir a la mitad
                 using (Bitmap bmp = new Bitmap(IconAtomico.ToBitmap(), new Size(nuevoAncho, nuevoAlto)))
                 using (Bitmap bmpFondoBlanco = new Bitmap(nuevoAncho, nuevoAlto))

@@ -61,6 +61,8 @@ namespace CapaVisual_Login
             this.Txt_Pnl1_Cedula = new System.Windows.Forms.TextBox();
             this.Lbl_Pnl1_TituloDatos = new System.Windows.Forms.Label();
             this.Pnl_2 = new System.Windows.Forms.Panel();
+            this.label24 = new System.Windows.Forms.Label();
+            this.Cbx_Pnl2_Ojo = new System.Windows.Forms.ComboBox();
             this.Lbl_Pnl2_Num_Examen = new System.Windows.Forms.Label();
             this.Txt_Pnl2_Examen = new System.Windows.Forms.TextBox();
             this.Cbx_Pnl2_Servicio = new System.Windows.Forms.ComboBox();
@@ -265,8 +267,6 @@ namespace CapaVisual_Login
             this.radioButton4 = new System.Windows.Forms.RadioButton();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label22 = new System.Windows.Forms.Label();
-            this.Cbx_Pnl2_Ojo = new System.Windows.Forms.ComboBox();
-            this.label24 = new System.Windows.Forms.Label();
             this.Pnl_1.SuspendLayout();
             this.Pnl_2.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -416,6 +416,28 @@ namespace CapaVisual_Login
             this.Pnl_2.Size = new System.Drawing.Size(1051, 122);
             this.Pnl_2.TabIndex = 102;
             this.Pnl_2.Visible = false;
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label24.ForeColor = System.Drawing.SystemColors.Window;
+            this.label24.Location = new System.Drawing.Point(870, 65);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(36, 19);
+            this.label24.TabIndex = 309;
+            this.label24.Text = "Ojo";
+            // 
+            // Cbx_Pnl2_Ojo
+            // 
+            this.Cbx_Pnl2_Ojo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.Cbx_Pnl2_Ojo.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Cbx_Pnl2_Ojo.ForeColor = System.Drawing.Color.Black;
+            this.Cbx_Pnl2_Ojo.FormattingEnabled = true;
+            this.Cbx_Pnl2_Ojo.Location = new System.Drawing.Point(833, 87);
+            this.Cbx_Pnl2_Ojo.Name = "Cbx_Pnl2_Ojo";
+            this.Cbx_Pnl2_Ojo.Size = new System.Drawing.Size(115, 25);
+            this.Cbx_Pnl2_Ojo.TabIndex = 308;
             // 
             // Lbl_Pnl2_Num_Examen
             // 
@@ -581,7 +603,7 @@ namespace CapaVisual_Login
             this.Txt_Pnl2_Cedula.Name = "Txt_Pnl2_Cedula";
             this.Txt_Pnl2_Cedula.Size = new System.Drawing.Size(180, 20);
             this.Txt_Pnl2_Cedula.TabIndex = 33;
-            this.Txt_Pnl2_Cedula.Text = "V-14661652";
+            this.Txt_Pnl2_Cedula.Text = "V-0000386";
             this.Txt_Pnl2_Cedula.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.Txt_Pnl2_Cedula.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Txt_Pnl2_Cedula_KeyDown);
             // 
@@ -3218,28 +3240,6 @@ namespace CapaVisual_Login
             this.label22.TabIndex = 31;
             this.label22.Text = "Listado de Colores ";
             this.label22.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            // 
-            // Cbx_Pnl2_Ojo
-            // 
-            this.Cbx_Pnl2_Ojo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.Cbx_Pnl2_Ojo.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Cbx_Pnl2_Ojo.ForeColor = System.Drawing.Color.Black;
-            this.Cbx_Pnl2_Ojo.FormattingEnabled = true;
-            this.Cbx_Pnl2_Ojo.Location = new System.Drawing.Point(833, 87);
-            this.Cbx_Pnl2_Ojo.Name = "Cbx_Pnl2_Ojo";
-            this.Cbx_Pnl2_Ojo.Size = new System.Drawing.Size(115, 25);
-            this.Cbx_Pnl2_Ojo.TabIndex = 308;
-            // 
-            // label24
-            // 
-            this.label24.AutoSize = true;
-            this.label24.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label24.ForeColor = System.Drawing.SystemColors.Window;
-            this.label24.Location = new System.Drawing.Point(870, 65);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(36, 19);
-            this.label24.TabIndex = 309;
-            this.label24.Text = "Ojo";
             // 
             // FrmCargarOrden
             // 

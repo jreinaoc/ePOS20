@@ -446,7 +446,7 @@ namespace CapaLogica.CargarOrdenes
                 //Ancho de columna
                 Dgv_Tap3_Articulo.Columns["CodArticulo"].Width = 70;
             Dgv_Tap3_Articulo.Columns["ColorLC"].Width = 35;
-            Dgv_Tap3_Articulo.Columns["DESART"].Width = 335;
+            Dgv_Tap3_Articulo.Columns["DESART"].Width = 322;
                 Dgv_Tap3_Articulo.Columns["ART_EXIST"].Width = 60;
                 Dgv_Tap3_Articulo.Columns["ART_PVP"].Width = 100;
                 Dgv_Tap3_Articulo.Columns["PORCTDESCUENTO"].Width = 100;
