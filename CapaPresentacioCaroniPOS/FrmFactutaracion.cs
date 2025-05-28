@@ -6606,7 +6606,7 @@ namespace CapaVisual_Login
                             else
                             {
                                 _FrmMensajes.co = 1;
-                                _FrmMensajes.avisomensaje("El reporte de la Orden de Servicio se debe imprimir cuando se asigne el RX correspondiente");
+                                _FrmMensajes.avisomensaje("La orden de servicio se imprimirá cuando se asigne su RX correspondiente");
                                 _FrmMensajes.ShowDialog();
 
                             }
@@ -6627,7 +6627,7 @@ namespace CapaVisual_Login
                             else
                             {
                                 _FrmMensajes.co = 1;
-                                _FrmMensajes.avisomensaje("El reporte de la Orden de Servicio se debe imprimir cuando se asigne el RX correspondiente");
+                                _FrmMensajes.avisomensaje("La orden de servicio se imprimirá cuando se asigne su RX correspondiente");
                                 _FrmMensajes.ShowDialog();
 
                             }

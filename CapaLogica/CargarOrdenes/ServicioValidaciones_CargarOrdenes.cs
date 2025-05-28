@@ -619,7 +619,7 @@ namespace CapaLogica.CargarOrdenes
 
                     if (!string.IsNullOrWhiteSpace(monturaQuorum))
                     {
-                        return codArticulo;
+                        return codArticulo.ToLower();
                        //MessageBox.Show($"La Montura {codArticulo} no requiere el envío al Laboratorio QUORUM.", "No Enviar", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
@@ -631,7 +631,7 @@ namespace CapaLogica.CargarOrdenes
 
                     if (!string.IsNullOrWhiteSpace(cristalConBaja))
                     {
-                        return codArticulo;
+                        return codArticulo.ToLower();
                         //MessageBox.Show($"El Cristal {cristalConBaja} tiene baja existencia en Laboratorio.", "No Enviar", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }

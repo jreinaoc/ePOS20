@@ -4299,7 +4299,18 @@ namespace CapaVisual_Login
             }
         }
 
+        private void Txt_Pnl3_CambioPrecioNuevo_Validating(object sender, CancelEventArgs e)
+        {
+            if (Txt_Pnl3_CambioPrecioNuevo.Text == "" && string.IsNullOrEmpty(Txt_Pnl3_CambioPrecioNuevo.Text))
+            {
+                Txt_Pnl3_CambioPrecioNuevo.Text = "0,00";
+            }
+            else
+            {
+                FormatoBs(Convert.ToDouble(Txt_Pnl3_CambioPrecioNuevo.Text), Txt_Pnl3_CambioPrecioNuevo);
 
+            }
+        }
     }
 
 
