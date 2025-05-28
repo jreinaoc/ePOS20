@@ -64,7 +64,7 @@ namespace CapaVisual_Login
             {
                 //MessageBox.Show("Usuario no encontrado.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 _FrmMensajes.co = 2;
-                _FrmMensajes.avisomensaje("Usuario no encontrado.");
+                _FrmMensajes.avisomensaje("Usuario no encontrado");
                 _FrmMensajes.ShowDialog();
                 return;
             }
@@ -73,7 +73,7 @@ namespace CapaVisual_Login
             {
                 //MessageBox.Show("Este usuario se encuentra bloqueado. Por favor, contacte al departamento de sistemas.", "Usuario Bloqueado", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 _FrmMensajes.co = 2;
-                _FrmMensajes.avisomensaje(string.Format("Este usuario se encuentra bloqueado. Por favor, contacte al departamento de sistemas."));
+                _FrmMensajes.avisomensaje(string.Format("Este usuario se encuentra bloqueado. Por favor, contacte al departamento de sistemas"));
                 _FrmMensajes.ShowDialog();
                 return;
             }
@@ -121,7 +121,7 @@ namespace CapaVisual_Login
 
                                             //MessageBox.Show("Usuario bloqueado por múltiples intentos fallidos.", "Usuario Bloqueado", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                             _FrmMensajes.co = 2;
-                                            _FrmMensajes.avisomensaje(string.Format("Usuario bloqueado por múltiples intentos fallidos."));
+                                            _FrmMensajes.avisomensaje(string.Format("Usuario bloqueado por múltiples intentos fallidos"));
                                             _FrmMensajes.ShowDialog();
                                         }
                                         else

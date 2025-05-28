@@ -446,7 +446,7 @@ namespace CapaLogica.CargarOrdenes
                 //Ancho de columna
                 Dgv_Tap3_Articulo.Columns["CodArticulo"].Width = 70;
             Dgv_Tap3_Articulo.Columns["ColorLC"].Width = 35;
-            Dgv_Tap3_Articulo.Columns["DESART"].Width = 322;
+            Dgv_Tap3_Articulo.Columns["DESART"].Width = 328;
                 Dgv_Tap3_Articulo.Columns["ART_EXIST"].Width = 60;
                 Dgv_Tap3_Articulo.Columns["ART_PVP"].Width = 100;
                 Dgv_Tap3_Articulo.Columns["PORCTDESCUENTO"].Width = 100;
@@ -755,7 +755,7 @@ namespace CapaLogica.CargarOrdenes
                     // Verificar si la cantidad ingresada excede la existencia
                     if (cantidadIngresada > articulo.ART_EXIST)
                     {
-                        stringBuilder.Append($"La cantidad ingresada ({cantidadIngresada}) excede la existencia disponible ({articulo.ART_EXIST}) para el artículo {codigoProducto}.");
+                        stringBuilder.Append($"La cantidad ingresada excede la existencia disponible");
                         return false;
                     }
                 }
@@ -2169,6 +2169,7 @@ namespace CapaLogica.CargarOrdenes
 
         public bool CalculoDescuento(string precioMontoTotal, System.Windows.Forms.DataGridView DgvArticulo, string TipoDescuento, string DescMax, System.Windows.Forms.TextBox Porce_Descuento, System.Windows.Forms.TextBox Monto_Descuento, System.Windows.Forms.TextBox txtMotivo)
         {
+            stringBuilder.Clear();
             try
             {
                 // Total de la compra 
@@ -2182,7 +2183,7 @@ namespace CapaLogica.CargarOrdenes
                         if (Convert.ToDecimal(Porce_Descuento.Text) > 100)
                         {
 
-                            stringBuilder.Append("El monto del descuento no puede ser mayor a 100%");
+                            stringBuilder.Append("El porcentaje de descuento es mayor al 100%");
                             Porce_Descuento.Focus();
                             Porce_Descuento.SelectAll();
                             return false;
@@ -2241,7 +2242,7 @@ namespace CapaLogica.CargarOrdenes
                     {
                         if (Convert.ToDecimal(Porce_Descuento.Text) > 100)
                         {
-                            stringBuilder.Append("El monto del descuento no puede ser mayor a 100%");
+                            stringBuilder.Append("El porcentaje de descuento es mayor al 100%");
                             Porce_Descuento.Focus();
                             Porce_Descuento.SelectAll();
                             return false;
