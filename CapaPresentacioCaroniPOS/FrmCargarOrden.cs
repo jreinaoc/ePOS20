@@ -1087,7 +1087,7 @@ namespace CapaVisual_Login
             }
 
             // Validar Precio
-            if (Txt_Tap3_Articulo_Precio.Text.StartsWith("C") ||  Txt_Tap3_Articulo_Precio.Text.StartsWith("M") || Txt_Tap3_Articulo_Precio.Text.StartsWith("L"))
+            if (Txt_Tap3_Articulo_Codigo.Text.StartsWith("C") || Txt_Tap3_Articulo_Codigo.Text.StartsWith("M") || Txt_Tap3_Articulo_Codigo.Text.StartsWith("L"))
             {
                 if (_L_Articulo.CargarArticulo_ValidarPrecio(Txt_Tap3_Articulo_Precio))
                 {
