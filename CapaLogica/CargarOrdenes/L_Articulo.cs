@@ -1278,7 +1278,7 @@ namespace CapaLogica.CargarOrdenes
                             }
                             else
                             {
-                                total = precio;
+                                total = precio * cantidadPrisma;
                             }
                             decimal CostoPromedio = (decimal) articulo.COSTOPROME;
                             decimal impuesto = articulo.ART_EXENTO ? 0 : BuscarIva("I");

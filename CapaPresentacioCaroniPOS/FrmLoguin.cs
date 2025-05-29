@@ -73,7 +73,7 @@ namespace CapaVisual_Login
             {
                 //MessageBox.Show("Este usuario se encuentra bloqueado. Por favor, contacte al departamento de sistemas.", "Usuario Bloqueado", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 _FrmMensajes.co = 2;
-                _FrmMensajes.avisomensaje(string.Format("Este usuario se encuentra bloqueado. Por favor, contacte al departamento de sistemas"));
+                _FrmMensajes.avisomensaje(string.Format("Este usuario se encuentra bloqueado"));
                 _FrmMensajes.ShowDialog();
                 return;
             }

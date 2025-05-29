@@ -201,7 +201,7 @@ namespace CapaLogica.CargarOrdenes
                         string valorStr = row.Cells["Valor"].Value?.ToString();
                         if (string.IsNullOrWhiteSpace(valorStr) || Convert.ToDecimal(valorStr) == 0)
                         {
-                            mostrarError("El monto total no puede ser cero.");
+                            mostrarError("El monto total no puede ser cero");
                             return false;
                         }
                         break;
@@ -601,7 +601,7 @@ namespace CapaLogica.CargarOrdenes
         //    return 0m; // si no se encuentra o no es válido
         //}
 
-        public string ValidarMonturaQuorumYCristales(DataGridView dgvArticulos, string laboratorio, string sucursal, string servicio, string cedNacio, string cedId, string examen, SqlCommand command)
+        public string ValidarMonturaQuorumYCristales(DataGridView dgvArticulos, string laboratorio, string sucursal, string servicio, string cedNacio, string cedId, string examen, Action<string> mostrarError , SqlCommand command)
         {
             if (!laboratorio.Equals("QUO", StringComparison.OrdinalIgnoreCase))
                 return "OK";
@@ -619,8 +619,9 @@ namespace CapaLogica.CargarOrdenes
 
                     if (!string.IsNullOrWhiteSpace(monturaQuorum))
                     {
+                        mostrarError($"La Montura {codArticulo.ToLower()} no requiere el envío al Laboratorio QUORUM.");
                         return codArticulo.ToLower();
-                       //MessageBox.Show($"La Montura {codArticulo} no requiere el envío al Laboratorio QUORUM.", "No Enviar", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        //MessageBox.Show($"La Montura {codArticulo} no requiere el envío al Laboratorio QUORUM.", "No Enviar", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
 
@@ -631,6 +632,7 @@ namespace CapaLogica.CargarOrdenes
 
                     if (!string.IsNullOrWhiteSpace(cristalConBaja))
                     {
+                        mostrarError($"El Cristal {codArticulo.ToLower()} tiene baja existencia en Laboratorio.");
                         return codArticulo.ToLower();
                         //MessageBox.Show($"El Cristal {cristalConBaja} tiene baja existencia en Laboratorio.", "No Enviar", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
