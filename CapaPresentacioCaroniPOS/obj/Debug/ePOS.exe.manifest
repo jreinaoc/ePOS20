@@ -62,7 +62,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>vUkykWOHEPThyHdJZ43LfFuAiHvdjl3y8/14r9Bnfao=</dsig:DigestValue>
+        <dsig:DigestValue>/wpsUsBwi29LKD3kjwyeNAp82BBqsd3vGnLn74EpgTY=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -187,14 +187,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ePOS.exe" size="2201088">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ePOS.exe" size="2202624">
       <assemblyIdentity name="ePOS" version="1.0.2.4" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>17e6G4R6PB6INqgZeiDnK61tPWyPqUxvFcn3RVi2wsg=</dsig:DigestValue>
+        <dsig:DigestValue>tuKiO6RAsZWvNpiWObTMUGNccAgEFWXJ+OmBgqMSWiU=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -1287,13 +1287,13 @@
       <dsig:DigestValue>V/mIEnaNA7+y6AYCdZ7ovh0pOL9ya/R1ocUuN+BTkHw=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="ePOS.exe.config" size="2491">
+  <file name="ePOS.exe.config" size="2494">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>5iKQKCtyEaSOpHS6Jmt/pPhSv2RzHt8I/nLJxGvMRWk=</dsig:DigestValue>
+      <dsig:DigestValue>xv6uJ9KOnGEbg9O1P5jTOnE3/kjabw8uISlYWsz2KvM=</dsig:DigestValue>
     </hash>
   </file>
   <file name="icono-puntoDeVenta.ico" size="205662">
