@@ -2237,7 +2237,7 @@ namespace CapaVisual_Login
                 {
                     Txt_Pnl3_ObservacionDesc.Focus();
                     _FrmMensajes.co = 2;
-                    _FrmMensajes.avisomensaje("Se necesita una observación para continuar");
+                    _FrmMensajes.avisomensaje("Se requiere una observación para continuar");
                     _FrmMensajes.ShowDialog();
                 }
 
@@ -2581,8 +2581,9 @@ namespace CapaVisual_Login
 
                 if (codigosFactura == null || codigosFactura.Count == 0)
                 {
-                    MessageBox.Show("No hay códigos válidos para procesar");
-                    //Btn_Tap3_Procesar.Enabled = true;
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje("No hay códigos válidos para procesar");
+                    _FrmMensajes.ShowDialog();
                     return;
                 }
 
@@ -2682,31 +2683,8 @@ namespace CapaVisual_Login
                 if ((Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01"))//Convencional
                 {
                     string valida = _servicioValidaciones.ValidarMonturaQuorumYCristales(Dgv_Tap3_Articulo,Cbx_Pnl2_Laboratorio.SelectedValue.ToString(),
-                                    TB_USUARIO.COD_SUCURSAL,Cbx_Pnl2_Servicio.SelectedValue.ToString(),letraInicial,numeroCedula,Txt_Pnl2_Examen.Text, null);
-
-                    if (valida != "OK")
-                    {
-                        if (valida.StartsWith("M"))
-                        {
-                            _FrmMensajes.co = 2;
-                            _FrmMensajes.avisomensaje($"La Montura {valida} no requiere el envío al Laboratorio QUORUM");
-                            _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
-                            _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
-                            _FrmMensajes.ShowDialog(); 
-                            //MessageBox.Show($"La Montura {valida} no requiere el envío al Laboratorio QUORUM.", "No Enviar", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        }
-                        if (valida.StartsWith("C"))
-                        {
-                            _FrmMensajes.co = 2;
-
-                            _FrmMensajes.avisomensaje($"El Cristal {valida} tiene baja existencia en Laboratorio");
-                            _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
-                            _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
-                            _FrmMensajes.ShowDialog();
-                            //MessageBox.Show($"El Cristal {valida} tiene baja existencia en Laboratorio.", "No Enviar", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        }
-                        //return;
-                    }
+                                    TB_USUARIO.COD_SUCURSAL,Cbx_Pnl2_Servicio.SelectedValue.ToString(),letraInicial,numeroCedula,Txt_Pnl2_Examen.Text, mostrarError, null);
+  
                 }
 
 
