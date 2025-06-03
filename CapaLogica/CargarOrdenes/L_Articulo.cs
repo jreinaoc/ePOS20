@@ -258,23 +258,29 @@ namespace CapaLogica.CargarOrdenes
             listaTemporal.AddRange(datosFiltrados);
         }
 
-        public void AgregarFila(DataGridView Dgv_Tap3_Articulo, string codArticulo, string colorLC, string descripcion, int cantidad, decimal precio, decimal descuento, decimal total, decimal impuesto, string ojo, decimal CostoProme, string artPadre = "", string agregado = "NO" ,string AgreDer ="NO", string AgreIzq = "NO", string tienePromo = "No", string codPromo = "", string promoEvaluada = "No")
+        public void AgregarFila(DataGridView Dgv_Tap3_Articulo, string codArticulo, string codLab, string generico, string colorLC, string descripcion, int cantidad, decimal precio, decimal descuento, decimal total, decimal impuesto, string ojo, decimal CostoProme, string artPadre = "", string agregado = "NO" ,string AgreDer ="NO", string AgreIzq = "NO", string tienePromo = "No", string codPromo = "", string promoEvaluada = "No")
         {
           try {
                 // Verificar y agregar columnas si no existen
                 if (Dgv_Tap3_Articulo.Columns.Count == 0)
                 {
                 Dgv_Tap3_Articulo.Columns.Add("CodArticulo", "Código del Artículo");
-                    Dgv_Tap3_Articulo.Columns.Add("ColorLC", "Color");
-                    Dgv_Tap3_Articulo.Columns.Add("DESART", "Descripción");
+                    
+                //LenteContacto
+                Dgv_Tap3_Articulo.Columns.Add("codLab", "codLab");
+                Dgv_Tap3_Articulo.Columns.Add("generico", "generico");
+                Dgv_Tap3_Articulo.Columns.Add("ColorLC", "ColorLC");
+
+                Dgv_Tap3_Articulo.Columns.Add("DESART", "Descripción");
                 Dgv_Tap3_Articulo.Columns.Add("ART_EXIST", "Cantidad");
                 Dgv_Tap3_Articulo.Columns.Add("ART_PVP", "Precio");
-                Dgv_Tap3_Articulo.Columns.Add("PORCTDESCUENTO", "Descuento (%)");
+                Dgv_Tap3_Articulo.Columns.Add("PORCTDESCUENTO", "PORCTDESCUENTO");
                 Dgv_Tap3_Articulo.Columns.Add("Total", "Total");
                 Dgv_Tap3_Articulo.Columns.Add("Impuesto", "Impuesto");
                 Dgv_Tap3_Articulo.Columns.Add("Ojo", "Ojo");
                 Dgv_Tap3_Articulo.Columns.Add("CostoProme", "CostoProme");
-                // columnas opcionales
+                   
+                    // columnas opcionales
                 Dgv_Tap3_Articulo.Columns.Add("ArtPadre", "Artículo Padre");
                 Dgv_Tap3_Articulo.Columns.Add("Agregado", "Agregado");
                 Dgv_Tap3_Articulo.Columns.Add("AgreDer", "AgreDer");
@@ -293,7 +299,7 @@ namespace CapaLogica.CargarOrdenes
                 Formato_Dgv_Carga_Articulo(Dgv_Tap3_Articulo, colorLC);
 
                 // Agregar la fila con los valores proporcionados
-                Dgv_Tap3_Articulo.Rows.Add(codArticulo, colorLC, descripcion, cantidad, precio, descuento, total, impuesto, ojo, CostoProme, artPadre, agregado, AgreDer, AgreIzq, precio, tienePromo, codPromo, promoEvaluada);
+                Dgv_Tap3_Articulo.Rows.Add(codArticulo, codLab, generico, colorLC, descripcion, cantidad, precio, descuento, total, impuesto, ojo, CostoProme, artPadre, agregado, AgreDer, AgreIzq, precio, tienePromo, codPromo, promoEvaluada);
 
             }
             catch (Exception ex)
@@ -422,17 +428,16 @@ namespace CapaLogica.CargarOrdenes
 
 
 
-                //asignar Nombres a cada colucna 
-                Dgv_Tap3_Articulo.Columns["CodArticulo"].HeaderText = "Código";
-            if (colorLC == "")
-            {
-                Dgv_Tap3_Articulo.Columns["ColorLC"].HeaderText = "";
-            }
-            else
-            {
-                Dgv_Tap3_Articulo.Columns["ColorLC"].HeaderText = "Color";
-            }
-            Dgv_Tap3_Articulo.Columns["DESART"].HeaderText = "Descripción";
+           //asignar Nombres a cada colucna 
+           Dgv_Tap3_Articulo.Columns["CodArticulo"].HeaderText = "Código";
+          
+
+            // Conacto
+            Dgv_Tap3_Articulo.Columns["ColorLC"].HeaderText = "Color";
+            Dgv_Tap3_Articulo.Columns["codLab"].HeaderText = "Cod. Laboratorio";
+            Dgv_Tap3_Articulo.Columns["generico"].HeaderText = "Generico";
+
+                Dgv_Tap3_Articulo.Columns["DESART"].HeaderText = "Descripción";
                 Dgv_Tap3_Articulo.Columns["ART_EXIST"].HeaderText = "Cantidad";
                 Dgv_Tap3_Articulo.Columns["ART_PVP"].HeaderText = "Precio";
                 Dgv_Tap3_Articulo.Columns["PORCTDESCUENTO"].HeaderText = "%Descuento";
@@ -440,13 +445,32 @@ namespace CapaLogica.CargarOrdenes
                 Dgv_Tap3_Articulo.Columns["Impuesto"].HeaderText = "%Impuesto";
                 Dgv_Tap3_Articulo.Columns["Ojo"].HeaderText = "Ojo";
                 Dgv_Tap3_Articulo.Columns["CostoProme"].HeaderText = "CostoProme";
-
                 Dgv_Tap3_Articulo.Columns["Eliminar"].HeaderText = "";
 
                 //Ancho de columna
+
+            if (!string.IsNullOrWhiteSpace(colorLC))
+            {
                 Dgv_Tap3_Articulo.Columns["CodArticulo"].Width = 70;
-            Dgv_Tap3_Articulo.Columns["ColorLC"].Width = 35;
-            Dgv_Tap3_Articulo.Columns["DESART"].Width = 328;
+                Dgv_Tap3_Articulo.Columns["codLab"].Width = 70;
+                Dgv_Tap3_Articulo.Columns["ColorLC"].Width = 35;
+                Dgv_Tap3_Articulo.Columns["DESART"].Width = 258;
+                Dgv_Tap3_Articulo.Columns["ART_EXIST"].Width = 60;
+                Dgv_Tap3_Articulo.Columns["ART_PVP"].Width = 100;
+                Dgv_Tap3_Articulo.Columns["PORCTDESCUENTO"].Width = 100;
+                Dgv_Tap3_Articulo.Columns["Total"].Width = 120;
+                Dgv_Tap3_Articulo.Columns["Impuesto"].Width = 100;
+                Dgv_Tap3_Articulo.Columns["Ojo"].Width = 70;
+                Dgv_Tap3_Articulo.Columns["CostoProme"].Width = 80;
+                Dgv_Tap3_Articulo.Columns["Eliminar"].Width = 90;
+                // columnas opcionales
+                Dgv_Tap3_Articulo.Columns["ArtPadre"].Width = 80;
+                Dgv_Tap3_Articulo.Columns["Agregado"].Width = 40;
+            }
+            else
+            {
+                Dgv_Tap3_Articulo.Columns["CodArticulo"].Width = 70;
+                Dgv_Tap3_Articulo.Columns["DESART"].Width = 363;
                 Dgv_Tap3_Articulo.Columns["ART_EXIST"].Width = 60;
                 Dgv_Tap3_Articulo.Columns["ART_PVP"].Width = 100;
                 Dgv_Tap3_Articulo.Columns["PORCTDESCUENTO"].Width = 100;
@@ -459,10 +483,14 @@ namespace CapaLogica.CargarOrdenes
                 Dgv_Tap3_Articulo.Columns["ArtPadre"].Width = 80;
                 Dgv_Tap3_Articulo.Columns["Agregado"].Width = 40;
 
+            }
+
                 // No modificable
                 Dgv_Tap3_Articulo.Columns["CodArticulo"].ReadOnly = true;
-            Dgv_Tap3_Articulo.Columns["ColorLC"].ReadOnly = true;
-            Dgv_Tap3_Articulo.Columns["DESART"].ReadOnly = true;
+                Dgv_Tap3_Articulo.Columns["ColorLC"].ReadOnly = true;
+                Dgv_Tap3_Articulo.Columns["codLab"].ReadOnly = true;
+                Dgv_Tap3_Articulo.Columns["generico"].ReadOnly = true;
+                Dgv_Tap3_Articulo.Columns["DESART"].ReadOnly = true;
                 Dgv_Tap3_Articulo.Columns["ART_EXIST"].ReadOnly = true;
                 Dgv_Tap3_Articulo.Columns["ART_PVP"].ReadOnly = true;
                 Dgv_Tap3_Articulo.Columns["PORCTDESCUENTO"].ReadOnly = true;
@@ -476,6 +504,9 @@ namespace CapaLogica.CargarOrdenes
                 Dgv_Tap3_Articulo.Columns["Agregado"].ReadOnly = true;
 
                 Dgv_Tap3_Articulo.Columns["CodArticulo"].SortMode = DataGridViewColumnSortMode.NotSortable;
+                Dgv_Tap3_Articulo.Columns["ColorLC"].SortMode = DataGridViewColumnSortMode.NotSortable;
+                Dgv_Tap3_Articulo.Columns["codLab"].SortMode = DataGridViewColumnSortMode.NotSortable;
+                Dgv_Tap3_Articulo.Columns["generico"].SortMode = DataGridViewColumnSortMode.NotSortable;
                 Dgv_Tap3_Articulo.Columns["DESART"].SortMode = DataGridViewColumnSortMode.NotSortable;
                 Dgv_Tap3_Articulo.Columns["ART_EXIST"].SortMode = DataGridViewColumnSortMode.NotSortable;
                 Dgv_Tap3_Articulo.Columns["ART_PVP"].SortMode = DataGridViewColumnSortMode.NotSortable;
@@ -496,7 +527,26 @@ namespace CapaLogica.CargarOrdenes
             /// se oculta configurando su propiedad Visible como false:
 
             foreach (DataGridViewColumn column in Dgv_Tap3_Articulo.Columns)
+            {
+                if (!string.IsNullOrWhiteSpace(colorLC))
                 {
+                    if (column.Name != "CodArticulo" &&
+                       column.Name != "DESART" &&
+                       column.Name != "ART_EXIST" &&
+                       column.Name != "ART_PVP" &&
+                       column.Name != "PORCTDESCUENTO" &&
+                       column.Name != "Total" &&
+                       column.Name != "Impuesto" &&
+                       column.Name != "Ojo" &&
+                       column.Name != "Eliminar" &&
+                       column.Name != "ColorLC" &&
+                       column.Name != "codLab")
+                    {
+                        column.Visible = false;
+                    }
+                }
+                else
+                { 
                     if (column.Name != "CodArticulo" &&
                         column.Name != "DESART" &&
                         column.Name != "ART_EXIST" &&
@@ -505,16 +555,11 @@ namespace CapaLogica.CargarOrdenes
                         column.Name != "Total" &&
                         column.Name != "Impuesto" &&
                         column.Name != "Ojo" &&
-                        column.Name != "Eliminar" &&
-                        column.Name != "ColorLC")
+                        column.Name != "Eliminar")
                     {
                         column.Visible = false;
                     }
-
-                    //if (column.Name == "ColorLC" && colorLC == "")
-                    //{
-                    //    column.Visible = false;
-                    //}
+                 }
             }
 
             Dgv_Tap3_Articulo.Columns["ART_PVP"].DefaultCellStyle.Format = "N2"; // Formato de 2 decimales y unidades de mil
@@ -786,7 +831,7 @@ namespace CapaLogica.CargarOrdenes
                             }
                             else
                             {
-                                stringBuilder.Append($"El artículo {codigoProducto} no posee existencia y no se puede grabar");
+                                stringBuilder.Append($"Este artículo no tiene existencia");
                                 return false;
                             }
                         }
@@ -1283,7 +1328,7 @@ namespace CapaLogica.CargarOrdenes
                             decimal CostoPromedio = (decimal) articulo.COSTOPROME;
                             decimal impuesto = articulo.ART_EXENTO ? 0 : BuscarIva("I");
 
-                           AgregarFila(gridFacturas, articulo.CodArticulo, "", articulo.DESART, tipoServicio == "Prisma" ? cantidadPrisma :  1, (decimal)precio, PorcDcto, (decimal)total, impuesto, "", CostoPromedio, codigo);
+                           AgregarFila(gridFacturas, articulo.CodArticulo, "", "", "", articulo.DESART, tipoServicio == "Prisma" ? cantidadPrisma :  1, (decimal)precio, PorcDcto, (decimal)total, impuesto, "", CostoPromedio, codigo);
           
                         }
                     }
@@ -1407,7 +1452,7 @@ namespace CapaLogica.CargarOrdenes
                                     decimal CostoPromedio = (decimal)articulo.COSTOPROME;
                                     decimal impuesto = articulo.ART_EXENTO ? 0 : BuscarIva("I");
                                     // Agregar nueva fila al DataGridView
-                                    AgregarFila(gridFacturas, articulo.CodArticulo,"", articulo.DESART, cantidad, (decimal)precio, PorcDcto, (decimal)total, impuesto, ladoOjo, CostoPromedio, codPadre,"SI", AgreDer, AgreIzq);
+                                    AgregarFila(gridFacturas, articulo.CodArticulo,"", "", "", articulo.DESART, cantidad, (decimal)precio, PorcDcto, (decimal)total, impuesto, ladoOjo, CostoPromedio, codPadre,"SI", AgreDer, AgreIzq);
                                     //Actualizo la fila del cristal 
                                     switch (ladoOjo)
                                     {
@@ -2512,7 +2557,7 @@ namespace CapaLogica.CargarOrdenes
 
                 if (!tieneServicioMonturaPropia)
                 {
-                    AgregarFila(gridFacturas, articulo.CodArticulo, "", articulo.DESART, 1, (decimal) precio, (decimal) articulo.PORCTDESCUENTO, (decimal) total, impuesto, "", CostoPromedio, codigo);
+                    AgregarFila(gridFacturas, articulo.CodArticulo, "", "", "", articulo.DESART, 1, (decimal) precio, (decimal) articulo.PORCTDESCUENTO, (decimal) total, impuesto, "", CostoPromedio, codigo);
                 }
             }
 
@@ -2629,7 +2674,7 @@ namespace CapaLogica.CargarOrdenes
 
                     if (!tieneServicio)
                     {
-                        AgregarFila(gridFacturas, articulo.CodArticulo, "", articulo.DESART, 1, (decimal)precio, (decimal)articulo.PORCTDESCUENTO, (decimal)total, impuesto, "", CostoPromedio, codigo);
+                        AgregarFila(gridFacturas, articulo.CodArticulo, "", "", "", articulo.DESART, 1, (decimal)precio, (decimal)articulo.PORCTDESCUENTO, (decimal)total, impuesto, "", CostoPromedio, codigo);
                     }
                     else
                     {
@@ -3322,7 +3367,7 @@ namespace CapaLogica.CargarOrdenes
         public string ObtenerMonturaQuorumPorArticulo(string codArticulo, string sucursal, string codServicio)
         {
             var dt = _D_Articulos.ValidacionMonturaQuorum(codArticulo, sucursal, codServicio);
-            if (dt != null && dt.Tables[1].Rows.Count > 0)
+            if (dt.Tables[1].Rows.Count > 0)
             {
                 return codArticulo;
             }
@@ -3493,7 +3538,7 @@ namespace CapaLogica.CargarOrdenes
 
                 if (!tieneServicioExpress)
                 {
-                    AgregarFila(gridFacturas, articulo.CodArticulo, "", articulo.DESART, 1, (decimal)precio, (decimal)articulo.PORCTDESCUENTO, (decimal)total, impuesto, "A", CostoPromedio, codigo_cristal);
+                    AgregarFila(gridFacturas, articulo.CodArticulo, "", "", "", articulo.DESART, 1, (decimal)precio, (decimal)articulo.PORCTDESCUENTO, (decimal)total, impuesto, "A", CostoPromedio, codigo_cristal);
                 }
             }
 
@@ -4006,7 +4051,9 @@ namespace CapaLogica.CargarOrdenes
 
         }
 
-        public bool BuscoCodigoLabLC(string codArticulo, string codColor, string Nacionalidad, string Cedula, int NumExamen, string ojo, string cant)
+        public bool BuscoCodigoLabLC(string codArticulo, string codColor, string Nacionalidad, string Cedula, int NumExamen, string ojo, string cant,
+            Action<string, string> guardarDatos // <-- delegado
+        )
         {
             stringBuilder.Clear();
 
@@ -4025,6 +4072,7 @@ namespace CapaLogica.CargarOrdenes
                 if (dsGetLC.Tables[0].Rows.Count == 1)
                 {
                     var row = dsGetLC.Tables[0].Rows[0];
+                    guardarDatos.Invoke(row["CodLabarticulo"].ToString(), row["Generico"].ToString());
                     ////gexFacturas.GetRow(gexFacturas.Row).Cells["CodigoLab"].Value = row["CodLabarticulo"];
                     ////gexFacturas.GetRow(gexFacturas.Row).Cells["Existencia"].Value = row["CANTIDAD"];
                     ////gexFacturas.GetRow(gexFacturas.Row).Cells["ManejaExistencia"].Value = row["Stock"];
@@ -4125,8 +4173,9 @@ namespace CapaLogica.CargarOrdenes
                         lcConExist = true;
                         if (existencia < cant)
                         {
-                        stringBuilder.AppendLine(
-                            $"La existencia del lente no cubre la cantidad que desea vender. Solo puede vender {existencia} del artículo {codArticulo} en esta orden");
+                            stringBuilder.AppendLine(
+                                "Este artículo no tiene existencia");
+                            //$"La existencia del lente no cubre la cantidad que desea vender. Solo puede vender {existencia} del artículo {codArticulo} en esta orden");
                             return false;
                         }
                     }

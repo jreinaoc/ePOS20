@@ -64,6 +64,10 @@ namespace CapaVisual_Login
         private bool servicioSeleccionado;
         private string Codigo_Servicio_Agregar = "";
 
+        // Variables para guardar los datos recibidos del delegado Lentes de Contacto 
+        string codLab = "";
+        string generico = "";
+
         // Lista temporal para relizar el filtrado 
         private List<TB_ARTICULO> listaTemporal = new List<TB_ARTICULO>();
         private List<TB_TRABAJO> _TRABAJO = new List<TB_TRABAJO>();
@@ -1168,7 +1172,11 @@ namespace CapaVisual_Login
             }
 
             // Verifico Existencia LC
-            if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "02" && Txt_Tap3_Articulo_Codigo.Text.StartsWith("W") && !_L_Articulo.BuscoCodigoLabLC(Txt_Tap3_Articulo_Codigo.Text, CodColorLC, Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Convert.ToInt16(Txt_Pnl2_Examen.Text), Txt_Tap3_Articulo_Cantidad.Text == "2" ? "A": "I", Txt_Tap3_Articulo_Cantidad.Text) && _L_Articulo.stringBuilder.Length > 0)
+            if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "02" && Txt_Tap3_Articulo_Codigo.Text.StartsWith("W") && !_L_Articulo.BuscoCodigoLabLC(Txt_Tap3_Articulo_Codigo.Text, CodColorLC, Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Convert.ToInt16(Txt_Pnl2_Examen.Text), Txt_Tap3_Articulo_Cantidad.Text == "2" ? "A": "I", Txt_Tap3_Articulo_Cantidad.Text,
+                  // delegado
+                  (lab, gen) => { codLab = lab; generico = gen; })
+                && _L_Articulo.stringBuilder.Length > 0)
+
             {
                 _FrmMensajes.co = 2;
                 _FrmMensajes.avisomensaje(_L_Articulo.stringBuilder.ToString());
@@ -1308,7 +1316,11 @@ namespace CapaVisual_Login
                 }
 
                 //_L_Articulo.AgregarFila(Dgv_Tap3_Articulo, articulo.CodArticulo, articulo.DESART, cantidad, (decimal) precio, (decimal)articulo.PORCTDESCUENTO, (decimal) total, impuesto, _Trabajo.T_OJO);
-                _L_Articulo.AgregarFila(Dgv_Tap3_Articulo, articulo.CodArticulo, CodColorLC,articulo.DESART, cantidad, (decimal)precio, EmpresaAfiliada != "" && PorcDctoEmpresaAfiliada > 0 ? PorcDctoEmpresaAfiliada : (decimal)articulo.PORCTDESCUENTO, (decimal)total, impuesto, ojo, (decimal) articulo.COSTOPROME);
+                _L_Articulo.AgregarFila(Dgv_Tap3_Articulo,
+                    articulo.CodArticulo,
+                    Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "02"? codLab: "",
+                    Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "02" ? generico : "",
+                    CodColorLC,articulo.DESART, cantidad, (decimal)precio, EmpresaAfiliada != "" && PorcDctoEmpresaAfiliada > 0 ? PorcDctoEmpresaAfiliada : (decimal)articulo.PORCTDESCUENTO, (decimal)total, impuesto, ojo, (decimal) articulo.COSTOPROME);
 
                 //if (artPadre != "")
                 //{
@@ -1411,6 +1423,8 @@ namespace CapaVisual_Login
                 txtVertical.Text = "";
                 txtMaxima.Text = "";
                 txtPuente.Text = "";
+                codLab = "";
+                generico = "";
                 txtHorizontal.Enabled = false;
                 txtVertical.Enabled = false;
                 txtMaxima.Enabled = false;
@@ -2587,7 +2601,12 @@ namespace CapaVisual_Login
                     return;
                 }
 
-                if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01" &  (txtHorizontal.Text == "" || txtVertical.Text == "" || txtMaxima.Text == "" || txtPuente.Text == ""))
+                if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01" && (
+        string.IsNullOrEmpty(txtHorizontal.Text) ||
+        string.IsNullOrEmpty(txtVertical.Text) ||
+        string.IsNullOrEmpty(txtMaxima.Text) ||
+        string.IsNullOrEmpty(txtPuente.Text)
+    ))
                 {
                     _FrmMensajes.co = 2;
                     _FrmMensajes.avisomensaje("Ingrese las medidas de la montura");

@@ -6749,7 +6749,7 @@ namespace CapaVisual_Login
             _LAnulacion.CargarDetalleOrd(TB_CAORDSER.NumOrdserv, "O", "006", command); // Se coloca antes de la impresion de manera que si no encuentra la impresora el cacth no nos salte nada importante
             if (_LAnulacion.GuardoMovimientoArticulo == false)
             {
-                mensaje = "Se produjo error al hacer el movimiento.";
+                mensaje = "Se produjo error al hacer el movimiento";
                 _FrmMensajes.co = 2;
                 _FrmMensajes.avisomensaje(mensaje);
                 _FrmMensajes.ShowDialog();
