@@ -326,7 +326,8 @@ namespace CapaVisual_Login
                     this.Pnl_3_Descuento.Visible = false;
                     this.Pnl_3_Coloración.Visible = false;
                     this.Pnl_3_Coloración.Enabled = false;
-
+                    this.Pnl_3_Garantia.Visible = false;
+                    this.Pnl_3_Garantia.Enabled = false;
                     break;
 
                 case "MostrarCabezeraSecundaria":
@@ -348,6 +349,8 @@ namespace CapaVisual_Login
                     this.pnl_MonturaPropia.Visible = false;
                     this.Pnl_3_Lista_ClienteAfiliado.Visible = false;
                     this.Pnl_3_Lista_ClienteAfiliado.Enabled = false;
+                    this.Pnl_3_Garantia.Visible = false;
+                    this.Pnl_3_Garantia.Enabled = false;
                     this.Pnl_2.Location = new Point(0, 0); // Establecer posición en (0, 0)
 
                     break;
@@ -401,6 +404,13 @@ namespace CapaVisual_Login
                     this.Pnl_3_Promociones.Location = new Point(300, 1);
                     this.Pnl_3_Promociones.BringToFront();
                     break;
+                  
+                case "Garantia":
+                    this.Pnl_3_Garantia.Enabled = true;
+                    this.Pnl_3_Garantia.Visible = true;
+                    this.Pnl_3_Garantia.Location = new Point(300, 30);
+                    this.Pnl_3_Garantia.BringToFront();
+                    break;
 
                 default:
                     break;
@@ -408,7 +418,7 @@ namespace CapaVisual_Login
 
 
         }
-
+       
         public void HabilitacionControl(string Case)
         {
             switch (Case)
@@ -832,6 +842,50 @@ namespace CapaVisual_Login
                     this.Dgv_Pnl3_ClienteAfiliado.Enabled = true;
                     this.btnCancelarAfiliado.Enabled = true;
                     this.Rd_Pnl3_CteAfiliadoCodigo.Checked = true;
+
+                    // Botones del TapControl
+                    this.btnPrincipal.Enabled = false;
+                    this.btnExamen.Enabled = false;
+                    this.btnCargarOrden.Enabled = false;
+
+                    // Botones Aciones 
+                    this.Btn_Tap3_Descuento.Enabled = false;
+                    this.Btn_Tap3_CambioPrecio.Enabled = false;
+                    this.Btn_Tap3_Promocion.Enabled = false;
+                    this.Btn_Tap3_MonturaPropia.Enabled = false;
+                    this.Btn_Tap3_CristalPropio.Enabled = false;
+                    this.Btn_Tap3_ClienteAfiliado.Enabled = false;
+                    this.Btn_Tap3_Garantia.Enabled = false;
+
+                    break;
+
+                case "Habilitar_Garantia":
+                    this.Pnl_3_Garantia.Enabled = true;
+
+                    //Panel Ingresar Articulo
+                    this.Pnl_1_Tap3.Enabled = false;
+                    //Grid Carga Articulo
+                    this.Dgv_Tap3_Articulo.Enabled = false;
+                    this.Pnl_2_Tap3.Enabled = false;
+                    //Panel de Totales
+                    this.Pnl_3_Tap3.Enabled = false;
+                    this.Btn_Tap3_Cancelar.Enabled = false;
+                    this.Btn_Tap3_Procesar.Enabled = false;
+
+                    // Panel de Arriba
+                    this.Txt_Pnl2_Cedula.Enabled = false;
+                    this.Txt_Pnl2_Examen.Enabled = false;
+                    this.Cbx_Pnl2_Trbajo.Enabled = false;
+                    this.Cbx_Pnl2_Laboratorio.Enabled = false;
+                    this.Cbx_Pnl2_Ojo.Enabled = false;
+                    this.Txt_Pnl2_Examen.Enabled = false;
+                    this.Cbx_Pnl2_Servicio.Enabled = false;
+
+                    // Controles del Garantia
+                    this.Dgv_Pnl3_Garantia.Enabled = true;
+                    this.Cbx_Pnl3_Garantia.Enabled = true;
+                    this.Btn_Tap3_Aceptar_Garantia.Enabled = true;
+                    this.Btn_Tap3_Cancelar_Garantia.Enabled = true;
 
                     // Botones del TapControl
                     this.btnPrincipal.Enabled = false;
@@ -3809,7 +3863,7 @@ namespace CapaVisual_Login
                 Lbl_Pnl2_Servicio.Visible = false;
                 Cbx_Pnl2_Servicio.Visible = false;
                 Txt_Pnl2_Examen.Visible = false;
-               Lbl_Pnl2_Num_Examen.Visible = false;
+                Lbl_Pnl2_Num_Examen.Visible = false;
                 _FechaHoraOfrecida = _L_Articulo.ObtenerFechaHoraOfrecida("", Cbx_Pnl2_Trbajo.SelectedValue.ToString());
                 if (_FechaHoraOfrecida != null && _FechaHoraOfrecida.Count > 0)
                 {
@@ -3826,7 +3880,22 @@ namespace CapaVisual_Login
                 Lbl_Pnl2_Fecha_Ofre.Visible = false;
                 Txt_Pnl2_Fecha_Ofre.Visible = false;
             }
+            else if (TipoVenta == "TC- Reposicion de Garantia")
+            {
+                _L_Articulo.BucarTipoMotivoGarantia(Cbx_Pnl3_Garantia);
+                if (_L_Articulo.BucarGarantiaCliente(Dgv_Pnl3_Garantia, Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2)))
+                {
+                    VisualizarPanel("Garantia");
+                    HabilitacionControl("Habilitar_Garantia");
+                }
+                else
+                {
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje(_L_Articulo.stringBuilder.ToString());
+                    _FrmMensajes.ShowDialog();
+                }
 
+            }
             else
             {
                 this.Cbx_Pnl2_Ojo.Visible = true;
@@ -3847,7 +3916,8 @@ namespace CapaVisual_Login
         private void Cbx_Pnl2_Trbajo_SelectedIndexChanged(object sender, EventArgs e)
         {
             CargarComboLaboratorios();
-            if (tipoTrabajoSeleccionado)
+
+                if (tipoTrabajoSeleccionado)
                 {
                 Cbx_Pnl2_Trbajo.Enabled = false;
                 ValidarTipoVenta(Cbx_Pnl2_Trbajo.Text);
@@ -4308,8 +4378,28 @@ namespace CapaVisual_Login
 
             }
         }
-    }
 
+        private void Btn_Tap3_Cancelar_Garantia_Click(object sender, EventArgs e)
+        {
+
+            // Desvincular el DataGridView de su fuente de datos
+            Dgv_Pnl3_Garantia.DataSource = null;
+            Dgv_Pnl3_Garantia.DataMember = null;
+
+            // Verificar y eliminar la columna "Eliminar" si existe
+            var dataGridViewColumn2 = Dgv_Pnl3_Garantia.Columns["E"];
+            if (dataGridViewColumn2 != null)
+            {
+                Dgv_Pnl3_Garantia.Columns.Remove(dataGridViewColumn2);
+            }
+
+            Cbx_Pnl2_Trbajo.SelectedIndex = 0;
+
+            VisualizarPanel("MostrarCabezeraSecundaria");
+            HabilitacionControl("CabezeraPrincipal");
+        }
+
+    }
 
 }
  

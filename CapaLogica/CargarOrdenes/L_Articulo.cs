@@ -4317,6 +4317,159 @@ namespace CapaLogica.CargarOrdenes
                 return false;
             }
         }
+
+        public void BucarTipoMotivoGarantia(System.Windows.Forms.ComboBox comboBox)
+        {
+            DataTable dt = _D_Articulos.BucarMotivoRepoGarantia();
+            if (dt.Rows.Count > 0)
+            {
+                // Asignar el DataTable como fuente de datos del ComboBox
+                comboBox.DataSource = dt;
+
+                comboBox.DisplayMember = "Descripcion";
+                comboBox.ValueMember = "CodMotivo";
+            }
+            else
+            {
+                // Si no hay datos, limpiar el ComboBox
+                comboBox.DataSource = null;
+                comboBox.Items.Clear();
+            }
+
+        }
+
+        public bool BucarGarantiaCliente(System.Windows.Forms.DataGridView DgvGarantia, string Nacionalidad, string Cedula)
+        {
+            if (string.IsNullOrEmpty(Nacionalidad) || string.IsNullOrEmpty(Cedula))
+            {
+                stringBuilder.Append("Debe colocar un nunmero de cedula");
+                return false;
+            }
+
+            DataTable dt= _D_Articulos.BucarOsRepoGarantia(_D_Inicio.Sucursal(), Nacionalidad, Cedula);
+            if (dt.Rows.Count > 0)
+            {
+                CrearObjeto_GarantiaGrid(DgvGarantia);
+                DgvGarantia.DataSource = dt;
+                // Ahora puedes llenar esa columna combinando valores de otras columnas
+                foreach (DataGridViewRow row in DgvGarantia.Rows)
+                {
+                    if (row.IsNewRow) continue; // Evita la fila para nueva entrada
+                    var valor1 = row.Cells["Cte_Nacionalidad"].Value?.ToString() ?? "";
+                    var valor2 = row.Cells["Cte_Cedula"].Value?.ToString() ?? "";
+                    row.Cells["Cte_Cedula"].Value = valor1 + "-" + valor2;
+                }
+
+                Formato_Dgv_Garantia(DgvGarantia);
+                return true;
+            }
+            else
+                stringBuilder.Append("Este cliente no posee Ordenes de Servicio con Plan de Garantia Extendida");
+            return false;
+        }
+        public void CrearObjeto_GarantiaGrid(DataGridView DgvGarantia)
+        {
+
+            DataGridViewCheckBoxColumn CheckBoxColumn = new DataGridViewCheckBoxColumn();
+            CheckBoxColumn.Name = "E";
+            CheckBoxColumn.Width = 40;
+            CheckBoxColumn.HeaderText = "E";
+            DgvGarantia.Columns.Add(CheckBoxColumn);
+
+            //DataGridViewColumn Colunma = new DataGridViewColumn();
+            //Colunma.Name = "Cedula";
+            //Colunma.Width = 70;
+            //Colunma.HeaderText = "Cedula";
+            //DgvGarantia.Columns.Add(Colunma);
+
+        }
+
+        private void Formato_Dgv_Garantia(DataGridView Dgv_Tap3_Garantia)
+        {
+
+            //Centrar todas las colucnas 
+            Dgv_Tap3_Garantia.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            Dgv_Tap3_Garantia.ScrollBars = ScrollBars.Both;
+
+            // Quitar la flecha del selector de fila
+            Dgv_Tap3_Garantia.RowHeadersVisible = false;
+
+            // Deshabilitar el redimensionamiento de filas
+            Dgv_Tap3_Garantia.AllowUserToResizeRows = false;
+
+            Dgv_Tap3_Garantia.Columns["E"].DisplayIndex = 0;
+            //Dgv_Tap3_Garantia.Columns["Cedula"].DisplayIndex = 1;
+            //asignar Nombres a cada colucna 
+            Dgv_Tap3_Garantia.Columns["E"].HeaderText = "E";
+            Dgv_Tap3_Garantia.Columns["Cod_Sucursal"].HeaderText = "Sucursal";
+            Dgv_Tap3_Garantia.Columns["Cte_Nacionalidad"].HeaderText = "Nacionalidad";
+            Dgv_Tap3_Garantia.Columns["Cte_Cedula"].HeaderText = "Cedula";
+            //Dgv_Tap3_Garantia.Columns["Cedula"].HeaderText = "Cedula";
+            Dgv_Tap3_Garantia.Columns["NumOrdServ"].HeaderText = "NumOrdServ";
+            Dgv_Tap3_Garantia.Columns["FechaOS"].HeaderText = "Fecha Orden";
+            Dgv_Tap3_Garantia.Columns["FactNum"].HeaderText = "N° Factura";
+            Dgv_Tap3_Garantia.Columns["StatusFactura"].HeaderText = "Status";
+            Dgv_Tap3_Garantia.Columns["Edad"].HeaderText = "Edad";
+            Dgv_Tap3_Garantia.Columns["tiemporepos"].HeaderText = "TiempoReposicion";
+
+            //Ancho de columna
+            Dgv_Tap3_Garantia.Columns["Cod_Sucursal"].Width = 70;
+            Dgv_Tap3_Garantia.Columns["Cte_Nacionalidad"].Width = 70;
+            Dgv_Tap3_Garantia.Columns["Cte_Cedula"].Width = 70;
+            ////Dgv_Tap3_Garantia.Columns["Cedula"].Width = 70;
+            Dgv_Tap3_Garantia.Columns["NumOrdServ"].Width = 70;
+            Dgv_Tap3_Garantia.Columns["FechaOS"].Width = 70;
+            Dgv_Tap3_Garantia.Columns["FactNum"].Width = 70;
+            Dgv_Tap3_Garantia.Columns["StatusFactura"].Width = 70;
+            Dgv_Tap3_Garantia.Columns["Edad"].Width = 70;
+            Dgv_Tap3_Garantia.Columns["tiemporepos"].Width = 70;
+
+            // No modificable
+            Dgv_Tap3_Garantia.Columns["Cod_Sucursal"].ReadOnly = true;;
+            Dgv_Tap3_Garantia.Columns["Cte_Nacionalidad"].ReadOnly = true;
+            Dgv_Tap3_Garantia.Columns["Cte_Cedula"].ReadOnly = true;
+            Dgv_Tap3_Garantia.Columns["NumOrdServ"].ReadOnly = true;
+            Dgv_Tap3_Garantia.Columns["FechaOS"].ReadOnly = true;
+            Dgv_Tap3_Garantia.Columns["FactNum"].ReadOnly = true;
+            Dgv_Tap3_Garantia.Columns["StatusFactura"].ReadOnly = true;
+            Dgv_Tap3_Garantia.Columns["Edad"].ReadOnly = true;
+            Dgv_Tap3_Garantia.Columns["tiemporepos"].ReadOnly = true;
+            //Dgv_Tap3_Garantia.Columns["Cedula"].ReadOnly = true;
+
+            Dgv_Tap3_Garantia.Columns["Cod_Sucursal"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            Dgv_Tap3_Garantia.Columns["Cte_Nacionalidad"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            Dgv_Tap3_Garantia.Columns["Cte_Cedula"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            Dgv_Tap3_Garantia.Columns["NumOrdServ"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            Dgv_Tap3_Garantia.Columns["FechaOS"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            Dgv_Tap3_Garantia.Columns["FactNum"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            Dgv_Tap3_Garantia.Columns["StatusFactura"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            Dgv_Tap3_Garantia.Columns["Edad"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            Dgv_Tap3_Garantia.Columns["tiemporepos"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            //Dgv_Tap3_Garantia.Columns["Cedula"].SortMode = DataGridViewColumnSortMode.NotSortable;
+
+            foreach (DataGridViewColumn column in Dgv_Tap3_Garantia.Columns)
+            {
+                    if (column.Name != "E" &&
+                       column.Name != "Cod_Sucursal" &&
+                       column.Name != "Cte_Cedula" &&
+                       column.Name != "NumOrdServ" &&
+                       column.Name != "FechaOS" &&
+                       column.Name != "FactNum" &&
+                       column.Name != "StatusFactura" &&
+                       column.Name != "Edad" &&
+                       column.Name != "tiemporepos")
+                    {
+                        column.Visible = false;
+                    }
+            }
+
+            //quitar seleccion por defecto de datagrid
+            Dgv_Tap3_Garantia.ClearSelection();
+
+            //AutoGenerar Columnas:
+            Dgv_Tap3_Garantia.AutoGenerateColumns = false;
+
+        }
     }
 }
 

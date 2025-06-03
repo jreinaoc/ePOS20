@@ -2146,6 +2146,73 @@ namespace CapaDatos.CargarOrdenes_Datos
             return dts;
         }
 
+        public DataTable BucarOsRepoGarantia(string Sucursal, string Nacionalidad, string Cedula, SqlCommand command = null)
+        {
+            try
+            {
+                if (command == null)
+                {
+                    SqlConnection connection = cn.LeerCadena();
+                    command = connection.CreateCommand();
+                }
+
+                SqlCommand cmd = command;
+                cmd.Parameters.Clear();
+
+                cmd.CommandText = "pGetClienteGarantia";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@SUC", Sucursal);
+                cmd.Parameters.AddWithValue("@NACIO", Nacionalidad);
+                cmd.Parameters.AddWithValue("@CI", Cedula);
+
+            DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                cmd.Parameters.Clear();
+                return dt;
+
+            }
+            catch (Exception ex)
+            {
+                string Error = string.Format("Error: {0}", ex.Message);
+                return null;
+            }
+
+
+        }
+
+
+        public DataTable BucarMotivoRepoGarantia(SqlCommand command = null)
+        {
+            try
+            {
+                if (command == null)
+                {
+                    SqlConnection connection = cn.LeerCadena();
+                    command = connection.CreateCommand();
+                }
+
+                SqlCommand cmd = command;
+                cmd.Parameters.Clear();
+
+                cmd.CommandText = "pGetMotivosReposicion";
+                cmd.CommandType = CommandType.StoredProcedure;
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                cmd.Parameters.Clear();
+                return dt;
+
+            }
+            catch (Exception ex)
+            {
+                string Error = string.Format("Error: {0}", ex.Message);
+                return null;
+            }
+
+
+        }
+
         //public async Task<bool> RebajarInventarioAsync(string codArticulo, string codLaboratorio, int cantidad, SqlCommand command)
         //{
         //    try
