@@ -65,6 +65,7 @@ namespace CapaLogica.ListaOrden_Logica
             Statu.Add(new Valor() { Index = "", Value = "Todos" });
             Statu.Add(new Valor() { Index = "005", Value = ">  Abonada" });
             Statu.Add(new Valor() { Index = "003", Value = ">  Anulada" });
+            Statu.Add(new Valor() { Index = "000", Value = ">  Reversada" });
             Statu.Add(new Valor() { Index = "002", Value = ">  Facturada" });
             Statu.Add(new Valor() { Index = "004", Value = ">  Por Pagar" });
 

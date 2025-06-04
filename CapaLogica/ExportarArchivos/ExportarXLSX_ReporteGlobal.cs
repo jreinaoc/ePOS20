@@ -53,7 +53,7 @@ namespace CapaLogica.ExportarArchivos
                         var data = hoja.Datos.Cast<ReporteGlobal_VueltosDia>().ToList();
                         GenerarHojaVueltosDia(worksheet, data, fechaSeleccionada);
                     }
-                    else if (hoja.NombreHoja == "Notas del Dia")
+                    else if (hoja.NombreHoja == "Notas de Crédito")
                     {
                         var data = hoja.Datos.Cast<ReporteGlobal_NotasDia>().ToList();
                         GenerarHojaNotasDia(worksheet, data, fechaSeleccionada);
@@ -583,7 +583,7 @@ namespace CapaLogica.ExportarArchivos
             ws.Range("D4:E4").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
 
             ws.Range("D5:E5").Merge();
-            ws.Cell("D5").Value = "Notas del Día";
+            ws.Cell("D5").Value = "Notas de Crédito";
             ws.Range("D5:E5").Style.Font.Bold = true;
             ws.Range("D5:E5").Style.Font.FontSize = 14;
             ws.Range("D5:E5").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;

@@ -5801,7 +5801,7 @@ namespace CapaVisual_Login
                         {
                             if (_FrmClaveAutorizada.ClaveCorrecta == true)
                             {
-                                string mensaje = "¿ Está seguro de anular este pago ? ";
+                                string mensaje = "¿ Está seguro de devolver este pago ? ";
                                 _FrmMensajes.co = 3;
                                 _FrmMensajes.avisomensaje(mensaje);
                                 _FrmMensajes.ShowDialog();

@@ -52,7 +52,7 @@ namespace CapaVisual_Login
         {
             if (TxtClave.Text == probar)
             {
-                string mensaje = "¿ Esta seguro de anular esta orden ? ";
+                string mensaje = "¿ Esta seguro de devolver esta orden ? ";
                 _FrmMensajes.co = 3;
                 _FrmMensajes.avisomensaje(mensaje);
                 _FrmMensajes.ShowDialog();
