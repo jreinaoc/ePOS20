@@ -580,7 +580,7 @@ namespace CapaVisual_Login
                         },
                         new ReporteGlobal_HojasExcels
                         {
-                            NombreHoja = "Notas del Dia",
+                            NombreHoja = "Notas de Crédito",
                             Datos = notasDia.Cast<object>().ToList()
                         },
                     };

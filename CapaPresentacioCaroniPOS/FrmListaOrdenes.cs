@@ -367,6 +367,7 @@ namespace CapaVisual_Login
             System.Drawing.Color colporp = System.Drawing.ColorTranslator.FromHtml("#e9e9e9");
             System.Drawing.Color colanul = System.Drawing.ColorTranslator.FromHtml("#ff353a");
             System.Drawing.Color IVAS_ISLR = System.Drawing.ColorTranslator.FromHtml("#1881b0");
+            System.Drawing.Color colrevers = System.Drawing.ColorTranslator.FromHtml("#f6973a");
 
 
             try
@@ -383,6 +384,7 @@ namespace CapaVisual_Login
                     string PAGOS_ISLR = Fila.Cells["PAGOS_ISLR"].Value.ToString();
                     string Comprobante_IVA = Fila.Cells["Comprobante_IVA"].Value.ToString();
                     string Comprobante_ISLR = Fila.Cells["Comprobante_ISLR"].Value.ToString();
+                    Status = Status.Trim();
                     if (Status == "Facturada")
                     {
                     if(PAGOS_IVA == "1" | PAGOS_ISLR == "1")
@@ -419,9 +421,17 @@ namespace CapaVisual_Login
 
                     }
 
-                    if (Status == "Anulada  ")
+                    if (Status == "Anulada")
                     {
                         Fila.Cells["Estatus"].Style.BackColor = colanul;
+                        //Fila.Cells["Estatus"].Style.Padding = newPadding;
+                        DgvListadoOrdenes.Columns["Estatus"].DefaultCellStyle.Format = "C";
+                        Fila.Cells["Estatus"].Style.ForeColor = Color.White;
+                    }
+
+                    if (Status == "Reversada")
+                    {
+                        Fila.Cells["Estatus"].Style.BackColor = colrevers;
                         //Fila.Cells["Estatus"].Style.Padding = newPadding;
                         DgvListadoOrdenes.Columns["Estatus"].DefaultCellStyle.Format = "C";
                         Fila.Cells["Estatus"].Style.ForeColor = Color.White;
@@ -436,7 +446,7 @@ namespace CapaVisual_Login
 
                     }
 
-                    if (Status == "Abonada  ")
+                    if (Status == "Abonada")
                     {
                         Fila.Cells["Estatus"].Style.BackColor = colabon;
                         //Fila.Cells["Estatus"].Style.Padding = newPadding;
@@ -899,7 +909,7 @@ namespace CapaVisual_Login
                     if (_ListaOrdenes.PagosdelDia(TB_CAORDSER.NumOrdserv) == false)
                     {
                         // Se pregunta si esta seguro de anular
-                        string mensaje = "¿ Esta seguro de anular esta orden ? ";
+                        string mensaje = "¿ Esta seguro de devolver esta orden ? ";
                         _FrmMensajes.co = 3;
                         _FrmMensajes.avisomensaje(mensaje);
                         _FrmMensajes.ShowDialog();
@@ -959,7 +969,7 @@ namespace CapaVisual_Login
                     if (TB_FACTURAS.Fact_Num != "" & TB_FACTURAS.Fact_Num != null)
                     {
                         _FrmMensajes.co = 3;
-                        _FrmMensajes.avisomensaje("¿ Esta seguro de anular esta orden ? ");
+                        _FrmMensajes.avisomensaje("¿ Desea generar una Nota de Crédito ? ");
                         _FrmMensajes.ShowDialog();
 
                         //Preguta
@@ -1114,7 +1124,7 @@ namespace CapaVisual_Login
                     _FrmFacturacion.CargarDatosOrden(DgvListadoOrdenes.CurrentRow.Cells["NumOrdserv"].Value.ToString(), DgvListadoOrdenes.CurrentRow.Cells["Nombre"].Value.ToString(), DgvListadoOrdenes.CurrentRow.Cells["Revision"].Value.ToString());
 
                     // Se pregunta si esta seguro de anular 
-                    string mensaje = "¿ Esta seguro de anular esta orden ? ";
+                    string mensaje = "¿ Esta seguro de devolver esta orden ? ";
                     _FrmMensajes.co = 3;
                     _FrmMensajes.avisomensaje(mensaje);
                     _FrmMensajes.ShowDialog();
@@ -2154,7 +2164,7 @@ namespace CapaVisual_Login
                     // comprobar si la celda tiene contenido válido
                     if (e.Value != System.DBNull.Value)
                     {
-                        cell.ToolTipText = "Anular orden";
+                        cell.ToolTipText = "Devolución";
                     }
                 }
 
