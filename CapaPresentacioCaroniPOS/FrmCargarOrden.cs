@@ -63,7 +63,8 @@ namespace CapaVisual_Login
         private bool laboratorioSeleccionado;
         private bool servicioSeleccionado;
         private string Codigo_Servicio_Agregar = "";
-
+        private string Os_Garantia_Trabajo = "";
+        private string Numero_Examen_Garantia_Trabajo = "";
         // Variables para guardar los datos recibidos del delegado Lentes de Contacto 
         string codLab = "";
         string generico = "";
@@ -1479,6 +1480,8 @@ namespace CapaVisual_Login
                 txtPuente.Text = "";
                 codLab = "";
                 generico = "";
+                Os_Garantia_Trabajo = "";
+                Numero_Examen_Garantia_Trabajo = "";
                 txtHorizontal.Enabled = false;
                 txtVertical.Enabled = false;
                 txtMaxima.Enabled = false;
@@ -1659,7 +1662,8 @@ namespace CapaVisual_Login
 
         private void Btn_Tap3_Cancelar_Click(object sender, EventArgs e)
         {
-                LimpiarGrid();
+            Cbx_Pnl2_Trbajo.SelectedIndex = 0;
+            LimpiarGrid();
         }
 
         private void btnPrincipal_CheckedChanged(object sender, EventArgs e)
@@ -1760,9 +1764,23 @@ namespace CapaVisual_Login
             // validar si el servicio tiene una cantidad menor al cristal 
             _L_Articulo.Verificar_Cantidad_Articulo_Ingresada_Servicios(Dgv_Tap3_Articulo);
 
+
+            // Verifico y Apligo Garantia para trabajo convencional reservado 
+            if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "09")
+            {
+                if (!_L_Articulo.AplicoGarantia(Dgv_Tap3_Articulo, Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Os_Garantia_Trabajo, Numero_Examen_Garantia_Trabajo))
+                {
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje(_L_Articulo.stringBuilder.ToString());
+                    _FrmMensajes.ShowDialog();
+                }
+
+            }
+
+
             /// Verfico y aplico Promociones 
             /// 
-            if (!string.IsNullOrEmpty(Codigo_Promocion))
+                if (!string.IsNullOrEmpty(Codigo_Promocion))
             {
                  Promocion_Aplicada = _L_Articulo.EjecutarPromociones(listaArticulos, Dgv_Tap3_Articulo, Cbx_Pnl2_Trbajo.Text, Cbx_Pnl2_Trbajo.SelectedValue.ToString(), Codigo_Promocion, Montura_Propia, Cristal_Propio);
                 if (!Promocion_Aplicada && _L_Articulo.stringBuilder.Length > 0)
@@ -2552,11 +2570,10 @@ namespace CapaVisual_Login
                 Btn_Tap3_Promocion.Enabled = false;
 
             //// EmpresasAfiliadas
-            if (string.IsNullOrEmpty(EmpresaAfiliada) && Dgv_Tap3_Articulo.Rows.Count <= 0 && string.IsNullOrEmpty(Codigo_Promocion))
+            if ((string.IsNullOrEmpty(EmpresaAfiliada) && Dgv_Tap3_Articulo.Rows.Count <= 0 && string.IsNullOrEmpty(Codigo_Promocion)) && Cbx_Pnl2_Trbajo.SelectedValue.ToString() != "09")
                 Btn_Tap3_ClienteAfiliado.Enabled = true;
             else
                 Btn_Tap3_ClienteAfiliado.Enabled = false;
-
 
             // Montura Propia 
             _L_Articulo.VerificarMonturaPropia(Dgv_Tap3_Articulo, Btn_Tap3_MonturaPropia, Montura_Propia);
@@ -2564,8 +2581,17 @@ namespace CapaVisual_Login
             // Cristal Propio
             _L_Articulo.VerificarCristalPropio(Dgv_Tap3_Articulo, Btn_Tap3_CristalPropio, Cristal_Propio);
 
-            //Garantia
-            Btn_Tap3_Garantia.Enabled = true;
+            // Boton de Garantia y // Cristal Propio
+            if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "09")
+            {
+                Btn_Tap3_Garantia.Enabled = false;
+                Btn_Tap3_CristalPropio.Enabled = false;
+            }
+            else
+            {
+                Btn_Tap3_Garantia.Enabled = true;
+                Btn_Tap3_CristalPropio.Enabled = true;
+            }
 
             // Mostar o no el tipo de laboratirio y srevicio 
             ValidarTipoVenta(Cbx_Pnl2_Trbajo.Text);
@@ -2895,8 +2921,13 @@ namespace CapaVisual_Login
                         return;
                     }
 
-                    transaction.Commit();
+                    // Verifico y Apligo Garantia para trabajo convencional reservado 
+                    if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "09" && !actualizadoTrabajo)
+                    {
+                        DataSet ds = await _GuardarOrdenServ.LlamarActualizarGarantiaAsync(Os_Garantia_Trabajo, codSucursal, numeroOrden, command);
+                    }
 
+                    transaction.Commit();
                     // Finaliza normalmente
                     LimpiarGrid();
                     //Btn_Tap3_Procesar.Enabled = true;
@@ -3880,7 +3911,7 @@ namespace CapaVisual_Login
                 Lbl_Pnl2_Fecha_Ofre.Visible = false;
                 Txt_Pnl2_Fecha_Ofre.Visible = false;
             }
-            else if (TipoVenta == "TC- Reposicion de Garantia")
+            else if (TipoVenta == "TC- Reposicion de Garantia" && string.IsNullOrEmpty(Os_Garantia_Trabajo) && string.IsNullOrEmpty(Numero_Examen_Garantia_Trabajo))
             {
                 _L_Articulo.BucarTipoMotivoGarantia(Cbx_Pnl3_Garantia);
                 if (_L_Articulo.BucarGarantiaCliente(Dgv_Pnl3_Garantia, Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2)))
@@ -4399,6 +4430,35 @@ namespace CapaVisual_Login
             HabilitacionControl("CabezeraPrincipal");
         }
 
+        private void Btn_Tap3_Aceptar_Garantia_Click(object sender, EventArgs e)
+        {
+            _L_Articulo.GarantiaCristales_Selecion(Dgv_Pnl3_Garantia, ref Os_Garantia_Trabajo, ref Numero_Examen_Garantia_Trabajo);
+            Txt_Pnl2_Examen.Text = Numero_Examen_Garantia_Trabajo;
+            VisualizarPanel("MostrarCabezeraSecundaria");
+            HabilitacionControl("CabezeraPrincipal");
+        }
+
+        private void Dgv_Pnl3_Garantia_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (Dgv_Pnl3_Garantia.Columns[e.ColumnIndex].Name == "E")
+            {
+                if (Convert.ToBoolean(Dgv_Pnl3_Garantia.Rows[e.RowIndex].Cells["E"].Value))
+                {
+                    // Desmarca todas las demás filas
+                    foreach (DataGridViewRow row in Dgv_Pnl3_Garantia.Rows)
+                    {
+                        if (row.Index != e.RowIndex)
+                            row.Cells["E"].Value = false;
+                    }
+                }
+            }
+        }
+
+        private void Dgv_Pnl3_Garantia_CurrentCellDirtyStateChanged(object sender, EventArgs e)
+        {
+            if (Dgv_Pnl3_Garantia.IsCurrentCellDirty)
+                Dgv_Pnl3_Garantia.CommitEdit(DataGridViewDataErrorContexts.Commit);
+        }
     }
 
 }

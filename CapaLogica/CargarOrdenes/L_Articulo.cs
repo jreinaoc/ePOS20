@@ -4470,6 +4470,160 @@ namespace CapaLogica.CargarOrdenes
             Dgv_Tap3_Garantia.AutoGenerateColumns = false;
 
         }
+
+        public void GarantiaCristales_Selecion(DataGridView DgvGarantia, ref string Os_Garantia_Trabajo , ref string Numero_Examen_Garantia_Trabajo)
+        {
+            foreach (DataGridViewRow row in DgvGarantia.Rows)
+            {
+                if (row.Cells["E"].Selected)
+                {
+                    Os_Garantia_Trabajo = row.Cells["NumOrdServ"].Value?.ToString() ?? "";
+                    DataTable DT= _D_Articulos.ObtenerExamen(row.Cells["Cte_Cedula"].Value.ToString().Substring(0, 1), row.Cells["Cte_Cedula"].Value.ToString().Substring(2, row.Cells["Cte_Cedula"].Value.ToString().Length-2), _D_Inicio.Sucursal());
+                    foreach (DataRow row2 in DT.Rows)
+                    {
+                        Numero_Examen_Garantia_Trabajo = row2["NUM_EXAMEN"].ToString();
+                        break;
+                    }
+                    break;
+                }
+
+            }
+
+        }
+
+        public bool AplicoGarantia(DataGridView DgvArticulo, string nacio, string CI, string OS, string exam)
+        {
+            stringBuilder.Clear();
+            try
+            {
+                // Ejecuta el procedimiento almacenado
+                DataSet dsGetLC = _D_Articulos.InfoReposicionGarantia(CI, nacio, OS, _D_Inicio.Sucursal(), exam);
+                // Servicios Dioptria
+                DataSet dsServicioAgregado = _D_Articulos.BucarServicioAgregado();
+                //AR
+                DataSet dsServAR = _D_Articulos.ServiciosAR_btnProcesar("", false);
+
+                if (dsGetLC.Tables.Count > 1 && dsGetLC.Tables[2].Rows.Count > 0)
+                {
+                    foreach (DataGridViewRow row in DgvArticulo.Rows)
+                    {
+                        if (row.IsNewRow) continue;
+
+                        string codArticulo = row.Cells["CodArticulo"].Value?.ToString() ?? "";
+                        int Cantidad_Servicio = row.Cells["ART_EXIST"].Value != null ? Convert.ToInt32(row.Cells["ART_EXIST"].Value) : 0;
+
+                        int filaSeleccionada= row.Index;
+                        if (codArticulo.StartsWith("C"))
+                        {
+                            decimal precio = Convert.ToDecimal(row.Cells["ART_PVP"].Value.ToString());
+                            decimal descuento = Convert.ToDecimal(dsGetLC.Tables[2].Rows[0]["DESCUENTOCRT"]);
+                            decimal NuevoPrecio = precio - descuento;
+                            if (NuevoPrecio <= 0)
+                            {
+                                NuevoPrecio = 0.005M;
+                            }
+                            ActualizarCelda(DgvArticulo, filaSeleccionada, "ART_PVP", NuevoPrecio.ToString("N2"));
+                        }
+
+                        if (codArticulo.StartsWith("S"))
+                        {
+                            // Coloracion
+                            if (codArticulo == "S000004")
+                            {
+                                decimal precio = Convert.ToDecimal(row.Cells["ART_PVP"].Value.ToString()); 
+                                decimal descuento = Convert.ToDecimal(dsGetLC.Tables[2].Rows[0]["DESCUENTOSERVCOLOR"]);
+                                decimal NuevoPrecio = precio - descuento;
+                                if (NuevoPrecio <= 0)
+                                {
+                                    NuevoPrecio = 0.005M;
+                                }
+                                ActualizarCelda(DgvArticulo, filaSeleccionada, "ART_PVP", NuevoPrecio.ToString("N2"));
+                            }
+
+                            // Prisma 
+                            if (codArticulo == "S000006")
+                            {
+                                decimal precio = Convert.ToDecimal(row.Cells["ART_PVP"].Value.ToString());
+                                decimal descuento = Convert.ToDecimal(dsGetLC.Tables[2].Rows[0]["DESCUENTOSERVPRISMA"]);
+                                decimal NuevoPrecio = precio - descuento;
+                                if (NuevoPrecio <= 0)
+                                {
+                                    NuevoPrecio = 0.005M;
+                                }
+                                ActualizarCelda(DgvArticulo, filaSeleccionada, "ART_PVP", NuevoPrecio.ToString("N2"));
+                            }
+
+                            if (dsServicioAgregado != null && dsServicioAgregado.Tables.Count > 0 && dsServicioAgregado.Tables[0].Rows.Count > 0)
+                            {
+                                foreach (DataRow dr in dsServicioAgregado.Tables[0].Rows)
+                                {
+                                    string agregadoProducto = dr["Agregado_Producto"]?.ToString().Trim('"');
+                                    if (!string.IsNullOrEmpty(agregadoProducto) && agregadoProducto == codArticulo)
+                                    {
+                                        decimal precio = Convert.ToDecimal(row.Cells["ART_PVP"].Value.ToString());
+                                        string Ojo = row.Cells["Ojo"].Value.ToString();
+                                        decimal descuento = 0.00M;
+                                        if (Ojo.StartsWith("D"))
+                                        {
+                                            descuento = Convert.ToDecimal(dsGetLC.Tables[2].Rows[0]["DESCUENTODIOPD"]);
+                                        }
+                                        else if (Ojo.StartsWith("I"))
+                                        {
+                                            descuento = Convert.ToDecimal(dsGetLC.Tables[2].Rows[0]["DESCUENTODIOPI"]);
+                                        }
+                                        else
+                                        {
+                                            descuento = Convert.ToDecimal(dsGetLC.Tables[2].Rows[0]["DESCUENTODIOPD"]);
+                                        }
+
+                                        decimal NuevoPrecio = precio - descuento;
+                                        if (NuevoPrecio <= 0)
+                                        {
+                                            NuevoPrecio = 0.005M;
+                                        }
+                                        ActualizarCelda(DgvArticulo, filaSeleccionada, "ART_PVP", NuevoPrecio.ToString("N2"));
+                                        //break; // Salir del bucle interno si se encuentra el servicio
+                                    }
+                                }
+                            }
+
+                            if (dsServAR != null && dsServAR.Tables.Count > 1 && dsServAR.Tables[1].Rows.Count > 0)
+                            {
+                                foreach (DataRow dr in dsServAR.Tables[1].Rows)
+                                {
+                                    string agregadoProducto = dr["CodServicio"]?.ToString().Trim('"');
+                                    if (!string.IsNullOrEmpty(agregadoProducto) && agregadoProducto == codArticulo)
+                                    {
+                                        decimal precio1 = Convert.ToDecimal(row.Cells["ART_PVP"].Value.ToString());
+                                        decimal descuento1 = Convert.ToDecimal(dsGetLC.Tables[2].Rows[0]["DESCUENTOSERVAR"]);
+                                        decimal NuevoPrecio1 = precio1 - descuento1;
+                                        if (NuevoPrecio1 <= 0)
+                                        {
+                                            NuevoPrecio1 = 0.005M;
+                                        }
+                                        ActualizarCelda(DgvArticulo, filaSeleccionada, "ART_PVP", NuevoPrecio1.ToString("N2"));
+                                        //break; // Salir del bucle interno si se encuentra el servicio
+                                    }
+                                }
+                            }
+                           
+                        }
+
+                    }
+                    return true;
+                }
+                else
+                {
+                    stringBuilder.Append("Esta OS no aplica Reposición");
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                stringBuilder.AppendLine("Error: " + ex.Message);
+                return false;
+            }
+        }
     }
 }
 
