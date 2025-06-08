@@ -83,6 +83,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Debug\classUtilities.dll</HintPath>
     </Reference>
+    <Reference Include="DataGridViewNumericUpDownElements, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\DataGridViewNumericUpDownElements.dll</HintPath>
+    </Reference>
     <Reference Include="DevComponents.DotNetBar2, Version=12.8.0.2, Culture=neutral, PublicKeyToken=7eb7c3a35b91de04, processorArchitecture=MSIL">
       <HintPath>..\..\..\Program Files (x86)\DotNetBar for Windows Forms\DevComponents.DotNetBar2.dll</HintPath>
     </Reference>

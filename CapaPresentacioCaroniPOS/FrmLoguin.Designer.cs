@@ -108,6 +108,7 @@ namespace CapaVisual_Login
             this.txtNombreUsuario.Name = "txtNombreUsuario";
             this.txtNombreUsuario.Size = new System.Drawing.Size(208, 27);
             this.txtNombreUsuario.TabIndex = 2;
+            this.txtNombreUsuario.Text = "99999";
             this.txtNombreUsuario.Enter += new System.EventHandler(this.txtNombreUsuario_Enter);
             this.txtNombreUsuario.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNombreUsuario_KeyPress);
             this.txtNombreUsuario.Leave += new System.EventHandler(this.txtNombreUsuario_Leave);
@@ -121,6 +122,7 @@ namespace CapaVisual_Login
             this.txtClaveUsuario.PasswordChar = '*';
             this.txtClaveUsuario.Size = new System.Drawing.Size(208, 27);
             this.txtClaveUsuario.TabIndex = 3;
+            this.txtClaveUsuario.Text = "av23";
             this.txtClaveUsuario.Enter += new System.EventHandler(this.txtClaveUsuario_Enter);
             this.txtClaveUsuario.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtClaveUsuario_KeyPress);
             this.txtClaveUsuario.Leave += new System.EventHandler(this.txtClaveUsuario_Leave);

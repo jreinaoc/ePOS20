@@ -193,9 +193,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Anulacion_Logica\L_Anulacion.cs" />
+    <Compile Include="CargarClientes_Logica\LCliente.cs" />
+    <Compile Include="CargarClientes_Logica\LExamen.cs" />
+    <Compile Include="CargarClientes_Logica\LTBF_EmailTelf.cs" />
     <Compile Include="CargarOrdenes\L_Articulo.cs" />
     <Compile Include="CargarOrdenes\ServicioGuardarOrdenes_Cargar_Ordenes.cs" />
     <Compile Include="CargarOrdenes\ServicioValidaciones_CargarOrdenes.cs" />
+    <Compile Include="CargarOrdenes_Logica\L_Examen.cs" />
+    <Compile Include="CargarOrdenes_Logica\L_Ficcont.cs" />
+    <Compile Include="CargarOrdenes_Logica\L_Ficconv.cs" />
+    <Compile Include="CargarOrdenes_Logica\L_Laboratorio.cs" />
+    <Compile Include="CargarOrdenes_Logica\L_Querato.cs" />
+    <Compile Include="CargarOrdenes_Logica\L_ServicioLab.cs" />
+    <Compile Include="CargarOrdenes_Logica\L_Trabajo.cs" />
     <Compile Include="ClaveAutorizada_Logica\L_ClaveAutorizada.cs" />
     <Compile Include="ClaveGerente_Logica\L_ClaveGerente.cs" />
     <Compile Include="Colores_Logica\L_Colores.cs" />

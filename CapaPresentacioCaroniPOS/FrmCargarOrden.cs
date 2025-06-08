@@ -15,6 +15,10 @@ using System.Data.SqlClient;
 using CapaDatos.Inicio_Datos;
 using CapaDatos.DetalleOrden_Datos;
 using CapaDatos.CargarOrdenes_Datos;
+using CapaLogica.CargarClientes_Logica;
+using CapaLogica.CargarOrdenes_Logica;
+using DataGridViewNumericUpDownElements;
+using System.Text.RegularExpressions;
 
 namespace CapaVisual_Login
 {
@@ -25,6 +29,39 @@ namespace CapaVisual_Login
             InitializeComponent();
 
             _GuardarOrdenServ = new ServicioGuardarOrdenes_Cargar_Ordenes(_servicioValidaciones);
+
+            // *** PASO CRÍTICO 1: Configurar el modo de edición del DataGridView ***
+            // Esto asegura que la validación se dispare cuando el usuario escribe y luego intenta salir de la celda.
+            Dgv_Pnl2_Querato.EditMode = DataGridViewEditMode.EditOnKeystrokeOrF2; // O DataGridViewEditMode.EditOnEnter
+
+            // *** PASO CRÍTICO 2: Suscribir el evento CellValidating ***
+            // Asegúrate de que este evento esté suscrito. Si ya lo hiciste en el diseñador,
+            // esta línea puede ser redundante, pero no hace daño.
+            Dgv_Pnl2_Querato.CellValidating += Dgv_Pnl2_Querato_CellValidating;
+
+            // También es buena práctica limpiar el error al finalizar la edición
+            Dgv_Pnl2_Querato.CellEndEdit += Dgv_Pnl2_Querato_CellEndEdit;
+
+
+            // Asigna el evento KeyDown al TextBox de la cédula
+            Txt_Tap1_Cedula.KeyDown += Txt_Tap1_Cedula_KeyDown;
+
+
+            this.CargarCbx_fijos();
+
+            Btn_Tap3_Procesar.BringToFront();
+
+            btn_pln2_oft.BringToFront();
+            btn_pln2_reti.BringToFront();
+            btn_pln2_quer.BringToFront();
+
+            LlenarCbx_Tap1_Estado();
+            CargarCbx_Tap1_Nacionalidad();
+
+
+
+            // Habilita la captura de eventos de teclado a nivel del formulario
+            this.KeyPreview = true;
         }
 
 
@@ -75,6 +112,65 @@ namespace CapaVisual_Login
         List<TB_EMPAFI> listaTemporalClienteAfiliados = new List<TB_EMPAFI>();
         List<FechaHoraOfrecida> _FechaHoraOfrecida = new List<FechaHoraOfrecida>();
         private string mensaje = "";
+
+        /*MEIFER*/
+        string ValidarPanel;
+        int TopeExamen;
+        int numeroExamen;
+        // Declarar la lista para almacenar los resultados
+        //List<TB_ARTICULO> listaArticulos = new List<TB_ARTICULO>();
+        // Lista temporal para relizar el filtrado 
+        //private List<TB_ARTICULO> listaTemporal = new List<TB_ARTICULO>();
+        //private L_Articulo _L_Articulo = new L_Articulo();
+        //private FrmMensajes _FrmMensajes = new FrmMensajes();
+        string resultado = "";
+        string resultadoTelefono = "";
+        DataTable dtCliente;
+        //mcll 15-04-25
+        private L_Cliente _L_Cliente = new L_Cliente();
+        private L_Cliente l_Cliente = new L_Cliente();
+        private L_Laboratorio _L_Laboratorio = new L_Laboratorio();
+        private L_ServicioLab _servicioLogica = new L_ServicioLab();
+
+
+
+        private L_Ficcont _L_Ficcont = new L_Ficcont(); // Declaración e inicialización
+        private L_Ficconv _L_Ficconv = new L_Ficconv(); // Declaración e inicialización
+
+        private L_Querato _L_Querato = new L_Querato(); // Declaración e inicialización
+
+        private L_Trabajo _L_Trabajo = new L_Trabajo(); // Declaración e inicialización
+
+        private CapaLogica.CargarOrdenes_Logica.L_Examen _L_Examen = new CapaLogica.CargarOrdenes_Logica.L_Examen(); // Especifica el namespace completo
+
+
+        //        private L_Cliente _L_Cliente = new L_Cliente(); // Instancia de la capa lógica
+
+
+        private List<TB_CTEPPAL> listaDeClientes = new List<TB_CTEPPAL>();
+        private List<TB_CTEPPAL> listaTemporalClientes = new List<TB_CTEPPAL>();
+        //   private ClienteLogica CargarClientes_Logica = new ClienteLogica(); // Instancia de tu capa de lógica
+        //private CargarClientes_Logica clienteLogica = new CargarClientes_Logica(); // Instancia de tu capa de lógica
+
+        private bool _teclaF2Presionada = false; // Variable para rastrear si se presionó F2
+
+        /// <summary>
+        // Crear una instancia de la entidad TB_CTEPPAL para almacenar los datos
+
+        TB_EXAMENCTE nuevoExamen = new TB_EXAMENCTE();
+
+        TB_FICCONT nuevoFiccont = new TB_FICCONT();
+        TB_FICCONVCTE nuevoFicconv = new TB_FICCONVCTE();
+
+        TB_TRABAJOCTE nuevoTrabajo = new TB_TRABAJOCTE(); // Ahora el compilador debería encontrar la clase
+        TB_QUERATO nuevoQuerato = new TB_QUERATO();
+        // Variables a nivel de clase para almacenar los límites de validación
+        private decimal minMeridianoCorneal = 6M; // Usa decimal si tus valores son monetarios o precisos
+        private decimal maxMeridianoCorneal = 10M;
+
+        //private D_DetalleOrden _D_DetalleOrden = new D_DetalleOrden();
+        public DataTable dtClienteconGarantia;
+        private bool _isCellValueChanging = false;
 
         private void DgvListadoOrdenes_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -231,6 +327,7 @@ namespace CapaVisual_Login
             HabilitacionControl("CabezeraPrincipal");
             LimpiarControles("Motro_Busqueda_Articulos");
             LimpiarControles("Carga_Articulos");
+            HabilitacionControl("Bloquear_Lista_Articulo");
             Txt_Tap3_Articulo_Cantidad.Focus();
         }
 
@@ -353,8 +450,60 @@ namespace CapaVisual_Login
                     this.Pnl_3_Garantia.Enabled = false;
                     this.Pnl_2.Location = new Point(0, 0); // Establecer posición en (0, 0)
 
-                    break;
+                    Cbx_Pnl2_Trbajo.Visible = true;
+                    Lbl_Pnl2_Trabajo.Visible = true;
+                    Lbl_Pnl2_Laboratorio.Visible = true;
+                    Cbx_Pnl2_Laboratorio.Visible = true;
+                    Lbl_Pnl2_Servicio.Visible = true;
+                    Cbx_Pnl2_Servicio.Visible = true;
+                    Txt_Pnl2_Examen.Visible = true;
+                    Lbl_Pnl2_Num_Examen.Visible = true;
+                    Cbx_Pnl2_Ojo.Visible = true;
+                    label24.Visible = true;
+                    Txt_Pnl2_Fecha_Ofre.Visible = true;
+                    Lbl_Pnl2_Fecha_Ofre.Visible = true;
+                    Lbl_Pnl2_Carga_Art.Visible = true;
 
+
+                    break;
+                case "MostrarCabeceraExamen":
+                    this.Pnl_2.Enabled = true;
+                    this.Pnl_2.Visible = true;
+                    this.Pnl_1.Visible = false;
+                    this.Pnl_1.Enabled = false;
+                    this.Pnl_3_Lista_Articulo.Enabled = false;
+                    this.Pnl_3_Lista_Articulo.Visible = false;
+                    this.Pnl_3_CambioPrecio.Enabled = false;
+                    this.Pnl_3_CambioPrecio.Visible = false;
+                    this.Pnl_3_Descuento.Enabled = false;
+                    this.Pnl_3_Descuento.Visible = false;
+                    this.Pnl_3_Coloración.Visible = false;
+                    this.Pnl_3_Coloración.Enabled = false;
+                    this.Pnl_3_Promociones.Visible = false;
+                    this.Pnl_3_Promociones.Enabled = false;
+                    this.pnl_MonturaPropia.Enabled = false;
+                    this.pnl_MonturaPropia.Visible = false;
+                    this.Pnl_3_Lista_ClienteAfiliado.Visible = false;
+                    this.Pnl_3_Lista_ClienteAfiliado.Enabled = false;
+                    this.Pnl_3_Garantia.Visible = false;
+                    this.Pnl_3_Garantia.Enabled = false;
+                    this.Pnl_2.Location = new Point(0, 0); // Establecer posición en (0, 0)
+
+                    Cbx_Pnl2_Trbajo.Visible = false;
+                    Lbl_Pnl2_Trabajo.Visible = false;
+                    Lbl_Pnl2_Laboratorio.Visible = false;
+                    Cbx_Pnl2_Laboratorio.Visible = false;
+                    Lbl_Pnl2_Servicio.Visible = false;
+                    Cbx_Pnl2_Servicio.Visible = false;
+                    Txt_Pnl2_Examen.Visible = false;
+                    Lbl_Pnl2_Num_Examen.Visible = false;
+                    Cbx_Pnl2_Ojo.Visible = false;
+                    label24.Visible = false;
+                    Txt_Pnl2_Fecha_Ofre.Visible = false;
+                    Lbl_Pnl2_Fecha_Ofre.Visible = false;
+                    Lbl_Pnl2_Carga_Art.Visible = false;
+
+                    break;
                 case "Lista_Articulo":
                     this.Pnl_3_Lista_Articulo.Enabled = true;
                     this.Pnl_3_Lista_Articulo.Visible = true;
@@ -463,7 +612,7 @@ namespace CapaVisual_Login
                     this.Btn_Tap3_Garantia.Enabled = false;
 
                     // Panel de Arriba
-                    this.Txt_Pnl2_Cedula.Enabled = false;
+                    this.Txt_Pnl_2_Cedula.Enabled = false;
                     this.Txt_Pnl2_Examen.Enabled = false;
                     this.Cbx_Pnl2_Trbajo.Enabled = false;
                     this.Cbx_Pnl2_Laboratorio.Enabled = false;
@@ -523,7 +672,7 @@ namespace CapaVisual_Login
                     ValidarRegistrosYHabilitar_Botones();
 
                     // Panel de Arriba
-                    this.Txt_Pnl2_Cedula.Enabled = true;
+                    this.Txt_Pnl_2_Cedula.Enabled = true;
                     this.Txt_Pnl2_Examen.Enabled = true;
                     //this.Cbx_Pnl2_Trbajo.Enabled = true;
                     //this.Cbx_Pnl2_Laboratorio.Enabled = true;
@@ -553,7 +702,7 @@ namespace CapaVisual_Login
                     this.Btn_Tap3_Procesar.Enabled = false;
 
                     // Panel de Arriba
-                    this.Txt_Pnl2_Cedula.Enabled = false;
+                    this.Txt_Pnl_2_Cedula.Enabled = false;
                     this.Txt_Pnl2_Examen.Enabled = false;
                     this.Cbx_Pnl2_Trbajo.Enabled = false;
                     this.Cbx_Pnl2_Laboratorio.Enabled = false;
@@ -607,7 +756,7 @@ namespace CapaVisual_Login
                     this.Btn_Tap3_Procesar.Enabled = false;
 
                     // Panel de Arriba
-                    this.Txt_Pnl2_Cedula.Enabled = false;
+                    this.Txt_Pnl_2_Cedula.Enabled = false;
                     this.Txt_Pnl2_Examen.Enabled = false;
                     this.Cbx_Pnl2_Trbajo.Enabled = false;
                     this.Cbx_Pnl2_Laboratorio.Enabled = false;
@@ -665,7 +814,7 @@ namespace CapaVisual_Login
                     this.Btn_Tap3_Procesar.Enabled = false;
 
                     // Panel de Arriba
-                    this.Txt_Pnl2_Cedula.Enabled = false;
+                    this.Txt_Pnl_2_Cedula.Enabled = false;
                     this.Txt_Pnl2_Examen.Enabled = false;
                     this.Cbx_Pnl2_Trbajo.Enabled = false;
                     this.Cbx_Pnl2_Laboratorio.Enabled = false;
@@ -721,7 +870,7 @@ namespace CapaVisual_Login
                     this.Btn_Tap3_Procesar.Enabled = false;
 
                     // Panel de Arriba
-                    this.Txt_Pnl2_Cedula.Enabled = false;
+                    this.Txt_Pnl_2_Cedula.Enabled = false;
                     this.Txt_Pnl2_Examen.Enabled = false;
                     this.Cbx_Pnl2_Trbajo.Enabled = false;
                     this.Cbx_Pnl2_Laboratorio.Enabled = false;
@@ -771,7 +920,7 @@ namespace CapaVisual_Login
                     this.Btn_Tap3_Procesar.Enabled = false;
 
                     // Panel de Arriba
-                    this.Txt_Pnl2_Cedula.Enabled = false;
+                    this.Txt_Pnl_2_Cedula.Enabled = false;
                     this.Txt_Pnl2_Examen.Enabled = false;
                     this.Cbx_Pnl2_Trbajo.Enabled = false;
                     this.Cbx_Pnl2_Laboratorio.Enabled = false;
@@ -826,7 +975,7 @@ namespace CapaVisual_Login
                     this.Btn_Tap3_Procesar.Enabled = false;
 
                     // Panel de Arriba
-                    this.Txt_Pnl2_Cedula.Enabled = false;
+                    this.Txt_Pnl_2_Cedula.Enabled = false;
                     this.Txt_Pnl2_Examen.Enabled = false;
                     this.Cbx_Pnl2_Trbajo.Enabled = false;
                     this.Cbx_Pnl2_Laboratorio.Enabled = false;
@@ -873,7 +1022,7 @@ namespace CapaVisual_Login
                     this.Btn_Tap3_Procesar.Enabled = false;
 
                     // Panel de Arriba
-                    this.Txt_Pnl2_Cedula.Enabled = false;
+                    this.Txt_Pnl_2_Cedula.Enabled = false;
                     this.Txt_Pnl2_Examen.Enabled = false;
                     this.Cbx_Pnl2_Trbajo.Enabled = false;
                     this.Cbx_Pnl2_Laboratorio.Enabled = false;
@@ -900,6 +1049,23 @@ namespace CapaVisual_Login
                     this.Btn_Tap3_CristalPropio.Enabled = false;
                     this.Btn_Tap3_ClienteAfiliado.Enabled = false;
                     this.Btn_Tap3_Garantia.Enabled = false;
+
+                    break;
+
+                case "Bloquear_Lista_Articulo":
+                    this.Pnl_1_Tap3.Enabled = true;
+                    this.Dgv_Tap3_Articulo.Enabled = true;
+                    this.Pnl_2_Tap3.Enabled = true;
+                    this.Pnl_3_Tap3.Enabled = true;
+                    //this.Dgv_Tap3_Medidas_Montura.Enabled = true;
+                    this.Btn_Tap3_Cancelar.Enabled = true;
+                    this.Btn_Tap3_Procesar.Enabled = true;
+
+                    this.Dgv_Pnl3_Articulo.Enabled = false;
+                    this.Txt_Pnl3_Articulo.Enabled = false;
+                    this.Rd_Pnl3_Descripcion.Enabled = false;
+                    this.Rd_Pnl3_Codigo.Enabled = false;
+                    this.btnCancelar3.Enabled = false;
 
                     break;
 
@@ -1102,7 +1268,7 @@ namespace CapaVisual_Login
 
                     if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "09")
                     {
-                        AplicoGarantia(Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Txt_Pnl2_Cedula.Text.Substring(0, 1), "", Txt_Pnl2_Examen.Text, _D_Inicio.Sucursal());
+                        AplicoGarantia(Txt_Pnl_2_Cedula.Text.Substring(2, Txt_Pnl_2_Cedula.Text.Length - 2), Txt_Pnl_2_Cedula.Text.Substring(0, 1), "", Txt_Pnl2_Examen.Text, _D_Inicio.Sucursal());
                     }
                 }
 
@@ -1134,7 +1300,7 @@ namespace CapaVisual_Login
             }
 
             // LLenar Tb_Trabajo
-            _L_Articulo.LlenarTB_Trbajo(_TRABAJO, _D_Inicio.Sucursal(), Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2));
+            _L_Articulo.LlenarTB_Trbajo(_TRABAJO, _D_Inicio.Sucursal(), Txt_Pnl_2_Cedula.Text.Substring(0, 1), Txt_Pnl_2_Cedula.Text.Substring(2, Txt_Pnl_2_Cedula.Text.Length - 2));
 
             if (_L_Articulo.stringBuilder.Length > 0)
             {
@@ -1226,7 +1392,7 @@ namespace CapaVisual_Login
             }
 
             // Verifico Existencia LC
-            if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "02" && Txt_Tap3_Articulo_Codigo.Text.StartsWith("W") && !_L_Articulo.BuscoCodigoLabLC(Txt_Tap3_Articulo_Codigo.Text, CodColorLC, Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Convert.ToInt16(Txt_Pnl2_Examen.Text), Txt_Tap3_Articulo_Cantidad.Text == "2" ? "A": "I", Txt_Tap3_Articulo_Cantidad.Text,
+            if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "02" && Txt_Tap3_Articulo_Codigo.Text.StartsWith("W") && !_L_Articulo.BuscoCodigoLabLC(Txt_Tap3_Articulo_Codigo.Text, CodColorLC, Txt_Pnl_2_Cedula.Text.Substring(0, 1), Txt_Pnl_2_Cedula.Text.Substring(2, Txt_Pnl_2_Cedula.Text.Length - 2), Convert.ToInt16(Txt_Pnl2_Examen.Text), Txt_Tap3_Articulo_Cantidad.Text == "2" ? "A": "I", Txt_Tap3_Articulo_Cantidad.Text,
                   // delegado
                   (lab, gen) => { codLab = lab; generico = gen; })
                 && _L_Articulo.stringBuilder.Length > 0)
@@ -1302,7 +1468,7 @@ namespace CapaVisual_Login
                 }
 
                 // Buscar el artículo en la listaArticulos por el código
-                var _Trabajo = _TRABAJO.FirstOrDefault(a => a.T_CEDIDEN == Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2) & a.T_NACIO == Txt_Pnl2_Cedula.Text.Substring(0, 1));
+                var _Trabajo = _TRABAJO.FirstOrDefault(a => a.T_CEDIDEN == Txt_Pnl_2_Cedula.Text.Substring(2, Txt_Pnl_2_Cedula.Text.Length - 2) & a.T_NACIO == Txt_Pnl_2_Cedula.Text.Substring(0, 1));
 
 
 
@@ -1568,6 +1734,74 @@ namespace CapaVisual_Login
 
         private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
+            /*MEIFER*/
+            //limpearExamen();
+
+            //if (!string.IsNullOrEmpty(Txt_Tap1_Cedula.Text))
+            //{
+            //    // Asegúrate de que el TabControl se llama como en tu formulario (ej: tabControl1)
+            //    if (tabControl.SelectedIndex == 1) // Las pestañas están indexadas desde 0. Tab2 sería el índice 1.
+            //    {
+            //        grp_pln2_Cont1.Visible = false;
+            //        grp_pln2_Conv2.Visible = true;
+            //        //Cbx_Tap2_Tipo_Examen.SelectedIndex = 1; // Seleciona o segundo item (índice 1)
+            //        grp_pln2_oft3.Visible = false;
+            //        grp_pln2_ret4.Visible = false;
+            //        grp_pln2_quera5.Visible = false;
+            //        Lbl_Pnl2_Datos_Cliente.Visible = false;
+
+            //        CargarExamenConv();
+            //        CargarExamenCont();
+            //        CargarDgvPnl2MedConv();
+            //        CargarFicconvOFT();
+            //        CargarDgv_Pnl2_Querato();
+
+
+            //    }
+            //    Pnl_2.Visible = true;
+            //    Lbl_Pnl2_Datos_Cliente.Visible = true;
+            //    this.Txt_Pnl_2_Cedula.Text = Txt_Tap1_Cedula.Text;
+            //    this.Txt_Pnl_2_Nombre.Text = Txt_Tap1_Nombre.Text;
+            //    Cbx_Pnl2_Trbajo.Enabled = true;
+            //    Cbx_Pnl2_Laboratorio.Enabled = true;
+            //    Cbx_Pnl2_Servicio.Enabled = true;
+            //    Cbx_Tap2_Tipo_Optome.Enabled = true;
+            //    Cbx_Tap2_Nombre_Optome.Enabled = true;
+            //    //Cbx_Tap2_Tipo_Examen.Enabled = true;
+            //    Cbx_Tap2_Ojo.Enabled = true;
+
+            //    // Llama directamente al método del evento
+            //    Cbx_Tap2_Tipo_Examen_SelectedIndexChanged(Cbx_Tap2_Tipo_Examen, EventArgs.Empty);
+
+            //    // -------------------------------------------------------
+            //    DateTime fechaSeleccionada = Dtp_Tap2_FecExam.Value.Date; // Obtener solo la parte de la fecha
+            //    DateTime fechaHoy = DateTime.Now.Date; // Obtener la fecha actual sin la hora
+
+            //    if (fechaSeleccionada < fechaHoy)
+            //    {
+            //        BloquearCamposE(); // Llamar al método para bloquear los campos
+            //    }
+            //    else if (fechaSeleccionada == fechaHoy)
+            //    {
+            //        DesbloquearCamposE(); // Llamar al método para desbloquear los campos
+            //    }
+            //}
+            //else
+            //{
+
+            //    tabControl.SelectedIndex = 0;
+            //    tabControl.SelectedTab = tabControl.TabPages[0];
+            //    Txt_Tap1_Cedula.Focus();
+            //    //MessageBox.Show("Debe Seleccionar un Cliente Valido")
+            //    Pnl_2_Msj.Visible = true;
+            //    txt_pl2_msj.Text = "Debe Seleccionar un Cliente Valido";
+            //    pb_pl2_mj.Visible = true;
+
+
+            //}
+
+            ///*MEIFER*/
+
             // Verificar si la pestaña seleccionada es la pestaña 3
             if (tabControl.SelectedIndex == 2) // El índice es 0-based, por lo que la pestaña 3 tiene índice 2
             {
@@ -1587,6 +1821,7 @@ namespace CapaVisual_Login
             }
             else if (tabControl.SelectedIndex == 1)
             {
+
                 VisualizarPanel("MostrarCabezeraPrincipal");
             }
         }
@@ -1646,7 +1881,7 @@ namespace CapaVisual_Login
 
                 if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "09")
                 {
-                    AplicoGarantia(Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Txt_Pnl2_Cedula.Text.Substring(0, 1), "", Txt_Pnl2_Examen.Text, _D_Inicio.Sucursal());
+                    AplicoGarantia(Txt_Pnl_2_Cedula.Text.Substring(2, Txt_Pnl_2_Cedula.Text.Length - 2), Txt_Pnl_2_Cedula.Text.Substring(0, 1), "", Txt_Pnl2_Examen.Text, _D_Inicio.Sucursal());
                 }
 
                 // Evitar que el evento se propague
@@ -1664,19 +1899,64 @@ namespace CapaVisual_Login
 
         private void btnPrincipal_CheckedChanged(object sender, EventArgs e)
         {
-            tabControl.SelectTab(0);
+            VisualizarPanel("MostrarCabezeraPrincipal");
+            Txt_Pnl1_Cedula.Visible = false;
+            Txt_Pnl1_Nombre.Visible = false;
+            Lbl_Pnl1_Cedula.Visible = false;
+            Lbl_Pnl1_Nombre.Visible = false;
+        
+            //tabControl.SelectTab(0);
+            /*MEIFER*/
+            if (tabControl.TabPages.Count > 0)
+            {
+                tabControl.SelectedIndex = 0;
+                Pnl_2.Visible = false;
+                Pnl_1.Visible = true;
+
+                // Opcional: Llamar al evento directamente si la selección no lo dispara
+                // tabControl_SelectedIndexChanged(tabControl, EventArgs.Empty);
+            }
         }
 
         private void btnExamen_CheckedChanged(object sender, EventArgs e)
         {
-            tabControl.SelectTab(1);
+            VisualizarPanel("MostrarCabeceraExamen");
+           
+            //Txt_Pnl_2_Cedula.Visible = true;
+            //Txt_Pnl_2_Nombre.Visible = true;
+            //Lbl_Pnl2_Cedula.Visible = true;
+            //Lbl_Pnl2_Nombre.Visible = true;
+            //Txt_Pnl_2_Cedula.Text = Cbx_Tap1_Nacionalidad.SelectedItem.ToString() + Txt_Tap1_Cedula.Text.ToString();
+            //Txt_Pnl_2_Nombre.Text = Txt_Tap1_Nombre.Text.ToString();
+            //Txt_Pnl_2_Cedula.Location = new System.Drawing.Point(20, 10);
+            //Txt_Pnl_2_Cedula.BringToFront();
+            btnCargarOrden.Enabled = true;
+            if (tabControl.TabPages.Count > 0)
+            {
+                tabControl.SelectedIndex = 1;
+                label43.Text = "Datos de Clientes";
+               
+                grp_pln2_Cont1.BringToFront();
+                btn_pln2_oft.BringToFront();
+                btn_pln2_reti.BringToFront();
+                btn_pln2_quer.BringToFront();
+                Btn_Tap2_Derecha_Click(this.Btn_Tap2_Derecha, EventArgs.Empty);
+
+
+                // Opcional: Llamar al evento directamente si la selección no lo dispara
+                // tabControl_SelectedIndexChanged(tabControl, EventArgs.Empty);
+            }
+            Pnl_2.Visible = true;
+            grp_pln2_Conv2.Visible = true;
         }
 
         private void btnDetalleOrden_CheckedChanged(object sender, EventArgs e)
         {
-            tabControl.SelectTab(2);
+            VisualizarPanel("MostrarCabezeraSecundaria");
+           
+            tabControl.SelectedIndex = 2;
             //codSucursal = _D_DetalleOrden.TB_PARAMETRO("SucursalId");
-            _D_Articulo.Agregar_TB_TRABAJO(_D_DetalleOrden.TB_PARAMETRO("SucursalId"), "", "", Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), "002", Convert.ToInt32(Txt_Pnl2_Examen.Text)
+            _D_Articulo.Agregar_TB_TRABAJO(_D_DetalleOrden.TB_PARAMETRO("SucursalId"), "", "", Txt_Pnl_2_Cedula.Text.Substring(0, 1), Txt_Pnl_2_Cedula.Text.Substring(2, Txt_Pnl_2_Cedula.Text.Length - 2), "002", Convert.ToInt32(Txt_Pnl2_Examen.Text)
               , txtHorizontal.Text, txtVertical.Text, txtMaxima.Text, txtPuente.Text, "0", "0", "A", "Cerca", "Cerca", "QUO", "001", "T", TB_USUARIO.COD_USR, "02", "CONVENCIONAL", "0", "0", "0", "0");
 
         }
@@ -1691,20 +1971,20 @@ namespace CapaVisual_Login
                 {
                     int FilaCRT = numFilas;
                     //Verifico Prisma 
-                    _L_Articulo.CargarServicioOPrima(PorcDctoEmpresaAfiliada,Dgv_Tap3_Articulo, "Prisma", Convert.ToInt32(Txt_Pnl2_Examen.Text), Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Dgv_Tap3_Articulo.Rows[numFilas].Cells["Ojo"].Value.ToString());
+                    _L_Articulo.CargarServicioOPrima(PorcDctoEmpresaAfiliada,Dgv_Tap3_Articulo, "Prisma", Convert.ToInt32(Txt_Pnl2_Examen.Text), Txt_Pnl_2_Cedula.Text.Substring(0, 1), Txt_Pnl_2_Cedula.Text.Substring(2, Txt_Pnl_2_Cedula.Text.Length - 2), Dgv_Tap3_Articulo.Rows[numFilas].Cells["Ojo"].Value.ToString());
                     //_L_Articulo.CargarServicioOPrima(Dgv_Tap3_Articulo, "", Convert.ToInt32(Txt_Pnl2_Examen.Text), Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Dgv_Tap3_Articulo.Rows[numFilas].Cells["Ojo"].Value.ToString());
 
                     if (Convert.ToInt32(Dgv_Tap3_Articulo.Rows[numFilas].Cells["ART_EXIST"].Value) == 2)
                     {
                         //Verifico Diotria
-                        _L_Articulo.EvaluoServicioAgregado(PorcDctoEmpresaAfiliada,Dgv_Tap3_Articulo, numFilas, "D", Convert.ToInt32(Txt_Pnl2_Examen.Text), Cbx_Pnl2_Trbajo.SelectedValue.ToString(), Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2));
-                        _L_Articulo.EvaluoServicioAgregado(PorcDctoEmpresaAfiliada,Dgv_Tap3_Articulo, numFilas, "I", Convert.ToInt32(Txt_Pnl2_Examen.Text), Cbx_Pnl2_Trbajo.SelectedValue.ToString(), Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2));
+                        _L_Articulo.EvaluoServicioAgregado(PorcDctoEmpresaAfiliada,Dgv_Tap3_Articulo, numFilas, "D", Convert.ToInt32(Txt_Pnl2_Examen.Text), Cbx_Pnl2_Trbajo.SelectedValue.ToString(), Txt_Pnl_2_Cedula.Text.Substring(0, 1), Txt_Pnl_2_Cedula.Text.Substring(2, Txt_Pnl_2_Cedula.Text.Length - 2));
+                        _L_Articulo.EvaluoServicioAgregado(PorcDctoEmpresaAfiliada,Dgv_Tap3_Articulo, numFilas, "I", Convert.ToInt32(Txt_Pnl2_Examen.Text), Cbx_Pnl2_Trbajo.SelectedValue.ToString(), Txt_Pnl_2_Cedula.Text.Substring(0, 1), Txt_Pnl_2_Cedula.Text.Substring(2, Txt_Pnl_2_Cedula.Text.Length - 2));
 
                     }
                     else
                     {
                         //Verifico Diotria
-                        _L_Articulo.EvaluoServicioAgregado(PorcDctoEmpresaAfiliada,Dgv_Tap3_Articulo, numFilas, Dgv_Tap3_Articulo.Rows[numFilas].Cells["Ojo"].Value.ToString(), Convert.ToInt32(Txt_Pnl2_Examen.Text), Cbx_Pnl2_Trbajo.SelectedValue.ToString(), Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2));
+                        _L_Articulo.EvaluoServicioAgregado(PorcDctoEmpresaAfiliada,Dgv_Tap3_Articulo, numFilas, Dgv_Tap3_Articulo.Rows[numFilas].Cells["Ojo"].Value.ToString(), Convert.ToInt32(Txt_Pnl2_Examen.Text), Cbx_Pnl2_Trbajo.SelectedValue.ToString(), Txt_Pnl_2_Cedula.Text.Substring(0, 1), Txt_Pnl_2_Cedula.Text.Substring(2, Txt_Pnl_2_Cedula.Text.Length - 2));
                     }
 
                     if (Montura_Propia == true)
@@ -2730,7 +3010,7 @@ namespace CapaVisual_Login
 
                 string codSucursal;
                 codSucursal = _D_DetalleOrden.TB_PARAMETRO("SucursalId");
-                _D_Articulo.Agregar_TB_TRABAJO(codSucursal, "", "", Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), "002", Convert.ToInt32(Txt_Pnl2_Examen.Text)
+                _D_Articulo.Agregar_TB_TRABAJO(codSucursal, "", "", Txt_Pnl_2_Cedula.Text.Substring(0, 1), Txt_Pnl_2_Cedula.Text.Substring(2, Txt_Pnl_2_Cedula.Text.Length - 2), "002", Convert.ToInt32(Txt_Pnl2_Examen.Text)
                 , txtHorizontal.Text, txtVertical.Text, txtMaxima.Text, txtPuente.Text, "0", "0", "A", "Cerca", "Cerca", "QUO", "001", "T", TB_USUARIO.COD_USR, "02", "CONVENCIONAL", "0", "0", "0", "0");
 
                 //VerificoParametrosCristales();
@@ -2750,7 +3030,7 @@ namespace CapaVisual_Login
                 };
 
                 string letraInicial, numeroCedula;
-                _L_Articulo.DividirValoresCedula(Txt_Pnl2_Cedula.Text, out letraInicial, out numeroCedula);
+                _L_Articulo.DividirValoresCedula(Txt_Pnl_2_Cedula.Text, out letraInicial, out numeroCedula);
 
 
                 if ((Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01"))//Convencional
@@ -2768,7 +3048,7 @@ namespace CapaVisual_Login
 
 
                 // Validar Lc CodigoLabLC
-                 if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "02" && !_L_Articulo.VerificoCodigoLabLC(Cbx_Pnl2_Ojo.Text, Dgv_Tap3_Articulo, Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Convert.ToInt16(Txt_Pnl2_Examen.Text)) && _L_Articulo.stringBuilder.Length > 0)
+                 if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "02" && !_L_Articulo.VerificoCodigoLabLC(Cbx_Pnl2_Ojo.Text, Dgv_Tap3_Articulo, Txt_Pnl_2_Cedula.Text.Substring(0, 1), Txt_Pnl_2_Cedula.Text.Substring(2, Txt_Pnl_2_Cedula.Text.Length - 2), Convert.ToInt16(Txt_Pnl2_Examen.Text)) && _L_Articulo.stringBuilder.Length > 0)
                  {
                         _FrmMensajes.co = 2;
                         _FrmMensajes.avisomensaje(_L_Articulo.stringBuilder.ToString());
@@ -2966,8 +3246,8 @@ namespace CapaVisual_Login
             LbResultados.Items.Clear();
             LbResultado2.Items.Clear();
 
-            _L_Articulo.LlenarTB_Trbajo(_TRABAJO, _D_Inicio.Sucursal(), Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2));
-            var _Trabajo = _TRABAJO.FirstOrDefault(a => a.T_CEDIDEN == Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2) & a.T_NACIO == Txt_Pnl2_Cedula.Text.Substring(0, 1));
+            _L_Articulo.LlenarTB_Trbajo(_TRABAJO, _D_Inicio.Sucursal(), Txt_Pnl_2_Cedula.Text.Substring(0, 1), Txt_Pnl_2_Cedula.Text.Substring(2, Txt_Pnl_2_Cedula.Text.Length - 2));
+            var _Trabajo = _TRABAJO.FirstOrDefault(a => a.T_CEDIDEN == Txt_Pnl_2_Cedula.Text.Substring(2, Txt_Pnl_2_Cedula.Text.Length - 2) & a.T_NACIO == Txt_Pnl_2_Cedula.Text.Substring(0, 1));
 
 
             for (int xx = 0; xx < Dgv_Tap3_Articulo.RowCount; xx++)
@@ -3003,8 +3283,8 @@ namespace CapaVisual_Login
                 {
                     if (Dgv_Tap3_Articulo.Rows[xx].Cells["Ojo"].Value.ToString() == "A")
                     {
-                        dsParamCRT = _D_Articulo.MostrarRangosCrtGrid(Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Txt_Pnl2_Examen.Text, Dgv_Tap3_Articulo.Rows[xx].Cells["CodArticulo"].Value.ToString(), "D", _Trabajo.T_TIPOVISIOND, Convert.ToDecimal(_Trabajo.T_ALTD), 0, Convert.ToDecimal(_Trabajo.T_DISTANCIAVERTICE), Convert.ToDecimal(_Trabajo.T_ANGULOFACIAL), Convert.ToDecimal(_Trabajo.T_ANGULOPANTOSCOPICO), "", _Trabajo.T_SERVICIO, _Trabajo.T_LABORATORIO, Convert.ToString(_Trabajo.T_DISTANCIAVERTICE), Convert.ToString(_Trabajo.T_ANGULOFACIAL), Convert.ToString(_Trabajo.T_ANGULOPANTOSCOPICO), Convert.ToString(_Trabajo.T_DISTANCIADELECTURA));
-                        dsParamCRT2 = _D_Articulo.MostrarRangosCrtGrid(Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Txt_Pnl2_Examen.Text, Dgv_Tap3_Articulo.Rows[xx].Cells["CodArticulo"].Value.ToString(), "I", _Trabajo.T_TIPOVISIONI, Convert.ToDecimal(_Trabajo.T_ALTI), 0, Convert.ToDecimal(_Trabajo.T_DISTANCIAVERTICE), Convert.ToDecimal(_Trabajo.T_ANGULOFACIAL), Convert.ToDecimal(_Trabajo.T_ANGULOPANTOSCOPICO), "", _Trabajo.T_SERVICIO, _Trabajo.T_LABORATORIO, Convert.ToString(_Trabajo.T_DISTANCIAVERTICE), Convert.ToString(_Trabajo.T_ANGULOFACIAL), Convert.ToString(_Trabajo.T_ANGULOPANTOSCOPICO), Convert.ToString(_Trabajo.T_DISTANCIADELECTURA));
+                        dsParamCRT = _D_Articulo.MostrarRangosCrtGrid(Txt_Pnl_2_Cedula.Text.Substring(0, 1), Txt_Pnl_2_Cedula.Text.Substring(2, Txt_Pnl_2_Cedula.Text.Length - 2), Txt_Pnl2_Examen.Text, Dgv_Tap3_Articulo.Rows[xx].Cells["CodArticulo"].Value.ToString(), "D", _Trabajo.T_TIPOVISIOND, Convert.ToDecimal(_Trabajo.T_ALTD), 0, Convert.ToDecimal(_Trabajo.T_DISTANCIAVERTICE), Convert.ToDecimal(_Trabajo.T_ANGULOFACIAL), Convert.ToDecimal(_Trabajo.T_ANGULOPANTOSCOPICO), "", _Trabajo.T_SERVICIO, _Trabajo.T_LABORATORIO, Convert.ToString(_Trabajo.T_DISTANCIAVERTICE), Convert.ToString(_Trabajo.T_ANGULOFACIAL), Convert.ToString(_Trabajo.T_ANGULOPANTOSCOPICO), Convert.ToString(_Trabajo.T_DISTANCIADELECTURA));
+                        dsParamCRT2 = _D_Articulo.MostrarRangosCrtGrid(Txt_Pnl_2_Cedula.Text.Substring(0, 1), Txt_Pnl_2_Cedula.Text.Substring(2, Txt_Pnl_2_Cedula.Text.Length - 2), Txt_Pnl2_Examen.Text, Dgv_Tap3_Articulo.Rows[xx].Cells["CodArticulo"].Value.ToString(), "I", _Trabajo.T_TIPOVISIONI, Convert.ToDecimal(_Trabajo.T_ALTI), 0, Convert.ToDecimal(_Trabajo.T_DISTANCIAVERTICE), Convert.ToDecimal(_Trabajo.T_ANGULOFACIAL), Convert.ToDecimal(_Trabajo.T_ANGULOPANTOSCOPICO), "", _Trabajo.T_SERVICIO, _Trabajo.T_LABORATORIO, Convert.ToString(_Trabajo.T_DISTANCIAVERTICE), Convert.ToString(_Trabajo.T_ANGULOFACIAL), Convert.ToString(_Trabajo.T_ANGULOPANTOSCOPICO), Convert.ToString(_Trabajo.T_DISTANCIADELECTURA));
 
                         // Validación de parámetros
 
@@ -3042,7 +3322,7 @@ namespace CapaVisual_Login
                     }
                     else if (Dgv_Tap3_Articulo.Rows[xx].Cells["Ojo"].Value.ToString() == "D")
                     {
-                        dsParamCRT = _D_Articulo.MostrarRangosCrtGrid(Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Txt_Pnl2_Examen.Text, Dgv_Tap3_Articulo.Rows[xx].Cells["CodArticulo"].Value.ToString(), "D", _Trabajo.T_TIPOVISIOND, Convert.ToDecimal(_Trabajo.T_ALTD), 0, Convert.ToDecimal(_Trabajo.T_DISTANCIAVERTICE), Convert.ToDecimal(_Trabajo.T_ANGULOFACIAL), Convert.ToDecimal(_Trabajo.T_ANGULOPANTOSCOPICO), "", _Trabajo.T_SERVICIO, _Trabajo.T_LABORATORIO, Convert.ToString(_Trabajo.T_DISTANCIAVERTICE), Convert.ToString(_Trabajo.T_ANGULOFACIAL), Convert.ToString(_Trabajo.T_ANGULOPANTOSCOPICO), Convert.ToString(_Trabajo.T_DISTANCIADELECTURA));
+                        dsParamCRT = _D_Articulo.MostrarRangosCrtGrid(Txt_Pnl_2_Cedula.Text.Substring(0, 1), Txt_Pnl_2_Cedula.Text.Substring(2, Txt_Pnl_2_Cedula.Text.Length - 2), Txt_Pnl2_Examen.Text, Dgv_Tap3_Articulo.Rows[xx].Cells["CodArticulo"].Value.ToString(), "D", _Trabajo.T_TIPOVISIOND, Convert.ToDecimal(_Trabajo.T_ALTD), 0, Convert.ToDecimal(_Trabajo.T_DISTANCIAVERTICE), Convert.ToDecimal(_Trabajo.T_ANGULOFACIAL), Convert.ToDecimal(_Trabajo.T_ANGULOPANTOSCOPICO), "", _Trabajo.T_SERVICIO, _Trabajo.T_LABORATORIO, Convert.ToString(_Trabajo.T_DISTANCIAVERTICE), Convert.ToString(_Trabajo.T_ANGULOFACIAL), Convert.ToString(_Trabajo.T_ANGULOPANTOSCOPICO), Convert.ToString(_Trabajo.T_DISTANCIADELECTURA));
 
                         AceptaCristalD = Enumerable.Range(0, 17).All(x => dsParamCRT.Tables[2].Rows[0][x].ToString() == "1");
                         AceptaCristalI = AceptaCristalD;
@@ -3060,7 +3340,7 @@ namespace CapaVisual_Login
                     }
                     else if (Dgv_Tap3_Articulo.Rows[xx].Cells["Ojo"].Value.ToString() == "I")
                     {
-                        dsParamCRT2 = _D_Articulo.MostrarRangosCrtGrid(Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Txt_Pnl2_Examen.Text, Dgv_Tap3_Articulo.Rows[xx].Cells["CodArticulo"].Value.ToString(), "I", _Trabajo.T_TIPOVISIONI, Convert.ToDecimal(_Trabajo.T_ALTI), 0, Convert.ToDecimal(_Trabajo.T_DISTANCIAVERTICE), Convert.ToDecimal(_Trabajo.T_ANGULOFACIAL), Convert.ToDecimal(_Trabajo.T_ANGULOPANTOSCOPICO), "", _Trabajo.T_SERVICIO, _Trabajo.T_LABORATORIO, Convert.ToString(_Trabajo.T_DISTANCIAVERTICE), Convert.ToString(_Trabajo.T_ANGULOFACIAL), Convert.ToString(_Trabajo.T_ANGULOPANTOSCOPICO), Convert.ToString(_Trabajo.T_DISTANCIADELECTURA));
+                        dsParamCRT2 = _D_Articulo.MostrarRangosCrtGrid(Txt_Pnl_2_Cedula.Text.Substring(0, 1), Txt_Pnl_2_Cedula.Text.Substring(2, Txt_Pnl_2_Cedula.Text.Length - 2), Txt_Pnl2_Examen.Text, Dgv_Tap3_Articulo.Rows[xx].Cells["CodArticulo"].Value.ToString(), "I", _Trabajo.T_TIPOVISIONI, Convert.ToDecimal(_Trabajo.T_ALTI), 0, Convert.ToDecimal(_Trabajo.T_DISTANCIAVERTICE), Convert.ToDecimal(_Trabajo.T_ANGULOFACIAL), Convert.ToDecimal(_Trabajo.T_ANGULOPANTOSCOPICO), "", _Trabajo.T_SERVICIO, _Trabajo.T_LABORATORIO, Convert.ToString(_Trabajo.T_DISTANCIAVERTICE), Convert.ToString(_Trabajo.T_ANGULOFACIAL), Convert.ToString(_Trabajo.T_ANGULOPANTOSCOPICO), Convert.ToString(_Trabajo.T_DISTANCIADELECTURA));
 
                         AceptaCristalI = Enumerable.Range(0, 17).All(x => dsParamCRT2.Tables[2].Rows[0][x].ToString() == "1");
                         AceptaCristalD = AceptaCristalI;
@@ -3304,9 +3584,11 @@ namespace CapaVisual_Login
 
         private void button1_Click(object sender, EventArgs e)
         {
+            panel2.Visible = false;
+
             string codSucursal;
             codSucursal = _D_DetalleOrden.TB_PARAMETRO("SucursalId");
-            _D_Articulo.Agregar_TB_TRABAJO(codSucursal, "", "", Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), "002", Convert.ToInt32(Txt_Pnl2_Examen.Text)
+            _D_Articulo.Agregar_TB_TRABAJO(codSucursal, "", "", Txt_Pnl_2_Cedula.Text.Substring(0, 1), Txt_Pnl_2_Cedula.Text.Substring(2, Txt_Pnl_2_Cedula.Text.Length - 2), "002", Convert.ToInt32(Txt_Pnl2_Examen.Text)
               , txtHorizontal.Text, txtVertical.Text, txtMaxima.Text, txtPuente.Text, "0", "0", "A", "Cerca", "Cerca", "QUO", "001", "T", TB_USUARIO.COD_USR, "02", "CONVENCIONAL", "0", "0", "0", "0");
 
         }
@@ -3374,7 +3656,20 @@ namespace CapaVisual_Login
         }
 
         private void Btn_Tap1_Guardar_Click(object sender, EventArgs e)
-        {}
+        {
+
+            //validarvacio();
+
+
+            if (validarvacio())
+            {
+
+                guardacliente();
+                //limpearExamen();
+                Txt_Tap2_Examen.Text = TopeExamen.ToString(); // Opcional: Restablecer el valor al máximo
+                Btn_Tap2_Derecha_Click(this.Btn_Tap2_Derecha, EventArgs.Empty);
+            }
+        }
 
         private void Btn_Tap3_CristalPropio_Click(object sender, EventArgs e)
         {
@@ -3388,15 +3683,40 @@ namespace CapaVisual_Login
 
         private void FrmCargarOrden_Load(object sender, EventArgs e)
         {
-            tabControl.SelectedIndex = 2;
-            _L_Articulo.CargarClientesAfiliados(Dgv_Pnl3_ClienteAfiliado, listaClienteAfiliados);
+            //tabControl.SelectedIndex = 0;
+            //_L_Articulo.CargarClientesAfiliados(Dgv_Pnl3_ClienteAfiliado, listaClienteAfiliados);
 
-            Dgv_Pnl3_ClienteAfiliado.DataSource = listaClienteAfiliados;
-            Formato_Dgv_Pnl3_ClienteAfiliado();
+            //Dgv_Pnl3_ClienteAfiliado.DataSource = listaClienteAfiliados;
+            //Formato_Dgv_Pnl3_ClienteAfiliado();
 
-            //Guarda en tb_trabajo temporal
-            _D_Articulo.Agregar_TB_TRABAJO(_D_DetalleOrden.TB_PARAMETRO("SucursalId"), "", "", Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), "002", Convert.ToInt32(Txt_Pnl2_Examen.Text)
-              , txtHorizontal.Text, txtVertical.Text, txtMaxima.Text, txtPuente.Text, "0", "0", "A", "Cerca", "Cerca", "QUO", "001", "T", TB_USUARIO.COD_USR, "02", "CONVENCIONAL", "0", "0", "0", "0");
+            ////Guarda en tb_trabajo temporal
+            //_D_Articulo.Agregar_TB_TRABAJO(_D_DetalleOrden.TB_PARAMETRO("SucursalId"), "", "", Txt_Pnl_2_Cedula.Text.Substring(0, 1), Txt_Pnl_2_Cedula.Text.Substring(2, Txt_Pnl_2_Cedula.Text.Length - 2), "002", Convert.ToInt32(Txt_Pnl2_Examen.Text)
+            //  , txtHorizontal.Text, txtVertical.Text, txtMaxima.Text, txtPuente.Text, "0", "0", "A", "Cerca", "Cerca", "QUO", "001", "T", TB_USUARIO.COD_USR, "02", "CONVENCIONAL", "0", "0", "0", "0");
+
+            /*MEIFER*/
+            // Optional: Set the background color for the content area of each tab page
+            // (This is separate from the tab headers handled by DrawItem)
+            foreach (TabPage page in tabControl.TabPages)
+            {
+                page.BackColor = Color.White;
+            }
+
+            //panel1.Location = new Point(10, 126);
+
+            //BloquearCampos();
+            LimpiarCampos2();
+
+
+            ConfigurarDgv_Pnl2_conv();
+            ConfigurarDgv_Pnl2_cont();
+            ConfigurarDgv_Pnl2_medconv();
+            ConfigurarDgv_Pnl2_Quera();
+
+            DataTable dtMotivosGarantia = _L_Cliente.ObtenerMotivosReposicion(); // Usa la instancia _L_Cliente
+
+            cbMotivosGarantia.DataSource = dtMotivosGarantia;
+
+            dgvOrdenesGarantia.DataSource = _L_Cliente.ObtenerClienteConGarantia(_D_DetalleOrden.TB_PARAMETRO("SucursalID"), Txt_Tap1_Cedula.Text, Cbx_Tap1_Nacionalidad.Text); // Usa la instancia _L_Cliente
 
         }
 
@@ -3420,9 +3740,6 @@ namespace CapaVisual_Login
         }
 
         private void panel2_Paint(object sender, PaintEventArgs e)
-        {}
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
         {}
 
         private void btnCancelarAfiliado_Click(object sender, EventArgs e)
@@ -3518,11 +3835,11 @@ namespace CapaVisual_Login
 
             DataSet dsDiametroEfectivo;
 
-            _L_Articulo.LlenarTB_Trbajo(_TRABAJO, _D_Inicio.Sucursal(), Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2));
-            var _Trabajo = _TRABAJO.FirstOrDefault(a => a.T_CEDIDEN == Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2) & a.T_NACIO == Txt_Pnl2_Cedula.Text.Substring(0, 1));
+            _L_Articulo.LlenarTB_Trbajo(_TRABAJO, _D_Inicio.Sucursal(), Txt_Pnl_2_Cedula.Text.Substring(0, 1), Txt_Pnl_2_Cedula.Text.Substring(2, Txt_Pnl_2_Cedula.Text.Length - 2));
+            var _Trabajo = _TRABAJO.FirstOrDefault(a => a.T_CEDIDEN == Txt_Pnl_2_Cedula.Text.Substring(2, Txt_Pnl_2_Cedula.Text.Length - 2) & a.T_NACIO == Txt_Pnl_2_Cedula.Text.Substring(0, 1));
 
 
-            dsDiametroEfectivo = _D_Articulo.MostrarDiametroEfectivoCrtGrid(Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Txt_Pnl2_Examen.Text,CristalD, CristalI, "A",_Trabajo.T_TIPOVISIOND, _Trabajo.T_TIPOVISIONI,Montura, txtHorizontal.Text.Replace(".", ""),  txtMaxima.Text.Replace(".", ""),  txtPuente.Text.Replace(".", ""), _D_Inicio.Sucursal());
+            dsDiametroEfectivo = _D_Articulo.MostrarDiametroEfectivoCrtGrid(Txt_Pnl_2_Cedula.Text.Substring(0, 1), Txt_Pnl_2_Cedula.Text.Substring(2, Txt_Pnl_2_Cedula.Text.Length - 2), Txt_Pnl2_Examen.Text,CristalD, CristalI, "A",_Trabajo.T_TIPOVISIOND, _Trabajo.T_TIPOVISIONI,Montura, txtHorizontal.Text.Replace(".", ""),  txtMaxima.Text.Replace(".", ""),  txtPuente.Text.Replace(".", ""), _D_Inicio.Sucursal());
 
 
             //DataSet dsDiametroEfectivo = ManBD.EjecutaStoreProcedure("pGetDiametroEfectivo",
@@ -3544,7 +3861,7 @@ namespace CapaVisual_Login
                 DataSet dsValidaciones;
 
 
-                 dsValidaciones = _D_Articulo.MostrarValidaRangoCrtGrid(Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Txt_Pnl2_Examen.Text, "A", CristalD, CristalI, _Trabajo.T_ALTD, _Trabajo.T_ALTI, _Trabajo.T_TIPOVISIOND, _Trabajo.T_TIPOVISIONI, diamD, diamI);
+                 dsValidaciones = _D_Articulo.MostrarValidaRangoCrtGrid(Txt_Pnl_2_Cedula.Text.Substring(0, 1), Txt_Pnl_2_Cedula.Text.Substring(2, Txt_Pnl_2_Cedula.Text.Length - 2), Txt_Pnl2_Examen.Text, "A", CristalD, CristalI, _Trabajo.T_ALTD, _Trabajo.T_ALTI, _Trabajo.T_TIPOVISIOND, _Trabajo.T_TIPOVISIONI, diamD, diamI);
 
 
                 //= ManBD.EjecutaStoreProcedure("pValidarangoCristal",
@@ -3883,7 +4200,7 @@ namespace CapaVisual_Login
             else if (TipoVenta == "TC- Reposicion de Garantia")
             {
                 _L_Articulo.BucarTipoMotivoGarantia(Cbx_Pnl3_Garantia);
-                if (_L_Articulo.BucarGarantiaCliente(Dgv_Pnl3_Garantia, Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2)))
+                if (_L_Articulo.BucarGarantiaCliente(Dgv_Pnl3_Garantia, Txt_Pnl_2_Cedula.Text.Substring(0, 1), Txt_Pnl_2_Cedula.Text.Substring(2, Txt_Pnl_2_Cedula.Text.Length - 2)))
                 {
                     VisualizarPanel("Garantia");
                     HabilitacionControl("Habilitar_Garantia");
@@ -4354,12 +4671,12 @@ namespace CapaVisual_Login
         {
             if (e.KeyCode == Keys.Enter)
             {
-                DataTable dtCliente = _L_Articulo.ObtenerCliente(Txt_Pnl2_Cedula.Text.Substring(0,1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length-2));
+                DataTable dtCliente = _L_Articulo.ObtenerCliente(Txt_Pnl_2_Cedula.Text.Substring(0,1), Txt_Pnl_2_Cedula.Text.Substring(2, Txt_Pnl_2_Cedula.Text.Length-2));
                 if (dtCliente.Rows.Count > 0)
                 {
-                    Txt_Pnl2_Nombre.Text = dtCliente.Rows[0][0].ToString();
+                    Txt_Pnl_2_Nombre.Text = dtCliente.Rows[0][0].ToString();
                     //Guarda en tb_trabajo temporal
-                    _D_Articulo.Agregar_TB_TRABAJO(_D_DetalleOrden.TB_PARAMETRO("SucursalId"), "", "", Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), "002", Convert.ToInt32(Txt_Pnl2_Examen.Text)
+                    _D_Articulo.Agregar_TB_TRABAJO(_D_DetalleOrden.TB_PARAMETRO("SucursalId"), "", "", Txt_Pnl_2_Cedula.Text.Substring(0, 1), Txt_Pnl_2_Cedula.Text.Substring(2, Txt_Pnl_2_Cedula.Text.Length - 2), "002", Convert.ToInt32(Txt_Pnl2_Examen.Text)
                       , txtHorizontal.Text, txtVertical.Text, txtMaxima.Text, txtPuente.Text, "0", "0", "A", "Cerca", "Cerca", "QUO", "001", "T", TB_USUARIO.COD_USR, "02", "CONVENCIONAL", "0", "0", "0", "0");
 
                 }
@@ -4399,6 +4716,6365 @@ namespace CapaVisual_Login
             HabilitacionControl("CabezeraPrincipal");
         }
 
+        private void btnAceptarOsGarantia_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnCamcelarOsGarantia_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Txt_Tap1_Cedula_Pagador_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Txt_Tap1_Cedula_Pagador_KeyDown(object sender, KeyEventArgs e)
+        {
+            // Verifica si la tecla presionada es F2
+            if (e.KeyCode == Keys.F2)
+            {
+
+
+                // Evita que el evento KeyDown se siga propagando (opcional)
+                e.SuppressKeyPress = true;
+                buscarclientep();
+                textBox1.Focus();
+
+            }// Verifica si la tecla presionada es F2
+
+        }
+
+
+        private void Txt_Tap1_Cedula_Pagador_MouseLeave(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(Txt_Tap1_Cedula_Pagador.Text))
+            {
+                try
+                {
+                    string cedula = Txt_Tap1_Cedula_Pagador.Text.Trim();
+                    string nacio = this.Cbx_Tap1_Nacionalidad_Pagador.Text.Trim();
+
+                    DataTable dtCliente = _L_Cliente.ObtenerClientePorCedula(cedula, nacio); // Usa la instancia _L_Cliente
+
+                    if (dtCliente != null && dtCliente.Rows.Count > 0 && !string.IsNullOrEmpty(dtCliente.Rows[0]["CTE_CedIden"].ToString()))
+                    {
+                        // Asigna los valores de la base de datos a las cajas de texto
+                        Txt_Tap1_Cedula_Pagador.Text = dtCliente.Rows[0]["CTE_CedIden"].ToString(); // Ajusta el nombre de la columna
+                        Txt_Tap1_Nombre_Pagador.Text = dtCliente.Rows[0]["CTE_PNombre"].ToString(); // Ajusta el nombre de la columna
+
+                        if (dtCliente.Rows[0]["CTE_RETIVA"] != DBNull.Value && Convert.ToBoolean(dtCliente.Rows[0]["CTE_RETIVA"]))
+                        {
+                            Chex_Tap1_Iva_Pagador.SetItemChecked(1, true); // Marcar el segundo elemento
+                        }
+                        else
+                        {
+                            Chex_Tap1_Iva_Pagador.SetItemChecked(1, false); // Desmarcar el segundo elemento si es falso o nulo
+                        }
+
+
+
+
+                        if (dtCliente.Rows[0]["CTE_RETISLR"] != DBNull.Value && Convert.ToBoolean(dtCliente.Rows[0]["CTE_RETISLR"]))
+                        {
+                            Chex_Tap1_Iva_Pagador.SetItemChecked(0, true); // Marcar el segundo elemento
+                        }
+                        else
+                        {
+                            Chex_Tap1_Iva_Pagador.SetItemChecked(0, false); // Desmarcar el segundo elemento si es falso o nulo
+                        }
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Ocurrió un error al obtener la información del cliente: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                }
+            }
+
+        }
+
+        private void Txt_Tap1_Cedula_MouseClick(object sender, MouseEventArgs e)
+        {
+
+        }
+
+        private void Txt_Tap1_Cedula_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Txt_Tap1_Cedula_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Txt_Tap1_Cedula_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.F2)
+            {
+                _teclaF2Presionada = true;
+                textBox1.Clear();
+
+                LimpiarCampos2();
+                buscarcliente();
+                textBox1.Focus();
+            }
+            else
+            {
+                _teclaF2Presionada = false; // Asegurar que sea false para otras teclas
+            }
+
+
+
+            if (e.KeyCode == Keys.Enter)
+            {
+
+                if (string.IsNullOrEmpty(Txt_Tap1_Nombre.Text))
+                {
+                    LimpiarCampos2();
+                    // Llama al evento MouseLeave de Txt_Tap1_Cedula
+                    Txt_Tap1_Cedula_MouseLeave(sender, e); // Llama al evento como si fuera un MouseLeave
+                                                           // Establece el foco en Txt_Tap1_Nombre
+                    Txt_Tap1_Nombre.Focus();
+                }
+                // Verifica si Txt_Tap1_Nombre no está vacío y bloquea los campos si es necesario
+                if (!string.IsNullOrEmpty(Txt_Tap1_Nombre.Text))
+                {
+                    Txt_Tap1_Cedula.Enabled = false;
+                    Cbx_Tap1_Nacionalidad.Enabled = false;
+                }
+
+
+
+                // Indica que el evento Enter ha sido manejado, para que no se procese de la manera predeterminada.
+                e.Handled = true;
+                e.SuppressKeyPress = true; // Evita el "ding" del Enter.
+            }
+
+
+            // Verifica si la tecla presionada es F2
+            if (e.KeyCode == Keys.F2)
+            {
+                e.SuppressKeyPress = true;
+                LimpiarCamposTodos();
+                buscarcliente();
+
+            }
+        }
+
+        private void Txt_Tap1_Cedula_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Permitir solo dígitos (0-9) y teclas de control (como Backspace)
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+                // Si la tecla presionada no es un dígito ni una tecla de control,
+                // se marca el evento como manejado para evitar que el carácter se escriba
+                e.Handled = true;
+            }
+        }
+
+        private void Txt_Tap1_Cedula_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (!_teclaF2Presionada && string.IsNullOrEmpty(Cbx_Tap1_Nacionalidad.Text.Trim()))
+            {
+
+
+                Txt_Tap1_Cedula.Clear();
+                Pnl_2_Msj.Visible = true;
+                txt_pl2_msj.Text = "Debe seleccionar la Nacionalidad antes de ingresar la Cédula";
+                pb_pl2_mj.Visible = true;
+                button3.Focus();
+
+                //Cbx_Tap1_Nacionalidad.Focus();
+                e.Handled = true; // Indica que el evento KeyUp ha sido manejado, evitando acciones adicionales del control
+            }
+            _teclaF2Presionada = false; // Restablecer la variable después de usarla
+        }
+
+        private void Txt_Tap1_Cedula_Leave(object sender, EventArgs e)
+        {
+            limpearExamen();
+        }
+
+        private void Txt_Tap1_Cedula_MouseLeave(object sender, EventArgs e)
+        {
+
+            if (string.IsNullOrEmpty(Txt_Tap1_Nombre.Text))
+            {
+
+
+
+
+                if (!string.IsNullOrEmpty(Txt_Tap1_Cedula.Text))
+                {
+                    try
+                    {
+
+                        bool esNumero = true;
+                        string cedula = Txt_Tap1_Cedula.Text.Trim();
+                        foreach (char c in cedula)
+                        {
+                            if (!char.IsDigit(c))
+                            {
+                                esNumero = false;
+                                break;
+                            }
+                        }
+
+                        if (!esNumero)
+                        {
+                            // El campo cédula contiene caracteres no numéricos.
+
+                            Pnl_2_Msj.Visible = true;
+                            txt_pl2_msj.Text = "El campo Cédula debe contener solo números";
+                            pb_pl2_mj.Visible = true;
+
+                            //MessageBox.Show("El campo Cédula debe contener solo números.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                            Txt_Tap1_Cedula.SelectAll(); // Selecciona todo el texto para facilitar la corrección.
+                            Txt_Tap1_Cedula.Clear();
+                            Txt_Tap1_Cedula.Focus();
+                            return;
+                        }
+
+
+                        string nacio = Cbx_Tap1_Nacionalidad.Text.Trim();
+                        // string cedula = Txt_Tap1_Cedula.Text.Trim();
+
+
+                        dtCliente = _L_Cliente.ObtenerClientePorCedula(cedula, nacio); // Usa la instancia _L_Cliente
+
+                        if (dtCliente != null && dtCliente.Rows.Count > 0 && !string.IsNullOrEmpty(dtCliente.Rows[0]["CTE_CedIden"].ToString()))
+                        {
+                            LimpiarCampos2();
+                            llenarcampos();
+                            btnExamen.Enabled = true;
+                        }
+                        else
+                        {
+
+                            LimpiarCampos2();
+                            // Opcionalmente, puedes limpiar las otras cajas de texto o deshabilitarlas.
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Ocurrió un error al obtener la información del cliente: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                    }
+                }
+            }
+        }
+
+        private void Txt_Tap1_Email_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Txt_Tap1_Email_Leave(object sender, EventArgs e)
+        {
+
+            string textoIngresado = Txt_Tap1_Email.Text;
+            if (!string.IsNullOrEmpty(textoIngresado)) // Solo revisa si no está vacío
+            {
+                Txt_Tap1_Email.Text = Txt_Tap1_Email.Text.ToLower();
+                if (EsEmailValido(textoIngresado))
+                {
+                    // El valor ingresado parece una dirección de correo electrónico válida
+                    //MessageBox.Show("El formato del correo electrónico es válido.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                    // Puedes realizar alguna acción aquí
+                }
+                else
+                {
+                    // El valor ingresado no parece una dirección de correo electrónico válida
+
+                    Pnl_2_Msj.Visible = true;
+                    txt_pl2_msj.Text = "El formato del correo electrónico no es válido";
+                    pb_pl2_mj.Visible = true;
+                    button3.Focus();
+
+                    Txt_Tap1_Email.Focus(); // Devolver el foco al TextBox
+                }
+            }
+        }
+
+        private void Txt_Tap1_TLF_Local_KeyPress(object sender, KeyPressEventArgs e)
+        {
+
+        }
+
+        private void Txt_Tap1_TLF_Local_Leave(object sender, EventArgs e)
+        {
+
+
+
+            string textoIngresado = Txt_Tap1_TLF_Local.Text;
+            if (!string.IsNullOrEmpty(textoIngresado)) // Solo revisa si no está vacío
+            {
+                if (EsNumeroDeSieteDigitos(textoIngresado))
+                {
+                    // El valor ingresado es un número de 7 dígitos válido
+                    //MessageBox.Show("El número de teléfono es válido.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                    // Puedes realizar alguna acción aquí
+                }
+                else
+                {
+
+                    Pnl_2_Msj.Visible = true;
+                    txt_pl2_msj.Text = "El número de teléfono debe contener exactamente 7 dígitos";
+                    pb_pl2_mj.Visible = true;
+
+                    // El valor ingresado no es un número de 7 dígitos válido
+                    //MessageBox.Show("El número de teléfono debe contener exactamente 7 dígitos.", "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                    //Txt_Tap1_TLF_Local.Focus(); // Devolver el foco al TextBox para que el usuario corrija
+                }
+            }
+        }
+
+        private void Txt_Tap1_TLF_Celular_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Txt_Tap1_TLF_Celular_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Permitir solo dígitos (0-9) y teclas de control (como Backspace)
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+                // Si la tecla presionada no es un dígito ni una tecla de control,
+                // se marca el evento como manejado para evitar que el carácter se escriba
+                e.Handled = true;
+            }
+        }
+
+
+        private void Txt_Tap1_TLF_Celular_Leave(object sender, EventArgs e)
+        {
+            string textoIngresado = Txt_Tap1_TLF_Celular.Text;
+            // Verifica primero si el campo está vacío
+            if (!string.IsNullOrEmpty(textoIngresado)) // Solo revisa si no está vacío
+            {
+                if (EsNumeroDeSieteDigitos(textoIngresado))
+                {
+                    // El valor ingresado es un número de 7 dígitos válido
+                    //MessageBox.Show("El número de teléfono es válido.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                    // Puedes realizar alguna acción aquí
+                }
+                else
+                {
+                    // El valor ingresado no es un número de 7 dígitos válido
+
+                    Pnl_2_Msj.Visible = true;
+                    txt_pl2_msj.Text = "El número de teléfono debe contener exactamente 7 dígitos";
+                    pb_pl2_mj.Visible = true;
+
+
+
+                    //MessageBox.Show("El número de teléfono debe contener exactamente 7 dígitos.", "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                    //  Txt_Tap1_TLF_Celular.Focus(); // Devolver el foco al TextBox para que el usuario corrija
+                }
+            }
+        }
+
+        private void Dt_Tab1_nacimiento_ValueChanged(object sender, EventArgs e)
+        {
+            // Obtener la fecha de nacimiento del DateTimePicker
+            DateTime fechaNacimiento = Dtp_Tap1_Nacimiento.Value;
+
+            // Calcular la edad en años y meses
+            (int años, int meses) = CalcularEdadCompleta(fechaNacimiento);
+
+            // Mostrar la edad en el TextBox con el formato adecuado
+            if (años > 0)
+            {
+                Txt_Tap1_Edad.Text = $"{años} año{(años == 1 ? "" : "s")}";
+            }
+            else if (meses > 0)
+            {
+                Txt_Tap1_Edad.Text = $"{meses} mes{(meses == 1 ? "" : "es")}";
+            }
+            else
+            {
+                Txt_Tap1_Edad.Text = "0"; // O algún otro texto apropiado para recién nacidos
+            }
+
+
+        }
+
+        private void Cbx_Tap1_Estado_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (Cbx_Tap1_Estado.SelectedItem != null)
+            {
+                TB_MAESEDO estadoSeleccionado = (TB_MAESEDO)Cbx_Tap1_Estado.SelectedItem;
+                string codigoEstadoSeleccionado = estadoSeleccionado.COD_Edo;
+                LlenarCbx_Tap1_Ciudad(codigoEstadoSeleccionado);
+            }
+            else
+            {
+                // Si no hay estado seleccionado, limpiar el ComboBox de ciudades
+                Cbx_Tap1_Ciudad.DataSource = null;
+
+            }
+        }
+
+        private void Btn_Pnl3_Cancelar_Click(object sender, EventArgs e)
+        {
+            LimpiarCamposTodos();
+        }
+
+        private void Cbx_Tap1_Nacionalidad_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Cbx_Tap1_Nacionalidad_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.F2)
+            {
+                _teclaF2Presionada = true;
+            }
+            else
+            {
+                _teclaF2Presionada = false; // Asegurar que sea false para otras teclas
+            }
+        }
+
+        private void pnlClienteGarantia_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        /*MEIFER*/
+        // Evento CellEndEdit: Se dispara después de que la edición de la celda ha terminado.
+        // Es útil para limpiar mensajes de error una vez que la edición ha finalizado.
+
+        private void Dgv_Pnl2_Querato_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+        {
+
+
+            //// Asegúrate de que la validación se aplique solo a las columnas correctas.
+            //string columnName = Dgv_Pnl2_Querato.Columns[e.ColumnIndex].Name;
+
+            //if (columnName == "QUERATOMD1" || columnName == "QUERATOMI1")
+            //{
+            //    // Obtiene el valor de la celda que se está validando.
+            //    string cellValue = e.FormattedValue?.ToString();
+
+            //    if (decimal.TryParse(cellValue, out decimal valor))
+            //    {
+            //        // Supongo que minMeridianoCorneal y maxMeridianoCorneal son variables accesibles en este contexto.
+            //        if ((valor < minMeridianoCorneal || valor > maxMeridianoCorneal) && valor != 0)
+            //        {
+            //            // Cancela la salida de la celda para mantener el foco en ella.
+            //            e.Cancel = true;
+            //        Dgv_Pnl2_Querato.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = 0;
+            //        // Muestra el mensaje de error.
+            //        Pnl_2_Msj.Visible = true;
+            //            txt_pl2_msj.Text = $"El valor debe estar entre {minMeridianoCorneal} y {maxMeridianoCorneal}.";
+            //            pb_pl2_mj.Visible = true;
+
+            //            // Establece el mensaje de error para la celda.
+            //            Dgv_Pnl2_Querato.Rows[e.RowIndex].ErrorText = $"Error: El valor está fuera del rango permitido ({minMeridianoCorneal}-{maxMeridianoCorneal}).";
+            //        }
+            //        else
+            //        {
+            //            // Si el valor es válido, limpia cualquier mensaje de error anterior.
+            //            Dgv_Pnl2_Querato.Rows[e.RowIndex].ErrorText = string.Empty;
+            //        }
+            //    }
+            //    else
+            //    {
+            //        // Si el valor no es un número válido, cancela la salida y muestra un error.
+            //        e.Cancel = true;
+            //        Dgv_Pnl2_Querato.Rows[e.RowIndex].ErrorText = "Error: Por favor, introduce un número válido.";
+            //    }
+            //}
+            //else
+            //{
+            //    // Para otras columnas, asegúrate de limpiar cualquier error que pudiera haber quedado.
+            //    Dgv_Pnl2_Querato.Rows[e.RowIndex].ErrorText = string.Empty;
+            //}
+
+
+            // Asegúrate de que "NombreDeTuColumnaMeridiano" sea el nombre real de tu columna en el DataGridView
+
+        }
+
+        private void Dgv_Pnl2_Querato_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            // Asegúrate de que el índice de la fila sea válido.
+            if (e.RowIndex >= 0)
+            {
+                // Limpia el mensaje de error de la fila después de que la edición ha terminado.
+                // Esto es importante para que el ícono de error desaparezca si el usuario corrigió el valor.
+                Dgv_Pnl2_Querato.Rows[e.RowIndex].ErrorText = string.Empty;
+            }
+        }
+
+        private void Dgv_Pnl2_Querato_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            // Obtiene la celda que cambió (this actually refers to the cell being entered)
+            DataGridViewCell CellLeave = Dgv_Pnl2_Querato.Rows[e.RowIndex].Cells[e.ColumnIndex];
+
+            // Verifica que el valor no sea nulo ni vacío
+            if (CellLeave.Value != null && CellLeave.Value.ToString() != string.Empty)
+            {
+                // Llama al evento CellLeave, pasando los mismos sender y argumentos
+                Dgv_Pnl2_Querato_CellLeave(sender, e);
+            }
+        }
+
+        private void Dgv_Pnl2_Querato_CellLeave(object sender, DataGridViewCellEventArgs e)
+        {
+            // Asegúrate de que el índice de la fila y la columna sean válidos para evitar errores
+            // al acceder a celdas que no son de datos (ej. encabezados).
+            if (e.RowIndex < 0 || e.ColumnIndex < 0)
+            {
+                return;
+            }
+
+            // Obtiene el nombre de la columna actual.
+            string columnName = Dgv_Pnl2_Querato.Columns[e.ColumnIndex].Name;
+
+            // *** LÍNEA DE DEPURACIÓN: Muestra el nombre de la columna actual ***
+            // Esto te ayudará a verificar si el nombre se está recuperando correctamente.
+            // Si aparece vacío o un nombre inesperado, el problema está en la configuración de las columnas.
+            //MessageBox.Show($"Columna actual: '{columnName}'");
+
+            // Verifica si la columna actual es una de las columnas que necesitamos validar."QUERATOMI1"; QUERATOMI1
+            // El operador '||' (OR) permite que la validación se aplique a cualquiera de las dos.
+            if (columnName == "QUERATOMD1" || columnName == "QUERATOMD2")
+            {
+                // Obtiene el valor de la celda. Se usa el operador ?. para manejar valores nulos.
+                string cellValue = Dgv_Pnl2_Querato.Rows[e.RowIndex].Cells[e.ColumnIndex].Value?.ToString();
+
+                // Intenta convertir el valor de la celda a un tipo decimal.
+                if (decimal.TryParse(cellValue, out decimal valor))
+                {
+                    // Realiza la validación del rango utilizando las variables minMeridianoCorneal y maxMeridianoCorneal.
+                    // Estas variables deben ser actualizadas por tu lógica de negocio (ej. RadioButtons).
+                    // if (valor < minMeridianoCorneal || valor > maxMeridianoCorneal)
+                    if ((valor < minMeridianoCorneal || valor > maxMeridianoCorneal) && valor != 0)
+                    {
+                        Dgv_Pnl2_Querato.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = minMeridianoCorneal;
+                        // Si el valor está fuera del rango, establece un mensaje de error en la fila.
+                        // Nota: CellLeave no permite cancelar la salida de la celda, solo mostrar una advertencia.
+                        //e.Cancel = true; // Cancela la validación
+                        Pnl_2_Msj.Visible = true;
+                        txt_pl2_msj.Text = $"Ingrese solo los valores permitidos entre  {minMeridianoCorneal} y {maxMeridianoCorneal}.";
+                        pb_pl2_mj.Visible = true;
+
+
+                        Dgv_Pnl2_Querato.Rows[e.RowIndex].ErrorText = $"Advertencia: El valor está fuera del rango permitido ({minMeridianoCorneal}-{maxMeridianoCorneal}).";
+                    }
+                    else
+                    {
+                        // Si el valor es válido, asegúrate de limpiar cualquier mensaje de error anterior para esa fila.
+                        Dgv_Pnl2_Querato.Rows[e.RowIndex].ErrorText = string.Empty;
+                    }
+                }
+                else
+                {
+                    // Si el valor no puede ser convertido a un número decimal, establece un mensaje de error.
+                    Dgv_Pnl2_Querato.Rows[e.RowIndex].ErrorText = "Advertencia: Por favor, introduce un número válido.";
+                }
+            }
+        }
+
+        private void Dgv_Pnl2_Querato_CellEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            // Obtiene la celda que cambió (this actually refers to the cell being entered)
+            DataGridViewCell CellLeave = Dgv_Pnl2_Querato.Rows[e.RowIndex].Cells[e.ColumnIndex];
+
+            // Verifica que el valor no sea nulo ni vacío
+            if (CellLeave.Value != null && CellLeave.Value.ToString() != string.Empty)
+            {
+                // Llama al evento CellLeave, pasando los mismos sender y argumentos
+                Dgv_Pnl2_Querato_CellLeave(sender, e);
+            }
+        }
+
+        private void Dgv_Pnl2_conv_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+        {
+
+
+            ////////////
+            //if (e.ColumnIndex >= 0 && Dgv_Pnl2_conv.Columns[e.ColumnIndex].Name == "Vision" && e.RowIndex == 1)
+            //{
+            //    DataGridViewCell cellFila0 = Dgv_Pnl2_conv.Rows[0].Cells[e.ColumnIndex];
+            //    DataGridViewComboBoxCell cellFila1 = (DataGridViewComboBoxCell)Dgv_Pnl2_conv.Rows[1].Cells[e.ColumnIndex];
+
+            //    string valorFila0 = cellFila0.Value?.ToString().Trim().ToUpper();
+            //    string valorFila1 = cellFila1.Value?.ToString().Trim().ToUpper();
+
+            //    if (valorFila0 != valorFila1 && valorFila1 != "BALANCE" && valorFila0 != "BALANCE")
+            //    {
+            //        Pnl_2_Msj.Visible = true;
+            //        txt_pl2_msj.Text = "Combinaciones posibles es el mismo tipo o  'BALANCE', Se ha restablecido";
+            //        pb_pl2_mj.Visible = true;
+
+            //        cellFila1.Value = null; // O cellFila1.Value = string.Empty; según lo que permita tu columna
+
+            //        e.Cancel = true;
+            //    }
+            //    else
+            //    {
+            //        if (Pnl_2_Msj.Visible)
+            //        {
+            //            Pnl_2_Msj.Visible = false;
+            //            txt_pl2_msj.Text = string.Empty;
+            //            pb_pl2_mj.Visible = false;
+            //        }
+            //    }
+            //}
+            ////////////
+
+        }
+
+        private void Dgv_Pnl2_Querato_Leave(object sender, EventArgs e)
+        {
+            // Assuming 'btnValidar' is the name of your button
+            ValidarQueratometria();
+        }
+
+        private void CargarCbx_fijos()
+        {
+            string[] elementosArray = { "212", "232", "236", "239", "241", "242", "243",
+                "244", "251", "255", "256", "247", "273", "276", "274", "285", "286", "281",
+                "282", "283", "291", "293", "268", "269", "261", "264", "265", "272", "271", "246", "248", "258",
+                "253", "240", "278", "245", "249", "259", "235", "238", "252", "275", "234", "237", "292", "295",
+                "296", "257", "294", "277", "262", "263", "266", "267", "287", "288", "289", "284" };
+            Cbx_Tap1_TLF_Local.Items.AddRange(elementosArray);
+            Cbx_Tap1_TLF_Local.DropDownWidth = DropDownWidth(Cbx_Tap1_TLF_Local);
+
+            string[] elementosArray2 = { "0414",
+                "0424",
+                "0416",
+                "0426",
+                "0412"};
+            this.Cbx_Tap1_TLF_Celular.Items.AddRange(elementosArray2);
+            Cbx_Tap1_TLF_Celular.DropDownWidth = DropDownWidth(Cbx_Tap1_TLF_Celular);
+
+
+            string[] elementosArray3 = { "INTERNO",
+                "EXTERNO",
+                "EXTERNO ESPECIAL"};
+            Cbx_Pnl2_Trbajo.Items.AddRange(elementosArray3);
+            Cbx_Pnl2_Trbajo.DropDownWidth = DropDownWidth(Cbx_Pnl2_Trbajo);
+
+            string[] elementosArray3a = { "INTERNO",
+                "EXTERNO"};
+            Cbx_Tap2_Tipo_Optome.Items.AddRange(elementosArray3a);
+            Cbx_Tap2_Tipo_Optome.DropDownWidth = DropDownWidth(Cbx_Tap2_Tipo_Optome);
+
+
+
+            string[] elementosArray5 = { "AMBOS",
+                "OJO DERECHO","OJO IZQUIERDO"};
+            this.Cbx_Tap2_Ojo.Items.AddRange(elementosArray5);
+            Cbx_Tap2_Ojo.DropDownWidth = DropDownWidth(Cbx_Tap2_Ojo);
+
+
+            //string[] elementosArray5a = { "Cerca", "Lejos", "Bifocal", "Progresivo", "Balance", "Intermedia" };
+            //this.Cbx_Tap2_Visiond.Items.AddRange(elementosArray5a);
+            //this.Cbx_Tap2_Visioni.Items.AddRange(elementosArray5a);
+            //Cbx_Tap2_Visioni.DropDownWidth = DropDownWidth(Cbx_Tap2_Visioni);
+
+
+
+            string[] elementosArray6a =
+                { "CONTACTO",
+                "CONVENCIONAL"};
+            this.Cbx_Tap2_Tipo_Examen.Items.AddRange(elementosArray6a);
+            Cbx_Tap2_Tipo_Examen.DropDownWidth = DropDownWidth(Cbx_Tap2_Tipo_Examen);
+
+
+
+
+        }
+
+        private void LlenarCbx_Tap1_Estado()
+        {
+            List<TB_MAESEDO> estados = _L_Cliente.ObtenerEstados();
+            if (estados != null)
+            {
+                Cbx_Tap1_Estado.DataSource = estados;
+                Cbx_Tap1_Estado.DisplayMember = "EDO_Nombre"; // El nombre del estado a mostrar
+                Cbx_Tap1_Estado.ValueMember = "COD_Edo";   // El código del estado como valor asociado
+                Cbx_Tap1_Estado.DropDownWidth = DropDownWidth(Cbx_Tap1_Estado);
+            }
+            else
+            {
+                MessageBox.Show("Error al cargar los estados: " + _L_Cliente.stringBuilder.ToString());
+            }
+        }
+
+
+        private void CargarCbx_Tap1_Nacionalidad()
+        {
+
+
+            //Cbx_Tap1_Nacionalidad.Width = 40; // Ajusta el valor según sea necesario
+            string[] elementosArray = { "V", "E", "N" };
+            Cbx_Tap1_Nacionalidad.Items.AddRange(elementosArray);
+            Cbx_Tap1_Nacionalidad.DropDownWidth = DropDownWidth(Cbx_Tap1_Nacionalidad);
+
+            //Cbx_Tap1_Nacionalidad_Pagador.Width = 20; // Ajusta el valor según sea necesario
+            string[] elementosArrayP = { "V", "E", "J", "G" };
+            this.Cbx_Tap1_Nacionalidad_Pagador.Items.AddRange(elementosArrayP);
+            Cbx_Tap1_Nacionalidad_Pagador.DropDownWidth = DropDownWidth(Cbx_Tap1_Nacionalidad_Pagador);
+        }
+
+
+        int DropDownWidth(ComboBox myCombo)
+        {
+            int maxWidth = 0;
+            int temp = 0;
+            Label label1 = new Label();
+
+            foreach (var obj in myCombo.Items)
+            {
+                label1.Text = obj.ToString();
+                temp = label1.PreferredWidth;
+                if (temp > maxWidth)
+                {
+                    maxWidth = temp;
+                }
+            }
+            label1.Dispose();
+            return maxWidth;
+        }
+
+        private bool ValidarQueratometria()
+        {
+            foreach (DataGridViewRow row in Dgv_Pnl2_Querato.Rows)
+            {
+                // Skip the new row if it's present and not committed
+                if (row.IsNewRow)
+                {
+                    continue;
+                }
+
+                bool hasNonZero = false;
+                bool hasZero = false;
+
+                // Check each cell in the current row
+                foreach (DataGridViewCell cell in row.Cells)
+                {
+                    // Only consider cells that are DataGridViewNumericUpDownColumn type
+                    // and ensure the cell value is not null.
+                    if (cell is DataGridViewNumericUpDownCell numericCell && numericCell.Value != null)
+                    {
+                        if (Convert.ToDecimal(numericCell.Value) != 0)
+                        {
+                            hasNonZero = true;
+                        }
+                        else
+                        {
+                            hasZero = true;
+
+                        }
+                    }
+                }
+
+                // Apply the validation rule: if there's a non-zero value, there shouldn't be any zero values.
+                if (hasNonZero && hasZero)
+                {
+                    Pnl_2_Msj.Visible = true;
+                    txt_pl2_msj.Text = "Revisar los valores de Queratomia no debe tener valores en cero";
+                    pb_pl2_mj.Visible = true;
+
+                    return false; // Stop validation on the first error found
+                }
+
+            }
+            return true;
+        }
+
+        private void ConfigurarDgv_Pnl2_medconv()
+        {
+            this.Dgv_Pnl2_medconv.DefaultCellStyle.Font = new Font("Century Gothic", 13);  
+            
+            // Crear un DataTable para almacenar los datos del DataGridView
+            DataTable dt = new DataTable();
+
+            // Agregar la fila fija para el ojo derecho
+            DataRow filaDerecha = dt.NewRow();
+            dt.Rows.Add(filaDerecha);
+
+            // Asignar el DataTable como fuente de datos del DataGridView
+            Dgv_Pnl2_medconv.DataSource = dt;
+            Dgv_Pnl2_medconv.AutoGenerateColumns = false; // Desactivar la generación automática de columnas
+
+            // Opcional: Configurar propiedades del DataGridView para mejor visualización
+            Dgv_Pnl2_medconv.AllowUserToAddRows = false;
+            Dgv_Pnl2_medconv.AllowUserToDeleteRows = false;
+            Dgv_Pnl2_medconv.ReadOnly = false;
+            Dgv_Pnl2_medconv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            Dgv_Pnl2_medconv.ColumnHeadersVisible = true;
+            Dgv_Pnl2_medconv.RowHeadersVisible = false;
+            Dgv_Pnl2_medconv.AllowUserToResizeColumns = false; // Bloquear el cambio de tamaño de las columnas
+            Dgv_Pnl2_medconv.AllowUserToResizeRows = false;    // Bloquear el cambio de tamaño de las filas
+
+            //,[T_DISTANCIAVERTICE]
+            //,[T_ANGULOPANTOSCOPICO]
+            //,[T_ANGULOFACIAL]
+            //,[T_DISTANCIADELECTURA] DV, AP, AF y DDL
+
+            // Crear y agregar las columnas DataGridView
+            DataGridViewNumericUpDownColumn Dist_VertColumn = new DataGridViewNumericUpDownColumn();
+            Dist_VertColumn.Name = "T_DISTANCIAVERTICE";
+            Dist_VertColumn.DataPropertyName = "T_DISTANCIAVERTICE";
+            //Dist_VertColumn.HeaderText = "Dist_Vert";
+            Dist_VertColumn.HeaderText = "DV";
+            Dist_VertColumn.DecimalPlaces = 2;
+            Dist_VertColumn.Minimum = 0;
+            Dist_VertColumn.Maximum = 30;
+            Dist_VertColumn.Increment = 1;
+            Dgv_Pnl2_medconv.Columns.Add(Dist_VertColumn);
+
+
+            DataGridViewNumericUpDownColumn Ang_PantColumn = new DataGridViewNumericUpDownColumn();
+            Ang_PantColumn.Name = "T_ANGULOPANTOSCOPICO";
+            Ang_PantColumn.DataPropertyName = "T_ANGULOPANTOSCOPICO";
+            Ang_PantColumn.HeaderText = "AP";
+            //Ang_PantColumn.HeaderText = "DV";
+            Ang_PantColumn.DecimalPlaces = 2;
+            Ang_PantColumn.Minimum = -5;
+            Ang_PantColumn.Maximum = 30;
+            Ang_PantColumn.Increment = 1;
+            Dgv_Pnl2_medconv.Columns.Add(Ang_PantColumn);
+
+
+            DataGridViewNumericUpDownColumn Ang_FacColumn = new DataGridViewNumericUpDownColumn();
+            Ang_FacColumn.Name = "T_ANGULOFACIAL";
+            Ang_FacColumn.DataPropertyName = "T_ANGULOFACIAL";
+            Ang_FacColumn.HeaderText = "AF";
+            //Ang_FacColumn.HeaderText = "DV";
+            Ang_FacColumn.DecimalPlaces = 2;
+            Ang_FacColumn.Minimum = -5;
+            Ang_FacColumn.Maximum = 25;
+            Dist_VertColumn.Increment = 1;
+            Dgv_Pnl2_medconv.Columns.Add(Ang_FacColumn);
+
+            DataGridViewNumericUpDownColumn DDLColumn = new DataGridViewNumericUpDownColumn();
+            DDLColumn.Name = "T_DISTANCIADELECTURA";
+            DDLColumn.DataPropertyName = "T_DISTANCIADELECTURA";
+            DDLColumn.HeaderText = "DDL";
+            //DDLColumn.HeaderText = "DV";
+            DDLColumn.DecimalPlaces = 2;
+            DDLColumn.Minimum = 0.25M;
+            DDLColumn.Maximum = 0.50M;
+            Ang_PantColumn.Increment = 0.01M;
+            Dgv_Pnl2_medconv.Columns.Add(DDLColumn);
+
+        }
+
+        private void ConfigurarDgv_Pnl2_cont()
+        {
+            this.Dgv_Pnl2_cont.DefaultCellStyle.Font = new Font("Century Gothic", 13);
+
+            // Crear un DataTable para almacenar los datos del DataGridView
+            DataTable dt = new DataTable();
+            dt.Columns.Add("Ojo", typeof(string));
+            // Agregar las dos filas fijas
+            DataRow filaDerecha = dt.NewRow();
+            filaDerecha["Ojo"] = "Derecho";
+            dt.Rows.Add(filaDerecha);
+
+            DataRow filaIzquierda = dt.NewRow();
+            filaIzquierda["Ojo"] = "Izquierdo";
+            dt.Rows.Add(filaIzquierda);
+
+            // Asignar el DataTable como fuente de datos del DataGridView
+            Dgv_Pnl2_cont.DataSource = dt;
+            Dgv_Pnl2_cont.AutoGenerateColumns = false; // Desactivar la generación automática de columnas
+
+            // Opcional: Configurar propiedades del DataGridView para mejor visualización
+            Dgv_Pnl2_cont.AllowUserToAddRows = false;
+            Dgv_Pnl2_cont.AllowUserToDeleteRows = false;
+            Dgv_Pnl2_cont.ReadOnly = false;
+            Dgv_Pnl2_cont.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            Dgv_Pnl2_cont.ColumnHeadersVisible = true;
+            Dgv_Pnl2_cont.RowHeadersVisible = false;
+            Dgv_Pnl2_cont.AllowUserToResizeColumns = false; // Bloquear el cambio de tamaño de las columnas
+            Dgv_Pnl2_cont.AllowUserToResizeRows = false;   // Bloquear el cambio de tamaño de las filas
+
+
+            //// Crear las columnas DataGridView y agregarlas al DataGridView
+            //DataGridViewTextBoxColumn ojoColumn = new DataGridViewTextBoxColumn();
+            //ojoColumn.Name = "Ojo";
+            //ojoColumn.DataPropertyName = "Ojo";
+            //ojoColumn.HeaderText = "Ojo";
+            //Dgv_Pnl2_grid1.Columns.Add(ojoColumn);
+
+            DataGridViewTextBoxColumn aesferaColumn = new DataGridViewTextBoxColumn();
+            aesferaColumn.Name = "aEsfera";
+            aesferaColumn.DataPropertyName = "aEsfera";
+            aesferaColumn.HeaderText = "";
+            aesferaColumn.Width = 10; // Puedes ajustar este valor según la fuente y el tamaño de la celda
+                                      // Opcionalmente, puedes hacer que la columna no sea resizable por el usuario si el ancho fijo es importante
+            aesferaColumn.Resizable = DataGridViewTriState.False;
+            aesferaColumn.ReadOnly = true;
+            Dgv_Pnl2_cont.Columns.Add(aesferaColumn);
+
+            ////-------------------
+            DataGridViewNumericUpDownColumn esferaColumn = new DataGridViewNumericUpDownColumn();
+            esferaColumn.Name = "Esfera";
+            esferaColumn.DataPropertyName = "Esfera";
+            esferaColumn.HeaderText = "Esfera";
+            esferaColumn.DecimalPlaces = 2;
+            esferaColumn.Minimum = -20;
+            esferaColumn.Maximum = +17.25M;
+            esferaColumn.Increment = 0.25M;
+            esferaColumn.Width = 60;
+            esferaColumn.Resizable = DataGridViewTriState.False;
+            Dgv_Pnl2_cont.Columns.Add(esferaColumn);
+
+            Dgv_Pnl2_cont.CellFormatting += (sender, e) =>
+            {
+                if (e.ColumnIndex == Dgv_Pnl2_cont.Columns["Esfera"].Index && e.Value != null)
+                {
+
+                    if (e.Value == null || string.IsNullOrEmpty(e.Value.ToString()))
+                    {
+                        e.Value = "0.00"; // Asignar cero formateado
+                        e.CellStyle.ForeColor = SystemColors.WindowText; // Color de texto predeterminado
+                    }
+
+
+
+
+                    decimal esferaValue;
+                    if (decimal.TryParse(e.Value.ToString(), out esferaValue))
+                    {
+                        // Formato para números positivos (añadir el signo +)
+                        if (esferaValue > 0)
+                        {
+                            e.Value = "+" + esferaValue.ToString("N2");
+                        }
+                        else if (esferaValue < 0)
+                        {
+                            // Si el valor es negativo, mostrarlo sin signo (si así lo prefieres)
+                            e.Value = esferaValue.ToString("N2").Replace("-", "");
+                            //e.CellStyle.ForeColor = Color.Red;
+                        }
+                        else // esferalValue == 0
+                        {
+                            e.Value = esferaValue.ToString("N2");
+                            e.CellStyle.ForeColor = SystemColors.WindowText;
+                        }
+
+
+
+
+                    }
+                    else
+                    {
+                        // Manejar casos donde el valor no es un número válido
+                        e.CellStyle.ForeColor = SystemColors.WindowText;
+                    }
+                }
+            };
+            ///
+
+
+
+            DataGridViewTextBoxColumn acilindroColumn = new DataGridViewTextBoxColumn();
+            acilindroColumn.Name = "aCilindro";
+            acilindroColumn.DataPropertyName = "aCilindro";
+            acilindroColumn.HeaderText = "";
+            // Establecer el ancho de la columna a un valor aproximado para un dígito
+            acilindroColumn.Width = 10; // Puedes ajustar este valor según la fuente y el tamaño de la celda
+                                        // Opcionalmente, puedes hacer que la columna no sea resizable por el usuario si el ancho fijo es importante
+            acilindroColumn.Resizable = DataGridViewTriState.False;
+            // Para no pintar la línea de separación de la columna de la derecha,
+            // necesitas manejar el evento CellPainting del DataGridView.
+            acilindroColumn.ReadOnly = true;
+            Dgv_Pnl2_cont.Columns.Add(acilindroColumn);
+            // Adjunta el evento CellPainting si aún no lo has hecho
+            Dgv_Pnl2_cont.CellPainting += Dgv_Pnl2_conv_CellPainting_NoVerticalBorderA1;
+
+
+            //////
+            DataGridViewNumericUpDownColumn cilindroColumn = new DataGridViewNumericUpDownColumn();
+            cilindroColumn.Name = "Cilindro";
+            cilindroColumn.DataPropertyName = "Cilindro";
+            cilindroColumn.HeaderText = "Cilindro";
+            cilindroColumn.DecimalPlaces = 2;
+            cilindroColumn.Minimum = -5.75M;
+            cilindroColumn.Maximum = 5.75M;
+            cilindroColumn.Increment = 0.25M;
+            cilindroColumn.Width = 60;
+            cilindroColumn.Resizable = DataGridViewTriState.False;
+            Dgv_Pnl2_cont.Columns.Add(cilindroColumn);
+
+            ///
+
+            ///
+
+
+            Dgv_Pnl2_cont.CellFormatting += (sender, e) =>
+            {
+                if (Dgv_Pnl2_conv.Columns.Contains("Cilindro"))
+                {
+                    //DataGridViewColumn cilindroColumn = Dgv_Pnl2_conv.Columns["Cilindro"];
+                    if (e.ColumnIndex == cilindroColumn.Index && e.Value != null)
+                    {
+                        decimal cilindroValue;
+                        if (decimal.TryParse(e.Value.ToString(), out cilindroValue))
+                        {
+                            if (cilindroValue > 0)
+                            {
+                                e.Value = "+" + cilindroValue.ToString("N2");
+                            }
+                            else if (cilindroValue < 0)
+                            {
+                                e.Value = cilindroValue.ToString("N2").Replace("-", "");
+                                //e.CellStyle.ForeColor = Color.Red;
+                            }
+                            else
+                            {
+                                e.Value = cilindroValue.ToString("N2");
+                                e.CellStyle.ForeColor = SystemColors.WindowText;
+                            }
+                        }
+                        else
+                        {
+                            e.CellStyle.ForeColor = SystemColors.WindowText;
+                        }
+                    }
+                }
+                else
+                {
+                    System.Diagnostics.Debug.WriteLine("¡Advertencia! La columna 'Cilindro' no se encontró en CellFormatting.");
+                }
+            };
+            ///
+
+
+            DataGridViewNumericUpDownColumn ejeColumn = new DataGridViewNumericUpDownColumn();
+            ejeColumn.Name = "Eje";
+            ejeColumn.DataPropertyName = "Eje";
+            ejeColumn.HeaderText = "Eje";
+            ejeColumn.Minimum = 0M;
+            ejeColumn.Maximum = 180M;
+            ejeColumn.Increment = 5M;
+            // Formato personalizado para mostrar siempre 3 dígitos
+            ejeColumn.DefaultCellStyle.Format = "000";
+            ejeColumn.Width = 60;
+            ejeColumn.Resizable = DataGridViewTriState.False;
+            Dgv_Pnl2_cont.Columns.Add(ejeColumn);
+
+
+
+            DataGridViewNumericUpDownColumn adicionColumn = new DataGridViewNumericUpDownColumn();
+            adicionColumn.Name = "Adicion";
+            adicionColumn.DataPropertyName = "Adicion";
+            adicionColumn.HeaderText = "ADD";
+            adicionColumn.DecimalPlaces = 2;
+            adicionColumn.Minimum = 0.75m;
+            adicionColumn.Maximum = 3.75M;
+            adicionColumn.Width = 60;
+            adicionColumn.Resizable = DataGridViewTriState.False;
+            Dgv_Pnl2_cont.Columns.Add(adicionColumn);
+
+
+            DataGridViewNumericUpDownColumn C_baseColumn = new DataGridViewNumericUpDownColumn();
+            C_baseColumn.Name = "C_base";
+            C_baseColumn.DataPropertyName = "C_base";
+            C_baseColumn.HeaderText = "Curva Base";
+            C_baseColumn.DecimalPlaces = 2;
+            C_baseColumn.Minimum = 6.6M;
+            C_baseColumn.Maximum = 10M;
+            C_baseColumn.Width = 60;
+            C_baseColumn.Resizable = DataGridViewTriState.False;
+            Dgv_Pnl2_cont.Columns.Add(C_baseColumn);
+
+            DataGridViewNumericUpDownColumn DiametroColumn = new DataGridViewNumericUpDownColumn();
+            DiametroColumn.Name = "Diametro";
+            DiametroColumn.DataPropertyName = "Diametro";
+            DiametroColumn.HeaderText = "Diametro ";
+            DiametroColumn.DecimalPlaces = 2;
+            DiametroColumn.Minimum = 8.5M;
+            DiametroColumn.Maximum = 14.5M;
+            DiametroColumn.Width = 60;
+            DiametroColumn.Resizable = DataGridViewTriState.False;
+            Dgv_Pnl2_cont.Columns.Add(DiametroColumn);
+
+
+        }
+
+
+        private void ConfigurarDgv_Pnl2_conv()
+        {
+            this.Dgv_Pnl2_conv.DefaultCellStyle.Font = new Font("Century Gothic", 13);
+
+            // Crear un DataTable para almacenar los datos del DataGridView
+            DataTable dt = new DataTable();
+            dt.Columns.Add("Ojo", typeof(string));
+            //dt.Columns.Add("Esfera", typeof(decimal));
+            //dt.Columns.Add("Cilindro", typeof(decimal));
+            //dt.Columns.Add("Eje", typeof(int));
+            //dt.Columns.Add("Adicion", typeof(decimal));
+            //dt.Columns.Add("DNP_Lejos", typeof(decimal));
+            //dt.Columns.Add("DPN_Cerca", typeof(decimal));
+            //dt.Columns.Add("Agudeza_Visual", typeof(string));
+            //dt.Columns.Add("Prisma1", typeof(decimal));
+            //dt.Columns.Add("Grado1", typeof(decimal));
+            //dt.Columns.Add("Prisma2", typeof(decimal));
+            //dt.Columns.Add("Grado2", typeof(decimal));
+
+            // Agregar las dos filas fijas
+            DataRow filaDerecha = dt.NewRow();
+            filaDerecha["Ojo"] = "Derecho";
+            dt.Rows.Add(filaDerecha);
+
+            DataRow filaIzquierda = dt.NewRow();
+            filaIzquierda["Ojo"] = "Izquierdo";
+            dt.Rows.Add(filaIzquierda);
+
+            // Asignar el DataTable como fuente de datos del DataGridView
+            Dgv_Pnl2_conv.DataSource = dt;
+            //Dgv_Pnl2_conv.AutoGenerateColumns = false; // Desactivar la generación automática de columnas
+
+            // Opcional: Configurar propiedades del DataGridView para mejor visualización
+            Dgv_Pnl2_conv.AllowUserToAddRows = false;
+            Dgv_Pnl2_conv.AllowUserToDeleteRows = false;
+            Dgv_Pnl2_conv.ReadOnly = false;
+            Dgv_Pnl2_conv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            Dgv_Pnl2_conv.ColumnHeadersVisible = true;
+            Dgv_Pnl2_conv.RowHeadersVisible = false;
+            Dgv_Pnl2_conv.AllowUserToResizeColumns = false; // Bloquear el cambio de tamaño de las columnas
+            Dgv_Pnl2_conv.AllowUserToResizeRows = false;   // Bloquear el cambio de tamaño de las filas
+
+
+            //// Crear las columnas DataGridView y agregarlas al DataGridView
+            //DataGridViewTextBoxColumn ojoColumn = new DataGridViewTextBoxColumn();
+            //ojoColumn.Name = "Ojo";
+            //ojoColumn.DataPropertyName = "Ojo";
+            //ojoColumn.HeaderText = "Ojo";
+            //Dgv_Pnl2_grid1.Columns.Add(ojoColumn);
+
+
+
+            DataGridViewTextBoxColumn aesferaColumn = new DataGridViewTextBoxColumn();
+            aesferaColumn.Name = "aEsfera";
+            aesferaColumn.DataPropertyName = "aEsfera";
+            aesferaColumn.HeaderText = "";
+            aesferaColumn.Width = 10; // Puedes ajustar este valor según la fuente y el tamaño de la celda
+                                      // Opcionalmente, puedes hacer que la columna no sea resizable por el usuario si el ancho fijo es importante
+            aesferaColumn.Resizable = DataGridViewTriState.False;
+            aesferaColumn.ReadOnly = true;
+            Dgv_Pnl2_conv.Columns.Add(aesferaColumn);
+
+            ////-------------------
+            DataGridViewNumericUpDownColumn esferaColumn = new DataGridViewNumericUpDownColumn();
+            esferaColumn.Name = "Esfera";
+            esferaColumn.DataPropertyName = "Esfera";
+            esferaColumn.HeaderText = "Esfera";
+            esferaColumn.DecimalPlaces = 2;
+            esferaColumn.Minimum = -20;
+            esferaColumn.Maximum = +20M;
+            esferaColumn.Increment = 0.25M;
+
+            Dgv_Pnl2_conv.Columns.Add(esferaColumn);
+            ///
+            Dgv_Pnl2_conv.CellFormatting += (sender, e) =>
+            {
+                if (e.ColumnIndex == Dgv_Pnl2_conv.Columns["Esfera"].Index && e.Value != null)
+                {
+
+                    if (e.Value == null || string.IsNullOrEmpty(e.Value.ToString()))
+                    {
+                        e.Value = "0.00"; // Asignar cero formateado
+                        e.CellStyle.ForeColor = SystemColors.WindowText; // Color de texto predeterminado
+                    }
+
+
+
+
+                    decimal esferaValue;
+                    if (decimal.TryParse(e.Value.ToString(), out esferaValue))
+                    {
+                        // Formato para números positivos (añadir el signo +)
+                        if (esferaValue > 0)
+                        {
+                            e.Value = "+" + esferaValue.ToString("N2");
+                        }
+                        else if (esferaValue < 0)
+                        {
+                            // Si el valor es negativo, mostrarlo sin signo (si así lo prefieres)
+                            e.Value = esferaValue.ToString("N2").Replace("-", "");
+                            //e.CellStyle.ForeColor = Color.Red;
+                        }
+                        else // esferalValue == 0
+                        {
+                            e.Value = esferaValue.ToString("N2");
+                            e.CellStyle.ForeColor = SystemColors.WindowText;
+                        }
+
+
+
+
+                    }
+                    else
+                    {
+                        // Manejar casos donde el valor no es un número válido
+                        e.CellStyle.ForeColor = SystemColors.WindowText;
+                    }
+                }
+            };
+            ///
+
+
+
+            DataGridViewTextBoxColumn acilindroColumn = new DataGridViewTextBoxColumn();
+            acilindroColumn.Name = "aCilindro";
+            acilindroColumn.DataPropertyName = "aCilindro";
+            acilindroColumn.HeaderText = "";
+            // Establecer el ancho de la columna a un valor aproximado para un dígito
+            acilindroColumn.Width = 10; // Puedes ajustar este valor según la fuente y el tamaño de la celda
+                                        // Opcionalmente, puedes hacer que la columna no sea resizable por el usuario si el ancho fijo es importante
+            acilindroColumn.Resizable = DataGridViewTriState.False;
+            // Para no pintar la línea de separación de la columna de la derecha,
+            // necesitas manejar el evento CellPainting del DataGridView.
+            Dgv_Pnl2_conv.Columns.Add(acilindroColumn);
+            // Adjunta el evento CellPainting si aún no lo has hecho
+            Dgv_Pnl2_conv.CellPainting += Dgv_Pnl2_conv_CellPainting_NoVerticalBorderA1;
+            acilindroColumn.ReadOnly = true;
+
+            //////
+            DataGridViewNumericUpDownColumn cilindroColumn = new DataGridViewNumericUpDownColumn();
+            cilindroColumn.Name = "Cilindro";
+            cilindroColumn.DataPropertyName = "Cilindro";
+            cilindroColumn.HeaderText = "Cilindro";
+            cilindroColumn.DecimalPlaces = 2;
+            cilindroColumn.Minimum = -5.75M;
+            cilindroColumn.Maximum = 5.75M;
+            cilindroColumn.Increment = 0.25M;
+
+            Dgv_Pnl2_conv.Columns.Add(cilindroColumn);
+
+            ////
+            ///
+
+            ///
+            Dgv_Pnl2_conv.CellFormatting += (sender, e) =>
+            {
+                if (e.ColumnIndex == Dgv_Pnl2_conv.Columns["Cilindro"].Index && e.Value != null)
+                {
+
+                    if (e.Value == null || string.IsNullOrEmpty(e.Value.ToString()))
+                    {
+                        e.Value = "0.00"; // Asignar cero formateado
+                        e.CellStyle.ForeColor = SystemColors.WindowText; // Color de texto predeterminado
+                    }
+
+
+
+
+                    decimal cilindroValue;
+                    if (decimal.TryParse(e.Value.ToString(), out cilindroValue))
+                    {
+                        // Formato para números positivos (añadir el signo +)
+                        if (cilindroValue > 0)
+                        {
+                            e.Value = "+" + cilindroValue.ToString("N2");
+                        }
+                        else if (cilindroValue < 0)
+                        {
+                            // Si el valor es negativo, mostrarlo sin signo (si así lo prefieres)
+                            e.Value = cilindroValue.ToString("N2").Replace("-", "");
+                            //e.CellStyle.ForeColor = Color.Red;
+                        }
+                        else // esferalValue == 0
+                        {
+                            e.Value = cilindroValue.ToString("N2");
+                            e.CellStyle.ForeColor = SystemColors.WindowText;
+                        }
+
+
+
+
+                    }
+                    else
+                    {
+                        // Manejar casos donde el valor no es un número válido
+                        e.CellStyle.ForeColor = SystemColors.WindowText;
+                    }
+                }
+            };
+            ///
+
+            ///
+
+            DataGridViewNumericUpDownColumn ejeColumn = new DataGridViewNumericUpDownColumn();
+            ejeColumn.Name = "Eje";
+            ejeColumn.DataPropertyName = "Eje";
+            ejeColumn.HeaderText = "Eje";
+            ejeColumn.Minimum = 0M;
+            ejeColumn.Maximum = 180M;
+            ejeColumn.Increment = 5M;
+            // Formato personalizado para mostrar siempre 3 dígitos
+            ejeColumn.DefaultCellStyle.Format = "000";
+            Dgv_Pnl2_conv.Columns.Add(ejeColumn);
+
+
+
+            DataGridViewNumericUpDownColumn adicionColumn = new DataGridViewNumericUpDownColumn();
+            adicionColumn.Name = "Adicion";
+            adicionColumn.DataPropertyName = "Adicion";
+            adicionColumn.HeaderText = "Adicion";
+            adicionColumn.DecimalPlaces = 2;
+            adicionColumn.Minimum = 0;
+            adicionColumn.Maximum = 6.75M;
+            adicionColumn.Increment = 0.25M;
+            // Formato personalizado para mostrar el signo + en números positivos
+            //adicionColumn.DefaultCellStyle.Format = "+0.00;-0.00;0.00";
+            Dgv_Pnl2_conv.Columns.Add(adicionColumn);
+
+            DataGridViewNumericUpDownColumn dnpLejosColumn = new DataGridViewNumericUpDownColumn();
+            dnpLejosColumn.Name = "Lejos";
+            dnpLejosColumn.DataPropertyName = "Lejos";
+            dnpLejosColumn.HeaderText = "Lejos";
+            dnpLejosColumn.DecimalPlaces = 2;
+            dnpLejosColumn.Minimum = 15;
+            dnpLejosColumn.Maximum = 45;
+            // Formato personalizado para mostrar el signo + en números positivos
+            //dnpLejosColumn.DefaultCellStyle.Format = "+0.00;-0.00;0.00";
+            Dgv_Pnl2_conv.Columns.Add(dnpLejosColumn);
+
+            DataGridViewNumericUpDownColumn dnpCercaColumn = new DataGridViewNumericUpDownColumn();
+            dnpCercaColumn.Name = "Cerca";
+            dnpCercaColumn.DataPropertyName = "Cerca";
+            dnpCercaColumn.HeaderText = "Cerca";
+            dnpCercaColumn.DecimalPlaces = 2;
+            dnpCercaColumn.ReadOnly = true; // Hace que la columna no sea editable
+            Dgv_Pnl2_conv.Columns.Add(dnpCercaColumn);
+
+            //--------------------------------------------
+            DataGridViewTextBoxColumn agudezaColumn = new DataGridViewTextBoxColumn();
+            agudezaColumn.Name = "Agudeza";
+            agudezaColumn.DataPropertyName = "Agudeza";
+            agudezaColumn.HeaderText = " ";
+            agudezaColumn.ReadOnly = true; // Hace que la columna no sea editable
+            Dgv_Pnl2_conv.Columns.Add(agudezaColumn);
+
+            // Asigna el valor "20" a todas las filas existentes en la columna "Agudeza"
+            foreach (DataGridViewRow row in Dgv_Pnl2_conv.Rows)
+            {
+                if (!row.IsNewRow) // Evita la fila para agregar nuevos registros
+                {
+                    row.Cells["Agudeza"].Value = "20/";
+                }
+            }
+
+            // Maneja el evento RowsAdded para asignar el valor "20" a las nuevas filas que se agreguen
+            Dgv_Pnl2_conv.RowsAdded += (sender, e) =>
+            {
+                for (int i = 0; i < e.RowCount; i++)
+                {
+                    int newRowIndex = e.RowIndex + i;
+                    if (Dgv_Pnl2_conv.Rows[newRowIndex].Cells["Agudeza"] != null)
+                    {
+                        Dgv_Pnl2_conv.Rows[newRowIndex].Cells["Agudeza"].Value = "20/";
+                    }
+                }
+            };
+            //----------------------------------------------
+
+            DataGridViewNumericUpDownColumn VisualColumn = new DataGridViewNumericUpDownColumn();
+            VisualColumn.Name = "Visual";
+            VisualColumn.DataPropertyName = "Visual";
+            VisualColumn.HeaderText = "Agudeza";
+            VisualColumn.DecimalPlaces = 0;
+            VisualColumn.Minimum = 20;
+            VisualColumn.Maximum = 400;
+            Dgv_Pnl2_conv.Columns.Add(VisualColumn);
+            //if (Dgv_Pnl2_conv.Columns.Contains("VisualColumn"))
+            //{
+            //    Dgv_Pnl2_conv.Columns["VisualColumn"].HeaderText = "Agudeza\nVisual";
+            //    Dgv_Pnl2_conv.Columns["VisualColumn"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            //}
+
+            DataGridViewNumericUpDownColumn prisma1Column = new DataGridViewNumericUpDownColumn();
+            prisma1Column.Name = "Prisma1";
+            prisma1Column.DataPropertyName = "Prisma1";
+            prisma1Column.HeaderText = "Prisma";
+            prisma1Column.DecimalPlaces = 2;
+            prisma1Column.Minimum = 0;
+            prisma1Column.Maximum = 12;
+            Dgv_Pnl2_conv.Columns.Add(prisma1Column);
+
+            DataGridViewNumericUpDownColumn grado1Column = new DataGridViewNumericUpDownColumn();
+            grado1Column.Name = "Grado1";
+            grado1Column.DataPropertyName = "Grado1";
+            grado1Column.HeaderText = "Grado";
+            grado1Column.DecimalPlaces = 0;
+            grado1Column.Minimum = 0;
+            grado1Column.Maximum = 270;
+            grado1Column.Increment = 90; // Establece el incremento en 90
+            Dgv_Pnl2_conv.Columns.Add(grado1Column);
+
+            DataGridViewNumericUpDownColumn AlturaColumn = new DataGridViewNumericUpDownColumn();
+            AlturaColumn.Name = "Altura";
+            AlturaColumn.DataPropertyName = "Altura";
+            AlturaColumn.HeaderText = "Altura";
+            AlturaColumn.Minimum = 10;
+            AlturaColumn.Maximum = 35;
+            // Formato personalizado para mostrar siempre 3 dígitos
+            AlturaColumn.DefaultCellStyle.Format = "000";
+            Dgv_Pnl2_conv.Columns.Add(AlturaColumn);
+
+
+            // Now, add your custom DataGridViewComboBoxColumn for "Vision"
+            DataGridViewComboBoxColumn visionComboColumn = new DataGridViewComboBoxColumn();
+            visionComboColumn.Name = "Vision"; // Give it a distinct name for the DataGridView column
+            visionComboColumn.DataPropertyName = "Vision"; // This must match the DataTable column name
+            visionComboColumn.HeaderText = "Vision";
+            visionComboColumn.Items.AddRange(new object[] { "Cerca", "Lejos", "Bifocal", "Progresivo", "Balance", "Intermedia" });
+            visionComboColumn.ValueType = typeof(string);
+            Dgv_Pnl2_conv.Columns.Add(visionComboColumn);
+
+            //// 2. Crear una nueva DataGridViewComboBoxColumn
+            //DataGridViewComboBoxColumn visionComboColumn = new DataGridViewComboBoxColumn();
+            //visionComboColumn.Name = "Vision";
+            //visionComboColumn.DataPropertyName = "Vision"; // Mantén el mismo DataPropertyName si es apropiado
+            //visionComboColumn.HeaderText = "Vision";
+
+            //// 3. Definir los valores que aparecerán en el ComboBox
+            //visionComboColumn.Items.AddRange(new object[] { "Cerca", "Lejos", "Bifocal", "Progresivo", "Balance", "Intermedia" });
+            //// 4. Opcionalmente, puedes establecer el tipo de dato del valor (si es relevante)
+            // visionComboColumn.ValueType = typeof(string); // Ejemplo si los valores son strings
+
+            //// 5. Agregar la nueva columna ComboBox al DataGridView
+            //Dgv_Pnl2_conv.Columns.Add(visionComboColumn);
+
+
+
+
+
+
+
+            tamañoExamenGridConv();
+        }
+
+        private void Dgv_Pnl2_conv_CellPainting_NoVerticalBorderA1(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+
+
+            if (e.RowIndex >= 0)
+            {
+                int columnIndexA1 = -1;
+                if (Dgv_Pnl2_conv.Columns.Contains("aEsfera"))
+                {
+                    columnIndexA1 = Dgv_Pnl2_conv.Columns["aEsfera"].Index;
+                }
+
+                if (columnIndexA1 != -1)
+                {
+                    using (Pen gridLinePen = new Pen(Dgv_Pnl2_conv.GridColor))
+                    {
+                        // Pintar los bordes horizontal (superior e inferior) para todas las celdas
+                        e.Graphics.DrawLine(gridLinePen, e.CellBounds.Left, e.CellBounds.Top, e.CellBounds.Right, e.CellBounds.Top);
+                        e.Graphics.DrawLine(gridLinePen, e.CellBounds.Left, e.CellBounds.Bottom - 1, e.CellBounds.Right, e.CellBounds.Bottom - 1);
+
+                        // No pintar el borde derecho de la columna "aEsfera"
+                        if (e.ColumnIndex == columnIndexA1)
+                        {
+                            // No dibujar nada en el borde derecho
+                        }
+                        // No pintar el borde izquierdo de la columna siguiente a "aEsfera"
+                        else if (e.ColumnIndex == columnIndexA1 + 1 && e.ColumnIndex < Dgv_Pnl2_conv.Columns.Count)
+                        {
+                            // No dibujar nada en el borde izquierdo
+                        }
+                        // Pintar los bordes verticales para todas las demás columnas
+                        else
+                        {
+                            // Borde izquierdo
+                            e.Graphics.DrawLine(gridLinePen, e.CellBounds.Left, e.CellBounds.Top, e.CellBounds.Left, e.CellBounds.Bottom);
+                            // Borde derecho
+                            e.Graphics.DrawLine(gridLinePen, e.CellBounds.Right - 1, e.CellBounds.Top, e.CellBounds.Right - 1, e.CellBounds.Bottom);
+                        }
+                    }
+
+                    e.Paint(e.CellBounds, e.PaintParts & ~DataGridViewPaintParts.Border);
+                    e.Handled = true;
+                }
+            }
+        }
+
+        private void ConfigurarDgv_Pnl2_Quera()
+        {
+            this.Dgv_Pnl2_Querato.DefaultCellStyle.Font = new Font("Century Gothic", 13);
+            // Crear un DataTable para almacenar los datos del DataGridView
+            DataTable dt = new DataTable();
+
+            // Definir las columnas en el DataTable
+            //dt.Columns.Add("Meridiano_Corneal", typeof(decimal));
+            //dt.Columns.Add("Grados", typeof(decimal));
+            //dt.Columns.Add("Meridiano_Corneald", typeof(decimal));
+            //dt.Columns.Add("Gradosd", typeof(decimal));
+
+            // Asignar el DataTable como fuente de datos del DataGridView
+            Dgv_Pnl2_Querato.DataSource = dt;
+            Dgv_Pnl2_Querato.AutoGenerateColumns = false; // Desactivar la generación automática de columnas
+
+            // Opcional: Configurar propiedades del DataGridView para mejor visualización
+            Dgv_Pnl2_Querato.AllowUserToAddRows = false;
+            Dgv_Pnl2_Querato.AllowUserToDeleteRows = false;
+            Dgv_Pnl2_Querato.ReadOnly = false;
+            Dgv_Pnl2_Querato.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            Dgv_Pnl2_Querato.ColumnHeadersVisible = true;
+            Dgv_Pnl2_Querato.RowHeadersVisible = false;
+            Dgv_Pnl2_Querato.AllowUserToResizeColumns = false;
+            Dgv_Pnl2_Querato.AllowUserToResizeRows = false;
+
+
+
+            // Crear y agregar las columnas DataGridView
+            DataGridViewNumericUpDownColumn Meridiano_CornealColumn = new DataGridViewNumericUpDownColumn();
+            Meridiano_CornealColumn.Name = "QUERATOMD1";
+            Meridiano_CornealColumn.DataPropertyName = "QUERATOMD1";
+            Meridiano_CornealColumn.HeaderText = "Meridiano Corneal"; //Nombre para el usuario
+            Meridiano_CornealColumn.DecimalPlaces = 2;
+
+            // If radioButton5 is true (checked)
+            //Meridiano_CornealColumn.Minimum = 6;
+
+            //Meridiano_CornealColumn.Maximum = 56.25M;
+
+
+            Meridiano_CornealColumn.Increment = 0.25M;
+            Dgv_Pnl2_Querato.Columns.Add(Meridiano_CornealColumn);
+
+            DataGridViewNumericUpDownColumn GradosColumn = new DataGridViewNumericUpDownColumn();
+            GradosColumn.Name = "QUERATOGD1";
+            GradosColumn.DataPropertyName = "QUERATOGD1";
+            GradosColumn.HeaderText = "Grados"; //Nombre para el usuario
+            GradosColumn.DecimalPlaces = 0;
+            GradosColumn.Minimum = 0;
+            GradosColumn.Maximum = 180;
+
+
+            GradosColumn.Increment = 1M;
+            Dgv_Pnl2_Querato.Columns.Add(GradosColumn);
+
+
+
+
+
+            DataGridViewNumericUpDownColumn Meridiano_CornealDColumn = new DataGridViewNumericUpDownColumn();
+            Meridiano_CornealDColumn.Name = "QUERATOMD2";
+            Meridiano_CornealDColumn.DataPropertyName = "QUERATOMD2";
+            Meridiano_CornealDColumn.HeaderText = "Meridiano Corneal";  //Nombre para el usuario
+            Meridiano_CornealDColumn.DecimalPlaces = 2;
+            // If radioButton5 is true (checked)
+
+            //Meridiano_CornealDColumn.Minimum = 6;
+
+            //Meridiano_CornealDColumn.Maximum = 56.25M;
+
+
+            Meridiano_CornealDColumn.Increment = 0.25M;
+            Dgv_Pnl2_Querato.Columns.Add(Meridiano_CornealDColumn);
+
+
+
+
+            DataGridViewNumericUpDownColumn GradosDColumn = new DataGridViewNumericUpDownColumn();
+            GradosDColumn.Name = "QUERATOGD2";
+            GradosDColumn.DataPropertyName = "QUERATOGD2";
+            GradosDColumn.HeaderText = "Grados"; //Nombre para el usuario
+            GradosDColumn.DecimalPlaces = 0;
+            GradosDColumn.Minimum = 0;
+            GradosDColumn.Maximum = 180;
+            GradosDColumn.Increment = 1M;
+            Dgv_Pnl2_Querato.Columns.Add(GradosDColumn);
+            // Agregar una fila al DataTable para mostrar los valores
+            DataRow fila = dt.NewRow();
+            dt.Rows.Add(fila);
+            DataRow fila1 = dt.NewRow();
+            dt.Rows.Add(fila1);
+        }
+
+        private void LimpiarCampos2()
+        {
+
+            //Btn_Tap1_GuardarET.Enabled = true;
+            Cbx_Tap1_Estado.SelectedIndex = -1;
+            //Cbx_Tap1_Ciudad.SelectedIndex = -1;
+            Cbx_Tap1_TLF_Celular.SelectedIndex = -1;
+            Cbx_Tap1_TLF_Local.SelectedIndex = -1;
+            Txt_Tap1_Nombre.Text = "";
+            Dtp_Tap1_Nacimiento.Value = DateTime.Now;
+
+            Rd_Tap1_SexoF.Checked = false;
+            Rd_Tap1_SexoM.Checked = false;
+
+            //Txt_Tap1_Ocupacion.Text = "";
+            //Cbx_Tap1_EstadoCivil.SelectedIndex = -1;
+            //Txt_Tap1_Direccion.Text = "";
+
+            Chex_Tap1_Iva.SetItemChecked(0, false);
+            Chex_Tap1_Iva.SetItemChecked(1, false);
+
+            Chex_Tap1_Iva_Pagador.SetItemChecked(0, false);
+            Chex_Tap1_Iva_Pagador.SetItemChecked(1, false);
+            Txt_Tap1_Edad.Text = ""; // Limpiar el campo de edad también
+
+
+
+            Txt_Tap1_Cedula.Enabled = true;
+            Txt_Tap1_Cedula_Pagador.Enabled = true;
+            Txt_Tap1_Edad.Enabled = true;
+            Txt_Tap1_Email.Enabled = true;
+            Dtp_Tap1_Nacimiento.Enabled = true;
+            Txt_Tap1_Nombre.Enabled = true;
+            Txt_Tap1_Nombre_Pagador.Enabled = true;
+            Txt_Tap1_TLF_Celular.Enabled = true;
+            Txt_Tap1_TLF_Local.Enabled = true;
+
+            //Txt_Tap1_Facebook.Enabled = true;
+            //Txt_Tap1_Instagram.Enabled = true;
+            //Txt_Tap1_Twitter.Enabled = true;
+
+
+            // Habilitar los controles
+            Cbx_Tap1_Ciudad.Enabled = true;
+            Cbx_Tap1_Estado.Enabled = true;
+            Cbx_Tap1_Nacionalidad.Enabled = true;
+            Cbx_Tap1_Nacionalidad_Pagador.Enabled = true;
+            Cbx_Tap1_TLF_Celular.Enabled = true;
+            Cbx_Tap1_TLF_Local.Enabled = true;
+
+            ///// &&&&&&&&&&&&&&
+
+            //Txt_Tap1_Direccion_fact.Text = "";
+            Txt_Tap1_Cedula_Pagador.Text = "";
+            Txt_Tap1_Edad.Text = "";
+            Txt_Tap1_Email.Text = "";
+            Dtp_Tap1_Nacimiento.Text = "";
+            Txt_Tap1_Nombre.Text = "";
+            Txt_Tap1_Nombre_Pagador.Text = "";
+            Txt_Tap1_TLF_Celular.Text = "";
+            Txt_Tap1_TLF_Local.Text = "";
+
+            //Txt_Tap1_Facebook.Text = "";
+            //Txt_Tap1_Instagram.Text = "";
+            //Txt_Tap1_Twitter.Text = "";
+
+
+            Cbx_Tap1_Ciudad.Text = "";
+            Cbx_Tap1_Estado.Text = "";
+            Cbx_Tap1_Nacionalidad_Pagador.Text = "";
+            Cbx_Tap1_TLF_Celular.Text = "";
+            Cbx_Tap1_TLF_Local.Text = "";
+
+            limpearExamen();
+
+        }
+
+        private void limpearExamen()
+        {
+
+            grp_pln2_Cont1.Visible = true;
+            grp_pln2_Cont1.BringToFront();
+            AsignarCeroDgv_Pnl2_cont();
+            AsignarCeroDgv_Pnl2_conv();
+            AsignarCeroDgv_Pnl2_medconv();
+            AsignarCeroDgv_Pnl2_Querato();
+
+            this.Txt_Pnl2_Examen.Text = "0";
+            CargarExamenConv();
+            CargarExamenCont();
+            CargarDgvPnl2MedConv();
+            CargarFicconvOFT();
+            CargarFicconvOFT();
+            CargarDgv_Pnl2_Querato();
+
+            AsignarCeroSiVacioDgv_Pnl2_cont();
+            AsignarCeroSiVacioDgv_Pnl2_conv();
+            AsignarCeroSiVacioDgv_Pnl2_medconv();
+            AsignarCeroSiVacioDgv_Pnl2_Querato();
+
+
+            txt_Pnl2_cont_observa.Clear();
+            txt_Pnl2_observa.Clear();
+            txt_Pnl2_conv_mimesys.Clear();
+            txt_Pnl2_retd.Clear();
+            txt_Pnl2_reti.Clear();
+            txt_Pnl2_oftd.Clear();
+            txt_Pnl2_ofti.Clear();
+
+            //Cbx_Tap2_Tipo_Examen.SelectedItem = 0;
+            grp_pln2_Conv2.Visible = true;
+            Cbx_Tap2_Tipo_Optome.SelectedItem = -1;
+            Cbx_Tap2_Ojo.SelectedItem = -1;
+
+            Cbx_Tap2_Tipo_Optome.SelectedIndex = -1; // Deselecciona el elemento seleccionado
+            Cbx_Tap2_Nombre_Optome.SelectedIndex = -1; // Deselecciona el elemento seleccionado
+            TXT_Tap2_Nombre_Optome.Text = ""; // Establece el texto en vacío
+
+        }
+        private void LimpiarCamposTodos()
+        {
+
+            LimpiarCampos2();
+            Txt_Pnl_2_Cedula.Text = ""; // Ajusta el nombre de la columna
+            Txt_Pnl_2_Nombre.Text = ""; // Ajusta el nombre de la columna
+
+            Txt_Tap1_Cedula.Text = "";
+            Cbx_Tap1_Nacionalidad.SelectedIndex = -1; // Deselecciona el elemento
+            Cbx_Tap1_Nacionalidad.Focus();
+            // Ocultamos todos los GroupBox al principio
+            //groupBox1.Visible = false;
+            //grp_pln2_Exam1.Visible = false;
+            //groupBox3.Visible = false;
+            //groupBox4.Visible = false;
+            //groupBox5.Visible = false;
+
+
+        }
+
+        private void tamañoExamenGridConv()
+
+        {
+            // Opcional: Configurar propiedades del DataGridView
+            Dgv_Pnl2_conv.AllowUserToAddRows = false;
+            Dgv_Pnl2_conv.AllowUserToDeleteRows = false;
+            Dgv_Pnl2_conv.ReadOnly = false;
+            Dgv_Pnl2_conv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            Dgv_Pnl2_conv.ColumnHeadersVisible = true;
+            Dgv_Pnl2_conv.RowHeadersVisible = false;
+            Dgv_Pnl2_conv.AllowUserToResizeColumns = false;
+            Dgv_Pnl2_conv.AllowUserToResizeRows = false;
+
+            Dgv_Pnl2_conv.Columns[0].ReadOnly = true; // Hace que la columna no sea editable
+
+            if (Dgv_Pnl2_conv.Columns.Contains("Agudeza"))
+            {
+                Dgv_Pnl2_conv.Columns["Agudeza"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                Dgv_Pnl2_conv.Columns["Agudeza"].Width = 40; // Establecer el ancho fijo (aproximadamente 0.5 cm)
+            }
+
+            if (Dgv_Pnl2_conv.Columns.Contains("Visual"))
+            {
+                Dgv_Pnl2_conv.Columns["Visual"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                Dgv_Pnl2_conv.Columns["Visual"].Width = 60; // Establecer el ancho fijo (aproximadamente 0.5 cm)
+            }
+
+
+            if (Dgv_Pnl2_conv.Columns.Contains("Altura"))
+            {
+                Dgv_Pnl2_conv.Columns["Altura"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                Dgv_Pnl2_conv.Columns["Altura"].Width = 60; // Establecer el ancho fijo (aproximadamente 0.5 cm)
+            }
+
+
+            if (Dgv_Pnl2_conv.Columns.Contains("Vision"))
+            {
+                Dgv_Pnl2_conv.Columns["Vision"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                Dgv_Pnl2_conv.Columns["Vision"].Width = 160; // Establecer el ancho fijo (aproximadamente 0.5 cm)
+            }
+
+
+            if (Dgv_Pnl2_conv.Columns.Contains("Esfera"))
+            {
+                Dgv_Pnl2_conv.Columns["Esfera"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                Dgv_Pnl2_conv.Columns["Esfera"].Width = 60; // Establecer el ancho fijo (aproximadamente 0.5 cm)
+            }
+            if (Dgv_Pnl2_conv.Columns.Contains("Eje"))
+            {
+                Dgv_Pnl2_conv.Columns["Eje"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                Dgv_Pnl2_conv.Columns["Eje"].Width = 60; // Establecer el ancho fijo (aproximadamente 0.5 cm)
+            }
+
+            if (Dgv_Pnl2_conv.Columns.Contains("Grado1"))
+            {
+                Dgv_Pnl2_conv.Columns["Grado1"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                Dgv_Pnl2_conv.Columns["Grado1"].Width = 60; // Establecer el ancho fijo (aproximadamente 0.5 cm)
+            }
+            if (Dgv_Pnl2_conv.Columns.Contains("Cilindro"))
+            {
+                Dgv_Pnl2_conv.Columns["Cilindro"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                Dgv_Pnl2_conv.Columns["Cilindro"].Width = 60; // Establecer el ancho fijo (aproximadamente 0.5 cm)
+            }
+            if (Dgv_Pnl2_conv.Columns.Contains("Adicion"))
+            {
+                Dgv_Pnl2_conv.Columns["Adicion"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                Dgv_Pnl2_conv.Columns["Adicion"].Width = 60; // Establecer el ancho fijo (aproximadamente 0.5 cm)
+            }
+
+
+            if (Dgv_Pnl2_conv.Columns.Contains("Lejos"))
+            {
+                Dgv_Pnl2_conv.Columns["Lejos"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                Dgv_Pnl2_conv.Columns["Lejos"].Width = 60; // Establecer el ancho fijo (aproximadamente 0.5 cm)
+            }
+
+            if (Dgv_Pnl2_conv.Columns.Contains("Cerca"))
+            {
+                Dgv_Pnl2_conv.Columns["Cerca"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                Dgv_Pnl2_conv.Columns["Cerca"].Width = 60; // Establecer el ancho fijo (aproximadamente 0.5 cm)
+            }
+
+            if (Dgv_Pnl2_conv.Columns.Contains("Prisma1"))
+            {
+                Dgv_Pnl2_conv.Columns["Prisma1"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                Dgv_Pnl2_conv.Columns["Prisma1"].Width = 60; // Establecer el ancho fijo (aproximadamente 0.5 cm)
+            }
+
+
+            // Configurar la columna "aEsfera" para que no se ajuste automáticamente
+            if (Dgv_Pnl2_conv.Columns.Contains("aCilindro"))
+            {
+                Dgv_Pnl2_conv.Columns["aCilindro"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                Dgv_Pnl2_conv.Columns["aCilindro"].Width = 20; // Establecer el ancho fijo (aproximadamente 0.5 cm)
+            }
+
+            // Configurar la columna "aEsfera" para que no se ajuste automáticamente
+            if (Dgv_Pnl2_conv.Columns.Contains("aEsfera"))
+            {
+                Dgv_Pnl2_conv.Columns["aEsfera"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                Dgv_Pnl2_conv.Columns["aEsfera"].Width = 20; // Establecer el ancho fijo (aproximadamente 0.5 cm)
+            }
+            //--------------------------------------------------------------------------------------------
+            // Suponiendo que Dgv_Pnl2_conv es tu control DataGridView
+
+
+        }
+
+        private void AsignarCeroDgv_Pnl2_cont()
+        {
+            foreach (DataGridViewRow row in Dgv_Pnl2_cont.Rows)
+            {
+                foreach (DataGridViewCell cell in row.Cells)
+                {
+                    // Verifica si el índice de la columna no es 0 y el nombre de la columna no es "aEsfera" ni "aCilindro"
+                    if (cell.ColumnIndex != 0 && Dgv_Pnl2_cont.Columns[cell.ColumnIndex].Name != "aEsfera" && Dgv_Pnl2_cont.Columns[cell.ColumnIndex].Name != "aCilindro")
+                    {
+                        cell.Value = 0; // Asigna 0 a la celda
+                    }
+                    else if (cell.ColumnIndex != 0)
+                    {
+                        cell.Value = "";
+                    }
+                    // Si el índice de la columna es 0, no se modifica el valor de la celda
+                }
+            }
+        }
+
+        //--------------------------------------------------
+        private void AsignarCeroDgv_Pnl2_Querato()
+        {
+            foreach (DataGridViewRow row in Dgv_Pnl2_Querato.Rows)
+            {
+                foreach (DataGridViewCell cell in row.Cells)
+                {
+
+                    cell.Value = 0; // O "0" si la columna espera un string
+
+                }
+            }
+        }
+
+        private void AsignarCeroDgv_Pnl2_conv()
+        {
+            foreach (DataGridViewRow row in Dgv_Pnl2_conv.Rows)
+            {
+                foreach (DataGridViewCell cell in row.Cells)
+                {
+                    if (Dgv_Pnl2_conv.Columns[cell.ColumnIndex].Name == "aEsfera" || Dgv_Pnl2_conv.Columns[cell.ColumnIndex].Name == "aCilindro")
+                    {
+                        cell.Value = "";
+                    }
+                    else if (Dgv_Pnl2_conv.Columns[cell.ColumnIndex].Name == "Vision")
+                    {
+                        //cell.Value = -1;
+                    }
+                    else if (cell.ColumnIndex != 0)
+                    {
+                        cell.Value = "0";
+                    }
+                }
+            }
+        }
+
+        private void AsignarCeroDgv_Pnl2_medconv()
+        {
+            foreach (DataGridViewRow row in Dgv_Pnl2_Querato.Rows)
+            {
+                foreach (DataGridViewCell cell in row.Cells)
+                {
+
+                    cell.Value = 0; // O "0" si la columna espera un string
+
+                }
+            }
+        }
+
+        private void CargarFicconvOFT()
+        {
+            // Obtener los valores de los controles de la interfaz de usuario
+            string cedula = Txt_Tap1_Cedula.Text;
+            string nacionalidad = Cbx_Tap1_Nacionalidad.SelectedItem?.ToString();
+            int idExamen;
+
+            if (!int.TryParse(Txt_Tap2_Examen.Text, out idExamen))
+            {
+                return;
+            }
+
+            // Verificar que los valores requeridos estén presentes
+            if (string.IsNullOrEmpty(nacionalidad) || string.IsNullOrEmpty(cedula))
+            {
+                return;
+            }
+
+            try //Es buena practica usar try catch
+            {
+                // Obtener los datos del examen usando el método que creaste
+                D_Ficconv dFicconv = new D_Ficconv();
+
+                // Verificar si dFicconv es nulo.
+                if (dFicconv != null)
+                {
+                    TB_FICCONVCTE Ficconv = dFicconv.ObtenerFicConv(nacionalidad, cedula, idExamen); // Aquí se corrigió el orden de los parámetros y se agregó idExamen
+
+                    if (Ficconv != null)
+                    {
+                        txt_Pnl2_ofti.Text = Ficconv.OFTI != null ? Ficconv.OFTI : string.Empty;
+                        txt_Pnl2_oftd.Text = Ficconv.OFTD != null ? Ficconv.OFTD : string.Empty;
+
+                        txt_Pnl2_reti.Text = Ficconv.RETI != null ? Ficconv.RETI : string.Empty;
+                        txt_Pnl2_retd.Text = Ficconv.RETD != null ? Ficconv.RETD : string.Empty;
+                        //txt_Pnl2_oft_mimesys.Text = Ficconv.CodigoMimesys != null ? Ficconv.CodigoMimesys : string.Empty;
+                    }
+                    else
+                    {
+                        MostrarMensajeTemporal("No se encontró ningún examen con la nacionalidad, cédula e ID de examen proporcionados.", 9000);
+
+                    }
+                }
+                else
+                {
+                    MostrarMensajeTemporal("Error: No se pudo instanciar la clase D_Ficconv.", 9000);
+
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+
+
+        private void CargarExamenConv()
+        {
+            this.Dgv_Pnl2_conv.DefaultCellStyle.Font = new Font("Century Gothic", 13);
+
+            // Obtener los valores de los controles de la interfaz de usuario
+            string cedula = Txt_Tap1_Cedula.Text;
+            string nacionalidad = Cbx_Tap1_Nacionalidad.SelectedItem?.ToString();
+            int idExamen;
+
+            if (!int.TryParse(Txt_Tap2_Examen.Text, out idExamen))
+            {
+                return;
+            }
+
+            // Verificar que los valores requeridos estén presentes
+            if (string.IsNullOrEmpty(nacionalidad) || string.IsNullOrEmpty(cedula))
+            {
+                return;
+            }
+
+            // Crear un DataTable para almacenar los datos del DataGridView 
+            DataTable dt = new DataTable();
+            dt.Columns.Add("Ojo", typeof(string));
+            dt.Columns.Add("aEsfera", typeof(string));
+            dt.Columns.Add("Esfera", typeof(decimal));
+            dt.Columns.Add("aCilindro", typeof(string));
+            dt.Columns.Add("Cilindro", typeof(decimal));
+            dt.Columns.Add("Eje", typeof(int));
+
+            dt.Columns.Add("Adicion", typeof(decimal));
+            dt.Columns.Add("Lejos", typeof(decimal));
+            dt.Columns.Add("Cerca", typeof(decimal));
+            dt.Columns.Add("Agudeza", typeof(string));
+            dt.Columns.Add("Visual", typeof(string));
+            dt.Columns.Add("Prisma1", typeof(decimal));
+            dt.Columns.Add("Grado1", typeof(decimal));
+
+            dt.Columns.Add("Altura", typeof(decimal));
+            dt.Columns.Add("Vision", typeof(string));
+
+            // Agregar las dos filas fijas
+            DataRow filaDerecha = dt.NewRow();
+            filaDerecha["Ojo"] = "Derecho";
+            dt.Rows.Add(filaDerecha);
+
+            DataRow filaIzquierda = dt.NewRow();
+            filaIzquierda["Ojo"] = "Izquierdo";
+            dt.Rows.Add(filaIzquierda);
+
+            //AVD, AVI en TB_FICCONV
+            // Obtener los datos del examen usando el método que creaste
+            D_Ficconv dFicconv = new D_Ficconv();
+            // ***CORRECCIÓN:***
+            // Convierte idExamen a string antes de pasarlo al método.
+            TB_FICCONVCTE con = dFicconv.ObtenerFicConv(nacionalidad, cedula, idExamen);
+            if (con != null) // Verifica si se obtuvo un objeto TB_Ficconv válido
+            {
+                dt.Rows[0]["Agudeza"] = "20/";
+                dt.Rows[1]["Agudeza"] = "20/";
+
+                dt.Rows[0]["Visual"] = con.AVD; // Accede a AVI a través del objeto 'con' (TB_Ficconv)
+                dt.Rows[1]["Visual"] = con.AVI; // Accede a AVD a través del objeto 'con' (TB_Ficconv)
+                dt.Rows[0]["Altura"] = con.ALTD; // Accede a AVI a través del objeto 'con' (TB_Ficconv)
+                dt.Rows[1]["Altura"] = con.ALTI; // Accede a AVD a través del objeto 'con' (TB_Ficconv)
+
+                dt.Rows[0]["Lejos"] = con.DPDL.HasValue ? con.DPDL.Value : 0M;
+                dt.Rows[1]["Lejos"] = con.DPDL.HasValue ? con.DPDL.Value : 0M;
+
+                dt.Rows[0]["Cerca"] = con.DPDC.HasValue ? con.DPDC.Value : 0M;
+                dt.Rows[1]["Cerca"] = con.DPDC.HasValue ? con.DPDC.Value : 0M;
+
+
+                dt.Rows[0]["Grado1"] = con.PBASED;
+                dt.Rows[1]["Grado1"] = con.PBASEI;
+
+                dt.Rows[0]["Prisma1"] = con.PRISMAD;
+                dt.Rows[1]["Prisma1"] = con.PRISMAI;
+
+                txt_Pnl2_retd.Text = con.RETD != null ? con.RETD : string.Empty;
+                txt_Pnl2_reti.Text = con.RETI != null ? con.RETI : string.Empty;
+            }
+
+
+
+
+
+            // Obtener los datos del examen usando el método que creaste
+            D_Examen dExamen = new D_Examen();
+            // ***CORRECCIÓN:***
+            // Convierte idExamen a string antes de pasarlo al método.
+            TB_EXAMENCTE examen = dExamen.ObtenerExamenPorNumeroYNacionalidadCedula(idExamen, nacionalidad, cedula);
+
+            // Crear una instancia de la capa de lógica (L_Trabajo)
+            L_Trabajo lTrabajo = new L_Trabajo();
+            // Obtener los datos del trabajo usando el método de la capa lógica
+            TB_TRABAJOCTE trabajo = lTrabajo.ObtenerTrabajoPorOrdenServicio(nacionalidad, cedula, idExamen);
+
+
+            if (examen != null)
+            {
+
+
+                if (examen.TIPO_Optm != null)
+                {
+                    foreach (var item in Cbx_Tap2_Tipo_Optome.Items)
+                    {
+                        // Asumiendo que los items en el ComboBox son strings.
+                        // Si son objetos, necesitarás acceder a la propiedad correcta para comparar.
+                        if (item != null && item.ToString() == examen.TIPO_Optm.ToString())
+                        {
+                            Cbx_Tap2_Tipo_Optome.SelectedItem = item;
+                            break; // Salir del bucle una vez que se encuentra la coincidencia
+                        }
+                    }
+                    // Si no se encuentra ninguna coincidencia, el ComboBox no tendrá ningún elemento seleccionado.
+                }
+                else
+                {
+                    Cbx_Tap2_Tipo_Optome.SelectedIndex = -1; // Deseleccionar cualquier elemento si examen.TIPO_Optm es null
+                }
+
+                ////-----------------------------
+
+                //Cbx_Tap2_Nombre_Optome
+                if (examen.TIPO_Optm != null)
+                {
+                    if (examen.TIPO_Optm == "02")
+                    {
+                        Cbx_Tap2_Tipo_Optome.SelectedIndex = 1;
+                    }
+                    else
+                    {
+                        Cbx_Tap2_Tipo_Optome.SelectedIndex = 0;
+                    }
+                }
+                else
+                {
+                    Cbx_Tap2_Tipo_Optome.SelectedIndex = -1; // Deseleccionar cualquier elemento si examen.TIPO_Optm es null
+                }
+                ///
+
+
+                //Cbx_Tap2_Tipo_Examen.Text = examen.TIPOEXAMEN != null ? examen.TIPOEXAMEN : string.Empty;
+
+                Cbx_Tap2_Tipo_Examen.SelectedItem = 0;
+                if (examen.TIPOEXAMEN != null && (Cbx_Tap2_Tipo_Examen.Text == null || Cbx_Tap2_Tipo_Examen.Text == ""))
+                {
+                    Cbx_Tap2_Tipo_Examen.Text = examen.TIPOEXAMEN.ToString().Trim(); // Deseleccionar cualquier elemento si examen.TIPO_Optm es null
+                    //foreach (var item in Cbx_Tap2_Tipo_Examen.Items)
+                    //{
+                    //    // Asumiendo que los items en el ComboBox son strings.
+                    //    // Si son objetos, necesitarás acceder a la propiedad correcta para comparar.
+                    //    if (item != null && item.ToString() == examen.TIPOEXAMEN.ToString())
+                    //    {
+                    //        Cbx_Tap2_Tipo_Examen.SelectedItem = item;
+                    //        break; // Salir del bucle una vez que se encuentra la coincidencia
+                    //    }
+                    //}
+                    // Si no se encuentra ninguna coincidencia, el ComboBox no tendrá ningún elemento seleccionado.
+                }
+
+                TXT_Tap2_Nombre_Optome.Text = examen.NOM_Optm.ToString(); // Deseleccionar cualquier elemento si examen.TIPO_Optm es null
+
+
+
+                //    TXT_Tap2_Nombre_Optome.Text = examen.NOMBRE_CLINICA_OPTM != null ? examen.NOMBRE_CLINICA_OPTM : string.Empty;
+
+                Dtp_Tap2_FecExam.Text = examen.FEC_Examen.ToString();
+
+
+
+
+
+
+
+                txt_Pnl2_conv_mimesys.Text = examen.CodigoMimesys != null ? examen.CodigoMimesys : string.Empty;
+                txt_Pnl2_cont_observa.Text = examen.OBSERVACIONES != null ? examen.OBSERVACIONES : string.Empty;
+                txt_Pnl2_observa.Text = examen.OBSERVACIONES != null ? examen.OBSERVACIONES : string.Empty;
+                ////txt_Pnl2_oft_mimesys.Text = examen.CodigoMimesys != null ? examen.CodigoMimesys : string.Empty;
+
+                // Actualizar las filas del DataTable con los datos del examena
+                if (dt.Rows.Count > 0) // Asegúrate de que haya al menos una fila en el DataTable
+                {
+                    if (examen.ESFD > 0)
+                    {
+                        dt.Rows[0]["aEsfera"] = "+";
+                    }
+                    else if (examen.ESFD < 0)
+                    {
+                        dt.Rows[0]["aEsfera"] = "-";
+                    }
+                    else
+                    {
+                        if (examen.ESFD < 0)
+                        {
+                            dt.Rows[0]["aEsfera"] = "-";
+                        }
+                        else
+                        {
+                            dt.Rows[0]["aEsfera"] = string.Empty; // O null si prefieres}
+                        }
+                    }
+                }
+                dt.Rows[0]["Esfera"] = examen.ESFD;
+
+                if (dt.Rows.Count > 0) // Asegúrate de que haya al menos una fila en el DataTable
+                {
+                    if (examen.CILD > 0)
+                    {
+                        dt.Rows[0]["aCilindro"] = "+";
+                    }
+                    else if (examen.CILD < 0)
+                    {
+                        dt.Rows[0]["aCilindro"] = "-";
+                    }
+                    else
+                    {
+
+                        if (examen.CILD < 0)
+                        {
+                            dt.Rows[0]["aCilindro"] = "-";
+                        }
+                        else
+                        {
+                            dt.Rows[0]["aCilindro"] = string.Empty; // O null si prefieres
+                        }
+                    }
+                }
+
+
+
+                //nuevoFicconv.DPDL = Dgv_Pnl2_conv.Rows[0].Cells["Lejos"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[0].Cells["Lejos"].Value) : 0;
+                //nuevoFicconv.DPIL = Dgv_Pnl2_conv.Rows[1].Cells["Lejos"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[1].Cells["Lejos"].Value) : 0;
+
+
+                //nuevoFicconv.DPDC = Dgv_Pnl2_conv.Rows[0].Cells["Cerca"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[0].Cells["Cerca"].Value) : 0;
+                //nuevoFicconv.DPIC = Dgv_Pnl2_conv.Rows[1].Cells["Cerca"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[1].Cells["Cerca"].Value) : 0;
+
+
+                dt.Rows[0]["Cilindro"] = examen.CILD;
+                dt.Rows[1]["Cilindro"] = examen.CILI;
+
+                dt.Rows[0]["Eje"] = examen.EJED;
+                dt.Rows[1]["Eje"] = examen.EJEI;
+
+                dt.Rows[0]["Adicion"] = examen.ADDD;
+                dt.Rows[1]["Adicion"] = examen.ADDI;
+
+
+                dt.Rows[0]["Vision"] = trabajo.TTIPOVISIOND.Trim() ?? string.Empty;
+                dt.Rows[1]["Vision"] = trabajo.TTIPOVISIONI.Trim() ?? string.Empty;
+
+
+
+
+                // Actualizar las filas del DataTable con los datos del examena
+                if (dt.Rows.Count > 0) // Asegúrate de que haya al menos una fila en el DataTable
+                {
+                    if (examen.ESFI > 0)
+                    {
+                        dt.Rows[1]["aEsfera"] = "+";
+                    }
+                    else if (examen.ESFI < 0)
+                    {
+                        dt.Rows[1]["aEsfera"] = "-";
+                    }
+                    else
+                    {
+
+                        if (examen.ESFI < 0)
+                        {
+                            dt.Rows[1]["aEsfera"] = "-";
+                        }
+                        else
+                        {
+                            dt.Rows[1]["aEsfera"] = string.Empty; // O null si prefieres
+                        }
+                    }
+                }
+
+
+
+
+                dt.Rows[1]["Esfera"] = examen.ESFI;
+                if (dt.Rows.Count > 0) // Asegúrate de que haya al menos una fila en el DataTable
+                {
+                    if (examen.CILI > 0)
+                    {
+                        dt.Rows[1]["aCilindro"] = "+";
+                    }
+                    else if (examen.CILI < 0)
+                    {
+                        dt.Rows[1]["aCilindro"] = "-";
+                    }
+                    else
+                    {
+                        if (examen.CILI < 0)
+                        {
+                            dt.Rows[1]["aCilindro"] = "-";
+                        }
+                        else
+                        {
+                            dt.Rows[1]["aCilindro"] = string.Empty; // O null si prefieres
+                        }
+                    }
+                }
+
+
+            }
+            else
+            {
+
+                MostrarMensajeTemporal("No se encontró ningún examen con la nacionalidad, cédula e ID de examen proporcionados.", 9000); // 5000 ms = 5 segundos
+
+            }
+
+
+
+
+
+
+
+
+            // Asignar el DataTable como fuente de datos del DataGridView
+            Dgv_Pnl2_conv.DataSource = dt;
+            Dgv_Pnl2_conv.AutoGenerateColumns = false;
+
+            tamañoExamenGridConv();
+            AsignarCeroSiVacioDgv_Pnl2_conv();
+
+        }
+
+        private void CargarExamenCont()
+        {
+            this.Dgv_Pnl2_cont.DefaultCellStyle.Font = new Font("Century Gothic", 13);
+
+            // Crear un DataTable para almacenar los datos del DataGridView
+            DataTable dt = new DataTable();
+            dt.Columns.Add("Ojo", typeof(string));
+            dt.Columns.Add("aEsfera", typeof(string));
+            dt.Columns.Add("Esfera", typeof(decimal));
+            dt.Columns.Add("aCilindro", typeof(string));
+            dt.Columns.Add("Cilindro", typeof(decimal));
+            dt.Columns.Add("Eje", typeof(decimal));
+            dt.Columns.Add("Adicion", typeof(decimal));
+            dt.Columns.Add("C_base", typeof(decimal));
+            dt.Columns.Add("Diametro", typeof(decimal));
+
+            // Agregar las dos filas fijas iniciales
+            DataRow filaDerecha = dt.NewRow();
+            filaDerecha["Ojo"] = "Derecho";
+            dt.Rows.Add(filaDerecha);
+
+            DataRow filaIzquierda = dt.NewRow();
+            filaIzquierda["Ojo"] = "Izquierdo";
+            dt.Rows.Add(filaIzquierda);     // Agregar las dos filas fijas iniciales
+
+
+            /// -----------------------------------------------------------
+
+            // Obtener los valores de los controles de la interfaz de usuario
+            string cedula = Txt_Tap1_Cedula.Text;
+            string nacionalidad = Cbx_Tap1_Nacionalidad.SelectedItem?.ToString();
+            int idExamen;
+            string codSucursal = "Sucursal1"; // TODO: Obtener la sucursal desde la interfaz de usuario
+
+            if (!int.TryParse(Txt_Tap2_Examen.Text, out idExamen))
+            {
+                //MessageBox.Show("  ingrese un ID de examen válido (numérico).", "Error de formato", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                return;
+            }
+
+            // Verificar que los valores requeridos estén presentes
+            if (string.IsNullOrEmpty(nacionalidad) || string.IsNullOrEmpty(cedula))
+            {
+                //MessageBox.Show("  ingrese la nacionalidad y la cédula.", "Datos incompletos", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                return;
+            }
+
+            try
+            {
+
+
+                //AVD, AVI en TB_FICCONV
+                //// Obtener los datos del examen usando el método que creaste
+                //D_Ficconv dFicconv = new D_Ficconv();
+                //// ***CORRECCIÓN:***
+                //// Convierte idExamen a string antes de pasarlo al método.
+                //TB_Ficconv con = dFicconv.ObtenerFicConv(nacionalidad, cedula, idExamen);
+
+
+                //// Obtener los datos del examen usando el método de la capa lógica
+                ////L_Ficcont logicaFiccont = new L_Ficcont();
+                //_L_Ficcont.ObtenerFiccontPorClave(nacionalidad, cedula, idExamen);
+
+
+
+                //AVD, AVI en TB_FICCONV
+                // Obtener los datos del examen usando el método que creaste
+                D_FicCont dFiccont = new D_FicCont();
+                // ***CORRECCIÓN:***
+                // Convierte idExamen a string antes de pasarlo al método.
+                TB_FICCONT con = dFiccont.ObtenerFicCont(nacionalidad, cedula, idExamen);
+
+
+                if (con != null)
+                {
+                    // Actualizar las filas del DataTable con los datos del examen
+                    //dt.Rows[0]["Esfera"] = nuevoFiccont.ESFD; valores negativos
+                    dt.Rows[0]["Esfera"] = con.ESFD ?? (object)DBNull.Value;
+                    dt.Rows[0]["Cilindro"] = con.CILD ?? (object)DBNull.Value;
+                    dt.Rows[0]["Eje"] = con.EJED ?? (object)DBNull.Value;
+                    dt.Rows[0]["Adicion"] = con.ADDD ?? (object)DBNull.Value;
+                    dt.Rows[0]["C_base"] = con.CBD ?? (object)DBNull.Value;
+                    dt.Rows[0]["Diametro"] = con.DIAMD ?? (object)DBNull.Value;
+                    //----------------------------------------------------
+                    // Actualizar las filas del DataTable con los datos del examena
+                    if (dt.Rows.Count > 0) // Asegúrate de que haya al menos una fila en el DataTable
+                    {
+                        if (con.ESFD > 0)
+                        {
+                            dt.Rows[1]["aEsfera"] = "+";
+                        }
+                        else if (con.ESFD < 0) // This condition is redundant with the one below and might be a typo. Should it be con.ESFI < 0?
+                        {
+                            dt.Rows[0]["aEsfera"] = "-";
+                        }
+                        else if (con.ESFD < 0) // This is a duplicate condition.
+                        {
+                            dt.Rows[0]["aEsfera"] = "-";
+                        }
+                        else
+                        {
+                            dt.Rows[0]["aEsfera"] = string.Empty; // O null si prefieres
+                        }
+                    }
+                    dt.Rows[1]["Esfera"] = con.ESFI ?? (object)DBNull.Value;
+
+                    dt.Rows[1]["Cilindro"] = con.CILI ?? (object)DBNull.Value;
+                    dt.Rows[1]["Eje"] = con.EJEI ?? (object)DBNull.Value;
+                    dt.Rows[1]["Adicion"] = con.ADDI ?? (object)DBNull.Value;
+                    dt.Rows[1]["C_base"] = con.CBI ?? (object)DBNull.Value;
+                    dt.Rows[1]["Diametro"] = con.DIAMI ?? (object)DBNull.Value;
+
+                    // Actualizar las filas del DataTable con los datos del examena
+                    if (dt.Rows.Count > 0) // Asegúrate de que haya al menos una fila en el DataTable
+                    {
+                        if (con.ESFI > 0)
+                        {
+                            dt.Rows[1][1] = "+";
+                        }
+                        else if (con.ESFI < 0)
+                        {
+                            dt.Rows[1][1] = "-";
+                        }
+                        else if (con.ESFI < 0) // This is a duplicate condition.
+                        {
+                            dt.Rows[1][1] = "-";
+                        }
+                        else
+                        {
+                            dt.Rows[1][1] = string.Empty; // O null si prefieres
+                        }
+                    }
+
+
+
+
+
+
+
+
+
+                    if (dt.Rows.Count > 0) // Asegúrate de que haya al menos una fila en el DataTable
+                    {
+                        if (con.CILD > 0)
+                        {
+                            dt.Rows[0]["aCilindro"] = "+";
+                        }
+                        else if (con.CILD < 0)
+                        {
+                            dt.Rows[0]["aCilindro"] = "-";
+                        }
+                        else if (con.CILD < 0) // This is a duplicate condition.
+                        {
+                            dt.Rows[0]["aCilindro"] = "-";
+                        }
+                        else
+                        {
+                            dt.Rows[0]["aCilindro"] = string.Empty; // O null si prefieres
+                        }
+                    }
+
+                    if (dt.Rows.Count > 0) // Asegúrate de que haya al menos una fila en el DataTable
+                    {
+                        if (con.CILI > 0)
+                        {
+                            dt.Rows[1]["aCilindro"] = "+";
+                        }
+                        else if (con.CILI < 0) // This condition seems to refer to CILD, not CILI. Might be a typo.
+                        {
+                            dt.Rows[1]["aCilindro"] = "-";
+                        }
+                        else if (con.CILI < 0)
+                        {
+                            dt.Rows[1]["aCilindro"] = "-";
+                        }
+                        else
+                        {
+                            dt.Rows[1]["aCilindro"] = string.Empty; // O null si prefieres
+                        }
+                    }
+
+
+
+                    // Asignar el DataTable como fuente de datos del DataGridView
+                    Dgv_Pnl2_cont.DataSource = dt;
+                    Dgv_Pnl2_cont.AutoGenerateColumns = false; // Desactivar la generación automática de columnas
+
+                    // Opcional: Configurar propiedades del DataGridView para mejor visualización
+                    Dgv_Pnl2_cont.AllowUserToAddRows = false;
+                    Dgv_Pnl2_cont.AllowUserToDeleteRows = false;
+                    Dgv_Pnl2_cont.ReadOnly = false;
+                    Dgv_Pnl2_cont.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                    Dgv_Pnl2_cont.ColumnHeadersVisible = true;
+                    Dgv_Pnl2_cont.RowHeadersVisible = false;
+                    Dgv_Pnl2_cont.AllowUserToResizeColumns = false; // Bloquear el cambio de tamaño de las columnas
+                    Dgv_Pnl2_cont.AllowUserToResizeRows = false;    // Bloquear el cambio de tamaño de las filas
+
+                    txt_Pnl2_cont_observa.Text = con?.OBSERVACIONES?.ToString() ?? string.Empty;
+
+                } // This is the missing closing brace.
+                else
+                {
+                    // Actualizar las filas del DataTable con los datos del examen
+                    dt.Rows[0]["Esfera"] = 0;
+                    dt.Rows[0]["Cilindro"] = 0;
+                    dt.Rows[0]["Eje"] = 0;
+                    dt.Rows[0]["Adicion"] = 0;
+                    dt.Rows[0]["C_base"] = 0;
+                    dt.Rows[0]["Diametro"] = 0;
+
+                    dt.Rows[1]["Esfera"] = 0;
+                    dt.Rows[1]["Cilindro"] = 0;
+                    dt.Rows[1]["Eje"] = 0;
+                    dt.Rows[1]["Adicion"] = 0;
+                    dt.Rows[1]["C_base"] = 0;
+                    dt.Rows[1]["Diametro"] = 0;
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar el examen: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+            }
+
+            // Asignar el DataTable como fuente de datos del DataGridView
+            Dgv_Pnl2_cont.DataSource = dt;
+            Dgv_Pnl2_cont.AutoGenerateColumns = false;
+
+            tamañoExamenGridCont();
+            AsignarCeroSiVacioDgv_Pnl2_cont();
+        }
+
+        private void CargarDgvPnl2MedConv()
+        {
+
+            this.Dgv_Pnl2_medconv.DefaultCellStyle.Font = new Font("Century Gothic", 13);
+
+            // Crear un DataTable para almacenar los datos del DataGridView
+            DataTable dt = new DataTable();
+            dt.Columns.Add("Ojo", typeof(string));
+            dt.Columns.Add("T_DISTANCIAVERTICE", typeof(decimal));
+            dt.Columns.Add("T_ANGULOPANTOSCOPICO", typeof(decimal));
+            dt.Columns.Add("T_ANGULOFACIAL", typeof(decimal));
+            dt.Columns.Add("T_DISTANCIADELECTURA", typeof(decimal));
+
+            // Agregar la fila al DataTable
+            DataRow fila = dt.NewRow();
+            fila["Ojo"] = "Único"; // O "Ambos", dependiendo de la lógica de tu aplicación
+            dt.Rows.Add(fila);
+
+            ////-------------------------------------------------
+            // Obtener los valores de los controles de la interfaz de usuario
+            string cedula = Txt_Tap1_Cedula.Text;
+            string nacionalidad = Cbx_Tap1_Nacionalidad.SelectedItem?.ToString();
+            int idExamen;
+
+            if (!int.TryParse(Txt_Tap2_Examen.Text, out idExamen))
+            {
+                //MessageBox.Show("  ingrese un ID de examen válido (numérico).", "Error de formato", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                return;
+            }
+
+            // Verificar que los valores requeridos estén presentes
+            if (string.IsNullOrEmpty(nacionalidad) || string.IsNullOrEmpty(cedula))
+            {
+                //MessageBox.Show("  ingrese la nacionalidad y la cédula.", "Datos incompletos", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                return;
+            }
+
+            try
+            {
+
+                // Crear una instancia de la capa de lógica (L_Trabajo)
+                L_Trabajo lTrabajo = new L_Trabajo();
+                // Obtener los datos del trabajo usando el método de la capa lógica
+                TB_TRABAJOCTE trabajo = lTrabajo.ObtenerTrabajoPorOrdenServicio(nacionalidad, cedula, idExamen);
+
+                if (trabajo != null)
+                {
+
+
+
+                    //Cbx_Tap2_Ojo T_OJO
+
+                    Cbx_Tap2_Ojo.Text = trabajo.TOJO != null ? trabajo.TOJO.ToString().Trim() : "";
+
+
+
+                    // Llenar la fila del DataTable con los datos obtenidos del trabajo, manejando nulos
+                    if (trabajo == null)
+                    {
+                        dt.Rows[0]["T_DISTANCIAVERTICE"] = 0;
+                        dt.Rows[0]["T_ANGULOPANTOSCOPICO"] = 0;
+                        dt.Rows[0]["T_ANGULOFACIAL"] = 0;
+                        dt.Rows[0]["T_DISTANCIADELECTURA"] = 0;
+                    }
+                    else
+                    {
+                        dt.Rows[0]["T_DISTANCIAVERTICE"] = trabajo.TDISTANCIAVERTICE ?? 0;
+                        dt.Rows[0]["T_ANGULOPANTOSCOPICO"] = trabajo.TANGULOPANTOSCOPICO ?? 0;
+                        dt.Rows[0]["T_ANGULOFACIAL"] = trabajo.TANGULOFACIAL ?? 0;
+                        dt.Rows[0]["T_DISTANCIADELECTURA"] = trabajo.TDISTANCIADELECTURA ?? 0;
+                    }
+
+
+
+
+                    // Asignar el DataTable como fuente de datos del DataGridView
+                    Dgv_Pnl2_medconv.DataSource = dt;
+                    Dgv_Pnl2_medconv.AutoGenerateColumns = false; // Desactivar la generación automática de columnas
+
+                    // Opcional: Configurar las propiedades del DataGridView para una mejor visualización
+                    Dgv_Pnl2_medconv.AllowUserToAddRows = false;
+                    Dgv_Pnl2_medconv.AllowUserToDeleteRows = false;
+                    Dgv_Pnl2_medconv.ReadOnly = false;
+                    Dgv_Pnl2_medconv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                    Dgv_Pnl2_medconv.ColumnHeadersVisible = true;
+                    Dgv_Pnl2_medconv.RowHeadersVisible = false;
+                    Dgv_Pnl2_medconv.AllowUserToResizeColumns = false;
+                    Dgv_Pnl2_medconv.AllowUserToResizeRows = false;
+
+
+                    // Dgv_Pnl2_medconv.Refresh(); // No es necesario aquí, se actualiza al asignar el DataSource
+                }
+                else
+                {
+                    MostrarMensajeTemporal("No se encontraron datos de Trabajo para la cédula, nacionalidad e ID de examen proporcionados.", 9000);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar los datos: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+
+            }
+
+
+            // Asignar el DataTable como fuente de datos del DataGridView
+            Dgv_Pnl2_medconv.DataSource = dt;
+            Dgv_Pnl2_medconv.AutoGenerateColumns = false;
+
+            // Opcional: Configurar propiedades del DataGridView
+            Dgv_Pnl2_medconv.AllowUserToAddRows = false;
+            Dgv_Pnl2_medconv.AllowUserToDeleteRows = false;
+            Dgv_Pnl2_medconv.ReadOnly = false;
+            Dgv_Pnl2_medconv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            Dgv_Pnl2_medconv.ColumnHeadersVisible = true;
+            Dgv_Pnl2_medconv.RowHeadersVisible = false;
+            Dgv_Pnl2_medconv.AllowUserToResizeColumns = false;
+            Dgv_Pnl2_medconv.AllowUserToResizeRows = false;
+
+            AsignarCeroSiVacioDgv_Pnl2_medconv();
+
+        }
+
+
+        private void AsignarCeroSiVacioDgv_Pnl2_medconv()
+        {
+            foreach (DataGridViewRow row in Dgv_Pnl2_medconv.Rows)
+            {
+                foreach (DataGridViewCell cell in row.Cells)
+                {
+                    if (cell.Value == null || string.IsNullOrEmpty(cell.Value?.ToString()))
+                    {
+                        cell.Value = 0; // O "0" si la columna espera un string
+                    }
+                }
+            }
+        }
+
+        private void CargarDgv_Pnl2_Querato()
+        {
+            this.Dgv_Pnl2_Querato.DefaultCellStyle.Font = new Font("Century Gothic", 13);
+
+            // Crear un DataTable para almacenar los datos del DataGridView
+            DataTable dt = new DataTable();
+            dt.Columns.Add("Ojo", typeof(string));
+            dt.Columns.Add("QUERATOMD1", typeof(decimal));
+            dt.Columns.Add("QUERATOGD1", typeof(decimal));
+            dt.Columns.Add("QUERATOMD2", typeof(decimal));
+            dt.Columns.Add("QUERATOGD2", typeof(decimal));
+
+            dt.Columns.Add("QUERATOMI1", typeof(decimal));
+            dt.Columns.Add("QUERATOGI1", typeof(decimal));
+            dt.Columns.Add("QUERATOMI2", typeof(decimal));
+            dt.Columns.Add("QUERATOGI2", typeof(decimal));
+
+
+
+
+
+            // Agregar la fila al DataTable
+            DataRow filaDerecha = dt.NewRow();
+            filaDerecha["Ojo"] = "Derecho";
+            dt.Rows.Add(filaDerecha);
+
+            DataRow filaIzquierda = dt.NewRow();
+            filaIzquierda["Ojo"] = "Izquierdo";
+            dt.Rows.Add(filaIzquierda);
+
+            ///-------------------------------------------------------------------------
+            // Obtener los valores de los controles de la interfaz de usuario
+            string cedula = Txt_Tap1_Cedula.Text;
+            string nacionalidad = Cbx_Tap1_Nacionalidad.SelectedItem?.ToString();
+            int idExamen;
+
+            if (!int.TryParse(Txt_Tap2_Examen.Text, out idExamen))
+            {
+                //MessageBox.Show("  ingrese un ID de examen válido (numérico).", "Error de formato", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                return;
+            }
+
+            // Verificar que los valores requeridos estén presentes
+            if (string.IsNullOrEmpty(nacionalidad) || string.IsNullOrEmpty(cedula))
+            {
+                //MessageBox.Show("  ingrese la nacionalidad y la cédula", "Datos incompletos", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                return;
+            }
+
+            try
+            {
+
+                // Crear una instancia de la capa de datos (D_Querato)
+                D_Querato dQuerato = new D_Querato();
+
+                // Obtener los datos de TB_QUERATO usando el método de la capa de datos
+                TB_QUERATO querato = dQuerato.ObtenerQuerato(nacionalidad, cedula, idExamen);
+
+                if (querato != null)
+                {
+                    //txt_Pnl2_quero_mimesys.Text = querato.CodigoMimesys != null ? querato.CodigoMimesys : string.Empty;
+                    //txt_Pnl2_quero_observa.Text = querato.QUE_OBSERV != null ? querato.QUE_OBSERV : string.Empty;
+
+                    //Llenar la fila del DataTable con los datos obtenidos de TB_QUERATO, manejando nulos
+
+                    if (querato.QUERATOMD1 <= 10)
+                    {
+                        // Si QUERATOMD1 es menor o igual a 10
+                        radioButton5.Checked = true;  // Selecciona radioButton5
+                        radioButton6.Checked = false; // Deselecciona radioButton6
+                    }
+                    else
+                    {
+                        // Si QUERATOMD1 es mayor que 10
+                        radioButton5.Checked = false; // Deselecciona radioButton5
+                        radioButton6.Checked = true;  // Selecciona radioButton6
+                    }
+
+
+                    dt.Rows[0]["QUERATOMD1"] = querato.QUERATOMD1 ?? 0;
+                    dt.Rows[1]["QUERATOMD1"] = querato.QUERATOMI1 ?? 0;
+
+                    dt.Rows[0]["QUERATOGD1"] = querato.QUERATOGD1 ?? 0;
+                    dt.Rows[1]["QUERATOGD1"] = querato.QUERATOGI1 ?? 0;
+
+                    dt.Rows[0]["QUERATOMD2"] = querato.QUERATOMD2 ?? 0;
+                    dt.Rows[1]["QUERATOMD2"] = querato.QUERATOMI2 ?? 0;
+
+                    dt.Rows[0]["QUERATOGD2"] = querato.QUERATOGD2 ?? 0;
+                    dt.Rows[1]["QUERATOGD2"] = querato.QUERATOGI2 ?? 0;
+
+
+                    txt_Pnl2_obsQuero.Text = querato.QUE_OBSERV;
+
+                    // Asignar el DataTable como fuente de datos del DataGridView
+                    Dgv_Pnl2_Querato.DataSource = dt;
+                    Dgv_Pnl2_Querato.AutoGenerateColumns = false; // Desactivar la generación automática de columnas
+
+                    // Opcional: Configurar las propiedades del DataGridView para una mejor visualización
+                    Dgv_Pnl2_Querato.AllowUserToAddRows = false;
+                    Dgv_Pnl2_Querato.AllowUserToDeleteRows = false;
+                    Dgv_Pnl2_Querato.ReadOnly = true; // El DataGridView debe ser de solo lectura para mostrar los datos, a menos que el usuario los vaya a editar.
+                    Dgv_Pnl2_Querato.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                    Dgv_Pnl2_Querato.ColumnHeadersVisible = true;
+                    Dgv_Pnl2_Querato.RowHeadersVisible = false;
+                    Dgv_Pnl2_Querato.AllowUserToResizeColumns = false;
+                    Dgv_Pnl2_Querato.AllowUserToResizeRows = false;
+                }
+                else
+                {
+                    MostrarMensajeTemporal("No se encontraron datos de Querato para la cédula, nacionalidad e ID de examen proporcionados.", 9000);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar los datos: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+
+            }
+
+
+            txt_Pnl2_obsQuero.Text = nuevoQuerato.QUE_OBSERV != null ? nuevoQuerato.QUE_OBSERV.ToString() : "";
+            // Asignar el DataTable como fuente de datos del DataGridView
+            Dgv_Pnl2_Querato.DataSource = dt;
+            Dgv_Pnl2_Querato.AutoGenerateColumns = false;
+
+            // Opcional: Configurar propiedades del DataGridView
+            Dgv_Pnl2_Querato.AllowUserToAddRows = false;
+            Dgv_Pnl2_Querato.AllowUserToDeleteRows = false;
+            Dgv_Pnl2_Querato.ReadOnly = false;
+            Dgv_Pnl2_Querato.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            Dgv_Pnl2_Querato.ColumnHeadersVisible = true;
+            Dgv_Pnl2_Querato.RowHeadersVisible = false;
+            Dgv_Pnl2_Querato.AllowUserToResizeColumns = false;
+            Dgv_Pnl2_Querato.AllowUserToResizeRows = false;
+
+            AsignarCeroSiVacioDgv_Pnl2_Querato();
+
+        }
+
+        private void AsignarCeroSiVacioDgv_Pnl2_cont()
+        {
+            foreach (DataGridViewRow row in Dgv_Pnl2_cont.Rows)
+            {
+                foreach (DataGridViewCell cell in row.Cells)
+                {
+                    // Verifica si la celda está vacía o solo contiene espacios en blanco, y no es de la columna A1 o A0
+                    if ((cell.Value == null || string.IsNullOrWhiteSpace(cell.Value?.ToString())))
+                    {
+                        if (Dgv_Pnl2_cont.Columns[cell.ColumnIndex].Name != "aEsfera" && Dgv_Pnl2_cont.Columns[cell.ColumnIndex].Name != "aCilindro")
+                        {
+                            cell.Value = 0;
+                        }
+                        else
+                        {
+                            cell.Value = "";
+                        }
+                    }
+                }
+            }
+        }
+
+        private void AsignarCeroSiVacioDgv_Pnl2_conv()
+        {
+            foreach (DataGridViewRow row in Dgv_Pnl2_conv.Rows)
+            {
+                foreach (DataGridViewCell cell in row.Cells)
+                {
+                    // Verifica si la celda está vacía y no es la columna "Vision"
+                    if (cell.Value == null || string.IsNullOrEmpty(cell.Value?.ToString()))
+                    {
+                        if (Dgv_Pnl2_conv.Columns[cell.ColumnIndex].Name != "aEsfera" && Dgv_Pnl2_conv.Columns[cell.ColumnIndex].Name != "aCilindro" && Dgv_Pnl2_conv.Columns[cell.ColumnIndex].Name != "Vision")
+                        {
+                            cell.Value = 0; // Asigna 0 a la celda
+                        }
+                        else if (Dgv_Pnl2_conv.Columns[cell.ColumnIndex].Name == "aEsfera" || Dgv_Pnl2_conv.Columns[cell.ColumnIndex].Name == "aCilindro")
+                        {
+                            cell.Value = ""; // Asigna "" a la celda si es A1 o A0
+                        }
+                    }
+                    //Si la celda no está vacía, verifica si pertenece a la columna "Vision"
+                    //else if (Dgv_Pnl2_conv.Columns[cell.ColumnIndex].Name == "Vision")
+                    //{
+                    //    // Set the cell's value to an empty string
+                    //    Dgv_Pnl2_conv.Rows[cell.RowIndex].Cells[cell.ColumnIndex].Value = string.Empty;
+                    //}
+                }
+            }
+        }
+
+        private void AsignarCeroSiVacioDgv_Pnl2_Querato()
+        {
+            foreach (DataGridViewRow row in Dgv_Pnl2_Querato.Rows)
+            {
+                foreach (DataGridViewCell cell in row.Cells)
+                {
+                    if (cell.Value == null || string.IsNullOrEmpty(cell.Value?.ToString()))
+                    {
+                        cell.Value = 0; // O "0" si la columna espera un string
+                    }
+                }
+            }
+        }
+
+        private void MostrarMensajeTemporal(string mensaje, int duracion)
+        {
+            // Asegúrate de que tienes un control para mostrar el mensaje, como una barra de estado (StatusStrip) o un Label.
+            // Aquí, se asume que tienes un StatusStrip llamado 'statusStripPrincipal' y un StatusLabel llamado 'statusLabelMensaje'.
+            //if (statusStripPrincipal != null && statusLabelMensaje != null)
+            //{
+            //    statusLabelMensaje.Text = mensaje; // Mostrar el mensaje
+            //  //  statusLabelMensaje.Visible = true;
+
+            //    // Crear un temporizador para ocultar el mensaje después de la duración especificada.
+            //    Timer timer = new Timer();
+            //    timer.Interval = duracion;
+            //    timer.Tick += (sender, e) =>
+            //    {
+            //        statusLabelMensaje.Text = ""; // Limpiar el mensaje
+            //        //statusLabelMensaje.Visible = false;
+            //        timer.Stop();
+            //        timer.Dispose(); // Liberar recursos del temporizador
+            //    };
+            //    timer.Start(); // Iniciar el temporizador
+            //}
+            //else
+            //{
+            //    // Si no tienes los controles necesarios, puedes usar un MessageBox como alternativa (no recomendado para mensajes temporales).
+            //    MessageBox.Show(mensaje, "Importante", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+            //}
+        }
+
+        private void tamañoExamenGridCont()
+
+        {   // Opcional: Configurar propiedades del DataGridView
+            Dgv_Pnl2_cont.AllowUserToAddRows = false;
+            Dgv_Pnl2_cont.AllowUserToDeleteRows = false;
+            Dgv_Pnl2_cont.ReadOnly = false;
+            //Dgv_Pnl2_cont.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            Dgv_Pnl2_cont.ColumnHeadersVisible = true;
+            Dgv_Pnl2_cont.RowHeadersVisible = false;
+            Dgv_Pnl2_cont.AllowUserToResizeColumns = false;
+            Dgv_Pnl2_cont.AllowUserToResizeRows = false;
+
+            Dgv_Pnl2_cont.Columns[0].ReadOnly = true; // Hace que la columna no sea editable
+
+            //if (Dgv_Pnl2_cont.Columns.Contains("Agudeza"))
+            //{
+            //    Dgv_Pnl2_cont.Columns["Agudeza"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            //    Dgv_Pnl2_cont.Columns["Agudeza"].Width = 35; // Establecer el ancho fijo (aproximadamente 0.5 cm)
+            //}
+
+            //if (Dgv_Pnl2_cont.Columns.Contains("Visual"))
+            //{
+            //    Dgv_Pnl2_cont.Columns["Visual"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            //    Dgv_Pnl2_cont.Columns["Visual"].Width = 70; // Establecer el ancho fijo (aproximadamente 0.5 cm)
+            //}
+            // Configurar la columna "aEsfera" para que no se ajuste automáticamente
+            if (Dgv_Pnl2_cont.Columns.Contains("aCilindro"))
+            {
+                Dgv_Pnl2_cont.Columns["aCilindro"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                Dgv_Pnl2_cont.Columns["aCilindro"].Width = 40; // Establecer el ancho fijo (aproximadamente 0.5 cm)
+                Dgv_Pnl2_cont.Columns["aCilindro"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+            }
+
+            // Configurar la columna "aEsfera" para que no se ajuste automáticamente
+            if (Dgv_Pnl2_cont.Columns.Contains("aEsfera"))
+            {
+                Dgv_Pnl2_cont.Columns["aEsfera"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                Dgv_Pnl2_cont.Columns["aEsfera"].Width = 40; // Establecer el ancho fijo (aproximadamente 0.5 cm)
+                Dgv_Pnl2_cont.Columns["aEsfera"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+            }
+
+            if (Dgv_Pnl2_cont.Columns.Contains("Esfera"))
+            {
+                Dgv_Pnl2_cont.Columns["Esfera"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            }
+
+            if (Dgv_Pnl2_cont.Columns.Contains("Cilindro"))
+            {
+
+                Dgv_Pnl2_cont.Columns["Cilindro"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            }
+            //if (Dgv_Pnl2_cont.Columns.Contains("Adicion"))
+            //{
+            //    Dgv_Pnl2_cont.Columns["Adicion"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            //    Dgv_Pnl2_cont.Columns["Adicion"].Width = 60; // Establecer el ancho fijo (aproximadamente 0.5 cm)
+            //}
+
+
+            //if (Dgv_Pnl2_cont.Columns.Contains("Lejos"))
+            //{
+            //    Dgv_Pnl2_cont.Columns["Lejos"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            //    Dgv_Pnl2_cont.Columns["Lejos"].Width = 60; // Establecer el ancho fijo (aproximadamente 0.5 cm)
+            //}
+
+            //if (Dgv_Pnl2_cont.Columns.Contains("Cerca"))
+            //{
+            //    Dgv_Pnl2_cont.Columns["Cerca"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            //    Dgv_Pnl2_cont.Columns["Cerca"].Width = 60; // Establecer el ancho fijo (aproximadamente 0.5 cm)
+            //}
+
+
+
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+
+            // Obtener el texto del textBox1
+            string textoFiltro = textBox2.Text.Trim(); // .Trim() para eliminar espacios en blanco al inicio y al final
+
+            // Validar la longitud del texto
+            if (textoFiltro.Length < 3 && textoFiltro.Length > 0) // Si tiene entre 1 y 2 caracteres
+            {
+                // Mostrar un mensaje al usuario
+                MessageBox.Show("Por favor, ingrese al menos 3 caracteres para realizar la búsqueda.", "Filtro Insuficiente", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                textBox1.Focus(); // Opcional: devolver el foco al TextBox para que el usuario corrija
+            }
+            else if (textoFiltro.Length == 0) // Si el campo está vacío, puedes decidir si cargar todo o no hacer nada
+            {
+                // Si el campo está vacío, puedes optar por no hacer nada o cargar todos los datos
+                // Por ejemplo, si quieres que al borrar el texto se muestren todos los clientes:
+                // CargarDatosDeClientes(textoFiltro, radioButton2, radioButton1);
+                // O simplemente no hacer nada si no hay filtro
+                // Console.WriteLine("Campo de filtro vacío, no se realiza búsqueda.");
+            }
+            else // Si la longitud es 3 o más caracteres
+            {
+                // Llamar al método para cargar los datos de los clientes
+                CargarDatosDeClientesP(textoFiltro, radioButton2, radioButton1);
+            }
+
+            //_L_Cliente.FiltrarClientes(textBox2.Text, radioButton2, radioButton1, DgvClientes, listaDeClientes, listaTemporalClientes);
+
+        }
+
+        private void CargarDatosDeClientesP(string filtro, RadioButton buscarPorCedula, RadioButton buscarPorNombre)
+        {
+            //_L_Cliente.CargarClientes(DgvClientes, listaDeClientes);
+
+
+
+            textBox2.Focus();
+            _L_Cliente.CargarClientes(DgvClientes, listaDeClientes, filtro, buscarPorCedula, buscarPorNombre);
+
+            if (_L_Cliente.stringBuilder.Length > 0)
+            {
+                MessageBox.Show(_L_Cliente.stringBuilder.ToString());
+            }
+            else
+            {
+                dvgClientePagador.DataSource = listaDeClientes; // Asignar aquí en la UI
+                listaTemporalClientes = new List<TB_CTEPPAL>(listaDeClientes); // Inicializar la lista temporal
+            }
+
+
+
+            // Ocultar todas las columnas inicialmente
+            foreach (DataGridViewColumn columna in dvgClientePagador.Columns)
+            {
+                columna.Visible = false;
+            }
+
+            // Hacer visibles las columnas con índice 0 y 1 (si existen)
+            if (dvgClientePagador.Columns.Count > 3)
+            {
+                dvgClientePagador.Columns[3].Visible = true;
+            }
+
+            if (dvgClientePagador.Columns.Count > 4)
+            {
+                dvgClientePagador.Columns[4].Visible = true;
+            }
+
+
+            dvgClientePagador.AllowUserToAddRows = false;
+            dvgClientePagador.AllowUserToDeleteRows = false;
+            dvgClientePagador.ReadOnly = false;
+            //Dgv_Pnl2_cont.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dvgClientePagador.ColumnHeadersVisible = true;
+            dvgClientePagador.RowHeadersVisible = false;
+            dvgClientePagador.AllowUserToResizeColumns = false;
+            dvgClientePagador.AllowUserToResizeRows = false;
+
+
+
+            if (dvgClientePagador.ColumnCount > 2)
+            {
+                dvgClientePagador.Columns[3].HeaderText = "RIF";
+            }
+            if (dvgClientePagador.ColumnCount > 4)
+            {
+                dvgClientePagador.Columns[4].HeaderText = "Nombre";
+            }
+
+            dvgClientePagador.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            dvgClientePagador.Columns[2].Width = 100; // Establecer el ancho fijo (aproximadamente 0.5 cm)
+            dvgClientePagador.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            dvgClientePagador.Columns[3].Width = 500; // Establecer el ancho fijo (aproximadamente 0.5 cm)
+
+        }
+
+        private void textBox1_Enter(object sender, EventArgs e)
+        {
+
+            textBox1_Leave(sender, e);
+        }
+
+        private void textBox1_MouseLeave(object sender, EventArgs e)
+        {
+            textBox1_Leave(sender, e);
+        }
+
+        private void textBox1_Leave(object sender, EventArgs e)
+        {
+
+            // Obtener el texto del textBox1
+            string textoFiltro = textBox1.Text.Trim(); // .Trim() para eliminar espacios en blanco al inicio y al final
+
+            // Validar la longitud del texto
+            if (textoFiltro.Length < 3 && textoFiltro.Length > 0) // Si tiene entre 1 y 2 caracteres
+            {
+                // Mostrar un mensaje al usuario
+                MessageBox.Show("Por favor, ingrese al menos 3 caracteres para realizar la búsqueda.", "Filtro Insuficiente", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                textBox1.Focus(); // Opcional: devolver el foco al TextBox para que el usuario corrija
+            }
+            else if (textoFiltro.Length == 0) // Si el campo está vacío, puedes decidir si cargar todo o no hacer nada
+            {
+                // Si el campo está vacío, puedes optar por no hacer nada o cargar todos los datos
+                // Por ejemplo, si quieres que al borrar el texto se muestren todos los clientes:
+                // CargarDatosDeClientes(textoFiltro, radioButton2, radioButton1);
+                // O simplemente no hacer nada si no hay filtro
+                // Console.WriteLine("Campo de filtro vacío, no se realiza búsqueda.");
+            }
+            else // Si la longitud es 3 o más caracteres
+            {
+                // Llamar al método para cargar los datos de los clientes
+                CargarDatosDeClientes(textoFiltro, radioButton2, radioButton1);
+            }
+        }
+
+        private void textBox1_KeyDown(object sender, KeyEventArgs e)
+        {
+            // Verifica si la tecla presionada es la tecla Enter
+            if (e.KeyCode == Keys.Enter)
+            {
+                // Opcional: Prevenir que el sonido de "ding" del sistema se reproduzca
+                // cuando se presiona Enter en un TextBox multilínea.
+                // Para un TextBox de una sola línea, esto no suele ser necesario.
+                e.SuppressKeyPress = true;
+
+                // Mueve el foco al control DgvClientes
+                // Asegúrate de que 'DgvClientes' es el nombre correcto de tu DataGridView.
+                if (DgvClientes != null) // Es buena práctica verificar que el control no sea nulo
+                {
+                    DgvClientes.Focus();
+                }
+                else
+                {
+                    // Mensaje de depuración si DgvClientes no se encuentra (solo para desarrollo)
+                    Console.WriteLine("Error: El control DgvClientes no se encontró o no está inicializado.");
+                }
+            }
+        }
+
+        private void CargarDatosDeClientes(string filtro, RadioButton buscarPorCedula, RadioButton buscarPorNombre)
+        {
+
+            textBox1.Focus();
+            _L_Cliente.CargarClientes(DgvClientes, listaDeClientes, filtro, buscarPorCedula, buscarPorNombre);
+
+
+
+            if (_L_Cliente.stringBuilder.Length > 0)
+            {
+                MessageBox.Show(_L_Cliente.stringBuilder.ToString());
+            }
+            else
+            {
+                DgvClientes.DataSource = listaDeClientes; // Asignar aquí en la UI
+                listaTemporalClientes = new List<TB_CTEPPAL>(listaDeClientes); // Inicializar la lista temporal
+
+
+                // Ocultar todas las columnas inicialmente
+                foreach (DataGridViewColumn columna in DgvClientes.Columns)
+                {
+                    columna.Visible = false;
+                }
+
+                // Hacer visibles las columnas con índice 0 y 1 (si existen)
+                if (DgvClientes.Columns.Count > 2)
+                {
+                    DgvClientes.Columns[2].Visible = true;
+                }
+
+                if (DgvClientes.Columns.Count > 3)
+                {
+                    DgvClientes.Columns[3].Visible = true;
+                }
+
+
+
+                DgvClientes.AllowUserToAddRows = false;
+                DgvClientes.AllowUserToDeleteRows = false;
+                DgvClientes.ColumnHeadersVisible = true;
+                DgvClientes.RowHeadersVisible = false;
+                DgvClientes.AllowUserToResizeColumns = false;
+                DgvClientes.AllowUserToResizeRows = false;
+
+                // Establecer el DataGridView como de solo lectura
+                DgvClientes.ReadOnly = true;
+
+                // Establecer los encabezados de las columnas
+
+                if (DgvClientes.ColumnCount > 3)
+                {
+                    DgvClientes.Columns[2].HeaderText = "RIF";
+                }
+                if (DgvClientes.ColumnCount > 4)
+                {
+                    DgvClientes.Columns[3].HeaderText = "Nombre";
+                }
+
+                //// Quitar la línea vertical entre la columna 0 y la 1
+                //if (DgvClientes.ColumnCount > 1)
+                //{
+                //    foreach (DataGridViewRow row in DgvClientes.Rows)
+                //    {
+                //        row.Cells[0].Style.Border.Right = DataGridViewCellBorderStyles.None;
+                //    }
+                //    // Corrección para acceder a las celdas del encabezado
+                //    if (DgvClientes.ColumnHeadersHeightSizeMode != DataGridViewColumnHeadersHeightSizeMode.DisableResizing && DgvClientes.ColumnHeaders != null && DgvClientes.ColumnHeaders.Cells.Count > 1)
+                //    {
+                //        DgvClientes.ColumnHeaders.Cells[0].Style.Border.Right = DataGridViewCellBorderStyles.None;
+                //    }
+                //}
+
+
+                DgvClientes.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                DgvClientes.Columns[2].Width = 100;
+                DgvClientes.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                DgvClientes.Columns[3].Width = 500;
+            }
+        }
+
+        private void guardacliente()
+        {
+
+
+
+            // Crear una instancia de la entidad TB_CTEPPAL para almacenar los datos
+
+            TB_CTEPPAL nuevoCliente = new TB_CTEPPAL();
+
+            // Recopilar los datos de los controles del formulario
+            nuevoCliente.CTE_CedIden = Txt_Tap1_Cedula.Text.Trim();
+            nuevoCliente.CTE_Nacio = Cbx_Tap1_Nacionalidad.Text.Trim(); // Ajusta según cómo manejas la nacionalidad
+            nuevoCliente.CTE_PNombre = Txt_Tap1_Nombre.Text.Trim();
+            //nuevoCliente.CTE_SNombre = string.IsNullOrEmpty(Txt_Tap1_SegundoNombre.Text) ? null : Txt_Tap1_SegundoNombre.Text.Trim(); // Asume que tienes un Txt_Tap1_SegundoNombre
+            //nuevoCliente.CTE_PApellido = Txt_Tap1_Apellido.Text.Trim(); // Asume que tienes un Txt_Tap1_Apellido
+            //nuevoCliente.CTE_SApellido = string.IsNullOrEmpty(Txt_Tap1_SegundoApellido.Text) ? null : Txt_Tap1_SegundoApellido.Text.Trim(); // Asume que tienes un Txt_Tap1_SegundoApellido
+            nuevoCliente.CTE_FNac = Dtp_Tap1_Nacimiento.Value.Date;
+            nuevoCliente.CTE_FecAfil = DateTime.Now.Date; // Asigna la fecha de afiliación actual
+            nuevoCliente.COD_STCTE = "ACT"; // Asigna un estado por defecto (ajusta según tu lógica)
+
+            // Obtener el sexo del CheckListBox ahora es radiobuton
+            if (Rd_Tap1_SexoF.Checked && !Rd_Tap1_SexoM.Checked)
+            {
+                nuevoCliente.CTE_Sex = "F"; // Femenino
+            }
+            else if (!Rd_Tap1_SexoF.Checked && Rd_Tap1_SexoM.Checked)
+            {
+                nuevoCliente.CTE_Sex = "M"; // Masculino
+            }
+            else
+            {
+                nuevoCliente.CTE_Sex = null; // O maneja un estado no especificado (ninguno seleccionado o ambos, aunque esto último no debería ocurrir en un grupo de RadioButton bien configurado)
+            }
+
+            //nuevoCliente.CTE_CodOcup = string.IsNullOrEmpty(Txt_Tap1_Ocupacion.Text) ? null : Txt_Tap1_Ocupacion.Text.Trim(); // Asume que tienes un Txt_Tap1_Ocupacion
+            //nuevoCliente.CTE_EdoCiv = Cbx_Tap1_EstadoCivil.Text.Trim(); // Asume que tienes un Cbx_Tap1_EstadoCivil
+            nuevoCliente.COD_Sucursal = "01"; // Asigna una sucursal por defecto (ajusta según tu lógica)
+            nuevoCliente.CTE_FecCreacion = DateTime.Now;
+            nuevoCliente.USER_CREA = "US"; // Reemplaza con el usuario actual del sistema
+
+            //nuevoCliente.Direccion_fact = string.IsNullOrEmpty(Txt_Tap1_Direccion_fact.Text) ? null : Txt_Tap1_Direccion_fact.Text.Trim(); // Asume que tienes un Txt_Tap1_Direccion
+            //nuevoCliente.Facebook = string.IsNullOrEmpty(Txt_Tap1_Facebook.Text) ? null : Txt_Tap1_Facebook.Text.Trim(); // Asume que tienes un Txt_Tap1_Facebook
+            //nuevoCliente.Twitter = string.IsNullOrEmpty(Txt_Tap1_Twitter.Text) ? null : Txt_Tap1_Twitter.Text.Trim(); // Asume que tienes un Txt_Tap1_Twitter
+            //nuevoCliente.Instagram = string.IsNullOrEmpty(Txt_Tap1_Instagram.Text) ? null : Txt_Tap1_Instagram.Text.Trim(); // Asume que tienes un Txt_Tap1_Instagram
+
+            // Obtener los valores de los CheckBoxes de retención
+            nuevoCliente.CTE_RETISLR = Chex_Tap1_Iva.GetItemChecked(0); // Asume que ISR está en el índice 0
+            nuevoCliente.CTE_RETIVA = Chex_Tap1_Iva.GetItemChecked(1); // Asume que IVA está en el índice 1
+
+            nuevoCliente.COD_Edo = Cbx_Tap1_Estado.SelectedValue != null ? Cbx_Tap1_Estado.SelectedValue.ToString() : null;
+
+            nuevoCliente.COD_Ciud = Cbx_Tap1_Ciudad.SelectedValue != null ? Cbx_Tap1_Ciudad.SelectedValue.ToString() : null;
+
+            //   nuevoCliente.CTE_CedIdenP = Txt_Tap1_Cedula_Pagador.Text.Trim();
+            // nuevoCliente.CTE_NacioP = Cbx_Tap1_Nacionalidad_Pagador.Text.Trim(); // Ajusta según cómo manejas la nacionalidad
+
+            // Llamar al método de la capa lógica para guardar el cliente
+            resultado = _L_Cliente.GuardarCliente(nuevoCliente);
+
+            // Procesar el resultado de la operación de guardado
+            if (resultado.Equals("Guardado"))
+            {
+
+                if (!validaVaciocorreemail())
+                { return; }
+
+                // --- Proceso para Insertar Teléfono ---
+                TB_CTETLF nuevoTelefono = new TB_CTETLF();
+                CapaLogica.CargarClientes_Logica.L_Cliente logicaClienteTelefono = new CapaLogica.CargarClientes_Logica.L_Cliente();
+
+                if (!string.IsNullOrEmpty(this.Txt_Tap1_TLF_Celular.Text))
+                {
+                    // Asigna los valores desde tus controles del formulario
+                    nuevoTelefono.CTE_Nacio = this.Cbx_Tap1_Nacionalidad.Text; // Valor del control para la nacionalidad (ej: textBoxNacionalidadTelefono.Text);
+                    nuevoTelefono.CTE_CedIden = this.Txt_Tap1_Cedula.Text; // Valor de la cédula del cliente (debes tenerla disponible, ej: textBoxCedulaCliente.Text);
+                    nuevoTelefono.TLF_Tipo = "002"; // Valor del control para el tipo de teléfono (ej: comboBoxTipoTelefono.SelectedItem.ToString());
+                    nuevoTelefono.TLF_Cod = this.Cbx_Tap1_TLF_Celular.Text;// Valor del control para el código del teléfono (ej: textBoxCodigoTelefono.Text);
+                    nuevoTelefono.TLF_Numero = this.Txt_Tap1_TLF_Celular.Text; // Valor del control para el número de teléfono (ej: textBoxNumeroTelefono.Text);
+                    nuevoTelefono.TLF_Ext = "";// Valor del control para la extensión (ej: textBoxExtensionTelefono.Text);
+                                               //nuevoTelefono.TLF_FecCrea = DateTime.Now; // Establecer la fecha de creación (tipo DateTime)nuevoTelefono.TLF_FecCrea = DateTime.Now; // Establecer la fecha de creación (tipo DateTime)
+                    nuevoTelefono.USER_Crea = "us";// Usuario que está creando el registro (debes tenerlo disponible, ej: UsuarioLogueado.NombreUsuario);
+
+                    // Crea una instancia de la capa lógica para teléfonos
+                    resultadoTelefono = logicaClienteTelefono.InsertarTelefono(nuevoTelefono);
+
+                    // Maneja el resultado de la inserción del teléfono
+                    if (resultadoTelefono == "Teléfono guardado")
+                    {
+                        //MessageBox.Show("Teléfono guardado exitosamente.", "Importante", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                        // Puedes realizar acciones adicionales después de guardar el teléfono
+                    }
+                    else
+                    {
+                        // MessageBox.Show($"Error al guardar el teléfono: {resultadoTelefono}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                        // Puedes registrar el error o informar al usuario de otra manera
+                    }
+                }
+
+
+
+
+                if (!string.IsNullOrEmpty(this.Txt_Tap1_TLF_Local.Text))
+                {
+                    // Asigna los valores desde tus controles del formulario
+                    nuevoTelefono.CTE_Nacio = this.Cbx_Tap1_Nacionalidad.Text; // Valor del control para la nacionalidad (ej: textBoxNacionalidadTelefono.Text);
+                    nuevoTelefono.CTE_CedIden = this.Txt_Tap1_Cedula.Text; // Valor de la cédula del cliente (debes tenerla disponible, ej: textBoxCedulaCliente.Text);
+                    nuevoTelefono.TLF_Tipo = "003"; // Valor del control para el tipo de teléfono (ej: comboBoxTipoTelefono.SelectedItem.ToString());
+                    nuevoTelefono.TLF_Cod = this.Cbx_Tap1_TLF_Local.Text;// Valor del control para el código del teléfono (ej: textBoxCodigoTelefono.Text);
+                    nuevoTelefono.TLF_Numero = this.Txt_Tap1_TLF_Local.Text; // Valor del control para el número de teléfono (ej: textBoxNumeroTelefono.Text);
+                                                                             //nuevoTelefono.TLF_Ext = Txt_Tap1_ext_Local.Text;// Valor del control para la extensión (ej: textBoxExtensionTelefono.Text);
+                                                                             //nuevoTelefono.TLF_FecCrea = DateTime.Now; // Establecer la fecha de creación (tipo DateTime)nuevoTelefono.TLF_FecCrea = DateTime.Now; // Establecer la fecha de creación (tipo DateTime)
+                    nuevoTelefono.USER_Crea = "us";// Usuario que está creando el registro (debes tenerlo disponible, ej: UsuarioLogueado.NombreUsuario);
+
+                    // Crea una instancia de la capa lógica para teléfonos
+                    //CapaLogica.CargarClientes_Logica.L_Cliente logicaClienteTelefono = new CapaLogica.CargarClientes_Logica.L_Cliente();
+                    resultadoTelefono = logicaClienteTelefono.InsertarTelefono(nuevoTelefono);
+
+                    // Maneja el resultado de la inserción del teléfono
+                    if (resultadoTelefono == "Teléfono guardado")
+                    {
+                        //MessageBox.Show("Teléfono guardado exitosamente.", "Importante", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                        // Puedes realizar acciones adicionales después de guardar el teléfono
+                    }
+                    else
+                    {
+                        //MessageBox.Show($"Error al guardar el teléfono: {resultadoTelefono}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                        // Puedes registrar el error o informar al usuario de otra manera
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(this.Txt_Tap1_Email.Text))
+                {
+                    // --- Proceso para Insertar Email ---
+                    TB_CTEMAIL nuevoEmail = new TB_CTEMAIL();
+
+                    // Asigna los valores desde tus controles del formulario
+                    nuevoEmail.CTE_Nacio = this.Cbx_Tap1_Nacionalidad.Text;  // Valor del control para la nacionalidad (ej: textBoxNacionalidadEmail.Text);
+                    nuevoEmail.CTE_CedIden = this.Txt_Tap1_Cedula.Text; // Valor de la cédula del cliente (debes tenerla disponible, ej: textBoxCedulaCliente.Text);
+                    nuevoEmail.Mail_Loogin = this.Txt_Tap1_Email.Text;// Valor del control para el login del email (ej: textBoxLoginEmail.Text);
+                                                                      //nuevoEmail.Mail_Dominio = // Valor del control para el dominio del email (ej: textBoxDominioEmail.Text);
+                                                                      //nuevoEmail.Mail_Ext = // Valor del control para la extensión del email (ej: textBoxExtensionEmail.Text);
+                                                                      //nuevoEmail.Mail_Pref = chk_Tap1_email.Checked.ToString();
+                    nuevoEmail.Mail_FecCrea = DateTime.Now; // .Fecha de creación actual
+                    nuevoEmail.Mail_FecModif = DateTime.Now; // .Fecha de creación actual
+                    nuevoEmail.USER_Crea = "us";// Usuario que está creando el registro (debes tenerlo disponible, ej: UsuarioLogueado.NombreUsuario);
+
+                    // Crea una instancia de la capa lógica para emails (puedes usar la misma instancia si prefieres)
+                    CapaLogica.CargarClientes_Logica.L_Cliente logicaClienteEmail = new CapaLogica.CargarClientes_Logica.L_Cliente();
+                    string resultadoEmail = logicaClienteEmail.InsertarEmail(nuevoEmail);
+
+                    // Maneja el resultado de la inserción del email
+                    if (resultadoEmail == "Email guardado")
+                    {
+                        //MessageBox.Show("Email guardado exitosamente.", "Importante", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                        // Puedes realizar acciones adicionales después de guardar el email
+                    }
+                    else
+                    {
+
+                        Pnl_2_Msj.Visible = true;
+                        txt_pl2_msj.Text = " Error al guardar el email: {resultadoEmail}";
+                        pb_pl2_mj.Visible = true;
+
+                        // Puedes registrar el error o informar al usuario de otra manera
+                    }
+
+                    // Opcional: Puedes recargar la información del cliente para mostrar el teléfono y email recién agregados
+                    // CargarInfoCliente(textBoxCedulaCliente.Text);
+                }
+
+
+
+                Pnl_2_Msj.Visible = true;
+                txt_pl2_msj.Text = "Cliente Guardado con Exito";
+                pb_pl2_mj.Visible = false;
+
+                //MessageBox.Show("Cliente Guardado Exitosamente", "Importante", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                btnExamen.Enabled = true;
+
+
+                // Limpiar los campos del formulario si es necesario
+                guardaclienteP();
+
+                Btn_Tap2_Derecha_Click(this.Btn_Tap2_Derecha, EventArgs.Empty);
+                tabControl.SelectedIndex = 1;
+                // LimpiarCampos();
+                // Recargar la lista de clientes si es necesario
+                // CargarClientesEnDataGridView();
+            }
+            else
+            {
+                MessageBox.Show($"Error al guardar el cliente: {resultado}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+            }
+
+        }
+
+        private void llenarcampos()
+        {
+
+            LimpiarCampos2();
+            limpearExamen();
+
+
+            Txt_Pnl_2_Cedula.Text = dtCliente.Rows[0]["CTE_CedIden"].ToString(); // Ajusta el nombre de la columna
+            Txt_Pnl_2_Nombre.Text = dtCliente.Rows[0]["CTE_PNombre"].ToString(); // Ajusta el nombre de la columna
+
+
+            // Asigna los valores de la base de datos a las cajas de texto
+            Cbx_Tap1_Nacionalidad.Text = dtCliente.Rows[0]["CTE_Nacio"].ToString();
+            Txt_Tap1_Cedula.Text = dtCliente.Rows[0]["CTE_CedIden"].ToString(); // Ajusta el nombre de la columna
+            Txt_Tap1_Nombre.Text = dtCliente.Rows[0]["CTE_PNombre"].ToString(); // Ajusta el nombre de la columna
+
+
+            Dtp_Tap1_Nacimiento.Text = dtCliente.Rows[0]["CTE_FNac"].ToString();
+
+            // ... Asigna los demás campos según tu estructura de base de datos
+
+            if (dtCliente.Rows[0]["CTE_RETIVA"] != DBNull.Value && Convert.ToBoolean(dtCliente.Rows[0]["CTE_RETIVA"]))
+            {
+                Chex_Tap1_Iva.SetItemChecked(1, true); // Marcar el segundo elemento
+            }
+            else
+            {
+                Chex_Tap1_Iva.SetItemChecked(1, false); // Desmarcar el segundo elemento si es falso o nulo
+            }
+
+            if (dtCliente.Rows[0]["CTE_RETISLR"] != DBNull.Value && Convert.ToBoolean(dtCliente.Rows[0]["CTE_RETISLR"]))
+            {
+                Chex_Tap1_Iva.SetItemChecked(0, true); // Marcar el primer elemento (asumiendo que es ISR)
+            }
+            else
+            {
+                Chex_Tap1_Iva.SetItemChecked(0, false); // Desmarcar el primer elemento si es falso o nulo
+            }
+
+            if (dtCliente.Rows[0]["CTE_Sex"] != DBNull.Value)
+            {
+                string sexo = dtCliente.Rows[0]["CTE_Sex"].ToString().Trim().ToUpper();
+
+                if (sexo == "F")
+                {
+                    Rd_Tap1_SexoF.Checked = true;
+                    Rd_Tap1_SexoM.Checked = false;
+                }
+                else if (sexo == "M")
+                {
+                    Rd_Tap1_SexoM.Checked = true;
+                    Rd_Tap1_SexoF.Checked = false;
+                }
+            }
+            else
+            {
+                Rd_Tap1_SexoF.Checked = false;
+                Rd_Tap1_SexoM.Checked = true;
+            }
+
+
+
+
+            //Txt_Tap1_Direccion_fact.Text = dtCliente.Rows[0]["Direccion_fact"].ToString();
+            //Txt_Tap1_Cedula_Pagador.Text = dtCliente.Rows[0]["CTE_CedIdenP"].ToString();
+            //Txt_Tap1_Nombre_Pagador.Text = dtCliente.Rows[0]["Nombre_Pagador"].ToString();
+            //Txt_Tap1_Facebook.Text = dtCliente.Rows[0]["Facebook"].ToString();
+            //Txt_Tap1_Twitter.Text = dtCliente.Rows[0]["Twitter"].ToString();
+            //Txt_Tap1_Instagram.Text = dtCliente.Rows[0]["Instagram"].ToString();
+
+
+
+
+            // Opcional: Establecer un valor por defecto.
+            if (dtCliente != null && dtCliente.Rows.Count > 0)
+            {
+                Cbx_Tap1_Ciudad.SelectedValue = dtCliente.Rows[0]["COD_Ciud"]; // Establece el primer estado como seleccionado
+            }
+            else
+            {
+                Cbx_Tap1_Estado.SelectedIndex = -1; // No selecciona nada si el DataTable está vacío
+            }
+
+            Txt_Tap2_Examen.Text = dtCliente.Rows[0]["NumExamen"].ToString();
+
+            //TopeExamen = dtCliente.Rows[0]["NumExamen"].ToString();
+
+
+            if (dtCliente.Rows.Count > 0 && dtCliente.Rows[0]["NumExamen"] != DBNull.Value)
+            {
+                if (int.TryParse(dtCliente.Rows[0]["NumExamen"].ToString(), out int topeExamenInt))
+                {
+                    TopeExamen = topeExamenInt;
+                    btnExamen.Enabled = true;
+                    // Ahora la variable TopeExamen (que debe ser de tipo int)
+                    // contiene el valor entero extraído de la DataTable.
+                }
+
+            }
+
+
+            CargarExamenConv();
+
+
+
+
+
+
+
+            Cbx_Tap1_Ciudad.SelectedValue = dtCliente.Rows[0]["COD_Ciud"].ToString();
+            //Cbx_Tap1_Ciudad.DisplayMember = dtCliente.Rows[0]["CIUD_Nombre"].ToString();
+            //
+            Cbx_Tap1_Estado.SelectedValue = dtCliente.Rows[0]["COD_Edo"].ToString();
+            //         	   ,NULL[TLF_Cod002]
+            //,NULL[TLF_Numero002]
+            //,NULL[TLF_Ext002]
+            //,NULL[TLF_Cod003]
+            //,NULL[TLF_Numero003]
+            //,NULL[TLF_Ext03]
+            //,NULL[Mail_Loogin]
+
+
+            //Cbx_Tap1_TLF_Celular.SelectedValue = dtCliente.Rows[0]["TLF_Cod002"].ToString();
+            //  Cbx_Tap1_TLF_Celular.SelectedValue = dtCliente.Rows[0]["TLF_Cod002"].ToString().Trim();
+
+            string valorABuscar = dtCliente.Rows[0]["TLF_Cod002"].ToString().Trim();
+            bool encontrado = false;
+
+            foreach (object item in Cbx_Tap1_TLF_Celular.Items)
+            {
+                // Como llenaste el ComboBox con strings directamente,
+                // cada 'item' en la colección Items es un string.
+                if (item != null && item.ToString() == valorABuscar)
+                {
+                    Cbx_Tap1_TLF_Celular.SelectedItem = item;
+                    encontrado = true;
+                    break; // Importante salir del bucle una vez que se encuentra la coincidencia
+                }
+            }
+            Txt_Tap1_TLF_Celular.Text = dtCliente.Rows[0]["TLF_Numero002"].ToString();
+
+
+            //  Cbx_Tap1_TLF_Local.SelectedValue = dtCliente.Rows[0]["TLF_Cod003"].ToString().Trim();
+            string valorABuscar1 = dtCliente.Rows[0]["TLF_Cod003"].ToString().Trim();
+            bool encontrado1 = false;
+
+            foreach (object item1 in Cbx_Tap1_TLF_Local.Items)
+            {
+                // Como llenaste el ComboBox con strings directamente,
+                // cada 'item' en la colección Items es un string.
+                if (item1 != null && item1.ToString() == valorABuscar1)
+                {
+                    Cbx_Tap1_TLF_Local.SelectedItem = item1;
+                    encontrado1 = true;
+                    break; // Importante salir del bucle una vez que se encuentra la coincidencia
+                }
+            }
+            Txt_Tap1_TLF_Local.Text = dtCliente.Rows[0]["TLF_Numero003"].ToString();
+
+
+            Txt_Tap1_Email.Text = dtCliente.Rows[0]["Mail_Loogin"].ToString();
+
+
+            //Cbx_Tap1_Estado.DisplayMember = dtCliente.Rows[0]["EDO_Nombre"].ToString();
+            // Habilita las demás cajas de texto (esto ya estaba habilitado en otro botón)
+
+            Txt_Tap1_Cedula.Enabled = true;
+            Txt_Tap1_Cedula_Pagador.Enabled = true;
+            Txt_Tap1_Edad.Enabled = true;
+            Txt_Tap1_Email.Enabled = true;
+            Dtp_Tap1_Nacimiento.Enabled = true;
+            Txt_Tap1_Nombre.Enabled = true;
+            Txt_Tap1_Nombre_Pagador.Enabled = true;
+            Txt_Tap1_TLF_Celular.Enabled = true;
+            Txt_Tap1_TLF_Local.Enabled = true;
+            //   this.Txt_Tap1_Direccion_fact.Enabled = true;
+            Txt_Tap1_Cedula_Pagador.Enabled = true;
+            Txt_Tap1_Nombre_Pagador.Enabled = true;
+            txt_Pnl2_cont_observa.Enabled = true;
+            //Txt_Tap1_Facebook.Enabled = true;
+            //Txt_Tap1_Twitter.Enabled = true;
+            //Txt_Tap1_Instagram.Enabled = true;
+
+            //dtClienteconGarantia = _L_Cliente.ObtenerClienteConGarantia(_D_DetalleOrden.TB_PARAMETRO("SucursalID"), Txt_Tap1_Cedula.Text, Cbx_Tap1_Nacionalidad.Text); // Usa la instancia _L_Cliente
+
+            //if (dtClienteconGarantia.Rows.Count > 0)
+            //{
+            //}
+
+        }
+
+        private bool validaVaciocorreemail()
+        {
+            // Validación para Txt_Tap1_TLF_hab
+
+            string textoIngresadoTLFCelular = Txt_Tap1_TLF_Celular.Text;
+            if (Cbx_Tap1_TLF_Celular.SelectedIndex > -1)
+            {
+
+                if (string.IsNullOrEmpty(textoIngresadoTLFCelular))
+                {
+                    Pnl_2_Msj.Visible = true;
+                    txt_pl2_msj.Text = "Registre un número de celular para continuar";
+                    pb_pl2_mj.Visible = true;
+
+                }
+                Cbx_Tap1_TLF_Local.Focus(); // Coloca el foco en el ComboBox para que el usuario corrija.
+                return false; // Detiene la ejecución del resto del código del botón.
+            }
+
+
+
+            // Validación para Txt_Tap1_TLF_Celular
+
+            if (!string.IsNullOrEmpty(textoIngresadoTLFCelular))
+            {
+                if (!EsNumeroDeSieteDigitos(textoIngresadoTLFCelular))
+                {
+                    Pnl_2_Msj.Visible = true;
+                    txt_pl2_msj.Text = "El número de teléfono debe contener exactamente 7 dígitos";
+                    pb_pl2_mj.Visible = true;
+
+                    Txt_Tap1_TLF_Celular.Focus();
+                    return false;
+                }
+                if (Cbx_Tap1_TLF_Celular.SelectedIndex == -1)
+                {
+
+                    Pnl_2_Msj.Visible = true;
+                    txt_pl2_msj.Text = "Seleccione un número de Operador para continuar";
+                    pb_pl2_mj.Visible = true;
+
+                    Cbx_Tap1_TLF_Celular.Focus(); // Coloca el foco en el ComboBox para que el usuario corrija.
+                    return false; // Detiene la ejecución del resto del código del botón.
+                }
+
+            }
+
+            //// Validación para Txt_Tap1_TLF_Local
+            string textoIngresadoTLFLocal = Txt_Tap1_TLF_Local.Text;
+            //if (Cbx_Tap1_TLF_Local.SelectedIndex > -1)
+            //{
+
+            //    if (string.IsNullOrEmpty(textoIngresadoTLFLocal))
+            //    {
+            //        Pnl_2_Msj.Visible = true;
+            //        txt_pl2_msj.Text = "Registre un número de Local para continuar";
+            //        pb_pl2_mj.Visible = true;
+
+            //    }
+            //    Cbx_Tap1_TLF_Local.Focus(); // Coloca el foco en el ComboBox para que el usuario corrija.
+            //    return false; // Detiene la ejecución del resto del código del botón.
+            //}
+
+
+            if (!string.IsNullOrEmpty(textoIngresadoTLFLocal))
+            {
+                if (!EsNumeroDeSieteDigitos(textoIngresadoTLFLocal))
+                {
+                    Pnl_2_Msj.Visible = true;
+                    txt_pl2_msj.Text = "El número de teléfono local debe contener exactamente 7 dígitos";
+                    pb_pl2_mj.Visible = true;
+
+
+                    Txt_Tap1_TLF_Local.Focus();
+                    return false;
+                }
+                // Verifica si no se ha seleccionado nada en el ComboBox.
+                if (Cbx_Tap1_TLF_Local.SelectedIndex == -1)
+                {
+
+                    Pnl_2_Msj.Visible = true;
+                    txt_pl2_msj.Text = "Seleccione un número de teléfono local para continuar";
+                    pb_pl2_mj.Visible = true;
+
+
+                    Cbx_Tap1_TLF_Local.Focus(); // Coloca el foco en el ComboBox para que el usuario corrija.
+                    return false; // Detiene la ejecución del resto del código del botón.
+                }
+
+            }
+
+            // Validación para Txt_Tap1_Email
+            string textoIngresadoEmail = Txt_Tap1_Email.Text;
+            if (!string.IsNullOrEmpty(textoIngresadoEmail))
+            {
+                if (!EsEmailValido(textoIngresadoEmail))
+                {
+                    Pnl_2_Msj.Visible = true;
+                    txt_pl2_msj.Text = "El formato del correo electrónico no es válido";
+                    pb_pl2_mj.Visible = true;
+
+
+
+                    Txt_Tap1_Email.Focus();
+                    return false;
+                }
+            }
+
+            return true; // Si todas las validaciones (para los campos que tienen valor) pasan
+        }
+
+        public bool EsNumeroDeSieteDigitos(string texto)
+        {
+            if (string.IsNullOrWhiteSpace(texto))
+            {
+                return false; // Un valor vacío o solo espacios no es válido
+            }
+
+            texto = texto.Trim(); // Eliminar espacios en blanco al inicio y al final
+
+            // Expresión regular para validar que solo contenga dígitos y sean exactamente 7
+            string patron = @"^\d{7}$";
+
+            // Utilizar la clase Regex para realizar la coincidencia
+            return Regex.IsMatch(texto, patron);
+        }
+
+        public bool EsEmailValido(string email)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                return false; // Un valor vacío o solo espacios no es válido
+            }
+
+            email = email.Trim(); // Eliminar espacios en blanco al inicio y al final
+
+            // Expresión regular para validar el formato del correo electrónico (RFC 5322)
+            string patron = @"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$";
+
+            // Utilizar la clase Regex para realizar la coincidencia
+            return Regex.IsMatch(email, patron);
+        }
+
+        private bool validarvacio()
+        {
+
+
+
+
+
+
+            // Validación de Nacionalidad
+            if (Cbx_Tap1_Nacionalidad.SelectedIndex == -1) // Mejor usar SelectedIndex para ComboBox
+            {
+
+                Pnl_2_Msj.Visible = true;
+                txt_pl2_msj.Text = "Seleccione la nacionalidad antes de ingresar la cédula";
+                pb_pl2_mj.Visible = true;
+                Cbx_Tap1_Nacionalidad.Focus();
+                return false;
+            }
+
+            // Validación de Cédula
+            if (string.IsNullOrEmpty(Txt_Tap1_Cedula.Text.Trim()))
+            {
+
+                Pnl_2_Msj.Visible = true;
+                txt_pl2_msj.Text = "El campo de Cédula no puede estar vacío.";
+                pb_pl2_mj.Visible = true;
+
+                //MessageBox.Show("El campo de Cédula no puede estar vacío.", "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                Txt_Tap1_Cedula.Focus();
+                return false;
+            }
+
+            // Validación de Nombre
+            if (string.IsNullOrEmpty(Txt_Tap1_Nombre.Text.Trim()))
+            {
+
+                Pnl_2_Msj.Visible = true;
+                txt_pl2_msj.Text = "El campo de nombre no puede estar vacío";
+                pb_pl2_mj.Visible = true;
+
+                Txt_Tap1_Nombre.Focus();
+                return false;
+            }
+
+
+            // 1. Obtener la fecha seleccionada del DateTimePicker
+            DateTime fechaNacimiento = Dtp_Tap1_Nacimiento.Value;
+
+            // 2. Obtener la fecha actual (solo la parte de la fecha, sin la hora)
+            DateTime fechaActual = DateTime.Today;
+
+            // 3. Realizar la validación
+            if (fechaNacimiento < fechaActual)
+            {
+            }
+            else
+            {
+                // La fecha de nacimiento no es válida (es hoy o en el futuro)
+                Pnl_2_Msj.Visible = true;
+                txt_pl2_msj.Text = "La fecha de nacimiento no puede ser igual o posterior al día actual. Por favor, selecciona una fecha válida";
+                pb_pl2_mj.Visible = true;
+
+                Dtp_Tap1_Nacimiento.Focus(); // Opcional: enfocar el control DateTimePicker para que el usuario lo corrija
+                return false; // Sale del método porque no se ha seleccionado ninguno.
+            }
+
+
+
+            if (!Rd_Tap1_SexoF.Checked && !Rd_Tap1_SexoM.Checked)
+            {
+
+
+                Pnl_2_Msj.Visible = true;
+                txt_pl2_msj.Text = "Debe seleccionar un sexo";
+                pb_pl2_mj.Visible = true;
+
+                // Aquí podrías decidir qué RadioButton enfocar. Por ejemplo, enfocar el primero:
+                Rd_Tap1_SexoF.Focus();
+                return false; // Sale del método porque no se ha seleccionado ninguno.
+            }
+            // Si llega aquí, es porque se seleccionó al menos un CheckBox de sexo.
+            // Puedes continuar con la lógica que sigue a la validación.
+            // Validación de Dirección
+
+
+            // Validación de Estado
+            if (Cbx_Tap1_Estado.SelectedIndex == -1) // Mejor usar SelectedIndex para ComboBox
+            {
+                Pnl_2_Msj.Visible = true;
+                txt_pl2_msj.Text = "Seleccione un estado para continuar";
+                pb_pl2_mj.Visible = true;
+
+                Cbx_Tap1_Estado.Focus();
+                return false;
+            }
+
+            // Validación de Ciudad
+            if (Cbx_Tap1_Ciudad.SelectedIndex == -1) // Mejor usar SelectedIndex para ComboBox
+            {
+
+                Pnl_2_Msj.Visible = true;
+                txt_pl2_msj.Text = "Seleccione una ciudad para continuar";
+                pb_pl2_mj.Visible = true;
+
+                Cbx_Tap1_Ciudad.Focus();
+                return false;
+            }
+
+
+
+            // Validación de Ciudad
+            // Check if both Local and Celular ComboBoxes are empty
+            if (Cbx_Tap1_TLF_Local.SelectedIndex == -1 && Cbx_Tap1_TLF_Celular.SelectedIndex == -1)
+            {
+                Pnl_2_Msj.Visible = true;
+                txt_pl2_msj.Text = "Registre un número de celular o Local para continuar"; // More general message
+                pb_pl2_mj.Visible = true;
+
+                // Decide which ComboBox to focus on. You might prioritize Local, or the first one.
+                Cbx_Tap1_TLF_Local.Focus();
+                return false;
+            }
+
+
+
+
+
+            // Validación de Nombre
+            if (string.IsNullOrEmpty(Txt_Tap1_Email.Text.Trim()))
+            {
+
+
+                Pnl_2_Msj.Visible = true;
+                txt_pl2_msj.Text = "El campo de Email no puede estar vacío";
+                pb_pl2_mj.Visible = true;
+
+
+                Txt_Tap1_TLF_Local.Focus();
+                return false;
+            }
+
+
+            return true; // Si todas las validaciones pasan, devuelve true
+        }
+
+        private void Btn_Tap2_Derecha_Click(object sender, EventArgs e)
+        {
+
+            if (string.IsNullOrEmpty(Txt_Tap2_Examen.Text))
+            {
+                Txt_Tap2_Examen.Text = "1";
+            }
+
+
+            if (int.TryParse(Txt_Tap2_Examen.Text, out int valorActual))
+            {
+                if (valorActual < TopeExamen)
+                {
+                    Txt_Tap2_Examen.Text = (valorActual + 1).ToString();
+                }
+                else
+                {
+
+                    Txt_Tap2_Examen.Text = TopeExamen.ToString(); // Opcional: Restablecer el valor al máximo
+                }
+            }
+            else
+            {
+                Txt_Tap2_Examen.Text = "1"; // Opcional: Restablecer a un valor predeterminado (por ejemplo, el mínimo si aplica)
+            }
+
+            CargarExamenConv();
+            CargarExamenCont();
+            CargarDgvPnl2MedConv();
+            CargarFicconvOFT();
+
+            CargarDgv_Pnl2_Querato();
+        }
+
+        private void guardaclienteP()
+        {
+            // Crear una instancia de la entidad TB_CTEPPAL para almacenar los datos
+
+            TB_CTEPPAL nuevoCliente = new TB_CTEPPAL();
+
+            // Recopilar los datos de los controles del formulario
+            nuevoCliente.CTE_CedIden = Txt_Tap1_Cedula_Pagador.Text.Trim();
+            nuevoCliente.CTE_Nacio = Cbx_Tap1_Nacionalidad_Pagador.Text.Trim(); // Ajusta según cómo manejas la nacionalidad
+            nuevoCliente.CTE_PNombre = Txt_Tap1_Nombre_Pagador.Text.Trim();
+            //nuevoCliente.CTE_SNombre = string.IsNullOrEmpty(Txt_Tap1_SegundoNombre.Text) ? null : Txt_Tap1_SegundoNombre.Text.Trim(); // Asume que tienes un Txt_Tap1_SegundoNombre
+            //nuevoCliente.CTE_PApellido = Txt_Tap1_Apellido.Text.Trim(); // Asume que tienes un Txt_Tap1_Apellido
+            //nuevoCliente.CTE_SApellido = string.IsNullOrEmpty(Txt_Tap1_SegundoApellido.Text) ? null : Txt_Tap1_SegundoApellido.Text.Trim(); // Asume que tienes un Txt_Tap1_SegundoApellido
+            nuevoCliente.CTE_FNac = Dtp_Tap1_Nacimiento.Value.Date;
+            nuevoCliente.CTE_FecAfil = DateTime.Now.Date; // Asigna la fecha de afiliación actual
+            nuevoCliente.COD_STCTE = "ACT"; // Asigna un estado por defecto (ajusta según tu lógica)
+
+            // Obtener el sexo del CheckListBox
+            if (Rd_Tap1_SexoF.Checked && !Rd_Tap1_SexoM.Checked)
+            {
+                nuevoCliente.CTE_Sex = "F"; // Femenino
+            }
+            else if (!Rd_Tap1_SexoF.Checked && Rd_Tap1_SexoM.Checked)
+            {
+                nuevoCliente.CTE_Sex = "M"; // Masculino
+            }
+            else
+            {
+                nuevoCliente.CTE_Sex = null; // O maneja un estado no especificado (ninguno seleccionado o ambos, aunque esto último no debería ocurrir en un grupo de RadioButton bien configurado)
+            }
+
+            //nuevoCliente.CTE_CodOcup = string.IsNullOrEmpty(Txt_Tap1_Ocupacion.Text) ? null : Txt_Tap1_Ocupacion.Text.Trim(); // Asume que tienes un Txt_Tap1_Ocupacion
+            //nuevoCliente.CTE_EdoCiv = Cbx_Tap1_EstadoCivil.Text.Trim(); // Asume que tienes un Cbx_Tap1_EstadoCivil
+            nuevoCliente.COD_Sucursal = "01"; // Asigna una sucursal por defecto (ajusta según tu lógica)
+            nuevoCliente.CTE_FecCreacion = DateTime.Now;
+            nuevoCliente.USER_CREA = "US"; // Reemplaza con el usuario actual del sistema
+
+            //nuevoCliente.Direccion_fact = string.IsNullOrEmpty(Txt_Tap1_Direccion_fact.Text) ? null : Txt_Tap1_Direccion_fact.Text.Trim(); // Asume que tienes un Txt_Tap1_Direccion
+            //nuevoCliente.Facebook = string.IsNullOrEmpty(Txt_Tap1_Facebook.Text) ? null : Txt_Tap1_Facebook.Text.Trim(); // Asume que tienes un Txt_Tap1_Facebook
+            //nuevoCliente.Twitter = string.IsNullOrEmpty(Txt_Tap1_Twitter.Text) ? null : Txt_Tap1_Twitter.Text.Trim(); // Asume que tienes un Txt_Tap1_Twitter
+            //nuevoCliente.Instagram = string.IsNullOrEmpty(Txt_Tap1_Instagram.Text) ? null : Txt_Tap1_Instagram.Text.Trim(); // Asume que tienes un Txt_Tap1_Instagram
+
+            // Obtener los valores de los CheckBoxes de retención
+            nuevoCliente.CTE_RETISLR = Chex_Tap1_Iva_Pagador.GetItemChecked(0); // Asume que ISR está en el índice 0
+            nuevoCliente.CTE_RETIVA = Chex_Tap1_Iva_Pagador.GetItemChecked(1); // Asume que IVA está en el índice 1
+
+            nuevoCliente.COD_Edo = Cbx_Tap1_Estado.SelectedValue.ToString(); // 
+            nuevoCliente.COD_Ciud = Cbx_Tap1_Ciudad.SelectedValue.ToString(); // 
+
+            // Llamar al método de la capa lógica para guardar el cliente
+            resultado = _L_Cliente.GuardarClienteP(nuevoCliente);
+
+
+        }
+
+        private void LlenarCbx_Tap1_Ciudad(string codigoEstado)
+        {
+            List<TB_MAESCIUD> ciudades = _L_Cliente.ObtenerCiudadesPorEstado(codigoEstado);
+            if (ciudades != null)
+            {
+                Cbx_Tap1_Ciudad.DataSource = ciudades;
+                Cbx_Tap1_Ciudad.DisplayMember = "CIUD_Nombre"; // El nombre de la ciudad a mostrar
+                Cbx_Tap1_Ciudad.ValueMember = "COD_Ciud";   // El código de la ciudad como valor asociado
+                                                            //  Cbx_Tap1_Ciudad.DropDownWidth = DropDownWidth(Cbx_Tap1_Ciudad);
+            }
+            else
+            {
+                MessageBox.Show("Error al cargar las ciudades: " + _L_Cliente.stringBuilder.ToString());
+            }
+        }
+
+        private void buscarcliente()
+        {
+
+
+
+
+
+
+
+            // Evita que el evento KeyDown se siga propagando (opcional)
+
+
+            //DesbloquearCamposE();
+
+
+
+            // Verifica si panel2 existe
+            if (panel2 != null)
+            {
+                // Muestra panel2
+                panel2.Visible = true;
+
+
+                panel2.Location = new System.Drawing.Point(202, 46);
+
+                // Centra panel2 en la pantalla (CORREGIR ESTO)
+                // panel2.StartPosition = FormStartPosition.CenterScreen; // ESTO ES INCORRECTO PARA UN PANEL
+                //panel2.Location = new System.Drawing.Point(
+                //   ( (Screen.PrimaryScreen.WorkingArea.Width - panel2.Width) / 2)-30,
+                //    (Screen.PrimaryScreen.WorkingArea.Height - panel2.Height) / 2);
+
+                // O, si panel2 es un control dentro del formulario y quieres centrarlo dentro del formulario:
+                // panel2.Location = new System.Drawing.Point(
+                //     (this.ClientSize.Width - panel2.Width) / 2,
+                //     (this.ClientSize.Height - panel2.Height) / 2);
+
+                // Trae panel2 al frente si está detrás de otros controles (opcional)
+                panel2.BringToFront();
+
+                // Enfoca panel2 (opcional, si quieres que el usuario interactúe inmediatamente con él)
+                panel2.Focus();
+            }
+            else
+            {
+                MessageBox.Show("El Panel2 no ha sido inicializado.");
+            }
+        }
+
+        private void FrmCargarOrden_KeyDown(object sender, KeyEventArgs e)
+        {
+
+            // Verifica si la tecla presionada es Escape y si panel2 está visible
+            if (e.KeyCode == Keys.Escape && panel2 != null && panel2.Visible)
+            {
+                panel2.Visible = false;
+                Txt_Tap1_Cedula.Focus(); // Opcional: devolver el foco al TextBox
+            }
+
+        }
+
+        private void DgvClientes_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            //private void DgvClientes_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+            //{
+            // Verificar que el doble clic no sea en el encabezado de la columna
+            if (e.RowIndex >= 0 && DgvClientes.Rows[e.RowIndex].Cells.Count > 0)
+            {
+                // Obtener el valor de la columna 0 (la cédula) de la fila en la que se hizo doble clic
+                string cedulaSeleccionada = DgvClientes.Rows[e.RowIndex].Cells[1].Value?.ToString().Trim();
+                string nacio = DgvClientes.Rows[e.RowIndex].Cells[0].Value?.ToString().Trim();
+                // Verificar si se obtuvo una cédula válida
+                if (!string.IsNullOrEmpty(cedulaSeleccionada))
+                {
+                    try
+                    {
+                        dtCliente = _L_Cliente.ObtenerClientePorCedula(cedulaSeleccionada, nacio); // Usa la cédula seleccionada
+
+                        if (dtCliente != null && dtCliente.Rows.Count > 0)
+                        {
+
+                            llenarcampos();
+                            panel2.Visible = false;
+                            Txt_Tap1_Cedula.Focus();
+
+                        }
+                        else
+                        {
+                            MessageBox.Show("No se encontró ningún cliente con esa cédula.", "Importante", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                            // Opcionalmente, puedes limpiar las otras cajas de texto o deshabilitarlas.
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Ocurrió un error al obtener la información del cliente: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                    }
+                }
+            }
+            //}
+        }
+
+        private (int años, int meses) CalcularEdadCompleta(DateTime fechaNacimiento)
+        {
+            DateTime fechaActual = DateTime.Now;
+            int años = fechaActual.Year - fechaNacimiento.Year;
+            int meses = 0;
+
+            if (fechaActual.Month < fechaNacimiento.Month || (fechaActual.Month == fechaNacimiento.Month && fechaActual.Day < fechaNacimiento.Day))
+            {
+                años--;
+                meses = (12 - fechaNacimiento.Month + fechaActual.Month);
+                if (fechaActual.Day < fechaNacimiento.Day)
+                {
+                    meses--;
+                }
+            }
+            else
+            {
+                meses = fechaActual.Month - fechaNacimiento.Month;
+                if (fechaActual.Day < fechaNacimiento.Day)
+                {
+                    meses--;
+                    if (meses < 0)
+                    {
+                        meses = 11;
+                        años--;
+                    }
+                }
+            }
+
+            return (años, meses);
+        }
+
+        private int CalcularEdad(DateTime fechaNacimiento)
+        {
+            // Obtener la fecha actual (considerando la zona horaria actual)
+            DateTime fechaActual = DateTime.Now;
+
+            // Calcular la diferencia de años
+            int edad = fechaActual.Year - fechaNacimiento.Year;
+
+            // Ajustar la edad si el cumpleaños aún no ha ocurrido este año
+            if (fechaNacimiento.Month > fechaActual.Month || (fechaNacimiento.Month == fechaActual.Month && fechaNacimiento.Day > fechaActual.Day))
+            {
+                edad--;
+            }
+
+            return edad;
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            Pnl_2_Msj.Visible = false;
+        }
+
+        private void DesbloquearCamposE()
+        {
+            //Cbx_Tap2_Tipo_Examen.Enabled = true;
+            Cbx_Tap2_Tipo_Optome.Enabled = true;
+            Cbx_Tap2_Nombre_Optome.Enabled = true;
+
+            Cbx_Tap2_Ojo.Enabled = true;
+            grp_pln2_Cont1.Enabled = true;
+            grp_pln2_Conv2.Enabled = true;
+            grp_pln2_oft3.Enabled = true;
+            grp_pln2_ret4.Enabled = true;
+            grp_pln2_quera5.Enabled = true;
+            grp_pln2_OBS.Enabled = true;
+
+        }
+
+
+        private void BloquearCamposE()
+        {
+            //Cbx_Tap2_Tipo_Examen.Enabled = false;
+            Cbx_Tap2_Tipo_Optome.Enabled = false;
+            Cbx_Tap2_Nombre_Optome.Enabled = false;
+
+
+
+            Cbx_Tap2_Ojo.Enabled = false;
+            grp_pln2_Cont1.Enabled = false;
+            grp_pln2_Conv2.Enabled = false;
+            grp_pln2_oft3.Enabled = false;
+            grp_pln2_ret4.Enabled = false;
+            grp_pln2_quera5.Enabled = false;
+            grp_pln2_OBS.Enabled = false;
+        }
+
+        private void BloquearCampos()
+        {
+
+            //Btn_Tap1_GuardarET.Enabled = false;
+            Cbx_Tap1_Estado.SelectedIndex = -1;
+            Cbx_Tap1_Ciudad.SelectedIndex = -1;
+            Txt_Tap1_Nombre.Text = "";
+            Dtp_Tap1_Nacimiento.Value = DateTime.Now;
+            Rd_Tap1_SexoF.Checked = false;
+            Rd_Tap1_SexoM.Checked = false;
+            //Txt_Tap1_Ocupacion.Text = "";
+            //Cbx_Tap1_EstadoCivil.SelectedIndex = -1;
+            //Txt_Tap1_Direccion.Text = "";
+            //Txt_Tap1_Facebook.Text = "";
+            //Txt_Tap1_Twitter.Text = "";
+            //Txt_Tap1_Instagram.Text = "";
+            Chex_Tap1_Iva.SetItemChecked(0, false);
+            Chex_Tap1_Iva.SetItemChecked(1, false);
+            Txt_Tap1_Edad.Text = ""; // Limpiar el campo de edad también
+
+
+            //Txt_Tap1_Direccion_fact.Enabled = false;
+            Txt_Tap1_Cedula.Enabled = false;
+            Txt_Tap1_Cedula_Pagador.Enabled = false;
+            Txt_Tap1_Edad.Enabled = false;
+            Txt_Tap1_Email.Enabled = false;
+            Dtp_Tap1_Nacimiento.Enabled = false;
+            Txt_Tap1_Nombre.Enabled = false;
+            Txt_Tap1_Nombre_Pagador.Enabled = false;
+            Txt_Tap1_TLF_Celular.Enabled = false;
+            Txt_Tap1_TLF_Local.Enabled = false;
+
+            //Txt_Tap1_Facebook.Enabled = false;
+            //Txt_Tap1_Instagram.Enabled = false;
+            //Txt_Tap1_Twitter.Enabled = false;
+
+
+            // Habilitar los controles
+            Cbx_Tap1_Ciudad.Enabled = false;
+            Cbx_Tap1_Estado.Enabled = false;
+            Cbx_Tap1_Nacionalidad.Enabled = false;
+            Cbx_Tap1_Nacionalidad_Pagador.Enabled = false;
+            Cbx_Tap1_TLF_Celular.Enabled = false;
+            Cbx_Tap1_TLF_Local.Enabled = false;
+
+            ///// &&&&&&&&&&&&&&
+
+            //Txt_Tap1_Direccion_fact.Text = "";
+            Txt_Tap1_Cedula_Pagador.Text = "";
+            Txt_Tap1_Edad.Text = "";
+            Txt_Tap1_Email.Text = "";
+            Dtp_Tap1_Nacimiento.Text = "";
+            Txt_Tap1_Nombre.Text = "";
+            Txt_Tap1_Nombre_Pagador.Text = "";
+            Txt_Tap1_TLF_Celular.Text = "";
+            Txt_Tap1_TLF_Local.Text = "";
+
+
+
+
+            Cbx_Tap1_Ciudad.Text = "";
+            Cbx_Tap1_Estado.Text = "";
+            Cbx_Tap1_Nacionalidad_Pagador.Text = "";
+            Cbx_Tap1_TLF_Celular.Text = "";
+            Cbx_Tap1_TLF_Local.Text = "";
+
+            // TextBox
+            Txt_Tap1_Email.Text = string.Empty;
+
+            Txt_Tap1_TLF_Celular.Text = string.Empty;
+
+            Txt_Tap1_TLF_Local.Text = string.Empty;
+
+            // ComboBox
+            Cbx_Tap1_TLF_Celular.SelectedIndex = -1; // Esto deselecciona el elemento
+
+            Cbx_Tap1_TLF_Local.SelectedIndex = -1;
+
+
+
+        }
+
+        private void Cbx_Tap2_Tipo_Examen_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //// Ocultamos todos los GroupBox al principio
+            grp_pln2_Cont1.Visible = false;
+            grp_pln2_Conv2.Visible = false;
+            grp_pln2_oft3.Visible = false;
+            grp_pln2_ret4.Visible = false;
+            grp_pln2_quera5.Visible = false;
+
+
+            // centrargroup();
+
+
+
+            //// Mostramos el GroupBox correspondiente según la selección del ComboBox
+            switch (Cbx_Tap2_Tipo_Examen.SelectedIndex)
+            {
+                case 0: // Item 1 (los índices empyiezan en 0)
+                    grp_pln2_Cont1.Visible = true;
+                    CargarExamenCont();
+                    AsignarCeroSiVacioDgv_Pnl2_cont();
+                    txt_Pnl2_cont_observa.Visible = true;
+                    lbl_pnl2_con_obser.Visible = true;
+                    ValidarPanel = "Cont";
+                    //Point currentPosition = lbl_pnl2_con_obser.Location;
+                    //Point newPositionl = new Point(currentPosition.X, currentPosition.Y - 100);
+                    //lbl_pnl2_con_obser.Location = newPositionl;
+
+                    // El resto de tu código Form1_Load, incluyendo el cambio de tamaño y posición.
+                    //Point currentPositionT = txt_Pnl2_conv_observa.Location;
+                    //Point newPositiont = new Point(currentPositionT.X, currentPositionT.Y - 100);
+                    //txt_Pnl2_conv_observa.Location = newPositiont;
+                    //txt_Pnl2_conv_observa.Height += 100; // Aumenta la altura en 200
+
+                    //lbl_pnl2_obser.Location = new Point(7, 138);
+                    //txt_Pnl2_conv_observa.Location = new Point(21, 231);
+                    //txt_Pnl2_conv_observa.Size = new Size(1008, 114);
+                    break;
+                case 1: // Item 2
+                    grp_pln2_Conv2.Visible = true;
+                    //lbl_pnl2_obser.Location = new Point(12, 412);
+                    //txt_Pnl2_conv_observa.Location = new Point(21, 434);
+                    //txt_Pnl2_conv_observa.Size = new Size(1008, 31);
+                    CargarExamenConv();
+                    AsignarCeroSiVacioDgv_Pnl2_cont();
+                    CargarDgvPnl2MedConv();
+                    AsignarCeroSiVacioDgv_Pnl2_medconv();
+                    ValidarPanel = "Conv";
+                    txt_Pnl2_cont_observa.Visible = false;
+                    lbl_pnl2_con_obser.Visible = false;
+                    break;
+
+                default:
+                    // Si no se selecciona ningún ítem válido, podrías dejar todos los GroupBox ocultos
+                    //Cbx_Tap2_Tipo_Examen.SelectedIndex = 1;
+                    //grp_pln2_Conv2.Visible = true;
+                    break;
+            }
+
+
+            btn_pln2_oft.BringToFront();
+            btn_pln2_reti.BringToFront();
+            btn_pln2_quer.BringToFront();
+        }
+
+        private void buscarclientep()
+        {
+
+
+            //CargarDatosDeClientesP();
+
+
+            // Verifica si panel2 existe
+            if (Pnl_5_Lista_ClienPagador != null)
+            {
+                // Muestra panel2
+                Pnl_5_Lista_ClienPagador.Visible = true;
+
+
+                Pnl_5_Lista_ClienPagador.Location = new System.Drawing.Point(202, 46);
+
+                // Centra panel2 en la pantalla (CORREGIR ESTO)
+                // panel2.StartPosition = FormStartPosition.CenterScreen; // ESTO ES INCORRECTO PARA UN PANEL
+                //panel2.Location = new System.Drawing.Point(
+                //   ( (Screen.PrimaryScreen.WorkingArea.Width - panel2.Width) / 2)-30,
+                //    (Screen.PrimaryScreen.WorkingArea.Height - panel2.Height) / 2);
+
+                // O, si panel2 es un control dentro del formulario y quieres centrarlo dentro del formulario:
+                // panel2.Location = new System.Drawing.Point(
+                //     (this.ClientSize.Width - panel2.Width) / 2,
+                //     (this.ClientSize.Height - panel2.Height) / 2);
+
+                // Trae panel2 al frente si está detrás de otros controles (opcional)
+                Pnl_5_Lista_ClienPagador.BringToFront();
+
+                // Enfoca panel2 (opcional, si quieres que el usuario interactúe inmediatamente con él)
+                Pnl_5_Lista_ClienPagador.Focus();
+            }
+            else
+            {
+                MessageBox.Show("El Pnl_5_Lista_ClienPagador no ha sido inicializado.");
+            }
+        }
+
+        private void LlenarCbxTap2NombreOptome()
+        {
+            if (Cbx_Tap2_Tipo_Optome.SelectedItem != null)
+            {
+                string tipoOptometrista = Cbx_Tap2_Tipo_Optome.SelectedItem.ToString();
+
+                // Obtener los usuarios filtrados (esto asumo que ya lo tienes en tu lógica)
+                DataTable dtOptometristas = _L_Cliente.ObtenerUsuariosOPTOMETRI(); // Obtén los datos
+
+                List<TBF_USUARIO_OPTOMETRI> listaOptometristas = new List<TBF_USUARIO_OPTOMETRI>();
+
+                if (dtOptometristas != null && dtOptometristas.Rows.Count > 0)
+                {
+                    foreach (DataRow row in dtOptometristas.Rows)
+                    {
+                        // Asegúrate de que esta lógica de filtrado sea correcta y coincida con lo que necesitas.
+
+                        TBF_USUARIO_OPTOMETRI optometrista = new TBF_USUARIO_OPTOMETRI
+                        {
+                            COD_USR = row["COD_USR"].ToString(),
+                            USER_NOMBRE = row["USER_NOMBRE"].ToString(),
+                            USER_APELLIDO = row["USER_APELLIDO"].ToString(),
+                            // ... (mapea otras propiedades)
+                        };
+                        listaOptometristas.Add(optometrista);
+
+                    }
+                }
+
+
+                // Asigna la lista filtrada al DataSource del ComboBox
+                Cbx_Tap2_Nombre_Optome.DataSource = listaOptometristas;
+                Cbx_Tap2_Nombre_Optome.DisplayMember = "USER_NOMBRE"; // Ajusta el nombre del campo a mostrar
+                Cbx_Tap2_Nombre_Optome.ValueMember = "COD_USR";    // Ajusta el nombre del campo del valor
+
+                Cbx_Tap1_Estado.DropDownWidth = DropDownWidth(Cbx_Tap1_Estado);
+
+            }
+
+
+        }
+
+        private void Cbx_Tap2_Tipo_Optome_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+            if (Cbx_Tap2_Tipo_Optome.SelectedItem != null && Cbx_Tap2_Tipo_Optome.SelectedItem.ToString() == "INTERNO")
+            {
+                LlenarCbxTap2NombreOptome();
+                TXT_Tap2_Nombre_Optome.Visible = false;
+                Cbx_Tap2_Nombre_Optome.Visible = true;
+            }
+            else
+            {
+                // Cbx_Tap2_Nombre_Optome.Items.Clear(); // Limpia el ComboBox si no es "Interno"
+                Cbx_Tap2_Nombre_Optome.Visible = false;
+                TXT_Tap2_Nombre_Optome.Visible = true;
+            }
+
+        }
+
+        private void btn_pln2_oft_Click(object sender, EventArgs e)
+        {
+            txt_Pnl2_cont_observa.Visible = false;
+            lbl_pnl2_con_obser.Visible = false;
+            //RestaurarPosicionOriginal();
+            //RestaurarPosicionYAlturaOriginal();
+
+            //// Ocultamos todos los GroupBox al principio
+            grp_pln2_Cont1.Visible = false;
+            grp_pln2_Cont1.BringToFront();
+            grp_pln2_Conv2.Visible = false;
+            grp_pln2_oft3.Visible = true;
+            grp_pln2_ret4.Visible = false;
+            grp_pln2_quera5.Visible = false;
+            centrargroup();
+            CargarFicconvOFT();
+            ValidarPanel = "oft";
+            btn_pln2_oft.BringToFront();
+            btn_pln2_reti.BringToFront();
+            btn_pln2_quer.BringToFront();
+
+            //// Mostramos el GroupBox correspondiente según la selección del ComboBox
+
+        }
+
+        private void centrargroup()
+        {
+            //grp_pln2_Cont1.Location = new System.Drawing.Point(10, 200); //Posicion del GroupBox dentro del TabPage
+            //grp_pln2_Conv2.Location = new System.Drawing.Point(10, 200); //Posicion del GroupBox dentro del TabPage
+            //grp_pln2_oft3.Location = new System.Drawing.Point(10, 200); //Posicion del GroupBox dentro del TabPage
+            //grp_pln2_ret4.Location = new System.Drawing.Point(10, 200); //Posicion del GroupBox dentro del TabPage
+            //grp_pln2_quera5.Location = new System.Drawing.Point(10, 200); //Posicion del GroupBox dentro del TabPage
+        }
+
+        private void btn_pln2_reti_Click(object sender, EventArgs e)
+        {
+            txt_Pnl2_cont_observa.Visible = false;
+            lbl_pnl2_con_obser.Visible = false;
+            //RestaurarPosicionOriginal();
+            //RestaurarPosicionYAlturaOriginal();
+
+            //// Ocultamos todos los GroupBox al principio
+            grp_pln2_Cont1.Visible = false;
+            grp_pln2_Conv2.Visible = false;
+            grp_pln2_oft3.Visible = false;
+            grp_pln2_ret4.Visible = true;
+            grp_pln2_ret4.BringToFront();
+            grp_pln2_quera5.Visible = false;
+
+            CargarFicconvOFT();
+            centrargroup();
+
+            ValidarPanel = "reti";
+            btn_pln2_oft.BringToFront();
+            btn_pln2_reti.BringToFront();
+            btn_pln2_quer.BringToFront();
+
+        }
+
+        private void btn_pln2_quer_Click(object sender, EventArgs e)
+        {
+            txt_Pnl2_cont_observa.Visible = false;
+            lbl_pnl2_con_obser.Visible = false;
+            //RestaurarPosicionOriginal();
+            //RestaurarPosicionYAlturaOriginal();
+
+            //// Ocultamos todos los GroupBox al principio
+            grp_pln2_Cont1.Visible = false;
+            grp_pln2_Conv2.Visible = false;
+            grp_pln2_oft3.Visible = false;
+            grp_pln2_ret4.Visible = false;
+            grp_pln2_quera5.Visible = true;
+            grp_pln2_quera5.BringToFront();
+
+            CargarDgv_Pnl2_Querato();
+            ValidarPanel = "Querato";
+            centrargroup();
+            btn_pln2_oft.BringToFront();
+            btn_pln2_reti.BringToFront();
+            btn_pln2_quer.BringToFront();
+        }
+
+        private void Btn_Tap2_Examen_Click(object sender, EventArgs e)
+        {
+            Txt_Tap2_Examen.Text = "0";
+            // Asumiendo que Dtp_Tap2_FecExam es de tipo DateTime
+
+
+            Dtp_Tap2_FecExam.Text = DateTime.Today.ToString();
+
+            limpearExamen();
+            CargarExamenConv();
+            CargarExamenCont();
+            CargarDgvPnl2MedConv();
+            CargarFicconvOFT();
+            CargarFicconvOFT();
+            CargarDgv_Pnl2_Querato();
+            DesbloquearCamposE();
+
+
+        }
+
+        private void Btn_Tap2_Izquierda_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(Txt_Tap2_Examen.Text))
+            {
+                Txt_Tap2_Examen.Text = "1";
+            }
+
+
+
+            if (int.TryParse(Txt_Tap2_Examen.Text, out int valorActual))
+            {
+                if (valorActual > 1)
+                {
+                    Txt_Tap2_Examen.Text = (valorActual - 1).ToString();
+                }
+                else
+                {
+
+                    Txt_Tap2_Examen.Text = "1"; // Opcional: Restablecer el valor al mínimo
+                }
+            }
+            else
+            {
+                // Manejar el caso en que el texto no es un número válido.
+
+
+                Txt_Tap2_Examen.Text = "1"; // Opcional: Restablecer a un valor predeterminado
+            }
+
+            CargarExamenConv();
+
+            CargarDgvPnl2MedConv();
+            CargarFicconvOFT();
+
+            CargarDgv_Pnl2_Querato();
+            CargarExamenCont();
+
+        }
+
+        private void button9_Click_2(object sender, EventArgs e)
+        {
+            txt_Pnl2_reti.Text = txt_Pnl2_retd.Text;
+        }
+
+        private void Dtp_Tap2_Examen_ValueChanged(object sender, EventArgs e)
+        {
+            DateTime fechaSeleccionada = Dtp_Tap2_FecExam.Value.Date; // Obtener solo la parte de la fecha
+            DateTime fechaHoy = DateTime.Now.Date; // Obtener la fecha actual sin la hora
+
+            if (fechaSeleccionada < fechaHoy)
+            {
+                BloquearCamposE(); // Llamar al método para bloquear los campos
+            }
+            else if (fechaSeleccionada == fechaHoy)
+            {
+                DesbloquearCamposE(); // Llamar al método para desbloquear los campos
+            }
+            // No es necesario un 'else' para cuando la fecha es mayor, ya que los campos deberían estar desbloqueados por defecto o por otra lógica.
+        }
+
+        private void guardaExamenConv()
+        {//mcll
+
+
+
+
+            if (validarvacioExam())
+            {
+
+
+                if (Txt_Tap2_Examen.Text == "0")
+                {
+                    Txt_Tap2_Examen.Text = numeroExamen.ToString();
+                }
+
+
+                // Recopilar los datos de los controles del formulario
+                nuevoFicconv.CTE_CedIden = Txt_Tap1_Cedula.Text.Trim();
+                nuevoFicconv.CTE_Nacio = Cbx_Tap1_Nacionalidad.Text.Trim(); // Ajusta según cómo manejas la nacionalidad
+
+                // Recopilar los datos de los controles del formulario
+                nuevoTrabajo.TCEDIDEN = Txt_Tap1_Cedula.Text.Trim();
+                nuevoTrabajo.TNACIO = Cbx_Tap1_Nacionalidad.Text.Trim(); // Ajusta según cómo manejas la nacionalidad
+
+                nuevoExamen.CTE_CedIden = Txt_Tap1_Cedula.Text.Trim();
+                nuevoExamen.CTE_Nacio = Cbx_Tap1_Nacionalidad.Text.Trim(); // Ajusta según cómo manejas la nacionalidad
+
+                nuevoExamen.FEC_Examen = Dtp_Tap2_FecExam.Value;
+
+                // Datos de Dgv_Pnl2_medoftal           
+                if (Dgv_Pnl2_conv.Rows.Count > 0)
+                {
+
+
+                    nuevoExamen.ESFD = Dgv_Pnl2_conv.Rows[0].Cells["Esfera"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[0].Cells["Esfera"].Value) : 0;
+                    nuevoExamen.ESFI = Dgv_Pnl2_conv.Rows[1].Cells["Esfera"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[1].Cells["Esfera"].Value) : 0;
+
+
+                    nuevoExamen.CILD = Dgv_Pnl2_conv.Rows[0].Cells["Cilindro"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[0].Cells["Cilindro"].Value) : 0;
+                    nuevoExamen.CILI = Dgv_Pnl2_conv.Rows[1].Cells["Cilindro"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[1].Cells["Cilindro"].Value) : 0;
+
+                    nuevoExamen.EJED = Dgv_Pnl2_conv.Rows[0].Cells["Eje"]?.Value != null ? Convert.ToInt32(Dgv_Pnl2_conv.Rows[0].Cells["Eje"].Value) : 0;
+                    nuevoExamen.EJEI = Dgv_Pnl2_conv.Rows[1].Cells["Eje"]?.Value != null ? Convert.ToInt32(Dgv_Pnl2_conv.Rows[1].Cells["Eje"].Value) : 0;
+
+                    nuevoExamen.ADDD = Dgv_Pnl2_conv.Rows[0].Cells["Adicion"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[0].Cells["Adicion"].Value) : 0;
+                    nuevoExamen.ADDI = Dgv_Pnl2_conv.Rows[1].Cells["Adicion"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[1].Cells["Adicion"].Value) : 0;
+
+                    nuevoFicconv.PRISMAD = Dgv_Pnl2_conv.Rows[0].Cells["Prisma1"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[0].Cells["Prisma1"].Value) : 0;
+                    nuevoFicconv.PRISMAI = Dgv_Pnl2_conv.Rows[1].Cells["Prisma1"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[1].Cells["Prisma1"].Value) : 0;
+
+
+                    //nuevoExamen.CILD2 = Dgv_Pnl2_conv.Rows[1].Cells["Lejos"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[1].Cells["Lejos"].Value) : 0;
+                    //nuevoExamen.CILI2 = Dgv_Pnl2_conv.Rows[1].Cells["Cerca"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[1].Cells["Cerca"].Value) : 0;
+                    //nuevoExamen.OBSERVACIONES = Dgv_Pnl2_conv.Rows[1].Cells["Visual"]?.Value?.ToString();
+                    nuevoExamen.ESFD2 = Dgv_Pnl2_conv.Rows[0].Cells["Prisma1"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[0].Cells["Prisma1"].Value) : 0;
+                    nuevoExamen.ESFI2 = Dgv_Pnl2_conv.Rows[1].Cells["Prisma1"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[1].Cells["Prisma1"].Value) : 0;
+
+
+                    nuevoTrabajo.TALTD = Dgv_Pnl2_conv.Rows[0].Cells["ALTURA"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[0].Cells["ALTURA"].Value) : 0;
+                    nuevoTrabajo.TALTI = Dgv_Pnl2_conv.Rows[1].Cells["ALTURA"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[1].Cells["ALTURA"].Value) : 0;
+
+                    //ALTD ALTI    PRISMAD PRISMAI  DPDL	DPDC	DPIL	DPIC
+
+
+
+                    nuevoFicconv.DPDL = Dgv_Pnl2_conv.Rows[0].Cells["Lejos"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[0].Cells["Lejos"].Value) : 0;
+                    nuevoFicconv.DPIL = Dgv_Pnl2_conv.Rows[1].Cells["Lejos"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[1].Cells["Lejos"].Value) : 0;
+
+
+                    nuevoFicconv.DPDC = Dgv_Pnl2_conv.Rows[0].Cells["Cerca"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[0].Cells["Cerca"].Value) : 0;
+                    nuevoFicconv.DPIC = Dgv_Pnl2_conv.Rows[1].Cells["Cerca"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[1].Cells["Cerca"].Value) : 0;
+
+
+
+                    nuevoFicconv.PRISMAD = Dgv_Pnl2_conv.Rows[0].Cells["Prisma1"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[0].Cells["Prisma1"].Value) : 0;
+                    nuevoFicconv.PRISMAI = Dgv_Pnl2_conv.Rows[1].Cells["Prisma1"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[1].Cells["Prisma1"].Value) : 0;
+
+
+                    nuevoFicconv.ALTD = Dgv_Pnl2_conv.Rows[0].Cells["ALTURA"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[0].Cells["ALTURA"].Value) : 0;
+                    nuevoFicconv.ALTI = Dgv_Pnl2_conv.Rows[1].Cells["ALTURA"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[1].Cells["ALTURA"].Value) : 0;
+
+                    nuevoFicconv.PBASED = Dgv_Pnl2_conv.Rows[0].Cells["Grado1"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[0].Cells["Grado1"].Value) : 0;
+                    nuevoFicconv.PBASEI = Dgv_Pnl2_conv.Rows[1].Cells["Grado1"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[1].Cells["Grado1"].Value) : 0;
+
+
+                    nuevoFicconv.AVD = Dgv_Pnl2_conv.Rows[0].Cells["VISUAL"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[0].Cells["VISUAL"].Value) : 0;
+                    nuevoFicconv.AVI = Dgv_Pnl2_conv.Rows[1].Cells["VISUAL"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[1].Cells["VISUAL"].Value) : 0;
+
+
+                    nuevoTrabajo.TTIPOVISIOND = Dgv_Pnl2_conv.Rows[0].Cells["VISION"]?.Value?.ToString() ?? " ";
+                    nuevoTrabajo.TTIPOVISIONI = Dgv_Pnl2_conv.Rows[1].Cells["VISION"]?.Value?.ToString() ?? " ";
+
+
+
+
+
+                }
+
+                nuevoExamen.OBSERVACIONES = txt_Pnl2_observa.Text.Trim();
+                nuevoExamen.CodigoMimesys = txt_Pnl2_conv_mimesys.Text.Trim();
+
+                //METOD DE GUARDARR OFT
+                //nuevoFicconv.OFTD = txt_Pnl2_oftd.Text.Trim();
+                //nuevoFicconv.OFTI = txt_Pnl2_ofti.Text.Trim();
+
+                nuevoTrabajo.TSucursal = _D_DetalleOrden.TB_PARAMETRO("SucursalID");
+                nuevoTrabajo.TTIPOTRABAJO = "002";
+                nuevoTrabajo.USERCREA = TB_USUARIO.COD_USR;
+
+                //nuevoTrabajo.TEXAMEN = this.Txt_Pnl2_Examen.Text;
+                if (Dgv_Pnl2_medconv.Rows.Count > 0)
+                {
+
+                    nuevoTrabajo.TDISTANCIAVERTICE = Dgv_Pnl2_medconv.Rows[0].Cells[0]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_medconv.Rows[0].Cells[0].Value) : 0;
+                    nuevoTrabajo.TANGULOPANTOSCOPICO = Dgv_Pnl2_medconv.Rows[0].Cells[1]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_medconv.Rows[0].Cells[1].Value) : 0;
+                    nuevoTrabajo.TANGULOFACIAL = Dgv_Pnl2_medconv.Rows[0].Cells[2]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_medconv.Rows[0].Cells[2].Value) : 0;
+                    nuevoTrabajo.TDISTANCIADELECTURA = Dgv_Pnl2_medconv.Rows[0].Cells[3]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_medconv.Rows[0].Cells[3].Value) : 0;
+
+
+                }
+                nuevoTrabajo.TOJO = Cbx_Tap2_Ojo.Text;
+
+                nuevoExamen.TIPOEXAMEN = Cbx_Tap2_Tipo_Examen.Text;
+
+
+                nuevoTrabajo.TipoExamen = Cbx_Tap2_Tipo_Examen.Text;
+                nuevoExamen.TIPO_Optm = Cbx_Tap2_Tipo_Optome.Text;
+
+
+
+                if (string.IsNullOrEmpty(TXT_Tap2_Nombre_Optome.Text))
+                {
+                    nuevoExamen.NOM_Optm = Cbx_Tap2_Nombre_Optome.Text;
+                }
+                else
+                {
+                    nuevoExamen.NOM_Optm = TXT_Tap2_Nombre_Optome.Text;
+                }
+
+
+
+                nuevoFicconv.RETD = txt_Pnl2_retd.Text.Trim();
+                nuevoFicconv.RETI = txt_Pnl2_reti.Text.Trim();
+
+                //L_Examen
+
+                // Llamar al método de la capa lógica para guardar el cliente
+                resultado = _L_Examen.AgregarExamen(nuevoExamen);
+
+
+
+                _L_Ficconv.AgregarFicconv(nuevoFicconv);
+                _L_Trabajo.AgregarTrabajo(nuevoTrabajo);
+
+            }
+
+        }
+
+        private void guardaExamenCont()
+        {//mcll
+
+
+
+
+            if (validarvacioExam())
+            {
+                if (Txt_Tap2_Examen.Text == "0")
+                {
+                    Txt_Tap2_Examen.Text = numeroExamen.ToString();
+                }
+
+
+                // Recopilar los datos de los controles del formulario
+
+                // Datos de Dgv_Pnl2_medoftal           
+                if (Dgv_Pnl2_cont.Rows.Count > 0)
+                {
+
+                    nuevoFiccont.ESFD = Dgv_Pnl2_cont.Rows[0].Cells["Esfera"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_cont.Rows[0].Cells["Esfera"].Value) : 0;
+                    nuevoFiccont.CILD = Dgv_Pnl2_cont.Rows[0].Cells["Cilindro"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_cont.Rows[0].Cells["Cilindro"].Value) : 0;
+                    nuevoFiccont.EJED = Dgv_Pnl2_cont.Rows[0].Cells["Eje"]?.Value != null ? Convert.ToInt32(Dgv_Pnl2_cont.Rows[0].Cells["Eje"].Value) : 0;
+                    nuevoFiccont.ADDD = Dgv_Pnl2_cont.Rows[0].Cells["Adicion"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_cont.Rows[0].Cells["Adicion"].Value) : 0;
+
+                    nuevoFiccont.CBD = Dgv_Pnl2_cont.Rows[1].Cells["C_BASE"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_cont.Rows[1].Cells["C_BASE"].Value) : 0;
+                    nuevoFiccont.DIAMD = Dgv_Pnl2_cont.Rows[1].Cells["Diametro"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_cont.Rows[1].Cells["Diametro"].Value) : 0;
+
+
+
+                    nuevoFiccont.ESFI = Dgv_Pnl2_cont.Rows[1].Cells["Esfera"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_cont.Rows[1].Cells["Esfera"].Value) : 0;
+                    nuevoFiccont.CILI = Dgv_Pnl2_cont.Rows[1].Cells["Cilindro"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_cont.Rows[1].Cells["Cilindro"].Value) : 0;
+                    nuevoFiccont.EJEI = Dgv_Pnl2_cont.Rows[1].Cells["Eje"]?.Value != null ? Convert.ToInt32(Dgv_Pnl2_cont.Rows[1].Cells["Eje"].Value) : 0;
+                    nuevoFiccont.ADDI = Dgv_Pnl2_cont.Rows[1].Cells["Adicion"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_cont.Rows[1].Cells["Adicion"].Value) : 0;
+
+                    nuevoFiccont.CBI = Dgv_Pnl2_cont.Rows[1].Cells["C_BASE"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_cont.Rows[1].Cells["C_BASE"].Value) : 0;
+                    nuevoFiccont.DIAMI = Dgv_Pnl2_cont.Rows[1].Cells["Diametro"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_cont.Rows[1].Cells["Diametro"].Value) : 0;
+
+
+                }
+
+                nuevoFiccont.OBSERVACIONES = txt_Pnl2_cont_observa.Text;
+
+
+                _L_Ficcont.AgregarFiccont(nuevoFiccont);
+                _L_Trabajo.AgregarTrabajo(nuevoTrabajo);
+
+            }
+
+        }
+
+
+        private void guardaExamenreti()
+        {//mcll
+
+
+
+
+            if (validarvacioExam())
+            {
+
+                if (Txt_Tap2_Examen.Text == "0")
+                {
+                    Txt_Tap2_Examen.Text = numeroExamen.ToString();
+                }
+
+
+                nuevoFicconv.RETD = txt_Pnl2_retd.Text.Trim();
+                nuevoFicconv.RETI = txt_Pnl2_reti.Text.Trim();
+            }
+
+
+
+
+            _L_Ficconv.AgregarFicconv(nuevoFicconv);
+
+
+        }
+
+
+        private void guardaExamenQuera()
+        {//mcll
+
+
+
+
+            if (validarvacioExam())
+            {
+
+                if (Txt_Tap2_Examen.Text == "0")
+                {
+                    Txt_Tap2_Examen.Text = numeroExamen.ToString();
+                }
+
+                // Recopilar los datos de los controles del formulario
+                //dt.Columns.Add("Meridiano_Corneal", typeof(decimal));
+                //dt.Columns.Add("Grados", typeof(decimal));
+                //dt.Columns.Add("Meridiano_Corneald", typeof(decimal));
+                //dt.Columns.Add("Gradosd", typeof(decimal));
+
+                // Datos de Dgv_Pnl2_medoftal           
+                if (Dgv_Pnl2_Querato.Rows.Count > 0)
+                {
+
+                    nuevoQuerato.QUERATOMD1 = Dgv_Pnl2_Querato.Rows[0].Cells[0]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_Querato.Rows[0].Cells[0].Value) : 0;
+                    nuevoQuerato.QUERATOGD1 = Dgv_Pnl2_Querato.Rows[0].Cells[1]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_Querato.Rows[0].Cells[1].Value) : 0;
+                    nuevoQuerato.QUERATOMD2 = Dgv_Pnl2_Querato.Rows[0].Cells[2]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_Querato.Rows[0].Cells[2].Value) : 0;
+                    nuevoQuerato.QUERATOGD2 = Dgv_Pnl2_Querato.Rows[0].Cells[3]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_Querato.Rows[0].Cells[3].Value) : 0;
+
+                    nuevoQuerato.QUERATOMI1 = Dgv_Pnl2_Querato.Rows[1].Cells[0]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_Querato.Rows[1].Cells[0].Value) : 0;
+                    nuevoQuerato.QUERATOGI1 = Dgv_Pnl2_Querato.Rows[1].Cells[1]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_Querato.Rows[1].Cells[1].Value) : 0;
+                    nuevoQuerato.QUERATOMI2 = Dgv_Pnl2_Querato.Rows[1].Cells[2]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_Querato.Rows[1].Cells[2].Value) : 0;
+                    nuevoQuerato.QUERATOGI2 = Dgv_Pnl2_Querato.Rows[1].Cells[3]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_Querato.Rows[1].Cells[3].Value) : 0;
+
+                }
+
+
+                nuevoQuerato.QUE_OBSERV = txt_Pnl2_obsQuero.Text;
+
+
+                _L_Querato.AgregarQuerato(nuevoQuerato);
+                _L_Trabajo.AgregarTrabajo(nuevoTrabajo);
+
+            }
+
+        }
+
+
+        private void guardaExamenoft()
+        {//mcll
+
+
+
+
+            if (validarvacioExam())
+            {
+
+
+
+                nuevoFicconv.OFTD = txt_Pnl2_oftd.Text.Trim();
+                nuevoFicconv.OFTI = txt_Pnl2_ofti.Text.Trim();
+
+
+                _L_Ficconv.AgregarFicconv(nuevoFicconv);
+                _L_Trabajo.AgregarTrabajo(nuevoTrabajo);
+
+            }
+
+        }
+
+        private bool validarvacioExamConv()
+        {
+            bool todosValidos = true;
+
+            // Validar Cbx_Tap2_Tipo_Optome
+            if (Cbx_Tap2_Tipo_Optome.SelectedItem == null || string.IsNullOrEmpty(Cbx_Tap2_Tipo_Optome.Text))
+            {
+
+
+                Pnl_2_Msj.Visible = true;
+                txt_pl2_msj.Text = "Seleccione un optometrista";
+                pb_pl2_mj.Visible = true;
+                todosValidos = false;
+                Cbx_Tap2_Tipo_Optome.Focus();
+                return todosValidos; // Salir anticipadamente si este no es válido
+            }
+
+            return todosValidos; // Salir anticipadamente si este no es válido
+        }
+
+
+        private bool validarvacioExam()
+        {
+            bool todosValidos = true;
+
+
+
+            string textoExamen = Txt_Tap2_Examen.Text.Trim(); // Obtener el texto y eliminar espacios
+
+
+
+
+            // Validar Cbx_Tap2_Tipo_Optome
+            if (Cbx_Tap2_Tipo_Optome.SelectedItem == null || string.IsNullOrEmpty(Cbx_Tap2_Tipo_Optome.Text))
+            {
+                Pnl_2_Msj.Visible = true;
+                txt_pl2_msj.Text = "Seleccione un optometrista";
+                pb_pl2_mj.Visible = true;
+
+                todosValidos = false;
+                Cbx_Tap2_Tipo_Optome.Focus();
+                return todosValidos; // Salir anticipadamente si este no es válido
+            }
+            // Validar Cbx_Tap2_Tipo_Optome
+            if (Cbx_Tap2_Tipo_Optome.SelectedItem?.ToString() != "EXTERNO")
+            {
+                // Validar Cbx_Tap2_Nombre_Optome
+                if (Cbx_Tap2_Nombre_Optome.SelectedItem == null || string.IsNullOrEmpty(Cbx_Tap2_Nombre_Optome.Text))
+                {
+
+                    Pnl_2_Msj.Visible = true;
+                    txt_pl2_msj.Text = "Selecciona un nombre de optometría";
+                    pb_pl2_mj.Visible = true;
+
+                    todosValidos = false;
+                    Cbx_Tap2_Nombre_Optome.Focus();
+                    return todosValidos; // Salir anticipadamente si este no es válido
+                }
+            }
+            else if (string.IsNullOrEmpty(TXT_Tap2_Nombre_Optome.Text))
+            {
+
+                Pnl_2_Msj.Visible = true;
+                txt_pl2_msj.Text = "Debe llenar un Nombre de optometría";
+                pb_pl2_mj.Visible = true;
+                todosValidos = false;
+                TXT_Tap2_Nombre_Optome.Focus();
+                return todosValidos; // Salir anticipadamente si este no es válido
+            }
+
+            // Validar Cbx_Tap2_Tipo_Examen
+            if (Cbx_Tap2_Tipo_Examen.SelectedItem == null || string.IsNullOrEmpty(Cbx_Tap2_Tipo_Examen.Text))
+            {
+
+                Pnl_2_Msj.Visible = true;
+                txt_pl2_msj.Text = "Selecciona un tipo de examen";
+                pb_pl2_mj.Visible = true;
+
+                todosValidos = false;
+                Cbx_Tap2_Tipo_Examen.Focus();
+                return todosValidos; // Salir anticipadamente si este no es válido
+            }
+
+            // Validar Cbx_Tap2_Ojo
+            if (Cbx_Tap2_Ojo.SelectedItem == null || string.IsNullOrEmpty(Cbx_Tap2_Ojo.Text))
+            {
+
+                Pnl_2_Msj.Visible = true;
+                txt_pl2_msj.Text = " Seleccionar un valor para  ojo";
+                pb_pl2_mj.Visible = true;
+
+                todosValidos = false;
+                Cbx_Tap2_Ojo.Focus();
+                return todosValidos; // Salir anticipadamente si este no es válido
+            }
+
+            return todosValidos; // Salir anticipadamente si este no es válido
+        }
+
+        private void Btn_Tap2_oft_ambos_Click_1(object sender, EventArgs e)
+        {
+            txt_Pnl2_ofti.Text = txt_Pnl2_oftd.Text;
+        }
+
+        private void Btn_Tap2_GuardarExam_Click(object sender, EventArgs e)
+        {
+
+
+
+            // First, perform the validation
+            if (!ValidarVisionConv())
+            {
+                Pnl_2_Msj.Visible = true;
+                txt_pl2_msj.Text = "Combinaciones posibles es el mismo tipo o 'BALANCE', Se ha restablecido";
+                pb_pl2_mj.Visible = true;
+                Pnl_2_Msj.Location = new Point(396, 175);
+                Pnl_2_Msj.BringToFront();
+
+                return;
+            }
+
+
+
+            if (!ValidarQueratometria())
+            {
+                Pnl_2_Msj.Visible = true;
+                txt_pl2_msj.Text = "Valores de Queratometria Incompletos";
+                pb_pl2_mj.Visible = true;
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(Txt_Tap2_Examen.Text))
+            {
+                // If it's empty, set its value to "0"
+                Txt_Tap2_Examen.Text = "0";
+            }
+
+            if (int.Parse(Txt_Tap2_Examen.Text) == 0)
+            {
+
+                Txt_Tap2_Examen.Text = (TopeExamen + 1).ToString();
+                TopeExamen = TopeExamen + 1;
+                numeroExamen = TopeExamen;
+            }
+            else
+            { numeroExamen = int.Parse(Txt_Tap2_Examen.Text); }
+
+
+            nuevoExamen.NUM_Examen = numeroExamen;
+
+            nuevoFicconv.NUM_Examen = numeroExamen;
+            nuevoFiccont.NUM_Examen = numeroExamen;
+
+            nuevoQuerato.NUM_Examen = numeroExamen;
+            nuevoTrabajo.TEXAMEN = numeroExamen.ToString();
+
+            nuevoFiccont.CTE_CedIden = Txt_Tap1_Cedula.Text.Trim();
+            nuevoFiccont.CTE_Nacio = Cbx_Tap1_Nacionalidad.Text.Trim(); // Ajusta según cómo manejas la nacionalidad
+
+
+            nuevoFicconv.CTE_CedIden = Txt_Tap1_Cedula.Text.Trim();
+            nuevoFicconv.CTE_Nacio = Cbx_Tap1_Nacionalidad.Text.Trim(); // Ajusta según cómo manejas la nacionalidad
+
+            nuevoExamen.CTE_CedIden = Txt_Tap1_Cedula.Text.Trim();
+            nuevoExamen.CTE_Nacio = Cbx_Tap1_Nacionalidad.Text.Trim(); // Ajusta según cómo manejas la nacionalidad
+
+            nuevoQuerato.CTE_CedIden = Txt_Tap1_Cedula.Text.Trim();
+            nuevoQuerato.CTE_Nacio = Cbx_Tap1_Nacionalidad.Text.Trim(); // Ajusta según cómo manejas la nacionalidad
+
+            nuevoTrabajo.TCEDIDEN = Txt_Tap1_Cedula.Text.Trim();
+            nuevoTrabajo.TNACIO = Cbx_Tap1_Nacionalidad.Text.Trim(); // Ajusta según cómo manejas la nacionalidad
+
+
+            nuevoTrabajo.TFECCREA = Dtp_Tap2_FecExam.Value;
+            nuevoExamen.FEC_Examen = Dtp_Tap2_FecExam.Value;
+            //nuevoExamen.FEC_Examen = Dtp_Tap2_Examen.Value;
+            //nuevoExamen.FEC_Examen = Dtp_Tap2_Examen.Value;
+            //nuevoExamen.FEC_Examen = Dtp_Tap2_Examen.Value;
+
+            // Continuar con el resto de la lógica de tu método
+
+
+
+
+
+
+
+            if (validarvacioExam())
+            {
+
+
+
+
+                guardaExamenConv();
+                // Procesar el resultado de la operación de guardado
+                if (resultado.Equals("Guardado"))
+                {
+
+                    if (Txt_Tap2_Examen.Text == "0")
+                    {
+                        Txt_Tap2_Examen.Text = numeroExamen.ToString();
+                    }
+
+                }
+
+                if (!ValidarCont_AllOrNoneZero())
+                {
+
+                    Pnl_2_Msj.Visible = true;
+                    txt_pl2_msj.Text = " Error  valores de la tabla de lentes de contacto";
+                    pb_pl2_mj.Visible = true;
+                    return; // Stop further processing if validation fails
+                }
+
+
+
+                guardaExamenCont();
+
+                ValidarQueratometria();
+
+                guardaExamenQuera();
+                guardaExamenreti();
+                guardaExamenoft();
+
+
+
+                if (resultado.Equals("Guardado"))
+                {
+
+                    Pnl_2_Msj.Visible = true;
+                    txt_pl2_msj.Text = "Examen Guardado Exitosamente";
+                    pb_pl2_mj.Visible = false;
+                }
+
+            }
+        }
+
+        private bool ValidarCont_AllOrNoneZero()
+        {
+            // Define the names of the numeric columns to be validated
+            // 'Ojo' and 'aEsfera', 'aCilindro' are text/placeholder columns and should be excluded.
+            string[] numericColumns = { "Esfera", "Cilindro", "Eje", "Adicion", "C_base", "Diametro" };
+
+            foreach (DataGridViewRow row in Dgv_Pnl2_cont.Rows)
+            {
+                // Skip the new row if it's present and not committed
+                if (row.IsNewRow)
+                {
+                    continue;
+                }
+
+                bool hasNonZeroValue = false;
+                bool hasZeroValue = false;
+                List<int> zeroValueColumnIndexes = new List<int>(); // To highlight specific zero cells if needed
+
+                // Iterate only through the relevant numeric columns
+                foreach (string colName in numericColumns)
+                {
+                    if (Dgv_Pnl2_cont.Columns.Contains(colName))
+                    {
+                        DataGridViewCell cell = row.Cells[colName];
+
+                        // Ensure the cell has a value and it can be parsed as a decimal
+                        if (cell.Value != null && decimal.TryParse(cell.Value.ToString(), out decimal cellValue))
+                        {
+                            if (cellValue != 0)
+                            {
+                                hasNonZeroValue = true;
+                            }
+                            else
+                            {
+                                hasZeroValue = true;
+                                zeroValueColumnIndexes.Add(cell.ColumnIndex);
+                            }
+                        }
+                        else
+                        {
+                            // Handle cases where a numeric cell might be empty or invalid (e.g., text)
+                            // Depending on your exact requirements, you might treat empty as zero, or as an error.
+                            // For this rule, we'll assume an empty/invalid numeric cell should be considered zero-like for the "all or none" rule.
+                            hasZeroValue = true;
+                            zeroValueColumnIndexes.Add(cell.ColumnIndex);
+                        }
+                    }
+                }
+
+                // Apply the validation rule: if there's a non-zero value, there shouldn't be any zero values
+                if (hasNonZeroValue && hasZeroValue)
+                {
+                    // Construct a more specific message about which row has the issue
+                    string ojoValue = row.Cells["Ojo"].Value?.ToString() ?? "Desconocido";
+                    string errorMessage = $"En la fila '{ojoValue}', se detectó un valor diferente de cero, pero también hay valores en cero. Todos los campos numéricos deben tener un valor o todos deben ser cero.";
+                    ShowValidationMessage(errorMessage, Dgv_Pnl2_cont, zeroValueColumnIndexes.Any() ? zeroValueColumnIndexes.First() : 0, row.Index);
+                    return false; // Validation failed for this row
+                }
+            }
+
+            // If no validation errors were found after checking all rows
+            HideValidationMessage();
+            return true; // All rows passed the validation
+        }
+
+        private void ShowValidationMessage(string message, DataGridView dgv, int colIndex, int rowIndex)
+        {
+            Pnl_2_Msj.Visible = true;
+            txt_pl2_msj.Text = message;
+            pb_pl2_mj.Visible = true;
+
+            // Optional: Scroll to the error cell and select it
+            if (rowIndex >= 0 && rowIndex < dgv.Rows.Count && colIndex >= 0 && colIndex < dgv.Columns.Count)
+            {
+                dgv.CurrentCell = dgv.Rows[rowIndex].Cells[colIndex];
+                dgv.BeginEdit(true); // Put cell in edit mode if it's editable
+            }
+        }
+
+        // Helper method to hide the validation message
+        private void HideValidationMessage()
+        {
+            Pnl_2_Msj.Visible = false;
+            txt_pl2_msj.Text = string.Empty;
+            pb_pl2_mj.Visible = false;
+        }
+
+        private bool ValidarVisionConv()
+        {
+            // This assumes you want to check all columns named "Vision" for this rule
+            // If you only want to check a specific column (e.g., the one at index X), adjust the loop.
+            foreach (DataGridViewColumn column in Dgv_Pnl2_conv.Columns)
+            {
+                if (column.Name == "Vision")
+                {
+                    int columnIndex = column.Index;
+
+                    // Ensure there are at least two rows to compare (row 0 and row 1)
+                    if (Dgv_Pnl2_conv.Rows.Count >= 2)
+                    {
+                        DataGridViewCell cellFila0 = Dgv_Pnl2_conv.Rows[0].Cells[columnIndex];
+                        DataGridViewComboBoxCell cellFila1 = Dgv_Pnl2_conv.Rows[1].Cells[columnIndex] as DataGridViewComboBoxCell;
+
+                        // Make sure cellFila1 is indeed a DataGridViewComboBoxCell and not null
+                        if (cellFila1 == null)
+                        {
+                            // Handle cases where the cell might not be a ComboBoxCell, though it should be if configured correctly.
+                            // Or, you might want to log this as an unexpected scenario.
+                            continue;
+                        }
+
+                        string valorFila0 = cellFila0.Value?.ToString().Trim().ToUpper();
+                        string valorFila1 = cellFila1.Value?.ToString().Trim().ToUpper();
+
+                        if (valorFila0 != valorFila1 && valorFila1 != "BALANCE" && valorFila0 != "BALANCE")
+                        {
+                            Pnl_2_Msj.Visible = true;
+                            txt_pl2_msj.Text = "Combinaciones posibles es el mismo tipo o 'BALANCE', Se ha restablecido";
+                            pb_pl2_mj.Visible = true;
+                            //Pnl_2_Msj.Location = new Point(396, 175);
+                            Pnl_2_Msj.BringToFront();
+
+                            // Do NOT set cellFila1.Value here, as this would trigger CellValueChanged again.
+                            // Instead, return false to indicate validation failure.
+                            return false;
+                        }
+                    }
+                }
+            }
+
+
+            return true; // Validation passed
+        }
+
+        private void Dgv_Pnl2_conv_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+
+            if (_isCellValueChanging)
+                return;
+
+            try
+            {
+                _isCellValueChanging = true;
+
+                if (e.ColumnIndex >= 0 && Dgv_Pnl2_conv.Columns[e.ColumnIndex].Name == "Vision" && e.RowIndex == 1)
+                {
+                    DataGridViewCell cellFila0 = Dgv_Pnl2_conv.Rows[0].Cells[e.ColumnIndex];
+                    DataGridViewComboBoxCell cellFila1 = (DataGridViewComboBoxCell)Dgv_Pnl2_conv.Rows[1].Cells[e.ColumnIndex];
+
+                    string valorFila0 = cellFila0.Value?.ToString().Trim().ToUpper();
+                    string valorFila1 = cellFila1.Value?.ToString().Trim().ToUpper();
+
+                    if (valorFila0 != valorFila1 && valorFila1 != "BALANCE" && valorFila0 != "BALANCE")
+                    {
+                        Pnl_2_Msj.Visible = true;
+                        txt_pl2_msj.Text = "Combinaciones posibles es el mismo tipo o  'BALANCE', Se ha restablecido";
+                        pb_pl2_mj.Visible = true;
+
+                        cellFila1.Value = null; // O el valor que desees restablecer
+                    }
+                    else
+                    {
+                        if (Pnl_2_Msj.Visible)
+                        {
+                            Pnl_2_Msj.Visible = false;
+                            txt_pl2_msj.Text = string.Empty;
+                            pb_pl2_mj.Visible = false;
+                        }
+                    }
+                }
+            }
+            finally
+            {
+                _isCellValueChanging = false;
+            }
+
+
+            if (e.ColumnIndex >= 0 && Dgv_Pnl2_conv.Columns[e.ColumnIndex].Name == "Esfera" && e.RowIndex >= 0)
+            {
+                DataGridViewCell cell = Dgv_Pnl2_conv.Rows[e.RowIndex].Cells[e.ColumnIndex];
+
+                // Verifica si la celda está vacía (Value es null o una cadena vacía)
+                if (cell.Value == null || string.IsNullOrEmpty(cell.Value.ToString()))
+                {
+                    cell.Value = 0; // Establece el valor a cero
+                }
+                else
+                {
+                    // Si la celda no está vacía, valida el número ingresado
+                    if (double.TryParse(cell.Value.ToString(), out double enteredValue))
+                    {
+                        // Calcula el residuo de la división por 0.25
+                        double remainder = enteredValue % 0.25;
+
+                        // Define una pequeña tolerancia para evitar problemas de coma flotante
+                        double tolerance = 0.0000000001;
+
+                        // Si no es divisible por 0.25 (o el residuo no es cercano a cero)
+                        if (Math.Abs(remainder) > tolerance && Math.Abs(remainder - 0.25) > tolerance)
+                        {
+                            // Calcula el número más cercano que es múltiplo de 0.25
+                            double roundedValue = Math.Round(enteredValue / 0.25) * 0.25;
+
+
+                            Pnl_2_Msj.Visible = true;
+                            txt_pl2_msj.Text = "El valor ingresado debe ser un múltiplo de 0.25 Se ha ajustado a " + roundedValue.ToString("F2");
+                            pb_pl2_mj.Visible = true;
+
+
+                            // Actualiza el valor de la celda
+                            cell.Value = roundedValue;
+
+
+                        }
+                    }
+                    else
+                    {
+                        // Si el valor no es un número válido, puedes manejarlo aquí (por ejemplo, establecerlo a 0 o mostrar un error)
+                        MessageBox.Show("Por favor, ingrese un número válido.", "Error de entrada", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        cell.Value = 0; // O la acción que consideres adecuada
+                    }
+                }
+            }
+
+            if (e.ColumnIndex >= 0 && Dgv_Pnl2_conv.Columns[e.ColumnIndex].Name == "Cilindro" && e.RowIndex >= 0)
+            {
+                DataGridViewCell cell = Dgv_Pnl2_conv.Rows[e.RowIndex].Cells[e.ColumnIndex];
+
+                // Verifica si la celda está vacía (Value es null o una cadena vacía)
+                if (cell.Value == null || string.IsNullOrEmpty(cell.Value.ToString()))
+                {
+                    cell.Value = 0; // Establece el valor a cero
+                }
+                else
+                {
+                    // Si la celda no está vacía, valida el número ingresado
+                    if (double.TryParse(cell.Value.ToString(), out double enteredValue))
+                    {
+                        // Calcula el residuo de la división por 0.25
+                        double remainder = enteredValue % 0.25;
+
+                        // Define una pequeña tolerancia para evitar problemas de coma flotante
+                        double tolerance = 0.0000000001;
+
+                        // Si no es divisible por 0.25 (o el residuo no es cercano a cero)
+                        if (Math.Abs(remainder) > tolerance && Math.Abs(remainder - 0.25) > tolerance)
+                        {
+                            // Calcula el número más cercano que es múltiplo de 0.25
+                            double roundedValue = Math.Round(enteredValue / 0.25) * 0.25;
+
+
+
+                            Pnl_2_Msj.Visible = true;
+                            txt_pl2_msj.Text = "El valor ingresado debe ser un múltiplo de 0.25 Se ha ajustado a " + roundedValue.ToString("F2");
+                            pb_pl2_mj.Visible = true;
+
+
+                            // Actualiza el valor de la celda
+                            cell.Value = roundedValue;
+
+
+                        }
+                    }
+                    else
+                    {
+                        // Si el valor no es un número válido, puedes manejarlo aquí (por ejemplo, establecerlo a 0 o mostrar un error)
+                        MessageBox.Show("Por favor, ingrese un número válido.", "Error de entrada", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        cell.Value = 0; // O la acción que consideres adecuada
+                    }
+                }
+            }
+
+            if (e.ColumnIndex >= 0 && Dgv_Pnl2_conv.Columns[e.ColumnIndex].Name == "Eje" && e.RowIndex >= 0)
+            {
+                DataGridViewCell cell = Dgv_Pnl2_conv.Rows[e.RowIndex].Cells[e.ColumnIndex];
+
+                // Verifica si la celda está vacía
+                if (cell.Value == null || string.IsNullOrEmpty(cell.Value.ToString()))
+                {
+                    cell.Value = 0; // Establece el valor a cero
+                }
+                else
+                {
+                    // Si la celda no está vacía, valida el número ingresado como entero
+                    if (int.TryParse(cell.Value.ToString(), out int enteredValue))
+                    {
+                        // Verifica si el valor es un múltiplo de 5
+                        if (enteredValue % 5 != 0)
+                        {
+                            // Calcula el múltiplo de 5 más cercano
+                            int roundedValue = (int)Math.Round((double)enteredValue / 5) * 5;
+
+                            // Muestra un mensaje al usuario
+                            Pnl_2_Msj.Visible = true;
+                            txt_pl2_msj.Text = $"El valor ingresado debe ser un múltiplo de 5. Se ha ajustado a {roundedValue}.";
+                            pb_pl2_mj.Visible = true;
+
+                            // Actualiza el valor de la celda
+                            cell.Value = roundedValue;
+                        }
+                    }
+                    else
+                    {
+                        // Si el valor no es un entero válido
+                        MessageBox.Show("Por favor, ingrese un número entero válido.", "Error de entrada", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        cell.Value = 0; // O la acción que consideres adecuada
+                    }
+                }
+            }
+
+            if (e.ColumnIndex >= 0 && Dgv_Pnl2_conv.Columns[e.ColumnIndex].Name == "Adicion" && e.RowIndex >= 0)
+            {
+                DataGridViewCell cell = Dgv_Pnl2_conv.Rows[e.RowIndex].Cells[e.ColumnIndex];
+
+                // Verifica si la celda está vacía (Value es null o una cadena vacía)
+                if (cell.Value == null || string.IsNullOrEmpty(cell.Value.ToString()))
+                {
+                    cell.Value = 0; // Establece el valor a cero
+                }
+                else
+                {
+                    // Si la celda no está vacía, valida el número ingresado
+                    if (double.TryParse(cell.Value.ToString(), out double enteredValue))
+                    {
+                        // Calcula el residuo de la división por 0.25
+                        double remainder = enteredValue % 0.25;
+
+                        // Define una pequeña tolerancia para evitar problemas de coma flotante
+                        double tolerance = 0.0000000001;
+
+                        // Si no es divisible por 0.25 (o el residuo no es cercano a cero)
+                        if (Math.Abs(remainder) > tolerance && Math.Abs(remainder - 0.25) > tolerance)
+                        {
+                            // Calcula el número más cercano que es múltiplo de 0.25
+                            double roundedValue = Math.Round(enteredValue / 0.25) * 0.25;
+
+
+                            Pnl_2_Msj.Visible = true;
+                            txt_pl2_msj.Text = "El valor ingresado debe ser un múltiplo de 0.25 Se ha ajustado a " + roundedValue.ToString("F2");
+                            pb_pl2_mj.Visible = true;
+
+
+                            // Actualiza el valor de la celda
+                            cell.Value = roundedValue;
+
+
+                        }
+                    }
+                    else
+                    {
+                        // Si el valor no es un número válido, puedes manejarlo aquí (por ejemplo, establecerlo a 0 o mostrar un error)
+                        MessageBox.Show("Por favor, ingrese un número válido.", "Error de entrada", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        cell.Value = 0; // O la acción que consideres adecuada
+                    }
+                }
+            }
+
+            if (e.ColumnIndex >= 0 && Dgv_Pnl2_conv.Columns[e.ColumnIndex].Name == "Prisma1" && e.RowIndex >= 0)
+            {
+                DataGridViewCell cell = Dgv_Pnl2_conv.Rows[e.RowIndex].Cells[e.ColumnIndex];
+
+                // Verifica si la celda está vacía (Value es null o una cadena vacía)
+                if (cell.Value == null || string.IsNullOrEmpty(cell.Value.ToString()))
+                {
+                    cell.Value = 0; // Establece el valor a cero
+                }
+                else
+                {
+                    // Si la celda no está vacía, valida el número ingresado
+                    if (double.TryParse(cell.Value.ToString(), out double enteredValue))
+                    {
+                        // Calcula el residuo de la división por 0.25
+                        double remainder = enteredValue % 0.25;
+
+                        // Define una pequeña tolerancia para evitar problemas de coma flotante
+                        double tolerance = 0.0000000001;
+
+                        // Si no es divisible por 0.25 (o el residuo no es cercano a cero)
+                        if (Math.Abs(remainder) > tolerance && Math.Abs(remainder - 0.25) > tolerance)
+                        {
+                            // Calcula el número más cercano que es múltiplo de 0.25
+                            double roundedValue = Math.Round(enteredValue / 0.25) * 0.25;
+
+
+                            Pnl_2_Msj.Visible = true;
+                            txt_pl2_msj.Text = "El valor invalido rango de decimales 00,25,50,75 Se ha ajustado a " + roundedValue.ToString("F2");
+                            pb_pl2_mj.Visible = true;
+
+
+                            // Actualiza el valor de la celda
+                            cell.Value = roundedValue;
+
+
+                        }
+                    }
+                    else
+                    {
+                        // Si el valor no es un número válido, puedes manejarlo aquí (por ejemplo, establecerlo a 0 o mostrar un error)
+                        MessageBox.Show("Por favor, ingrese un número válido.", "Error de entrada", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        cell.Value = 0; // O la acción que consideres adecuada
+                    }
+                }
+            }
+
+            //VISION - BALANCE
+
+            // Verificar si el cambio ocurrió en una fila válida y en la columna "Lejos"
+            if (e.RowIndex >= 0 && Dgv_Pnl2_conv.Columns[e.ColumnIndex].Name == "Lejos")
+            {
+                // Obtener el valor de la celda "Lejos" que cambió
+                if (Dgv_Pnl2_conv.Rows[e.RowIndex].Cells["Lejos"].Value != null &&
+                    decimal.TryParse(Dgv_Pnl2_conv.Rows[e.RowIndex].Cells["Lejos"].Value.ToString(), out decimal lejosValue))
+                {
+
+                    // Calcular el valor para la columna "Cerca"
+                    decimal cercaValue = 0;
+                    if (lejosValue > 0)
+                    {
+                        // Calcular el valor para la columna "Cerca"
+                        cercaValue = lejosValue - 1;
+
+                        // Verificar si la columna "Cerca" existe y actualizar su valor en la misma fila
+                        if (Dgv_Pnl2_cont.Columns.Contains("Cerca"))
+                        {
+                            Dgv_Pnl2_cont.Rows[e.RowIndex].Cells["Cerca"].Value = cercaValue;
+                        }
+                    }
+
+                    // Verificar si la columna "Cerca" existe y actualizar su valor en la misma fila
+                    if (Dgv_Pnl2_conv.Columns.Contains("Cerca"))
+                    {
+                        Dgv_Pnl2_conv.Rows[e.RowIndex].Cells["Cerca"].Value = cercaValue;
+                    }
+                }
+            }
+
+            // Verifica que el índice de la fila sea válido
+            if (e.RowIndex >= 0)
+            {
+                // Llama al evento CellEnter, pasando los mismos sender y argumentos
+                DataGridViewCell changedCell = Dgv_Pnl2_conv.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                // Obtiene la celda que cambió
+                if (changedCell.Value != null && changedCell.Value.ToString() != string.Empty)
+                // Verifica que el valor no sea nulo ni vacío
+                {
+                    Dgv_Pnl2_conv_CellEnter(sender, e);
+                }
+
+
+                // Verifica si el cambio ocurrió en la columna "Grado1"
+                if (Dgv_Pnl2_conv.Columns[e.ColumnIndex].Name == "Grado1")
+                {
+                    DataGridViewCell cell = Dgv_Pnl2_conv.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                    if (cell.Value != null && !string.IsNullOrEmpty(cell.Value.ToString()))
+                    {
+                        if (int.TryParse(cell.Value.ToString(), out int valorIngresado))
+                        {
+                            if (valorIngresado != 0 && valorIngresado != 90 && valorIngresado != 180 && valorIngresado != 270)
+                            {
+
+                                Pnl_2_Msj.Visible = true;
+                                txt_pl2_msj.Text = "Ingrese solo los valores permitidos: 0, 90, 180, 270";
+                                pb_pl2_mj.Visible = true;
+
+
+                                cell.Value = 0; // Ejemplo: Revertir a 0
+                                // cell.Value = null; // Ejemplo: Limpiar la celda
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("  ingrese un número válido.", "Importante", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                            // Opcionalmente, puedes revertir el valor o limpiar la celda
+                            cell.Value = 0;
+                            //cell.Value = null;
+                        }
+                    }
+                    // Si la celda está vacía, puedes decidir si eso es válido o no
+                    // else
+                    // {
+                    //     // Manejar celdas vacías si es necesario
+                    // }
+                }// Verifica si el cambio ocurrió en la columna "Grado1"
+
+
+                // Validación de Cerca <= Lejos
+                if (Dgv_Pnl2_conv.Columns[e.ColumnIndex].Name == "Cerca" || Dgv_Pnl2_conv.Columns[e.ColumnIndex].Name == "Lejos")
+                {
+                    decimal lejosValue = 0;
+                    decimal cercaValue = 0;
+
+                    // Intenta obtener los valores de las celdas "Lejos" y "Cerca"
+                    if (Dgv_Pnl2_conv.Rows[e.RowIndex].Cells["Lejos"].Value != null &&
+                        decimal.TryParse(Dgv_Pnl2_conv.Rows[e.RowIndex].Cells["Lejos"].Value.ToString(), out lejosValue))
+                    {
+                        if (Dgv_Pnl2_conv.Rows[e.RowIndex].Cells["Cerca"].Value != null &&
+                           decimal.TryParse(Dgv_Pnl2_conv.Rows[e.RowIndex].Cells["Cerca"].Value.ToString(), out cercaValue))
+                        {
+                            if (cercaValue > lejosValue)
+                            {
+
+
+                                Pnl_2_Msj.Visible = true;
+                                txt_pl2_msj.Text = "El valor de 'Cerca' no puede ser mayor que el valor de 'Lejos'";
+                                pb_pl2_mj.Visible = true;
+
+                                Dgv_Pnl2_conv.Rows[e.RowIndex].Cells["Cerca"].Value = lejosValue; // Restablece el valor de "Cerca" a "Lejos"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private void Dgv_Pnl2_conv_CellEnter(object sender, DataGridViewCellEventArgs e)
+        {
+
+
+
+
+
+            if (e.ColumnIndex >= 0 && Dgv_Pnl2_conv.Columns[e.ColumnIndex].Name == "Altura" && e.RowIndex >= 0)
+            {
+                DataGridViewCell cell = Dgv_Pnl2_conv.Rows[e.RowIndex].Cells[e.ColumnIndex];
+
+                // Verifica si la celda está vacía (Value es null o una cadena vacía)
+                if (cell.Value == null || string.IsNullOrEmpty(cell.Value.ToString()))
+                {
+                    cell.Value = 0; // Establece el valor a cero
+                }
+            }
+
+
+            if (e.ColumnIndex >= 0 && Dgv_Pnl2_conv.Columns[e.ColumnIndex].Name == "Cilindro")
+            {
+                DataGridViewCell cell = Dgv_Pnl2_conv.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                if (cell.Value == null || string.IsNullOrEmpty(cell.Value.ToString()))
+                {
+                    cell.Value = 0;
+                }
+            }
+
+
+            if (e.ColumnIndex >= 0 && Dgv_Pnl2_conv.Columns[e.ColumnIndex].Name == "Eje")
+            {
+                DataGridViewCell cell = Dgv_Pnl2_conv.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                if (cell.Value == null || string.IsNullOrEmpty(cell.Value.ToString()))
+                {
+                    cell.Value = 0;
+                }
+            }
+
+            //dt.Columns.Add("Adicion", typeof(decimal));
+            //dt.Columns.Add("DNP_Lejos", typeof(decimal));
+            //dt.Columns.Add("DPN_Cerca", typeof(decimal));
+            //dt.Columns.Add("Agudeza_Visual", typeof(string));
+            //dt.Columns.Add("Prisma1", typeof(decimal));
+            //dt.Columns.Add("Grado1", typeof(decimal));
+
+            if (e.ColumnIndex >= 0 && Dgv_Pnl2_conv.Columns[e.ColumnIndex].Name == "Adicion")
+            {
+                DataGridViewCell cell = Dgv_Pnl2_conv.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                if (cell.Value == null || string.IsNullOrEmpty(cell.Value.ToString()))
+                {
+                    cell.Value = 0;
+                }
+            }
+
+            if (e.ColumnIndex >= 0 && Dgv_Pnl2_conv.Columns[e.ColumnIndex].Name == "Lejos")
+            {
+                DataGridViewCell cell = Dgv_Pnl2_conv.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                if (cell.Value == null || string.IsNullOrEmpty(cell.Value.ToString()))
+                {
+                    cell.Value = 0;
+                }
+            }
+
+            if (e.ColumnIndex >= 0 && Dgv_Pnl2_conv.Columns[e.ColumnIndex].Name == "Cerca")
+            {
+                DataGridViewCell cell = Dgv_Pnl2_conv.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                if (cell.Value == null || string.IsNullOrEmpty(cell.Value.ToString()))
+                {
+                    cell.Value = 0;
+                }
+            }
+
+            if (e.ColumnIndex >= 0 && Dgv_Pnl2_conv.Columns[e.ColumnIndex].Name == "Visual")
+            {
+                DataGridViewCell cell = Dgv_Pnl2_conv.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                if (cell.Value == null || string.IsNullOrEmpty(cell.Value.ToString()))
+                {
+                    cell.Value = 0;
+                }
+            }
+
+
+            if (e.ColumnIndex >= 0 && Dgv_Pnl2_conv.Columns[e.ColumnIndex].Name == "Prisma1")
+            {
+                DataGridViewCell cell = Dgv_Pnl2_conv.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                if (cell.Value == null || string.IsNullOrEmpty(cell.Value.ToString()))
+                {
+                    cell.Value = 0;
+                }
+            }
+
+            if (e.ColumnIndex >= 0 && Dgv_Pnl2_conv.Columns[e.ColumnIndex].Name == "Grado1")
+            {
+                DataGridViewCell cell = Dgv_Pnl2_conv.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                if (cell.Value == null || string.IsNullOrEmpty(cell.Value.ToString()))
+                {
+                    cell.Value = 0;
+                }
+            }
+
+            // Verifica si la celda que recibió el foco está en la columna "Cilindro"
+            if (Dgv_Pnl2_conv.Columns[e.ColumnIndex].Name == "Cilindro" && e.RowIndex >= 0)
+            {
+                // Borra el valor de la celda correspondiente en la columna "aEsfera"
+                if (Dgv_Pnl2_conv.Columns.Contains("aCilindro"))
+                {
+                    Dgv_Pnl2_conv.Rows[e.RowIndex].Cells["aCilindro"].Value = string.Empty;
+                }
+                else
+                {
+                    Console.WriteLine("Error: La columna 'A0' no se encuentra en el DataGridView.");
+                }
+            }
+
+
+            // Verifica si la celda que recibió el foco está en la columna "Cilindro"
+            if (Dgv_Pnl2_conv.Columns[e.ColumnIndex].Name == "Cilindro" && e.RowIndex >= 0)
+            {
+                int rowIndex = e.RowIndex;
+                object cellValue = Dgv_Pnl2_conv.Rows[rowIndex].Cells["Cilindro"].Value;
+                decimal cilindroValue;
+
+                if (cellValue != null && decimal.TryParse(cellValue.ToString(), out cilindroValue))
+                {
+                    // **Lógica de actualización de la columna "aEsfera" (copiada y adaptada)**
+                    if (Dgv_Pnl2_conv.Columns.Contains("aCilindro"))
+                    {
+                        DataGridViewCell a1Cell = Dgv_Pnl2_conv.Rows[rowIndex].Cells["aCilindro"];
+                        if (cilindroValue > 0)
+                        {
+                            a1Cell.Value = "+";
+                        }
+                        else
+                        {
+                            a1Cell.Value = "-";
+                        }
+
+                        if (cilindroValue == 0)
+                        {
+
+                            a1Cell.Value = "";
+                        }
+
+
+                    }
+                    else
+                    {
+                        Console.WriteLine("Error: La columna 'A0' no se encuentra en el DataGridView.");
+                    }
+                }
+                else
+                {
+                    // Manejar el caso en que el valor de "Cilindro" no es un número válido o está vacío
+                    if (Dgv_Pnl2_conv.Columns.Contains("aCilindro"))
+                    {
+                        Dgv_Pnl2_conv.Rows[rowIndex].Cells["aCilindro"].Value = string.Empty;
+                    }
+                }
+            }
+            // ------------------------------------------------------
+
+
+
+            if (Dgv_Pnl2_conv.Columns[e.ColumnIndex].Name == "Esfera" && e.RowIndex >= 0)
+            {
+                int rowIndex = e.RowIndex;
+                object cellValue = Dgv_Pnl2_conv.Rows[rowIndex].Cells["Esfera"].Value;
+                decimal cilindroValue;
+
+                if (cellValue != null && decimal.TryParse(cellValue.ToString(), out cilindroValue))
+                {
+                    // **Lógica de actualización de la columna "aEsfera" (copiada y adaptada)**
+                    if (Dgv_Pnl2_conv.Columns.Contains("aEsfera"))
+                    {
+                        DataGridViewCell a1Cell = Dgv_Pnl2_conv.Rows[rowIndex].Cells["aEsfera"];
+                        if (cilindroValue > 0)
+                        {
+                            a1Cell.Value = "+";
+                        }
+                        else
+                        {
+                            a1Cell.Value = "-";
+                        }
+
+                        if (cilindroValue == 0)
+                        {
+
+                            a1Cell.Value = "";
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Error: La columna 'A1' no se encuentra en el DataGridView.");
+                    }
+                }
+                else
+                {
+                    // Manejar el caso en que el valor de "Cilindro" no es un número válido o está vacío
+                    if (Dgv_Pnl2_conv.Columns.Contains("aEsfera"))
+                    {
+                        Dgv_Pnl2_conv.Rows[rowIndex].Cells["aEsfera"].Value = string.Empty;
+                    }
+                }
+            }
+        }
+
+        private void Dgv_Pnl2_conv_CellLeave(object sender, DataGridViewCellEventArgs e)
+        {
+
+
+
+            // Llama al evento CellEnter, pasando los mismos sender y argumentos
+            DataGridViewCell changedCell = Dgv_Pnl2_conv.Rows[e.RowIndex].Cells[e.ColumnIndex]; // Obtiene la celda que cambió
+            if (changedCell.Value != null && changedCell.Value.ToString() != string.Empty) // Verifica que el valor no sea nulo ni vacío
+            {
+                Dgv_Pnl2_conv_CellEnter(sender, e);
+            }
+        }
+
+        private void Dgv_Pnl2_cont_CellEnter(object sender, DataGridViewCellEventArgs e)
+        {
+
+            if (e.ColumnIndex >= 0 && Dgv_Pnl2_cont.Columns[e.ColumnIndex].Name == "Esfera" && e.RowIndex >= 0)
+            {
+                DataGridViewCell cell = Dgv_Pnl2_cont.Rows[e.RowIndex].Cells[e.ColumnIndex];
+
+                // Verifica si la celda está vacía (Value es null o una cadena vacía)
+                if (cell.Value == null || string.IsNullOrEmpty(cell.Value.ToString()))
+                {
+                    cell.Value = 0; // Establece el valor a cero
+                }
+            }
+
+            if (e.ColumnIndex >= 0 && Dgv_Pnl2_cont.Columns[e.ColumnIndex].Name == "Cilindro")
+            {
+                DataGridViewCell cell = Dgv_Pnl2_cont.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                if (cell.Value == null || string.IsNullOrEmpty(cell.Value.ToString()))
+                {
+                    cell.Value = 0;
+                }
+            }
+
+
+            if (e.ColumnIndex >= 0 && Dgv_Pnl2_cont.Columns[e.ColumnIndex].Name == "Eje")
+            {
+                DataGridViewCell cell = Dgv_Pnl2_cont.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                if (cell.Value == null || string.IsNullOrEmpty(cell.Value.ToString()))
+                {
+                    cell.Value = 0;
+                }
+            }
+
+
+
+            if (e.ColumnIndex >= 0 && Dgv_Pnl2_cont.Columns[e.ColumnIndex].Name == "Adicion")
+            {
+                DataGridViewCell cell = Dgv_Pnl2_cont.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                if (cell.Value == null || string.IsNullOrEmpty(cell.Value.ToString()))
+                {
+                    cell.Value = 0;
+                }
+            }
+
+            // Verifica si la celda que recibió el foco está en la columna "Cilindro"
+            // Actualizar columnas A0 y A1 en función de Esfera y Cilindro
+            if (Dgv_Pnl2_cont.Columns.Contains("Esfera") && Dgv_Pnl2_cont.Columns.Contains("aEsfera"))
+            {
+                decimal esferaValue = 0; // Inicializar con un valor por defecto
+                object esferaCellValue = Dgv_Pnl2_cont.Rows[e.RowIndex].Cells["Esfera"].Value; // Usar Dgv_Pnl2_cont
+
+                if (esferaCellValue != null && decimal.TryParse(esferaCellValue.ToString(), out esferaValue))
+                {
+                    DataGridViewCell a0Cell = Dgv_Pnl2_cont.Rows[e.RowIndex].Cells["aEsfera"];
+                    if (esferaValue > 0)
+                    {
+                        a0Cell.Value = "+";
+                    }
+                    else if (esferaValue < 0) // Añadido el caso para valores negativos
+                    {
+                        a0Cell.Value = "-";
+                    }
+                    else
+                    {
+                        a0Cell.Value = "";
+                    }
+                }
+                else
+                {
+                    Dgv_Pnl2_cont.Rows[e.RowIndex].Cells["aEsfera"].Value = ""; // Limpiar A0 si Esfera no es válido
+                }
+            }
+            // ------------------------------------------------------
+
+
+            // Verifica si la celda que recibió el foco está en la columna "Cilindro"
+            if (Dgv_Pnl2_cont.Columns.Contains("Cilindro") && Dgv_Pnl2_cont.Columns.Contains("aCilindro"))
+            {
+                decimal cilindroValue = 0;  // Inicializar
+                object cilindroCellValue = Dgv_Pnl2_cont.Rows[e.RowIndex].Cells["Cilindro"].Value; // Usar Dgv_Pnl2_cont
+
+                if (cilindroCellValue != null && decimal.TryParse(cilindroCellValue.ToString(), out cilindroValue))
+                {
+                    DataGridViewCell a1Cell = Dgv_Pnl2_cont.Rows[e.RowIndex].Cells["aCilindro"];
+                    if (cilindroValue > 0)
+                    {
+                        a1Cell.Value = "+";
+                    }
+                    else if (cilindroValue < 0)
+                    {
+                        a1Cell.Value = "-";
+                    }
+                    else
+                    {
+                        a1Cell.Value = "";
+                    }
+                }
+                else
+                {
+                    Dgv_Pnl2_cont.Rows[e.RowIndex].Cells["aCilindro"].Value = "";
+                }
+            }
+            // ------------------------------------------------------
+
+
+
+        }
+
+        private void Dgv_Pnl2_cont_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+
+            if (e.ColumnIndex >= 0 && Dgv_Pnl2_cont.Columns[e.ColumnIndex].Name == "Esfera" && e.RowIndex >= 0)
+            {
+                DataGridViewCell cell = Dgv_Pnl2_cont.Rows[e.RowIndex].Cells[e.ColumnIndex];
+
+                // Verifica si la celda está vacía (Value es null o una cadena vacía)
+                if (cell.Value == null || string.IsNullOrEmpty(cell.Value.ToString()))
+                {
+                    cell.Value = 0; // Establece el valor a cero
+                }
+                else
+                {
+                    // Si la celda no está vacía, valida el número ingresado
+                    if (double.TryParse(cell.Value.ToString(), out double enteredValue))
+                    {
+                        // Calcula el residuo de la división por 0.25
+                        double remainder = enteredValue % 0.25;
+
+                        // Define una pequeña tolerancia para evitar problemas de coma flotante
+                        double tolerance = 0.0000000001;
+
+                        // Si no es divisible por 0.25 (o el residuo no es cercano a cero)
+                        if (Math.Abs(remainder) > tolerance && Math.Abs(remainder - 0.25) > tolerance)
+                        {
+                            // Calcula el número más cercano que es múltiplo de 0.25
+                            double roundedValue = Math.Round(enteredValue / 0.25) * 0.25;
+
+
+
+                            // Muestra un mensaje al usuario
+                            //MessageBox.Show("El valor ingresado debe ser un múltiplo de 0.25. Se ha ajustado a " + roundedValue.ToString("F2") + ".", "Advertencia de entrada", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                            Pnl_2_Msj.Visible = true;
+                            txt_pl2_msj.Text = "El valor ingresado debe ser un múltiplo de 0.25 Se ha ajustado a " + roundedValue.ToString("F2");
+                            pb_pl2_mj.Visible = true;
+
+                            // Actualiza el valor de la celda
+                            cell.Value = roundedValue;
+
+
+
+                        }
+                    }
+                    else
+                    {
+                        // Si el valor no es un número válido, puedes manejarlo aquí (por ejemplo, establecerlo a 0 o mostrar un error)
+                        MessageBox.Show("Por favor, ingrese un número válido.", "Error de entrada", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        cell.Value = 0; // O la acción que consideres adecuada
+                    }
+                }
+            }
+
+
+            if (e.ColumnIndex >= 0 && Dgv_Pnl2_cont.Columns[e.ColumnIndex].Name == "Cilindro" && e.RowIndex >= 0)
+            {
+                DataGridViewCell cell = Dgv_Pnl2_cont.Rows[e.RowIndex].Cells[e.ColumnIndex];
+
+                // Verifica si la celda está vacía (Value es null o una cadena vacía)
+                if (cell.Value == null || string.IsNullOrEmpty(cell.Value.ToString()))
+                {
+                    cell.Value = 0; // Establece el valor a cero
+                }
+                else
+                {
+                    // Si la celda no está vacía, valida el número ingresado
+                    if (double.TryParse(cell.Value.ToString(), out double enteredValue))
+                    {
+                        // Calcula el residuo de la división por 0.25
+                        double remainder = enteredValue % 0.25;
+
+                        // Define una pequeña tolerancia para evitar problemas de coma flotante
+                        double tolerance = 0.0000000001;
+
+                        // Si no es divisible por 0.25 (o el residuo no es cercano a cero)
+                        if (Math.Abs(remainder) > tolerance && Math.Abs(remainder - 0.25) > tolerance)
+                        {
+                            // Calcula el número más cercano que es múltiplo de 0.25
+                            double roundedValue = Math.Round(enteredValue / 0.25) * 0.25;
+
+
+
+                            Pnl_2_Msj.Visible = true;
+                            txt_pl2_msj.Text = "El valor ingresado debe ser un múltiplo de 0.25 Se ha ajustado a " + roundedValue.ToString("F2");
+                            pb_pl2_mj.Visible = true;
+
+                            // Actualiza el valor de la celda
+                            cell.Value = roundedValue;
+
+
+
+                        }
+                    }
+                    else
+                    {
+                        // Si el valor no es un número válido, puedes manejarlo aquí (por ejemplo, establecerlo a 0 o mostrar un error)
+                        MessageBox.Show("Por favor, ingrese un número válido.", "Error de entrada", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        cell.Value = 0; // O la acción que consideres adecuada
+                    }
+                }
+            }
+
+            if (e.ColumnIndex >= 0 && Dgv_Pnl2_cont.Columns[e.ColumnIndex].Name == "Eje" && e.RowIndex >= 0)
+            {
+                DataGridViewCell cell = Dgv_Pnl2_cont.Rows[e.RowIndex].Cells[e.ColumnIndex];
+
+                // Verifica si la celda está vacía
+                if (cell.Value == null || string.IsNullOrEmpty(cell.Value.ToString()))
+                {
+                    cell.Value = 0; // Establece el valor a cero
+                }
+                else
+                {
+                    // Si la celda no está vacía, valida el número ingresado
+                    if (int.TryParse(cell.Value.ToString(), out int enteredValue))
+                    {
+                        // Verifica si el valor es un múltiplo de 5
+                        if (enteredValue % 5 != 0)
+                        {
+                            // Calcula el múltiplo de 5 más cercano
+                            int roundedValue = (int)Math.Round((double)enteredValue / 5) * 5;
+
+                            // Muestra un mensaje al usuario
+                            Pnl_2_Msj.Visible = true;
+                            txt_pl2_msj.Text = $"El valor ingresado debe ser un múltiplo de 5. Se ha ajustado a {roundedValue}.";
+                            pb_pl2_mj.Visible = true;
+
+                            // Actualiza el valor de la celda
+                            cell.Value = roundedValue;
+                        }
+                    }
+                    else
+                    {
+                        // Si el valor no es un entero válido
+                        MessageBox.Show("Por favor, ingrese un número entero válido.", "Error de entrada", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        cell.Value = 0; // O la acción que consideres adecuada
+                    }
+                }
+            }
+
+
+
+
+
+
+            // Verifica que el índice de la fila sea válido
+            if (e.RowIndex >= 0)
+            {
+                // Llama al evento CellEnter, pasando los mismos sender y argumentos
+                DataGridViewCell changedCell = Dgv_Pnl2_cont.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                // Obtiene la celda que cambió
+                if (changedCell.Value != null && changedCell.Value.ToString() != string.Empty)
+                // Verifica que el valor no sea nulo ni vacío
+                {
+                    Dgv_Pnl2_cont_CellEnter(sender, e);
+                }
+
+            }
+
+
+
+
+            // Verificar si el cambio ocurrió en una fila válida y en la columna "Lejos"
+            if (e.RowIndex >= 0 && Dgv_Pnl2_cont.Columns[e.ColumnIndex].Name == "Lejos")
+            {
+                // Obtener el valor de la celda "Lejos" que cambió
+                if (Dgv_Pnl2_cont.Rows[e.RowIndex].Cells["Lejos"].Value != null &&
+                    decimal.TryParse(Dgv_Pnl2_cont.Rows[e.RowIndex].Cells["Lejos"].Value.ToString(), out decimal lejosValue))
+                {
+                    // Verificar si lejosValue es mayor que 0
+                    if (lejosValue > 0)
+                    {
+                        // Calcular el valor para la columna "Cerca"
+                        decimal cercaValue = lejosValue - 1;
+
+                        // Verificar si la columna "Cerca" existe y actualizar su valor en la misma fila
+                        if (Dgv_Pnl2_cont.Columns.Contains("Cerca"))
+                        {
+                            Dgv_Pnl2_cont.Rows[e.RowIndex].Cells["Cerca"].Value = cercaValue;
+                        }
+                    }
+                    // Puedes agregar un 'else' aquí si quieres hacer algo cuando lejosValue no es mayor que 0
+                    // Por ejemplo, podrías establecer la celda "Cerca" a 0 o mostrar un mensaje.
+                    /*
+                    else
+                    {
+                        if (Dgv_Pnl2_cont.Columns.Contains("Cerca"))
+                        {
+                            Dgv_Pnl2_cont.Rows[e.RowIndex].Cells["Cerca"].Value = 0;
+                        }
+                    }
+                    */
+                }
+            }
+        }
+
+        private void dvgClientePagador_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && dvgClientePagador.Rows[e.RowIndex].Cells.Count > 0) // Cambiado a dvgClientePagador
+            {
+                string cedulaSeleccionada = dvgClientePagador.Rows[e.RowIndex].Cells[1].Value?.ToString().Trim(); // Cambiado a dvgClientePagador
+                string nacio = dvgClientePagador.Rows[e.RowIndex].Cells[0].Value?.ToString().Trim(); // Cambiado a dvgClientePagador
+
+                if (!string.IsNullOrEmpty(cedulaSeleccionada))
+                {
+                    try
+                    {
+                        dtCliente = _L_Cliente.ObtenerClientePorCedula(cedulaSeleccionada, nacio);
+
+                        if (dtCliente != null && dtCliente.Rows.Count > 0)
+                        {
+                            Pnl_5_Lista_ClienPagador.Visible = false;
+                            Txt_Tap1_Cedula_Pagador.Focus();
+
+                            Cbx_Tap1_Nacionalidad_Pagador.Text = dtCliente.Rows[0]["CTE_Nacio"].ToString();
+
+                            Txt_Tap1_Cedula_Pagador.Text = dtCliente.Rows[0]["CTE_CedIden"].ToString(); // Ajusta el nombre de la columna
+                            Txt_Tap1_Nombre_Pagador.Text = dtCliente.Rows[0]["CTE_PNombre"].ToString(); // Ajusta el nombre de la columna
+
+                        }
+                        else
+                        {
+                            MessageBox.Show("No se encontró ningún cliente con esa cédula.", "Importante", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Ocurrió un error al obtener la información del cliente: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                    }
+                }
+            }
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            Txt_Tap2_Examen.Text = TopeExamen.ToString();
+
+            //limpearExamen();
+            CargarExamenConv();
+            CargarExamenCont();
+            CargarDgvPnl2MedConv();
+            CargarFicconvOFT();
+
+            CargarDgv_Pnl2_Querato();
+        }
+
+        private void button12_Click(object sender, EventArgs e)
+        {
+
+
+            Dgv_Pnl2_Querato.Rows[1].Cells[0].Value = Dgv_Pnl2_Querato.Rows[0].Cells[0].Value;
+            Dgv_Pnl2_Querato.Rows[1].Cells[1].Value = Dgv_Pnl2_Querato.Rows[0].Cells[1].Value;
+            Dgv_Pnl2_Querato.Rows[1].Cells[2].Value = Dgv_Pnl2_Querato.Rows[0].Cells[2].Value;
+            Dgv_Pnl2_Querato.Rows[1].Cells[3].Value = Dgv_Pnl2_Querato.Rows[0].Cells[3].Value;
+        }
+
+        private void txt_Pnl2_conv_mimesys_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Allow digits (0-9)
+            if (char.IsDigit(e.KeyChar))
+            {
+                e.Handled = false; // Allow the character
+            }
+            // Allow the backspace key
+            else if (e.KeyChar == (char)Keys.Back)
+            {
+                e.Handled = false; // Allow the backspace
+            }
+            // Optionally, allow a decimal point (if you need to enter floating-point numbers)
+            else if (e.KeyChar == '.' && !((TextBox)sender).Text.Contains('.'))
+            {
+                e.Handled = false; // Allow one decimal point
+            }
+            // Block all other characters
+            else
+            {
+                e.Handled = true; // Prevent the character from being entered
+            }
+        }
+
+        private void radioButton5_CheckedChanged(object sender, EventArgs e)
+        {
+            SetMeridianoCornealLimits(); // Llama al nuevo método para establecer los límites
+
+
+        }
+        private void radioButton6_CheckedChanged(object sender, EventArgs e)
+        {
+            SetMeridianoCornealLimits(); // Llama al nuevo método para establecer los límites
+
+
+        }
+
+        private void SetMeridianoCornealLimits()
+        {
+            if (radioButton5.Checked)
+            {
+                minMeridianoCorneal = 6M;
+                maxMeridianoCorneal = 10M;
+            }
+            else
+            {
+                minMeridianoCorneal = 33.75M;
+                maxMeridianoCorneal = 56.25M;
+            }
+            // Opcional: Si quieres que la validación se aplique inmediatamente a las celdas existentes
+            // (por ejemplo, si cambias el radio button y la celda ya tiene un valor no válido con los nuevos límites)
+            // puedes forzar una revalidación, aunque esto puede ser complejo y no siempre necesario.
+            //Dgv_Pnl2_Querato.Invalidate(); // Fuerza un repintado (no una revalidación de datos)
+            // Para revalidar datos específicos, tendrías que iterar por las filas y columnas.
+        }
+
+        private void tabControl_Selecting(object sender, TabControlCancelEventArgs e)
+        {
+            // Solo aplica la lógica si la pestaña ACTUAL (la que estamos dejando) es la pestaña 1
+            // y si hay cambios pendientes.
+            // e.TabPageIndex es la pestaña A LA QUE VAMOS.
+            // tabControl1.SelectedIndex es la pestaña DE LA QUE VENIMOS.
+
+
+            //if (tabControl.SelectedIndex == 1 && e.TabPageIndex == 0)
+            //{
+
+
+            //    // El usuario está intentando salir de la pestaña 1 y hay cambios sin guardar.
+            //    //DialogResult result = MessageBox.Show(
+            //    //    "Hay cambios sin guardar. ¿Desea guardar los cambios antes de salir de esta pestaña? De lo contrario, los cambios se perderán.",
+            //    //    "Cambios Pendientes",
+            //    //    MessageBoxButtons.YesNoCancel,
+            //    //    MessageBoxIcon.Warning);
+
+            //    //if (result == DialogResult.Yes)
+            //    //{
+            //    Btn_Tap2_GuardarExam_Click(this.Btn_Tap2_GuardarExam, EventArgs.Empty); // Llama a tu método para guardar.
+            //                                                                            //  }
+            //                                                                            //else if (result == DialogResult.No)
+            //                                                                            //{
+            //                                                                            //    //hayCambiosPendientes = false; // El usuario elige no guardar, así que "ignora" los cambios.
+            //                                                                            //}
+            //                                                                            //else // result == DialogResult.Cancel (o el usuario cierra el MessageBox)
+            //                                                                            //{
+            //                                                                            //    e.Cancel = true; // Cancela el cambio de pestaña.
+            //                                                                            //                     // Esto impide que el usuario cambie a la nueva pestaña.
+            //                                                                            //}
+            //}
+
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+
+            Pnl_2_Msj.Visible = false;
+        }
+
+        private void Pnl_1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void Pnl_1_Tap2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void label31_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lbl_pnl2_con_obser_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txt_Pnl2_cont_observa_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label31_Click_1(object sender, EventArgs e)
+        {
+
+        }
     }
 
 }

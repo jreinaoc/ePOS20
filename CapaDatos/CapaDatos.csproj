@@ -162,7 +162,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Anulacion\D_Anulacion.cs" />
+    <Compile Include="CargarClientes_Datos\D_Cliente.cs" />
+    <Compile Include="CargarClientes_Datos\D_TBF_EmailTelf.cs" />
     <Compile Include="CargarOrdenes_Datos\D_Articulos.cs" />
+    <Compile Include="CargarOrdenes_Datos\D_Examen.cs" />
+    <Compile Include="CargarOrdenes_Datos\D_FicCont.cs" />
+    <Compile Include="CargarOrdenes_Datos\D_Ficconv.cs" />
+    <Compile Include="CargarOrdenes_Datos\D_Laboratorio.cs" />
+    <Compile Include="CargarOrdenes_Datos\D_querato.cs" />
+    <Compile Include="CargarOrdenes_Datos\D_ServicioLab.cs" />
+    <Compile Include="CargarOrdenes_Datos\D_Trabajo.cs" />
     <Compile Include="CargarOrdenes_Datos\ServicioAR.cs" />
     <Compile Include="Configuracion\D_Configuracion.cs" />
     <Compile Include="CveAutorizada_Datos\D_ClaveAutorizada.cs" />
