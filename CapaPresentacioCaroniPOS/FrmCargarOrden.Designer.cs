@@ -740,17 +740,17 @@ namespace CapaVisual_Login
             // 
             // Txt_Pnl_2_Cedula
             // 
-            this.Txt_Pnl_2_Cedula.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.Txt_Pnl_2_Cedula.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-            this.Txt_Pnl_2_Cedula.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Txt_Pnl_2_Cedula.Location = new System.Drawing.Point(109, 43);
-            this.Txt_Pnl_2_Cedula.MaxLength = 10;
-            this.Txt_Pnl_2_Cedula.Name = "Txt_Pnl_2_Cedula";
-            this.Txt_Pnl_2_Cedula.Size = new System.Drawing.Size(180, 20);
-            this.Txt_Pnl_2_Cedula.TabIndex = 33;
-            this.Txt_Pnl_2_Cedula.Text = "V-11922944";
-            this.Txt_Pnl_2_Cedula.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.Txt_Pnl_2_Cedula.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Txt_Pnl2_Cedula_KeyDown);
+            this.Txt_Pnl2_Cedula.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.Txt_Pnl2_Cedula.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.Txt_Pnl2_Cedula.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Txt_Pnl2_Cedula.Location = new System.Drawing.Point(109, 43);
+            this.Txt_Pnl2_Cedula.MaxLength = 10;
+            this.Txt_Pnl2_Cedula.Name = "Txt_Pnl2_Cedula";
+            this.Txt_Pnl2_Cedula.Size = new System.Drawing.Size(180, 20);
+            this.Txt_Pnl2_Cedula.TabIndex = 33;
+            this.Txt_Pnl2_Cedula.Text = "V-10469470";
+            this.Txt_Pnl2_Cedula.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.Txt_Pnl2_Cedula.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Txt_Pnl2_Cedula_KeyDown);
             // 
             // Lbl_Pnl2_Carga_Art
             // 
@@ -3330,7 +3330,7 @@ namespace CapaVisual_Login
             this.Pnl_3_CambioPrecio.Controls.Add(this.Btn_Tap3_Aceptar_CambioPrecio);
             this.Pnl_3_CambioPrecio.Controls.Add(this.Lbl_Pnl3_Cambio_Precio);
             this.Pnl_3_CambioPrecio.Controls.Add(this.Btn_Tap3_Cancelar_CambioPrecio);
-            this.Pnl_3_CambioPrecio.Location = new System.Drawing.Point(1045, 774);
+            this.Pnl_3_CambioPrecio.Location = new System.Drawing.Point(1057, 465);
             this.Pnl_3_CambioPrecio.Name = "Pnl_3_CambioPrecio";
             this.Pnl_3_CambioPrecio.Size = new System.Drawing.Size(236, 223);
             this.Pnl_3_CambioPrecio.TabIndex = 104;
@@ -4098,7 +4098,7 @@ namespace CapaVisual_Login
             this.Pnl_3_Garantia.Controls.Add(this.Btn_Tap3_Cancelar_Garantia);
             this.Pnl_3_Garantia.Controls.Add(this.Dgv_Pnl3_Garantia);
             this.Pnl_3_Garantia.Controls.Add(this.Lbl_Pnl3_Garantia);
-            this.Pnl_3_Garantia.Location = new System.Drawing.Point(1057, 462);
+            this.Pnl_3_Garantia.Location = new System.Drawing.Point(1057, 477);
             this.Pnl_3_Garantia.Name = "Pnl_3_Garantia";
             this.Pnl_3_Garantia.Size = new System.Drawing.Size(541, 270);
             this.Pnl_3_Garantia.TabIndex = 166;
@@ -4117,6 +4117,7 @@ namespace CapaVisual_Login
             this.Btn_Tap3_Aceptar_Garantia.TabIndex = 308;
             this.Btn_Tap3_Aceptar_Garantia.Text = "Aceptar";
             this.Btn_Tap3_Aceptar_Garantia.UseVisualStyleBackColor = false;
+            this.Btn_Tap3_Aceptar_Garantia.Click += new System.EventHandler(this.Btn_Tap3_Aceptar_Garantia_Click);
             // 
             // label26
             // 
@@ -4209,6 +4210,8 @@ namespace CapaVisual_Login
             this.Dgv_Pnl3_Garantia.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.Dgv_Pnl3_Garantia.Size = new System.Drawing.Size(531, 112);
             this.Dgv_Pnl3_Garantia.TabIndex = 54;
+            this.Dgv_Pnl3_Garantia.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_Pnl3_Garantia_CellValueChanged);
+            this.Dgv_Pnl3_Garantia.CurrentCellDirtyStateChanged += new System.EventHandler(this.Dgv_Pnl3_Garantia_CurrentCellDirtyStateChanged);
             // 
             // Lbl_Pnl3_Garantia
             // 
@@ -4553,6 +4556,8 @@ namespace CapaVisual_Login
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.ClientSize = new System.Drawing.Size(1940, 788);
+            this.Controls.Add(this.Pnl_3_CambioPrecio);
             this.ClientSize = new System.Drawing.Size(1620, 788);
             this.Controls.Add(this.Pnl_2_Msj);
             this.Controls.Add(this.panel2);
@@ -4563,7 +4568,6 @@ namespace CapaVisual_Login
             this.Controls.Add(this.Pnl_3_Lista_ClienteAfiliado);
             this.Controls.Add(this.pnl_MonturaPropia);
             this.Controls.Add(this.QuitarLimea3);
-            this.Controls.Add(this.Pnl_3_CambioPrecio);
             this.Controls.Add(this.QuitarLimea1);
             this.Controls.Add(this.Pnl_2);
             this.Controls.Add(this.Pnl_3_Lista_Articulo);

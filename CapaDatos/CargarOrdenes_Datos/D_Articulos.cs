@@ -2213,26 +2213,85 @@ namespace CapaDatos.CargarOrdenes_Datos
 
         }
 
-        //public async Task<bool> RebajarInventarioAsync(string codArticulo, string codLaboratorio, int cantidad, SqlCommand command)
-        //{
-        //    try
-        //    {
-        //        command.Parameters.Clear();
-        //        command.CommandText = "SP_CPOS_RebajarInventario"; // Igual, deberías tener o crear este SP
-        //        command.CommandType = CommandType.StoredProcedure;
+        public DataSet InfoReposicionGarantia(string CI, string nacio, string OS, string Suc, string exam, SqlCommand command = null)
+        {
+            if (command == null)
+            {
+                SqlConnection connection = cn.LeerCadena();
+                command = connection.CreateCommand();
 
-        //        command.Parameters.AddWithValue("@CodArticulo", codArticulo);
-        //        command.Parameters.AddWithValue("@CodLaboratorio", (object)codLaboratorio ?? DBNull.Value);
-        //        command.Parameters.AddWithValue("@Cantidad", cantidad);
+            }
 
-        //        await command.ExecuteNonQueryAsync();
-        //        return true;
-        //    }
-        //    catch
-        //    {
-        //        return false;
-        //    }
-        //}
+            SqlCommand cmd = command;
+            cmd.Parameters.Clear();
+            cmd.CommandText = "pGetInfoReposicion";
+            cmd.CommandType = CommandType.StoredProcedure;
 
+            // Agregar el parámetro obligatorio @CODPROMO
+            cmd.Parameters.AddWithValue("@CI", CI);
+            cmd.Parameters.AddWithValue("@NACIO", nacio);
+            cmd.Parameters.AddWithValue("@OS", OS);
+            cmd.Parameters.AddWithValue("@suc", Suc);
+            cmd.Parameters.AddWithValue("@NEWRX", exam);
+
+
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet dts = new DataSet();
+            da.Fill(dts);
+            cmd.Parameters.Clear();
+            return dts;
+        }
+
+        public DataTable ObtenerExamen(string Nacionalidad, string cedula, string Sucursal)
+        {
+            try
+            {
+                //Busco los datos de la orden; datos que ya estan actualizados (Recalculados)
+                SqlCommand cmd = new SqlCommand("Examen_ObtenerExamenes", cn.LeerCadena());
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@nacionalidad", Nacionalidad);
+                cmd.Parameters.AddWithValue("@cedula", cedula);
+                cmd.Parameters.AddWithValue("@sucursal", Sucursal);
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                cmd.Parameters.Clear();
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                string Error = string.Format("Error: {0}", ex.Message);
+                return null;
+            }
+        }
+
+        public async Task<DataSet> ActualizarGarantia(string OS, string Suc, string OsResposable, SqlCommand command)
+        {
+            return await Task.Run(() =>
+            {
+                if (command == null)
+                {
+                    SqlConnection connection = cn.LeerCadena();
+                    command = connection.CreateCommand();
+                }
+
+                command.Parameters.Clear();
+                command.CommandText = "pUpdOSGarantia";
+                command.CommandType = CommandType.StoredProcedure;
+
+                command.Parameters.AddWithValue("@OS", OS);
+                command.Parameters.AddWithValue("@SUC", Suc);
+                command.Parameters.AddWithValue("@OSREPO", OsResposable);
+
+                DataSet dts = new DataSet();
+                using (SqlDataAdapter da = new SqlDataAdapter(command))
+                {
+                    da.Fill(dts);
+                }
+
+                return dts;
+            });
+        }
     }
+
 }

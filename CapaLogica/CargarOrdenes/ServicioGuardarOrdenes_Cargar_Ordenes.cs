@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using CapaDatos.CargarOrdenes_Datos;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Tab;
+using System.Data;
 
 namespace CapaLogica.CargarOrdenes
 {
@@ -272,7 +273,11 @@ namespace CapaLogica.CargarOrdenes
         }
 
 
-
+        public async Task<DataSet> LlamarActualizarGarantiaAsync(string OS, string Suc, string OsResposable, SqlCommand command)
+        {
+                D_Articulos articulos = new D_Articulos();
+                return await articulos.ActualizarGarantia(OS, Suc, OsResposable, command);
+        }
 
 
     }
