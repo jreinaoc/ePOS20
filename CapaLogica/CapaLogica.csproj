@@ -230,6 +230,7 @@
     <Compile Include="Login_Logica\L_EncriptarDesEscriptar.cs" />
     <Compile Include="Login_Logica\L_Login.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Servicios\Asignar_Rx.cs" />
     <Compile Include="Servicios\CierreCaja_Servicio.cs" />
     <Compile Include="Servicios\LibroVentas_Servicio.cs" />
   </ItemGroup>

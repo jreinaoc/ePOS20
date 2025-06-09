@@ -110,7 +110,7 @@ namespace CapaDatos.CargarOrdenes_Datos
            }
         }
 
-        public List<TB_TRABAJO> ObtenerTrabajo(string sucursal, string nacio, string cediden, SqlCommand command = null)  // Trae el detalle del articulo 
+        public List<TB_TRABAJO> ObtenerTrabajo(string sucursal, string nacio, string cediden, string Numero_Orden= null ,SqlCommand command = null)  // Trae el detalle del articulo 
         {
             // Declarar la lista para almacenar los resultados
             List<TB_TRABAJO> T_Trabajo = new List<TB_TRABAJO>();
@@ -130,6 +130,10 @@ namespace CapaDatos.CargarOrdenes_Datos
                 command.Parameters.AddWithValue("@T_SUCURSAL", sucursal);
                 command.Parameters.AddWithValue("@T_NACIO", nacio);
                 command.Parameters.AddWithValue("@T_CEDIDEN", cediden);
+                if (!string.IsNullOrEmpty(Numero_Orden))
+                {
+                    command.Parameters.AddWithValue("@Numero_Orden", Numero_Orden);
+                }
 
                 // Ejecutar el comando y leer los resultados
                 using (SqlDataReader reader = command.ExecuteReader())
@@ -2291,6 +2295,31 @@ namespace CapaDatos.CargarOrdenes_Datos
 
                 return dts;
             });
+        }
+
+        public DataSet ArticulosOS( string OS, string Suc, SqlCommand command = null)
+        {
+            if (command == null)
+            {
+                SqlConnection connection = cn.LeerCadena();
+                command = connection.CreateCommand();
+
+            }
+
+            SqlCommand cmd = command;
+            cmd.Parameters.Clear();
+            cmd.CommandText = "pGetArticulosOS";
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            // Agregar el parámetro obligatorio @CODPROMO
+            cmd.Parameters.AddWithValue("@OS", OS);
+            cmd.Parameters.AddWithValue("@codSucursal", Suc);
+
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet dts = new DataSet();
+            da.Fill(dts);
+            cmd.Parameters.Clear();
+            return dts;
         }
     }
 

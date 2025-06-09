@@ -4410,7 +4410,7 @@ namespace CapaLogica.CargarOrdenes
             Dgv_Tap3_Garantia.Columns["FactNum"].HeaderText = "N° Factura";
             Dgv_Tap3_Garantia.Columns["StatusFactura"].HeaderText = "Status";
             Dgv_Tap3_Garantia.Columns["Edad"].HeaderText = "Edad";
-            Dgv_Tap3_Garantia.Columns["tiemporepos"].HeaderText = "TiempoReposicion";
+            Dgv_Tap3_Garantia.Columns["TiempoRepos"].HeaderText = "Tiempo Reposicion";
 
             //Ancho de columna
             Dgv_Tap3_Garantia.Columns["Cod_Sucursal"].Width = 70;
@@ -4420,9 +4420,9 @@ namespace CapaLogica.CargarOrdenes
             Dgv_Tap3_Garantia.Columns["NumOrdServ"].Width = 70;
             Dgv_Tap3_Garantia.Columns["FechaOS"].Width = 70;
             Dgv_Tap3_Garantia.Columns["FactNum"].Width = 70;
-            Dgv_Tap3_Garantia.Columns["StatusFactura"].Width = 70;
+            Dgv_Tap3_Garantia.Columns["StatusFactura"].Width = 90;
             Dgv_Tap3_Garantia.Columns["Edad"].Width = 70;
-            Dgv_Tap3_Garantia.Columns["tiemporepos"].Width = 70;
+            Dgv_Tap3_Garantia.Columns["TiempoRepos"].Width = 120;
 
             // No modificable
             Dgv_Tap3_Garantia.Columns["Cod_Sucursal"].ReadOnly = true;;
@@ -4433,7 +4433,7 @@ namespace CapaLogica.CargarOrdenes
             Dgv_Tap3_Garantia.Columns["FactNum"].ReadOnly = true;
             Dgv_Tap3_Garantia.Columns["StatusFactura"].ReadOnly = true;
             Dgv_Tap3_Garantia.Columns["Edad"].ReadOnly = true;
-            Dgv_Tap3_Garantia.Columns["tiemporepos"].ReadOnly = true;
+            Dgv_Tap3_Garantia.Columns["TiempoRepos"].ReadOnly = true;
             //Dgv_Tap3_Garantia.Columns["Cedula"].ReadOnly = true;
 
             Dgv_Tap3_Garantia.Columns["Cod_Sucursal"].SortMode = DataGridViewColumnSortMode.NotSortable;
@@ -4444,24 +4444,30 @@ namespace CapaLogica.CargarOrdenes
             Dgv_Tap3_Garantia.Columns["FactNum"].SortMode = DataGridViewColumnSortMode.NotSortable;
             Dgv_Tap3_Garantia.Columns["StatusFactura"].SortMode = DataGridViewColumnSortMode.NotSortable;
             Dgv_Tap3_Garantia.Columns["Edad"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            Dgv_Tap3_Garantia.Columns["tiemporepos"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            Dgv_Tap3_Garantia.Columns["TiempoRepos"].SortMode = DataGridViewColumnSortMode.NotSortable;
             //Dgv_Tap3_Garantia.Columns["Cedula"].SortMode = DataGridViewColumnSortMode.NotSortable;
 
             foreach (DataGridViewColumn column in Dgv_Tap3_Garantia.Columns)
             {
-                    if (column.Name != "E" &&
-                       column.Name != "Cod_Sucursal" &&
-                       column.Name != "Cte_Cedula" &&
-                       column.Name != "NumOrdServ" &&
-                       column.Name != "FechaOS" &&
-                       column.Name != "FactNum" &&
-                       column.Name != "StatusFactura" &&
-                       column.Name != "Edad" &&
-                       column.Name != "tiemporepos")
+                    if (!(column.Name.Equals("E", StringComparison.OrdinalIgnoreCase) ||
+    column.Name.Equals("Cod_Sucursal", StringComparison.OrdinalIgnoreCase) ||
+    column.Name.Equals("Cte_Cedula", StringComparison.OrdinalIgnoreCase) ||
+    column.Name.Equals("NumOrdServ", StringComparison.OrdinalIgnoreCase) ||
+    column.Name.Equals("FechaOS", StringComparison.OrdinalIgnoreCase) ||
+    column.Name.Equals("FactNum", StringComparison.OrdinalIgnoreCase) ||
+    column.Name.Equals("StatusFactura", StringComparison.OrdinalIgnoreCase) ||
+    column.Name.Equals("Edad", StringComparison.OrdinalIgnoreCase) ||
+    column.Name.Equals("TiempoRepos", StringComparison.OrdinalIgnoreCase)))
                     {
                         column.Visible = false;
                     }
-            }
+
+                    if (column.Index== 42)
+                    column.Visible = true;
+
+
+                column.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+             }
 
             //quitar seleccion por defecto de datagrid
             Dgv_Tap3_Garantia.ClearSelection();
@@ -4478,12 +4484,14 @@ namespace CapaLogica.CargarOrdenes
                 if (row.Cells["E"].Selected)
                 {
                     Os_Garantia_Trabajo = row.Cells["NumOrdServ"].Value?.ToString() ?? "";
-                    DataTable DT= _D_Articulos.ObtenerExamen(row.Cells["Cte_Cedula"].Value.ToString().Substring(0, 1), row.Cells["Cte_Cedula"].Value.ToString().Substring(2, row.Cells["Cte_Cedula"].Value.ToString().Length-2), _D_Inicio.Sucursal());
-                    foreach (DataRow row2 in DT.Rows)
-                    {
-                        Numero_Examen_Garantia_Trabajo = row2["NUM_EXAMEN"].ToString();
-                        break;
-                    }
+                    Numero_Examen_Garantia_Trabajo = row.Cells["NumExamen"].Value?.ToString() ?? "";
+
+                    //DataTable DT= _D_Articulos.ObtenerExamen(row.Cells["Cte_Cedula"].Value.ToString().Substring(0, 1), row.Cells["Cte_Cedula"].Value.ToString().Substring(2, row.Cells["Cte_Cedula"].Value.ToString().Length-2), _D_Inicio.Sucursal());
+                    //foreach (DataRow row2 in DT.Rows)
+                    //{
+                    //    Numero_Examen_Garantia_Trabajo = row2["NUM_EXAMEN"].ToString();
+                    //    break;
+                    //}
                     break;
                 }
 
