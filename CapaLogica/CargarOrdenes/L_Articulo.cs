@@ -4006,25 +4006,35 @@ namespace CapaLogica.CargarOrdenes
             if (articulos != null && articulos.Count > 0)
             {
                 TB_ARTICULO articulo = articulos.First();
-                if (articulo.MHorizontal == null || articulo.MVertical == null || articulo.MMaxima == null || articulo.MPuente == null)
-                {
-                    horizontal.Text = articulo.MHorizontal.ToString();
-                    vertical.Text = articulo.MVertical.ToString();
-                    maxima.Text = articulo.MMaxima.ToString();
-                    puente.Text = articulo.MPuente.ToString();
-                    horizontal.Enabled = true;
+
+                horizontal.Text = articulo.MHorizontal.ToString();
+                vertical.Text = articulo.MVertical.ToString();
+                maxima.Text = articulo.MMaxima.ToString();
+                puente.Text = articulo.MPuente.ToString();
+
+                if (string.IsNullOrEmpty(horizontal.Text))
+                    horizontal.Enabled = true;                   
+                else
+                    horizontal.Enabled = false;
+
+                if (string.IsNullOrEmpty(vertical.Text))
                     vertical.Enabled = true;
+                else
+                    vertical.Enabled = false;
+
+                if (string.IsNullOrEmpty(maxima.Text))
                     maxima.Enabled = true;
+                else
+                    maxima.Enabled = false;
+
+                if (string.IsNullOrEmpty(puente.Text))
+                {
                     puente.Enabled = true;
+                    puente.Focus();
                 }
                 else
-                {
-                    //TB_ARTICULO articulo = articulos.First();
-                    horizontal.Text = articulo.MHorizontal.ToString();
-                    vertical.Text = articulo.MVertical.ToString();
-                    maxima.Text = articulo.MMaxima.ToString();
-                    puente.Text = articulo.MPuente.ToString();
-                }
+                    puente.Enabled = false;
+               
                 return true;
             }
             // Si todos los campos tienen valores, devolver false
@@ -4328,6 +4338,8 @@ namespace CapaLogica.CargarOrdenes
 
                 comboBox.DisplayMember = "Descripcion";
                 comboBox.ValueMember = "CodMotivo";
+                comboBox.SelectedIndex = -1;
+
             }
             else
             {
@@ -4398,19 +4410,30 @@ namespace CapaLogica.CargarOrdenes
             Dgv_Tap3_Garantia.AllowUserToResizeRows = false;
 
             Dgv_Tap3_Garantia.Columns["E"].DisplayIndex = 0;
+
             //Dgv_Tap3_Garantia.Columns["Cedula"].DisplayIndex = 1;
             //asignar Nombres a cada colucna 
             Dgv_Tap3_Garantia.Columns["E"].HeaderText = "E";
             Dgv_Tap3_Garantia.Columns["Cod_Sucursal"].HeaderText = "Sucursal";
             Dgv_Tap3_Garantia.Columns["Cte_Nacionalidad"].HeaderText = "Nacionalidad";
-            Dgv_Tap3_Garantia.Columns["Cte_Cedula"].HeaderText = "Cedula";
+            Dgv_Tap3_Garantia.Columns["Cte_Cedula"].HeaderText = "Cédula";
             //Dgv_Tap3_Garantia.Columns["Cedula"].HeaderText = "Cedula";
-            Dgv_Tap3_Garantia.Columns["NumOrdServ"].HeaderText = "NumOrdServ";
+            Dgv_Tap3_Garantia.Columns["NumOrdServ"].HeaderText = "N° Orden";
             Dgv_Tap3_Garantia.Columns["FechaOS"].HeaderText = "Fecha Orden";
             Dgv_Tap3_Garantia.Columns["FactNum"].HeaderText = "N° Factura";
             Dgv_Tap3_Garantia.Columns["StatusFactura"].HeaderText = "Status";
             Dgv_Tap3_Garantia.Columns["Edad"].HeaderText = "Edad";
-            Dgv_Tap3_Garantia.Columns["TiempoRepos"].HeaderText = "Tiempo Reposicion";
+            Dgv_Tap3_Garantia.Columns["TiempoRepos"].HeaderText = "Tiempo Reposición";
+
+            Dgv_Tap3_Garantia.Columns["CristalDerecho"].HeaderText = "Cristal Derecho";
+            Dgv_Tap3_Garantia.Columns["CristalIzquierdo"].HeaderText = "Cristal Izquierdo";
+            Dgv_Tap3_Garantia.Columns["Montura"].HeaderText = "Montura";
+
+            Dgv_Tap3_Garantia.Columns["Edad"].DisplayIndex = 18;
+            Dgv_Tap3_Garantia.Columns["TiempoRepos"].DisplayIndex = 19;
+            Dgv_Tap3_Garantia.Columns["CristalDerecho"].DisplayIndex = 20;
+            Dgv_Tap3_Garantia.Columns["CristalIzquierdo"].DisplayIndex = 21;
+            Dgv_Tap3_Garantia.Columns["Montura"].DisplayIndex = 22;
 
             //Ancho de columna
             Dgv_Tap3_Garantia.Columns["Cod_Sucursal"].Width = 70;
@@ -4420,9 +4443,14 @@ namespace CapaLogica.CargarOrdenes
             Dgv_Tap3_Garantia.Columns["NumOrdServ"].Width = 70;
             Dgv_Tap3_Garantia.Columns["FechaOS"].Width = 70;
             Dgv_Tap3_Garantia.Columns["FactNum"].Width = 70;
-            Dgv_Tap3_Garantia.Columns["StatusFactura"].Width = 90;
+            Dgv_Tap3_Garantia.Columns["StatusFactura"].Width = 40;
             Dgv_Tap3_Garantia.Columns["Edad"].Width = 70;
             Dgv_Tap3_Garantia.Columns["TiempoRepos"].Width = 120;
+
+            Dgv_Tap3_Garantia.Columns["CristalDerecho"].Width = 65;
+            Dgv_Tap3_Garantia.Columns["CristalIzquierdo"].Width = 65;
+            Dgv_Tap3_Garantia.Columns["Montura"].Width = 70;
+
 
             // No modificable
             Dgv_Tap3_Garantia.Columns["Cod_Sucursal"].ReadOnly = true;;
@@ -4435,6 +4463,10 @@ namespace CapaLogica.CargarOrdenes
             Dgv_Tap3_Garantia.Columns["Edad"].ReadOnly = true;
             Dgv_Tap3_Garantia.Columns["TiempoRepos"].ReadOnly = true;
             //Dgv_Tap3_Garantia.Columns["Cedula"].ReadOnly = true;
+
+            Dgv_Tap3_Garantia.Columns["CristalDerecho"].ReadOnly = true;
+            Dgv_Tap3_Garantia.Columns["CristalIzquierdo"].ReadOnly = true;
+            Dgv_Tap3_Garantia.Columns["Montura"].ReadOnly = true;
 
             Dgv_Tap3_Garantia.Columns["Cod_Sucursal"].SortMode = DataGridViewColumnSortMode.NotSortable;
             Dgv_Tap3_Garantia.Columns["Cte_Nacionalidad"].SortMode = DataGridViewColumnSortMode.NotSortable;
@@ -4457,7 +4489,11 @@ namespace CapaLogica.CargarOrdenes
     column.Name.Equals("FactNum", StringComparison.OrdinalIgnoreCase) ||
     column.Name.Equals("StatusFactura", StringComparison.OrdinalIgnoreCase) ||
     column.Name.Equals("Edad", StringComparison.OrdinalIgnoreCase) ||
-    column.Name.Equals("TiempoRepos", StringComparison.OrdinalIgnoreCase)))
+    column.Name.Equals("TiempoRepos", StringComparison.OrdinalIgnoreCase) ||
+    column.Name.Equals("CristalDerecho", StringComparison.OrdinalIgnoreCase) ||
+    column.Name.Equals("CristalIzquierdo", StringComparison.OrdinalIgnoreCase) ||
+    column.Name.Equals("Montura", StringComparison.OrdinalIgnoreCase)))
+
                     {
                         column.Visible = false;
                     }

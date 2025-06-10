@@ -2297,13 +2297,120 @@ namespace CapaDatos.CargarOrdenes_Datos
             });
         }
 
-        public DataSet ArticulosOS( string OS, string Suc, SqlCommand command = null)
+       
+
+        public DataSet MODIFICATB_TRABAJO(
+     string NUMOS,
+     string EXAM,
+     string HORIZ,
+     string VERT,
+     string MAX,
+     string PTE,
+     string DISVERT,
+     string ANPANT,
+     string ANFAC,
+     string ALTD,
+     string ALTI,
+     string OJO,
+     string TVISD,
+     string TVISI,
+     string LAB,
+     string SERV,
+     string HOFRE,
+     string FOFRE,
+     string CODDETV,
+     string TEXAM,
+     string USER,
+     string SUC,
+     SqlCommand command = null)
         {
             if (command == null)
             {
                 SqlConnection connection = cn.LeerCadena();
                 command = connection.CreateCommand();
+            }
 
+            SqlCommand cmd = command;
+            cmd.Parameters.Clear();
+            cmd.CommandText = "SP_MODIFICATB_TRABAJO";
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@NUMOS", NUMOS);
+            cmd.Parameters.AddWithValue("@EXAM", EXAM);
+            cmd.Parameters.AddWithValue("@HORIZ", HORIZ);
+            cmd.Parameters.AddWithValue("@VERT", VERT);
+            cmd.Parameters.AddWithValue("@MAX", MAX);
+            cmd.Parameters.AddWithValue("@PTE", PTE);
+            cmd.Parameters.AddWithValue("@DISVERT", DISVERT);
+            cmd.Parameters.AddWithValue("@ANPANT", ANPANT);
+            cmd.Parameters.AddWithValue("@ANFAC", ANFAC);
+            cmd.Parameters.AddWithValue("@ALTD", ALTD);
+            cmd.Parameters.AddWithValue("@ALTI", ALTI);
+            cmd.Parameters.AddWithValue("@OJO", OJO);
+            cmd.Parameters.AddWithValue("@TVISD", TVISD);
+            cmd.Parameters.AddWithValue("@TVISI", TVISI);
+            cmd.Parameters.AddWithValue("@LAB", LAB);
+            cmd.Parameters.AddWithValue("@SERV", SERV);
+            cmd.Parameters.AddWithValue("@HOFRE", HOFRE);
+            cmd.Parameters.AddWithValue("@FOFRE", FOFRE);
+            cmd.Parameters.AddWithValue("@CODDETV", CODDETV);
+            cmd.Parameters.AddWithValue("@TEXAM", TEXAM);
+            cmd.Parameters.AddWithValue("@USER", USER);
+            cmd.Parameters.AddWithValue("@SUC", SUC);
+
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet dts = new DataSet();
+            da.Fill(dts);
+            cmd.Parameters.Clear();
+            return dts;
+        }
+
+        public DataSet ModificaTbCaOrdSerRx(
+    string NUMOS,
+    string EXAM,
+    string CODLAB,
+    string CODSERV,
+    DateTime FOFRE,
+    string HOFRE,
+    string CODDETV,
+    string USER,
+    string SUC,
+    SqlCommand command = null)
+        {
+            if (command == null)
+            {
+                SqlConnection connection = cn.LeerCadena();
+                command = connection.CreateCommand();
+            }
+
+            SqlCommand cmd = command;
+            cmd.Parameters.Clear();
+            cmd.CommandText = "SP_MODIFICATB_CAORDSER_RX";
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@NUMOS", NUMOS);
+            cmd.Parameters.AddWithValue("@EXAM", EXAM);
+            cmd.Parameters.AddWithValue("@CODLAB", CODLAB);
+            cmd.Parameters.AddWithValue("@CODSERV", CODSERV);
+            cmd.Parameters.AddWithValue("@FOFRE", FOFRE);
+            cmd.Parameters.AddWithValue("@HOFRE", HOFRE);
+            cmd.Parameters.AddWithValue("@CODDETV", CODDETV);
+            cmd.Parameters.AddWithValue("@USER", USER);
+            cmd.Parameters.AddWithValue("@SUC", SUC);
+
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet dts = new DataSet();
+            da.Fill(dts);
+            cmd.Parameters.Clear();
+            return dts;
+        }
+
+        public DataSet ArticulosOS(string numeroOrden, string sucursal, SqlCommand command = null)
+        {
+            if (command == null)
+            {
+                SqlConnection connection = cn.LeerCadena();
+                command = connection.CreateCommand();
             }
 
             SqlCommand cmd = command;
@@ -2311,9 +2418,8 @@ namespace CapaDatos.CargarOrdenes_Datos
             cmd.CommandText = "pGetArticulosOS";
             cmd.CommandType = CommandType.StoredProcedure;
 
-            // Agregar el parámetro obligatorio @CODPROMO
-            cmd.Parameters.AddWithValue("@OS", OS);
-            cmd.Parameters.AddWithValue("@codSucursal", Suc);
+            cmd.Parameters.AddWithValue("@NumeroOrden", numeroOrden);
+            cmd.Parameters.AddWithValue("@Sucursal", sucursal);
 
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataSet dts = new DataSet();

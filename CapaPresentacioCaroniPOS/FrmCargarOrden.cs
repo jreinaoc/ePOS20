@@ -558,7 +558,7 @@ namespace CapaVisual_Login
                 case "Garantia":
                     this.Pnl_3_Garantia.Enabled = true;
                     this.Pnl_3_Garantia.Visible = true;
-                    this.Pnl_3_Garantia.Location = new Point(300, 30);
+                    this.Pnl_3_Garantia.Location = new Point(150, 30);
                     this.Pnl_3_Garantia.BringToFront();
                     break;
 
@@ -2855,6 +2855,13 @@ namespace CapaVisual_Login
             else
                 Btn_Tap3_ClienteAfiliado.Enabled = false;
 
+
+            // Garantia 
+            if (!Garantia)
+                  Btn_Tap3_Garantia.Enabled = true;
+            else
+                Btn_Tap3_Garantia.Enabled = false;
+
             // Montura Propia 
             _L_Articulo.VerificarMonturaPropia(Dgv_Tap3_Articulo, Btn_Tap3_MonturaPropia, Montura_Propia);
 
@@ -4521,7 +4528,7 @@ namespace CapaVisual_Login
 
         private void txtHorizontal_Validated(object sender, EventArgs e)
         {
-            if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01" && !string.IsNullOrEmpty(txtHorizontal.Text))
+            if ((Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "09" || Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01" || Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "08") && !string.IsNullOrEmpty(txtHorizontal.Text))
             {
                
                 bool Band = false;
@@ -4565,7 +4572,7 @@ namespace CapaVisual_Login
 
         private void txtVertical_Validated(object sender, EventArgs e)
         {
-            if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01" && !string.IsNullOrEmpty(txtVertical.Text))
+            if ((Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "09" || Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01" || Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "08") && !string.IsNullOrEmpty(txtVertical.Text))
             {
 
                 bool Band = false;
@@ -4609,7 +4616,7 @@ namespace CapaVisual_Login
 
         private void txtMaxima_Validated(object sender, EventArgs e)
         {
-            if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01" && !string.IsNullOrEmpty(txtMaxima.Text))
+            if ((Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "09" || Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01" || Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "08") && !string.IsNullOrEmpty(txtMaxima.Text))
             {
 
                 bool Band = false;
@@ -4653,7 +4660,7 @@ namespace CapaVisual_Login
 
         private void txtPuente_Validated(object sender, EventArgs e)
         {
-            if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01" && !string.IsNullOrEmpty(txtPuente.Text))
+            if ((Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "09" || Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01" || Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "08") && !string.IsNullOrEmpty(txtPuente.Text))
             {
 
                 bool Band = false;
@@ -4750,10 +4757,20 @@ namespace CapaVisual_Login
 
         private void Btn_Tap3_Aceptar_Garantia_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrEmpty(Cbx_Pnl3_Garantia.Text))
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("Debe seleccionar el motivo de la reposicion");
+                _FrmMensajes.ShowDialog();
+                return; // Salir 
+            }
+
             _L_Articulo.GarantiaCristales_Selecion(Dgv_Pnl3_Garantia, ref Os_Garantia_Trabajo, ref Numero_Examen_Garantia_Trabajo);
             Txt_Pnl2_Examen.Text = Numero_Examen_Garantia_Trabajo;
             VisualizarPanel("MostrarCabezeraSecundaria");
             HabilitacionControl("CabezeraPrincipal");
+            this.Cbx_Pnl2_Laboratorio.Enabled = true;
+            this.Cbx_Pnl2_Servicio.Enabled = true;
         }
 
         private void btnAceptarOsGarantia_Click(object sender, EventArgs e)
@@ -11086,37 +11103,7 @@ namespace CapaVisual_Login
             Pnl_2_Msj.Visible = false;
         }
 
-        private void Pnl_1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void Pnl_1_Tap2_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void label31_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lbl_pnl2_con_obser_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void txt_Pnl2_cont_observa_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label31_Click_1(object sender, EventArgs e)
-        {
-
-        }
-
-
+ 
     }
 
 }
