@@ -457,10 +457,10 @@ namespace CapaVisual_Login
                     Cbx_Pnl2_Laboratorio.Visible = true;
                     Lbl_Pnl2_Servicio.Visible = true;
                     Cbx_Pnl2_Servicio.Visible = true;
-                    Txt_Pnl2_Examen.Visible = true;
-                    Lbl_Pnl2_Num_Examen.Visible = true;
-                    Cbx_Pnl2_Ojo.Visible = true;
-                    label24.Visible = true;
+                    //Txt_Pnl2_Examen.Visible = true;
+                    //Lbl_Pnl2_Num_Examen.Visible = true;
+                    //Cbx_Pnl2_Ojo.Visible = true;
+                    //label24.Visible = true;
                     Txt_Pnl2_Fecha_Ofre.Visible = true;
                     Lbl_Pnl2_Fecha_Ofre.Visible = true;
                     Lbl_Pnl2_Carga_Art.Visible = true;
@@ -1934,7 +1934,7 @@ namespace CapaVisual_Login
             //Txt_Pnl_2_Nombre.Text = Txt_Tap1_Nombre.Text.ToString();
             //Txt_Pnl_2_Cedula.Location = new System.Drawing.Point(20, 10);
             //Txt_Pnl_2_Cedula.BringToFront();
-            btnCargarOrden.Enabled = true;
+            //btnCargarOrden.Enabled = true;
             if (tabControl.TabPages.Count > 0)
             {
                 tabControl.SelectedIndex = 1;
@@ -1944,7 +1944,7 @@ namespace CapaVisual_Login
                 btn_pln2_oft.BringToFront();
                 btn_pln2_reti.BringToFront();
                 btn_pln2_quer.BringToFront();
-                Btn_Tap2_Derecha_Click(this.Btn_Tap2_Derecha, EventArgs.Empty);
+                //Btn_Tap2_Derecha_Click(this.Btn_Tap2_Derecha, EventArgs.Empty);
 
 
                 // Opcional: Llamar al evento directamente si la selección no lo dispara
@@ -4254,10 +4254,10 @@ namespace CapaVisual_Login
             }
             else
             {
-                this.Cbx_Pnl2_Ojo.Visible = true;
-                this.Txt_Pnl2_Examen.Visible = true;
-                Lbl_Pnl2_Num_Examen.Visible = true;
-                label24.Visible = true;
+                //this.Cbx_Pnl2_Ojo.Visible = true;
+                //this.Txt_Pnl2_Examen.Visible = true;
+                //Lbl_Pnl2_Num_Examen.Visible = true;
+                //label24.Visible = true;
                 Lbl_Pnl2_Fecha_Ofre.Visible = true;
                 Txt_Pnl2_Fecha_Ofre.Visible = true;
                 Cbx_Pnl2_Laboratorio.Visible = true;
@@ -6492,6 +6492,8 @@ namespace CapaVisual_Login
             Txt_Tap1_Cedula.Text = "";
             Cbx_Tap1_Nacionalidad.SelectedIndex = -1; // Deselecciona el elemento
             Cbx_Tap1_Nacionalidad.Focus();
+            btnExamen.Enabled = false;
+            btnCargarOrden.Enabled = false;
             // Ocultamos todos los GroupBox al principio
             //groupBox1.Visible = false;
             //grp_pln2_Exam1.Visible = false;
@@ -8276,6 +8278,14 @@ namespace CapaVisual_Login
                 {
                     TopeExamen = topeExamenInt;
                     btnExamen.Enabled = true;
+                    if (topeExamenInt > 0)
+                    {
+                        btnCargarOrden.Enabled = true;
+                    }
+                    else
+                    {
+                        btnCargarOrden.Enabled = false;
+                    }
                     // Ahora la variable TopeExamen (que debe ser de tipo int)
                     // contiene el valor entero extraído de la DataTable.
                 }
@@ -8693,6 +8703,8 @@ namespace CapaVisual_Login
             CargarFicconvOFT();
 
             CargarDgv_Pnl2_Querato();
+
+            Txt_Pnl2_Examen.Text = Txt_Tap2_Examen.Text;
         }
 
         private void guardaclienteP()
@@ -9339,6 +9351,8 @@ namespace CapaVisual_Login
             CargarDgv_Pnl2_Querato();
             CargarExamenCont();
 
+            Txt_Pnl2_Examen.Text = Txt_Tap2_Examen.Text;
+
         }
 
         private void button9_Click_2(object sender, EventArgs e)
@@ -9902,6 +9916,9 @@ namespace CapaVisual_Login
                     Pnl_2_Msj.Visible = true;
                     txt_pl2_msj.Text = "Examen Guardado Exitosamente";
                     pb_pl2_mj.Visible = false;
+                    
+                        btnCargarOrden.Enabled = true;
+                   
                 }
 
             }

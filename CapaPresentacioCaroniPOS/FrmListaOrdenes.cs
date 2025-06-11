@@ -178,6 +178,7 @@ namespace CapaVisual_Login
                 DgvListadoOrdenes.Columns["Btn2"].Width = 80;
                 DgvListadoOrdenes.Columns["Btn3"].Width = 80;
                 DgvListadoOrdenes.Columns["Btn5"].Width = 80;
+                DgvListadoOrdenes.Columns["Btn6"].Width = 40;
                 DgvListadoOrdenes.Columns["Cod_Sucursal"].Width = 80;
 
                 //Bloquear Columna 
@@ -350,6 +351,12 @@ namespace CapaVisual_Login
                 columnBtn5.HeaderText = "";
                 DgvListadoOrdenes.Columns.Add(columnBtn5);
 
+                DataGridViewButtonColumn columnBtn6 = new DataGridViewButtonColumn();
+                columnBtn6.Name = "Btn6";
+                columnBtn6.Width = 50;
+                columnBtn6.HeaderText = "";
+                DgvListadoOrdenes.Columns.Add(columnBtn6);
+
                 EstructuraGrid();
             }
 
@@ -481,6 +488,7 @@ namespace CapaVisual_Login
                 var dataGridViewColumn4 = DgvListadoOrdenes.Columns["Btn3"];
                 var dataGridViewColumn5 = DgvListadoOrdenes.Columns["Btn4"];
                 var dataGridViewColumn6 = DgvListadoOrdenes.Columns["Btn5"];
+                var dataGridViewColumn7 = DgvListadoOrdenes.Columns["Btn6"];
 
                 //if (dataGridViewColumn != null && dataGridViewColumn.Visible)
 
@@ -525,6 +533,12 @@ namespace CapaVisual_Login
                     DgvListadoOrdenes.Columns.RemoveAt(DgvListadoOrdenes.Columns.Count - 1);
                 }
 
+                if (dataGridViewColumn7 != null && dataGridViewColumn7.Visible)
+
+                {
+
+                    DgvListadoOrdenes.Columns.RemoveAt(DgvListadoOrdenes.Columns.Count - 1);
+                }
 
             }
 
