@@ -96,11 +96,11 @@ namespace CapaLogica.Configuracion_Logica
 
         }
 
-        public void CargarDatosMetas(string CodEmpleado, string Periodo, string MetaUds, string MetaIng)
+        public void CargarDatosMetas(string CodEmpleado, string Periodo, string MetaUds, string MetaIng, string ParamLimOSAbo)
         {
             // Traigo el historial de metas
 
-            _D_Configuracion.PostHistMetas(CodEmpleado, Periodo, MetaUds, MetaIng);
+            _D_Configuracion.PostHistMetas(CodEmpleado, Periodo, MetaUds, MetaIng, ParamLimOSAbo);
 
         }
 

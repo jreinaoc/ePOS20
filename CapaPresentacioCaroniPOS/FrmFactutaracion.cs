@@ -8485,7 +8485,12 @@ namespace CapaVisual_Login
                 objVmax.Cancelar();
                 objVmax.Cerrar();
                 resp = objVmax.CerrarPuerto();
-                return Respuesta;
+
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("Ocurrió un error imprimiendo el cambio");
+                _FrmMensajes.ShowDialog();
+                //A pesar del error devuelvvo satisfactorio para que no retorne la transacciòn, a este nivel ya salio la factura
+                return "SATISFACTORIO";
             }
         }
 

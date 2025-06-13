@@ -74,10 +74,15 @@ namespace CapaVisual_Login
             this.LblVersion = new System.Windows.Forms.Label();
             this.BtnCancelar = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
+            this.txtDiasAbo = new System.Windows.Forms.TextBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.GbxConfDashBoard.SuspendLayout();
             this.GbxConfigMetas.SuspendLayout();
             this.GbxConfigTasa.SuspendLayout();
             this.GbxConfigVentas.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // GbxConfDashBoard
@@ -578,6 +583,46 @@ namespace CapaVisual_Login
             this.label5.Size = new System.Drawing.Size(11, 78);
             this.label5.TabIndex = 19;
             // 
+            // label17
+            // 
+            this.label17.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.label17.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label17.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this.label17.Location = new System.Drawing.Point(29, 457);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(542, 36);
+            this.label17.TabIndex = 21;
+            this.label17.Text = "Configuración Varios";
+            this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label18.Location = new System.Drawing.Point(17, 27);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(104, 21);
+            this.label18.TabIndex = 8;
+            this.label18.Text = "Días Abono:";
+            // 
+            // txtDiasAbo
+            // 
+            this.txtDiasAbo.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtDiasAbo.Location = new System.Drawing.Point(127, 27);
+            this.txtDiasAbo.Name = "txtDiasAbo";
+            this.txtDiasAbo.Size = new System.Drawing.Size(100, 27);
+            this.txtDiasAbo.TabIndex = 9;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.txtDiasAbo);
+            this.groupBox1.Controls.Add(this.label18);
+            this.groupBox1.Location = new System.Drawing.Point(29, 487);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(543, 68);
+            this.groupBox1.TabIndex = 0;
+            this.groupBox1.TabStop = false;
+            // 
             // FrmConfiguracion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -585,6 +630,8 @@ namespace CapaVisual_Login
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1121, 668);
+            this.Controls.Add(this.label17);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.BtnCancelar);
             this.Controls.Add(this.LblVersion);
@@ -606,6 +653,8 @@ namespace CapaVisual_Login
             this.GbxConfigTasa.PerformLayout();
             this.GbxConfigVentas.ResumeLayout(false);
             this.GbxConfigVentas.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -658,5 +707,9 @@ namespace CapaVisual_Login
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.TextBox txtDiasAbo;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.GroupBox groupBox1;
     }
 }
