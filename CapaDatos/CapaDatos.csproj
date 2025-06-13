@@ -173,6 +173,7 @@
     <Compile Include="CargarOrdenes_Datos\D_ServicioLab.cs" />
     <Compile Include="CargarOrdenes_Datos\D_Trabajo.cs" />
     <Compile Include="CargarOrdenes_Datos\ServicioAR.cs" />
+    <Compile Include="CierreCaja_Datos\D_CierreCaja.cs" />
     <Compile Include="Configuracion\D_Configuracion.cs" />
     <Compile Include="CveAutorizada_Datos\D_ClaveAutorizada.cs" />
     <Compile Include="CveGerente_Datos\D_ClaveGerente.cs" />

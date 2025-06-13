@@ -193,6 +193,12 @@
     <Compile Include="FrmCargarOrden.Designer.cs">
       <DependentUpon>FrmCargarOrden.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmCierredeCaja.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmCierredeCaja.Designer.cs">
+      <DependentUpon>FrmCierredeCaja.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmListaFactura.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -360,6 +366,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FrmCargarOrden.resx">
       <DependentUpon>FrmCargarOrden.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmCierredeCaja.resx">
+      <DependentUpon>FrmCierredeCaja.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmClaveAutorizada.resx">
       <DependentUpon>FrmClaveAutorizada.cs</DependentUpon>
