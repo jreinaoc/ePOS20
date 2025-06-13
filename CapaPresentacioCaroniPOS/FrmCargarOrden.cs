@@ -174,6 +174,7 @@ namespace CapaVisual_Login
         public DataTable dtClienteconGarantia;
         private bool _isCellValueChanging = false;
 
+        private bool mantengoexamenseleccionado;
         private void DgvListadoOrdenes_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
@@ -427,6 +428,7 @@ namespace CapaVisual_Login
                     this.Pnl_3_Coloración.Enabled = false;
                     this.Pnl_3_Garantia.Visible = false;
                     this.Pnl_3_Garantia.Enabled = false;
+                    
                     break;
 
                 case "MostrarCabezeraSecundaria":
@@ -465,8 +467,8 @@ namespace CapaVisual_Login
                     Txt_Pnl2_Fecha_Ofre.Visible = true;
                     Lbl_Pnl2_Fecha_Ofre.Visible = true;
                     Lbl_Pnl2_Carga_Art.Visible = true;
-
-
+                    Txt_Pnl2_Examen.Text = Txt_Tap2_Examen.Text;
+                    mantengoexamenseleccionado = true;
                     break;
                 case "MostrarCabeceraExamen":
                     this.Pnl_2.Enabled = true;
@@ -600,9 +602,9 @@ namespace CapaVisual_Login
                     this.btnCancelar3.Enabled = true;
 
                     // Botones del TapControl
-                    this.btnPrincipal.Enabled = false;
-                    this.btnExamen.Enabled = false;
-                    this.btnCargarOrden.Enabled = false;
+                    //this.btnPrincipal.Enabled = false;
+                    //this.btnExamen.Enabled = false;
+                    //this.btnCargarOrden.Enabled = false;
 
                     // Botones Aciones 
                     this.Btn_Tap3_Descuento.Enabled = false;
@@ -719,9 +721,9 @@ namespace CapaVisual_Login
                     this.Btn_Tap3_Aceptar_CambioPrecio.Enabled = true;
 
                     // Botones del TapControl
-                    this.btnPrincipal.Enabled = false;
-                    this.btnExamen.Enabled = false;
-                    this.btnCargarOrden.Enabled = false;
+                    //this.btnPrincipal.Enabled = false;
+                    //this.btnExamen.Enabled = false;
+                    //this.btnCargarOrden.Enabled = false;
 
                     // Botones Aciones 
                     this.Btn_Tap3_Descuento.Enabled = false;
@@ -780,9 +782,9 @@ namespace CapaVisual_Login
                     this.Btn_Tap3_Aceptar_Desc.Enabled = true;
 
                     // Botones del TapControl
-                    this.btnPrincipal.Enabled = false;
-                    this.btnExamen.Enabled = false;
-                    this.btnCargarOrden.Enabled = false;
+                    //this.btnPrincipal.Enabled = false;
+                    //this.btnExamen.Enabled = false;
+                    //this.btnCargarOrden.Enabled = false;
 
                     // Botones Aciones 
                     this.Btn_Tap3_Descuento.Enabled = false;
@@ -834,9 +836,9 @@ namespace CapaVisual_Login
                     this.Btn_Tap3_Aceptar_Coloracion.Enabled = true;
 
                     // Botones del TapControl
-                    this.btnPrincipal.Enabled = false;
-                    this.btnExamen.Enabled = false;
-                    this.btnCargarOrden.Enabled = false;
+                    //this.btnPrincipal.Enabled = false;
+                    //this.btnExamen.Enabled = false;
+                    //this.btnCargarOrden.Enabled = false;
 
                     // Botones Aciones 
                     this.Btn_Tap3_Descuento.Enabled = false;
@@ -886,9 +888,9 @@ namespace CapaVisual_Login
                     this.Btn_Tap3_Aceptar_Promo.Enabled = true;
 
                     // Botones del TapControl
-                    this.btnPrincipal.Enabled = false;
-                    this.btnExamen.Enabled = false;
-                    this.btnCargarOrden.Enabled = false;
+                    //this.btnPrincipal.Enabled = false;
+                    //this.btnExamen.Enabled = false;
+                    //this.btnCargarOrden.Enabled = false;
 
                     // Botones Aciones 
                     this.Btn_Tap3_Descuento.Enabled = false;
@@ -941,9 +943,9 @@ namespace CapaVisual_Login
                     this.btnAceptarMonturaPropia.Enabled = true;
 
                     // Botones del TapControl
-                    this.btnPrincipal.Enabled = false;
-                    this.btnExamen.Enabled = false;
-                    this.btnCargarOrden.Enabled = false;
+                    //this.btnPrincipal.Enabled = false;
+                    //this.btnExamen.Enabled = false;
+                    //this.btnCargarOrden.Enabled = false;
 
                     // Botones Aciones 
                     this.Btn_Tap3_Descuento.Enabled = false;
@@ -995,9 +997,9 @@ namespace CapaVisual_Login
                     this.Rd_Pnl3_CteAfiliadoCodigo.Checked = true;
 
                     // Botones del TapControl
-                    this.btnPrincipal.Enabled = false;
-                    this.btnExamen.Enabled = false;
-                    this.btnCargarOrden.Enabled = false;
+                    //this.btnPrincipal.Enabled = false;
+                    //this.btnExamen.Enabled = false;
+                    //this.btnCargarOrden.Enabled = false;
 
                     // Botones Aciones 
                     this.Btn_Tap3_Descuento.Enabled = false;
@@ -1039,9 +1041,9 @@ namespace CapaVisual_Login
                     this.Btn_Tap3_Cancelar_Garantia.Enabled = true;
 
                     // Botones del TapControl
-                    this.btnPrincipal.Enabled = false;
-                    this.btnExamen.Enabled = false;
-                    this.btnCargarOrden.Enabled = false;
+                    //this.btnPrincipal.Enabled = false;
+                    //this.btnExamen.Enabled = false;
+                    //this.btnCargarOrden.Enabled = false;
 
                     // Botones Aciones 
                     this.Btn_Tap3_Descuento.Enabled = false;
@@ -1659,6 +1661,10 @@ namespace CapaVisual_Login
                 ReiniciarBusquedaarticulo();
 
                 Lbl_Tap3_Articulo1.Text = "Ingresar Articulo";
+                btnPrincipal.Enabled = true;
+                btnExamen.Enabled = true;
+                btnCargarOrden.Enabled = true;
+                tipoTrabajoSeleccionado = false;
             }
 
             catch (Exception ex)
@@ -1833,64 +1839,68 @@ namespace CapaVisual_Login
         private void Txt_Tap3_Articulo_Codigo_KeyDown(object sender, KeyEventArgs e)
         {
             // Verificar si se presionó la tecla F2
-            if (e.KeyCode == Keys.F2)
+            if (ValidarTipoTrabajoTipoExamen(Cbx_Pnl2_Trbajo.SelectedValue.ToString(), Cbx_Tap2_Tipo_Examen.Text) == true)
             {
-                VisualizarPanel("Lista_Articulo");
-                HabilitacionControl("Habilitar_Lista_Articulo");
-                LimpiarControles("Abrir_Busqueda_Articulos");
-
-                _L_Articulo.CargarArticulos(Dgv_Pnl3_Articulo, listaArticulos, Cbx_Pnl2_Trbajo.SelectedValue.ToString(), _L_Articulo.ValidarExtenciaCristal(Dgv_Tap3_Articulo, Cbx_Pnl2_Trbajo.SelectedValue.ToString()));
-                if (_L_Articulo.stringBuilder.Length > 0)
+                if (e.KeyCode == Keys.F2)
                 {
-                    _FrmMensajes.co = 2;
-                    _FrmMensajes.avisomensaje(_L_Articulo.stringBuilder.ToString());
-                    _FrmMensajes.ShowDialog();
+                    VisualizarPanel("Lista_Articulo");
+                    HabilitacionControl("Habilitar_Lista_Articulo");
+                    LimpiarControles("Abrir_Busqueda_Articulos");
+
+                    _L_Articulo.CargarArticulos(Dgv_Pnl3_Articulo, listaArticulos, Cbx_Pnl2_Trbajo.SelectedValue.ToString(), _L_Articulo.ValidarExtenciaCristal(Dgv_Tap3_Articulo, Cbx_Pnl2_Trbajo.SelectedValue.ToString()));
+                    if (_L_Articulo.stringBuilder.Length > 0)
+                    {
+                        _FrmMensajes.co = 2;
+                        _FrmMensajes.avisomensaje(_L_Articulo.stringBuilder.ToString());
+                        _FrmMensajes.ShowDialog();
+                    }
+                    else
+                    {
+
+                        listaTemporal = new List<TB_ARTICULO>(listaArticulos);
+                        Dgv_Pnl3_Articulo.DataSource = listaTemporal;
+                        Formato_Dgv_Busqueda_Articulo();
+                    }
+
+                    // Establecer el foco en el TextBox de cantidad
+                    Txt_Pnl3_Articulo.Focus();
+
+                    _L_Articulo.stringBuilder.Clear();
+
+                    // Evitar que el evento se propague
+                    e.Handled = true;
                 }
-                else
+
+                else if (e.KeyCode == Keys.Enter)
                 {
 
-                    listaTemporal = new List<TB_ARTICULO>(listaArticulos);
-                    Dgv_Pnl3_Articulo.DataSource = listaTemporal;
-                    Formato_Dgv_Busqueda_Articulo();
+                    if (Txt_Tap3_Articulo_Codigo.Text.StartsWith("W"))
+                    {
+                        DataSet dsColorLC = _L_Articulo.CargarColoresLC(Dgv_Pnl3_ColoresLC, Txt_Tap3_Articulo_Codigo.Text);
+                        Dgv_Pnl3_ColoresLC.DataSource = dsColorLC.Tables[0];
+                        Formato_Dgv_Pnl3_ColoresLC();
+                        Pnl_3_Lista_ColoresLC.Visible = true;
+                        Pnl_3_Lista_ColoresLC.Location = new Point(250, 1);
+                    }
+                    // Acción para Enter
+                    _L_Articulo.CargarArticulos(Dgv_Pnl3_Articulo, listaArticulos, Cbx_Pnl2_Trbajo.SelectedValue.ToString(), _L_Articulo.ValidarExtenciaCristal(Dgv_Tap3_Articulo, Cbx_Pnl2_Trbajo.SelectedValue.ToString()));
+
+                    //Formatear los caracteres a 7 Digitos cuando es un cristal 
+                    _L_Articulo.FormatearCampo7Digitos(Txt_Tap3_Articulo_Codigo);
+
+                    // Buscar el articulo 
+                    _L_Articulo.FiltrarArticulos_Tap3(Txt_Tap3_Articulo_Codigo.Text, listaArticulos, listaTemporal, Txt_Tap3_Articulo_Codigo, Txt_Tap3_Articulo_Descripcion, Txt_Tap3_Articulo_Precio, Txt_Tap3_Articulo_Cantidad);
+
+                    if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "09")
+                    {
+                        AplicoGarantia(Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Txt_Pnl2_Cedula.Text.Substring(0, 1), "", Txt_Pnl2_Examen.Text, _D_Inicio.Sucursal());
+                    }
+
+                    // Evitar que el evento se propague
+                    e.Handled = true;
                 }
-
-                // Establecer el foco en el TextBox de cantidad
-                Txt_Pnl3_Articulo.Focus();
-
-                _L_Articulo.stringBuilder.Clear();
-
-                // Evitar que el evento se propague
-                e.Handled = true;
             }
-
-            else if (e.KeyCode == Keys.Enter)
-            {
-
-                if (Txt_Tap3_Articulo_Codigo.Text.StartsWith("W"))
-                {
-                    DataSet dsColorLC = _L_Articulo.CargarColoresLC(Dgv_Pnl3_ColoresLC, Txt_Tap3_Articulo_Codigo.Text);
-                    Dgv_Pnl3_ColoresLC.DataSource = dsColorLC.Tables[0];
-                    Formato_Dgv_Pnl3_ColoresLC();
-                    Pnl_3_Lista_ColoresLC.Visible = true;
-                    Pnl_3_Lista_ColoresLC.Location = new Point(250, 1);
-                }
-                // Acción para Enter
-                _L_Articulo.CargarArticulos(Dgv_Pnl3_Articulo, listaArticulos, Cbx_Pnl2_Trbajo.SelectedValue.ToString(), _L_Articulo.ValidarExtenciaCristal(Dgv_Tap3_Articulo, Cbx_Pnl2_Trbajo.SelectedValue.ToString()));
-
-                //Formatear los caracteres a 7 Digitos cuando es un cristal 
-                _L_Articulo.FormatearCampo7Digitos(Txt_Tap3_Articulo_Codigo);
-
-                // Buscar el articulo 
-                _L_Articulo.FiltrarArticulos_Tap3(Txt_Tap3_Articulo_Codigo.Text, listaArticulos, listaTemporal, Txt_Tap3_Articulo_Codigo, Txt_Tap3_Articulo_Descripcion, Txt_Tap3_Articulo_Precio, Txt_Tap3_Articulo_Cantidad);
-
-                if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "09")
-                {
-                    AplicoGarantia(Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Txt_Pnl2_Cedula.Text.Substring(0, 1), "", Txt_Pnl2_Examen.Text, _D_Inicio.Sucursal());
-                }
-
-                // Evitar que el evento se propague
-                e.Handled = true;
-            }
+           
 
             
 
@@ -1904,6 +1914,7 @@ namespace CapaVisual_Login
 
         private void btnPrincipal_CheckedChanged(object sender, EventArgs e)
         {
+            mantengoexamenseleccionado = false;
             VisualizarPanel("MostrarCabezeraPrincipal");
             Txt_Pnl1_Cedula.Visible = false;
             Txt_Pnl1_Nombre.Visible = false;
@@ -1925,8 +1936,40 @@ namespace CapaVisual_Login
 
         private void btnExamen_CheckedChanged(object sender, EventArgs e)
         {
-            VisualizarPanel("MostrarCabeceraExamen");
+            //VisualizarPanel("MostrarCabeceraExamen");
            
+            ////Txt_Pnl_2_Cedula.Visible = true;
+            ////Txt_Pnl_2_Nombre.Visible = true;
+            ////Lbl_Pnl2_Cedula.Visible = true;
+            ////Lbl_Pnl2_Nombre.Visible = true;
+            ////Txt_Pnl_2_Cedula.Text = Cbx_Tap1_Nacionalidad.SelectedItem.ToString() + Txt_Tap1_Cedula.Text.ToString();
+            ////Txt_Pnl_2_Nombre.Text = Txt_Tap1_Nombre.Text.ToString();
+            ////Txt_Pnl_2_Cedula.Location = new System.Drawing.Point(20, 10);
+            ////Txt_Pnl_2_Cedula.BringToFront();
+            //btnCargarOrden.Enabled = true;
+            //if (tabControl.TabPages.Count > 0)
+            //{
+            //    tabControl.SelectedIndex = 1;
+            //    label43.Text = "Datos de Clientes";
+               
+            //    grp_pln2_Cont1.BringToFront();
+            //    btn_pln2_oft.BringToFront();
+            //    btn_pln2_reti.BringToFront();
+            //    btn_pln2_quer.BringToFront();
+            //    Btn_Tap2_Derecha_Click(this.Btn_Tap2_Derecha, EventArgs.Empty);
+
+
+            //    // Opcional: Llamar al evento directamente si la selección no lo dispara
+            //    // tabControl_SelectedIndexChanged(tabControl, EventArgs.Empty);
+            //}
+            //Pnl_2.Visible = true;
+            //grp_pln2_Conv2.Visible = true;
+        }
+
+        private void btnExamen_Click(object sender, EventArgs e)
+        {
+            VisualizarPanel("MostrarCabeceraExamen");
+
             //Txt_Pnl_2_Cedula.Visible = true;
             //Txt_Pnl_2_Nombre.Visible = true;
             //Lbl_Pnl2_Cedula.Visible = true;
@@ -1940,13 +1983,15 @@ namespace CapaVisual_Login
             {
                 tabControl.SelectedIndex = 1;
                 label43.Text = "Datos de Clientes";
-               
+
                 grp_pln2_Cont1.BringToFront();
                 btn_pln2_oft.BringToFront();
                 btn_pln2_reti.BringToFront();
                 btn_pln2_quer.BringToFront();
-                Btn_Tap2_Derecha_Click(this.Btn_Tap2_Derecha, EventArgs.Empty);
-
+                if (mantengoexamenseleccionado == false) // Voy al ultimo
+                {
+                    Btn_Tap2_Derecha_Click(this.Btn_Tap2_Derecha, EventArgs.Empty);
+                }
 
                 // Opcional: Llamar al evento directamente si la selección no lo dispara
                 // tabControl_SelectedIndexChanged(tabControl, EventArgs.Empty);
@@ -2962,41 +3007,7 @@ namespace CapaVisual_Login
                     return;
                 }
 
-
-                foreach (string elemento in codigosFactura)
-                {
-                    string codigo = elemento;
-                    if (codigo.StartsWith("C"))
-                    {
-                        Posee_Cristal = true;
-                        codCristal = codigo;
-                    }
-                    else if (codigo.StartsWith("M") || codigo.StartsWith("L"))
-                    {
-                        Posee_Montura = true;
-                        codMonturaSeleccionada = codigo;
-                    }
-
-                }
-
-                if ((Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "09" || Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01" || Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "08") && !Posee_Cristal && !Cristal_Propio)
-                {
-                    _FrmMensajes.co = 2;
-                    _FrmMensajes.avisomensaje("No se encontró ningún código de cristal válido");
-                    _FrmMensajes.ShowDialog();
-                    return;
-                }
-
-                if ((Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "09" || Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01" || Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "08" || Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "04") && !Posee_Montura && !Montura_Propia)
-                {
-                    _FrmMensajes.co = 2;
-                    _FrmMensajes.avisomensaje("No se encontró ningún código de Montura válido");
-                    _FrmMensajes.ShowDialog();
-                    return;
-                }
-
-
-                if ((Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01" || Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "09") && (
+                if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01" && (
         string.IsNullOrEmpty(txtHorizontal.Text) ||
         string.IsNullOrEmpty(txtVertical.Text) ||
         string.IsNullOrEmpty(txtMaxima.Text) ||
@@ -3017,6 +3028,39 @@ namespace CapaVisual_Login
                     return;
                 }
 
+                foreach (string elemento in codigosFactura)
+                {
+                    string codigo =elemento;
+                    if (codigo.StartsWith("C"))
+                    {
+                        Posee_Cristal = true;
+                        codCristal = codigo;
+                    }
+                    else if (codigo.StartsWith("M")|| codigo.StartsWith("L"))
+                    {
+                        Posee_Montura = true;
+                        codMonturaSeleccionada = codigo;
+                    }
+                       
+                }
+
+
+                if ((Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01"|| Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "08") && !Posee_Cristal && !Cristal_Propio)
+                {
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje("No se encontró ningún código de cristal válido");
+                    _FrmMensajes.ShowDialog();
+                    return;
+                }
+
+                if ((Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01" || Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "08" || Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "04") && !Posee_Montura && !Montura_Propia)
+                {
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje("No se encontró ningún código de Montura válido");
+                    _FrmMensajes.ShowDialog();
+                    return;
+                }
+
                 //Consultar servicios AR
                 var dsAR = await _servicioValidaciones.ObtenerServiciosARDataset(codCristal, false, null);
 
@@ -3030,7 +3074,7 @@ namespace CapaVisual_Login
                         _L_Articulo.CargarServicioGarantia(Dgv_Tap3_Articulo);
 
                     }
-                    MessageBox.Show("La Cantidad de Antireflejos y Coloración debe ser igual a la Cantidad de Cristales.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Este examen debe poseer DNP valida para este tipo de vision.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     _L_Articulo.ActualizarTotales(Dgv_Tap3_Articulo, Dgv_Tap3_Totales);
                     //Btn_Tap3_Procesar.Enabled = true;
                     return;
@@ -3204,7 +3248,7 @@ namespace CapaVisual_Login
                     }
 
                     // Verifico y Apligo Garantia para trabajo convencional reservado 
-                    if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "09" && actualizadoTrabajo)
+                    if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "09" && !actualizadoTrabajo)
                     {
                         DataSet ds = await _GuardarOrdenServ.LlamarActualizarGarantiaAsync(Os_Garantia_Trabajo, codSucursal, numeroOrden, command);
                     }
@@ -4248,35 +4292,40 @@ namespace CapaVisual_Login
             }
             else
             {
-                this.Cbx_Pnl2_Ojo.Visible = true;
-                this.Txt_Pnl2_Examen.Visible = true;
-                Lbl_Pnl2_Num_Examen.Visible = true;
-                label24.Visible = true;
+            //    this.Cbx_Pnl2_Ojo.Visible = true;
+            //    this.Txt_Pnl2_Examen.Visible = true;
+            //    Lbl_Pnl2_Num_Examen.Visible = true;
+            //    label24.Visible = true;
                 Lbl_Pnl2_Fecha_Ofre.Visible = true;
                 Txt_Pnl2_Fecha_Ofre.Visible = true;
                 Cbx_Pnl2_Laboratorio.Visible = true;
                 Lbl_Pnl2_Laboratorio.Visible = true;
                 Lbl_Pnl2_Servicio.Visible = true;
                 Cbx_Pnl2_Servicio.Visible = true;
-                Txt_Pnl2_Examen.Visible = true;
-                Lbl_Pnl2_Num_Examen.Visible = true;
+                //Txt_Pnl2_Examen.Visible = true;
+                //Lbl_Pnl2_Num_Examen.Visible = true;
             }
         }
 
         private void Cbx_Pnl2_Trbajo_SelectedIndexChanged(object sender, EventArgs e)
         {
-            CargarComboLaboratorios();
+            
 
-                if (tipoTrabajoSeleccionado)
+            if (tipoTrabajoSeleccionado)
+            {
+                if (ValidarTipoTrabajoTipoExamen(Cbx_Pnl2_Trbajo.SelectedValue.ToString(), Cbx_Tap2_Tipo_Examen.Text) == true)
                 {
-                Cbx_Pnl2_Trbajo.Enabled = false;
-                ValidarTipoVenta(Cbx_Pnl2_Trbajo.Text);
+                    Cbx_Pnl2_Trbajo.Enabled = false;
+                    CargarComboLaboratorios();
+                    ValidarTipoVenta(Cbx_Pnl2_Trbajo.Text);
                 }
+            }
 
-                else
-                {
+            else
+            {
                 Cbx_Pnl2_Trbajo.Enabled = true;
-                }
+            }
+           
 
         }// Cbx_Pnl2_Trbajo.Enabled = false;
 
@@ -6866,8 +6915,8 @@ namespace CapaVisual_Login
                 //Cbx_Tap2_Tipo_Examen.Text = examen.TIPOEXAMEN != null ? examen.TIPOEXAMEN : string.Empty;
 
                 Cbx_Tap2_Tipo_Examen.SelectedItem = 0;
-                if (examen.TIPOEXAMEN != null && (Cbx_Tap2_Tipo_Examen.Text == null || Cbx_Tap2_Tipo_Examen.Text == ""))
-                {
+                //if (examen.TIPOEXAMEN != null && (Cbx_Tap2_Tipo_Examen.Text == null || Cbx_Tap2_Tipo_Examen.Text == ""))
+                //{
                     Cbx_Tap2_Tipo_Examen.Text = examen.TIPOEXAMEN.ToString().Trim(); // Deseleccionar cualquier elemento si examen.TIPO_Optm es null
                     //foreach (var item in Cbx_Tap2_Tipo_Examen.Items)
                     //{
@@ -6880,7 +6929,7 @@ namespace CapaVisual_Login
                     //    }
                     //}
                     // Si no se encuentra ninguna coincidencia, el ComboBox no tendrá ningún elemento seleccionado.
-                }
+                //}
 
                 TXT_Tap2_Nombre_Optome.Text = examen.NOM_Optm.ToString(); // Deseleccionar cualquier elemento si examen.TIPO_Optm es null
 
@@ -8145,7 +8194,7 @@ namespace CapaVisual_Login
                 Pnl_2_Msj.Visible = true;
                 txt_pl2_msj.Text = "Cliente Guardado con Exito";
                 pb_pl2_mj.Visible = false;
-
+                
                 //MessageBox.Show("Cliente Guardado Exitosamente", "Importante", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
                 btnExamen.Enabled = true;
 
@@ -8173,7 +8222,7 @@ namespace CapaVisual_Login
             limpearExamen();
 
 
-            Txt_Pnl2_Cedula.Text = dtCliente.Rows[0]["CTE_CedIden"].ToString(); // Ajusta el nombre de la columna
+            Txt_Pnl2_Cedula.Text = dtCliente.Rows[0]["CTE_Nacio"].ToString() +"-"+dtCliente.Rows[0]["CTE_CedIden"].ToString(); // Ajusta el nombre de la columna
             Txt_Pnl_2_Nombre.Text = dtCliente.Rows[0]["CTE_PNombre"].ToString(); // Ajusta el nombre de la columna
 
 
@@ -8656,15 +8705,15 @@ namespace CapaVisual_Login
 
             if (int.TryParse(Txt_Tap2_Examen.Text, out int valorActual))
             {
-                if (valorActual < TopeExamen)
-                {
-                    Txt_Tap2_Examen.Text = (valorActual + 1).ToString();
-                }
-                else
-                {
+                //if (valorActual < TopeExamen)
+                //{
+                //    Txt_Tap2_Examen.Text = (valorActual + 1).ToString();
+                //}
+                //else
+                //{
 
                     Txt_Tap2_Examen.Text = TopeExamen.ToString(); // Opcional: Restablecer el valor al máximo
-                }
+                //}
             }
             else
             {
@@ -9439,7 +9488,7 @@ namespace CapaVisual_Login
 
                 nuevoExamen.OBSERVACIONES = txt_Pnl2_observa.Text.Trim();
                 nuevoExamen.CodigoMimesys = txt_Pnl2_conv_mimesys.Text.Trim();
-
+                nuevoExamen.COD_Sucursal = _D_DetalleOrden.TB_PARAMETRO("SucursalID"); 
                 //METOD DE GUARDARR OFT
                 //nuevoFicconv.OFTD = txt_Pnl2_oftd.Text.Trim();
                 //nuevoFicconv.OFTI = txt_Pnl2_ofti.Text.Trim();
@@ -11072,6 +11121,49 @@ namespace CapaVisual_Login
             Pnl_2_Msj.Visible = false;
         }
 
+        private void Pnl_1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void Pnl_1_Tap2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void label31_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lbl_pnl2_con_obser_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txt_Pnl2_cont_observa_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label31_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private bool ValidarTipoTrabajoTipoExamen(string tipoVenta, string tipoExamen)
+        {
+            if ((tipoVenta == "01" && tipoExamen == "CONTACTO") ||  (tipoVenta == "02" && tipoExamen == "CONVENCIONAL"))
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("El examen seleccionado no aplica para este tipo de trabajo");
+                _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                _FrmMensajes.ShowDialog();
+                return false;
+            }
+                return true;
+        }
         private void AgregarRx()
         {
             if (Formulario_ListaOrdenes)
@@ -11131,36 +11223,6 @@ namespace CapaVisual_Login
                 }
 
             }
-        }
-
-        private void Pnl_1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void Pnl_1_Tap2_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void label31_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lbl_pnl2_con_obser_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void txt_Pnl2_cont_observa_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label31_Click_1(object sender, EventArgs e)
-        {
-
         }
 
         public void FormatoOscuro(System.Drawing.Color col2, System.Drawing.Color col3, System.Drawing.Color col4 )
@@ -11270,9 +11332,6 @@ namespace CapaVisual_Login
                 Lbl_Pnl3_Cambio_Precio.ForeColor = Color.White;
                 label16.BackColor = ColorTranslator.FromHtml("#003536");
                 label16.ForeColor = Color.White;
-
-
-            
             }
 
             this.BackColor = col2;

@@ -173,6 +173,7 @@ C:\Desarrollo2022\CaroniPOS1\CapaPresentacioCaroniPOS\obj\Debug\ePOS.application
 C:\Desarrollo2022\CaroniPOS1\CapaPresentacioCaroniPOS\obj\Debug\CapaVisual_Login.csproj.CopyComplete
 C:\Desarrollo2022\CaroniPOS1\CapaPresentacioCaroniPOS\obj\Debug\ePOS.exe
 C:\Desarrollo2022\CaroniPOS1\CapaPresentacioCaroniPOS\obj\Debug\ePOS.pdb
+<<<<<<< HEAD
 C:\Users\pasantedesarrollo\source\repos\EPOS20\CapaPresentacioCaroniPOS\obj\Debug\CapaVisual_Login.csproj.AssemblyReference.cache
 C:\Users\pasantedesarrollo\source\repos\EPOS20\CapaPresentacioCaroniPOS\obj\Debug\CapaVisual_Login.FrmAnulacion.resources
 C:\Users\pasantedesarrollo\source\repos\EPOS20\CapaPresentacioCaroniPOS\obj\Debug\CapaVisual_Login.FrmCargarOrden.resources
@@ -524,3 +525,6 @@ C:\Programacion\CaroniPOS1\CapaPresentacioCaroniPOS\obj\Debug\ePOS.application
 C:\Programacion\CaroniPOS1\CapaPresentacioCaroniPOS\obj\Debug\CapaVisual_Login.csproj.CopyComplete
 C:\Programacion\CaroniPOS1\CapaPresentacioCaroniPOS\obj\Debug\ePOS.exe
 C:\Programacion\CaroniPOS1\CapaPresentacioCaroniPOS\obj\Debug\ePOS.pdb
+=======
+C:\Desarrollo2022\CaroniPOS1\CapaPresentacioCaroniPOS\obj\Debug\CapaVisual_Login.FrmCierredeCaja.resources
+>>>>>>> 2a29b07 (Validaciones entre pestanas)
