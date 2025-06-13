@@ -555,7 +555,7 @@ namespace CapaVisual_Login
             this.Pnl_2.Controls.Add(this.Lbl_Pnl2_Cedula);
             this.Pnl_2.Controls.Add(this.Txt_Pnl2_Cedula);
             this.Pnl_2.Controls.Add(this.Lbl_Pnl2_Carga_Art);
-            this.Pnl_2.Location = new System.Drawing.Point(1057, 0);
+            this.Pnl_2.Location = new System.Drawing.Point(1057, 4);
             this.Pnl_2.Name = "Pnl_2";
             this.Pnl_2.Size = new System.Drawing.Size(1051, 122);
             this.Pnl_2.TabIndex = 102;
@@ -772,7 +772,7 @@ namespace CapaVisual_Login
             this.panel1.Controls.Add(this.btnPrincipal);
             this.panel1.Controls.Add(this.btnCargarOrden);
             this.panel1.Controls.Add(this.btnExamen);
-            this.panel1.Location = new System.Drawing.Point(7, 123);
+            this.panel1.Location = new System.Drawing.Point(158, 125);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(177, 37);
             this.panel1.TabIndex = 100;
@@ -824,6 +824,7 @@ namespace CapaVisual_Login
             this.btnExamen.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.btnExamen.UseVisualStyleBackColor = true;
             this.btnExamen.CheckedChanged += new System.EventHandler(this.btnExamen_CheckedChanged);
+            this.btnExamen.Click += new System.EventHandler(this.btnExamen_Click);
             // 
             // tabControl
             // 
@@ -1254,6 +1255,7 @@ namespace CapaVisual_Login
             this.Dtp_Tap1_Nacimiento.Name = "Dtp_Tap1_Nacimiento";
             this.Dtp_Tap1_Nacimiento.Size = new System.Drawing.Size(161, 27);
             this.Dtp_Tap1_Nacimiento.TabIndex = 167;
+            this.Dtp_Tap1_Nacimiento.ValueChanged += new System.EventHandler(this.Dt_Tab1_nacimiento_ValueChanged);
             // 
             // Cbx_Tap1_Ciudad
             // 
@@ -1276,6 +1278,7 @@ namespace CapaVisual_Login
             this.Cbx_Tap1_Estado.Name = "Cbx_Tap1_Estado";
             this.Cbx_Tap1_Estado.Size = new System.Drawing.Size(168, 25);
             this.Cbx_Tap1_Estado.TabIndex = 165;
+            this.Cbx_Tap1_Estado.SelectedIndexChanged += new System.EventHandler(this.Cbx_Tap1_Estado_SelectedIndexChanged);
             // 
             // Btn_Pnl3_Cancelar
             // 

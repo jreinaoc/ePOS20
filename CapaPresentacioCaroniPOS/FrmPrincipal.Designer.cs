@@ -35,7 +35,7 @@ namespace CapaVisual_Login
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnUtilitarios = new System.Windows.Forms.Button();
             this.PicBoxCargaOrdenClaro = new System.Windows.Forms.PictureBox();
             this.PicBoxCargaOrdenOsc = new System.Windows.Forms.PictureBox();
             this.btnCargarOrdenes = new System.Windows.Forms.Button();
@@ -65,6 +65,10 @@ namespace CapaVisual_Login
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.BtnMinimizar = new System.Windows.Forms.Button();
+            this.pnlUtilitarios = new System.Windows.Forms.Panel();
+            this.btnCierredeCaja = new System.Windows.Forms.Button();
+            this.btnTasaSec = new System.Windows.Forms.Button();
+            this.btnReimpresion = new System.Windows.Forms.Button();
             this.GbxMenuPrincipal.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -83,6 +87,7 @@ namespace CapaVisual_Login
             ((System.ComponentModel.ISupportInitialize)(this.PicBoxConfigOsc)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictBoxPagoMovilOsc)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.pnlUtilitarios.SuspendLayout();
             this.SuspendLayout();
             // 
             // PnlListadoOrdenes
@@ -101,7 +106,7 @@ namespace CapaVisual_Login
             this.GbxMenuPrincipal.Controls.Add(this.pictureBox4);
             this.GbxMenuPrincipal.Controls.Add(this.pictureBox3);
             this.GbxMenuPrincipal.Controls.Add(this.button2);
-            this.GbxMenuPrincipal.Controls.Add(this.button1);
+            this.GbxMenuPrincipal.Controls.Add(this.btnUtilitarios);
             this.GbxMenuPrincipal.Controls.Add(this.PicBoxCargaOrdenClaro);
             this.GbxMenuPrincipal.Controls.Add(this.PicBoxCargaOrdenOsc);
             this.GbxMenuPrincipal.Controls.Add(this.btnCargarOrdenes);
@@ -175,24 +180,25 @@ namespace CapaVisual_Login
             this.button2.TextAlign = System.Drawing.ContentAlignment.TopLeft;
             this.button2.UseVisualStyleBackColor = false;
             // 
-            // button1
+            // btnUtilitarios
             // 
-            this.button1.BackColor = System.Drawing.Color.Transparent;
-            this.button1.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.button1.FlatAppearance.BorderSize = 0;
-            this.button1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(4)))), ((int)(((byte)(185)))), ((int)(((byte)(166)))));
-            this.button1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(4)))), ((int)(((byte)(185)))), ((int)(((byte)(166)))));
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.ForeColor = System.Drawing.Color.Black;
-            this.button1.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.button1.Location = new System.Drawing.Point(43, 252);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(168, 34);
-            this.button1.TabIndex = 31;
-            this.button1.Text = "Utilitarios";
-            this.button1.TextAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.button1.UseVisualStyleBackColor = false;
+            this.btnUtilitarios.BackColor = System.Drawing.Color.Transparent;
+            this.btnUtilitarios.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnUtilitarios.FlatAppearance.BorderSize = 0;
+            this.btnUtilitarios.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(4)))), ((int)(((byte)(185)))), ((int)(((byte)(166)))));
+            this.btnUtilitarios.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(4)))), ((int)(((byte)(185)))), ((int)(((byte)(166)))));
+            this.btnUtilitarios.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnUtilitarios.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnUtilitarios.ForeColor = System.Drawing.Color.Black;
+            this.btnUtilitarios.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.btnUtilitarios.Location = new System.Drawing.Point(43, 252);
+            this.btnUtilitarios.Name = "btnUtilitarios";
+            this.btnUtilitarios.Size = new System.Drawing.Size(168, 34);
+            this.btnUtilitarios.TabIndex = 31;
+            this.btnUtilitarios.Text = "Utilitarios";
+            this.btnUtilitarios.TextAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.btnUtilitarios.UseVisualStyleBackColor = false;
+            this.btnUtilitarios.Click += new System.EventHandler(this.btnUtilitarios_Click);
             // 
             // PicBoxCargaOrdenClaro
             // 
@@ -579,6 +585,76 @@ namespace CapaVisual_Login
             this.BtnMinimizar.UseVisualStyleBackColor = false;
             this.BtnMinimizar.Click += new System.EventHandler(this.BtnMinimizar_Click);
             // 
+            // pnlUtilitarios
+            // 
+            this.pnlUtilitarios.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlUtilitarios.Controls.Add(this.btnCierredeCaja);
+            this.pnlUtilitarios.Controls.Add(this.btnTasaSec);
+            this.pnlUtilitarios.Controls.Add(this.btnReimpresion);
+            this.pnlUtilitarios.Location = new System.Drawing.Point(222, 320);
+            this.pnlUtilitarios.Name = "pnlUtilitarios";
+            this.pnlUtilitarios.Size = new System.Drawing.Size(198, 108);
+            this.pnlUtilitarios.TabIndex = 0;
+            this.pnlUtilitarios.Visible = false;
+            // 
+            // btnCierredeCaja
+            // 
+            this.btnCierredeCaja.BackColor = System.Drawing.Color.Transparent;
+            this.btnCierredeCaja.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnCierredeCaja.FlatAppearance.BorderSize = 0;
+            this.btnCierredeCaja.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(4)))), ((int)(((byte)(185)))), ((int)(((byte)(166)))));
+            this.btnCierredeCaja.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(4)))), ((int)(((byte)(185)))), ((int)(((byte)(166)))));
+            this.btnCierredeCaja.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCierredeCaja.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCierredeCaja.ForeColor = System.Drawing.Color.Black;
+            this.btnCierredeCaja.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.btnCierredeCaja.Location = new System.Drawing.Point(-1, 74);
+            this.btnCierredeCaja.Name = "btnCierredeCaja";
+            this.btnCierredeCaja.Size = new System.Drawing.Size(194, 34);
+            this.btnCierredeCaja.TabIndex = 37;
+            this.btnCierredeCaja.Text = "Cierre de Caja";
+            this.btnCierredeCaja.TextAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.btnCierredeCaja.UseVisualStyleBackColor = false;
+            this.btnCierredeCaja.Click += new System.EventHandler(this.btnCierredeCaja_Click);
+            // 
+            // btnTasaSec
+            // 
+            this.btnTasaSec.BackColor = System.Drawing.Color.Transparent;
+            this.btnTasaSec.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnTasaSec.FlatAppearance.BorderSize = 0;
+            this.btnTasaSec.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(4)))), ((int)(((byte)(185)))), ((int)(((byte)(166)))));
+            this.btnTasaSec.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(4)))), ((int)(((byte)(185)))), ((int)(((byte)(166)))));
+            this.btnTasaSec.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnTasaSec.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnTasaSec.ForeColor = System.Drawing.Color.Black;
+            this.btnTasaSec.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.btnTasaSec.Location = new System.Drawing.Point(-1, 38);
+            this.btnTasaSec.Name = "btnTasaSec";
+            this.btnTasaSec.Size = new System.Drawing.Size(198, 34);
+            this.btnTasaSec.TabIndex = 36;
+            this.btnTasaSec.Text = "Actualización de Tasa";
+            this.btnTasaSec.TextAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.btnTasaSec.UseVisualStyleBackColor = false;
+            // 
+            // btnReimpresion
+            // 
+            this.btnReimpresion.BackColor = System.Drawing.Color.Transparent;
+            this.btnReimpresion.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnReimpresion.FlatAppearance.BorderSize = 0;
+            this.btnReimpresion.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(4)))), ((int)(((byte)(185)))), ((int)(((byte)(166)))));
+            this.btnReimpresion.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(4)))), ((int)(((byte)(185)))), ((int)(((byte)(166)))));
+            this.btnReimpresion.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnReimpresion.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnReimpresion.ForeColor = System.Drawing.Color.Black;
+            this.btnReimpresion.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.btnReimpresion.Location = new System.Drawing.Point(0, 1);
+            this.btnReimpresion.Name = "btnReimpresion";
+            this.btnReimpresion.Size = new System.Drawing.Size(206, 34);
+            this.btnReimpresion.TabIndex = 35;
+            this.btnReimpresion.Text = "Reimpresión de Documentos";
+            this.btnReimpresion.TextAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.btnReimpresion.UseVisualStyleBackColor = false;
+            // 
             // FrmPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -586,6 +662,7 @@ namespace CapaVisual_Login
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1370, 722);
+            this.Controls.Add(this.pnlUtilitarios);
             this.Controls.Add(this.BtnMinimizar);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.label2);
@@ -616,6 +693,7 @@ namespace CapaVisual_Login
             ((System.ComponentModel.ISupportInitialize)(this.PicBoxConfigOsc)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictBoxPagoMovilOsc)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.pnlUtilitarios.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -655,8 +733,12 @@ namespace CapaVisual_Login
         private System.Windows.Forms.PictureBox PicBoxCargaOrdenClaro;
         private System.Windows.Forms.PictureBox PicBoxCargaOrdenOsc;
         internal System.Windows.Forms.Button button2;
-        internal System.Windows.Forms.Button button1;
+        internal System.Windows.Forms.Button btnUtilitarios;
         private System.Windows.Forms.PictureBox pictureBox4;
         private System.Windows.Forms.PictureBox pictureBox3;
+        private System.Windows.Forms.Panel pnlUtilitarios;
+        internal System.Windows.Forms.Button btnCierredeCaja;
+        internal System.Windows.Forms.Button btnTasaSec;
+        internal System.Windows.Forms.Button btnReimpresion;
     }
 }
