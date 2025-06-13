@@ -281,7 +281,6 @@ namespace CapaVisual_Login
             btnPagoMovil.ForeColor = Color.White;
             btnCargarOrdenes.ForeColor = Color.White;
             BackColor = col2;
-            button1.ForeColor = Color.White;
             button2.ForeColor = Color.White;
 
             //FrmListaOrdenes frmListaOrdenes = new FrmListaOrdenes();
@@ -347,7 +346,6 @@ namespace CapaVisual_Login
             btnPagoMovil.BackColor = Color.White;
             btnCargarOrdenes.BackColor = Color.White;
 
-            button1.ForeColor = Color.Black;
             button2.ForeColor = Color.Black;
             BtnInicio.ForeColor = Color.Black;
             BtnListadoOrdenes.ForeColor = Color.Black;

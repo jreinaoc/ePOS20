@@ -11091,7 +11091,7 @@ namespace CapaVisual_Login
         {
             if (Formulario_ListaOrdenes)
             {
-                if (_Asignar_Rx.AsignarRx(TB_CAORDSER.Cod_DetVta, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.CTE_Nacio, TB_CAORDSER.CTE_Nacio, TB_CAORDSER.NumOrdserv, LbResultado2, LbResultados, dgvRangoCrt) && _L_Articulo.stringBuilder.Length > 0)
+                if (!_Asignar_Rx.AsignarRx(TB_CAORDSER.Cod_DetVta, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.CTE_Nacio, TB_CAORDSER.CTE_Nacio, TB_CAORDSER.NumOrdserv, LbResultado2, LbResultados, dgvRangoCrt) && _L_Articulo.stringBuilder.Length > 0)
                 {
 
                     if (_Asignar_Rx.stringBuilder.ToString() == "El cristal seleccionado no se adapta a los siguientes rangos")
@@ -11120,14 +11120,33 @@ namespace CapaVisual_Login
                         pnlRangoCrt.Location = new Point(200, 150);
                     }
                     else
-                        _FrmMensajes.co = 2;
-                    _FrmMensajes.avisomensaje(_Asignar_Rx.stringBuilder.ToString());
-                    _FrmMensajes.ShowDialog();
-                    return; // Salir 
+                    {
+                         _FrmMensajes.co = 2;
+                         _FrmMensajes.avisomensaje(_Asignar_Rx.stringBuilder.ToString());
+                         _FrmMensajes.ShowDialog();
+                          return; // Salir 
+                    }
                 }
                 else
                 {
+
                     string concat = TB_CAORDSER.Cod_Sucursal + TB_CAORDSER.NumOrdserv + TB_CAORDSER.Revision;
+                    _FrmMostrarReporte.setParametros(concat);
+                    _FrmMostrarReporte.ConfigRep();
+                    if (_D_DetalleOrden.ParametroImpresion() == "1") // Si el parametro de impresion es 1 entonces imprime el reporte 
+                    {
+                        _FrmMostrarReporte.imprimir();
+
+                    }
+                    else
+                    {
+                        _FrmMostrarReporte.ShowDialog();
+
+                    }
+                }
+
+            }
+        }
 
         private void Pnl_1_Paint(object sender, PaintEventArgs e)
         {
@@ -11267,26 +11286,14 @@ namespace CapaVisual_Login
                 label16.BackColor = ColorTranslator.FromHtml("#003536");
                 label16.ForeColor = Color.White;
 
-                        _FrmMostrarReporte.setParametros(concat);
-                        _FrmMostrarReporte.ConfigRep();
-                        if (_D_DetalleOrden.ParametroImpresion() == "1") // Si el parametro de impresion es 1 entonces imprime el reporte 
-                        {
-                            _FrmMostrarReporte.imprimir();
 
-                        }
-                        else
-                        {
-                            _FrmMostrarReporte.ShowDialog();
-
-                        }
-
-                }
+            
             }
-
         }
 
     }
 
 }
+
  
 
