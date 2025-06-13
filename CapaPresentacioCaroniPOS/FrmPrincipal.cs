@@ -255,7 +255,9 @@ namespace CapaVisual_Login
             _FrmConfiguracion.FormatoConfig2(col2, col3, col4);
             _FrmFacturacion.FormatoFacturacion2(col2, col3, col4);
             _FrmListaFactura.FormatoDataGrid_Oscuro_ListaFact(col2, col3, col4);
-            _FrmCargarOrden.FormatoDataGrid_Oscuro_Dgv_Tap3_Articulo(col2, col3, col4);
+            //_FrmCargarOrden.FormatoDataGrid_Oscuro_Dgv_Tap3_Articulo(col2, col3, col4);
+
+            _FrmCargarOrden.FormatoOscuro(col2, col3, col4);
 
             BtnListadoOrdenes.BackColor = col2;
             BtnInicio.BackColor = col2;
@@ -274,7 +276,8 @@ namespace CapaVisual_Login
             btnPagoMovil.ForeColor = Color.White;
             btnCargarOrdenes.ForeColor = Color.White;
             BackColor = col2;
-
+            button1.ForeColor = Color.White;
+            button2.ForeColor = Color.White;
 
             //FrmListaOrdenes frmListaOrdenes = new FrmListaOrdenes();
             //frmListaOrdenes.BackColor = col2;
@@ -339,6 +342,8 @@ namespace CapaVisual_Login
             btnPagoMovil.BackColor = Color.White;
             btnCargarOrdenes.BackColor = Color.White;
 
+            button1.ForeColor = Color.Black;
+            button2.ForeColor = Color.Black;
             BtnInicio.ForeColor = Color.Black;
             BtnListadoOrdenes.ForeColor = Color.Black;
             btnClienteEspera.ForeColor = Color.Black;
@@ -354,6 +359,7 @@ namespace CapaVisual_Login
             _FrmFacturacion.FormatoFacturacion1(col1, col3);
             _FrmListaFactura.FormatoDataGrid_Claro_ListaFact(col1, col3);
             _FrmCargarOrden.FormatoDataGrid_Claro_Dgv_Tap3_Articulo(col1, col3);
+            _FrmCargarOrden.FormatoOscuro(col1, col3, col1);
 
 
             //_FrmListaOrdenes.EstructuraGrid();

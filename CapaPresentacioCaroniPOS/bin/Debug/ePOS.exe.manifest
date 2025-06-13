@@ -62,7 +62,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>j5SJ826CbKQlmEQyJs2TGEx9HPUc4gOMVlAqitazXKo=</dsig:DigestValue>
+        <dsig:DigestValue>EayUiBueUdHlzNpV6FWvTuPgJD7r+Z1rNSAdpC/7Q18=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -74,7 +74,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>PU3gUgaasfZZ1ZbH+RpbhJf4OxFe+NJ1kilr1XbHyus=</dsig:DigestValue>
+        <dsig:DigestValue>1lSG7RuGVZBukMS8mclJr6xzEHX71FGC+xtM74iMzAs=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -86,7 +86,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>9eIkNtWANKbjHCAZZ5p61hGBpMz7Shk+nX7OMXUeFaQ=</dsig:DigestValue>
+        <dsig:DigestValue>ZQ5MEq5Z6gHTPfSWUIVIw3zJT/TQCICy3eGebNXbzpU=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -199,14 +199,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ePOS.exe" size="2337280">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ePOS.exe" size="2339328">
       <assemblyIdentity name="ePOS" version="1.0.2.4" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>TvneLnrjFm0+V2BEzGJVk/MU0c8FB7C1/WWTbPWhdGk=</dsig:DigestValue>
+        <dsig:DigestValue>HC+du5U/7gNyyIuMGXT4yK3LEXPpxQLXOIv2H61H7Fk=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

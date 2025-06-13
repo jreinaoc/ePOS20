@@ -11116,7 +11116,119 @@ namespace CapaVisual_Login
 
         }
 
+        public void FormatoOscuro(System.Drawing.Color col2, System.Drawing.Color col3, System.Drawing.Color col4 )
+        {
+            // col2 = white; col3 = verde azulado claro
+            bool Formato_Claro = false;
+            if (col4.ToString() == "Color [A=255, R=255, G=255, B=255]")
+                Formato_Claro = true;
+            else
+                Formato_Claro = false;
+           
+            //codigo Claro 
+            if (Formato_Claro)
+            {
+                
+                tabPage1.BackColor = col2;
+                tabPage3.BackColor = col2;
+                QuitarLimea2.BackColor = col2;
+                QuitarLimea3.BackColor = col2;
+                Dgv_Tap3_Articulo.BackColor = col2;
+                Lbl_Tap1_DatosPersonal.BackColor = col3;
+                Lbl_Tap1_DatosPersonal.ForeColor = ColorTranslator.FromHtml("#1c2422");
+                label11.BackColor = col3;
+                label11.ForeColor = ColorTranslator.FromHtml("#1c2422");
+                Lbl_Pnl1_TituloDatos.BackColor = col3;
+                Lbl_Pnl1_TituloDatos.ForeColor = ColorTranslator.FromHtml("#1c2422");
+                Lbl_Tap1_Contacto.BackColor = col3;
+                Lbl_Tap1_Contacto.ForeColor = ColorTranslator.FromHtml("#1c2422");
+                Lbl_Pnl2_Carga_Art.BackColor = col3;
+                Lbl_Pnl2_Carga_Art.ForeColor = ColorTranslator.FromHtml("#1c2422");
+                Lbl_Tap3_Articulo1.BackColor = col3;
+                Lbl_Tap3_Articulo1.ForeColor = ColorTranslator.FromHtml("#1c2422");
+                Lbl_Tap3_Articulo2.BackColor = col3;
+                Lbl_Tap3_Articulo2.ForeColor = ColorTranslator.FromHtml("#1c2422");
+                Lbl_Tap3_Medidas_Montura.BackColor = col3;
+                Lbl_Tap3_Medidas_Montura.ForeColor = ColorTranslator.FromHtml("#1c2422");
+                Lbl_Tap3_.BackColor = col3;
+                Lbl_Tap3_.ForeColor = ColorTranslator.FromHtml("#1c2422");
+                Dgv_Pnl3_Articulo.DefaultCellStyle.BackColor = col2;
+                Dgv_Pnl3_Articulo.DefaultCellStyle.ForeColor = ColorTranslator.FromHtml("#1c2422");
+                Dgv_Pnl3_Articulo.ColumnHeadersDefaultCellStyle.BackColor = col3;
+                Dgv_Pnl3_Articulo.ColumnHeadersDefaultCellStyle.ForeColor = ColorTranslator.FromHtml("#1c2422");
+                Lbl_Pnl3_Carga_Articulo.BackColor = col3;
+                Lbl_Pnl3_Carga_Articulo.ForeColor = ColorTranslator.FromHtml("#1c2422");
+                Lbl_Pnl3_Promociones.BackColor = col3;
+                Lbl_Pnl3_Promociones.ForeColor = Color.White;
+                Dgv_Pnl3_Promociones.BackgroundColor = Color.White;
+                Lbl_Pnl3_Descuento.BackColor = col3;
+                Lbl_Pnl3_Descuento.ForeColor = Color.White;
+                Lbl_Pnl3_PorcDescuento.ForeColor = ColorTranslator.FromHtml("#1c2422");
+                Lbl_Pnl3_Monto.ForeColor = ColorTranslator.FromHtml("#1c2422");
+                Lbl_Pnl3_MotivoDesc.ForeColor = ColorTranslator.FromHtml("#1c2422");
+                Lbl_Pnl3_ObservacionDesc.ForeColor = ColorTranslator.FromHtml("#1c2422");
+                Lbl_Pnl3_Cambio_Precio.BackColor = col3;
+                Lbl_Pnl3_Cambio_Precio.ForeColor = Color.White;
+                label16.BackColor = col3;
+                label16.ForeColor = Color.White;
+            }
+            //codigo oscuro
+            else
+            {
+                tabPage1.BackColor = col3;
+                tabPage3.BackColor = col3;
+                QuitarLimea2.BackColor = col3;
+                QuitarLimea3.BackColor = col3;
+                Dgv_Tap3_Articulo.BackColor = col3;
+                Lbl_Tap1_DatosPersonal.BackColor = ColorTranslator.FromHtml("#003536");
+                Lbl_Tap1_DatosPersonal.ForeColor = Color.White;
+                label11.BackColor = ColorTranslator.FromHtml("#003536");
+                label11.ForeColor = Color.White;
+                Lbl_Pnl1_TituloDatos.BackColor = ColorTranslator.FromHtml("#003536");
+                Lbl_Pnl1_TituloDatos.ForeColor = Color.White;
+                Lbl_Tap1_Contacto.BackColor = ColorTranslator.FromHtml("#003536"); 
+                Lbl_Tap1_Contacto.ForeColor = Color.White;
+                Lbl_Pnl2_Carga_Art.BackColor = ColorTranslator.FromHtml("#003536");
+                Lbl_Pnl2_Carga_Art.ForeColor = Color.White;
+                Lbl_Tap3_Articulo1.BackColor = ColorTranslator.FromHtml("#003536");
+                Lbl_Tap3_Articulo1.ForeColor = Color.White;
+                Lbl_Tap3_Articulo2.BackColor = ColorTranslator.FromHtml("#003536");
+                Lbl_Tap3_Articulo2.ForeColor = Color.White;
+                Lbl_Tap3_Medidas_Montura.BackColor = ColorTranslator.FromHtml("#003536");
+                Lbl_Tap3_Medidas_Montura.ForeColor = Color.White;
+                Lbl_Tap3_.BackColor = ColorTranslator.FromHtml("#003536");
+                Lbl_Tap3_.ForeColor = Color.White;
+                Lbl_Pnl3_Carga_Articulo.BackColor = ColorTranslator.FromHtml("#003536");
+                Lbl_Pnl3_Carga_Articulo.ForeColor = Color.White;
+                Dgv_Pnl3_Articulo.DefaultCellStyle.BackColor = ColorTranslator.FromHtml("#07a79b");
+                Dgv_Pnl3_Articulo.DefaultCellStyle.ForeColor = Color.White;
+                Dgv_Pnl3_Articulo.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#2f6b64");
+                Dgv_Pnl3_Articulo.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+                Dgv_Tap3_Articulo.DefaultCellStyle.BackColor = ColorTranslator.FromHtml("#07a79b");
+                Dgv_Tap3_Articulo.BackgroundColor = ColorTranslator.FromHtml("#07a79b");
+                Dgv_Tap3_Articulo.DefaultCellStyle.ForeColor = Color.White;
+                Dgv_Tap3_Articulo.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#2f6b64");
+                Dgv_Tap3_Articulo.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+                Lbl_Pnl3_Promociones.BackColor = ColorTranslator.FromHtml("#003536");
+                Lbl_Pnl3_Promociones.ForeColor = Color.White;
+                Dgv_Pnl3_Promociones.BackgroundColor = ColorTranslator.FromHtml("#07a79b");
+                Dgv_Pnl3_Promociones.DefaultCellStyle.BackColor = ColorTranslator.FromHtml("#07a79b");
+                Lbl_Pnl3_Descuento.BackColor = ColorTranslator.FromHtml("#003536");
+                Lbl_Pnl3_Descuento.ForeColor = Color.White;
+                Lbl_Pnl3_PorcDescuento.ForeColor = Color.White;
+                Lbl_Pnl3_Monto.ForeColor = Color.White;
+                Lbl_Pnl3_MotivoDesc.ForeColor = Color.White;
+                Lbl_Pnl3_ObservacionDesc.ForeColor = Color.White;
+                Lbl_Pnl3_Cambio_Precio.BackColor = ColorTranslator.FromHtml("#003536");
+                Lbl_Pnl3_Cambio_Precio.ForeColor = Color.White;
+                label16.BackColor = ColorTranslator.FromHtml("#003536");
+                label16.ForeColor = Color.White;
 
+            }
+
+            this.BackColor = col2;
+            QuitarLimea2.BackColor = col2;
+        }
     }
 
 }

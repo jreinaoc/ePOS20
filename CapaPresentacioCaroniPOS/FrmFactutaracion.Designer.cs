@@ -331,6 +331,7 @@ namespace CapaVisual_Login
             this.GbxVentasDia.Size = new System.Drawing.Size(1051, 144);
             this.GbxVentasDia.TabIndex = 14;
             this.GbxVentasDia.TabStop = false;
+            this.GbxVentasDia.Enter += new System.EventHandler(this.GbxVentasDia_Enter);
             // 
             // label72
             // 
