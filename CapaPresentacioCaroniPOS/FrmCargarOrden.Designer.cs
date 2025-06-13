@@ -4885,7 +4885,7 @@ namespace CapaVisual_Login
         private System.Windows.Forms.TextBox Txt_Tap1_Cedula_Pagador;
         private System.Windows.Forms.TextBox Txt_Tap1_Edad;
         private System.Windows.Forms.TextBox Txt_Tap1_Nombre;
-        private System.Windows.Forms.TextBox Txt_Tap1_Cedula;
+        public System.Windows.Forms.TextBox Txt_Tap1_Cedula;
         private System.Windows.Forms.TextBox Txt_Tap1_Email;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.ComboBox Cbx_Tap1_TLF_Local;
@@ -4902,7 +4902,7 @@ namespace CapaVisual_Login
         private System.Windows.Forms.Label Lbl_Tap1_Nombre_Pagador;
         private System.Windows.Forms.Label Lbl_Tap1_TLF_Celular;
         private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.ComboBox Cbx_Tap1_Nacionalidad_Pagador;
+        public System.Windows.Forms.ComboBox Cbx_Tap1_Nacionalidad_Pagador;
         private System.Windows.Forms.Label Lbl_Tap1_Pagador;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label15;
@@ -4915,7 +4915,7 @@ namespace CapaVisual_Login
         private System.Windows.Forms.Label Lbl_Tap1_Edad;
         private System.Windows.Forms.Label Lbl_Tap1_Nacimiento;
         private System.Windows.Forms.Label Lbl_Tap1_Nombre;
-        private System.Windows.Forms.ComboBox Cbx_Tap1_Nacionalidad;
+        public System.Windows.Forms.ComboBox Cbx_Tap1_Nacionalidad;
         private System.Windows.Forms.Label Lbl_Tap1_Cedula;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;

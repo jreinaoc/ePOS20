@@ -19,6 +19,7 @@ using CapaLogica.CargarClientes_Logica;
 using CapaLogica.CargarOrdenes_Logica;
 using DataGridViewNumericUpDownElements;
 using System.Text.RegularExpressions;
+using CapaLogica.Servicios;
 
 namespace CapaVisual_Login
 {
@@ -67,7 +68,7 @@ namespace CapaVisual_Login
 
         // Declarar la lista para almacenar los resultados
         List<TB_ARTICULO> listaArticulos = new List<TB_ARTICULO>();
-
+        FrmMostrarReporte _FrmMostrarReporte = new FrmMostrarReporte();
         private FrmClaveAutorizada _FrmClaveAutorizada = new FrmClaveAutorizada();
         private FrmClaveGerente _FrmClaveGerente = new FrmClaveGerente();
         private L_Articulo _L_Articulo = new L_Articulo();
@@ -81,8 +82,8 @@ namespace CapaVisual_Login
         private string glbNumVision = "";
         private ServicioValidaciones_CargarOrdenes _servicioValidaciones = new ServicioValidaciones_CargarOrdenes();
         private ServicioGuardarOrdenes_Cargar_Ordenes _GuardarOrdenServ;
-
-
+        private Asignar_Rx _Asignar_Rx = new Asignar_Rx();
+        public bool Formulario_ListaOrdenes = false;
         private D_DetalleOrden _D_DetalleOrden = new D_DetalleOrden();
         private D_Articulos _D_Articulo = new D_Articulos();
         private string Codigo_Coloracion = "";
@@ -4956,7 +4957,7 @@ namespace CapaVisual_Login
             limpearExamen();
         }
 
-        private void Txt_Tap1_Cedula_MouseLeave(object sender, EventArgs e)
+        public void Txt_Tap1_Cedula_MouseLeave(object sender, EventArgs e)
         {
 
             if (string.IsNullOrEmpty(Txt_Tap1_Nombre.Text))
@@ -8671,7 +8672,7 @@ namespace CapaVisual_Login
             return true; // Si todas las validaciones pasan, devuelve true
         }
 
-        private void Btn_Tap2_Derecha_Click(object sender, EventArgs e)
+        public void Btn_Tap2_Derecha_Click(object sender, EventArgs e)
         {
 
             if (string.IsNullOrEmpty(Txt_Tap2_Examen.Text))
@@ -11120,7 +11121,66 @@ namespace CapaVisual_Login
             Pnl_2_Msj.Visible = false;
         }
 
- 
+        private void AgregarRx()
+        {
+            if (Formulario_ListaOrdenes)
+            {
+                if (_Asignar_Rx.AsignarRx(TB_CAORDSER.Cod_DetVta, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.CTE_Nacio, TB_CAORDSER.CTE_Nacio, TB_CAORDSER.NumOrdserv, LbResultado2, LbResultados, dgvRangoCrt) && _L_Articulo.stringBuilder.Length > 0)
+                {
+
+                    if (_Asignar_Rx.stringBuilder.ToString() == "El cristal seleccionado no se adapta a los siguientes rangos")
+                    {
+                        lblDiametroD.Text = _Asignar_Rx.diamDgl;
+                        lblDiametroI.Text = _Asignar_Rx.diamIgl;
+                        lblDiametroD.Visible = lblDiametroI.Visible = true;
+                        LblTitulo.Text = _Asignar_Rx.stringBuilder.ToString();
+                        lblClaveAut.Visible = true;
+                        lblLeyenda.Visible = false;
+                        btnAutorizarRangosCrt.Visible = true;
+                        pnlRangoCrt.Show();
+
+                    }
+                    else if (_Asignar_Rx.stringBuilder.ToString() == "El Cristal no se adapta a estos parámetros")
+                    {
+                        lblDiametroD.Visible = false;
+                        lblDiametroI.Visible = false;
+                        LblTitulo.Text = _Asignar_Rx.stringBuilder.ToString();
+                        lblClaveAut.Visible = false;
+                        lblLeyenda.Visible = true;
+                        btnAutorizarRangosCrt.Visible = false;
+                        LbResultados.Visible = true;
+                        LbResultado2.Visible = true;
+                        pnlRangoCrt.Show();
+                        pnlRangoCrt.Location = new Point(200, 150);
+                    }
+                    else
+                        _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje(_Asignar_Rx.stringBuilder.ToString());
+                    _FrmMensajes.ShowDialog();
+                    return; // Salir 
+                }
+                else
+                {
+                    string concat = TB_CAORDSER.Cod_Sucursal + TB_CAORDSER.NumOrdserv + TB_CAORDSER.Revision;
+
+                        _FrmMostrarReporte.setParametros(concat);
+                        _FrmMostrarReporte.ConfigRep();
+                        if (_D_DetalleOrden.ParametroImpresion() == "1") // Si el parametro de impresion es 1 entonces imprime el reporte 
+                        {
+                            _FrmMostrarReporte.imprimir();
+
+                        }
+                        else
+                        {
+                            _FrmMostrarReporte.ShowDialog();
+
+                        }
+
+                }
+            }
+
+        }
+
     }
 
 }

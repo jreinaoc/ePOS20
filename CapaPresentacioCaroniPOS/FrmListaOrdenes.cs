@@ -38,6 +38,7 @@ namespace CapaVisual_Login
         }
 
         //Instanciamos nuestra clase D_Loguin para poder utilizar sus miembros
+        private FrmCargarOrden _FrmCargarOrden = new FrmCargarOrden();
         private L_ListaOrdenes _ListaOrdenes = new L_ListaOrdenes();
         FrmInicio _FrmInicio = new FrmInicio();
         private FrmMensajes _FrmMensajes = new FrmMensajes();
@@ -58,7 +59,7 @@ namespace CapaVisual_Login
         //FrmRepOrdenTContact _FrmRepOrdenTContact = new FrmRepOrdenTContact();
         public string NombreNCManual = "";
         int PaginaInico = 1, Indice = 0, NUmeroFilas = 12, PaginaFinal;
-
+        public bool Formulario_CargaOrden = false;
 
         private void FrmListaOrdenes_Load(object sender, EventArgs e)
         {
@@ -95,7 +96,7 @@ namespace CapaVisual_Login
                 Paginado_Habilitar(false);
             }
 
- 
+
             if (DgvListadoOrdenes.Rows.Count > 0)
             {
                 DgvListadoOrdenes.Visible = true;
@@ -394,34 +395,34 @@ namespace CapaVisual_Login
                     Status = Status.Trim();
                     if (Status == "Facturada")
                     {
-                    if(PAGOS_IVA == "1" | PAGOS_ISLR == "1")
-                    {
-                        if(PAGOS_IVA == "1" && Comprobante_IVA == "0")
+                        if (PAGOS_IVA == "1" | PAGOS_ISLR == "1")
                         {
-                            Fila.Cells["Estatus"].Style.BackColor = IVAS_ISLR;
-                            //Fila.Cells["Estatus"].Style.Padding = newPadding;
-                            DgvListadoOrdenes.Columns["Estatus"].DefaultCellStyle.Format = "C";
-                            Fila.Cells["Estatus"].Style.ForeColor = Color.White;
-                        }
+                            if (PAGOS_IVA == "1" && Comprobante_IVA == "0")
+                            {
+                                Fila.Cells["Estatus"].Style.BackColor = IVAS_ISLR;
+                                //Fila.Cells["Estatus"].Style.Padding = newPadding;
+                                DgvListadoOrdenes.Columns["Estatus"].DefaultCellStyle.Format = "C";
+                                Fila.Cells["Estatus"].Style.ForeColor = Color.White;
+                            }
 
-                        if (PAGOS_ISLR == "1" && Comprobante_ISLR == "0")
-                        {
-                            Fila.Cells["Estatus"].Style.BackColor = IVAS_ISLR;
-                            //Fila.Cells["Estatus"].Style.Padding = newPadding;
-                            DgvListadoOrdenes.Columns["Estatus"].DefaultCellStyle.Format = "C";
-                            Fila.Cells["Estatus"].Style.ForeColor = Color.White;
-                        }
+                            if (PAGOS_ISLR == "1" && Comprobante_ISLR == "0")
+                            {
+                                Fila.Cells["Estatus"].Style.BackColor = IVAS_ISLR;
+                                //Fila.Cells["Estatus"].Style.Padding = newPadding;
+                                DgvListadoOrdenes.Columns["Estatus"].DefaultCellStyle.Format = "C";
+                                Fila.Cells["Estatus"].Style.ForeColor = Color.White;
+                            }
 
-                        if(PAGOS_IVA == "1" & Comprobante_IVA == "1" | PAGOS_ISLR == "1" & Comprobante_ISLR == "1")
+                            if (PAGOS_IVA == "1" & Comprobante_IVA == "1" | PAGOS_ISLR == "1" & Comprobante_ISLR == "1")
                             {
                                 Fila.Cells["Estatus"].Style.BackColor = colfact;
                                 //Fila.Cells["Estatus"].Style.Padding = newPadding;
                                 DgvListadoOrdenes.Columns["Estatus"].DefaultCellStyle.Format = "C";
                                 Fila.Cells["Estatus"].Style.ForeColor = Color.White;
                             }
-                    }
-                    else
-                        Fila.Cells["Estatus"].Style.BackColor = colfact;
+                        }
+                        else
+                            Fila.Cells["Estatus"].Style.BackColor = colfact;
                         //Fila.Cells["Estatus"].Style.Padding = newPadding;
                         DgvListadoOrdenes.Columns["Estatus"].DefaultCellStyle.Format = "C";
                         Fila.Cells["Estatus"].Style.ForeColor = Color.White;
@@ -749,7 +750,7 @@ namespace CapaVisual_Login
                 //Validar la fecha activa para poner un iciono o otro 
 
                 //if (DgvListadoOrdenes.Rows[e.RowIndex].Cells["PAGOS_IVA"].Value.ToString() == "1" & DgvListadoOrdenes.Rows[e.RowIndex].Cells["Comprobante_IVA"].Value.ToString() == "0"| DgvListadoOrdenes.Rows[e.RowIndex].Cells["PAGOS_ISLR"].Value.ToString() == "1" & DgvListadoOrdenes.Rows[e.RowIndex].Cells["Comprobante_ISLR"].Value.ToString() == "0")
-                if (DgvListadoOrdenes.Rows[e.RowIndex].Cells["PAGOS_IVA"].Value.ToString() == "1" | DgvListadoOrdenes.Rows[e.RowIndex].Cells["PAGOS_ISLR"].Value.ToString() == "1" )
+                if (DgvListadoOrdenes.Rows[e.RowIndex].Cells["PAGOS_IVA"].Value.ToString() == "1" | DgvListadoOrdenes.Rows[e.RowIndex].Cells["PAGOS_ISLR"].Value.ToString() == "1")
                 {
                     IconAtomico = new Icon(Environment.CurrentDirectory + @"\\Boton Registro Comprobante.ico");
                 }
@@ -814,7 +815,7 @@ namespace CapaVisual_Login
             else
             {
 
-                
+
                 DataSet Dts = _ListaOrdenes.TraerOrdenes(CbxUltimosTesD, CbxEstatus, NumOrden, NumCedula);
                 if (Dts != null)
                 {
@@ -880,7 +881,7 @@ namespace CapaVisual_Login
                 PnlLSecundario.Visible = true;
                 PnlLSecundario.Enabled = true;
                 PnlLSecundario.Location = new Point(50, 50);
-                PnlLSecundario.Size = (Size) new Point(1472, 1168);
+                PnlLSecundario.Size = (Size)new Point(1472, 1168);
                 BtnCancelar.Location = new Point(985, 469);
                 BtnCancelar.Visible = true;
                 PnlLSecundario.Controls.Clear();
@@ -934,23 +935,23 @@ namespace CapaVisual_Login
                             // Se pide la clave de autorizada
                             _FrmClaveAutorizada.ShowDialog();
 
-                                if (_FrmClaveAutorizada.ClaveCorrecta == true)
+                            if (_FrmClaveAutorizada.ClaveCorrecta == true)
+                            {
+
+                                // Si todo esta OK se muestra el formulario de anulacion 
+                                if (_FrmClaveAutorizada.DialogResult == DialogResult.OK)
+                                {
+                                    _FrmAnulacion.CargarOrdenAnular(TB_CAORDSER.NumOrdserv);
+                                    _FrmAnulacion.ShowDialog();
+                                    RecargaPostNC();
+                                }
+                                if (_FrmAnulacion.DialogResult == DialogResult.OK)
                                 {
 
-                                    // Si todo esta OK se muestra el formulario de anulacion 
-                                    if (_FrmClaveAutorizada.DialogResult == DialogResult.OK)
-                                    {
-                                        _FrmAnulacion.CargarOrdenAnular(TB_CAORDSER.NumOrdserv);                               
-                                        _FrmAnulacion.ShowDialog();
-                                        RecargaPostNC();
-                                    }
-                                    if (_FrmAnulacion.DialogResult == DialogResult.OK)
-                                    {
-                                       
-                                    }
-                                    
-
                                 }
+
+
+                            }
 
                             cerrar();
                         }
@@ -1023,7 +1024,7 @@ namespace CapaVisual_Login
 
                                                 _FrmAnulacion.GerenteAutoriza = Nombre;
                                                 _FrmAnulacion.CargarOrdenAnular(TB_CAORDSER.NumOrdserv);
-                                              
+
                                                 _FrmAnulacion.ShowDialog();
                                             }
 
@@ -1057,7 +1058,7 @@ namespace CapaVisual_Login
 
                                                 _FrmAnulacion.GerenteAutoriza = Nombre;
                                                 _FrmAnulacion.CargarOrdenAnular(TB_CAORDSER.NumOrdserv);
-                                               
+
                                                 _FrmAnulacion.ShowDialog();
                                             }
 
@@ -1092,7 +1093,7 @@ namespace CapaVisual_Login
 
                                             _FrmAnulacion.GerenteAutoriza = Nombre;
                                             _FrmAnulacion.CargarOrdenAnular(TB_CAORDSER.NumOrdserv);
-                                           
+
                                             _FrmAnulacion.ShowDialog();
                                         }
 
@@ -1105,7 +1106,7 @@ namespace CapaVisual_Login
 
                                     }
                                 }
- 
+
 
                             }
                             else
@@ -1157,7 +1158,7 @@ namespace CapaVisual_Login
                             {
                                 // Si todo esta OK se muestra el formulario de anulacion 
                                 _FrmAnulacion.CargarOrdenAnular(TB_CAORDSER.NumOrdserv);
-                               
+
                                 _FrmAnulacion.ShowDialog();
 
                             }
@@ -1260,7 +1261,7 @@ namespace CapaVisual_Login
 
                                 ////Reporte de Procesar sin Pagos con reporte de Orden 
                                 // Si es trabajo de contacto se muestra este reporte 
-                                 string concat = DgvListadoOrdenes.CurrentRow.Cells["Cod_Sucursal"].Value.ToString() + DgvListadoOrdenes.CurrentRow.Cells["NumOrdserv"].Value.ToString() + "0";
+                                string concat = DgvListadoOrdenes.CurrentRow.Cells["Cod_Sucursal"].Value.ToString() + DgvListadoOrdenes.CurrentRow.Cells["NumOrdserv"].Value.ToString() + "0";
                                 if (TB_CAORDSER.Cod_DetVta == "02") // Si se procesa uan orden de contacto se muestra reporte de contacto  
                                 {
                                     _FrmRepProSinPag.setParametros(concat);
@@ -1426,25 +1427,25 @@ namespace CapaVisual_Login
             //Boton numero 5 
             //Registrar Comprobante de IVA y ISLR
             if (DgvListadoOrdenes.Columns[e.ColumnIndex].Name == "Btn5") // Cuando se da click se despliega el Comprobante IVA y ISLR
-            { 
+            {
                 //SE VALIDA QUE LA ORDEN TENGA PAGOS CON IVA Y ISLR Y QUE NO TENGA CARGADO EL COMPROBANTE 
-                if (DgvListadoOrdenes.CurrentRow.Cells["PAGOS_IVA"].Value.ToString() == "1" | DgvListadoOrdenes.CurrentRow.Cells["PAGOS_ISLR"].Value.ToString() == "1" )
-                { 
+                if (DgvListadoOrdenes.CurrentRow.Cells["PAGOS_IVA"].Value.ToString() == "1" | DgvListadoOrdenes.CurrentRow.Cells["PAGOS_ISLR"].Value.ToString() == "1")
+                {
                     //SE MUESTRA EL PANEL PARA CARGAR EL COMPROBANTE 
                     PnlComprobanteRetencion.Visible = true;
                     PnlComprobanteRetencion.Enabled = true;
-                    PnlComprobanteRetencion.Location= new Point(350, 200);
+                    PnlComprobanteRetencion.Location = new Point(350, 200);
                     PnlComprobanteRetencion.Show();
                     PnlComprobanteRetencion.BringToFront();
                     TxtRetencionIVA.Enabled = false;
                     TxtRetencionISRL.Enabled = false;
 
-                    TxtRetencionFactura.Text=_D_DetalleOrden.ComprobantesRegistardos_IVA_ISLR(DgvListadoOrdenes.CurrentRow.Cells["NumOrdserv"].Value.ToString());
+                    TxtRetencionFactura.Text = _D_DetalleOrden.ComprobantesRegistardos_IVA_ISLR(DgvListadoOrdenes.CurrentRow.Cells["NumOrdserv"].Value.ToString());
                     if (DgvListadoOrdenes.CurrentRow.Cells["PAGOS_IVA"].Value.ToString() == "1" & DgvListadoOrdenes.CurrentRow.Cells["Comprobante_IVA"].Value.ToString() == "0")
                     {
                         TxtRetencionIVA.Enabled = true;
                     }
-                    if(DgvListadoOrdenes.CurrentRow.Cells["PAGOS_ISLR"].Value.ToString() == "1" & DgvListadoOrdenes.CurrentRow.Cells["Comprobante_ISLR"].Value.ToString() == "0")
+                    if (DgvListadoOrdenes.CurrentRow.Cells["PAGOS_ISLR"].Value.ToString() == "1" & DgvListadoOrdenes.CurrentRow.Cells["Comprobante_ISLR"].Value.ToString() == "0")
                     {
                         TxtRetencionISRL.Enabled = true;
                     }
@@ -1468,6 +1469,60 @@ namespace CapaVisual_Login
 
             }
 
+            // Asignar Rx
+            if (DgvListadoOrdenes.Columns[e.ColumnIndex].Name == "Btn6")
+            {
+                //Se cargan los datos de la orden 
+                _D_DetalleOrden.Datos_de_la_Orden(DgvListadoOrdenes.CurrentRow.Cells["NumOrdserv"].Value.ToString(), DgvListadoOrdenes.CurrentRow.Cells["Revision"].Value.ToString());
+
+                // Se pide la clave de gerente 
+                _FrmClaveGerente.ShowDialog();
+
+                if (_FrmClaveGerente.ClaveCorrecta == true)
+                {
+
+                    if (_FrmClaveGerente.DialogResult == DialogResult.OK)
+                    {
+                        Formulario_CargaOrden = true;
+                        PnlLSecundario.Visible = true;
+                        PnlLSecundario.Enabled = true;
+                        LblListadoOrdenes.Visible = false;
+                        CbxUltimosTesD.Visible = false;
+                        txtNumeroOrden.Visible = false;
+                        TxtCedula.Visible = false; // agregado el 01/06/2023
+                        CbxEstatus.Visible = false;
+                        Btnlupa.Visible = false;
+                        DgvListadoOrdenes.Visible = false;
+                        DtpDesde.Visible = false;
+                        DtpHasta.Visible = false;
+                        Lbldesde.Visible = false;
+                        LblHasta.Visible = false;
+                        LblOpciones.Visible = false;
+                        PnlLSecundario.Visible = true;
+                        PnlLSecundario.Enabled = true;
+                        PnlLSecundario.Location = new Point(50, 50);
+                        PnlLSecundario.Size = (Size)new Point(1472, 1168);
+                        BtnCancelar.Location = new Point(868, 669);
+                        BtnCancelar.Visible = true;
+                        PnlLSecundario.Controls.Clear();
+                        _FrmFacturacion.LimpiaVariablesIdAbonoPagoMovil();
+                        AbrirForm(_FrmCargarOrden);
+
+                        _FrmCargarOrden.Txt_Tap1_Cedula.Text = TB_CAORDSER.CTE_CedIden;
+                        _FrmCargarOrden.Cbx_Tap1_Nacionalidad.Text = TB_CAORDSER.CTE_Nacio;
+                        _FrmCargarOrden.Btn_Tap2_Derecha_Click(this, EventArgs.Empty);
+                        _FrmCargarOrden.Txt_Tap1_Cedula_MouseLeave(sender, e);
+                        _FrmCargarOrden.VisualizarPanel("MostrarCabeceraExamen");
+                        _FrmCargarOrden.Formulario_ListaOrdenes = true;
+
+                        Paginado_Habilitar(false);
+
+                    }
+
+                }
+
+            }
+
         }
 
         public void AbrirForm(Form F)
@@ -1479,7 +1534,7 @@ namespace CapaVisual_Login
             }
 
 
-           F.TopLevel = false;
+            F.TopLevel = false;
             F.FormBorderStyle = FormBorderStyle.None;
             //F.Dock = DockStyle.Fill;
 
@@ -1549,7 +1604,7 @@ namespace CapaVisual_Login
             //    txtNumeroOrden.ForeColor = Color.Gray;
             //}
         }
-        
+
         public void BtnCancelar_Click(object sender, EventArgs e)
         {
             string NumOrden = RecNumOrden();
@@ -1569,11 +1624,15 @@ namespace CapaVisual_Login
             PnlLSecundario.Controls.Clear();
             BtnCancelar.Visible = false;
 
-            _FrmFacturacion.LimpiarGrid();
-            _FrmFacturacion.LimpiarNotasCredito();
-            _FrmFacturacion.VisualizarPanel("MostrarFormulario");
-            _FrmFacturacion.LimpiarTxbox();
-            _FrmFacturacion.tabControl.SelectTab(0);
+            if (!Formulario_CargaOrden)
+            {
+                _FrmFacturacion.LimpiarGrid();
+                _FrmFacturacion.LimpiarNotasCredito();
+                _FrmFacturacion.VisualizarPanel("MostrarFormulario");
+                _FrmFacturacion.LimpiarTxbox();
+                _FrmFacturacion.tabControl.SelectTab(0);
+            }
+
             LimpiarGrid();
 
             int Pagina = Convert.ToInt32(cbPagina_Ini.SelectedIndex + 1);
@@ -1659,17 +1718,18 @@ namespace CapaVisual_Login
 
 
                 // Seleccionar una fila del Datagridview dependiendo de la ultima selecion del usuario 
-                    foreach(DataGridViewRow Fila in DgvListadoOrdenes.Rows)
+                foreach (DataGridViewRow Fila in DgvListadoOrdenes.Rows)
+                {
+                    if (Fila.Cells["NumOrdserv"].Value.ToString() == TB_CAORDSER.NumOrdserv)
                     {
-                     if (Fila.Cells["NumOrdserv"].Value.ToString()== TB_CAORDSER.NumOrdserv)
-                       {
                         DgvListadoOrdenes.CurrentCell = this.DgvListadoOrdenes[0, Fila.Index];
                         //DgvListadoOrdenes.Rows[registro].Selected = true;
-                       }
                     }
+                }
 
             }
 
+            Formulario_CargaOrden = false;
         }
 
 
@@ -1815,7 +1875,7 @@ namespace CapaVisual_Login
                 _FrmAnulacion.CargarOrdenAnular(TB_CAORDSER.NumOrdserv);
                 _FrmAnulacion.ManualNroNotaCredito = TxtNumeroNC.Text;
                 _FrmAnulacion.ManualNroNotaCreditonNunControl = TxtNumeroCorrelativo.Text;
-               
+
                 _FrmAnulacion.ShowDialog();
 
                 if (_FrmAnulacion.ResultadoNCManual == "SATISFACTORIO")
@@ -2058,7 +2118,7 @@ namespace CapaVisual_Login
                 string PAGOS_IVA = DgvListadoOrdenes.CurrentRow.Cells["PAGOS_IVA"].Value.ToString();
                 string PAGOS_ISLR = DgvListadoOrdenes.CurrentRow.Cells["PAGOS_ISLR"].Value.ToString();
 
-                if(PAGOS_IVA== "1" & DgvListadoOrdenes.CurrentRow.Cells["Comprobante_IVA"].Value.ToString() == "0")
+                if (PAGOS_IVA == "1" & DgvListadoOrdenes.CurrentRow.Cells["Comprobante_IVA"].Value.ToString() == "0")
                 {
                     if (TxtRetencionIVA.Text == "" | TxtRetencionIVA.TextLength < 9 | TxtRetencionIVA.Text.Replace(" ", "") == "" | (TxtRetencionIVA.Text.Replace(" ", "")).Length < 9)
                     {
@@ -2067,13 +2127,13 @@ namespace CapaVisual_Login
                         _FrmMensajes.ShowDialog();
                         return;
                     }
- 
+
                 }
-          
+
 
                 if (PAGOS_ISLR == "1" & DgvListadoOrdenes.CurrentRow.Cells["Comprobante_ISLR"].Value.ToString() == "0")
                 {
-                    if (TxtRetencionISRL.Text == "" | TxtRetencionISRL.TextLength < 9 | TxtRetencionISRL.Text.Replace(" ","") == "" | (TxtRetencionISRL.Text.Replace(" ", "")).Length < 9)
+                    if (TxtRetencionISRL.Text == "" | TxtRetencionISRL.TextLength < 9 | TxtRetencionISRL.Text.Replace(" ", "") == "" | (TxtRetencionISRL.Text.Replace(" ", "")).Length < 9)
                     {
                         _FrmMensajes.co = 2;
                         _FrmMensajes.avisomensaje("Debe llenar todos los campos, Verifique");
@@ -2083,8 +2143,8 @@ namespace CapaVisual_Login
 
                 }
 
-                if (PAGOS_IVA == "1" & DgvListadoOrdenes.CurrentRow.Cells["Comprobante_IVA"].Value.ToString() == "1"  & TxtRetencionIVA.Enabled== false & TxtRetencionISRL.Enabled == false
-                    | PAGOS_ISLR == "1" & DgvListadoOrdenes.CurrentRow.Cells["Comprobante_ISLR"].Value.ToString() == "1" & TxtRetencionISRL.Enabled== false & TxtRetencionIVA.Enabled == false)
+                if (PAGOS_IVA == "1" & DgvListadoOrdenes.CurrentRow.Cells["Comprobante_IVA"].Value.ToString() == "1" & TxtRetencionIVA.Enabled == false & TxtRetencionISRL.Enabled == false
+                    | PAGOS_ISLR == "1" & DgvListadoOrdenes.CurrentRow.Cells["Comprobante_ISLR"].Value.ToString() == "1" & TxtRetencionISRL.Enabled == false & TxtRetencionIVA.Enabled == false)
                 {
 
                     PnlComprobanteRetencion.Enabled = false;
@@ -2095,7 +2155,7 @@ namespace CapaVisual_Login
                     return;
                 }
 
-                    _FrmClaveGerente.ShowDialog();
+                _FrmClaveGerente.ShowDialog();
 
                 if (_FrmClaveGerente.DialogResult == DialogResult.OK)
                 {
@@ -2133,8 +2193,8 @@ namespace CapaVisual_Login
 
                     }
                 }
-               
-                
+
+
 
             }
             catch (Exception ex)
@@ -2159,7 +2219,7 @@ namespace CapaVisual_Login
         {
             try
             {
-            DataGridViewCell cell = this.DgvListadoOrdenes.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                DataGridViewCell cell = this.DgvListadoOrdenes.Rows[e.RowIndex].Cells[e.ColumnIndex];
 
                 // Detalle de orden
                 if (this.DgvListadoOrdenes.Columns[e.ColumnIndex].Name == "Btn")
@@ -2218,28 +2278,28 @@ namespace CapaVisual_Login
             }
             catch (Exception ex)
 
-                {
-                    _FrmMensajes.co = 2;
-                    _FrmMensajes.avisomensaje(string.Format("Error: {0}", ex.Message) + ", Error inesperado");
-                    _FrmMensajes.ShowDialog();
-                }
-
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje(string.Format("Error: {0}", ex.Message) + ", Error inesperado");
+                _FrmMensajes.ShowDialog();
             }
+
+        }
 
         private void cbPagina_Ini_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            int Pagina = Convert.ToInt32(cbPagina_Ini.SelectedIndex+1);
+            int Pagina = Convert.ToInt32(cbPagina_Ini.SelectedIndex + 1);
             Indice = Pagina - 1;
-            PaginaInico = ((Pagina - 1) * NUmeroFilas)+1;
-            PaginaFinal= Pagina * NUmeroFilas;
-            
+            PaginaInico = ((Pagina - 1) * NUmeroFilas) + 1;
+            PaginaFinal = Pagina * NUmeroFilas;
+
             string NumOrden = RecNumOrden();
             string NumCedula = RecNumCedula();
             if (CbxUltimosTesD.SelectedIndex == 5)
             {
 
 
-                DataSet Dts = _ListaOrdenes.TraerOrdporRango(DtpDesde, DtpHasta, CbxEstatus, NumCedula, PaginaInico,PaginaFinal);
+                DataSet Dts = _ListaOrdenes.TraerOrdporRango(DtpDesde, DtpHasta, CbxEstatus, NumCedula, PaginaInico, PaginaFinal);
                 if (Dts != null)
                 {
                     LimpiarGrid();
@@ -2313,7 +2373,7 @@ namespace CapaVisual_Login
 
         private void cbPagina_Ini_SelectedIndexChanged(object sender, EventArgs e)
         {
-            
+
         }
 
         private void TxtRetencionIVA_KeyPress(object sender, KeyPressEventArgs e)
@@ -2349,7 +2409,7 @@ namespace CapaVisual_Login
                 Cantidad++;
             txtPagina_Fin.Text = Cantidad.ToString();
             cbPagina_Ini.Items.Clear();
-            
+
             for (int x = 1; x <= Cantidad; x++)
             {
                 cbPagina_Ini.Items.Add(x.ToString());
@@ -2364,8 +2424,8 @@ namespace CapaVisual_Login
                 Indice = Pagina - 1;
                 cbPagina_Ini.SelectedIndex = Indice;
             }
-   
-           
+
+
 
         }
 
@@ -2374,7 +2434,7 @@ namespace CapaVisual_Login
             label11.Visible = Habilitar;
             cbPagina_Ini.Visible = Habilitar;
             label12.Visible = Habilitar;
-            txtPagina_Fin.Visible = Habilitar; 
+            txtPagina_Fin.Visible = Habilitar;
         }
 
     }

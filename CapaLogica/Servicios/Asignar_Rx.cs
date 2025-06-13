@@ -21,9 +21,10 @@ namespace CapaLogica.Servicios
         private List<TB_TRABAJO> _TRABAJO = new List<TB_TRABAJO>();
         private D_Inicio _D_Inicio = new D_Inicio();
         public readonly StringBuilder stringBuilder = new StringBuilder();
+        public string diamDgl = "";
+        public string diamIgl = "";
 
-
-        public void AsignarRx(string GlbCodDetVta, string OSaModificar, string sucursal, string nacio, string cediden, string Numero_Orden)
+        public bool AsignarRx(string GlbCodDetVta, string OSaModificar, string sucursal, string nacio, string cediden, string Numero_Orden, System.Windows.Forms.ListView LbResultado2, System.Windows.Forms.ListView LbResultados, System.Windows.Forms.DataGridView dgvRangoCrt)
         {
             stringBuilder.Clear();
             Conexion cn = new Conexion();
@@ -37,87 +38,105 @@ namespace CapaLogica.Servicios
             command.CommandTimeout = 300000;
 
             try
-            { 
-
-            if (GlbCodDetVta == "08" && !string.IsNullOrEmpty(OSaModificar))
             {
-                var Lista_Trabajo = _D_Articulo.ObtenerTrabajo(sucursal, nacio, cediden, Numero_Orden, command);  // Trae el detalle del articulo 
-                _TRABAJO.Clear(); // Limpiar la lista para evitar duplicados
-                _TRABAJO.AddRange(Lista_Trabajo); // Agregar los datos obtenidos
 
-                // Obtener artículos de la OS
-                DataSet dsOS = _D_Articulo.ArticulosOS(OSaModificar, sucursal, command);
-
-                var (fecha, hora) = FechaOfrecida(
-                    dsOS.Tables[0].Rows[0]["CRISTALD"].ToString(),
-                    dsOS.Tables[0].Rows[0]["MONTURA"].ToString(),
-                    dsOS.Tables[0].Rows[0]["COLOR"].ToString(),
-                    dsOS.Tables[0].Rows[0]["AR"].ToString(), sucursal);
-
-                string color = dsOS.Tables[0].Rows[0]["COLOR"].ToString();
-                string cristalD = dsOS.Tables[0].Rows[0]["CRISTALD"].ToString();
-                string cristalI = dsOS.Tables[0].Rows[0]["CRISTALI"].ToString();
-                string Examen = "1";
-
-                //if (!VerificoParametrosCristales(_TRABAJO, nacio, cediden, Examen, cristalD, cristalI, color == "0" ? "NO" : "SI"))
-                //    return;
-
-                if (!VerificoRangoDiametroCristales(_TRABAJO, nacio, cediden, Examen, cristalD, cristalI, dsOS.Tables[0].Rows[0]["MONTURA"].ToString(), sucursal))
-                    return;
-
-                var trabajo = _TRABAJO.FirstOrDefault();
-                // Modificar trabajo
-                DataSet dsModificoTrabajo = _D_Articulo.MODIFICATB_TRABAJO(
-    trabajo.T_NumOrdserv,                                 // @NUMOS
-    trabajo.T_EXAMEN?.ToString(),                         // @EXAM
-    trabajo.T_HORIZONTAL?.ToString(),                     // @HORIZ
-    trabajo.T_VERTICAL?.ToString(),                       // @VERT
-    trabajo.T_MAXIMA?.ToString(),                         // @MAX
-    trabajo.T_PUENTE?.ToString(),                         // @PTE
-    trabajo.T_DISTANCIAVERTICE?.ToString(),               // @DISVERT
-    trabajo.T_ANGULOPANTOSCOPICO?.ToString(),             // @ANPANT
-    trabajo.T_ANGULOFACIAL?.ToString(),                   // @ANFAC
-    trabajo.T_ALTD?.ToString(),                           // @ALTD
-    trabajo.T_ALTI?.ToString(),                           // @ALTI
-    trabajo.T_OJO,                                        // @OJO
-    trabajo.T_TIPOVISIOND,                                // @TVISD
-    trabajo.T_TIPOVISIONI,                                // @TVISI
-    trabajo.T_LABORATORIO,                                // @LAB
-    trabajo.T_SERVICIO,                                   // @SERV
-    trabajo.T_HORAOFRECIDO,                               // @HOFRE
-    trabajo.T_FECHAOFRECIDO,                              // @FOFRE
-    trabajo.Cod_DetVta,                                   // @CODDETV
-    trabajo.TipoExamen,                                   // @TEXAM
-    trabajo.USER_CREA,                                    // @USER
-    trabajo.T_SUCURSAL                                    // @SUC
-);
-                if (dsModificoTrabajo.Tables[0].Rows[0][0].ToString() == "SATISFACTORIO")
+                if (GlbCodDetVta == "08" && !string.IsNullOrEmpty(OSaModificar))
                 {
-                    // Modificar OS
-                    DataSet dsModificoOS = _D_Articulo.ModificaTbCaOrdSerRx(trabajo.T_NumOrdserv, trabajo.T_EXAMEN?.ToString(), TB_CAORDSER.Cod_Laboratorio, TB_CAORDSER.Cod_Servicio, fecha, hora,
-                        (GlbCodDetVta == "08" ? "01" : "02"),TB_USUARIO.COD_USR, sucursal);
+                    var Lista_Trabajo = _D_Articulo.ObtenerTrabajo(sucursal, nacio, cediden, Numero_Orden, command);  // Trae el detalle del articulo 
+                    _TRABAJO.Clear(); // Limpiar la lista para evitar duplicados
+                    _TRABAJO.AddRange(Lista_Trabajo); // Agregar los datos obtenidos
 
-                    if (dsModificoOS.Tables[0].Rows[0][0].ToString() == "SATISFACTORIO")
+                    // Obtener artículos de la OS
+                    DataSet dsOS = _D_Articulo.ArticulosOS(OSaModificar, sucursal, command);
+
+                    var (fecha, hora) = FechaOfrecida(
+                        dsOS.Tables[0].Rows[0]["CRISTALD"].ToString(),
+                        dsOS.Tables[0].Rows[0]["MONTURA"].ToString(),
+                        dsOS.Tables[0].Rows[0]["COLOR"].ToString(),
+                        dsOS.Tables[0].Rows[0]["AR"].ToString(), sucursal);
+
+                    string color = dsOS.Tables[0].Rows[0]["COLOR"].ToString();
+                    string cristalD = dsOS.Tables[0].Rows[0]["CRISTALD"].ToString();
+                    string cristalI = dsOS.Tables[0].Rows[0]["CRISTALI"].ToString();
+                    string Examen = "1";
+
+                    if (!VerificoParametrosCristales(_TRABAJO, nacio, cediden, Examen, cristalD, cristalI, color == "0" ? "NO" : "SI", LbResultado2, LbResultados, dgvRangoCrt, command))
                     {
-                        command.Transaction.Commit();
-                        // reporte de orden 
+                        command.Transaction.Rollback();
+                        return false;
+                    }
 
+                    if (!VerificoRangoDiametroCristales(_TRABAJO, nacio, cediden, Examen, cristalD, cristalI, dsOS.Tables[0].Rows[0]["MONTURA"].ToString(), sucursal, dgvRangoCrt, command))
+                    {
+                        command.Transaction.Rollback();
+                        return false;
+                    }
+
+                    var trabajo = _TRABAJO.FirstOrDefault();
+                    // Modificar trabajo
+                    DataSet dsModificoTrabajo = _D_Articulo.MODIFICATB_TRABAJO(
+        trabajo.T_NumOrdserv,                                 // @NUMOS
+        trabajo.T_EXAMEN?.ToString(),                         // @EXAM
+        trabajo.T_HORIZONTAL?.ToString(),                     // @HORIZ
+        trabajo.T_VERTICAL?.ToString(),                       // @VERT
+        trabajo.T_MAXIMA?.ToString(),                         // @MAX
+        trabajo.T_PUENTE?.ToString(),                         // @PTE
+        trabajo.T_DISTANCIAVERTICE?.ToString(),               // @DISVERT
+        trabajo.T_ANGULOPANTOSCOPICO?.ToString(),             // @ANPANT
+        trabajo.T_ANGULOFACIAL?.ToString(),                   // @ANFAC
+        trabajo.T_ALTD?.ToString(),                           // @ALTD
+        trabajo.T_ALTI?.ToString(),                           // @ALTI
+        trabajo.T_OJO,                                        // @OJO
+        trabajo.T_TIPOVISIOND,                                // @TVISD
+        trabajo.T_TIPOVISIONI,                                // @TVISI
+        trabajo.T_LABORATORIO,                                // @LAB
+        trabajo.T_SERVICIO,                                   // @SERV
+        trabajo.T_HORAOFRECIDO,                               // @HOFRE
+        trabajo.T_FECHAOFRECIDO,                              // @FOFRE
+        trabajo.Cod_DetVta,                                   // @CODDETV
+        trabajo.TipoExamen,                                   // @TEXAM
+        trabajo.USER_CREA,                                    // @USER
+        trabajo.T_SUCURSAL                                    // @SUC
+    );
+                    if (dsModificoTrabajo.Tables[0].Rows[0][0].ToString() == "SATISFACTORIO")
+                    {
+                        // Modificar OS
+                        DataSet dsModificoOS = _D_Articulo.ModificaTbCaOrdSerRx(trabajo.T_NumOrdserv, trabajo.T_EXAMEN?.ToString(), TB_CAORDSER.Cod_Laboratorio, TB_CAORDSER.Cod_Servicio, fecha, hora,
+                            (GlbCodDetVta == "08" ? "01" : "02"), TB_USUARIO.COD_USR, sucursal);
+
+                        if (dsModificoOS.Tables[0].Rows[0][0].ToString() == "SATISFACTORIO")
+                        {
+                            command.Transaction.Commit();
+                            return true;
+                            // reporte de orden 
+
+                        }
+                        else
+                        {
+                            command.Transaction.Rollback();
+                            stringBuilder.Append("Se produjo un error mientras se modificaba la Orden");
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        command.Transaction.Rollback();
+                        stringBuilder.Append("Se produjo un error mientras se modificaba la Orden");
+                        return false;
                     }
                 }
                 else
-                {
-                    command.Transaction.Rollback();
-                    stringBuilder.Append("Se produjo un error mientras se modificaba la Orden");
-                }
-            }
+                    return false;
+
             }
             catch (Exception ex)
             {
                 command.Transaction.Rollback();
                 stringBuilder.Append(Environment.NewLine + string.Format("Error: {0}", ex.Message));
+                return false;
             }
         }
-        public bool VerificoRangoDiametroCristales(List<TB_TRABAJO> Trabajo, string nacionalidad, string cedula, string Examen, string CristalD, string CristalI, string Montura, string sucursal, SqlCommand command = null)
+        public bool VerificoRangoDiametroCristales(List<TB_TRABAJO> Trabajo, string nacionalidad, string cedula, string Examen, string CristalD, string CristalI, string Montura, string sucursal, System.Windows.Forms.DataGridView dgvRangoCrt, SqlCommand command = null)
         {
             bool AceptaCristalD = false;
             bool AceptaCristalI = false;
@@ -207,6 +226,11 @@ namespace CapaLogica.Servicios
 
                 if (!AceptaCristalD || !AceptaCristalI)
                 {
+                    DataSet dsConsultaCristal = _D_Articulo.MostrarParametrosCrtGrid(CristalD, CristalI);
+                    dgvRangoCrt.DataSource = dsConsultaCristal.Tables[0];
+                    diamDgl = diamD;
+                    diamIgl = diamI;
+                    stringBuilder.Append("El cristal seleccionado no se adapta a los siguientes rangos");
                     return false; // No se adapta a los rangos
                 }
             }
@@ -214,128 +238,129 @@ namespace CapaLogica.Servicios
             return true; // Todo correcto
         }
 
-    public bool VerificoParametrosCristales(List<TB_TRABAJO> Trabajo, string nacionalidad, string cedula, string Examen, string CristalD, string CristalI, string Color,
-        System.Windows.Forms.ListView LbResultado2, System.Windows.Forms.ListView LbResultados, SqlCommand command = null)
+        public bool VerificoParametrosCristales(List<TB_TRABAJO> Trabajo, string nacionalidad, string cedula, string Examen, string CristalD, string CristalI, string Color,
+            System.Windows.Forms.ListView LbResultado2, System.Windows.Forms.ListView LbResultados, System.Windows.Forms.DataGridView dgvRangoCrt, SqlCommand command = null)
         {
-        bool AceptaCristalD = false;
-        bool AceptaCristalI = false;
-        string diamD = "";
-        string diamI = "";
-        DataSet dsParamCRT;
-        DataSet dsParamCRT2;
+            bool AceptaCristalD = false;
+            bool AceptaCristalI = false;
+            string diamD = "";
+            string diamI = "";
+            DataSet dsParamCRT;
+            DataSet dsParamCRT2;
 
-        // Obtén el primer trabajo (o el que corresponda según tu lógica)
-        var _Trabajo = Trabajo.FirstOrDefault();
+            // Obtén el primer trabajo (o el que corresponda según tu lógica)
+            var _Trabajo = Trabajo.FirstOrDefault();
 
-        string ojo;
-        if (!string.IsNullOrEmpty(CristalD) && !string.IsNullOrEmpty(CristalI))
-        {
-            ojo = "A";
-        }
-        else if (!string.IsNullOrEmpty(CristalD) && string.IsNullOrEmpty(CristalI))
-        {
-            ojo = "D";
-        }
-        else
-        {
-            ojo = "I";
-        }
+            string ojo;
+            if (!string.IsNullOrEmpty(CristalD) && !string.IsNullOrEmpty(CristalI))
+            {
+                ojo = "A";
+            }
+            else if (!string.IsNullOrEmpty(CristalD) && string.IsNullOrEmpty(CristalI))
+            {
+                ojo = "D";
+            }
+            else
+            {
+                ojo = "I";
+            }
 
-        LbResultados.Items.Add("OJO DERECHO");
-        LbResultado2.Items.Add("OJO IZQUIERDO");
+            LbResultados.Items.Add("OJO DERECHO");
+            LbResultado2.Items.Add("OJO IZQUIERDO");
 
 
-                if (ojo == "A")
+            if (ojo == "A")
+            {
+                dsParamCRT = _D_Articulo.MostrarRangosCrtGrid(nacionalidad, cedula, Examen, CristalD, "D", _Trabajo.T_TIPOVISIOND, Convert.ToDecimal(_Trabajo.T_ALTD), 0, Convert.ToDecimal(_Trabajo.T_DISTANCIAVERTICE), Convert.ToDecimal(_Trabajo.T_ANGULOFACIAL), Convert.ToDecimal(_Trabajo.T_ANGULOPANTOSCOPICO), "", _Trabajo.T_SERVICIO, _Trabajo.T_LABORATORIO, Convert.ToString(_Trabajo.T_DISTANCIAVERTICE), Convert.ToString(_Trabajo.T_ANGULOFACIAL), Convert.ToString(_Trabajo.T_ANGULOPANTOSCOPICO), Convert.ToString(_Trabajo.T_DISTANCIADELECTURA), command);
+                dsParamCRT2 = _D_Articulo.MostrarRangosCrtGrid(nacionalidad, cedula, Examen, CristalI, "I", _Trabajo.T_TIPOVISIONI, Convert.ToDecimal(_Trabajo.T_ALTI), 0, Convert.ToDecimal(_Trabajo.T_DISTANCIAVERTICE), Convert.ToDecimal(_Trabajo.T_ANGULOFACIAL), Convert.ToDecimal(_Trabajo.T_ANGULOPANTOSCOPICO), "", _Trabajo.T_SERVICIO, _Trabajo.T_LABORATORIO, Convert.ToString(_Trabajo.T_DISTANCIAVERTICE), Convert.ToString(_Trabajo.T_ANGULOFACIAL), Convert.ToString(_Trabajo.T_ANGULOPANTOSCOPICO), Convert.ToString(_Trabajo.T_DISTANCIADELECTURA), command);
+
+                // Validación de parámetros
+
+                if (Enumerable.Range(0, 13).All(x => dsParamCRT.Tables[2].Rows[0][x].ToString() == "1"))
                 {
-                    dsParamCRT = _D_Articulo.MostrarRangosCrtGrid(nacionalidad, cedula, Examen, CristalD, "D", _Trabajo.T_TIPOVISIOND, Convert.ToDecimal(_Trabajo.T_ALTD), 0, Convert.ToDecimal(_Trabajo.T_DISTANCIAVERTICE), Convert.ToDecimal(_Trabajo.T_ANGULOFACIAL), Convert.ToDecimal(_Trabajo.T_ANGULOPANTOSCOPICO), "", _Trabajo.T_SERVICIO, _Trabajo.T_LABORATORIO, Convert.ToString(_Trabajo.T_DISTANCIAVERTICE), Convert.ToString(_Trabajo.T_ANGULOFACIAL), Convert.ToString(_Trabajo.T_ANGULOPANTOSCOPICO), Convert.ToString(_Trabajo.T_DISTANCIADELECTURA), command);
-                    dsParamCRT2 = _D_Articulo.MostrarRangosCrtGrid(nacionalidad, cedula, Examen, CristalI, "I", _Trabajo.T_TIPOVISIONI, Convert.ToDecimal(_Trabajo.T_ALTI), 0, Convert.ToDecimal(_Trabajo.T_DISTANCIAVERTICE), Convert.ToDecimal(_Trabajo.T_ANGULOFACIAL), Convert.ToDecimal(_Trabajo.T_ANGULOPANTOSCOPICO), "", _Trabajo.T_SERVICIO, _Trabajo.T_LABORATORIO, Convert.ToString(_Trabajo.T_DISTANCIAVERTICE), Convert.ToString(_Trabajo.T_ANGULOFACIAL), Convert.ToString(_Trabajo.T_ANGULOPANTOSCOPICO), Convert.ToString(_Trabajo.T_DISTANCIADELECTURA), command);
-
-                    // Validación de parámetros
-
-                    if (Enumerable.Range(0, 13).All(x => dsParamCRT.Tables[2].Rows[0][x].ToString() == "1"))
-                    {
-                        AceptaCristalD = true;
-                    }
-                    else
-                    {
-                        AceptaCristalD = false;
-                        for (int x = 0; x <= 16; x++)
-                        {
-                            if (dsParamCRT.Tables[2].Rows[0][x].ToString() != "1")
-                            {
-                                LbResultados.Items.Add(dsParamCRT.Tables[2].Rows[0][x].ToString());
-                            }
-                        }
-                    }
-
-                    if (Enumerable.Range(0, 17).All(x => dsParamCRT2.Tables[2].Rows[0][x].ToString() == "1"))
-                    {
-                        AceptaCristalI = true;
-                    }
-                    else
-                    {
-                        AceptaCristalI = false;
-                        for (int x = 0; x <= 16; x++)
-                        {
-                            if (dsParamCRT2.Tables[2].Rows[0][x].ToString() != "1")
-                            {
-                                LbResultado2.Items.Add(dsParamCRT2.Tables[2].Rows[0][x].ToString());
-                            }
-                        }
-                    }
+                    AceptaCristalD = true;
                 }
-                else if (ojo == "D")
+                else
                 {
-                    dsParamCRT = _D_Articulo.MostrarRangosCrtGrid(nacionalidad, cedula, Examen, CristalD, "D", _Trabajo.T_TIPOVISIOND, Convert.ToDecimal(_Trabajo.T_ALTD), 0, Convert.ToDecimal(_Trabajo.T_DISTANCIAVERTICE), Convert.ToDecimal(_Trabajo.T_ANGULOFACIAL), Convert.ToDecimal(_Trabajo.T_ANGULOPANTOSCOPICO), "", _Trabajo.T_SERVICIO, _Trabajo.T_LABORATORIO, Convert.ToString(_Trabajo.T_DISTANCIAVERTICE), Convert.ToString(_Trabajo.T_ANGULOFACIAL), Convert.ToString(_Trabajo.T_ANGULOPANTOSCOPICO), Convert.ToString(_Trabajo.T_DISTANCIADELECTURA), command);
-
-                    AceptaCristalD = Enumerable.Range(0, 17).All(x => dsParamCRT.Tables[2].Rows[0][x].ToString() == "1");
-                    AceptaCristalI = AceptaCristalD;
-
-                    if (!AceptaCristalD)
+                    AceptaCristalD = false;
+                    for (int x = 0; x <= 16; x++)
                     {
-                        for (int x = 0; x <= 16; x++)
+                        if (dsParamCRT.Tables[2].Rows[0][x].ToString() != "1")
                         {
-                            if (dsParamCRT.Tables[2].Rows[0][x].ToString() != "1")
-                            {
-                                LbResultados.Items.Add(dsParamCRT.Tables[2].Rows[0][x].ToString());
-                            }
-                        }
-                    }
-                }
-                else if (ojo == "I")
-                {
-                    dsParamCRT2 = _D_Articulo.MostrarRangosCrtGrid(nacionalidad, cedula, Examen, CristalI, "I", _Trabajo.T_TIPOVISIONI, Convert.ToDecimal(_Trabajo.T_ALTI), 0, Convert.ToDecimal(_Trabajo.T_DISTANCIAVERTICE), Convert.ToDecimal(_Trabajo.T_ANGULOFACIAL), Convert.ToDecimal(_Trabajo.T_ANGULOPANTOSCOPICO), "", _Trabajo.T_SERVICIO, _Trabajo.T_LABORATORIO, Convert.ToString(_Trabajo.T_DISTANCIAVERTICE), Convert.ToString(_Trabajo.T_ANGULOFACIAL), Convert.ToString(_Trabajo.T_ANGULOPANTOSCOPICO), Convert.ToString(_Trabajo.T_DISTANCIADELECTURA), command);
-
-                    AceptaCristalI = Enumerable.Range(0, 17).All(x => dsParamCRT2.Tables[2].Rows[0][x].ToString() == "1");
-                    AceptaCristalD = AceptaCristalI;
-
-                    if (!AceptaCristalI)
-                    {
-                        for (int x = 0; x <= 16; x++)
-                        {
-                            if (dsParamCRT2.Tables[2].Rows[0][x].ToString() != "1")
-                            {
-                                LbResultado2.Items.Add(dsParamCRT2.Tables[2].Rows[0][x].ToString());
-                            }
+                            LbResultados.Items.Add(dsParamCRT.Tables[2].Rows[0][x].ToString());
                         }
                     }
                 }
 
-        bool VerificoParametrosCristales = false;
-        if (AceptaCristalD == true && AceptaCristalI == true)
-        {
-            VerificoParametrosCristales = true;
-        }
-        else if (AceptaCristalD == false || AceptaCristalI == false)
-        {
-            VerificoParametrosCristales = false;
+                if (Enumerable.Range(0, 17).All(x => dsParamCRT2.Tables[2].Rows[0][x].ToString() == "1"))
+                {
+                    AceptaCristalI = true;
+                }
+                else
+                {
+                    AceptaCristalI = false;
+                    for (int x = 0; x <= 16; x++)
+                    {
+                        if (dsParamCRT2.Tables[2].Rows[0][x].ToString() != "1")
+                        {
+                            LbResultado2.Items.Add(dsParamCRT2.Tables[2].Rows[0][x].ToString());
+                        }
+                    }
+                }
+            }
+            else if (ojo == "D")
+            {
+                dsParamCRT = _D_Articulo.MostrarRangosCrtGrid(nacionalidad, cedula, Examen, CristalD, "D", _Trabajo.T_TIPOVISIOND, Convert.ToDecimal(_Trabajo.T_ALTD), 0, Convert.ToDecimal(_Trabajo.T_DISTANCIAVERTICE), Convert.ToDecimal(_Trabajo.T_ANGULOFACIAL), Convert.ToDecimal(_Trabajo.T_ANGULOPANTOSCOPICO), "", _Trabajo.T_SERVICIO, _Trabajo.T_LABORATORIO, Convert.ToString(_Trabajo.T_DISTANCIAVERTICE), Convert.ToString(_Trabajo.T_ANGULOFACIAL), Convert.ToString(_Trabajo.T_ANGULOPANTOSCOPICO), Convert.ToString(_Trabajo.T_DISTANCIADELECTURA), command);
 
-            DataSet dsConsultaCristal = _D_Articulo.MostrarParametrosCrtGrid(CristalD, CristalI, command);
-            stringBuilder.Append("El Cristal no se adapta a estos parámetros");
-        }
+                AceptaCristalD = Enumerable.Range(0, 17).All(x => dsParamCRT.Tables[2].Rows[0][x].ToString() == "1");
+                AceptaCristalI = AceptaCristalD;
+
+                if (!AceptaCristalD)
+                {
+                    for (int x = 0; x <= 16; x++)
+                    {
+                        if (dsParamCRT.Tables[2].Rows[0][x].ToString() != "1")
+                        {
+                            LbResultados.Items.Add(dsParamCRT.Tables[2].Rows[0][x].ToString());
+                        }
+                    }
+                }
+            }
+            else if (ojo == "I")
+            {
+                dsParamCRT2 = _D_Articulo.MostrarRangosCrtGrid(nacionalidad, cedula, Examen, CristalI, "I", _Trabajo.T_TIPOVISIONI, Convert.ToDecimal(_Trabajo.T_ALTI), 0, Convert.ToDecimal(_Trabajo.T_DISTANCIAVERTICE), Convert.ToDecimal(_Trabajo.T_ANGULOFACIAL), Convert.ToDecimal(_Trabajo.T_ANGULOPANTOSCOPICO), "", _Trabajo.T_SERVICIO, _Trabajo.T_LABORATORIO, Convert.ToString(_Trabajo.T_DISTANCIAVERTICE), Convert.ToString(_Trabajo.T_ANGULOFACIAL), Convert.ToString(_Trabajo.T_ANGULOPANTOSCOPICO), Convert.ToString(_Trabajo.T_DISTANCIADELECTURA), command);
+
+                AceptaCristalI = Enumerable.Range(0, 17).All(x => dsParamCRT2.Tables[2].Rows[0][x].ToString() == "1");
+                AceptaCristalD = AceptaCristalI;
+
+                if (!AceptaCristalI)
+                {
+                    for (int x = 0; x <= 16; x++)
+                    {
+                        if (dsParamCRT2.Tables[2].Rows[0][x].ToString() != "1")
+                        {
+                            LbResultado2.Items.Add(dsParamCRT2.Tables[2].Rows[0][x].ToString());
+                        }
+                    }
+                }
+            }
+
+            bool VerificoParametrosCristales = false;
+            if (AceptaCristalD == true && AceptaCristalI == true)
+            {
+                VerificoParametrosCristales = true;
+            }
+            else if (AceptaCristalD == false || AceptaCristalI == false)
+            {
+                VerificoParametrosCristales = false;
+
+                DataSet dsConsultaCristal = _D_Articulo.MostrarParametrosCrtGrid(CristalD, CristalI, command);
+                dgvRangoCrt.DataSource = dsConsultaCristal.Tables[0];
+                stringBuilder.Append("El Cristal no se adapta a estos parámetros");
+            }
 
             return VerificoParametrosCristales;
-    }
+        }
 
         public (DateTime FechaOfre, string HoraOfre) FechaOfrecida(string Cristal, string Montura, string Color, string AR, string Sucursal, SqlCommand command = null)
         {
@@ -343,17 +368,17 @@ namespace CapaLogica.Servicios
             string horaOfre = TB_CAORDSER.Hor_ofrecido;
 
             string Quorum_fo = "0";
-                string Remoto_fo = "0";
+            string Remoto_fo = "0";
 
-                if (TB_CAORDSER.Cod_Laboratorio == "QUO")
-                {
-                    Quorum_fo = "1";
-                    Remoto_fo = "0";
-                }
+            if (TB_CAORDSER.Cod_Laboratorio == "QUO")
+            {
+                Quorum_fo = "1";
+                Remoto_fo = "0";
+            }
 
-                if (TB_CAORDSER.Cod_Venta == "002" && TB_CAORDSER.Cod_Servicio != "004")
-                {
-                    Dictionary<string, string> Variables_calculo = new Dictionary<string, string>
+            if (TB_CAORDSER.Cod_Venta == "002" && TB_CAORDSER.Cod_Servicio != "004")
+            {
+                Dictionary<string, string> Variables_calculo = new Dictionary<string, string>
             {
                     { "@CRISTAL", Cristal},
                     { "@ANTIREFL", AR},
@@ -367,23 +392,23 @@ namespace CapaLogica.Servicios
                     { "@Sucursal", Sucursal }
                     };
 
-                    DataSet dsFechaOfr = _D_Articulo.ActulizaFechaOfre(Variables_calculo, null);
+                DataSet dsFechaOfr = _D_Articulo.ActulizaFechaOfre(Variables_calculo, null);
 
-                    if (dsFechaOfr.Tables[1].Rows.Count > 0)
-                    {
-                        fechaOfre = Convert.ToDateTime(dsFechaOfr.Tables[1].Rows[0]["Dias"]);
-                        horaOfre = dsFechaOfr.Tables[1].Rows[0]["Hora"].ToString();
-                    }
-                }
-                else
+                if (dsFechaOfr.Tables[1].Rows.Count > 0)
                 {
-                    if (TB_CAORDSER.Cod_Servicio != "004")
-                    {
-                        fechaOfre = DateTime.Now;
-                        horaOfre = DateTime.Now.ToString("HH:mm:ss");
-                    }
+                    fechaOfre = Convert.ToDateTime(dsFechaOfr.Tables[1].Rows[0]["Dias"]);
+                    horaOfre = dsFechaOfr.Tables[1].Rows[0]["Hora"].ToString();
                 }
-            
+            }
+            else
+            {
+                if (TB_CAORDSER.Cod_Servicio != "004")
+                {
+                    fechaOfre = DateTime.Now;
+                    horaOfre = DateTime.Now.ToString("HH:mm:ss");
+                }
+            }
+
 
             return (fechaOfre, horaOfre);
         }
