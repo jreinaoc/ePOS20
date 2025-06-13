@@ -1502,19 +1502,20 @@ namespace CapaVisual_Login
                         PnlLSecundario.Enabled = true;
                         PnlLSecundario.Location = new Point(50, 50);
                         PnlLSecundario.Size = (Size)new Point(1472, 1168);
-                        BtnCancelar.Location = new Point(868, 669);
+                        BtnCancelar.Location = new Point(865, 660);
                         BtnCancelar.Visible = true;
                         PnlLSecundario.Controls.Clear();
                         _FrmFacturacion.LimpiaVariablesIdAbonoPagoMovil();
                         AbrirForm(_FrmCargarOrden);
-
                         _FrmCargarOrden.Txt_Tap1_Cedula.Text = TB_CAORDSER.CTE_CedIden;
                         _FrmCargarOrden.Cbx_Tap1_Nacionalidad.Text = TB_CAORDSER.CTE_Nacio;
                         _FrmCargarOrden.Btn_Tap2_Derecha_Click(this, EventArgs.Empty);
                         _FrmCargarOrden.Txt_Tap1_Cedula_MouseLeave(sender, e);
                         _FrmCargarOrden.VisualizarPanel("MostrarCabeceraExamen");
                         _FrmCargarOrden.Formulario_ListaOrdenes = true;
-
+                        _FrmCargarOrden.tabControl.SelectedIndex = 1;
+                        _FrmCargarOrden.btnPrincipal.Enabled = false;
+                        _FrmCargarOrden.btnCargarOrden.Enabled = false;
                         Paginado_Habilitar(false);
 
                     }

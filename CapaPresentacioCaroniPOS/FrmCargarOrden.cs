@@ -8752,13 +8752,6 @@ namespace CapaVisual_Login
 
         private void buscarcliente()
         {
-
-
-
-
-
-
-
             // Evita que el evento KeyDown se siga propagando (opcional)
 
 
@@ -9836,16 +9829,8 @@ namespace CapaVisual_Login
             // Continuar con el resto de la lógica de tu método
 
 
-
-
-
-
-
             if (validarvacioExam())
             {
-
-
-
 
                 guardaExamenConv();
                 // Procesar el resultado de la operación de guardado
