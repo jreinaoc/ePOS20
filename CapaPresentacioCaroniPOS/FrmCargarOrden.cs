@@ -458,10 +458,10 @@ namespace CapaVisual_Login
                     Cbx_Pnl2_Laboratorio.Visible = true;
                     Lbl_Pnl2_Servicio.Visible = true;
                     Cbx_Pnl2_Servicio.Visible = true;
-                    //Txt_Pnl2_Examen.Visible = true;
-                    //Lbl_Pnl2_Num_Examen.Visible = true;
-                    //Cbx_Pnl2_Ojo.Visible = true;
-                    //label24.Visible = true;
+                    Txt_Pnl2_Examen.Visible = true;
+                    Lbl_Pnl2_Num_Examen.Visible = true;
+                    Cbx_Pnl2_Ojo.Visible = true;
+                    label24.Visible = true;
                     Txt_Pnl2_Fecha_Ofre.Visible = true;
                     Lbl_Pnl2_Fecha_Ofre.Visible = true;
                     Lbl_Pnl2_Carga_Art.Visible = true;
@@ -559,7 +559,7 @@ namespace CapaVisual_Login
                 case "Garantia":
                     this.Pnl_3_Garantia.Enabled = true;
                     this.Pnl_3_Garantia.Visible = true;
-                    this.Pnl_3_Garantia.Location = new Point(150, 30);
+                    this.Pnl_3_Garantia.Location = new Point(300, 30);
                     this.Pnl_3_Garantia.BringToFront();
                     break;
 
@@ -1935,7 +1935,7 @@ namespace CapaVisual_Login
             //Txt_Pnl_2_Nombre.Text = Txt_Tap1_Nombre.Text.ToString();
             //Txt_Pnl_2_Cedula.Location = new System.Drawing.Point(20, 10);
             //Txt_Pnl_2_Cedula.BringToFront();
-            //btnCargarOrden.Enabled = true;
+            btnCargarOrden.Enabled = true;
             if (tabControl.TabPages.Count > 0)
             {
                 tabControl.SelectedIndex = 1;
@@ -1945,7 +1945,7 @@ namespace CapaVisual_Login
                 btn_pln2_oft.BringToFront();
                 btn_pln2_reti.BringToFront();
                 btn_pln2_quer.BringToFront();
-                //Btn_Tap2_Derecha_Click(this.Btn_Tap2_Derecha, EventArgs.Empty);
+                Btn_Tap2_Derecha_Click(this.Btn_Tap2_Derecha, EventArgs.Empty);
 
 
                 // Opcional: Llamar al evento directamente si la selección no lo dispara
@@ -2855,13 +2855,6 @@ namespace CapaVisual_Login
                 Btn_Tap3_ClienteAfiliado.Enabled = true;
             else
                 Btn_Tap3_ClienteAfiliado.Enabled = false;
-
-
-            // Garantia 
-            if (!Garantia)
-                  Btn_Tap3_Garantia.Enabled = true;
-            else
-                Btn_Tap3_Garantia.Enabled = false;
 
             // Montura Propia 
             _L_Articulo.VerificarMonturaPropia(Dgv_Tap3_Articulo, Btn_Tap3_MonturaPropia, Montura_Propia);
@@ -4255,10 +4248,10 @@ namespace CapaVisual_Login
             }
             else
             {
-                //this.Cbx_Pnl2_Ojo.Visible = true;
-                //this.Txt_Pnl2_Examen.Visible = true;
-                //Lbl_Pnl2_Num_Examen.Visible = true;
-                //label24.Visible = true;
+                this.Cbx_Pnl2_Ojo.Visible = true;
+                this.Txt_Pnl2_Examen.Visible = true;
+                Lbl_Pnl2_Num_Examen.Visible = true;
+                label24.Visible = true;
                 Lbl_Pnl2_Fecha_Ofre.Visible = true;
                 Txt_Pnl2_Fecha_Ofre.Visible = true;
                 Cbx_Pnl2_Laboratorio.Visible = true;
@@ -4529,7 +4522,7 @@ namespace CapaVisual_Login
 
         private void txtHorizontal_Validated(object sender, EventArgs e)
         {
-            if ((Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "09" || Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01" || Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "08") && !string.IsNullOrEmpty(txtHorizontal.Text))
+            if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01" && !string.IsNullOrEmpty(txtHorizontal.Text))
             {
                
                 bool Band = false;
@@ -4573,7 +4566,7 @@ namespace CapaVisual_Login
 
         private void txtVertical_Validated(object sender, EventArgs e)
         {
-            if ((Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "09" || Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01" || Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "08") && !string.IsNullOrEmpty(txtVertical.Text))
+            if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01" && !string.IsNullOrEmpty(txtVertical.Text))
             {
 
                 bool Band = false;
@@ -4617,7 +4610,7 @@ namespace CapaVisual_Login
 
         private void txtMaxima_Validated(object sender, EventArgs e)
         {
-            if ((Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "09" || Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01" || Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "08") && !string.IsNullOrEmpty(txtMaxima.Text))
+            if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01" && !string.IsNullOrEmpty(txtMaxima.Text))
             {
 
                 bool Band = false;
@@ -4661,7 +4654,7 @@ namespace CapaVisual_Login
 
         private void txtPuente_Validated(object sender, EventArgs e)
         {
-            if ((Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "09" || Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01" || Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "08") && !string.IsNullOrEmpty(txtPuente.Text))
+            if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01" && !string.IsNullOrEmpty(txtPuente.Text))
             {
 
                 bool Band = false;
@@ -4758,20 +4751,10 @@ namespace CapaVisual_Login
 
         private void Btn_Tap3_Aceptar_Garantia_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(Cbx_Pnl3_Garantia.Text))
-            {
-                _FrmMensajes.co = 2;
-                _FrmMensajes.avisomensaje("Debe seleccionar el motivo de la reposicion");
-                _FrmMensajes.ShowDialog();
-                return; // Salir 
-            }
-
             _L_Articulo.GarantiaCristales_Selecion(Dgv_Pnl3_Garantia, ref Os_Garantia_Trabajo, ref Numero_Examen_Garantia_Trabajo);
             Txt_Pnl2_Examen.Text = Numero_Examen_Garantia_Trabajo;
             VisualizarPanel("MostrarCabezeraSecundaria");
             HabilitacionControl("CabezeraPrincipal");
-            this.Cbx_Pnl2_Laboratorio.Enabled = true;
-            this.Cbx_Pnl2_Servicio.Enabled = true;
         }
 
         private void btnAceptarOsGarantia_Click(object sender, EventArgs e)
@@ -6493,8 +6476,6 @@ namespace CapaVisual_Login
             Txt_Tap1_Cedula.Text = "";
             Cbx_Tap1_Nacionalidad.SelectedIndex = -1; // Deselecciona el elemento
             Cbx_Tap1_Nacionalidad.Focus();
-            btnExamen.Enabled = false;
-            btnCargarOrden.Enabled = false;
             // Ocultamos todos los GroupBox al principio
             //groupBox1.Visible = false;
             //grp_pln2_Exam1.Visible = false;
@@ -8279,14 +8260,6 @@ namespace CapaVisual_Login
                 {
                     TopeExamen = topeExamenInt;
                     btnExamen.Enabled = true;
-                    if (topeExamenInt > 0)
-                    {
-                        btnCargarOrden.Enabled = true;
-                    }
-                    else
-                    {
-                        btnCargarOrden.Enabled = false;
-                    }
                     // Ahora la variable TopeExamen (que debe ser de tipo int)
                     // contiene el valor entero extraído de la DataTable.
                 }
@@ -8704,8 +8677,6 @@ namespace CapaVisual_Login
             CargarFicconvOFT();
 
             CargarDgv_Pnl2_Querato();
-
-            Txt_Pnl2_Examen.Text = Txt_Tap2_Examen.Text;
         }
 
         private void guardaclienteP()
@@ -9352,8 +9323,6 @@ namespace CapaVisual_Login
             CargarDgv_Pnl2_Querato();
             CargarExamenCont();
 
-            Txt_Pnl2_Examen.Text = Txt_Tap2_Examen.Text;
-
         }
 
         private void button9_Click_2(object sender, EventArgs e)
@@ -9917,9 +9886,6 @@ namespace CapaVisual_Login
                     Pnl_2_Msj.Visible = true;
                     txt_pl2_msj.Text = "Examen Guardado Exitosamente";
                     pb_pl2_mj.Visible = false;
-                    
-                        btnCargarOrden.Enabled = true;
-                   
                 }
 
             }
@@ -11162,6 +11128,144 @@ namespace CapaVisual_Login
                 else
                 {
                     string concat = TB_CAORDSER.Cod_Sucursal + TB_CAORDSER.NumOrdserv + TB_CAORDSER.Revision;
+
+        private void Pnl_1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void Pnl_1_Tap2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void label31_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lbl_pnl2_con_obser_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txt_Pnl2_cont_observa_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label31_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        public void FormatoOscuro(System.Drawing.Color col2, System.Drawing.Color col3, System.Drawing.Color col4 )
+        {
+            // col2 = white; col3 = verde azulado claro
+            bool Formato_Claro = false;
+            if (col4.ToString() == "Color [A=255, R=255, G=255, B=255]")
+                Formato_Claro = true;
+            else
+                Formato_Claro = false;
+           
+            //codigo Claro 
+            if (Formato_Claro)
+            {
+                
+                tabPage1.BackColor = col2;
+                tabPage3.BackColor = col2;
+                QuitarLimea2.BackColor = col2;
+                QuitarLimea3.BackColor = col2;
+                Dgv_Tap3_Articulo.BackColor = col2;
+                Lbl_Tap1_DatosPersonal.BackColor = col3;
+                Lbl_Tap1_DatosPersonal.ForeColor = ColorTranslator.FromHtml("#1c2422");
+                label11.BackColor = col3;
+                label11.ForeColor = ColorTranslator.FromHtml("#1c2422");
+                Lbl_Pnl1_TituloDatos.BackColor = col3;
+                Lbl_Pnl1_TituloDatos.ForeColor = ColorTranslator.FromHtml("#1c2422");
+                Lbl_Tap1_Contacto.BackColor = col3;
+                Lbl_Tap1_Contacto.ForeColor = ColorTranslator.FromHtml("#1c2422");
+                Lbl_Pnl2_Carga_Art.BackColor = col3;
+                Lbl_Pnl2_Carga_Art.ForeColor = ColorTranslator.FromHtml("#1c2422");
+                Lbl_Tap3_Articulo1.BackColor = col3;
+                Lbl_Tap3_Articulo1.ForeColor = ColorTranslator.FromHtml("#1c2422");
+                Lbl_Tap3_Articulo2.BackColor = col3;
+                Lbl_Tap3_Articulo2.ForeColor = ColorTranslator.FromHtml("#1c2422");
+                Lbl_Tap3_Medidas_Montura.BackColor = col3;
+                Lbl_Tap3_Medidas_Montura.ForeColor = ColorTranslator.FromHtml("#1c2422");
+                Lbl_Tap3_.BackColor = col3;
+                Lbl_Tap3_.ForeColor = ColorTranslator.FromHtml("#1c2422");
+                Dgv_Pnl3_Articulo.DefaultCellStyle.BackColor = col2;
+                Dgv_Pnl3_Articulo.DefaultCellStyle.ForeColor = ColorTranslator.FromHtml("#1c2422");
+                Dgv_Pnl3_Articulo.ColumnHeadersDefaultCellStyle.BackColor = col3;
+                Dgv_Pnl3_Articulo.ColumnHeadersDefaultCellStyle.ForeColor = ColorTranslator.FromHtml("#1c2422");
+                Lbl_Pnl3_Carga_Articulo.BackColor = col3;
+                Lbl_Pnl3_Carga_Articulo.ForeColor = ColorTranslator.FromHtml("#1c2422");
+                Lbl_Pnl3_Promociones.BackColor = col3;
+                Lbl_Pnl3_Promociones.ForeColor = Color.White;
+                Dgv_Pnl3_Promociones.BackgroundColor = Color.White;
+                Lbl_Pnl3_Descuento.BackColor = col3;
+                Lbl_Pnl3_Descuento.ForeColor = Color.White;
+                Lbl_Pnl3_PorcDescuento.ForeColor = ColorTranslator.FromHtml("#1c2422");
+                Lbl_Pnl3_Monto.ForeColor = ColorTranslator.FromHtml("#1c2422");
+                Lbl_Pnl3_MotivoDesc.ForeColor = ColorTranslator.FromHtml("#1c2422");
+                Lbl_Pnl3_ObservacionDesc.ForeColor = ColorTranslator.FromHtml("#1c2422");
+                Lbl_Pnl3_Cambio_Precio.BackColor = col3;
+                Lbl_Pnl3_Cambio_Precio.ForeColor = Color.White;
+                label16.BackColor = col3;
+                label16.ForeColor = Color.White;
+            }
+            //codigo oscuro
+            else
+            {
+                tabPage1.BackColor = col3;
+                tabPage3.BackColor = col3;
+                QuitarLimea2.BackColor = col3;
+                QuitarLimea3.BackColor = col3;
+                Dgv_Tap3_Articulo.BackColor = col3;
+                Lbl_Tap1_DatosPersonal.BackColor = ColorTranslator.FromHtml("#003536");
+                Lbl_Tap1_DatosPersonal.ForeColor = Color.White;
+                label11.BackColor = ColorTranslator.FromHtml("#003536");
+                label11.ForeColor = Color.White;
+                Lbl_Pnl1_TituloDatos.BackColor = ColorTranslator.FromHtml("#003536");
+                Lbl_Pnl1_TituloDatos.ForeColor = Color.White;
+                Lbl_Tap1_Contacto.BackColor = ColorTranslator.FromHtml("#003536"); 
+                Lbl_Tap1_Contacto.ForeColor = Color.White;
+                Lbl_Pnl2_Carga_Art.BackColor = ColorTranslator.FromHtml("#003536");
+                Lbl_Pnl2_Carga_Art.ForeColor = Color.White;
+                Lbl_Tap3_Articulo1.BackColor = ColorTranslator.FromHtml("#003536");
+                Lbl_Tap3_Articulo1.ForeColor = Color.White;
+                Lbl_Tap3_Articulo2.BackColor = ColorTranslator.FromHtml("#003536");
+                Lbl_Tap3_Articulo2.ForeColor = Color.White;
+                Lbl_Tap3_Medidas_Montura.BackColor = ColorTranslator.FromHtml("#003536");
+                Lbl_Tap3_Medidas_Montura.ForeColor = Color.White;
+                Lbl_Tap3_.BackColor = ColorTranslator.FromHtml("#003536");
+                Lbl_Tap3_.ForeColor = Color.White;
+                Lbl_Pnl3_Carga_Articulo.BackColor = ColorTranslator.FromHtml("#003536");
+                Lbl_Pnl3_Carga_Articulo.ForeColor = Color.White;
+                Dgv_Pnl3_Articulo.DefaultCellStyle.BackColor = ColorTranslator.FromHtml("#07a79b");
+                Dgv_Pnl3_Articulo.DefaultCellStyle.ForeColor = Color.White;
+                Dgv_Pnl3_Articulo.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#2f6b64");
+                Dgv_Pnl3_Articulo.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+                Dgv_Tap3_Articulo.DefaultCellStyle.BackColor = ColorTranslator.FromHtml("#07a79b");
+                Dgv_Tap3_Articulo.BackgroundColor = ColorTranslator.FromHtml("#07a79b");
+                Dgv_Tap3_Articulo.DefaultCellStyle.ForeColor = Color.White;
+                Dgv_Tap3_Articulo.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#2f6b64");
+                Dgv_Tap3_Articulo.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+                Lbl_Pnl3_Promociones.BackColor = ColorTranslator.FromHtml("#003536");
+                Lbl_Pnl3_Promociones.ForeColor = Color.White;
+                Dgv_Pnl3_Promociones.BackgroundColor = ColorTranslator.FromHtml("#07a79b");
+                Dgv_Pnl3_Promociones.DefaultCellStyle.BackColor = ColorTranslator.FromHtml("#07a79b");
+                Lbl_Pnl3_Descuento.BackColor = ColorTranslator.FromHtml("#003536");
+                Lbl_Pnl3_Descuento.ForeColor = Color.White;
+                Lbl_Pnl3_PorcDescuento.ForeColor = Color.White;
+                Lbl_Pnl3_Monto.ForeColor = Color.White;
+                Lbl_Pnl3_MotivoDesc.ForeColor = Color.White;
+                Lbl_Pnl3_ObservacionDesc.ForeColor = Color.White;
+                Lbl_Pnl3_Cambio_Precio.BackColor = ColorTranslator.FromHtml("#003536");
+                Lbl_Pnl3_Cambio_Precio.ForeColor = Color.White;
+                label16.BackColor = ColorTranslator.FromHtml("#003536");
+                label16.ForeColor = Color.White;
 
                         _FrmMostrarReporte.setParametros(concat);
                         _FrmMostrarReporte.ConfigRep();

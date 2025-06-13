@@ -136,23 +136,25 @@ namespace CapaVisual_Login
         public void FormatoOsc()
         {
             //System.Drawing.Color col2 = System.Drawing.ColorTranslator.FromHtml("#257b78"); color anterior
-            System.Drawing.Color col2 = System.Drawing.ColorTranslator.FromHtml(" #07a79b");
-            this.BackColor = col2;
+           System.Drawing.Color col2 = System.Drawing.ColorTranslator.FromHtml(" #07a79b");
+           this.BackColor = col2;
            LblSelecGerente.ForeColor = Color.White;
-           
            LblClave.ForeColor = Color.White;
-
+           LblClaveGerente.BackColor = ColorTranslator.FromHtml("#003536");
 
 
         }
         public void FormatoClar()
         {
             System.Drawing.Color col1 = System.Drawing.ColorTranslator.FromHtml("#ffffff");
+            System.Drawing.Color col2 = System.Drawing.ColorTranslator.FromHtml(" #07a79b");
             this.BackColor = col1;
             LblSelecGerente.ForeColor = Color.DarkGray;
-           
             LblClave.ForeColor = Color.Black;
-
+            LblClaveGerente.ForeColor = Color.White;
+            LblClaveGerente.BackColor = col2;
+           
+            
         }
 
 

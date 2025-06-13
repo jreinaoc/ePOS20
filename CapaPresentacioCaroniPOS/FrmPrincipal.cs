@@ -14,6 +14,8 @@ using EnvioPagoMovil;
 using CapaDatos.DetalleOrden_Datos;
 using CapaEntidades;
 using CapaDatos.Anulacion;
+using CapaLogica.CierreCaja_Logica;
+using CapaDatos.ListaOrdenes_Datos;
 
 namespace CapaVisual_Login
 {
@@ -49,6 +51,9 @@ namespace CapaVisual_Login
         public string mostrarclientes;
         private string mensaje = "";
 
+        //L_CierreCaja _L_CierreCaja = new L_CierreCaja();
+        private L_CierreCaja _L_CierreCaja = new L_CierreCaja();
+        private D_ListaOrdenes _D_ListaOrdenes = new D_ListaOrdenes();
         public void addformulario(Form F)
         {
             F.TopLevel = false;
@@ -255,7 +260,9 @@ namespace CapaVisual_Login
             _FrmConfiguracion.FormatoConfig2(col2, col3, col4);
             _FrmFacturacion.FormatoFacturacion2(col2, col3, col4);
             _FrmListaFactura.FormatoDataGrid_Oscuro_ListaFact(col2, col3, col4);
-            _FrmCargarOrden.FormatoDataGrid_Oscuro_Dgv_Tap3_Articulo(col2, col3, col4);
+            //_FrmCargarOrden.FormatoDataGrid_Oscuro_Dgv_Tap3_Articulo(col2, col3, col4);
+
+            _FrmCargarOrden.FormatoOscuro(col2, col3, col4);
 
             BtnListadoOrdenes.BackColor = col2;
             BtnInicio.BackColor = col2;
@@ -274,7 +281,8 @@ namespace CapaVisual_Login
             btnPagoMovil.ForeColor = Color.White;
             btnCargarOrdenes.ForeColor = Color.White;
             BackColor = col2;
-
+            button1.ForeColor = Color.White;
+            button2.ForeColor = Color.White;
 
             //FrmListaOrdenes frmListaOrdenes = new FrmListaOrdenes();
             //frmListaOrdenes.BackColor = col2;
@@ -339,6 +347,8 @@ namespace CapaVisual_Login
             btnPagoMovil.BackColor = Color.White;
             btnCargarOrdenes.BackColor = Color.White;
 
+            button1.ForeColor = Color.Black;
+            button2.ForeColor = Color.Black;
             BtnInicio.ForeColor = Color.Black;
             BtnListadoOrdenes.ForeColor = Color.Black;
             btnClienteEspera.ForeColor = Color.Black;
@@ -354,6 +364,7 @@ namespace CapaVisual_Login
             _FrmFacturacion.FormatoFacturacion1(col1, col3);
             _FrmListaFactura.FormatoDataGrid_Claro_ListaFact(col1, col3);
             _FrmCargarOrden.FormatoDataGrid_Claro_Dgv_Tap3_Articulo(col1, col3);
+            _FrmCargarOrden.FormatoOscuro(col1, col3, col1);
 
 
             //_FrmListaOrdenes.EstructuraGrid();
@@ -705,6 +716,77 @@ namespace CapaVisual_Login
 
         private void GbxMenuPrincipal_Enter(object sender, EventArgs e)
         {
+
+        }
+
+        private void btnUtilitarios_Click(object sender, EventArgs e)
+        {
+            //pnlUtilitarios.Visible = true;
+        }
+
+        private void btnCierredeCaja_Click(object sender, EventArgs e)
+        {
+            pnlUtilitarios.Visible = false;
+
+            string DiaActual = (DateTime.Now.ToString("dd/MM/yyyy"));
+            string DiaActivo = _D_Inicio.DiaActivo().ToShortDateString();
+
+            
+
+            if (TB_USUARIO.COD_EMPLEADO != "99999")
+            {
+                if (DiaActivo != DiaActual)
+                {
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje("Debe cerrar caja del día anterior para continuar");
+                    _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                    _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                    _FrmMensajes.ShowDialog();
+                    return;
+
+                }
+            }
+
+            if (!_L_CierreCaja.ChequeaFacturasdelDia(DiaActivo, TB_USUARIO.COD_EMPLEADO))
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("Existen INCONSISTENCIAS en los abonos de las facturas del día. Comuníquese con el Dpto de sistemas");
+                _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                _FrmMensajes.ShowDialog();
+                return;
+            }
+
+            //Le enviamos el index asociados al valor selecionado en el combobox 
+            DataSet Ordenesrango = _D_ListaOrdenes.CargarOrdPorRango(DateTime.Now.ToString("dd/MM/yyyy"), DateTime.Now.ToString("dd/MM/yyyy"), "004", "", 1, 12);
+
+            if (Ordenesrango.Tables[0].Rows.Count > 0)
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("No Puede Cerrar Caja. Hay Ventas Pendientes");
+                _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                _FrmMensajes.ShowDialog();
+                return;
+            }
+
+            string sucursal = _D_DetalleOrden.TB_PARAMETRO("sucursalId");
+
+            if (_D_DetalleOrden.TB_PARAMETRO("VerificaEnvioCi") == "1")
+            {
+                string condicion = "(TB_CAORDSER.Cod_DetVta <> '08') AND (TB_CAORDSER.Cod_Sucursal='" + sucursal + "') AND (TB_CAORDSER.Cod_Venta <> '001') AND (TB_CAORDSER.OrSer_Status <> '004') AND (TB_CAORDSER.OrSer_Status <> '003') AND (TB_CAORDSER.OrSer_Status <> '006') AND (TB_CAORDSER.Fec_Envio IS NULL) AND (TB_CAORDSER.Fec_Recibido IS NULL) AND (TB_CAORDSER.Fec_Entrega IS NULL) AND (TB_SUCURSALLABORATORIOSERVICIO.Envio_Digital = '1') AND (TB_CAORDSER.Anulado='0') ORDER BY TB_CAORDSER.NumOrdserv";
+
+                string bandera = "ENVOS";
+
+                _L_CierreCaja.ORDSERVCRITERIOSVARIOS("","");
+
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("No Puede Cerrar Caja. Hay Ventas Pendientes");
+                _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                _FrmMensajes.ShowDialog();
+                return;
+            }
 
         }
     }

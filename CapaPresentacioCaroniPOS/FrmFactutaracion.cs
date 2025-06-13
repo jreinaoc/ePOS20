@@ -8779,6 +8779,11 @@ namespace CapaVisual_Login
 
         }
 
+        private void GbxVentasDia_Enter(object sender, EventArgs e)
+        {
+
+        }
+
         //Para Probar los reportes
 
         //private void button1_Click_1(object sender, EventArgs e)

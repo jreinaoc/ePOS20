@@ -1811,7 +1811,7 @@ namespace CapaLogica.CargarOrdenes
                                 {
                                     // Manejar el caso en que no se obtuvieron resultados
                                     MessageBox.Show("No se encontraron datos del examen.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                                    //return;
+                                    return;
                                 }
                             }
                         
