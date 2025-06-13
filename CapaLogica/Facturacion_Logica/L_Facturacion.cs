@@ -2187,7 +2187,7 @@ namespace CapaLogica.DetalleOrden_Logica
                     idAbonoPagoMovil = Convert.ToInt16(Row["idAbonoPagoMovil"].ToString());
                     MontoRecibidoRef = Convert.ToDouble(Row["MontoRecibidoRef"].ToString());
                 MontoVueltoRef = Convert.ToDouble(Row["MontoVueltoRef"].ToString().Replace(".",","));
-                MontoVueltoBs = Convert.ToDouble(Row["MontoVueltoBs"].ToString().Replace(".", ","));
+                MontoVueltoBs = Convert.ToDouble(Row["MontoVueltoBs"].ToString().Replace(".", ""));
                 CteNacionalidad = Row["Nacionalidad"].ToString();
                 Cedula = Row["Cedula"].ToString();
                 CodBancoReceptor = Row["Banco"].ToString();
