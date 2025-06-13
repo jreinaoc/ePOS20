@@ -11289,6 +11289,11 @@ namespace CapaVisual_Login
 
             
             }
+
+            this.BackColor = col2;
+            QuitarLimea2.BackColor = col2;
+            QuitarLimea3.BackColor = col2;
+            QuitarLimea1.BackColor = col2;
         }
 
     }
