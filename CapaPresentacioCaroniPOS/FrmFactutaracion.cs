@@ -1134,75 +1134,56 @@ namespace CapaVisual_Login
                             return;
                         }
 
-                        if ((TxtRecibidoREF.Text != "" && TxtRecibidoREF.Text != "0.00") & (TxtCedulaPagoMovil.Text != "" && TxtCedulaPagoMovil.TextLength > 1 && (TxtCedulaPagoMovil.Text.Replace(" ", "")).Length > 1 && TxtMontoPagoMovil.Text != "0.00"
-                                    && TxtCedularPagoMovil.Text != "" && TxtCedularPagoMovil.TextLength > 1 && (TxtCedularPagoMovil.Text.Replace(" ", "")).Length > 1 && TxtMontoPagoMovil.Text != "" && CbxCelularPagoMovil.Text != ""))
+                        if (TxtRecibidoREF.Text != "" && TxtRecibidoREF.Text != "0.00")
                         {
-
-                            //if (CbxMoneda.SelectedIndex.ToString() == "1")
-                            //{
-                            //    if (Convert.ToDouble(TxtMontoPagoMovil.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtMontoPagoMovil.Text.Replace(".", ","))) >= Math.Round(19 * Convert.ToDouble(TB_TASA_Euro.Tasa), 2) |
-                            //        Convert.ToDouble(TxtMontoPagoMovil.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtMontoPagoMovil.Text.Replace(".", ","))) >= Math.Round(Convert.ToDouble(_D_DetalleOrden.LimitePagoMovil(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv) == "" ? (Double)0.00 : Convert.ToDouble(_D_DetalleOrden.LimitePagoMovil(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv))) * Convert.ToDouble(TB_TASA_Euro.Tasa), 2)
-                            //        | Convert.ToDouble(TxtMontoPagoMovil.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtMontoPagoMovil.Text.Replace(".", ","))) >= Math.Round(_L_Facturacion.RecorrerPagoMovil_dt(Dt_PagoMovil) * Convert.ToDouble(TB_TASA_Dolar.Tasa), 2))
-                            //    {
-                            //        _FrmMensajes.co = 2;
-                            //        _FrmMensajes.avisomensaje("El limite diario de pago móvil es de 19$ .");
-                            //        _FrmMensajes.ShowDialog();
-                            //        TxtRecibidoREF.Focus();
-                            //        return;
-
-                            //    }
-                            //}
-                            //else
-                            //{
-                            //    if (Convert.ToDouble(TxtMontoPagoMovil.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtMontoPagoMovil.Text.Replace(".", ","))) >= Math.Round(19 * Convert.ToDouble(TB_TASA_Dolar.Tasa), 2) |
-                            //        Convert.ToDouble(TxtMontoPagoMovil.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtMontoPagoMovil.Text.Replace(".", ","))) >= Math.Round(Convert.ToDouble(_D_DetalleOrden.LimitePagoMovil(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv) == "" ? (Double)0.00 : Convert.ToDouble(_D_DetalleOrden.LimitePagoMovil(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv))) * Convert.ToDouble(TB_TASA_Dolar.Tasa), 2)
-                            //        | Convert.ToDouble(TxtMontoPagoMovil.Text == "" ? (Double)0.00 : Convert.ToDouble(TxtMontoPagoMovil.Text.Replace(".", ","))) >= Math.Round(_L_Facturacion.RecorrerPagoMovil_dt(Dt_PagoMovil) * Convert.ToDouble(TB_TASA_Dolar.Tasa), 2))
-                            //    {
-                            //        _FrmMensajes.co = 2;
-                            //        _FrmMensajes.avisomensaje("El limite diario de pago móvil es de 19$ .");
-                            //        _FrmMensajes.ShowDialog();
-                            //        TxtRecibidoREF.Focus();
-                            //        return;
-
-                            //    }
-                            //}
-
-                            if ((CbxNacionalidadPagoMovil.Text + "-" + TxtCedulaPagoMovil.Text).Replace(" ", "") != (txtCedula.Text).Replace(" ", "") | (TxtTelefono.Text).Replace(" ", "") != (CbxCelularPagoMovil.Text + "-" + TxtCedularPagoMovil.Text).Replace(" ", ""))
+                            if ( (TxtCedulaPagoMovil.Text != "" && TxtCedulaPagoMovil.TextLength > 1 && (TxtCedulaPagoMovil.Text.Replace(" ", "")).Length > 1 && TxtMontoPagoMovil.Text != "0.00"
+                                                                && TxtCedularPagoMovil.Text != "" && TxtCedularPagoMovil.TextLength > 1 && (TxtCedularPagoMovil.Text.Replace(" ", "")).Length > 1 && TxtMontoPagoMovil.Text != "" && CbxCelularPagoMovil.Text != ""))
                             {
-                                _FrmClaveAutorizada.ShowDialog();
+                                
+                            }
 
-                                if (_FrmClaveAutorizada.DialogResult == DialogResult.OK)
+                            else
+                            {
+                                _FrmMensajes.co = 2;
+                                _FrmMensajes.avisomensaje("Debe llenar todos los campos para continuar");
+                                _FrmMensajes.ShowDialog();
+                                return;
+
+                            }
+                        }
+
+                        if (TxtRecibidoREF.Text != "" && TxtRecibidoREF.Text != "0.00")
+                        {
+                            if ((CbxNacionalidadPagoMovil.Text + "-" + TxtCedulaPagoMovil.Text).Replace(" ", "") != (txtCedula.Text).Replace(" ", "") | (TxtTelefono.Text).Replace(" ", "") != (CbxCelularPagoMovil.Text + "-" + TxtCedularPagoMovil.Text).Replace(" ", ""))
+                        {
+                            _FrmClaveAutorizada.ShowDialog();
+
+                            if (_FrmClaveAutorizada.DialogResult == DialogResult.OK)
+                            {
+                                if (_FrmClaveAutorizada.ClaveCorrecta == true)
                                 {
-                                    if (_FrmClaveAutorizada.ClaveCorrecta == true)
-                                    {
-                                        string Autorizaa = VariablesGlobales.UsuarioAutorizado_FrmClaveAutorizada;
-                                        string DescripAuditorAbono = "OS: " + TB_CAORDSER.NumOrdserv + ", Autorizado por: " + Autorizaa;
-                                        _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "086", TB_USUARIO.COD_EMPLEADO, DescripAuditorAbono);
-                                    }
-                                    else
-                                    {
-                                        return;
-                                    }
+                                    string Autorizaa = VariablesGlobales.UsuarioAutorizado_FrmClaveAutorizada;
+                                    string DescripAuditorAbono = "OS: " + TB_CAORDSER.NumOrdserv + ", Autorizado por: " + Autorizaa;
+                                    _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "086", TB_USUARIO.COD_EMPLEADO, DescripAuditorAbono);
                                 }
                                 else
                                 {
                                     return;
                                 }
                             }
-
-                            //Guardo el Pago Movil 
-                            _L_Facturacion.GuardarPagoMovilTabla(idAbonoPagoMovil, Dt_PagoMovil, CbxNacionalidadPagoMovil.Text, TxtCedulaPagoMovil.Text, CbxCelularPagoMovil.Text, TxtCedularPagoMovil.Text, TxtMontoPagoMovil.Text, CbxBancoPagoMovil.SelectedValue.ToString(), TxtRecibidoREF.Text, TxtVuelto.Text, CbxMoneda.Text);
+                            else
+                            {
+                                return;
+                            }
+                        }
 
                         }
 
-                        else
-                        {
-                            _FrmMensajes.co = 2;
-                            _FrmMensajes.avisomensaje("Debe llenar todos los campos para continuar");
-                            _FrmMensajes.ShowDialog();
-                            return;
+                        //Guardo el Pago Movil 
+                        _L_Facturacion.GuardarPagoMovilTabla(idAbonoPagoMovil, Dt_PagoMovil, CbxNacionalidadPagoMovil.Text, TxtCedulaPagoMovil.Text, CbxCelularPagoMovil.Text, TxtCedularPagoMovil.Text, TxtMontoPagoMovil.Text, CbxBancoPagoMovil.SelectedValue.ToString(), TxtRecibidoREF.Text, TxtVuelto.Text, CbxMoneda.Text);
 
-                        }
+
+
 
                         if (TxtRecibidoREF.Text != "" && TxtRecibidoREF.Text != "0.00")
                         {
