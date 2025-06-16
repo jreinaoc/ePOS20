@@ -601,14 +601,14 @@ namespace CapaVisual_Login
             this.label18.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label18.Location = new System.Drawing.Point(17, 27);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(104, 21);
+            this.label18.Size = new System.Drawing.Size(50, 21);
             this.label18.TabIndex = 8;
-            this.label18.Text = "Días Abono:";
+            this.label18.Text = "Días :";
             // 
             // txtDiasAbo
             // 
             this.txtDiasAbo.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtDiasAbo.Location = new System.Drawing.Point(127, 27);
+            this.txtDiasAbo.Location = new System.Drawing.Point(75, 26);
             this.txtDiasAbo.Name = "txtDiasAbo";
             this.txtDiasAbo.Size = new System.Drawing.Size(100, 27);
             this.txtDiasAbo.TabIndex = 9;
