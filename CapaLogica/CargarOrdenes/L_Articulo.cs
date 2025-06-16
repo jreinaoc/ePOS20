@@ -4420,6 +4420,7 @@ namespace CapaLogica.CargarOrdenes
             //Dgv_Tap3_Garantia.Columns["Cedula"].HeaderText = "Cedula";
             Dgv_Tap3_Garantia.Columns["NumOrdServ"].HeaderText = "N° Orden";
             Dgv_Tap3_Garantia.Columns["FechaOS"].HeaderText = "Fecha Orden";
+            Dgv_Tap3_Garantia.Columns["FechaFactura"].HeaderText = "Fecha Factura";
             Dgv_Tap3_Garantia.Columns["FactNum"].HeaderText = "N° Factura";
             Dgv_Tap3_Garantia.Columns["StatusFactura"].HeaderText = "Status";
             Dgv_Tap3_Garantia.Columns["Edad"].HeaderText = "Edad";
@@ -4434,6 +4435,7 @@ namespace CapaLogica.CargarOrdenes
             Dgv_Tap3_Garantia.Columns["CristalDerecho"].DisplayIndex = 20;
             Dgv_Tap3_Garantia.Columns["CristalIzquierdo"].DisplayIndex = 21;
             Dgv_Tap3_Garantia.Columns["Montura"].DisplayIndex = 22;
+            Dgv_Tap3_Garantia.Columns["FechaFactura"].DisplayIndex = 8;
 
             //Ancho de columna
             Dgv_Tap3_Garantia.Columns["Cod_Sucursal"].Width = 70;
@@ -4444,9 +4446,9 @@ namespace CapaLogica.CargarOrdenes
             Dgv_Tap3_Garantia.Columns["FechaOS"].Width = 70;
             Dgv_Tap3_Garantia.Columns["FactNum"].Width = 70;
             Dgv_Tap3_Garantia.Columns["StatusFactura"].Width = 40;
-            Dgv_Tap3_Garantia.Columns["Edad"].Width = 70;
+            Dgv_Tap3_Garantia.Columns["Edad"].Width = 57;
             Dgv_Tap3_Garantia.Columns["TiempoRepos"].Width = 120;
-
+            Dgv_Tap3_Garantia.Columns["FechaFactura"].Width = 70;
             Dgv_Tap3_Garantia.Columns["CristalDerecho"].Width = 65;
             Dgv_Tap3_Garantia.Columns["CristalIzquierdo"].Width = 65;
             Dgv_Tap3_Garantia.Columns["Montura"].Width = 70;
@@ -4463,7 +4465,7 @@ namespace CapaLogica.CargarOrdenes
             Dgv_Tap3_Garantia.Columns["Edad"].ReadOnly = true;
             Dgv_Tap3_Garantia.Columns["TiempoRepos"].ReadOnly = true;
             //Dgv_Tap3_Garantia.Columns["Cedula"].ReadOnly = true;
-
+            Dgv_Tap3_Garantia.Columns["FechaFactura"].ReadOnly = true;
             Dgv_Tap3_Garantia.Columns["CristalDerecho"].ReadOnly = true;
             Dgv_Tap3_Garantia.Columns["CristalIzquierdo"].ReadOnly = true;
             Dgv_Tap3_Garantia.Columns["Montura"].ReadOnly = true;
@@ -4477,6 +4479,7 @@ namespace CapaLogica.CargarOrdenes
             Dgv_Tap3_Garantia.Columns["StatusFactura"].SortMode = DataGridViewColumnSortMode.NotSortable;
             Dgv_Tap3_Garantia.Columns["Edad"].SortMode = DataGridViewColumnSortMode.NotSortable;
             Dgv_Tap3_Garantia.Columns["TiempoRepos"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            Dgv_Tap3_Garantia.Columns["FechaFactura"].SortMode = DataGridViewColumnSortMode.NotSortable;
             //Dgv_Tap3_Garantia.Columns["Cedula"].SortMode = DataGridViewColumnSortMode.NotSortable;
 
             foreach (DataGridViewColumn column in Dgv_Tap3_Garantia.Columns)
@@ -4492,6 +4495,7 @@ namespace CapaLogica.CargarOrdenes
     column.Name.Equals("TiempoRepos", StringComparison.OrdinalIgnoreCase) ||
     column.Name.Equals("CristalDerecho", StringComparison.OrdinalIgnoreCase) ||
     column.Name.Equals("CristalIzquierdo", StringComparison.OrdinalIgnoreCase) ||
+    column.Name.Equals("FechaFactura", StringComparison.OrdinalIgnoreCase) ||
     column.Name.Equals("Montura", StringComparison.OrdinalIgnoreCase)))
 
                     {

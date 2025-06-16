@@ -71,7 +71,6 @@ namespace CapaVisual_Login
         FrmMostrarReporte _FrmMostrarReporte = new FrmMostrarReporte();
         private FrmClaveAutorizada _FrmClaveAutorizada = new FrmClaveAutorizada();
         private FrmClaveGerente _FrmClaveGerente = new FrmClaveGerente();
-        private FrmListaOrdenes _FrmListaOrdenes= new FrmListaOrdenes();
         private L_Articulo _L_Articulo = new L_Articulo();
         private FrmMensajes _FrmMensajes = new FrmMensajes();
         private D_Inicio _D_Inicio = new D_Inicio();
@@ -4801,10 +4800,20 @@ namespace CapaVisual_Login
 
         private void Btn_Tap3_Aceptar_Garantia_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrEmpty(Cbx_Pnl3_Garantia.Text))
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("Debe seleccionar el motivo de la reposicion");
+                _FrmMensajes.ShowDialog();
+                return; // Salir 
+            }
+
             _L_Articulo.GarantiaCristales_Selecion(Dgv_Pnl3_Garantia, ref Os_Garantia_Trabajo, ref Numero_Examen_Garantia_Trabajo);
             Txt_Pnl2_Examen.Text = Numero_Examen_Garantia_Trabajo;
             VisualizarPanel("MostrarCabezeraSecundaria");
             HabilitacionControl("CabezeraPrincipal");
+            Cbx_Pnl2_Laboratorio.Enabled = true;
+            Cbx_Pnl2_Servicio.Enabled = true;
         }
 
         private void btnAceptarOsGarantia_Click(object sender, EventArgs e)
@@ -11232,8 +11241,6 @@ namespace CapaVisual_Login
                         _FrmMostrarReporte.ShowDialog();
 
                     }
-
-                    _FrmListaOrdenes.BtnCancelar_Click(this, EventArgs.Empty);
 
                 }
 
