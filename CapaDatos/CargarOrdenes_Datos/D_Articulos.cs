@@ -110,7 +110,7 @@ namespace CapaDatos.CargarOrdenes_Datos
            }
         }
 
-        public List<TB_TRABAJO> ObtenerTrabajo(string sucursal, string nacio, string cediden, string Numero_Orden= null ,SqlCommand command = null)  // Trae el detalle del articulo 
+        public List<TB_TRABAJO> ObtenerTrabajo(string sucursal, string nacio, string cediden, string Examen= null ,SqlCommand command = null)  // Trae el detalle del articulo 
         {
             // Declarar la lista para almacenar los resultados
             List<TB_TRABAJO> T_Trabajo = new List<TB_TRABAJO>();
@@ -130,9 +130,9 @@ namespace CapaDatos.CargarOrdenes_Datos
                 command.Parameters.AddWithValue("@T_SUCURSAL", sucursal);
                 command.Parameters.AddWithValue("@T_NACIO", nacio);
                 command.Parameters.AddWithValue("@T_CEDIDEN", cediden);
-                if (!string.IsNullOrEmpty(Numero_Orden))
+                if (!string.IsNullOrEmpty(Examen))
                 {
-                    command.Parameters.AddWithValue("@Numero_Orden", Numero_Orden);
+                    command.Parameters.AddWithValue("@Examen", Examen);
                 }
 
                 // Ejecutar el comando y leer los resultados
@@ -2418,8 +2418,8 @@ namespace CapaDatos.CargarOrdenes_Datos
             cmd.CommandText = "pGetArticulosOS";
             cmd.CommandType = CommandType.StoredProcedure;
 
-            cmd.Parameters.AddWithValue("@NumeroOrden", numeroOrden);
-            cmd.Parameters.AddWithValue("@Sucursal", sucursal);
+            cmd.Parameters.AddWithValue("@OS", numeroOrden);
+            cmd.Parameters.AddWithValue("@codSucursal", sucursal);
 
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataSet dts = new DataSet();

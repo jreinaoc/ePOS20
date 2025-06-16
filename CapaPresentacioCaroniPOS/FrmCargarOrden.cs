@@ -71,6 +71,7 @@ namespace CapaVisual_Login
         FrmMostrarReporte _FrmMostrarReporte = new FrmMostrarReporte();
         private FrmClaveAutorizada _FrmClaveAutorizada = new FrmClaveAutorizada();
         private FrmClaveGerente _FrmClaveGerente = new FrmClaveGerente();
+        private FrmListaOrdenes _FrmListaOrdenes= new FrmListaOrdenes();
         private L_Articulo _L_Articulo = new L_Articulo();
         private FrmMensajes _FrmMensajes = new FrmMensajes();
         private D_Inicio _D_Inicio = new D_Inicio();
@@ -460,8 +461,8 @@ namespace CapaVisual_Login
                     Cbx_Pnl2_Laboratorio.Visible = true;
                     Lbl_Pnl2_Servicio.Visible = true;
                     Cbx_Pnl2_Servicio.Visible = true;
-                    Txt_Pnl2_Examen.Visible = true;
-                    Lbl_Pnl2_Num_Examen.Visible = true;
+                    //Txt_Pnl2_Examen.Visible = true;
+                    //Lbl_Pnl2_Num_Examen.Visible = true;
                     Cbx_Pnl2_Ojo.Visible = true;
                     label24.Visible = true;
                     Txt_Pnl2_Fecha_Ofre.Visible = true;
@@ -2003,7 +2004,7 @@ namespace CapaVisual_Login
         private void btnDetalleOrden_CheckedChanged(object sender, EventArgs e)
         {
             VisualizarPanel("MostrarCabezeraSecundaria");
-           
+            Txt_Pnl2_Examen.Text = Txt_Tap2_Examen.Text;
             tabControl.SelectedIndex = 2;
             //codSucursal = _D_DetalleOrden.TB_PARAMETRO("SucursalId");
             _D_Articulo.Agregar_TB_TRABAJO(_D_DetalleOrden.TB_PARAMETRO("SucursalId"), "", "", Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), "002", Convert.ToInt32(Txt_Pnl2_Examen.Text)
@@ -9920,6 +9921,7 @@ namespace CapaVisual_Login
                     Pnl_2_Msj.Visible = true;
                     txt_pl2_msj.Text = "Examen Guardado Exitosamente";
                     pb_pl2_mj.Visible = false;
+                    AgregarRx();
                 }
 
             }
@@ -11160,6 +11162,15 @@ namespace CapaVisual_Login
                 _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
                 _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
                 _FrmMensajes.ShowDialog();
+
+                if (tipoExamen == "CONTACTO")
+                {
+                    Cbx_Pnl2_Trbajo.SelectedIndex = 1;
+                }
+                else if (tipoExamen == "CONVENCIONAL")
+                {
+                    Cbx_Pnl2_Trbajo.SelectedIndex = 0;
+                }
                 return false;
             }
                 return true;
@@ -11168,7 +11179,8 @@ namespace CapaVisual_Login
         {
             if (Formulario_ListaOrdenes)
             {
-                if (!_Asignar_Rx.AsignarRx(TB_CAORDSER.Cod_DetVta, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.CTE_Nacio, TB_CAORDSER.CTE_Nacio, TB_CAORDSER.NumOrdserv, LbResultado2, LbResultados, dgvRangoCrt) && _L_Articulo.stringBuilder.Length > 0)
+                bool Respuesta = _Asignar_Rx.AsignarRx(TB_CAORDSER.Cod_DetVta, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.CTE_Nacio, TB_CAORDSER.CTE_CedIden, Txt_Tap2_Examen.Text, TB_CAORDSER.NumOrdserv, LbResultado2, LbResultados, dgvRangoCrt);
+                if (!Respuesta && _Asignar_Rx.stringBuilder.Length > 0)
                 {
 
                     if (_Asignar_Rx.stringBuilder.ToString() == "El cristal seleccionado no se adapta a los siguientes rangos")
@@ -11198,13 +11210,13 @@ namespace CapaVisual_Login
                     }
                     else
                     {
-                         _FrmMensajes.co = 2;
-                         _FrmMensajes.avisomensaje(_Asignar_Rx.stringBuilder.ToString());
-                         _FrmMensajes.ShowDialog();
-                          return; // Salir 
+                        _FrmMensajes.co = 2;
+                        _FrmMensajes.avisomensaje(_Asignar_Rx.stringBuilder.ToString());
+                        _FrmMensajes.ShowDialog();
+                        return; // Salir 
                     }
                 }
-                else
+                else if (Respuesta)
                 {
 
                     string concat = TB_CAORDSER.Cod_Sucursal + TB_CAORDSER.NumOrdserv + TB_CAORDSER.Revision;
@@ -11220,10 +11232,14 @@ namespace CapaVisual_Login
                         _FrmMostrarReporte.ShowDialog();
 
                     }
+
+                    _FrmListaOrdenes.BtnCancelar_Click(this, EventArgs.Empty);
+
                 }
 
             }
         }
+
 
         public void FormatoOscuro(System.Drawing.Color col2, System.Drawing.Color col3, System.Drawing.Color col4 )
         {
@@ -11340,6 +11356,27 @@ namespace CapaVisual_Login
             QuitarLimea1.BackColor = col2;
         }
 
+        public void AsignarRx_JuegoPantalla()
+        {
+
+                tabControl.SelectedIndex = 1;
+                label43.Text = "Datos de Clientes";
+
+                grp_pln2_Cont1.BringToFront();
+                btn_pln2_oft.BringToFront();
+                btn_pln2_reti.BringToFront();
+                btn_pln2_quer.BringToFront();
+                if (mantengoexamenseleccionado == false) // Voy al ultimo
+                {
+                    Btn_Tap2_Derecha_Click(this.Btn_Tap2_Derecha, EventArgs.Empty);
+                }
+
+                // Opcional: Llamar al evento directamente si la selección no lo dispara
+                // tabControl_SelectedIndexChanged(tabControl, EventArgs.Empty);
+
+            Pnl_2.Visible = true;
+            grp_pln2_Conv2.Visible = true;
+        }
     }
 
 }

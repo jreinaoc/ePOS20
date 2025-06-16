@@ -24,7 +24,7 @@ namespace CapaLogica.Servicios
         public string diamDgl = "";
         public string diamIgl = "";
 
-        public bool AsignarRx(string GlbCodDetVta, string OSaModificar, string sucursal, string nacio, string cediden, string Numero_Orden, System.Windows.Forms.ListView LbResultado2, System.Windows.Forms.ListView LbResultados, System.Windows.Forms.DataGridView dgvRangoCrt)
+        public bool AsignarRx(string GlbCodDetVta, string OSaModificar, string sucursal, string nacio, string cediden, string Examen, string Numero_Orden, System.Windows.Forms.ListView LbResultado2, System.Windows.Forms.ListView LbResultados, System.Windows.Forms.DataGridView dgvRangoCrt)
         {
             stringBuilder.Clear();
             Conexion cn = new Conexion();
@@ -42,7 +42,7 @@ namespace CapaLogica.Servicios
 
                 if (GlbCodDetVta == "08" && !string.IsNullOrEmpty(OSaModificar))
                 {
-                    var Lista_Trabajo = _D_Articulo.ObtenerTrabajo(sucursal, nacio, cediden, Numero_Orden, command);  // Trae el detalle del articulo 
+                    var Lista_Trabajo = _D_Articulo.ObtenerTrabajo(sucursal, nacio, cediden, Examen, command);  // Trae el detalle del articulo 
                     _TRABAJO.Clear(); // Limpiar la lista para evitar duplicados
                     _TRABAJO.AddRange(Lista_Trabajo); // Agregar los datos obtenidos
 
@@ -58,7 +58,6 @@ namespace CapaLogica.Servicios
                     string color = dsOS.Tables[0].Rows[0]["COLOR"].ToString();
                     string cristalD = dsOS.Tables[0].Rows[0]["CRISTALD"].ToString();
                     string cristalI = dsOS.Tables[0].Rows[0]["CRISTALI"].ToString();
-                    string Examen = "1";
 
                     if (!VerificoParametrosCristales(_TRABAJO, nacio, cediden, Examen, cristalD, cristalI, color == "0" ? "NO" : "SI", LbResultado2, LbResultados, dgvRangoCrt, command))
                     {
@@ -72,15 +71,17 @@ namespace CapaLogica.Servicios
                         return false;
                     }
 
+
+
                     var trabajo = _TRABAJO.FirstOrDefault();
                     // Modificar trabajo
                     DataSet dsModificoTrabajo = _D_Articulo.MODIFICATB_TRABAJO(
         trabajo.T_NumOrdserv,                                 // @NUMOS
         trabajo.T_EXAMEN?.ToString(),                         // @EXAM
-        trabajo.T_HORIZONTAL?.ToString(),                     // @HORIZ
-        trabajo.T_VERTICAL?.ToString(),                       // @VERT
-        trabajo.T_MAXIMA?.ToString(),                         // @MAX
-        trabajo.T_PUENTE?.ToString(),                         // @PTE
+(trabajo.T_HORIZONTAL?.ToString().Replace(".", "") ?? "0"),
+(trabajo.T_VERTICAL?.ToString().Replace(".", "") ?? "0"),
+(trabajo.T_MAXIMA?.ToString().Replace(".", "") ?? "0"),
+(trabajo.T_PUENTE?.ToString().Replace(".", "") ?? "0"),
         trabajo.T_DISTANCIAVERTICE?.ToString(),               // @DISVERT
         trabajo.T_ANGULOPANTOSCOPICO?.ToString(),             // @ANPANT
         trabajo.T_ANGULOFACIAL?.ToString(),                   // @ANFAC
@@ -161,9 +162,9 @@ namespace CapaLogica.Servicios
                 _Trabajo.T_TIPOVISIOND,
                 _Trabajo.T_TIPOVISIONI,
                 Montura,
-    _Trabajo.T_HORIZONTAL?.ToString().Replace(".", ""),
-    _Trabajo.T_MAXIMA?.ToString().Replace(".", ""),
-    _Trabajo.T_PUENTE?.ToString().Replace(".", ""),
+    (_Trabajo.T_HORIZONTAL?.ToString().Replace(".", "") ?? "0"),
+    (_Trabajo.T_MAXIMA?.ToString().Replace(".", "") ?? "0"),
+    (_Trabajo.T_PUENTE?.ToString().Replace(".", "") ?? "0"),
              sucursal, command);
 
             if (Convert.ToInt32(dsDiametroEfectivo.Tables[1].Rows[0][0]) > 0)
@@ -397,7 +398,7 @@ namespace CapaLogica.Servicios
                 if (dsFechaOfr.Tables[1].Rows.Count > 0)
                 {
                     fechaOfre = Convert.ToDateTime(dsFechaOfr.Tables[1].Rows[0]["Dias"]);
-                    horaOfre = dsFechaOfr.Tables[1].Rows[0]["Hora"].ToString();
+                    horaOfre = Convert.ToDateTime(dsFechaOfr.Tables[1].Rows[0]["Hora"]).ToString("HH:mm:ss: tt");
                 }
             }
             else

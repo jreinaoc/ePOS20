@@ -539,7 +539,6 @@ namespace CapaVisual_Login
             // Pnl_2
             // 
             this.Pnl_2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(166)))), ((int)(((byte)(156)))));
-            this.Pnl_2.Controls.Add(this.Lbl_Pnl2_Carga_Art);
             this.Pnl_2.Controls.Add(this.label24);
             this.Pnl_2.Controls.Add(this.Cbx_Pnl2_Ojo);
             this.Pnl_2.Controls.Add(this.Lbl_Pnl2_Num_Examen);
@@ -557,7 +556,7 @@ namespace CapaVisual_Login
             this.Pnl_2.Controls.Add(this.Lbl_Pnl2_Cedula);
             this.Pnl_2.Controls.Add(this.Txt_Pnl2_Cedula);
             this.Pnl_2.Controls.Add(this.Lbl_Pnl2_Carga_Art);
-            this.Pnl_2.Location = new System.Drawing.Point(1057, 4);
+            this.Pnl_2.Location = new System.Drawing.Point(1058, 0);
             this.Pnl_2.Name = "Pnl_2";
             this.Pnl_2.Size = new System.Drawing.Size(1051, 122);
             this.Pnl_2.TabIndex = 102;
@@ -607,6 +606,7 @@ namespace CapaVisual_Login
             this.Lbl_Pnl2_Num_Examen.Size = new System.Drawing.Size(73, 19);
             this.Lbl_Pnl2_Num_Examen.TabIndex = 307;
             this.Lbl_Pnl2_Num_Examen.Text = "Examen";
+            this.Lbl_Pnl2_Num_Examen.Visible = false;
             // 
             // Txt_Pnl2_Examen
             // 
@@ -620,6 +620,7 @@ namespace CapaVisual_Login
             this.Txt_Pnl2_Examen.TabIndex = 306;
             this.Txt_Pnl2_Examen.Text = "1";
             this.Txt_Pnl2_Examen.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.Txt_Pnl2_Examen.Visible = false;
             this.Txt_Pnl2_Examen.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Txt_Pnl2_Examen_KeyPress);
             // 
             // Cbx_Pnl2_Servicio
