@@ -1155,32 +1155,33 @@ namespace CapaVisual_Login
                         if (TxtRecibidoREF.Text != "" && TxtRecibidoREF.Text != "0.00")
                         {
                             if ((CbxNacionalidadPagoMovil.Text + "-" + TxtCedulaPagoMovil.Text).Replace(" ", "") != (txtCedula.Text).Replace(" ", "") | (TxtTelefono.Text).Replace(" ", "") != (CbxCelularPagoMovil.Text + "-" + TxtCedularPagoMovil.Text).Replace(" ", ""))
-                        {
-                            _FrmClaveAutorizada.ShowDialog();
-
-                            if (_FrmClaveAutorizada.DialogResult == DialogResult.OK)
                             {
-                                if (_FrmClaveAutorizada.ClaveCorrecta == true)
+                                _FrmClaveAutorizada.ShowDialog();
+
+                                if (_FrmClaveAutorizada.DialogResult == DialogResult.OK)
                                 {
-                                    string Autorizaa = VariablesGlobales.UsuarioAutorizado_FrmClaveAutorizada;
-                                    string DescripAuditorAbono = "OS: " + TB_CAORDSER.NumOrdserv + ", Autorizado por: " + Autorizaa;
-                                    _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "086", TB_USUARIO.COD_EMPLEADO, DescripAuditorAbono);
+                                    if (_FrmClaveAutorizada.ClaveCorrecta == true)
+                                    {
+                                        string Autorizaa = VariablesGlobales.UsuarioAutorizado_FrmClaveAutorizada;
+                                        string DescripAuditorAbono = "OS: " + TB_CAORDSER.NumOrdserv + ", Autorizado por: " + Autorizaa;
+                                        _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "086", TB_USUARIO.COD_EMPLEADO, DescripAuditorAbono);
+                                    }
+                                    else
+                                    {
+                                        return;
+                                    }
                                 }
                                 else
                                 {
                                     return;
                                 }
                             }
-                            else
-                            {
-                                return;
-                            }
-                        }
+                            //Guardo el Pago Movil 
+                            _L_Facturacion.GuardarPagoMovilTabla(idAbonoPagoMovil, Dt_PagoMovil, CbxNacionalidadPagoMovil.Text, TxtCedulaPagoMovil.Text, CbxCelularPagoMovil.Text, TxtCedularPagoMovil.Text, TxtMontoPagoMovil.Text, CbxBancoPagoMovil.SelectedValue.ToString(), TxtRecibidoREF.Text, TxtVuelto.Text, CbxMoneda.Text);
+
 
                         }
 
-                        //Guardo el Pago Movil 
-                        _L_Facturacion.GuardarPagoMovilTabla(idAbonoPagoMovil, Dt_PagoMovil, CbxNacionalidadPagoMovil.Text, TxtCedulaPagoMovil.Text, CbxCelularPagoMovil.Text, TxtCedularPagoMovil.Text, TxtMontoPagoMovil.Text, CbxBancoPagoMovil.SelectedValue.ToString(), TxtRecibidoREF.Text, TxtVuelto.Text, CbxMoneda.Text);
 
 
 
