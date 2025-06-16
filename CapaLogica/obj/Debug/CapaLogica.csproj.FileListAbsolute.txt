@@ -80,9 +80,6 @@ C:\projects\EPOS20\CapaLogica\obj\Debug\CapaLogica.csproj.CoreCompileInputs.cach
 C:\projects\EPOS20\CapaLogica\obj\Debug\CapaLogica.csproj.CopyComplete
 C:\projects\EPOS20\CapaLogica\obj\Debug\CapaLogica.dll
 C:\projects\EPOS20\CapaLogica\obj\Debug\CapaLogica.pdb
-C:\Desarrollo2022\CaroniPOS1\CapaLogica\obj\Debug\CapaLogica.csproj.AssemblyReference.cache
-C:\Desarrollo2022\CaroniPOS1\CapaLogica\obj\Debug\CapaLogica.csproj.ResolveComReference.cache
-C:\Desarrollo2022\CaroniPOS1\CapaLogica\obj\Debug\CapaLogica.csproj.CoreCompileInputs.cache
 C:\Desarrollo2022\CaroniPOS1\CapaLogica\bin\Debug\CapaLogica.dll.config
 C:\Desarrollo2022\CaroniPOS1\CapaLogica\bin\Debug\CapaLogica.dll
 C:\Desarrollo2022\CaroniPOS1\CapaLogica\bin\Debug\CapaLogica.pdb
@@ -132,6 +129,9 @@ C:\Desarrollo2022\CaroniPOS1\CapaLogica\bin\Debug\System.Numerics.Vectors.xml
 C:\Desarrollo2022\CaroniPOS1\CapaLogica\bin\Debug\System.Security.AccessControl.xml
 C:\Desarrollo2022\CaroniPOS1\CapaLogica\bin\Debug\System.Security.Permissions.xml
 C:\Desarrollo2022\CaroniPOS1\CapaLogica\bin\Debug\System.Security.Principal.Windows.xml
+C:\Desarrollo2022\CaroniPOS1\CapaLogica\obj\Debug\CapaLogica.csproj.AssemblyReference.cache
+C:\Desarrollo2022\CaroniPOS1\CapaLogica\obj\Debug\CapaLogica.csproj.ResolveComReference.cache
+C:\Desarrollo2022\CaroniPOS1\CapaLogica\obj\Debug\CapaLogica.csproj.CoreCompileInputs.cache
 C:\Desarrollo2022\CaroniPOS1\CapaLogica\obj\Debug\CapaLogica.csproj.CopyComplete
 C:\Desarrollo2022\CaroniPOS1\CapaLogica\obj\Debug\CapaLogica.dll
 C:\Desarrollo2022\CaroniPOS1\CapaLogica\obj\Debug\CapaLogica.pdb
