@@ -11303,6 +11303,7 @@ namespace CapaVisual_Login
                 Lbl_Pnl3_Cambio_Precio.ForeColor = Color.White;
                 label16.BackColor = col3;
                 label16.ForeColor = Color.White;
+                grp_pln2_Cont1.BackColor = col2;
             }
             //codigo oscuro
             else
@@ -11355,6 +11356,7 @@ namespace CapaVisual_Login
                 Lbl_Pnl3_Cambio_Precio.ForeColor = Color.White;
                 label16.BackColor = ColorTranslator.FromHtml("#003536");
                 label16.ForeColor = Color.White;
+                grp_pln2_Cont1.BackColor = col3;
             }
 
             this.BackColor = col2;
