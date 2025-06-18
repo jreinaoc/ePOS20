@@ -11304,6 +11304,8 @@ namespace CapaVisual_Login
                 label16.BackColor = col3;
                 label16.ForeColor = Color.White;
                 grp_pln2_Cont1.BackColor = col2;
+                tabPage2.BackColor = col2;
+                btn_pln2_quer.BackColor = col2;
             }
             //codigo oscuro
             else
@@ -11357,6 +11359,8 @@ namespace CapaVisual_Login
                 label16.BackColor = ColorTranslator.FromHtml("#003536");
                 label16.ForeColor = Color.White;
                 grp_pln2_Cont1.BackColor = col3;
+                tabPage2.BackColor = col3;
+                btn_pln2_quer.BackColor = col3;
             }
 
             this.BackColor = col2;
@@ -11386,6 +11390,7 @@ namespace CapaVisual_Login
             Pnl_2.Visible = true;
             grp_pln2_Conv2.Visible = true;
         }
+
     }
 
 }
