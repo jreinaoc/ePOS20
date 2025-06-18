@@ -29,5 +29,7 @@ namespace CapaVisual_Login
             lblPaso.Text = "Paso 1";
 
         }
+
+
     }
 }

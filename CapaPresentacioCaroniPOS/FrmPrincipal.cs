@@ -711,11 +711,6 @@ namespace CapaVisual_Login
 
         }
 
-        private void PnlListadoOrdenes_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
         private void GbxMenuPrincipal_Enter(object sender, EventArgs e)
         {
 
