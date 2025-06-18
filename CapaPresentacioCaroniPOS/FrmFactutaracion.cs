@@ -5379,7 +5379,7 @@ namespace CapaVisual_Login
 
             }
 
-            DgvListadoOrdenes.Size = new Size(1059, 150);
+            DgvListadoOrdenes.Size = new Size(1050, 150);
         }
 
         private void DgvNotas_CellContentClick(object sender, DataGridViewCellEventArgs e)
