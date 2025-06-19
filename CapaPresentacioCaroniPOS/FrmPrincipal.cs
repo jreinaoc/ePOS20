@@ -45,6 +45,7 @@ namespace CapaVisual_Login
         FrmListaFactura _FrmListaFactura = new FrmListaFactura();
         D_Anulacion _D_Anulacion = new D_Anulacion();
         FrmCargarOrden _FrmCargarOrden = new FrmCargarOrden();
+        FrmCierredeCaja _FrmCierreDeCaja = new FrmCierredeCaja();
 
         private D_DetalleOrden _D_DetalleOrden = new D_DetalleOrden();
         public bool osc;
@@ -250,10 +251,15 @@ namespace CapaVisual_Login
 
             //En esta funcion se configuran los colores para el fondo y para grid de listado de ordenes 
             //col 1 es blanco, col 2 es azul agua oscuro, col 3 es azul agua claro 
+            System.Drawing.Color col1 = System.Drawing.ColorTranslator.FromHtml("#ffffff");
             System.Drawing.Color col2 = System.Drawing.ColorTranslator.FromHtml("#257b78");
             GbxMenuPrincipal.BackColor = col2;
             System.Drawing.Color col4 = System.Drawing.ColorTranslator.FromHtml("#2f6b64");
             System.Drawing.Color col3 = System.Drawing.ColorTranslator.FromHtml(" #07a79b");
+            //col 5 es Noble Black, col6 es Nordic Noir
+            System.Drawing.Color col5 = System.Drawing.ColorTranslator.FromHtml("#1c2422");
+            System.Drawing.Color col6 = System.Drawing.ColorTranslator.FromHtml("#003536");
+
 
             _FrmInicio.ConfigOscuro(col2, col3, col4);
             _FrmListaOrdenes.FormatoDataGrid2(col2, col3, col4);
@@ -261,7 +267,7 @@ namespace CapaVisual_Login
             _FrmFacturacion.FormatoFacturacion2(col2, col3, col4);
             _FrmListaFactura.FormatoDataGrid_Oscuro_ListaFact(col2, col3, col4);
             //_FrmCargarOrden.FormatoDataGrid_Oscuro_Dgv_Tap3_Articulo(col2, col3, col4);
-
+            _FrmCierreDeCaja.FormatoOsc(col1, col3, col5, col6);
             _FrmCargarOrden.FormatoOscuro(col2, col3, col4);
 
             BtnListadoOrdenes.BackColor = col2;
@@ -337,6 +343,7 @@ namespace CapaVisual_Login
             L_Colores.Oscuro = false;
             System.Drawing.Color col1 = System.Drawing.ColorTranslator.FromHtml("#ffffff");
             System.Drawing.Color col3 = System.Drawing.ColorTranslator.FromHtml(" #07a79b");
+            System.Drawing.Color col5 = System.Drawing.ColorTranslator.FromHtml("#1c2422");
             GbxMenuPrincipal.BackColor = col1;
             BackColor = col1;
 
@@ -367,6 +374,7 @@ namespace CapaVisual_Login
             _FrmListaFactura.FormatoDataGrid_Claro_ListaFact(col1, col3);
             _FrmCargarOrden.FormatoDataGrid_Claro_Dgv_Tap3_Articulo(col1, col3);
             _FrmCargarOrden.FormatoOscuro(col1, col3, col1);
+            _FrmCierreDeCaja.FormatoClaro(col1, col3, col5);
 
 
             //_FrmListaOrdenes.EstructuraGrid();
@@ -785,6 +793,12 @@ namespace CapaVisual_Login
                 return;
             }
 
+        }
+
+        private void btn_FrmCierreDeCaja_Click(object sender, EventArgs e)
+        {
+            
+            addformulario(_FrmCierreDeCaja);
         }
     }
 }
