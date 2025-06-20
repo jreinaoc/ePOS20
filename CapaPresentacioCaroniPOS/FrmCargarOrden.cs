@@ -1938,7 +1938,7 @@ namespace CapaVisual_Login
         private void btnExamen_CheckedChanged(object sender, EventArgs e)
         {
             //VisualizarPanel("MostrarCabeceraExamen");
-           
+
             ////Txt_Pnl_2_Cedula.Visible = true;
             ////Txt_Pnl_2_Nombre.Visible = true;
             ////Lbl_Pnl2_Cedula.Visible = true;
@@ -1952,7 +1952,7 @@ namespace CapaVisual_Login
             //{
             //    tabControl.SelectedIndex = 1;
             //    label43.Text = "Datos de Clientes";
-               
+
             //    grp_pln2_Cont1.BringToFront();
             //    btn_pln2_oft.BringToFront();
             //    btn_pln2_reti.BringToFront();
@@ -1965,6 +1965,7 @@ namespace CapaVisual_Login
             //}
             //Pnl_2.Visible = true;
             //grp_pln2_Conv2.Visible = true;
+            
         }
 
         private void btnExamen_Click(object sender, EventArgs e)
@@ -3883,6 +3884,7 @@ namespace CapaVisual_Login
             /*MEIFER*/
             // Optional: Set the background color for the content area of each tab page
             // (This is separate from the tab headers handled by DrawItem)
+            
             foreach (TabPage page in tabControl.TabPages)
             {
                 page.BackColor = Color.White;
@@ -11473,6 +11475,38 @@ namespace CapaVisual_Login
                 label16.BackColor = col3;
                 label16.ForeColor = Color.White;
                 grp_pln2_Cont1.BackColor = col2;
+                tabPage2.BackColor = col2;
+                btn_pln2_quer.BackColor = col2;
+                btn_pln2_reti.BackColor = col2;
+                btn_pln2_oft.BackColor = col2;
+                grp_pln2_OBS.BackColor = col2;
+                Pnl_2_Tap2.BackColor = col3;
+                Lbl_Tap2_Tipo_Exa.BackColor = col3;
+                Lbl_Tap2_Datos.BackColor = col3;
+                Lbl_Tap2_Datos.ForeColor = Color.White;
+                label31.BackColor = col3;
+                label31.ForeColor = Color.White;
+                lbl_pnl2_obser.BackColor = col3;
+                lbl_pnl2_obser.ForeColor = Color.White;
+                label32.BackColor = col3;
+                label32.ForeColor = Color.White;
+                Dgv_Pnl2_medconv.ColumnHeadersDefaultCellStyle.BackColor = col3;
+                Dgv_Pnl2_cont.ColumnHeadersDefaultCellStyle.BackColor = col3;
+                grp_pln2_oft3.BackColor = col2;
+                label36.BackColor = col3;
+                grp_pln2_ret4.BackColor = col2;
+                label38.BackColor = col3;
+                grp_pln2_quera5.BackColor = col2;
+                label42.BackColor = col3;
+                Dgv_Pnl2_Querato.ColumnHeadersDefaultCellStyle.BackColor = col3;
+                grp_pln2_Conv2.BackColor = col2;
+                lbl_pnl2_con_obser.BackColor = col3;
+                lbl_pnl2_con_obser.ForeColor = col2;
+                label30.BackColor = col3;
+                label30.ForeColor = ColorTranslator.FromHtml("#1c2422");
+                txt_pl2_msj.BackColor = col2;
+                txt_pl2_msj.ForeColor = ColorTranslator.FromHtml("#1c2422");
+                Dgv_Pnl3_Garantia.ColumnHeadersDefaultCellStyle.BackColor = col3;
             }
             //codigo oscuro
             else
@@ -11526,6 +11560,38 @@ namespace CapaVisual_Login
                 label16.BackColor = ColorTranslator.FromHtml("#003536");
                 label16.ForeColor = Color.White;
                 grp_pln2_Cont1.BackColor = col3;
+                tabPage2.BackColor = col3;
+                btn_pln2_quer.BackColor = col3;
+                btn_pln2_reti.BackColor = col3;
+                btn_pln2_oft.BackColor = col3;
+                grp_pln2_OBS.BackColor = col3;
+                Pnl_2_Tap2.BackColor = ColorTranslator.FromHtml("#003536");
+                Lbl_Tap2_Tipo_Exa.BackColor = ColorTranslator.FromHtml("#003536");
+                Lbl_Tap2_Datos.BackColor = ColorTranslator.FromHtml("#003536");
+                Lbl_Tap2_Datos.ForeColor = Color.White;
+                label31.BackColor = ColorTranslator.FromHtml("#003536");
+                label31.ForeColor = Color.White;
+                lbl_pnl2_obser.BackColor = ColorTranslator.FromHtml("#003536");
+                lbl_pnl2_obser.ForeColor = Color.White;
+                label32.BackColor = ColorTranslator.FromHtml("#003536");
+                label32.ForeColor = Color.White;
+                Dgv_Pnl2_medconv.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#2f6b64");
+                Dgv_Pnl2_cont.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#2f6b64");
+                grp_pln2_oft3.BackColor = col3;
+                label36.BackColor = ColorTranslator.FromHtml("#003536");
+                grp_pln2_ret4.BackColor = col3;
+                label38.BackColor = ColorTranslator.FromHtml("#003536");
+                grp_pln2_quera5.BackColor = col3;
+                label42.BackColor = ColorTranslator.FromHtml("#003536");
+                Dgv_Pnl2_Querato.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#2f6b64");
+                grp_pln2_Conv2.BackColor = col3;
+                lbl_pnl2_con_obser.ForeColor = col2;
+                lbl_pnl2_con_obser.BackColor = ColorTranslator.FromHtml("#07a79b");
+                label30.BackColor = ColorTranslator.FromHtml("#003536");
+                label30.ForeColor = Color.White;
+                txt_pl2_msj.BackColor = col2;
+                txt_pl2_msj.ForeColor = Color.White;
+                Dgv_Pnl3_Garantia.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#2f6b64");
             }
 
             this.BackColor = col2;
