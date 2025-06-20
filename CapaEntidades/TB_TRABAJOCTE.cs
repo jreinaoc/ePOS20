@@ -33,7 +33,7 @@ namespace CapaEntidades
         public DateTime? TFECMOD { get; set; }        // Usar DateTime? para permitir valores nulos
         public string USERCREA { get; set; }
         public string USERMOD { get; set; }
-        public int? CodDetVta { get; set; }          // Usar int? para permitir valores nulos
+        public string CodDetVta { get; set; }          // Usar int? para permitir valores nulos
         public string TipoExamen { get; set; }
         public int? Correlativo { get; set; }        // Usar int? para permitir valores nulos
         public decimal? TDISTANCIAVERTICE { get; set; } // Cambiado a decimal?   Dgv_Pnl2_medconv

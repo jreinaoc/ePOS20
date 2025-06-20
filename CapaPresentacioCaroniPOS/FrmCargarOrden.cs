@@ -67,6 +67,7 @@ namespace CapaVisual_Login
 
 
         // Declarar la lista para almacenar los resultados
+        private FrmRepOrden _FrmRepOrden = new FrmRepOrden();
         List<TB_ARTICULO> listaArticulos = new List<TB_ARTICULO>();
         FrmMostrarReporte _FrmMostrarReporte = new FrmMostrarReporte();
         private FrmClaveAutorizada _FrmClaveAutorizada = new FrmClaveAutorizada();
@@ -561,7 +562,7 @@ namespace CapaVisual_Login
                 case "Garantia":
                     this.Pnl_3_Garantia.Enabled = true;
                     this.Pnl_3_Garantia.Visible = true;
-                    this.Pnl_3_Garantia.Location = new Point(300, 30);
+                    this.Pnl_3_Garantia.Location = new Point(20, 30);
                     this.Pnl_3_Garantia.BringToFront();
                     break;
 
@@ -2005,10 +2006,7 @@ namespace CapaVisual_Login
             VisualizarPanel("MostrarCabezeraSecundaria");
             Txt_Pnl2_Examen.Text = Txt_Tap2_Examen.Text;
             tabControl.SelectedIndex = 2;
-            //codSucursal = _D_DetalleOrden.TB_PARAMETRO("SucursalId");
-            _D_Articulo.Agregar_TB_TRABAJO(_D_DetalleOrden.TB_PARAMETRO("SucursalId"), "", "", Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), "002", Convert.ToInt32(Txt_Pnl2_Examen.Text)
-              , txtHorizontal.Text, txtVertical.Text, txtMaxima.Text, txtPuente.Text, "0", "0", "A", "Cerca", "Cerca", "QUO", "001", "T", TB_USUARIO.COD_USR, "02", "CONVENCIONAL", "0", "0", "0", "0");
-
+            LLenar_TbTrabajo();
         }
 
         private void Dgv_Tap3_Articulo_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
@@ -3082,11 +3080,67 @@ namespace CapaVisual_Login
 
                 string codSucursal;
                 codSucursal = _D_DetalleOrden.TB_PARAMETRO("SucursalId");
-                _D_Articulo.Agregar_TB_TRABAJO(codSucursal, "", "", Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), "002", Convert.ToInt32(Txt_Pnl2_Examen.Text)
-                , txtHorizontal.Text, txtVertical.Text, txtMaxima.Text, txtPuente.Text, "0", "0", "A", "Cerca", "Cerca", "QUO", "001", "T", TB_USUARIO.COD_USR, "02", "CONVENCIONAL", "0", "0", "0", "0");
+                DateTime Fecha_Ofreci;
+                string Hora_Ofrecido;
+                if (_FechaHoraOfrecida != null && _FechaHoraOfrecida.Count > 0)
+                {
+                    FechaHoraOfrecida resultado = _FechaHoraOfrecida.First();
+                    Fecha_Ofreci = resultado.FechaOfrecida.Date;
+                    Hora_Ofrecido = resultado.HoraOfrecida;
+                }
+                else
+                {
+                    Fecha_Ofreci = DateTime.Today;
+                    Hora_Ofrecido = DateTime.Now.ToString("HH:mm:ss: tt");
+                }
+
+                //_D_Articulo.Agregar_TB_TRABAJO(codSucursal, "", "", Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), "002", Convert.ToInt32(Txt_Pnl2_Examen.Text)
+                //, txtHorizontal.Text, txtVertical.Text, txtMaxima.Text, txtPuente.Text, "0", "0", "A", "Cerca", "Cerca", "QUO", "001", "T", TB_USUARIO.COD_USR, "02", "CONVENCIONAL", "0", "0", "0", "0");
 
                 //VerificoParametrosCristales();
                 //VerificoRangoDiametroCristales();
+                AsignarParametrosFaltantes(nuevoTrabajo,"", "0", txtHorizontal.Text.Replace(',', '.'), txtVertical.Text.Replace(',', '.'), txtMaxima.Text.Replace(',', '.'), txtPuente.Text.Replace(',', '.'), Cbx_Pnl2_Laboratorio.SelectedValue.ToString(), Cbx_Pnl2_Servicio.SelectedValue.ToString(), Hora_Ofrecido, "T", Fecha_Ofreci, DateTime.Today, Cbx_Pnl2_Trbajo.SelectedValue.ToString(), Cbx_Pnl2_Trbajo.Text);
+
+                bool Respuesta = _Asignar_Rx.Verificar_Cristales_Parametros_Diametros(nuevoTrabajo, Dgv_Tap3_Articulo, codSucursal, Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Txt_Tap2_Examen.Text, LbResultado2, LbResultados, dgvRangoCrt);
+                if (!Respuesta && _Asignar_Rx.stringBuilder.Length > 0)
+                {
+
+                    if (_Asignar_Rx.stringBuilder.ToString() == "El cristal seleccionado no se adapta a los siguientes rangos")
+                    {
+                        lblDiametroD.Text = _Asignar_Rx.diamDgl;
+                        lblDiametroI.Text = _Asignar_Rx.diamIgl;
+                        lblDiametroD.Visible = lblDiametroI.Visible = true;
+                        LblTitulo.Text = _Asignar_Rx.stringBuilder.ToString();
+                        lblClaveAut.Visible = true;
+                        lblLeyenda.Visible = false;
+                        btnAutorizarRangosCrt.Visible = true;
+                        pnlRangoCrt.Show();
+                        return;
+
+                    }
+                    else if (_Asignar_Rx.stringBuilder.ToString() == "El Cristal no se adapta a estos parámetros")
+                    {
+                        lblDiametroD.Visible = false;
+                        lblDiametroI.Visible = false;
+                        LblTitulo.Text = _Asignar_Rx.stringBuilder.ToString();
+                        lblClaveAut.Visible = false;
+                        lblLeyenda.Visible = true;
+                        btnAutorizarRangosCrt.Visible = false;
+                        LbResultados.Visible = true;
+                        LbResultado2.Visible = true;
+                        pnlRangoCrt.Show();
+                        pnlRangoCrt.Location = new Point(200, 150);
+                        return;
+                    }
+                    else
+                    {
+                        _FrmMensajes.co = 2;
+                        _FrmMensajes.avisomensaje(_Asignar_Rx.stringBuilder.ToString());
+                        _FrmMensajes.ShowDialog();
+                        return; // Salir 
+                    }
+                }
+
 
                 string codModo = Cbx_Pnl2_Trbajo.SelectedValue?.ToString();
                 string tipoTrabajoVenta = _L_Articulo.ObtenerTipoVentaPorModo(codModo);
@@ -3147,19 +3201,6 @@ namespace CapaVisual_Login
                 //bool empresaAfiliada = EmpresaAfiliada;
                 //bool esEmpresaAfiliada = empresaAfiliada == "1" || empresaAfiliada.ToLower() == "true";
                 var glbManejaExisLC = _D_DetalleOrden.TB_PARAMETRO("LCManejaExist");
-                DateTime Fecha_Ofreci;
-                string Hora_Ofrecido;
-                if (_FechaHoraOfrecida != null && _FechaHoraOfrecida.Count > 0)
-                {
-                    FechaHoraOfrecida resultado = _FechaHoraOfrecida.First();
-                    Fecha_Ofreci = resultado.FechaOfrecida.Date;
-                    Hora_Ofrecido = resultado.HoraOfrecida;
-                }
-                else
-                {
-                    Fecha_Ofreci = DateTime.Today;
-                    Hora_Ofrecido= DateTime.Now.ToString("HH:mm:ss: tt");
-                }
 
                 Conexion cn = new Conexion();
                 SqlConnection connection = cn.LeerCadena();
@@ -3234,10 +3275,11 @@ namespace CapaVisual_Login
                     }
 
                     // --- Actualizar Trabajo y Existencias ---
-                    var actualizadoTrabajo = await _GuardarOrdenServ.ActualizarTrabajoYExistencias(numeroOrden, txtHorizontal.Text.Replace(',', '.'), txtVertical.Text.Replace(',', '.')
-, txtMaxima.Text.Replace(',', '.'), txtPuente.Text.Replace(',', '.'), "0", "0", "0", "0", "0", "A", "Cerca", "Cerca", TB_USUARIO.COD_USR, codSucursal, command);
+//                    var actualizadoTrabajo = await _GuardarOrdenServ.ActualizarTrabajoYExistencias(numeroOrden, txtHorizontal.Text.Replace(',', '.'), txtVertical.Text.Replace(',', '.')
+//, txtMaxima.Text.Replace(',', '.'), txtPuente.Text.Replace(',', '.'), "0", "0", "0", "0", "0", "A", "Cerca", "Cerca", TB_USUARIO.COD_USR, codSucursal, command);
 
-
+                    AsignarParametrosFaltantes(nuevoTrabajo, numeroOrden, "0", txtHorizontal.Text.Replace(',', '.'), txtVertical.Text.Replace(',', '.'), txtMaxima.Text.Replace(',', '.'), txtPuente.Text.Replace(',', '.'), Cbx_Pnl2_Laboratorio.SelectedValue.ToString(), Cbx_Pnl2_Servicio.SelectedValue.ToString(), Hora_Ofrecido, "T", Fecha_Ofreci, DateTime.Today, Cbx_Pnl2_Trbajo.SelectedValue.ToString(), Cbx_Pnl2_Trbajo.Text);
+                    var actualizadoTrabajo = _GuardarOrdenServ.AgregarTrabajo2(nuevoTrabajo, command);
                     // _L_Articulo.Inserta_TB_TRABAJO(numeroOrden, txtHorizontal.Text, txtVertical.Text, txtMaxima.Text,"0", "0", "0", "0", "0", "0", "A", "Cerca", "Cerca", TB_USUARIO.COD_USR, codSucursal);
 
                     if (!actualizadoTrabajo)
@@ -3271,6 +3313,74 @@ namespace CapaVisual_Login
                 mostrarError("Error al procesar el Guardado de Orden: " + ex.Message);
                 //Btn_Tap3_Procesar.Enabled = true;
             }
+
+        }
+
+        public void AsignarParametrosFaltantes(
+       TB_TRABAJOCTE nuevoTrabajo,
+       string tNumOrdserv,
+       string tRevision,
+       string tHorizontal,
+       string tVertical,
+       string tMaxima,
+       string tPuente,
+       string tLaboratorio,
+       string tServicio,
+       string tHoraOfrecido,
+       string tTipoRx,
+       DateTime? tFechaOfrecido,
+       DateTime? tFecCrea,
+       string codDetVta,
+       string Descripcion_Tipo_Venta
+   )
+        {
+            nuevoTrabajo.TNumOrdserv = tNumOrdserv;
+            nuevoTrabajo.THORIZONTAL = tHorizontal;
+            nuevoTrabajo.TVERTICAL = tVertical;
+            nuevoTrabajo.TMAXIMA = tMaxima;
+            nuevoTrabajo.TPUENTE = tPuente;
+            nuevoTrabajo.TLABORATORIO = tLaboratorio;
+            nuevoTrabajo.TSERVICIO = tServicio;
+            nuevoTrabajo.THORAOFRECIDO = tHoraOfrecido;
+            nuevoTrabajo.TFECHAOFRECIDO = tFechaOfrecido;
+            nuevoTrabajo.CodDetVta = codDetVta;
+            nuevoTrabajo.TTIPOTRABAJO =  (Descripcion_Tipo_Venta.Trim() == "Reparacion" || Descripcion_Tipo_Venta.Trim() == "Reparacion Empleado") ? "003" : "002";
+
+            if (string.IsNullOrWhiteSpace(nuevoTrabajo.TRevision))
+                nuevoTrabajo.TRevision = tRevision;
+
+            if (string.IsNullOrWhiteSpace(nuevoTrabajo.TTIPORX))
+                nuevoTrabajo.TTIPORX = tTipoRx;
+
+            if (!nuevoTrabajo.TFECCREA.HasValue)
+                nuevoTrabajo.TFECCREA = tFecCrea;
+
+        }
+
+        private void LLenar_TbTrabajo()
+        {
+
+            nuevoTrabajo.TCEDIDEN = Txt_Tap1_Cedula.Text.Trim();
+            nuevoTrabajo.TNACIO = Cbx_Tap1_Nacionalidad.Text.Trim(); // Ajusta según cómo manejas la nacionalidad
+            nuevoTrabajo.TALTD = Dgv_Pnl2_conv.Rows[0].Cells["ALTURA"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[0].Cells["ALTURA"].Value) : 0;
+            nuevoTrabajo.TALTI = Dgv_Pnl2_conv.Rows[1].Cells["ALTURA"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[1].Cells["ALTURA"].Value) : 0;
+            nuevoTrabajo.TTIPOVISIOND = Dgv_Pnl2_conv.Rows[0].Cells["VISION"]?.Value?.ToString() ?? " ";
+            nuevoTrabajo.TTIPOVISIONI = Dgv_Pnl2_conv.Rows[1].Cells["VISION"]?.Value?.ToString() ?? " ";
+            nuevoTrabajo.TSucursal = _D_DetalleOrden.TB_PARAMETRO("SucursalID");
+            nuevoTrabajo.TTIPOTRABAJO = "002";
+            nuevoTrabajo.USERCREA = TB_USUARIO.COD_USR;
+            if (Dgv_Pnl2_medconv.Rows.Count > 0)
+            {
+
+                nuevoTrabajo.TDISTANCIAVERTICE = Dgv_Pnl2_medconv.Rows[0].Cells[0]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_medconv.Rows[0].Cells[0].Value) : 0;
+                nuevoTrabajo.TANGULOPANTOSCOPICO = Dgv_Pnl2_medconv.Rows[0].Cells[1]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_medconv.Rows[0].Cells[1].Value) : 0;
+                nuevoTrabajo.TANGULOFACIAL = Dgv_Pnl2_medconv.Rows[0].Cells[2]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_medconv.Rows[0].Cells[2].Value) : 0;
+                nuevoTrabajo.TDISTANCIADELECTURA = Dgv_Pnl2_medconv.Rows[0].Cells[3]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_medconv.Rows[0].Cells[3].Value) : 0;
+
+
+            }
+            nuevoTrabajo.TOJO = Cbx_Tap2_Ojo.Text;
+            nuevoTrabajo.TipoExamen = Cbx_Tap2_Tipo_Examen.Text;
 
         }
 
@@ -3665,8 +3775,8 @@ namespace CapaVisual_Login
 
             string codSucursal;
             codSucursal = _D_DetalleOrden.TB_PARAMETRO("SucursalId");
-            _D_Articulo.Agregar_TB_TRABAJO(codSucursal, "", "", Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), "002", Convert.ToInt32(Txt_Pnl2_Examen.Text)
-              , txtHorizontal.Text, txtVertical.Text, txtMaxima.Text, txtPuente.Text, "0", "0", "A", "Cerca", "Cerca", "QUO", "001", "T", TB_USUARIO.COD_USR, "02", "CONVENCIONAL", "0", "0", "0", "0");
+            //_D_Articulo.Agregar_TB_TRABAJO(codSucursal, "", "", Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), "002", Convert.ToInt32(Txt_Pnl2_Examen.Text)
+            //  , txtHorizontal.Text, txtVertical.Text, txtMaxima.Text, txtPuente.Text, "0", "0", "A", "Cerca", "Cerca", "QUO", "001", "T", TB_USUARIO.COD_USR, "02", "CONVENCIONAL", "0", "0", "0", "0");
 
         }
 
@@ -4758,8 +4868,8 @@ namespace CapaVisual_Login
                 {
                     Txt_Pnl_2_Nombre.Text = dtCliente.Rows[0][0].ToString();
                     //Guarda en tb_trabajo temporal
-                    _D_Articulo.Agregar_TB_TRABAJO(_D_DetalleOrden.TB_PARAMETRO("SucursalId"), "", "", Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), "002", Convert.ToInt32(Txt_Pnl2_Examen.Text)
-                      , txtHorizontal.Text, txtVertical.Text, txtMaxima.Text, txtPuente.Text, "0", "0", "A", "Cerca", "Cerca", "QUO", "001", "T", TB_USUARIO.COD_USR, "02", "CONVENCIONAL", "0", "0", "0", "0");
+                    //_D_Articulo.Agregar_TB_TRABAJO(_D_DetalleOrden.TB_PARAMETRO("SucursalId"), "", "", Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), "002", Convert.ToInt32(Txt_Pnl2_Examen.Text)
+                    //  , txtHorizontal.Text, txtVertical.Text, txtMaxima.Text, txtPuente.Text, "0", "0", "A", "Cerca", "Cerca", "QUO", "001", "T", TB_USUARIO.COD_USR, "02", "CONVENCIONAL", "0", "0", "0", "0");
 
                 }
             }
@@ -4792,7 +4902,14 @@ namespace CapaVisual_Login
                 Dgv_Pnl3_Garantia.Columns.Remove(dataGridViewColumn2);
             }
 
-            Cbx_Pnl2_Trbajo.SelectedIndex = 0;
+            if (Cbx_Tap2_Tipo_Examen.Text == "CONTACTO")
+            {
+                Cbx_Pnl2_Trbajo.SelectedIndex = 1;
+            }
+            else if (Cbx_Tap2_Tipo_Examen.Text == "CONVENCIONAL")
+            {
+                Cbx_Pnl2_Trbajo.SelectedIndex = 0;
+            }
 
             VisualizarPanel("MostrarCabezeraSecundaria");
             HabilitacionControl("CabezeraPrincipal");
@@ -5221,6 +5338,7 @@ namespace CapaVisual_Login
         private void Btn_Pnl3_Cancelar_Click(object sender, EventArgs e)
         {
             LimpiarCamposTodos();
+            btnCargarOrden.Enabled = false;
         }
 
         private void Cbx_Tap1_Nacionalidad_SelectedIndexChanged(object sender, EventArgs e)
@@ -7028,10 +7146,11 @@ namespace CapaVisual_Login
                 dt.Rows[0]["Adicion"] = examen.ADDD;
                 dt.Rows[1]["Adicion"] = examen.ADDI;
 
-
-                dt.Rows[0]["Vision"] = trabajo.TTIPOVISIOND.Trim() ?? string.Empty;
-                dt.Rows[1]["Vision"] = trabajo.TTIPOVISIONI.Trim() ?? string.Empty;
-
+                if (trabajo != null)
+                {
+                    dt.Rows[0]["Vision"] = (trabajo.TTIPOVISIOND ?? string.Empty).Trim();
+                    dt.Rows[1]["Vision"] = (trabajo.TTIPOVISIONI ?? string.Empty).Trim();
+                }
 
 
 
@@ -7109,6 +7228,18 @@ namespace CapaVisual_Login
 
             tamañoExamenGridConv();
             AsignarCeroSiVacioDgv_Pnl2_conv();
+
+
+            // Habilitar la pestaña de Carga ordenes 
+            if (Dgv_Pnl2_conv != null && Dgv_Pnl2_conv.Rows.Count > 0 || Dgv_Pnl2_cont != null && Dgv_Pnl2_cont.Rows.Count > 0)
+            {
+                btnCargarOrden.Enabled = true;
+            }
+            else
+            {
+                btnCargarOrden.Enabled = false;
+            }
+
 
         }
 
@@ -7340,6 +7471,18 @@ namespace CapaVisual_Login
             // Asignar el DataTable como fuente de datos del DataGridView
             Dgv_Pnl2_cont.DataSource = dt;
             Dgv_Pnl2_cont.AutoGenerateColumns = false;
+
+
+            // Habilitar la pestaña de Carga ordenes 
+            if (Dgv_Pnl2_conv != null && Dgv_Pnl2_conv.Rows.Count > 0 || Dgv_Pnl2_cont != null && Dgv_Pnl2_cont.Rows.Count > 0)
+            {
+                btnCargarOrden.Enabled = true;
+            }
+            else
+            {
+                btnCargarOrden.Enabled = false;
+            }
+
 
             tamañoExamenGridCont();
             AsignarCeroSiVacioDgv_Pnl2_cont();
@@ -9334,7 +9477,7 @@ namespace CapaVisual_Login
             CargarFicconvOFT();
             CargarDgv_Pnl2_Querato();
             DesbloquearCamposE();
-
+            btnCargarOrden.Enabled = false;
 
         }
 
@@ -9749,7 +9892,9 @@ namespace CapaVisual_Login
                 Cbx_Tap2_Tipo_Optome.Focus();
                 return todosValidos; // Salir anticipadamente si este no es válido
             }
-            // Validar Cbx_Tap2_Tipo_Optome
+            // borrar 
+
+            //Validar Cbx_Tap2_Tipo_Optome
             if (Cbx_Tap2_Tipo_Optome.SelectedItem?.ToString() != "EXTERNO")
             {
                 // Validar Cbx_Tap2_Nombre_Optome
@@ -9930,6 +10075,7 @@ namespace CapaVisual_Login
                     Pnl_2_Msj.Visible = true;
                     txt_pl2_msj.Text = "Examen Guardado Exitosamente";
                     pb_pl2_mj.Visible = false;
+                    btnCargarOrden.Enabled = true;
                     AgregarRx();
                 }
 
@@ -11229,16 +11375,39 @@ namespace CapaVisual_Login
                 {
 
                     string concat = TB_CAORDSER.Cod_Sucursal + TB_CAORDSER.NumOrdserv + TB_CAORDSER.Revision;
-                    _FrmMostrarReporte.setParametros(concat);
-                    _FrmMostrarReporte.ConfigRep();
-                    if (_D_DetalleOrden.ParametroImpresion() == "1") // Si el parametro de impresion es 1 entonces imprime el reporte 
+                    if (TB_CAORDSER.Cod_DetVta == "02") // Si se procesa uan orden de contacto se muestra reporte de contacto  
                     {
-                        _FrmMostrarReporte.imprimir();
+                        _FrmRepOrden.setParametros(concat);
+                        _FrmRepOrden.ConfigRep(false, true);
+
+                        if (_D_DetalleOrden.ParametroImpresion() == "1") // Si el parametro de impresion es 1 entonces imprime el reporte 
+                        {
+                            _FrmRepOrden.imprimir();
+
+                        }
+                        else
+                        {
+                            _FrmRepOrden.ShowDialog();
+
+                        }
+
 
                     }
                     else
                     {
-                        _FrmMostrarReporte.ShowDialog();
+                        _FrmRepOrden.setParametros(concat);
+                        _FrmRepOrden.ConfigRep(true, false);
+
+                        if (_D_DetalleOrden.ParametroImpresion() == "1") // Si el parametro de impresion es 1 entonces imprime el reporte 
+                        {
+                            _FrmRepOrden.imprimir();
+
+                        }
+                        else
+                        {
+                            _FrmRepOrden.ShowDialog();
+
+                        }
 
                     }
 
@@ -11385,6 +11554,33 @@ namespace CapaVisual_Login
 
             Pnl_2.Visible = true;
             grp_pln2_Conv2.Visible = true;
+        }
+
+        private void Dgv_Pnl3_Garantia_CurrentCellDirtyStateChanged(object sender, EventArgs e)
+        {
+            if (Dgv_Pnl3_Garantia.IsCurrentCellDirty)
+            {
+                Dgv_Pnl3_Garantia.CommitEdit(DataGridViewDataErrorContexts.Commit);
+            }
+        }
+        private void Dgv_Pnl3_Garantia_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            // Verifica si la columna es la de CheckBox
+            if (Dgv_Pnl3_Garantia.Columns[e.ColumnIndex].Name == "E")
+            {
+                // Si la celda fue marcada
+                if (Convert.ToBoolean(Dgv_Pnl3_Garantia.Rows[e.RowIndex].Cells["E"].Value))
+                {
+                    // Desmarca todas las demás filas
+                    for (int i = 0; i < Dgv_Pnl3_Garantia.Rows.Count; i++)
+                    {
+                        if (i != e.RowIndex)
+                        {
+                            Dgv_Pnl3_Garantia.Rows[i].Cells["E"].Value = false;
+                        }
+                    }
+                }
+            }
         }
     }
 

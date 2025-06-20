@@ -4425,17 +4425,20 @@ namespace CapaLogica.CargarOrdenes
             Dgv_Tap3_Garantia.Columns["StatusFactura"].HeaderText = "Status";
             Dgv_Tap3_Garantia.Columns["Edad"].HeaderText = "Edad";
             Dgv_Tap3_Garantia.Columns["TiempoRepos"].HeaderText = "Tiempo Reposición";
+            Dgv_Tap3_Garantia.Columns["NumExamen"].HeaderText = "N° Examen";
 
             Dgv_Tap3_Garantia.Columns["CristalDerecho"].HeaderText = "Cristal Derecho";
             Dgv_Tap3_Garantia.Columns["CristalIzquierdo"].HeaderText = "Cristal Izquierdo";
             Dgv_Tap3_Garantia.Columns["Montura"].HeaderText = "Montura";
 
-            Dgv_Tap3_Garantia.Columns["Edad"].DisplayIndex = 18;
-            Dgv_Tap3_Garantia.Columns["TiempoRepos"].DisplayIndex = 19;
+            Dgv_Tap3_Garantia.Columns["Edad"].DisplayIndex = 17;
+            Dgv_Tap3_Garantia.Columns["TiempoRepos"].DisplayIndex = 18;
             Dgv_Tap3_Garantia.Columns["CristalDerecho"].DisplayIndex = 20;
             Dgv_Tap3_Garantia.Columns["CristalIzquierdo"].DisplayIndex = 21;
             Dgv_Tap3_Garantia.Columns["Montura"].DisplayIndex = 22;
             Dgv_Tap3_Garantia.Columns["FechaFactura"].DisplayIndex = 8;
+            Dgv_Tap3_Garantia.Columns["NumExamen"].DisplayIndex = 19;
+            Dgv_Tap3_Garantia.Columns["StatusFactura"].DisplayIndex = 25;
 
             //Ancho de columna
             Dgv_Tap3_Garantia.Columns["Cod_Sucursal"].Width = 70;
@@ -4452,7 +4455,7 @@ namespace CapaLogica.CargarOrdenes
             Dgv_Tap3_Garantia.Columns["CristalDerecho"].Width = 65;
             Dgv_Tap3_Garantia.Columns["CristalIzquierdo"].Width = 65;
             Dgv_Tap3_Garantia.Columns["Montura"].Width = 70;
-
+            Dgv_Tap3_Garantia.Columns["NumExamen"].Width = 50;
 
             // No modificable
             Dgv_Tap3_Garantia.Columns["Cod_Sucursal"].ReadOnly = true;;
@@ -4469,6 +4472,7 @@ namespace CapaLogica.CargarOrdenes
             Dgv_Tap3_Garantia.Columns["CristalDerecho"].ReadOnly = true;
             Dgv_Tap3_Garantia.Columns["CristalIzquierdo"].ReadOnly = true;
             Dgv_Tap3_Garantia.Columns["Montura"].ReadOnly = true;
+            Dgv_Tap3_Garantia.Columns["NumExamen"].ReadOnly = true;
 
             Dgv_Tap3_Garantia.Columns["Cod_Sucursal"].SortMode = DataGridViewColumnSortMode.NotSortable;
             Dgv_Tap3_Garantia.Columns["Cte_Nacionalidad"].SortMode = DataGridViewColumnSortMode.NotSortable;
@@ -4480,6 +4484,7 @@ namespace CapaLogica.CargarOrdenes
             Dgv_Tap3_Garantia.Columns["Edad"].SortMode = DataGridViewColumnSortMode.NotSortable;
             Dgv_Tap3_Garantia.Columns["TiempoRepos"].SortMode = DataGridViewColumnSortMode.NotSortable;
             Dgv_Tap3_Garantia.Columns["FechaFactura"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            Dgv_Tap3_Garantia.Columns["NumExamen"].SortMode = DataGridViewColumnSortMode.NotSortable;
             //Dgv_Tap3_Garantia.Columns["Cedula"].SortMode = DataGridViewColumnSortMode.NotSortable;
 
             foreach (DataGridViewColumn column in Dgv_Tap3_Garantia.Columns)
@@ -4496,6 +4501,7 @@ namespace CapaLogica.CargarOrdenes
     column.Name.Equals("CristalDerecho", StringComparison.OrdinalIgnoreCase) ||
     column.Name.Equals("CristalIzquierdo", StringComparison.OrdinalIgnoreCase) ||
     column.Name.Equals("FechaFactura", StringComparison.OrdinalIgnoreCase) ||
+    column.Name.Equals("NumExamen", StringComparison.OrdinalIgnoreCase) ||
     column.Name.Equals("Montura", StringComparison.OrdinalIgnoreCase)))
 
                     {
@@ -4514,6 +4520,8 @@ namespace CapaLogica.CargarOrdenes
 
             //AutoGenerar Columnas:
             Dgv_Tap3_Garantia.AutoGenerateColumns = false;
+            // No puedad cambiar el tamaño de las columnas
+            Dgv_Tap3_Garantia.AllowUserToResizeColumns = false;
 
         }
 

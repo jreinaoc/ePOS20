@@ -917,7 +917,7 @@ namespace CapaVisual_Login
             if (DgvListadoOrdenes.Columns[e.ColumnIndex].Name == "Btn2") // PARA ANULAR
             {
                 // Para anular una orden abonada 
-                if (DgvListadoOrdenes.CurrentRow.Cells["Estatus"].Value.ToString() == "Abonada  ")
+                if (DgvListadoOrdenes.CurrentRow.Cells["Estatus"].Value.ToString().Trim() == "Abonada  ")
                 {
                     // Con la siguiente funcion se cargan los datos en la entidad tbCaordser
                     _FrmFacturacion.CargarDatosOrden(DgvListadoOrdenes.CurrentRow.Cells["NumOrdserv"].Value.ToString(), DgvListadoOrdenes.CurrentRow.Cells["Nombre"].Value.ToString(), DgvListadoOrdenes.CurrentRow.Cells["Revision"].Value.ToString());
@@ -976,7 +976,7 @@ namespace CapaVisual_Login
                 }
 
                 ////NoataCredito
-                if (DgvListadoOrdenes.CurrentRow.Cells["Estatus"].Value.ToString() == "Facturada")
+                if (DgvListadoOrdenes.CurrentRow.Cells["Estatus"].Value.ToString().Trim() == "Facturada")
                 {
                     _FrmFacturacion.CargarDatosOrden(DgvListadoOrdenes.CurrentRow.Cells["NumOrdserv"].Value.ToString(), DgvListadoOrdenes.CurrentRow.Cells["Nombre"].Value.ToString(), DgvListadoOrdenes.CurrentRow.Cells["Revision"].Value.ToString());
                     _D_DetalleOrden.ObtenerFactura(TB_CAORDSER.NumOrdserv);
@@ -1134,7 +1134,7 @@ namespace CapaVisual_Login
 
 
                 //Para anular orden por pagar 
-                if (DgvListadoOrdenes.CurrentRow.Cells["Estatus"].Value.ToString() == "Por pagar")
+                if (DgvListadoOrdenes.CurrentRow.Cells["Estatus"].Value.ToString().Trim() == "Por pagar")
                 {
                     _FrmFacturacion.CargarDatosOrden(DgvListadoOrdenes.CurrentRow.Cells["NumOrdserv"].Value.ToString(), DgvListadoOrdenes.CurrentRow.Cells["Nombre"].Value.ToString(), DgvListadoOrdenes.CurrentRow.Cells["Revision"].Value.ToString());
 

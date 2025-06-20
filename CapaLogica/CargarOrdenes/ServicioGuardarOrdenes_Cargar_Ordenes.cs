@@ -18,12 +18,14 @@ namespace CapaLogica.CargarOrdenes
         private readonly L_Articulo _L_Articulo;
         private readonly D_DetalleOrden _D_DetalleOrden;
         private readonly ServicioValidaciones_CargarOrdenes _servicioValidaciones;
+        private readonly D_Trabajo  _D_Trabajo;
 
         public ServicioGuardarOrdenes_Cargar_Ordenes(ServicioValidaciones_CargarOrdenes servicioValidaciones)
         {
             _L_Articulo = new L_Articulo();
             _D_DetalleOrden = new D_DetalleOrden();
             _servicioValidaciones = servicioValidaciones;
+            _D_Trabajo = new D_Trabajo();
         }
 
         //public async Task<string> GuardarOrdenServicioAsync(AgregarOrdenServicio_CargarOrdenes datos, SqlCommand command)
@@ -219,6 +221,8 @@ namespace CapaLogica.CargarOrdenes
             }
         }
 
+    
+
         //Actualizo la tabla tbTrabajo
         public async Task<bool> ActualizarTrabajoYExistencias(string NUMOS, string HORIZ, string VERT, string MAX, string PTE, string DISVERT,
             string ANPANT, string ANFAC, string ALTD, string ALTI, string OJO, string TVISD, string TVISI, string USER, string SUC, SqlCommand command)
@@ -235,34 +239,6 @@ namespace CapaLogica.CargarOrdenes
                     return false;
                 }
 
-                //// 2. Actualizar existencias si corresponde
-                //for (int fila = 0; fila < dgvArticulos.Rows.Count; fila++)
-                //{
-                //    var row = dgvArticulos.Rows[fila];
-                //    if (row.IsNewRow) continue;
-
-                //    string codArticulo = row.Cells["CodArticulo"].Value?.ToString();
-                //    string codigoLab = row.Cells["CodigoLab"].Value?.ToString();
-                //    int cantidad = Convert.ToInt32(row.Cells["ART_EXIST"].Value);
-
-                //    //bool rebajoExistencia = false;
-
-                //    //if (manejaExisLC == "1" && codDetVta == "02")
-                //    //{
-                //    //    rebajoExistencia = await _L_Articulo.RebajarInventario(codArticulo, codigoLab, cantidad, command);
-                //    //}
-                //    //else
-                //    //{
-                //    //    rebajoExistencia = await _L_Articulo.RebajarInventario(codArticulo, null, cantidad, command);
-                //    //}
-
-                //    //if (!rebajoExistencia)
-                //    //{
-                //    //    MessageBox.Show($"No se pudo rebajar inventario para el artículo {codArticulo}.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                //    //    return false;
-                //    //}
-                //}
-
                 return true;
             }
             catch (Exception ex)
@@ -271,6 +247,24 @@ namespace CapaLogica.CargarOrdenes
                 return false;
             }
         }
+
+        public bool AgregarTrabajo2(TB_TRABAJOCTE nuevoTrabajo, SqlCommand command)
+        {
+            try
+            {
+                bool Respuesta = _D_Trabajo.AgregarTrabajo2(nuevoTrabajo, command);
+
+                return Respuesta;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error general al actualizar TB_TRABAJO o rebajar inventario: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+        }
+        // Puedes 
+
+     
 
 
         public async Task<DataSet> LlamarActualizarGarantiaAsync(string OS, string Suc, string OsResposable, SqlCommand command)

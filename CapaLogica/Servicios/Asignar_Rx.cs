@@ -10,6 +10,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace CapaLogica.Servicios
 {
@@ -412,6 +413,107 @@ namespace CapaLogica.Servicios
 
 
             return (fechaOfre, horaOfre);
+        }
+
+        public bool Verificar_Cristales_Parametros_Diametros(TB_TRABAJOCTE TRABAJO, DataGridView Dgv_Tap3_Articulo, string sucursal, string nacio, string cediden, string Examen, System.Windows.Forms.ListView LbResultado2, System.Windows.Forms.ListView LbResultados, System.Windows.Forms.DataGridView dgvRangoCrt)
+        {
+            stringBuilder.Clear();
+
+            try
+            {
+            string CristalD = "";
+            string CristalI = "";
+            string Montura = "";
+            string Color = "NO";
+
+                TB_TRABAJO trabajoConvertido = ConvertirATrabajo(TRABAJO);
+                _TRABAJO.Clear();
+                _TRABAJO.Add(trabajoConvertido);
+
+                for (int xx = 0; xx < Dgv_Tap3_Articulo.RowCount; xx++)
+            {
+                var row = Dgv_Tap3_Articulo.Rows[xx];
+                if (Dgv_Tap3_Articulo.Rows[xx].Cells["CodArticulo"].Value.ToString().StartsWith("C") && Dgv_Tap3_Articulo.Rows[xx].Cells["ojo"].Value.ToString() == "A")
+                {
+                    CristalD = Dgv_Tap3_Articulo.Rows[xx].Cells["CodArticulo"].Value.ToString();
+                    CristalI = Dgv_Tap3_Articulo.Rows[xx].Cells["CodArticulo"].Value.ToString();
+                }
+                else if (Dgv_Tap3_Articulo.Rows[xx].Cells["CodArticulo"].Value.ToString().StartsWith("C") && Dgv_Tap3_Articulo.Rows[xx].Cells["ojo"].Value.ToString() == "D")
+                {
+                    CristalD = Dgv_Tap3_Articulo.Rows[xx].Cells["CodArticulo"].Value.ToString();
+                }
+                else if (Dgv_Tap3_Articulo.Rows[xx].Cells["CodArticulo"].Value.ToString().StartsWith("C") && Dgv_Tap3_Articulo.Rows[xx].Cells["ojo"].Value.ToString() == "I")
+                {
+                    CristalI = Dgv_Tap3_Articulo.Rows[xx].Cells["CodArticulo"].Value.ToString();
+                }
+
+                else if (row.Cells["CodArticulo"].Value.ToString().StartsWith("M"))
+                {
+                    Montura = row.Cells["CodArticulo"].Value.ToString();
+                }
+                else if (Dgv_Tap3_Articulo.Rows[xx].Cells["CodArticulo"].Value.ToString() == "S000004")
+                {
+                    Color = "SI";
+                }
+            }
+
+            if (!VerificoParametrosCristales(_TRABAJO, nacio, cediden, Examen, CristalD, CristalI, Color, LbResultado2, LbResultados, dgvRangoCrt))
+            {
+                return false;
+            }
+
+            if (!VerificoRangoDiametroCristales(_TRABAJO, nacio, cediden, Examen, CristalD, CristalI, Montura, sucursal, dgvRangoCrt))
+            {
+                return false;
+            }
+
+            return true;
+            }
+
+            catch (Exception ex)
+            {
+                stringBuilder.Append(Environment.NewLine + string.Format("Error: {0}", ex.Message));
+                return false;
+            }
+        }
+
+        private TB_TRABAJO ConvertirATrabajo(TB_TRABAJOCTE trabajoCte)
+        {
+            return new TB_TRABAJO
+            {
+                T_SUCURSAL = trabajoCte.TSucursal,
+                T_NumOrdserv = trabajoCte.TNumOrdserv,
+                T_Revision = trabajoCte.TRevision,
+                T_CEDIDEN = trabajoCte.TCEDIDEN,
+                T_NACIO = trabajoCte.TNACIO,
+                T_TIPOTRABAJO = trabajoCte.TTIPOTRABAJO,
+                T_EXAMEN = int.TryParse(trabajoCte.TEXAMEN, out int examen) ? (int?)examen : null,
+                T_HORIZONTAL = float.TryParse(trabajoCte.THORIZONTAL, out float horizontal) ? (float?)horizontal : null,
+                T_VERTICAL = float.TryParse(trabajoCte.TVERTICAL, out float vertical) ? (float?)vertical : null,
+                T_MAXIMA = float.TryParse(trabajoCte.TMAXIMA, out float maxima) ? (float?)maxima : null,
+                T_PUENTE = float.TryParse(trabajoCte.TPUENTE, out float puente) ? (float?)puente : null,
+                T_ALTD = (float?)trabajoCte.TALTD,
+                T_ALTI = (float?)trabajoCte.TALTI,
+                T_OJO = trabajoCte.T_OJO ?? trabajoCte.TOJO,
+                T_TIPOVISIOND = trabajoCte.TTIPOVISIOND,
+                T_TIPOVISIONI = trabajoCte.TTIPOVISIONI,
+                T_LABORATORIO = trabajoCte.TLABORATORIO,
+                T_SERVICIO = trabajoCte.TSERVICIO,
+                T_HORAOFRECIDO = trabajoCte.THORAOFRECIDO,
+                T_TIPORX = trabajoCte.TTIPORX,
+                T_FECHAOFRECIDO = trabajoCte.TFECHAOFRECIDO?.ToString("yyyy-MM-dd"),
+                T_FECCREA = trabajoCte.TFECCREA ?? DateTime.Now,
+                T_FECMOD = trabajoCte.TFECMOD,
+                USER_CREA = trabajoCte.USERCREA,
+                USER_MOD = trabajoCte.USERMOD,
+                Cod_DetVta = trabajoCte.CodDetVta,
+                TipoExamen = trabajoCte.TipoExamen,
+                T_DISTANCIAVERTICE = trabajoCte.TDISTANCIAVERTICE.HasValue ? (float?)trabajoCte.TDISTANCIAVERTICE.Value : null,
+                T_ANGULOPANTOSCOPICO = trabajoCte.TANGULOPANTOSCOPICO.HasValue ? (float?)trabajoCte.TANGULOPANTOSCOPICO.Value : null,
+                T_ANGULOFACIAL = trabajoCte.TANGULOFACIAL.HasValue ? (float?)trabajoCte.TANGULOFACIAL.Value : null,
+                Correlativo =  0,
+                T_DISTANCIADELECTURA = trabajoCte.TDISTANCIADELECTURA.HasValue ? (float?)trabajoCte.TDISTANCIADELECTURA.Value : null
+            };
         }
     }
 }

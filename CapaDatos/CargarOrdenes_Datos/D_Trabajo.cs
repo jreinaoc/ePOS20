@@ -114,6 +114,71 @@ namespace CapaDatos.CargarOrdenes_Datos // O el namespace que prefieras para tus
             }
         }
 
+        public bool AgregarTrabajo2(TB_TRABAJOCTE nuevoTrabajo, SqlCommand command1 = null)
+        {
+            stringBuilder.Clear();
+
+            try
+            {
+                if (command1 == null)
+                {
+                    SqlConnection connection = cn.LeerCadena();
+                    command1 = connection.CreateCommand();
+                }
+
+                SqlCommand command = command1;
+                command.Parameters.Clear();
+                command.CommandText = "SP_CPOSC_AgregarActualizarTrabajo";
+                command.CommandType = CommandType.StoredProcedure;
+
+                        // Agregar los parámetros al comando
+                        command.Parameters.AddWithValue("@TSucursal", nuevoTrabajo.TSucursal ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@TNumOrdserv", nuevoTrabajo.TNumOrdserv ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@TRevision", nuevoTrabajo.TRevision ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@TCEDIDEN", nuevoTrabajo.TCEDIDEN ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@TNACIO", nuevoTrabajo.TNACIO ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@TTIPOTRABAJO", nuevoTrabajo.TTIPOTRABAJO ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@TEXAMEN", nuevoTrabajo.TEXAMEN ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@THORIZONTAL", nuevoTrabajo.THORIZONTAL ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@TVERTICAL", nuevoTrabajo.TVERTICAL ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@TMAXIMA", nuevoTrabajo.TMAXIMA ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@TPUENTE", nuevoTrabajo.TPUENTE ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@TALTD", nuevoTrabajo.TALTD);
+                        command.Parameters.AddWithValue("@TALTI", nuevoTrabajo.TALTI);
+                        command.Parameters.AddWithValue("@TOJO", nuevoTrabajo.TOJO ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@TTIPOVISIOND", nuevoTrabajo.TTIPOVISIOND ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@TTIPOVISIONI", nuevoTrabajo.TTIPOVISIONI ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@TLABORATORIO", nuevoTrabajo.TLABORATORIO ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@TSERVICIO", nuevoTrabajo.TSERVICIO ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@THORAOFRECIDO", nuevoTrabajo.THORAOFRECIDO ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@TTIPORX", nuevoTrabajo.TTIPORX ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@TFECHAOFRECIDO", nuevoTrabajo.TFECHAOFRECIDO.HasValue ? (object)nuevoTrabajo.TFECHAOFRECIDO.Value : DBNull.Value);
+                        command.Parameters.AddWithValue("@TFECCREA", nuevoTrabajo.TFECCREA.HasValue ? (object)nuevoTrabajo.TFECCREA.Value : DBNull.Value);
+                        //command.Parameters.AddWithValue("@TFECMOD", nuevoTrabajo.TFECMOD.HasValue ? (object)nuevoTrabajo.TFECMOD.Value : DBNull.Value);
+                        command.Parameters.AddWithValue("@USERCREA", nuevoTrabajo.USERCREA ?? (object)DBNull.Value);
+                        //command.Parameters.AddWithValue("@USERMOD", nuevoTrabajo.USERMOD ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@CodDetVta", nuevoTrabajo.CodDetVta ?? (object) DBNull.Value);
+                        command.Parameters.AddWithValue("@TipoExamen", nuevoTrabajo.TipoExamen ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@TDISTANCIAVERTICE", nuevoTrabajo.TDISTANCIAVERTICE ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@TANGULOPANTOSCOPICO", nuevoTrabajo.TANGULOPANTOSCOPICO ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@TANGULOFACIAL", nuevoTrabajo.TANGULOFACIAL ?? (object)DBNull.Value);
+                        //command.Parameters.AddWithValue("@Correlativo", nuevoTrabajo.Correlativo.HasValue ? (object)nuevoTrabajo.Correlativo.Value : DBNull.Value);
+                        command.Parameters.AddWithValue("@TDISTANCIADELECTURA", nuevoTrabajo.TDISTANCIADELECTURA ?? (object)DBNull.Value);
+                // Ejecutar el Stored Procedure y obtener el número de filas afectadas
+
+                SqlDataAdapter da = new SqlDataAdapter(command);
+                DataSet dts = new DataSet();
+                da.Fill(dts);
+                command.Parameters.Clear();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                stringBuilder.Append(Environment.NewLine + string.Format("Error al agregar Trabajo: {0}", ex.Message));
+                return false;
+            }
+        }
         private TB_TRABAJOCTE MapDataReaderToTrabajo(SqlDataReader reader)
         {
             return new TB_TRABAJOCTE
