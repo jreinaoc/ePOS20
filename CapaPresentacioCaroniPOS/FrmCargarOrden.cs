@@ -3110,7 +3110,7 @@ namespace CapaVisual_Login
                 //VerificoRangoDiametroCristales();
                 AsignarParametrosFaltantes(nuevoTrabajo,"", "0", txtHorizontal.Text.Replace(',', '.'), txtVertical.Text.Replace(',', '.'), txtMaxima.Text.Replace(',', '.'), txtPuente.Text.Replace(',', '.'), Cbx_Pnl2_Laboratorio.SelectedValue.ToString(), Cbx_Pnl2_Servicio.SelectedValue.ToString(), Hora_Ofrecido, "T", Fecha_Ofreci, DateTime.Today, Cbx_Pnl2_Trbajo.SelectedValue.ToString(), Cbx_Pnl2_Trbajo.Text);
 
-                bool Respuesta = _Asignar_Rx.Verificar_Cristales_Parametros_Diametros(nuevoTrabajo, Dgv_Tap3_Articulo, codSucursal, Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Txt_Tap2_Examen.Text, LbResultado2, LbResultados, dgvRangoCrt);
+                bool Respuesta = _Asignar_Rx.Verificar_Cristales_Parametros_Diametros(nuevoTrabajo, Dgv_Tap3_Articulo, Cbx_Pnl2_Trbajo.SelectedValue.ToString(), codSucursal, Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Txt_Tap2_Examen.Text, LbResultado2, LbResultados, dgvRangoCrt);
                 if (!Respuesta && _Asignar_Rx.stringBuilder.Length > 0)
                 {
 
@@ -3124,6 +3124,7 @@ namespace CapaVisual_Login
                         lblLeyenda.Visible = false;
                         btnAutorizarRangosCrt.Visible = true;
                         pnlRangoCrt.Show();
+                        pnlRangoCrt.Location = new Point(200, 150);
                         return;
 
                     }
@@ -3206,6 +3207,7 @@ namespace CapaVisual_Login
                 string sucursal = TB_USUARIO.COD_SUCURSAL;
                 string cedulaAfiliado = Dgv_Pnl3_ClienteAfiliado.CurrentRow?.Cells["Codigo_Emp"]?.Value?.ToString();
                 string codigoEmpresaAfiliada = Dgv_Pnl3_ClienteAfiliado.CurrentRow?.Cells["Codigo_Emp"]?.Value?.ToString();
+                DateTime FechaActiva = _D_Inicio.DiaActivo();
                 bool monturaEstaEnQuorum = _servicioValidaciones.MonturaEstaEnQuorum(codMonturaSeleccionada, sucursal, codServicio);
                 //bool empresaAfiliada = EmpresaAfiliada;
                 //bool esEmpresaAfiliada = empresaAfiliada == "1" || empresaAfiliada.ToLower() == "true";
@@ -3234,8 +3236,8 @@ namespace CapaVisual_Login
                         TB_USUARIO.COD_EMPLEADO,
                         Cbx_Pnl2_Laboratorio.Visible== false? "000": Cbx_Pnl2_Laboratorio.SelectedValue.ToString(),
                         Cbx_Pnl2_Servicio.Visible == false ? "000" : Cbx_Pnl2_Servicio.SelectedValue.ToString(),
-                        //glbNumVision,
-                        codigoEmpresaAfiliada,
+                        glbNumVision,
+                        //codigoEmpresaAfiliada,
                         txtObservacion.Text,
                         tipoTrabajoVenta,
                         Cbx_Pnl2_Trbajo.SelectedValue.ToString(),
@@ -3253,6 +3255,7 @@ namespace CapaVisual_Login
                         Fecha_Ofreci,
                         Hora_Ofrecido,
                         EmpresaAfiliada == "" ? false :true,
+                        FechaActiva,
                         command
                     );
 
@@ -11455,6 +11458,7 @@ namespace CapaVisual_Login
                         lblLeyenda.Visible = false;
                         btnAutorizarRangosCrt.Visible = true;
                         pnlRangoCrt.Show();
+                        pnlRangoCrt.Location = new Point(200, 150);
 
                     }
                     else if (_Asignar_Rx.stringBuilder.ToString() == "El Cristal no se adapta a estos parámetros")

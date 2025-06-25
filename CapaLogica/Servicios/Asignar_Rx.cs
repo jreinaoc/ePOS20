@@ -43,7 +43,7 @@ namespace CapaLogica.Servicios
 
                 if (GlbCodDetVta == "08" && !string.IsNullOrEmpty(OSaModificar))
                 {
-                    var Lista_Trabajo = _D_Articulo.ObtenerTrabajo(sucursal, nacio, cediden, Examen, command);  // Trae el detalle del articulo 
+                    var Lista_Trabajo = _D_Articulo.ObtenerTrabajo(sucursal, nacio, cediden, Examen, OSaModificar, command);  // Trae el detalle del articulo 
                     _TRABAJO.Clear(); // Limpiar la lista para evitar duplicados
                     _TRABAJO.AddRange(Lista_Trabajo); // Agregar los datos obtenidos
 
@@ -59,7 +59,7 @@ namespace CapaLogica.Servicios
                     string color = dsOS.Tables[0].Rows[0]["COLOR"].ToString();
                     string cristalD = dsOS.Tables[0].Rows[0]["CRISTALD"].ToString();
                     string cristalI = dsOS.Tables[0].Rows[0]["CRISTALI"].ToString();
-
+                    // solo se verifica si CodVenta = 01  VerificoParametrosCristales
                     if (!VerificoParametrosCristales(_TRABAJO, nacio, cediden, Examen, cristalD, cristalI, color == "0" ? "NO" : "SI", LbResultado2, LbResultados, dgvRangoCrt, command))
                     {
                         command.Transaction.Rollback();
@@ -78,7 +78,7 @@ namespace CapaLogica.Servicios
                     // Modificar trabajo
                     DataSet dsModificoTrabajo = _D_Articulo.MODIFICATB_TRABAJO(
         trabajo.T_NumOrdserv,                                 // @NUMOS
-        trabajo.T_EXAMEN?.ToString(),                         // @EXAM
+        Examen,                         // @EXAM
 (trabajo.T_HORIZONTAL?.ToString().Replace(".", "") ?? "0"),
 (trabajo.T_VERTICAL?.ToString().Replace(".", "") ?? "0"),
 (trabajo.T_MAXIMA?.ToString().Replace(".", "") ?? "0"),
@@ -103,7 +103,7 @@ namespace CapaLogica.Servicios
                     if (dsModificoTrabajo.Tables[0].Rows[0][0].ToString() == "SATISFACTORIO")
                     {
                         // Modificar OS
-                        DataSet dsModificoOS = _D_Articulo.ModificaTbCaOrdSerRx(trabajo.T_NumOrdserv, trabajo.T_EXAMEN?.ToString(), TB_CAORDSER.Cod_Laboratorio, TB_CAORDSER.Cod_Servicio, fecha, hora,
+                        DataSet dsModificoOS = _D_Articulo.ModificaTbCaOrdSerRx(trabajo.T_NumOrdserv, Examen, TB_CAORDSER.Cod_Laboratorio, TB_CAORDSER.Cod_Servicio, fecha, hora,
                             (GlbCodDetVta == "08" ? "01" : "02"), TB_USUARIO.COD_USR, sucursal);
 
                         if (dsModificoOS.Tables[0].Rows[0][0].ToString() == "SATISFACTORIO")
@@ -278,7 +278,7 @@ namespace CapaLogica.Servicios
 
                 // Validación de parámetros
 
-                if (Enumerable.Range(0, 13).All(x => dsParamCRT.Tables[2].Rows[0][x].ToString() == "1"))
+                if (Enumerable.Range(1, 12).All(x => dsParamCRT.Tables[2].Rows[0][x].ToString() == "1"))
                 {
                     AceptaCristalD = true;
                 }
@@ -294,7 +294,7 @@ namespace CapaLogica.Servicios
                     }
                 }
 
-                if (Enumerable.Range(0, 17).All(x => dsParamCRT2.Tables[2].Rows[0][x].ToString() == "1"))
+                if (Enumerable.Range(1, 12).All(x => dsParamCRT2.Tables[2].Rows[0][x].ToString() == "1"))
                 {
                     AceptaCristalI = true;
                 }
@@ -314,7 +314,7 @@ namespace CapaLogica.Servicios
             {
                 dsParamCRT = _D_Articulo.MostrarRangosCrtGrid(nacionalidad, cedula, Examen, CristalD, "D", _Trabajo.T_TIPOVISIOND, Convert.ToDecimal(_Trabajo.T_ALTD), 0, Convert.ToDecimal(_Trabajo.T_DISTANCIAVERTICE), Convert.ToDecimal(_Trabajo.T_ANGULOFACIAL), Convert.ToDecimal(_Trabajo.T_ANGULOPANTOSCOPICO), "", _Trabajo.T_SERVICIO, _Trabajo.T_LABORATORIO, Convert.ToString(_Trabajo.T_DISTANCIAVERTICE), Convert.ToString(_Trabajo.T_ANGULOFACIAL), Convert.ToString(_Trabajo.T_ANGULOPANTOSCOPICO), Convert.ToString(_Trabajo.T_DISTANCIADELECTURA), command);
 
-                AceptaCristalD = Enumerable.Range(0, 17).All(x => dsParamCRT.Tables[2].Rows[0][x].ToString() == "1");
+                AceptaCristalD = Enumerable.Range(1, 12).All(x => dsParamCRT.Tables[2].Rows[0][x].ToString() == "1");
                 AceptaCristalI = AceptaCristalD;
 
                 if (!AceptaCristalD)
@@ -332,7 +332,7 @@ namespace CapaLogica.Servicios
             {
                 dsParamCRT2 = _D_Articulo.MostrarRangosCrtGrid(nacionalidad, cedula, Examen, CristalI, "I", _Trabajo.T_TIPOVISIONI, Convert.ToDecimal(_Trabajo.T_ALTI), 0, Convert.ToDecimal(_Trabajo.T_DISTANCIAVERTICE), Convert.ToDecimal(_Trabajo.T_ANGULOFACIAL), Convert.ToDecimal(_Trabajo.T_ANGULOPANTOSCOPICO), "", _Trabajo.T_SERVICIO, _Trabajo.T_LABORATORIO, Convert.ToString(_Trabajo.T_DISTANCIAVERTICE), Convert.ToString(_Trabajo.T_ANGULOFACIAL), Convert.ToString(_Trabajo.T_ANGULOPANTOSCOPICO), Convert.ToString(_Trabajo.T_DISTANCIADELECTURA), command);
 
-                AceptaCristalI = Enumerable.Range(0, 17).All(x => dsParamCRT2.Tables[2].Rows[0][x].ToString() == "1");
+                AceptaCristalI = Enumerable.Range(1, 12).All(x => dsParamCRT2.Tables[2].Rows[0][x].ToString() == "1");
                 AceptaCristalD = AceptaCristalI;
 
                 if (!AceptaCristalI)
@@ -415,7 +415,7 @@ namespace CapaLogica.Servicios
             return (fechaOfre, horaOfre);
         }
 
-        public bool Verificar_Cristales_Parametros_Diametros(TB_TRABAJOCTE TRABAJO, DataGridView Dgv_Tap3_Articulo, string sucursal, string nacio, string cediden, string Examen, System.Windows.Forms.ListView LbResultado2, System.Windows.Forms.ListView LbResultados, System.Windows.Forms.DataGridView dgvRangoCrt)
+        public bool Verificar_Cristales_Parametros_Diametros(TB_TRABAJOCTE TRABAJO, DataGridView Dgv_Tap3_Articulo, string GlbCodDetVta, string sucursal, string nacio, string cediden, string Examen, System.Windows.Forms.ListView LbResultado2, System.Windows.Forms.ListView LbResultados, System.Windows.Forms.DataGridView dgvRangoCrt)
         {
             stringBuilder.Clear();
 
@@ -456,13 +456,13 @@ namespace CapaLogica.Servicios
                     Color = "SI";
                 }
             }
-
-            if (!VerificoParametrosCristales(_TRABAJO, nacio, cediden, Examen, CristalD, CristalI, Color, LbResultado2, LbResultados, dgvRangoCrt))
+                // solo se verifica si CodVenta = 01  VerificoParametrosCristales
+            if (GlbCodDetVta == "01" && !VerificoParametrosCristales(_TRABAJO, nacio, cediden, Examen, CristalD, CristalI, Color, LbResultado2, LbResultados, dgvRangoCrt))
             {
                 return false;
             }
 
-            if (!VerificoRangoDiametroCristales(_TRABAJO, nacio, cediden, Examen, CristalD, CristalI, Montura, sucursal, dgvRangoCrt))
+            if (GlbCodDetVta == "01" && !VerificoRangoDiametroCristales(_TRABAJO, nacio, cediden, Examen, CristalD, CristalI, Montura, sucursal, dgvRangoCrt))
             {
                 return false;
             }

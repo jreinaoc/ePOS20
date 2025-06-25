@@ -85,6 +85,7 @@ namespace CapaLogica.CargarOrdenes
     DateTime Fec_ofrecido,
     string Hor_ofrecido,
     bool ventaAfil,
+    DateTime FechaActiva,
     SqlCommand command)
         {
             try
@@ -114,10 +115,10 @@ namespace CapaLogica.CargarOrdenes
                     OrSer_Status = "004",
                     OrSer_Observ = observacion,
                     User_Crea = usuarioActual,
-                    Fecha = DateTime.Now,
+                    Fecha = FechaActiva,
                     MonturaPropia = monturaPropia,
                     Cod_DetVta = codd_Venta,
-                    Aplica = promocionAplicada,
+                    Aplica =  codTrabajo == "08" ? true : promocionAplicada,
                     OTCORRESPONDIENTE = "",
                     VentaAfil = ventaAfil,
                     CristalPropio = cristalPropio,
