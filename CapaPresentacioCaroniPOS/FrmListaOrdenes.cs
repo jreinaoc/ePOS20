@@ -1475,13 +1475,16 @@ namespace CapaVisual_Login
                 //Se cargan los datos de la orden 
                 _D_DetalleOrden.Datos_de_la_Orden(DgvListadoOrdenes.CurrentRow.Cells["NumOrdserv"].Value.ToString(), DgvListadoOrdenes.CurrentRow.Cells["Revision"].Value.ToString());
 
-                // Se pide la clave de gerente 
-                _FrmClaveGerente.ShowDialog();
+                // Se pide la clave de gerente
+                if (TB_CAORDSER.Cod_DetVta == "08")
+                    _FrmClaveGerente.ShowDialog();
+                else
+                    return;
 
                 if (_FrmClaveGerente.ClaveCorrecta == true)
                 {
 
-                    if (_FrmClaveGerente.DialogResult == DialogResult.OK)
+                    if ( _FrmClaveGerente.DialogResult == DialogResult.OK)
                     {
                         Formulario_CargaOrden = true;
                         PnlLSecundario.Visible = true;

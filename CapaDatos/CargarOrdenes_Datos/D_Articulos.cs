@@ -110,7 +110,7 @@ namespace CapaDatos.CargarOrdenes_Datos
            }
         }
 
-        public List<TB_TRABAJO> ObtenerTrabajo(string sucursal, string nacio, string cediden, string Examen= null ,SqlCommand command = null)  // Trae el detalle del articulo 
+        public List<TB_TRABAJO> ObtenerTrabajo(string sucursal, string nacio, string cediden, string Examen= null , string NumeroOrden= null ,SqlCommand command = null)  // Trae el detalle del articulo 
         {
             // Declarar la lista para almacenar los resultados
             List<TB_TRABAJO> T_Trabajo = new List<TB_TRABAJO>();
@@ -133,6 +133,10 @@ namespace CapaDatos.CargarOrdenes_Datos
                 if (!string.IsNullOrEmpty(Examen))
                 {
                     command.Parameters.AddWithValue("@Examen", Examen);
+                }
+                if (!string.IsNullOrEmpty(NumeroOrden))
+                {
+                    command.Parameters.AddWithValue("@NumeroOrden", NumeroOrden);
                 }
 
                 // Ejecutar el comando y leer los resultados
