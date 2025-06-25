@@ -752,7 +752,10 @@ namespace CapaVisual_Login
                 }
             }
 
-            if (!_L_CierreCaja.ChequeaFacturasdelDia(DiaActivo, TB_USUARIO.COD_EMPLEADO))
+            DateTime currentDate = _D_Inicio.DiaActivo();
+            string formattedDate = currentDate.ToString("yyyyMMdd");
+
+            if (!_L_CierreCaja.ChequeaFacturasdelDia(formattedDate, TB_USUARIO.COD_EMPLEADO))
             {
                 _FrmMensajes.co = 2;
                 _FrmMensajes.avisomensaje("Existen INCONSISTENCIAS en los abonos de las facturas del día. Comuníquese con el Dpto de sistemas");
