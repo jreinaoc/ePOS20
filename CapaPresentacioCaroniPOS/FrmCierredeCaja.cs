@@ -7,11 +7,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using CapaLogica.CierreCaja_Logica;
+using CapaDatos.DetalleOrden_Datos;
+using CapaDatos.Inicio_Datos;
 
 namespace CapaVisual_Login
 {
     public partial class FrmCierredeCaja : Form
     {
+        private L_CierreCaja _L_CierreCaja = new L_CierreCaja();
+        FrmMensajes _FrmMensajes = new FrmMensajes();
+        private D_DetalleOrden _D_DetalleOrden = new D_DetalleOrden();
+        D_Inicio _D_Inicio = new D_Inicio();
+
+        DateTime diaActivo;
+
         public FrmCierredeCaja()
         {
             InitializeComponent();
@@ -19,6 +29,75 @@ namespace CapaVisual_Login
 
         private void btnSiguiente_Click(object sender, EventArgs e)
         {
+            string sucursal = _D_DetalleOrden.TB_PARAMETRO("sucursalId");
+
+            if (_L_CierreCaja.CierreFueradeHorario(sucursal,DateTime.Now, DateTime.Now))
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("Debe registrar el cierre de la sucursal");
+                _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                _FrmMensajes.ShowDialog();
+                return;
+            }
+
+
+            if (!_L_CierreCaja.CierrePuntodeVenta(sucursal, "","", diaActivo))
+            {
+                bool hayLotesEnBlanco = false;
+
+                foreach (DataGridViewRow fila in Dvg_CierrePuntoVenta.Rows)
+                {
+                    // Ignorar fila nueva si está habilitada la opción de agregar
+                    if (!fila.IsNewRow)
+                    {
+                        var valorLote = fila.Cells["Nro. Lote"].Value?.ToString().Trim();
+
+                        if (string.IsNullOrEmpty(valorLote))
+                        {
+                            hayLotesEnBlanco = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (hayLotesEnBlanco)
+                {
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje("Debe escribir el Nro. de lote");
+                    _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                    _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                    _FrmMensajes.ShowDialog();
+                    return;
+                }
+                else
+                {
+                    foreach (DataGridViewRow fila in Dvg_CierrePuntoVenta.Rows)
+                    {
+                        // Ignorar fila nueva si está habilitada la opción de agregar
+                        if (!fila.IsNewRow)
+                        {
+                            var valorLote = fila.Cells["Nro. Lote"].Value?.ToString().Trim();
+                            decimal.TryParse(fila.Cells[3].Value?.ToString().Trim(), out decimal totalCredito);
+                            decimal.TryParse(fila.Cells[4].Value?.ToString().Trim(), out decimal totalAmex);
+                            decimal.TryParse(fila.Cells[5].Value?.ToString().Trim(), out decimal totalDebito);
+                            decimal.TryParse(fila.Cells[6].Value?.ToString().Trim(), out decimal totalOtros);
+
+                           
+                            _L_CierreCaja.AgregaPuntosdeVenta(fila.Cells[0].Value?.ToString().Trim(), diaActivo, fila.Cells[2].Value?.ToString().Trim(), totalCredito, totalAmex, totalDebito, totalOtros);
+                        }
+                    }
+                    
+                    
+                }
+
+                //_FrmMensajes.co = 2;
+                //_FrmMensajes.avisomensaje("Debe cerrar los puntos de venta antes de cerrar la caja");
+                //_FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                //_FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                //_FrmMensajes.ShowDialog();
+                //return;
+            }
             tcCierreCaja.SelectedIndex = 1;
             lblPaso.Text = "Paso 2";
         }
@@ -186,5 +265,60 @@ namespace CapaVisual_Login
             panel3.BackColor = ColorTranslator.FromHtml("#257b78");
         }
 
+        private void btn_Siguiente_pg2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void FrmCierredeCaja_Load(object sender, EventArgs e)
+        {
+            try
+            {
+
+                diaActivo = _D_Inicio.DiaActivo();
+
+                DataTable dt = _L_CierreCaja.ObtienePuntosdeVenta("");
+
+                // Crear la estructura de la tabla una sola vez
+                DataTable dtPtoVenta = new DataTable();
+                dtPtoVenta.Columns.Add("CodPunto", typeof(string));
+                dtPtoVenta.Columns.Add("Banco", typeof(string));
+                dtPtoVenta.Columns.Add("Nro. Lote", typeof(string)); // Vacía
+                dtPtoVenta.Columns.Add("Total T. Crédito", typeof(string)); // Vacía
+                dtPtoVenta.Columns.Add("Total T. Amex", typeof(string)); // Vacía
+                dtPtoVenta.Columns.Add("Total T. Débito", typeof(string)); // Vacía
+                dtPtoVenta.Columns.Add("Total T. Otros", typeof(string)); // Vacía
+
+                // Cargar los datos de filas
+                foreach (DataRow fila in dt.Rows)
+                {
+                    dtPtoVenta.Rows.Add(fila["CodPunto"],fila["Descripcion"], "", "0,00", "0,00", "0,00", "0,00");
+                }
+
+                // Asignar al DataGridView
+                Dvg_CierrePuntoVenta.DataSource = dtPtoVenta;
+
+                // Asignar ancho personalizado a cada columna
+                Dvg_CierrePuntoVenta.Columns["CodPunto"].Width = 0;
+                Dvg_CierrePuntoVenta.Columns["CodPunto"].Visible = false;
+                Dvg_CierrePuntoVenta.Columns["Banco"].Width = 100;
+                Dvg_CierrePuntoVenta.Columns["Nro. Lote"].Width = 150;
+                Dvg_CierrePuntoVenta.Columns["Total T. Crédito"].Width = 120;
+                Dvg_CierrePuntoVenta.Columns["Total T. Amex"].Width = 120;
+                Dvg_CierrePuntoVenta.Columns["Total T. Débito"].Width = 120;
+                Dvg_CierrePuntoVenta.Columns["Total T. Otros"].Width = 100;
+
+
+            }
+            catch (Exception ex)
+            {
+                //MessageBox.Show($"Ocurrió un error al obtener la información del cliente: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }
