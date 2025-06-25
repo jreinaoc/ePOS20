@@ -266,7 +266,8 @@ namespace CapaLogica.Servicios
             {
                 ojo = "I";
             }
-
+            LbResultados.Items.Clear();
+            LbResultado2.Items.Clear();
             LbResultados.Items.Add("OJO DERECHO");
             LbResultado2.Items.Add("OJO IZQUIERDO");
 
@@ -278,7 +279,7 @@ namespace CapaLogica.Servicios
 
                 // Validación de parámetros
 
-                if (Enumerable.Range(1, 12).All(x => dsParamCRT.Tables[2].Rows[0][x].ToString() == "1"))
+                if (Enumerable.Range(1, 16).All(x => dsParamCRT.Tables[2].Rows[0][x].ToString() == "1"))
                 {
                     AceptaCristalD = true;
                 }
@@ -294,7 +295,7 @@ namespace CapaLogica.Servicios
                     }
                 }
 
-                if (Enumerable.Range(1, 12).All(x => dsParamCRT2.Tables[2].Rows[0][x].ToString() == "1"))
+                if (Enumerable.Range(1, 16).All(x => dsParamCRT2.Tables[2].Rows[0][x].ToString() == "1"))
                 {
                     AceptaCristalI = true;
                 }
@@ -314,7 +315,7 @@ namespace CapaLogica.Servicios
             {
                 dsParamCRT = _D_Articulo.MostrarRangosCrtGrid(nacionalidad, cedula, Examen, CristalD, "D", _Trabajo.T_TIPOVISIOND, Convert.ToDecimal(_Trabajo.T_ALTD), 0, Convert.ToDecimal(_Trabajo.T_DISTANCIAVERTICE), Convert.ToDecimal(_Trabajo.T_ANGULOFACIAL), Convert.ToDecimal(_Trabajo.T_ANGULOPANTOSCOPICO), "", _Trabajo.T_SERVICIO, _Trabajo.T_LABORATORIO, Convert.ToString(_Trabajo.T_DISTANCIAVERTICE), Convert.ToString(_Trabajo.T_ANGULOFACIAL), Convert.ToString(_Trabajo.T_ANGULOPANTOSCOPICO), Convert.ToString(_Trabajo.T_DISTANCIADELECTURA), command);
 
-                AceptaCristalD = Enumerable.Range(1, 12).All(x => dsParamCRT.Tables[2].Rows[0][x].ToString() == "1");
+                AceptaCristalD = Enumerable.Range(1, 16).All(x => dsParamCRT.Tables[2].Rows[0][x].ToString() == "1");
                 AceptaCristalI = AceptaCristalD;
 
                 if (!AceptaCristalD)
@@ -332,7 +333,7 @@ namespace CapaLogica.Servicios
             {
                 dsParamCRT2 = _D_Articulo.MostrarRangosCrtGrid(nacionalidad, cedula, Examen, CristalI, "I", _Trabajo.T_TIPOVISIONI, Convert.ToDecimal(_Trabajo.T_ALTI), 0, Convert.ToDecimal(_Trabajo.T_DISTANCIAVERTICE), Convert.ToDecimal(_Trabajo.T_ANGULOFACIAL), Convert.ToDecimal(_Trabajo.T_ANGULOPANTOSCOPICO), "", _Trabajo.T_SERVICIO, _Trabajo.T_LABORATORIO, Convert.ToString(_Trabajo.T_DISTANCIAVERTICE), Convert.ToString(_Trabajo.T_ANGULOFACIAL), Convert.ToString(_Trabajo.T_ANGULOPANTOSCOPICO), Convert.ToString(_Trabajo.T_DISTANCIADELECTURA), command);
 
-                AceptaCristalI = Enumerable.Range(1, 12).All(x => dsParamCRT2.Tables[2].Rows[0][x].ToString() == "1");
+                AceptaCristalI = Enumerable.Range(1, 16).All(x => dsParamCRT2.Tables[2].Rows[0][x].ToString() == "1");
                 AceptaCristalD = AceptaCristalI;
 
                 if (!AceptaCristalI)
