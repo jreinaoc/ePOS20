@@ -20,6 +20,8 @@ using CapaLogica.CargarOrdenes_Logica;
 using DataGridViewNumericUpDownElements;
 using System.Text.RegularExpressions;
 using CapaLogica.Servicios;
+using System.Drawing; // Necesario para Font, Color, Pen
+using System.Windows.Forms; // Necesario para DataGridView y DataGridViewCellPaintingEventArgs
 
 namespace CapaVisual_Login
 {
@@ -28,6 +30,9 @@ namespace CapaVisual_Login
         public FrmCargarOrden()
         {
             InitializeComponent();
+            //mcll 13 06 25
+            this.MaximumSize = new Size(0, 0); // Sin límite máximo
+            this.MinimumSize = new Size(0, 0); // Sin límite mínimo
 
             _GuardarOrdenServ = new ServicioGuardarOrdenes_Cargar_Ordenes(_servicioValidaciones);
 
@@ -176,6 +181,9 @@ namespace CapaVisual_Login
         private bool _isCellValueChanging = false;
 
         private bool mantengoexamenseleccionado;
+
+        private bool mantenervacio;
+
         private void DgvListadoOrdenes_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
@@ -3851,6 +3859,8 @@ namespace CapaVisual_Login
 
             //validarvacio();
 
+            mantenervacio = false;
+
 
             if (validarvacio())
             {
@@ -5490,11 +5500,11 @@ namespace CapaVisual_Login
                         // Nota: CellLeave no permite cancelar la salida de la celda, solo mostrar una advertencia.
                         //e.Cancel = true; // Cancela la validación
                         Pnl_2_Msj.Visible = true;
-                        txt_pl2_msj.Text = $"Ingrese solo los valores permitidos entre  {minMeridianoCorneal} y {maxMeridianoCorneal}.";
+                        txt_pl2_msj.Text = $"Los valores permitidos están entre  {minMeridianoCorneal} y {maxMeridianoCorneal}.";
                         pb_pl2_mj.Visible = true;
 
 
-                        Dgv_Pnl2_Querato.Rows[e.RowIndex].ErrorText = $"Advertencia: El valor está fuera del rango permitido ({minMeridianoCorneal}-{maxMeridianoCorneal}).";
+                        //Dgv_Pnl2_Querato.Rows[e.RowIndex].ErrorText = $"Advertencia: El valor está fuera del rango permitido ({minMeridianoCorneal}-{maxMeridianoCorneal}).";
                     }
                     else
                     {
@@ -5722,8 +5732,11 @@ namespace CapaVisual_Login
 
         private void ConfigurarDgv_Pnl2_medconv()
         {
-            this.Dgv_Pnl2_medconv.DefaultCellStyle.Font = new Font("Century Gothic", 13);  
-            
+            this.Dgv_Pnl2_medconv.DefaultCellStyle.Font = new Font("Century Gothic", 13);
+
+            // Change the font for the COLUMN HEADERS
+            this.Dgv_Pnl2_medconv.ColumnHeadersDefaultCellStyle.Font = new Font("Century Gothic", 10);
+
             // Crear un DataTable para almacenar los datos del DataGridView
             DataTable dt = new DataTable();
 
@@ -5802,7 +5815,8 @@ namespace CapaVisual_Login
         private void ConfigurarDgv_Pnl2_cont()
         {
             this.Dgv_Pnl2_cont.DefaultCellStyle.Font = new Font("Century Gothic", 13);
-
+            // Change the font for the COLUMN HEADERS
+            this.Dgv_Pnl2_cont.ColumnHeadersDefaultCellStyle.Font = new Font("Century Gothic", 10);
             // Crear un DataTable para almacenar los datos del DataGridView
             DataTable dt = new DataTable();
             dt.Columns.Add("Ojo", typeof(string));
@@ -6003,7 +6017,7 @@ namespace CapaVisual_Login
             adicionColumn.HeaderText = "ADD";
             adicionColumn.DecimalPlaces = 2;
             adicionColumn.Minimum = 0.75m;
-            adicionColumn.Maximum = 3.75M;
+            adicionColumn.Maximum = 3.50M;
             adicionColumn.Width = 60;
             adicionColumn.Resizable = DataGridViewTriState.False;
             Dgv_Pnl2_cont.Columns.Add(adicionColumn);
@@ -6023,13 +6037,28 @@ namespace CapaVisual_Login
             DataGridViewNumericUpDownColumn DiametroColumn = new DataGridViewNumericUpDownColumn();
             DiametroColumn.Name = "Diametro";
             DiametroColumn.DataPropertyName = "Diametro";
-            DiametroColumn.HeaderText = "Diametro ";
+            DiametroColumn.HeaderText = "Diámetro ";
             DiametroColumn.DecimalPlaces = 2;
             DiametroColumn.Minimum = 8.5M;
             DiametroColumn.Maximum = 14.5M;
             DiametroColumn.Width = 60;
             DiametroColumn.Resizable = DataGridViewTriState.False;
             Dgv_Pnl2_cont.Columns.Add(DiametroColumn);
+
+            if (Dgv_Pnl2_cont.Columns.Contains("aCilindro"))
+            {
+                Dgv_Pnl2_cont.Columns["aCilindro"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                Dgv_Pnl2_cont.Columns["aCilindro"].Width = 40; // Establecer el ancho fijo (aproximadamente 0.5 cm)
+                Dgv_Pnl2_cont.Columns["aCilindro"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+            }
+            // Configurar la columna "aEsfera" para que no se ajuste automáticamente
+            if (Dgv_Pnl2_cont.Columns.Contains("aEsfera"))
+            {
+                Dgv_Pnl2_cont.Columns["aEsfera"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                Dgv_Pnl2_cont.Columns["aEsfera"].Width = 40; // Establecer el ancho fijo (aproximadamente 0.5 cm)
+                Dgv_Pnl2_cont.Columns["aEsfera"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+            }
+
 
 
         }
@@ -6038,6 +6067,8 @@ namespace CapaVisual_Login
         private void ConfigurarDgv_Pnl2_conv()
         {
             this.Dgv_Pnl2_conv.DefaultCellStyle.Font = new Font("Century Gothic", 13);
+            // Change the font for the COLUMN HEADERS
+            this.Dgv_Pnl2_conv.ColumnHeadersDefaultCellStyle.Font = new Font("Century Gothic", 10);
 
             // Crear un DataTable para almacenar los datos del DataGridView
             DataTable dt = new DataTable();
@@ -6179,9 +6210,9 @@ namespace CapaVisual_Login
             cilindroColumn.DataPropertyName = "Cilindro";
             cilindroColumn.HeaderText = "Cilindro";
             cilindroColumn.DecimalPlaces = 2;
-            cilindroColumn.Minimum = -5.75M;
-            cilindroColumn.Maximum = 5.75M;
-            cilindroColumn.Increment = 0.25M;
+            cilindroColumn.Minimum = -8M;
+            cilindroColumn.Maximum = 10M;
+            cilindroColumn.Increment = 1M;
 
             Dgv_Pnl2_conv.Columns.Add(cilindroColumn);
 
@@ -6438,6 +6469,7 @@ namespace CapaVisual_Login
         private void ConfigurarDgv_Pnl2_Quera()
         {
             this.Dgv_Pnl2_Querato.DefaultCellStyle.Font = new Font("Century Gothic", 13);
+            this.Dgv_Pnl2_Querato.ColumnHeadersDefaultCellStyle.Font = new Font("Century Gothic", 10);
             // Crear un DataTable para almacenar los datos del DataGridView
             DataTable dt = new DataTable();
 
@@ -6658,6 +6690,8 @@ namespace CapaVisual_Login
             Txt_Tap1_Cedula.Text = "";
             Cbx_Tap1_Nacionalidad.SelectedIndex = -1; // Deselecciona el elemento
             Cbx_Tap1_Nacionalidad.Focus();
+            DgvClientes.Rows.Clear();
+            dvgClientePagador.Rows.Clear();
             // Ocultamos todos los GroupBox al principio
             //groupBox1.Visible = false;
             //grp_pln2_Exam1.Visible = false;
@@ -6686,7 +6720,7 @@ namespace CapaVisual_Login
             if (Dgv_Pnl2_conv.Columns.Contains("Agudeza"))
             {
                 Dgv_Pnl2_conv.Columns["Agudeza"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-                Dgv_Pnl2_conv.Columns["Agudeza"].Width = 40; // Establecer el ancho fijo (aproximadamente 0.5 cm)
+                Dgv_Pnl2_conv.Columns["Agudeza"].Width = 60; // Establecer el ancho fijo (aproximadamente 0.5 cm)
             }
 
             if (Dgv_Pnl2_conv.Columns.Contains("Visual"))
@@ -6824,7 +6858,7 @@ namespace CapaVisual_Login
                     {
                         //cell.Value = -1;
                     }
-                    else if (cell.ColumnIndex != 0)
+                    else if (cell.ColumnIndex != 9 && cell.ColumnIndex != 0)
                     {
                         cell.Value = "0";
                     }
@@ -6847,230 +6881,236 @@ namespace CapaVisual_Login
 
         private void CargarFicconvOFT()
         {
-            // Obtener los valores de los controles de la interfaz de usuario
-            string cedula = Txt_Tap1_Cedula.Text;
-            string nacionalidad = Cbx_Tap1_Nacionalidad.SelectedItem?.ToString();
-            int idExamen;
-
-            if (!int.TryParse(Txt_Tap2_Examen.Text, out idExamen))
+            if (mantenervacio == false)
             {
-                return;
-            }
+                // Obtener los valores de los controles de la interfaz de usuario
+                string cedula = Txt_Tap1_Cedula.Text;
+                string nacionalidad = Cbx_Tap1_Nacionalidad.SelectedItem?.ToString();
+                int idExamen;
 
-            // Verificar que los valores requeridos estén presentes
-            if (string.IsNullOrEmpty(nacionalidad) || string.IsNullOrEmpty(cedula))
-            {
-                return;
-            }
-
-            try //Es buena practica usar try catch
-            {
-                // Obtener los datos del examen usando el método que creaste
-                D_Ficconv dFicconv = new D_Ficconv();
-
-                // Verificar si dFicconv es nulo.
-                if (dFicconv != null)
+                if (!int.TryParse(Txt_Tap2_Examen.Text, out idExamen))
                 {
-                    TB_FICCONVCTE Ficconv = dFicconv.ObtenerFicConv(nacionalidad, cedula, idExamen); // Aquí se corrigió el orden de los parámetros y se agregó idExamen
+                    return;
+                }
 
-                    if (Ficconv != null)
+                // Verificar que los valores requeridos estén presentes
+                if (string.IsNullOrEmpty(nacionalidad) || string.IsNullOrEmpty(cedula))
+                {
+                    return;
+                }
+
+                try //Es buena practica usar try catch
+                {
+                    // Obtener los datos del examen usando el método que creaste
+                    D_Ficconv dFicconv = new D_Ficconv();
+
+                    // Verificar si dFicconv es nulo.
+                    if (dFicconv != null)
                     {
-                        txt_Pnl2_ofti.Text = Ficconv.OFTI != null ? Ficconv.OFTI : string.Empty;
-                        txt_Pnl2_oftd.Text = Ficconv.OFTD != null ? Ficconv.OFTD : string.Empty;
+                        TB_FICCONVCTE Ficconv = dFicconv.ObtenerFicConv(nacionalidad, cedula, idExamen); // Aquí se corrigió el orden de los parámetros y se agregó idExamen
 
-                        txt_Pnl2_reti.Text = Ficconv.RETI != null ? Ficconv.RETI : string.Empty;
-                        txt_Pnl2_retd.Text = Ficconv.RETD != null ? Ficconv.RETD : string.Empty;
-                        //txt_Pnl2_oft_mimesys.Text = Ficconv.CodigoMimesys != null ? Ficconv.CodigoMimesys : string.Empty;
+                        if (Ficconv != null)
+                        {
+                            txt_Pnl2_ofti.Text = Ficconv.OFTI != null ? Ficconv.OFTI : string.Empty;
+                            txt_Pnl2_oftd.Text = Ficconv.OFTD != null ? Ficconv.OFTD : string.Empty;
+
+                            txt_Pnl2_reti.Text = Ficconv.RETI != null ? Ficconv.RETI : string.Empty;
+                            txt_Pnl2_retd.Text = Ficconv.RETD != null ? Ficconv.RETD : string.Empty;
+                            //txt_Pnl2_oft_mimesys.Text = Ficconv.CodigoMimesys != null ? Ficconv.CodigoMimesys : string.Empty;
+                        }
+                        else
+                        {
+                            MostrarMensajeTemporal("No se encontró ningún examen con la nacionalidad, cédula e ID de examen proporcionados.", 9000);
+
+                        }
                     }
                     else
                     {
-                        MostrarMensajeTemporal("No se encontró ningún examen con la nacionalidad, cédula e ID de examen proporcionados.", 9000);
+                        MostrarMensajeTemporal("Error: No se pudo instanciar la clase D_Ficconv.", 9000);
 
                     }
+
+
                 }
-                else
+            
+                catch (Exception ex)
                 {
-                    MostrarMensajeTemporal("Error: No se pudo instanciar la clase D_Ficconv.", 9000);
-
+                    MessageBox.Show("Error: " + ex.Message);
                 }
-
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error: " + ex.Message);
             }
         }
 
 
         private void CargarExamenConv()
         {
-            this.Dgv_Pnl2_conv.DefaultCellStyle.Font = new Font("Century Gothic", 13);
-
-            // Obtener los valores de los controles de la interfaz de usuario
-            string cedula = Txt_Tap1_Cedula.Text;
-            string nacionalidad = Cbx_Tap1_Nacionalidad.SelectedItem?.ToString();
-            int idExamen;
-
-            if (!int.TryParse(Txt_Tap2_Examen.Text, out idExamen))
+            if (mantenervacio == false)
             {
-                return;
-            }
+                this.Dgv_Pnl2_conv.DefaultCellStyle.Font = new Font("Century Gothic", 13);
 
-            // Verificar que los valores requeridos estén presentes
-            if (string.IsNullOrEmpty(nacionalidad) || string.IsNullOrEmpty(cedula))
-            {
-                return;
-            }
+                // Obtener los valores de los controles de la interfaz de usuario
+                string cedula = Txt_Tap1_Cedula.Text;
+                string nacionalidad = Cbx_Tap1_Nacionalidad.SelectedItem?.ToString();
+                int idExamen;
 
-            // Crear un DataTable para almacenar los datos del DataGridView 
-            DataTable dt = new DataTable();
-            dt.Columns.Add("Ojo", typeof(string));
-            dt.Columns.Add("aEsfera", typeof(string));
-            dt.Columns.Add("Esfera", typeof(decimal));
-            dt.Columns.Add("aCilindro", typeof(string));
-            dt.Columns.Add("Cilindro", typeof(decimal));
-            dt.Columns.Add("Eje", typeof(int));
-
-            dt.Columns.Add("Adicion", typeof(decimal));
-            dt.Columns.Add("Lejos", typeof(decimal));
-            dt.Columns.Add("Cerca", typeof(decimal));
-            dt.Columns.Add("Agudeza", typeof(string));
-            dt.Columns.Add("Visual", typeof(string));
-            dt.Columns.Add("Prisma1", typeof(decimal));
-            dt.Columns.Add("Grado1", typeof(decimal));
-
-            dt.Columns.Add("Altura", typeof(decimal));
-            dt.Columns.Add("Vision", typeof(string));
-
-            // Agregar las dos filas fijas
-            DataRow filaDerecha = dt.NewRow();
-            filaDerecha["Ojo"] = "Derecho";
-            dt.Rows.Add(filaDerecha);
-
-            DataRow filaIzquierda = dt.NewRow();
-            filaIzquierda["Ojo"] = "Izquierdo";
-            dt.Rows.Add(filaIzquierda);
-
-            //AVD, AVI en TB_FICCONV
-            // Obtener los datos del examen usando el método que creaste
-            D_Ficconv dFicconv = new D_Ficconv();
-            // ***CORRECCIÓN:***
-            // Convierte idExamen a string antes de pasarlo al método.
-            TB_FICCONVCTE con = dFicconv.ObtenerFicConv(nacionalidad, cedula, idExamen);
-            if (con != null) // Verifica si se obtuvo un objeto TB_Ficconv válido
-            {
-                dt.Rows[0]["Agudeza"] = "20/";
-                dt.Rows[1]["Agudeza"] = "20/";
-
-                dt.Rows[0]["Visual"] = con.AVD; // Accede a AVI a través del objeto 'con' (TB_Ficconv)
-                dt.Rows[1]["Visual"] = con.AVI; // Accede a AVD a través del objeto 'con' (TB_Ficconv)
-                dt.Rows[0]["Altura"] = con.ALTD; // Accede a AVI a través del objeto 'con' (TB_Ficconv)
-                dt.Rows[1]["Altura"] = con.ALTI; // Accede a AVD a través del objeto 'con' (TB_Ficconv)
-
-                dt.Rows[0]["Lejos"] = con.DPDL.HasValue ? con.DPDL.Value : 0M;
-                dt.Rows[1]["Lejos"] = con.DPDL.HasValue ? con.DPDL.Value : 0M;
-
-                dt.Rows[0]["Cerca"] = con.DPDC.HasValue ? con.DPDC.Value : 0M;
-                dt.Rows[1]["Cerca"] = con.DPDC.HasValue ? con.DPDC.Value : 0M;
-
-
-                dt.Rows[0]["Grado1"] = con.PBASED;
-                dt.Rows[1]["Grado1"] = con.PBASEI;
-
-                dt.Rows[0]["Prisma1"] = con.PRISMAD;
-                dt.Rows[1]["Prisma1"] = con.PRISMAI;
-
-                txt_Pnl2_retd.Text = con.RETD != null ? con.RETD : string.Empty;
-                txt_Pnl2_reti.Text = con.RETI != null ? con.RETI : string.Empty;
-            }
-
-
-
-
-
-            // Obtener los datos del examen usando el método que creaste
-            D_Examen dExamen = new D_Examen();
-            // ***CORRECCIÓN:***
-            // Convierte idExamen a string antes de pasarlo al método.
-            TB_EXAMENCTE examen = dExamen.ObtenerExamenPorNumeroYNacionalidadCedula(idExamen, nacionalidad, cedula);
-
-            // Crear una instancia de la capa de lógica (L_Trabajo)
-            L_Trabajo lTrabajo = new L_Trabajo();
-            // Obtener los datos del trabajo usando el método de la capa lógica
-            TB_TRABAJOCTE trabajo = lTrabajo.ObtenerTrabajoPorOrdenServicio(nacionalidad, cedula, idExamen);
-
-
-            if (examen != null)
-            {
-
-
-                if (examen.TIPO_Optm != null)
+                if (!int.TryParse(Txt_Tap2_Examen.Text, out idExamen))
                 {
-                    foreach (var item in Cbx_Tap2_Tipo_Optome.Items)
+                    return;
+                }
+
+                // Verificar que los valores requeridos estén presentes
+                if (string.IsNullOrEmpty(nacionalidad) || string.IsNullOrEmpty(cedula))
+                {
+                    return;
+                }
+
+                // Crear un DataTable para almacenar los datos del DataGridView 
+                DataTable dt = new DataTable();
+                dt.Columns.Add("Ojo", typeof(string));
+                dt.Columns.Add("aEsfera", typeof(string));
+                dt.Columns.Add("Esfera", typeof(decimal));
+                dt.Columns.Add("aCilindro", typeof(string));
+                dt.Columns.Add("Cilindro", typeof(decimal));
+                dt.Columns.Add("Eje", typeof(int));
+
+                dt.Columns.Add("Adicion", typeof(decimal));
+                dt.Columns.Add("Lejos", typeof(decimal));
+                dt.Columns.Add("Cerca", typeof(decimal));
+                dt.Columns.Add("Agudeza", typeof(string));
+                dt.Columns.Add("Visual", typeof(string));
+                dt.Columns.Add("Prisma1", typeof(decimal));
+                dt.Columns.Add("Grado1", typeof(decimal));
+
+                dt.Columns.Add("Altura", typeof(decimal));
+                dt.Columns.Add("Vision", typeof(string));
+
+                // Agregar las dos filas fijas
+                DataRow filaDerecha = dt.NewRow();
+                filaDerecha["Ojo"] = "Derecho";
+                dt.Rows.Add(filaDerecha);
+
+                DataRow filaIzquierda = dt.NewRow();
+                filaIzquierda["Ojo"] = "Izquierdo";
+                dt.Rows.Add(filaIzquierda);
+
+                //AVD, AVI en TB_FICCONV
+                // Obtener los datos del examen usando el método que creaste
+                D_Ficconv dFicconv = new D_Ficconv();
+                // ***CORRECCIÓN:***
+                // Convierte idExamen a string antes de pasarlo al método.
+                TB_FICCONVCTE con = dFicconv.ObtenerFicConv(nacionalidad, cedula, idExamen);
+                if (con != null) // Verifica si se obtuvo un objeto TB_Ficconv válido
+                {
+                    dt.Rows[0]["Agudeza"] = "20/";
+                    dt.Rows[1]["Agudeza"] = "20/";
+
+                    dt.Rows[0]["Visual"] = con.AVD; // Accede a AVI a través del objeto 'con' (TB_Ficconv)
+                    dt.Rows[1]["Visual"] = con.AVI; // Accede a AVD a través del objeto 'con' (TB_Ficconv)
+                    dt.Rows[0]["Altura"] = con.ALTD; // Accede a AVI a través del objeto 'con' (TB_Ficconv)
+                    dt.Rows[1]["Altura"] = con.ALTI; // Accede a AVD a través del objeto 'con' (TB_Ficconv)
+
+                    dt.Rows[0]["Lejos"] = con.DPDL.HasValue ? con.DPDL.Value : 0M;
+                    dt.Rows[1]["Lejos"] = con.DPDL.HasValue ? con.DPDL.Value : 0M;
+
+                    dt.Rows[0]["Cerca"] = con.DPDC.HasValue ? con.DPDC.Value : 0M;
+                    dt.Rows[1]["Cerca"] = con.DPDC.HasValue ? con.DPDC.Value : 0M;
+
+
+                    dt.Rows[0]["Grado1"] = con.PBASED;
+                    dt.Rows[1]["Grado1"] = con.PBASEI;
+
+                    dt.Rows[0]["Prisma1"] = con.PRISMAD;
+                    dt.Rows[1]["Prisma1"] = con.PRISMAI;
+
+                    txt_Pnl2_retd.Text = con.RETD != null ? con.RETD : string.Empty;
+                    txt_Pnl2_reti.Text = con.RETI != null ? con.RETI : string.Empty;
+                }
+
+
+
+
+
+                // Obtener los datos del examen usando el método que creaste
+                D_Examen dExamen = new D_Examen();
+                // ***CORRECCIÓN:***
+                // Convierte idExamen a string antes de pasarlo al método.
+                TB_EXAMENCTE examen = dExamen.ObtenerExamenPorNumeroYNacionalidadCedula(idExamen, nacionalidad, cedula);
+
+                // Crear una instancia de la capa de lógica (L_Trabajo)
+                L_Trabajo lTrabajo = new L_Trabajo();
+                // Obtener los datos del trabajo usando el método de la capa lógica
+                TB_TRABAJOCTE trabajo = lTrabajo.ObtenerTrabajoPorOrdenServicio(nacionalidad, cedula, idExamen);
+
+
+                if (examen != null)
+                {
+
+
+                    if (examen.TIPO_Optm != null)
                     {
-                        // Asumiendo que los items en el ComboBox son strings.
-                        // Si son objetos, necesitarás acceder a la propiedad correcta para comparar.
-                        if (item != null && item.ToString() == examen.TIPO_Optm.ToString())
+                        foreach (var item in Cbx_Tap2_Tipo_Optome.Items)
                         {
-                            Cbx_Tap2_Tipo_Optome.SelectedItem = item;
-                            break; // Salir del bucle una vez que se encuentra la coincidencia
+                            // Asumiendo que los items en el ComboBox son strings.
+                            // Si son objetos, necesitarás acceder a la propiedad correcta para comparar.
+                            if (item != null && item.ToString() == examen.TIPO_Optm.ToString())
+                            {
+                                Cbx_Tap2_Tipo_Optome.SelectedItem = item;
+                                break; // Salir del bucle una vez que se encuentra la coincidencia
+                            }
+                        }
+                        // Si no se encuentra ninguna coincidencia, el ComboBox no tendrá ningún elemento seleccionado.
+                    }
+                    else
+                    {
+                        Cbx_Tap2_Tipo_Optome.SelectedIndex = -1; // Deseleccionar cualquier elemento si examen.TIPO_Optm es null
+                    }
+
+                    ////-----------------------------
+
+                    //Cbx_Tap2_Nombre_Optome
+                    if (examen.TIPO_Optm != null)
+                    {
+                        if (examen.TIPO_Optm == "02")
+                        {
+                            Cbx_Tap2_Tipo_Optome.SelectedIndex = 1;
+                        }
+                        else
+                        {
+                            Cbx_Tap2_Tipo_Optome.SelectedIndex = 0;
                         }
                     }
-                    // Si no se encuentra ninguna coincidencia, el ComboBox no tendrá ningún elemento seleccionado.
-                }
-                else
-                {
-                    Cbx_Tap2_Tipo_Optome.SelectedIndex = -1; // Deseleccionar cualquier elemento si examen.TIPO_Optm es null
-                }
-
-                ////-----------------------------
-
-                //Cbx_Tap2_Nombre_Optome
-                if (examen.TIPO_Optm != null)
-                {
-                    if (examen.TIPO_Optm == "02")
-                    {
-                        Cbx_Tap2_Tipo_Optome.SelectedIndex = 1;
-                    }
                     else
                     {
-                        Cbx_Tap2_Tipo_Optome.SelectedIndex = 0;
+                        Cbx_Tap2_Tipo_Optome.SelectedIndex = -1; // Deseleccionar cualquier elemento si examen.TIPO_Optm es null
                     }
-                }
-                else
-                {
-                    Cbx_Tap2_Tipo_Optome.SelectedIndex = -1; // Deseleccionar cualquier elemento si examen.TIPO_Optm es null
-                }
-                ///
+                    ///
 
 
-                //Cbx_Tap2_Tipo_Examen.Text = examen.TIPOEXAMEN != null ? examen.TIPOEXAMEN : string.Empty;
+                    //Cbx_Tap2_Tipo_Examen.Text = examen.TIPOEXAMEN != null ? examen.TIPOEXAMEN : string.Empty;
 
-                Cbx_Tap2_Tipo_Examen.SelectedItem = 0;
-                //if (examen.TIPOEXAMEN != null && (Cbx_Tap2_Tipo_Examen.Text == null || Cbx_Tap2_Tipo_Examen.Text == ""))
-                //{
-                    Cbx_Tap2_Tipo_Examen.Text = examen.TIPOEXAMEN.ToString().Trim(); // Deseleccionar cualquier elemento si examen.TIPO_Optm es null
-                    //foreach (var item in Cbx_Tap2_Tipo_Examen.Items)
+                    Cbx_Tap2_Tipo_Examen.SelectedItem = 0;
+                    //if (examen.TIPOEXAMEN != null && (Cbx_Tap2_Tipo_Examen.Text == null || Cbx_Tap2_Tipo_Examen.Text == ""))
                     //{
-                    //    // Asumiendo que los items en el ComboBox son strings.
-                    //    // Si son objetos, necesitarás acceder a la propiedad correcta para comparar.
-                    //    if (item != null && item.ToString() == examen.TIPOEXAMEN.ToString())
-                    //    {
-                    //        Cbx_Tap2_Tipo_Examen.SelectedItem = item;
-                    //        break; // Salir del bucle una vez que se encuentra la coincidencia
-                    //    }
+                        Cbx_Tap2_Tipo_Examen.Text = examen.TIPOEXAMEN.ToString().Trim(); // Deseleccionar cualquier elemento si examen.TIPO_Optm es null
+                        //foreach (var item in Cbx_Tap2_Tipo_Examen.Items)
+                        //{
+                        //    // Asumiendo que los items en el ComboBox son strings.
+                        //    // Si son objetos, necesitarás acceder a la propiedad correcta para comparar.
+                        //    if (item != null && item.ToString() == examen.TIPOEXAMEN.ToString())
+                        //    {
+                        //        Cbx_Tap2_Tipo_Examen.SelectedItem = item;
+                        //        break; // Salir del bucle una vez que se encuentra la coincidencia
+                        //    }
+                        //}
+                        // Si no se encuentra ninguna coincidencia, el ComboBox no tendrá ningún elemento seleccionado.
                     //}
-                    // Si no se encuentra ninguna coincidencia, el ComboBox no tendrá ningún elemento seleccionado.
-                //}
 
-                TXT_Tap2_Nombre_Optome.Text = examen.NOM_Optm.ToString(); // Deseleccionar cualquier elemento si examen.TIPO_Optm es null
+                    TXT_Tap2_Nombre_Optome.Text = examen.NOM_Optm.ToString(); // Deseleccionar cualquier elemento si examen.TIPO_Optm es null
 
 
 
-                //    TXT_Tap2_Nombre_Optome.Text = examen.NOMBRE_CLINICA_OPTM != null ? examen.NOMBRE_CLINICA_OPTM : string.Empty;
+                    //    TXT_Tap2_Nombre_Optome.Text = examen.NOMBRE_CLINICA_OPTM != null ? examen.NOMBRE_CLINICA_OPTM : string.Empty;
 
-                Dtp_Tap2_FecExam.Text = examen.FEC_Examen.ToString();
+                    Dtp_Tap2_FecExam.Text = examen.FEC_Examen.ToString();
 
 
 
@@ -7078,171 +7118,172 @@ namespace CapaVisual_Login
 
 
 
-                txt_Pnl2_conv_mimesys.Text = examen.CodigoMimesys != null ? examen.CodigoMimesys : string.Empty;
-                txt_Pnl2_cont_observa.Text = examen.OBSERVACIONES != null ? examen.OBSERVACIONES : string.Empty;
-                txt_Pnl2_observa.Text = examen.OBSERVACIONES != null ? examen.OBSERVACIONES : string.Empty;
-                ////txt_Pnl2_oft_mimesys.Text = examen.CodigoMimesys != null ? examen.CodigoMimesys : string.Empty;
+                    txt_Pnl2_conv_mimesys.Text = examen.CodigoMimesys != null ? examen.CodigoMimesys : string.Empty;
+                    txt_Pnl2_cont_observa.Text = examen.OBSERVACIONES != null ? examen.OBSERVACIONES : string.Empty;
+                    txt_Pnl2_observa.Text = examen.OBSERVACIONES != null ? examen.OBSERVACIONES : string.Empty;
+                    ////txt_Pnl2_oft_mimesys.Text = examen.CodigoMimesys != null ? examen.CodigoMimesys : string.Empty;
 
-                // Actualizar las filas del DataTable con los datos del examena
-                if (dt.Rows.Count > 0) // Asegúrate de que haya al menos una fila en el DataTable
-                {
-                    if (examen.ESFD > 0)
+                    // Actualizar las filas del DataTable con los datos del examena
+                    if (dt.Rows.Count > 0) // Asegúrate de que haya al menos una fila en el DataTable
                     {
-                        dt.Rows[0]["aEsfera"] = "+";
-                    }
-                    else if (examen.ESFD < 0)
-                    {
-                        dt.Rows[0]["aEsfera"] = "-";
-                    }
-                    else
-                    {
-                        if (examen.ESFD < 0)
+                        if (examen.ESFD > 0)
+                        {
+                            dt.Rows[0]["aEsfera"] = "+";
+                        }
+                        else if (examen.ESFD < 0)
                         {
                             dt.Rows[0]["aEsfera"] = "-";
                         }
                         else
                         {
-                            dt.Rows[0]["aEsfera"] = string.Empty; // O null si prefieres}
+                            if (examen.ESFD < 0)
+                            {
+                                dt.Rows[0]["aEsfera"] = "-";
+                            }
+                            else
+                            {
+                                dt.Rows[0]["aEsfera"] = string.Empty; // O null si prefieres}
+                            }
                         }
                     }
-                }
-                dt.Rows[0]["Esfera"] = examen.ESFD;
+                    dt.Rows[0]["Esfera"] = examen.ESFD;
 
-                if (dt.Rows.Count > 0) // Asegúrate de que haya al menos una fila en el DataTable
-                {
-                    if (examen.CILD > 0)
+                    if (dt.Rows.Count > 0) // Asegúrate de que haya al menos una fila en el DataTable
                     {
-                        dt.Rows[0]["aCilindro"] = "+";
-                    }
-                    else if (examen.CILD < 0)
-                    {
-                        dt.Rows[0]["aCilindro"] = "-";
-                    }
-                    else
-                    {
-
-                        if (examen.CILD < 0)
+                        if (examen.CILD > 0)
+                        {
+                            dt.Rows[0]["aCilindro"] = "+";
+                        }
+                        else if (examen.CILD < 0)
                         {
                             dt.Rows[0]["aCilindro"] = "-";
                         }
                         else
                         {
-                            dt.Rows[0]["aCilindro"] = string.Empty; // O null si prefieres
+
+                            if (examen.CILD < 0)
+                            {
+                                dt.Rows[0]["aCilindro"] = "-";
+                            }
+                            else
+                            {
+                                dt.Rows[0]["aCilindro"] = string.Empty; // O null si prefieres
+                            }
                         }
                     }
-                }
 
 
 
-                //nuevoFicconv.DPDL = Dgv_Pnl2_conv.Rows[0].Cells["Lejos"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[0].Cells["Lejos"].Value) : 0;
-                //nuevoFicconv.DPIL = Dgv_Pnl2_conv.Rows[1].Cells["Lejos"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[1].Cells["Lejos"].Value) : 0;
+                    //nuevoFicconv.DPDL = Dgv_Pnl2_conv.Rows[0].Cells["Lejos"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[0].Cells["Lejos"].Value) : 0;
+                    //nuevoFicconv.DPIL = Dgv_Pnl2_conv.Rows[1].Cells["Lejos"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[1].Cells["Lejos"].Value) : 0;
 
 
-                //nuevoFicconv.DPDC = Dgv_Pnl2_conv.Rows[0].Cells["Cerca"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[0].Cells["Cerca"].Value) : 0;
-                //nuevoFicconv.DPIC = Dgv_Pnl2_conv.Rows[1].Cells["Cerca"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[1].Cells["Cerca"].Value) : 0;
+                    //nuevoFicconv.DPDC = Dgv_Pnl2_conv.Rows[0].Cells["Cerca"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[0].Cells["Cerca"].Value) : 0;
+                    //nuevoFicconv.DPIC = Dgv_Pnl2_conv.Rows[1].Cells["Cerca"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[1].Cells["Cerca"].Value) : 0;
 
 
-                dt.Rows[0]["Cilindro"] = examen.CILD;
-                dt.Rows[1]["Cilindro"] = examen.CILI;
+                    dt.Rows[0]["Cilindro"] = examen.CILD;
+                    dt.Rows[1]["Cilindro"] = examen.CILI;
 
-                dt.Rows[0]["Eje"] = examen.EJED;
-                dt.Rows[1]["Eje"] = examen.EJEI;
+                    dt.Rows[0]["Eje"] = examen.EJED;
+                    dt.Rows[1]["Eje"] = examen.EJEI;
 
-                dt.Rows[0]["Adicion"] = examen.ADDD;
-                dt.Rows[1]["Adicion"] = examen.ADDI;
+                    dt.Rows[0]["Adicion"] = examen.ADDD;
+                    dt.Rows[1]["Adicion"] = examen.ADDI;
 
-                if (trabajo != null)
-                {
-                    dt.Rows[0]["Vision"] = (trabajo.TTIPOVISIOND ?? string.Empty).Trim();
-                    dt.Rows[1]["Vision"] = (trabajo.TTIPOVISIONI ?? string.Empty).Trim();
-                }
-
-
-
-                // Actualizar las filas del DataTable con los datos del examena
-                if (dt.Rows.Count > 0) // Asegúrate de que haya al menos una fila en el DataTable
-                {
-                    if (examen.ESFI > 0)
+                    if (trabajo != null)
                     {
-                        dt.Rows[1]["aEsfera"] = "+";
+                        dt.Rows[0]["Vision"] = (trabajo.TTIPOVISIOND ?? string.Empty).Trim();
+                        dt.Rows[1]["Vision"] = (trabajo.TTIPOVISIONI ?? string.Empty).Trim();
                     }
-                    else if (examen.ESFI < 0)
-                    {
-                        dt.Rows[1]["aEsfera"] = "-";
-                    }
-                    else
-                    {
 
-                        if (examen.ESFI < 0)
+
+
+                    // Actualizar las filas del DataTable con los datos del examena
+                    if (dt.Rows.Count > 0) // Asegúrate de que haya al menos una fila en el DataTable
+                    {
+                        if (examen.ESFI > 0)
+                        {
+                            dt.Rows[1]["aEsfera"] = "+";
+                        }
+                        else if (examen.ESFI < 0)
                         {
                             dt.Rows[1]["aEsfera"] = "-";
                         }
                         else
                         {
-                            dt.Rows[1]["aEsfera"] = string.Empty; // O null si prefieres
+
+                            if (examen.ESFI < 0)
+                            {
+                                dt.Rows[1]["aEsfera"] = "-";
+                            }
+                            else
+                            {
+                                dt.Rows[1]["aEsfera"] = string.Empty; // O null si prefieres
+                            }
                         }
                     }
-                }
 
 
 
 
-                dt.Rows[1]["Esfera"] = examen.ESFI;
-                if (dt.Rows.Count > 0) // Asegúrate de que haya al menos una fila en el DataTable
-                {
-                    if (examen.CILI > 0)
+                    dt.Rows[1]["Esfera"] = examen.ESFI;
+                    if (dt.Rows.Count > 0) // Asegúrate de que haya al menos una fila en el DataTable
                     {
-                        dt.Rows[1]["aCilindro"] = "+";
-                    }
-                    else if (examen.CILI < 0)
-                    {
-                        dt.Rows[1]["aCilindro"] = "-";
-                    }
-                    else
-                    {
-                        if (examen.CILI < 0)
+                        if (examen.CILI > 0)
+                        {
+                            dt.Rows[1]["aCilindro"] = "+";
+                        }
+                        else if (examen.CILI < 0)
                         {
                             dt.Rows[1]["aCilindro"] = "-";
                         }
                         else
                         {
-                            dt.Rows[1]["aCilindro"] = string.Empty; // O null si prefieres
+                            if (examen.CILI < 0)
+                            {
+                                dt.Rows[1]["aCilindro"] = "-";
+                            }
+                            else
+                            {
+                                dt.Rows[1]["aCilindro"] = string.Empty; // O null si prefieres
+                            }
                         }
                     }
+
+
+                }
+                else
+                {
+
+                    MostrarMensajeTemporal("No se encontró ningún examen con la nacionalidad, cédula e ID de examen proporcionados.", 9000); // 5000 ms = 5 segundos
+
                 }
 
 
-            }
-            else
-            {
-
-                MostrarMensajeTemporal("No se encontró ningún examen con la nacionalidad, cédula e ID de examen proporcionados.", 9000); // 5000 ms = 5 segundos
-
-            }
 
 
 
 
 
 
+                // Asignar el DataTable como fuente de datos del DataGridView
+                Dgv_Pnl2_conv.DataSource = dt;
+                Dgv_Pnl2_conv.AutoGenerateColumns = false;
+
+                tamañoExamenGridConv();
+                AsignarCeroSiVacioDgv_Pnl2_conv();
 
 
-            // Asignar el DataTable como fuente de datos del DataGridView
-            Dgv_Pnl2_conv.DataSource = dt;
-            Dgv_Pnl2_conv.AutoGenerateColumns = false;
-
-            tamañoExamenGridConv();
-            AsignarCeroSiVacioDgv_Pnl2_conv();
-
-
-            // Habilitar la pestaña de Carga ordenes 
-            if (Dgv_Pnl2_conv != null && Dgv_Pnl2_conv.Rows.Count > 0 || Dgv_Pnl2_cont != null && Dgv_Pnl2_cont.Rows.Count > 0)
-            {
-                btnCargarOrden.Enabled = true;
-            }
-            else
-            {
-                btnCargarOrden.Enabled = false;
+                // Habilitar la pestaña de Carga ordenes 
+                if (Dgv_Pnl2_conv != null && Dgv_Pnl2_conv.Rows.Count > 0 || Dgv_Pnl2_cont != null && Dgv_Pnl2_cont.Rows.Count > 0)
+                {
+                    btnCargarOrden.Enabled = true;
+                }
+                else
+                {
+                    btnCargarOrden.Enabled = false;
+                }
             }
 
 
@@ -7250,370 +7291,375 @@ namespace CapaVisual_Login
 
         private void CargarExamenCont()
         {
-            this.Dgv_Pnl2_cont.DefaultCellStyle.Font = new Font("Century Gothic", 13);
-
-            // Crear un DataTable para almacenar los datos del DataGridView
-            DataTable dt = new DataTable();
-            dt.Columns.Add("Ojo", typeof(string));
-            dt.Columns.Add("aEsfera", typeof(string));
-            dt.Columns.Add("Esfera", typeof(decimal));
-            dt.Columns.Add("aCilindro", typeof(string));
-            dt.Columns.Add("Cilindro", typeof(decimal));
-            dt.Columns.Add("Eje", typeof(decimal));
-            dt.Columns.Add("Adicion", typeof(decimal));
-            dt.Columns.Add("C_base", typeof(decimal));
-            dt.Columns.Add("Diametro", typeof(decimal));
-
-            // Agregar las dos filas fijas iniciales
-            DataRow filaDerecha = dt.NewRow();
-            filaDerecha["Ojo"] = "Derecho";
-            dt.Rows.Add(filaDerecha);
-
-            DataRow filaIzquierda = dt.NewRow();
-            filaIzquierda["Ojo"] = "Izquierdo";
-            dt.Rows.Add(filaIzquierda);     // Agregar las dos filas fijas iniciales
-
-
-            /// -----------------------------------------------------------
-
-            // Obtener los valores de los controles de la interfaz de usuario
-            string cedula = Txt_Tap1_Cedula.Text;
-            string nacionalidad = Cbx_Tap1_Nacionalidad.SelectedItem?.ToString();
-            int idExamen;
-            string codSucursal = "Sucursal1"; // TODO: Obtener la sucursal desde la interfaz de usuario
-
-            if (!int.TryParse(Txt_Tap2_Examen.Text, out idExamen))
+            if (mantenervacio == false)
             {
-                //MessageBox.Show("  ingrese un ID de examen válido (numérico).", "Error de formato", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
-                return;
-            }
+                this.Dgv_Pnl2_cont.DefaultCellStyle.Font = new Font("Century Gothic", 13);
 
-            // Verificar que los valores requeridos estén presentes
-            if (string.IsNullOrEmpty(nacionalidad) || string.IsNullOrEmpty(cedula))
-            {
-                //MessageBox.Show("  ingrese la nacionalidad y la cédula.", "Datos incompletos", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
-                return;
-            }
+                // Crear un DataTable para almacenar los datos del DataGridView
+                DataTable dt = new DataTable();
+                dt.Columns.Add("Ojo", typeof(string));
+                dt.Columns.Add("aEsfera", typeof(string));
+                dt.Columns.Add("Esfera", typeof(decimal));
+                dt.Columns.Add("aCilindro", typeof(string));
+                dt.Columns.Add("Cilindro", typeof(decimal));
+                dt.Columns.Add("Eje", typeof(decimal));
+                dt.Columns.Add("Adicion", typeof(decimal));
+                dt.Columns.Add("C_base", typeof(decimal));
+                dt.Columns.Add("Diametro", typeof(decimal));
 
-            try
-            {
+                // Agregar las dos filas fijas iniciales
+                DataRow filaDerecha = dt.NewRow();
+                filaDerecha["Ojo"] = "Derecho";
+                dt.Rows.Add(filaDerecha);
 
-
-                //AVD, AVI en TB_FICCONV
-                //// Obtener los datos del examen usando el método que creaste
-                //D_Ficconv dFicconv = new D_Ficconv();
-                //// ***CORRECCIÓN:***
-                //// Convierte idExamen a string antes de pasarlo al método.
-                //TB_Ficconv con = dFicconv.ObtenerFicConv(nacionalidad, cedula, idExamen);
-
-
-                //// Obtener los datos del examen usando el método de la capa lógica
-                ////L_Ficcont logicaFiccont = new L_Ficcont();
-                //_L_Ficcont.ObtenerFiccontPorClave(nacionalidad, cedula, idExamen);
+                DataRow filaIzquierda = dt.NewRow();
+                filaIzquierda["Ojo"] = "Izquierdo";
+                dt.Rows.Add(filaIzquierda);     // Agregar las dos filas fijas iniciales
 
 
+                /// -----------------------------------------------------------
 
-                //AVD, AVI en TB_FICCONV
-                // Obtener los datos del examen usando el método que creaste
-                D_FicCont dFiccont = new D_FicCont();
-                // ***CORRECCIÓN:***
-                // Convierte idExamen a string antes de pasarlo al método.
-                TB_FICCONT con = dFiccont.ObtenerFicCont(nacionalidad, cedula, idExamen);
+                // Obtener los valores de los controles de la interfaz de usuario
+                string cedula = Txt_Tap1_Cedula.Text;
+                string nacionalidad = Cbx_Tap1_Nacionalidad.SelectedItem?.ToString();
+                int idExamen;
+                string codSucursal = "Sucursal1"; // TODO: Obtener la sucursal desde la interfaz de usuario
 
-
-                if (con != null)
+                if (!int.TryParse(Txt_Tap2_Examen.Text, out idExamen))
                 {
-                    // Actualizar las filas del DataTable con los datos del examen
-                    //dt.Rows[0]["Esfera"] = nuevoFiccont.ESFD; valores negativos
-                    dt.Rows[0]["Esfera"] = con.ESFD ?? (object)DBNull.Value;
-                    dt.Rows[0]["Cilindro"] = con.CILD ?? (object)DBNull.Value;
-                    dt.Rows[0]["Eje"] = con.EJED ?? (object)DBNull.Value;
-                    dt.Rows[0]["Adicion"] = con.ADDD ?? (object)DBNull.Value;
-                    dt.Rows[0]["C_base"] = con.CBD ?? (object)DBNull.Value;
-                    dt.Rows[0]["Diametro"] = con.DIAMD ?? (object)DBNull.Value;
-                    //----------------------------------------------------
-                    // Actualizar las filas del DataTable con los datos del examena
-                    if (dt.Rows.Count > 0) // Asegúrate de que haya al menos una fila en el DataTable
+                    //MessageBox.Show("  ingrese un ID de examen válido (numérico).", "Error de formato", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                    return;
+                }
+
+                // Verificar que los valores requeridos estén presentes
+                if (string.IsNullOrEmpty(nacionalidad) || string.IsNullOrEmpty(cedula))
+                {
+                    //MessageBox.Show("  ingrese la nacionalidad y la cédula.", "Datos incompletos", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                    return;
+                }
+
+                try
+                {
+
+
+                    //AVD, AVI en TB_FICCONV
+                    //// Obtener los datos del examen usando el método que creaste
+                    //D_Ficconv dFicconv = new D_Ficconv();
+                    //// ***CORRECCIÓN:***
+                    //// Convierte idExamen a string antes de pasarlo al método.
+                    //TB_Ficconv con = dFicconv.ObtenerFicConv(nacionalidad, cedula, idExamen);
+
+
+                    //// Obtener los datos del examen usando el método de la capa lógica
+                    ////L_Ficcont logicaFiccont = new L_Ficcont();
+                    //_L_Ficcont.ObtenerFiccontPorClave(nacionalidad, cedula, idExamen);
+
+
+
+                    //AVD, AVI en TB_FICCONV
+                    // Obtener los datos del examen usando el método que creaste
+                    D_FicCont dFiccont = new D_FicCont();
+                    // ***CORRECCIÓN:***
+                    // Convierte idExamen a string antes de pasarlo al método.
+                    TB_FICCONT con = dFiccont.ObtenerFicCont(nacionalidad, cedula, idExamen);
+
+
+                    if (con != null)
                     {
-                        if (con.ESFD > 0)
+                        // Actualizar las filas del DataTable con los datos del examen
+                        //dt.Rows[0]["Esfera"] = nuevoFiccont.ESFD; valores negativos
+                        dt.Rows[0]["Esfera"] = con.ESFD ?? (object)DBNull.Value;
+                        dt.Rows[0]["Cilindro"] = con.CILD ?? (object)DBNull.Value;
+                        dt.Rows[0]["Eje"] = con.EJED ?? (object)DBNull.Value;
+                        dt.Rows[0]["Adicion"] = con.ADDD ?? (object)DBNull.Value;
+                        dt.Rows[0]["C_base"] = con.CBD ?? (object)DBNull.Value;
+                        dt.Rows[0]["Diametro"] = con.DIAMD ?? (object)DBNull.Value;
+                        //----------------------------------------------------
+                        // Actualizar las filas del DataTable con los datos del examena
+                        if (dt.Rows.Count > 0) // Asegúrate de que haya al menos una fila en el DataTable
                         {
-                            dt.Rows[1]["aEsfera"] = "+";
+                            if (con.ESFD > 0)
+                            {
+                                dt.Rows[1]["aEsfera"] = "+";
+                            }
+                            else if (con.ESFD < 0) // This condition is redundant with the one below and might be a typo. Should it be con.ESFI < 0?
+                            {
+                                dt.Rows[0]["aEsfera"] = "-";
+                            }
+                            else if (con.ESFD < 0) // This is a duplicate condition.
+                            {
+                                dt.Rows[0]["aEsfera"] = "-";
+                            }
+                            else
+                            {
+                                dt.Rows[0]["aEsfera"] = string.Empty; // O null si prefieres
+                            }
                         }
-                        else if (con.ESFD < 0) // This condition is redundant with the one below and might be a typo. Should it be con.ESFI < 0?
-                        {
-                            dt.Rows[0]["aEsfera"] = "-";
-                        }
-                        else if (con.ESFD < 0) // This is a duplicate condition.
-                        {
-                            dt.Rows[0]["aEsfera"] = "-";
-                        }
-                        else
-                        {
-                            dt.Rows[0]["aEsfera"] = string.Empty; // O null si prefieres
-                        }
-                    }
-                    dt.Rows[1]["Esfera"] = con.ESFI ?? (object)DBNull.Value;
+                        dt.Rows[1]["Esfera"] = con.ESFI ?? (object)DBNull.Value;
 
-                    dt.Rows[1]["Cilindro"] = con.CILI ?? (object)DBNull.Value;
-                    dt.Rows[1]["Eje"] = con.EJEI ?? (object)DBNull.Value;
-                    dt.Rows[1]["Adicion"] = con.ADDI ?? (object)DBNull.Value;
-                    dt.Rows[1]["C_base"] = con.CBI ?? (object)DBNull.Value;
-                    dt.Rows[1]["Diametro"] = con.DIAMI ?? (object)DBNull.Value;
+                        dt.Rows[1]["Cilindro"] = con.CILI ?? (object)DBNull.Value;
+                        dt.Rows[1]["Eje"] = con.EJEI ?? (object)DBNull.Value;
+                        dt.Rows[1]["Adicion"] = con.ADDI ?? (object)DBNull.Value;
+                        dt.Rows[1]["C_base"] = con.CBI ?? (object)DBNull.Value;
+                        dt.Rows[1]["Diametro"] = con.DIAMI ?? (object)DBNull.Value;
 
-                    // Actualizar las filas del DataTable con los datos del examena
-                    if (dt.Rows.Count > 0) // Asegúrate de que haya al menos una fila en el DataTable
+                        // Actualizar las filas del DataTable con los datos del examena
+                        if (dt.Rows.Count > 0) // Asegúrate de que haya al menos una fila en el DataTable
+                        {
+                            if (con.ESFI > 0)
+                            {
+                                dt.Rows[1][1] = "+";
+                            }
+                            else if (con.ESFI < 0)
+                            {
+                                dt.Rows[1][1] = "-";
+                            }
+                            else if (con.ESFI < 0) // This is a duplicate condition.
+                            {
+                                dt.Rows[1][1] = "-";
+                            }
+                            else
+                            {
+                                dt.Rows[1][1] = string.Empty; // O null si prefieres
+                            }
+                        }
+
+
+
+
+
+
+
+
+
+                        if (dt.Rows.Count > 0) // Asegúrate de que haya al menos una fila en el DataTable
+                        {
+                            if (con.CILD > 0)
+                            {
+                                dt.Rows[0]["aCilindro"] = "+";
+                            }
+                            else if (con.CILD < 0)
+                            {
+                                dt.Rows[0]["aCilindro"] = "-";
+                            }
+                            else if (con.CILD < 0) // This is a duplicate condition.
+                            {
+                                dt.Rows[0]["aCilindro"] = "-";
+                            }
+                            else
+                            {
+                                dt.Rows[0]["aCilindro"] = string.Empty; // O null si prefieres
+                            }
+                        }
+
+                        if (dt.Rows.Count > 0) // Asegúrate de que haya al menos una fila en el DataTable
+                        {
+                            if (con.CILI > 0)
+                            {
+                                dt.Rows[1]["aCilindro"] = "+";
+                            }
+                            else if (con.CILI < 0) // This condition seems to refer to CILD, not CILI. Might be a typo.
+                            {
+                                dt.Rows[1]["aCilindro"] = "-";
+                            }
+                            else if (con.CILI < 0)
+                            {
+                                dt.Rows[1]["aCilindro"] = "-";
+                            }
+                            else
+                            {
+                                dt.Rows[1]["aCilindro"] = string.Empty; // O null si prefieres
+                            }
+                        }
+
+
+
+                        // Asignar el DataTable como fuente de datos del DataGridView
+                        Dgv_Pnl2_cont.DataSource = dt;
+                        Dgv_Pnl2_cont.AutoGenerateColumns = false; // Desactivar la generación automática de columnas
+
+                        // Opcional: Configurar propiedades del DataGridView para mejor visualización
+                        Dgv_Pnl2_cont.AllowUserToAddRows = false;
+                        Dgv_Pnl2_cont.AllowUserToDeleteRows = false;
+                        Dgv_Pnl2_cont.ReadOnly = false;
+                        Dgv_Pnl2_cont.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                        Dgv_Pnl2_cont.ColumnHeadersVisible = true;
+                        Dgv_Pnl2_cont.RowHeadersVisible = false;
+                        Dgv_Pnl2_cont.AllowUserToResizeColumns = false; // Bloquear el cambio de tamaño de las columnas
+                        Dgv_Pnl2_cont.AllowUserToResizeRows = false;    // Bloquear el cambio de tamaño de las filas
+
+                        txt_Pnl2_cont_observa.Text = con?.OBSERVACIONES?.ToString() ?? string.Empty;
+
+                    } // This is the missing closing brace.
+                    else
                     {
-                        if (con.ESFI > 0)
-                        {
-                            dt.Rows[1][1] = "+";
-                        }
-                        else if (con.ESFI < 0)
-                        {
-                            dt.Rows[1][1] = "-";
-                        }
-                        else if (con.ESFI < 0) // This is a duplicate condition.
-                        {
-                            dt.Rows[1][1] = "-";
-                        }
-                        else
-                        {
-                            dt.Rows[1][1] = string.Empty; // O null si prefieres
-                        }
+                        // Actualizar las filas del DataTable con los datos del examen
+                        dt.Rows[0]["Esfera"] = 0;
+                        dt.Rows[0]["Cilindro"] = 0;
+                        dt.Rows[0]["Eje"] = 0;
+                        dt.Rows[0]["Adicion"] = 0;
+                        dt.Rows[0]["C_base"] = 0;
+                        dt.Rows[0]["Diametro"] = 0;
+
+                        dt.Rows[1]["Esfera"] = 0;
+                        dt.Rows[1]["Cilindro"] = 0;
+                        dt.Rows[1]["Eje"] = 0;
+                        dt.Rows[1]["Adicion"] = 0;
+                        dt.Rows[1]["C_base"] = 0;
+                        dt.Rows[1]["Diametro"] = 0;
                     }
 
 
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al cargar el examen: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                }
+
+                // Asignar el DataTable como fuente de datos del DataGridView
+                Dgv_Pnl2_cont.DataSource = dt;
+                Dgv_Pnl2_cont.AutoGenerateColumns = false;
 
 
-
-
-
-
-
-                    if (dt.Rows.Count > 0) // Asegúrate de que haya al menos una fila en el DataTable
-                    {
-                        if (con.CILD > 0)
-                        {
-                            dt.Rows[0]["aCilindro"] = "+";
-                        }
-                        else if (con.CILD < 0)
-                        {
-                            dt.Rows[0]["aCilindro"] = "-";
-                        }
-                        else if (con.CILD < 0) // This is a duplicate condition.
-                        {
-                            dt.Rows[0]["aCilindro"] = "-";
-                        }
-                        else
-                        {
-                            dt.Rows[0]["aCilindro"] = string.Empty; // O null si prefieres
-                        }
-                    }
-
-                    if (dt.Rows.Count > 0) // Asegúrate de que haya al menos una fila en el DataTable
-                    {
-                        if (con.CILI > 0)
-                        {
-                            dt.Rows[1]["aCilindro"] = "+";
-                        }
-                        else if (con.CILI < 0) // This condition seems to refer to CILD, not CILI. Might be a typo.
-                        {
-                            dt.Rows[1]["aCilindro"] = "-";
-                        }
-                        else if (con.CILI < 0)
-                        {
-                            dt.Rows[1]["aCilindro"] = "-";
-                        }
-                        else
-                        {
-                            dt.Rows[1]["aCilindro"] = string.Empty; // O null si prefieres
-                        }
-                    }
-
-
-
-                    // Asignar el DataTable como fuente de datos del DataGridView
-                    Dgv_Pnl2_cont.DataSource = dt;
-                    Dgv_Pnl2_cont.AutoGenerateColumns = false; // Desactivar la generación automática de columnas
-
-                    // Opcional: Configurar propiedades del DataGridView para mejor visualización
-                    Dgv_Pnl2_cont.AllowUserToAddRows = false;
-                    Dgv_Pnl2_cont.AllowUserToDeleteRows = false;
-                    Dgv_Pnl2_cont.ReadOnly = false;
-                    Dgv_Pnl2_cont.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-                    Dgv_Pnl2_cont.ColumnHeadersVisible = true;
-                    Dgv_Pnl2_cont.RowHeadersVisible = false;
-                    Dgv_Pnl2_cont.AllowUserToResizeColumns = false; // Bloquear el cambio de tamaño de las columnas
-                    Dgv_Pnl2_cont.AllowUserToResizeRows = false;    // Bloquear el cambio de tamaño de las filas
-
-                    txt_Pnl2_cont_observa.Text = con?.OBSERVACIONES?.ToString() ?? string.Empty;
-
-                } // This is the missing closing brace.
+                // Habilitar la pestaña de Carga ordenes 
+                if (Dgv_Pnl2_conv != null && Dgv_Pnl2_conv.Rows.Count > 0 || Dgv_Pnl2_cont != null && Dgv_Pnl2_cont.Rows.Count > 0)
+                {
+                    btnCargarOrden.Enabled = true;
+                }
                 else
                 {
-                    // Actualizar las filas del DataTable con los datos del examen
-                    dt.Rows[0]["Esfera"] = 0;
-                    dt.Rows[0]["Cilindro"] = 0;
-                    dt.Rows[0]["Eje"] = 0;
-                    dt.Rows[0]["Adicion"] = 0;
-                    dt.Rows[0]["C_base"] = 0;
-                    dt.Rows[0]["Diametro"] = 0;
-
-                    dt.Rows[1]["Esfera"] = 0;
-                    dt.Rows[1]["Cilindro"] = 0;
-                    dt.Rows[1]["Eje"] = 0;
-                    dt.Rows[1]["Adicion"] = 0;
-                    dt.Rows[1]["C_base"] = 0;
-                    dt.Rows[1]["Diametro"] = 0;
+                    btnCargarOrden.Enabled = false;
                 }
 
 
+                tamañoExamenGridCont();
+                AsignarCeroSiVacioDgv_Pnl2_cont();
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al cargar el examen: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
-            }
-
-            // Asignar el DataTable como fuente de datos del DataGridView
-            Dgv_Pnl2_cont.DataSource = dt;
-            Dgv_Pnl2_cont.AutoGenerateColumns = false;
-
-
-            // Habilitar la pestaña de Carga ordenes 
-            if (Dgv_Pnl2_conv != null && Dgv_Pnl2_conv.Rows.Count > 0 || Dgv_Pnl2_cont != null && Dgv_Pnl2_cont.Rows.Count > 0)
-            {
-                btnCargarOrden.Enabled = true;
-            }
-            else
-            {
-                btnCargarOrden.Enabled = false;
-            }
-
-
-            tamañoExamenGridCont();
-            AsignarCeroSiVacioDgv_Pnl2_cont();
         }
 
         private void CargarDgvPnl2MedConv()
         {
-
-            this.Dgv_Pnl2_medconv.DefaultCellStyle.Font = new Font("Century Gothic", 13);
-
-            // Crear un DataTable para almacenar los datos del DataGridView
-            DataTable dt = new DataTable();
-            dt.Columns.Add("Ojo", typeof(string));
-            dt.Columns.Add("T_DISTANCIAVERTICE", typeof(decimal));
-            dt.Columns.Add("T_ANGULOPANTOSCOPICO", typeof(decimal));
-            dt.Columns.Add("T_ANGULOFACIAL", typeof(decimal));
-            dt.Columns.Add("T_DISTANCIADELECTURA", typeof(decimal));
-
-            // Agregar la fila al DataTable
-            DataRow fila = dt.NewRow();
-            fila["Ojo"] = "Único"; // O "Ambos", dependiendo de la lógica de tu aplicación
-            dt.Rows.Add(fila);
-
-            ////-------------------------------------------------
-            // Obtener los valores de los controles de la interfaz de usuario
-            string cedula = Txt_Tap1_Cedula.Text;
-            string nacionalidad = Cbx_Tap1_Nacionalidad.SelectedItem?.ToString();
-            int idExamen;
-
-            if (!int.TryParse(Txt_Tap2_Examen.Text, out idExamen))
-            {
-                //MessageBox.Show("  ingrese un ID de examen válido (numérico).", "Error de formato", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
-                return;
-            }
-
-            // Verificar que los valores requeridos estén presentes
-            if (string.IsNullOrEmpty(nacionalidad) || string.IsNullOrEmpty(cedula))
-            {
-                //MessageBox.Show("  ingrese la nacionalidad y la cédula.", "Datos incompletos", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
-                return;
-            }
-
-            try
+            if (mantenervacio == false)
             {
 
-                // Crear una instancia de la capa de lógica (L_Trabajo)
-                L_Trabajo lTrabajo = new L_Trabajo();
-                // Obtener los datos del trabajo usando el método de la capa lógica
-                TB_TRABAJOCTE trabajo = lTrabajo.ObtenerTrabajoPorOrdenServicio(nacionalidad, cedula, idExamen);
+                this.Dgv_Pnl2_medconv.DefaultCellStyle.Font = new Font("Century Gothic", 13);
 
-                if (trabajo != null)
+                // Crear un DataTable para almacenar los datos del DataGridView
+                DataTable dt = new DataTable();
+                dt.Columns.Add("Ojo", typeof(string));
+                dt.Columns.Add("T_DISTANCIAVERTICE", typeof(decimal));
+                dt.Columns.Add("T_ANGULOPANTOSCOPICO", typeof(decimal));
+                dt.Columns.Add("T_ANGULOFACIAL", typeof(decimal));
+                dt.Columns.Add("T_DISTANCIADELECTURA", typeof(decimal));
+
+                // Agregar la fila al DataTable
+                DataRow fila = dt.NewRow();
+                fila["Ojo"] = "Único"; // O "Ambos", dependiendo de la lógica de tu aplicación
+                dt.Rows.Add(fila);
+
+                ////-------------------------------------------------
+                // Obtener los valores de los controles de la interfaz de usuario
+                string cedula = Txt_Tap1_Cedula.Text;
+                string nacionalidad = Cbx_Tap1_Nacionalidad.SelectedItem?.ToString();
+                int idExamen;
+
+                if (!int.TryParse(Txt_Tap2_Examen.Text, out idExamen))
+                {
+                    //MessageBox.Show("  ingrese un ID de examen válido (numérico).", "Error de formato", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                    return;
+                }
+
+                // Verificar que los valores requeridos estén presentes
+                if (string.IsNullOrEmpty(nacionalidad) || string.IsNullOrEmpty(cedula))
+                {
+                    //MessageBox.Show("  ingrese la nacionalidad y la cédula.", "Datos incompletos", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                    return;
+                }
+
+                try
                 {
 
+                    // Crear una instancia de la capa de lógica (L_Trabajo)
+                    L_Trabajo lTrabajo = new L_Trabajo();
+                    // Obtener los datos del trabajo usando el método de la capa lógica
+                    TB_TRABAJOCTE trabajo = lTrabajo.ObtenerTrabajoPorOrdenServicio(nacionalidad, cedula, idExamen);
 
-
-                    //Cbx_Tap2_Ojo T_OJO
-
-                    Cbx_Tap2_Ojo.Text = trabajo.TOJO != null ? trabajo.TOJO.ToString().Trim() : "";
-
-
-
-                    // Llenar la fila del DataTable con los datos obtenidos del trabajo, manejando nulos
-                    if (trabajo == null)
+                    if (trabajo != null)
                     {
-                        dt.Rows[0]["T_DISTANCIAVERTICE"] = 0;
-                        dt.Rows[0]["T_ANGULOPANTOSCOPICO"] = 0;
-                        dt.Rows[0]["T_ANGULOFACIAL"] = 0;
-                        dt.Rows[0]["T_DISTANCIADELECTURA"] = 0;
+
+
+
+                        //Cbx_Tap2_Ojo T_OJO
+
+                        Cbx_Tap2_Ojo.Text = trabajo.TOJO != null ? trabajo.TOJO.ToString().Trim() : "";
+
+
+
+                        // Llenar la fila del DataTable con los datos obtenidos del trabajo, manejando nulos
+                        if (trabajo == null)
+                        {
+                            dt.Rows[0]["T_DISTANCIAVERTICE"] = 0;
+                            dt.Rows[0]["T_ANGULOPANTOSCOPICO"] = 0;
+                            dt.Rows[0]["T_ANGULOFACIAL"] = 0;
+                            dt.Rows[0]["T_DISTANCIADELECTURA"] = 0;
+                        }
+                        else
+                        {
+                            dt.Rows[0]["T_DISTANCIAVERTICE"] = trabajo.TDISTANCIAVERTICE ?? 0;
+                            dt.Rows[0]["T_ANGULOPANTOSCOPICO"] = trabajo.TANGULOPANTOSCOPICO ?? 0;
+                            dt.Rows[0]["T_ANGULOFACIAL"] = trabajo.TANGULOFACIAL ?? 0;
+                            dt.Rows[0]["T_DISTANCIADELECTURA"] = trabajo.TDISTANCIADELECTURA ?? 0;
+                        }
+
+
+
+
+                        // Asignar el DataTable como fuente de datos del DataGridView
+                        Dgv_Pnl2_medconv.DataSource = dt;
+                        Dgv_Pnl2_medconv.AutoGenerateColumns = false; // Desactivar la generación automática de columnas
+
+                        // Opcional: Configurar las propiedades del DataGridView para una mejor visualización
+                        Dgv_Pnl2_medconv.AllowUserToAddRows = false;
+                        Dgv_Pnl2_medconv.AllowUserToDeleteRows = false;
+                        Dgv_Pnl2_medconv.ReadOnly = false;
+                        Dgv_Pnl2_medconv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                        Dgv_Pnl2_medconv.ColumnHeadersVisible = true;
+                        Dgv_Pnl2_medconv.RowHeadersVisible = false;
+                        Dgv_Pnl2_medconv.AllowUserToResizeColumns = false;
+                        Dgv_Pnl2_medconv.AllowUserToResizeRows = false;
+
+
+                        // Dgv_Pnl2_medconv.Refresh(); // No es necesario aquí, se actualiza al asignar el DataSource
                     }
                     else
                     {
-                        dt.Rows[0]["T_DISTANCIAVERTICE"] = trabajo.TDISTANCIAVERTICE ?? 0;
-                        dt.Rows[0]["T_ANGULOPANTOSCOPICO"] = trabajo.TANGULOPANTOSCOPICO ?? 0;
-                        dt.Rows[0]["T_ANGULOFACIAL"] = trabajo.TANGULOFACIAL ?? 0;
-                        dt.Rows[0]["T_DISTANCIADELECTURA"] = trabajo.TDISTANCIADELECTURA ?? 0;
+                        MostrarMensajeTemporal("No se encontraron datos de Trabajo para la cédula, nacionalidad e ID de examen proporcionados.", 9000);
+
                     }
-
-
-
-
-                    // Asignar el DataTable como fuente de datos del DataGridView
-                    Dgv_Pnl2_medconv.DataSource = dt;
-                    Dgv_Pnl2_medconv.AutoGenerateColumns = false; // Desactivar la generación automática de columnas
-
-                    // Opcional: Configurar las propiedades del DataGridView para una mejor visualización
-                    Dgv_Pnl2_medconv.AllowUserToAddRows = false;
-                    Dgv_Pnl2_medconv.AllowUserToDeleteRows = false;
-                    Dgv_Pnl2_medconv.ReadOnly = false;
-                    Dgv_Pnl2_medconv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-                    Dgv_Pnl2_medconv.ColumnHeadersVisible = true;
-                    Dgv_Pnl2_medconv.RowHeadersVisible = false;
-                    Dgv_Pnl2_medconv.AllowUserToResizeColumns = false;
-                    Dgv_Pnl2_medconv.AllowUserToResizeRows = false;
-
-
-                    // Dgv_Pnl2_medconv.Refresh(); // No es necesario aquí, se actualiza al asignar el DataSource
                 }
-                else
+                catch (Exception ex)
                 {
-                    MostrarMensajeTemporal("No se encontraron datos de Trabajo para la cédula, nacionalidad e ID de examen proporcionados.", 9000);
+                    MessageBox.Show("Error al cargar los datos: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
 
                 }
+
+
+                // Asignar el DataTable como fuente de datos del DataGridView
+                Dgv_Pnl2_medconv.DataSource = dt;
+                Dgv_Pnl2_medconv.AutoGenerateColumns = false;
+
+                // Opcional: Configurar propiedades del DataGridView
+                Dgv_Pnl2_medconv.AllowUserToAddRows = false;
+                Dgv_Pnl2_medconv.AllowUserToDeleteRows = false;
+                Dgv_Pnl2_medconv.ReadOnly = false;
+                Dgv_Pnl2_medconv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                Dgv_Pnl2_medconv.ColumnHeadersVisible = true;
+                Dgv_Pnl2_medconv.RowHeadersVisible = false;
+                Dgv_Pnl2_medconv.AllowUserToResizeColumns = false;
+                Dgv_Pnl2_medconv.AllowUserToResizeRows = false;
+
+                AsignarCeroSiVacioDgv_Pnl2_medconv();
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al cargar los datos: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
-
-            }
-
-
-            // Asignar el DataTable como fuente de datos del DataGridView
-            Dgv_Pnl2_medconv.DataSource = dt;
-            Dgv_Pnl2_medconv.AutoGenerateColumns = false;
-
-            // Opcional: Configurar propiedades del DataGridView
-            Dgv_Pnl2_medconv.AllowUserToAddRows = false;
-            Dgv_Pnl2_medconv.AllowUserToDeleteRows = false;
-            Dgv_Pnl2_medconv.ReadOnly = false;
-            Dgv_Pnl2_medconv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            Dgv_Pnl2_medconv.ColumnHeadersVisible = true;
-            Dgv_Pnl2_medconv.RowHeadersVisible = false;
-            Dgv_Pnl2_medconv.AllowUserToResizeColumns = false;
-            Dgv_Pnl2_medconv.AllowUserToResizeRows = false;
-
-            AsignarCeroSiVacioDgv_Pnl2_medconv();
-
         }
 
 
@@ -7633,160 +7679,166 @@ namespace CapaVisual_Login
 
         private void CargarDgv_Pnl2_Querato()
         {
-            this.Dgv_Pnl2_Querato.DefaultCellStyle.Font = new Font("Century Gothic", 13);
-
-            // Crear un DataTable para almacenar los datos del DataGridView
-            DataTable dt = new DataTable();
-            dt.Columns.Add("Ojo", typeof(string));
-            dt.Columns.Add("QUERATOMD1", typeof(decimal));
-            dt.Columns.Add("QUERATOGD1", typeof(decimal));
-            dt.Columns.Add("QUERATOMD2", typeof(decimal));
-            dt.Columns.Add("QUERATOGD2", typeof(decimal));
-
-            dt.Columns.Add("QUERATOMI1", typeof(decimal));
-            dt.Columns.Add("QUERATOGI1", typeof(decimal));
-            dt.Columns.Add("QUERATOMI2", typeof(decimal));
-            dt.Columns.Add("QUERATOGI2", typeof(decimal));
-
-
-
-
-
-            // Agregar la fila al DataTable
-            DataRow filaDerecha = dt.NewRow();
-            filaDerecha["Ojo"] = "Derecho";
-            dt.Rows.Add(filaDerecha);
-
-            DataRow filaIzquierda = dt.NewRow();
-            filaIzquierda["Ojo"] = "Izquierdo";
-            dt.Rows.Add(filaIzquierda);
-
-            ///-------------------------------------------------------------------------
-            // Obtener los valores de los controles de la interfaz de usuario
-            string cedula = Txt_Tap1_Cedula.Text;
-            string nacionalidad = Cbx_Tap1_Nacionalidad.SelectedItem?.ToString();
-            int idExamen;
-
-            if (!int.TryParse(Txt_Tap2_Examen.Text, out idExamen))
-            {
-                //MessageBox.Show("  ingrese un ID de examen válido (numérico).", "Error de formato", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
-                return;
-            }
-
-            // Verificar que los valores requeridos estén presentes
-            if (string.IsNullOrEmpty(nacionalidad) || string.IsNullOrEmpty(cedula))
-            {
-                //MessageBox.Show("  ingrese la nacionalidad y la cédula", "Datos incompletos", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
-                return;
-            }
-
-            try
+            if (mantenervacio == false)
             {
 
-                // Crear una instancia de la capa de datos (D_Querato)
-                D_Querato dQuerato = new D_Querato();
+                this.Dgv_Pnl2_Querato.DefaultCellStyle.Font = new Font("Century Gothic", 13);
 
-                // Obtener los datos de TB_QUERATO usando el método de la capa de datos
-                TB_QUERATO querato = dQuerato.ObtenerQuerato(nacionalidad, cedula, idExamen);
+                // Crear un DataTable para almacenar los datos del DataGridView
+                DataTable dt = new DataTable();
+                dt.Columns.Add("Ojo", typeof(string));
+                dt.Columns.Add("QUERATOMD1", typeof(decimal));
+                dt.Columns.Add("QUERATOGD1", typeof(decimal));
+                dt.Columns.Add("QUERATOMD2", typeof(decimal));
+                dt.Columns.Add("QUERATOGD2", typeof(decimal));
 
-                if (querato != null)
+                dt.Columns.Add("QUERATOMI1", typeof(decimal));
+                dt.Columns.Add("QUERATOGI1", typeof(decimal));
+                dt.Columns.Add("QUERATOMI2", typeof(decimal));
+                dt.Columns.Add("QUERATOGI2", typeof(decimal));
+
+
+
+
+
+                // Agregar la fila al DataTable
+                DataRow filaDerecha = dt.NewRow();
+                filaDerecha["Ojo"] = "Derecho";
+                dt.Rows.Add(filaDerecha);
+
+                DataRow filaIzquierda = dt.NewRow();
+                filaIzquierda["Ojo"] = "Izquierdo";
+                dt.Rows.Add(filaIzquierda);
+
+                ///-------------------------------------------------------------------------
+                // Obtener los valores de los controles de la interfaz de usuario
+                string cedula = Txt_Tap1_Cedula.Text;
+                string nacionalidad = Cbx_Tap1_Nacionalidad.SelectedItem?.ToString();
+                int idExamen;
+
+                if (!int.TryParse(Txt_Tap2_Examen.Text, out idExamen))
                 {
-                    //txt_Pnl2_quero_mimesys.Text = querato.CodigoMimesys != null ? querato.CodigoMimesys : string.Empty;
-                    //txt_Pnl2_quero_observa.Text = querato.QUE_OBSERV != null ? querato.QUE_OBSERV : string.Empty;
+                    //MessageBox.Show("  ingrese un ID de examen válido (numérico).", "Error de formato", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                    return;
+                }
 
-                    //Llenar la fila del DataTable con los datos obtenidos de TB_QUERATO, manejando nulos
+                // Verificar que los valores requeridos estén presentes
+                if (string.IsNullOrEmpty(nacionalidad) || string.IsNullOrEmpty(cedula))
+                {
+                    //MessageBox.Show("  ingrese la nacionalidad y la cédula", "Datos incompletos", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                    return;
+                }
 
-                    if (querato.QUERATOMD1 <= 10)
+                try
+                {
+
+                    // Crear una instancia de la capa de datos (D_Querato)
+                    D_Querato dQuerato = new D_Querato();
+
+                    // Obtener los datos de TB_QUERATO usando el método de la capa de datos
+                    TB_QUERATO querato = dQuerato.ObtenerQuerato(nacionalidad, cedula, idExamen);
+
+                    if (querato != null)
                     {
-                        // Si QUERATOMD1 es menor o igual a 10
-                        radioButton5.Checked = true;  // Selecciona radioButton5
-                        radioButton6.Checked = false; // Deselecciona radioButton6
+                        //txt_Pnl2_quero_mimesys.Text = querato.CodigoMimesys != null ? querato.CodigoMimesys : string.Empty;
+                        //txt_Pnl2_quero_observa.Text = querato.QUE_OBSERV != null ? querato.QUE_OBSERV : string.Empty;
+
+                        //Llenar la fila del DataTable con los datos obtenidos de TB_QUERATO, manejando nulos
+
+                        if (querato.QUERATOMD1 <= 10)
+                        {
+                            // Si QUERATOMD1 es menor o igual a 10
+                            radioButton5.Checked = true;  // Selecciona radioButton5
+                            radioButton6.Checked = false; // Deselecciona radioButton6
+                        }
+                        else
+                        {
+                            // Si QUERATOMD1 es mayor que 10
+                            radioButton5.Checked = false; // Deselecciona radioButton5
+                            radioButton6.Checked = true;  // Selecciona radioButton6
+                        }
+
+
+                        dt.Rows[0]["QUERATOMD1"] = querato.QUERATOMD1 ?? 0;
+                        dt.Rows[1]["QUERATOMD1"] = querato.QUERATOMI1 ?? 0;
+
+                        dt.Rows[0]["QUERATOGD1"] = querato.QUERATOGD1 ?? 0;
+                        dt.Rows[1]["QUERATOGD1"] = querato.QUERATOGI1 ?? 0;
+
+                        dt.Rows[0]["QUERATOMD2"] = querato.QUERATOMD2 ?? 0;
+                        dt.Rows[1]["QUERATOMD2"] = querato.QUERATOMI2 ?? 0;
+
+                        dt.Rows[0]["QUERATOGD2"] = querato.QUERATOGD2 ?? 0;
+                        dt.Rows[1]["QUERATOGD2"] = querato.QUERATOGI2 ?? 0;
+
+
+                        txt_Pnl2_obsQuero.Text = querato.QUE_OBSERV;
+
+                        // Asignar el DataTable como fuente de datos del DataGridView
+                        Dgv_Pnl2_Querato.DataSource = dt;
+                        Dgv_Pnl2_Querato.AutoGenerateColumns = false; // Desactivar la generación automática de columnas
+
+                        // Opcional: Configurar las propiedades del DataGridView para una mejor visualización
+                        Dgv_Pnl2_Querato.AllowUserToAddRows = false;
+                        Dgv_Pnl2_Querato.AllowUserToDeleteRows = false;
+                        Dgv_Pnl2_Querato.ReadOnly = true; // El DataGridView debe ser de solo lectura para mostrar los datos, a menos que el usuario los vaya a editar.
+                        Dgv_Pnl2_Querato.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                        Dgv_Pnl2_Querato.ColumnHeadersVisible = true;
+                        Dgv_Pnl2_Querato.RowHeadersVisible = false;
+                        Dgv_Pnl2_Querato.AllowUserToResizeColumns = false;
+                        Dgv_Pnl2_Querato.AllowUserToResizeRows = false;
                     }
                     else
                     {
-                        // Si QUERATOMD1 es mayor que 10
-                        radioButton5.Checked = false; // Deselecciona radioButton5
-                        radioButton6.Checked = true;  // Selecciona radioButton6
+                        MostrarMensajeTemporal("No se encontraron datos de Querato para la cédula, nacionalidad e ID de examen proporcionados.", 9000);
+
                     }
-
-
-                    dt.Rows[0]["QUERATOMD1"] = querato.QUERATOMD1 ?? 0;
-                    dt.Rows[1]["QUERATOMD1"] = querato.QUERATOMI1 ?? 0;
-
-                    dt.Rows[0]["QUERATOGD1"] = querato.QUERATOGD1 ?? 0;
-                    dt.Rows[1]["QUERATOGD1"] = querato.QUERATOGI1 ?? 0;
-
-                    dt.Rows[0]["QUERATOMD2"] = querato.QUERATOMD2 ?? 0;
-                    dt.Rows[1]["QUERATOMD2"] = querato.QUERATOMI2 ?? 0;
-
-                    dt.Rows[0]["QUERATOGD2"] = querato.QUERATOGD2 ?? 0;
-                    dt.Rows[1]["QUERATOGD2"] = querato.QUERATOGI2 ?? 0;
-
-
-                    txt_Pnl2_obsQuero.Text = querato.QUE_OBSERV;
-
-                    // Asignar el DataTable como fuente de datos del DataGridView
-                    Dgv_Pnl2_Querato.DataSource = dt;
-                    Dgv_Pnl2_Querato.AutoGenerateColumns = false; // Desactivar la generación automática de columnas
-
-                    // Opcional: Configurar las propiedades del DataGridView para una mejor visualización
-                    Dgv_Pnl2_Querato.AllowUserToAddRows = false;
-                    Dgv_Pnl2_Querato.AllowUserToDeleteRows = false;
-                    Dgv_Pnl2_Querato.ReadOnly = true; // El DataGridView debe ser de solo lectura para mostrar los datos, a menos que el usuario los vaya a editar.
-                    Dgv_Pnl2_Querato.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-                    Dgv_Pnl2_Querato.ColumnHeadersVisible = true;
-                    Dgv_Pnl2_Querato.RowHeadersVisible = false;
-                    Dgv_Pnl2_Querato.AllowUserToResizeColumns = false;
-                    Dgv_Pnl2_Querato.AllowUserToResizeRows = false;
                 }
-                else
+                catch (Exception ex)
                 {
-                    MostrarMensajeTemporal("No se encontraron datos de Querato para la cédula, nacionalidad e ID de examen proporcionados.", 9000);
+                    MessageBox.Show("Error al cargar los datos: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
 
                 }
+
+
+                txt_Pnl2_obsQuero.Text = nuevoQuerato.QUE_OBSERV != null ? nuevoQuerato.QUE_OBSERV.ToString() : "";
+                // Asignar el DataTable como fuente de datos del DataGridView
+                Dgv_Pnl2_Querato.DataSource = dt;
+                Dgv_Pnl2_Querato.AutoGenerateColumns = false;
+
+                // Opcional: Configurar propiedades del DataGridView
+                Dgv_Pnl2_Querato.AllowUserToAddRows = false;
+                Dgv_Pnl2_Querato.AllowUserToDeleteRows = false;
+                Dgv_Pnl2_Querato.ReadOnly = false;
+                Dgv_Pnl2_Querato.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                Dgv_Pnl2_Querato.ColumnHeadersVisible = true;
+                Dgv_Pnl2_Querato.RowHeadersVisible = false;
+                Dgv_Pnl2_Querato.AllowUserToResizeColumns = false;
+                Dgv_Pnl2_Querato.AllowUserToResizeRows = false;
+
+                AsignarCeroSiVacioDgv_Pnl2_Querato();
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al cargar los datos: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
-
-            }
-
-
-            txt_Pnl2_obsQuero.Text = nuevoQuerato.QUE_OBSERV != null ? nuevoQuerato.QUE_OBSERV.ToString() : "";
-            // Asignar el DataTable como fuente de datos del DataGridView
-            Dgv_Pnl2_Querato.DataSource = dt;
-            Dgv_Pnl2_Querato.AutoGenerateColumns = false;
-
-            // Opcional: Configurar propiedades del DataGridView
-            Dgv_Pnl2_Querato.AllowUserToAddRows = false;
-            Dgv_Pnl2_Querato.AllowUserToDeleteRows = false;
-            Dgv_Pnl2_Querato.ReadOnly = false;
-            Dgv_Pnl2_Querato.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            Dgv_Pnl2_Querato.ColumnHeadersVisible = true;
-            Dgv_Pnl2_Querato.RowHeadersVisible = false;
-            Dgv_Pnl2_Querato.AllowUserToResizeColumns = false;
-            Dgv_Pnl2_Querato.AllowUserToResizeRows = false;
-
-            AsignarCeroSiVacioDgv_Pnl2_Querato();
-
         }
 
         private void AsignarCeroSiVacioDgv_Pnl2_cont()
         {
-            foreach (DataGridViewRow row in Dgv_Pnl2_cont.Rows)
+            if (mantenervacio == false)
             {
-                foreach (DataGridViewCell cell in row.Cells)
+                foreach (DataGridViewRow row in Dgv_Pnl2_cont.Rows)
                 {
-                    // Verifica si la celda está vacía o solo contiene espacios en blanco, y no es de la columna A1 o A0
-                    if ((cell.Value == null || string.IsNullOrWhiteSpace(cell.Value?.ToString())))
+                    foreach (DataGridViewCell cell in row.Cells)
                     {
-                        if (Dgv_Pnl2_cont.Columns[cell.ColumnIndex].Name != "aEsfera" && Dgv_Pnl2_cont.Columns[cell.ColumnIndex].Name != "aCilindro")
+                        // Verifica si la celda está vacía o solo contiene espacios en blanco, y no es de la columna A1 o A0
+                        if ((cell.Value == null || string.IsNullOrWhiteSpace(cell.Value?.ToString())))
                         {
-                            cell.Value = 0;
-                        }
-                        else
-                        {
-                            cell.Value = "";
+                            if (Dgv_Pnl2_cont.Columns[cell.ColumnIndex].Name != "aEsfera" && Dgv_Pnl2_cont.Columns[cell.ColumnIndex].Name != "aCilindro")
+                            {
+                                cell.Value = 0;
+                            }
+                            else
+                            {
+                                cell.Value = "";
+                            }
                         }
                     }
                 }
@@ -7795,41 +7847,47 @@ namespace CapaVisual_Login
 
         private void AsignarCeroSiVacioDgv_Pnl2_conv()
         {
-            foreach (DataGridViewRow row in Dgv_Pnl2_conv.Rows)
+            if (mantenervacio == false)
             {
-                foreach (DataGridViewCell cell in row.Cells)
+                foreach (DataGridViewRow row in Dgv_Pnl2_conv.Rows)
                 {
-                    // Verifica si la celda está vacía y no es la columna "Vision"
-                    if (cell.Value == null || string.IsNullOrEmpty(cell.Value?.ToString()))
+                    foreach (DataGridViewCell cell in row.Cells)
                     {
-                        if (Dgv_Pnl2_conv.Columns[cell.ColumnIndex].Name != "aEsfera" && Dgv_Pnl2_conv.Columns[cell.ColumnIndex].Name != "aCilindro" && Dgv_Pnl2_conv.Columns[cell.ColumnIndex].Name != "Vision")
+                        // Verifica si la celda está vacía y no es la columna "Vision"
+                        if (cell.Value == null || string.IsNullOrEmpty(cell.Value?.ToString()))
                         {
-                            cell.Value = 0; // Asigna 0 a la celda
+                            if (Dgv_Pnl2_conv.Columns[cell.ColumnIndex].Name != "aEsfera" && Dgv_Pnl2_conv.Columns[cell.ColumnIndex].Name != "aCilindro" && Dgv_Pnl2_conv.Columns[cell.ColumnIndex].Name != "Vision")
+                            {
+                                cell.Value = 0; // Asigna 0 a la celda
+                            }
+                            else if (Dgv_Pnl2_conv.Columns[cell.ColumnIndex].Name == "aEsfera" || Dgv_Pnl2_conv.Columns[cell.ColumnIndex].Name == "aCilindro")
+                            {
+                                cell.Value = ""; // Asigna "" a la celda si es A1 o A0
+                            }
                         }
-                        else if (Dgv_Pnl2_conv.Columns[cell.ColumnIndex].Name == "aEsfera" || Dgv_Pnl2_conv.Columns[cell.ColumnIndex].Name == "aCilindro")
-                        {
-                            cell.Value = ""; // Asigna "" a la celda si es A1 o A0
-                        }
+                        //Si la celda no está vacía, verifica si pertenece a la columna "Vision"
+                        //else if (Dgv_Pnl2_conv.Columns[cell.ColumnIndex].Name == "Vision")
+                        //{
+                        //    // Set the cell's value to an empty string
+                        //    Dgv_Pnl2_conv.Rows[cell.RowIndex].Cells[cell.ColumnIndex].Value = string.Empty;
+                        //}
                     }
-                    //Si la celda no está vacía, verifica si pertenece a la columna "Vision"
-                    //else if (Dgv_Pnl2_conv.Columns[cell.ColumnIndex].Name == "Vision")
-                    //{
-                    //    // Set the cell's value to an empty string
-                    //    Dgv_Pnl2_conv.Rows[cell.RowIndex].Cells[cell.ColumnIndex].Value = string.Empty;
-                    //}
                 }
             }
         }
 
         private void AsignarCeroSiVacioDgv_Pnl2_Querato()
         {
-            foreach (DataGridViewRow row in Dgv_Pnl2_Querato.Rows)
+            if (mantenervacio == false)
             {
-                foreach (DataGridViewCell cell in row.Cells)
+                    foreach (DataGridViewRow row in Dgv_Pnl2_Querato.Rows)
                 {
-                    if (cell.Value == null || string.IsNullOrEmpty(cell.Value?.ToString()))
+                    foreach (DataGridViewCell cell in row.Cells)
                     {
-                        cell.Value = 0; // O "0" si la columna espera un string
+                        if (cell.Value == null || string.IsNullOrEmpty(cell.Value?.ToString()))
+                        {
+                            cell.Value = 0; // O "0" si la columna espera un string
+                        }
                     }
                 }
             }
@@ -7970,12 +8028,11 @@ namespace CapaVisual_Login
 
         private void CargarDatosDeClientesP(string filtro, RadioButton buscarPorCedula, RadioButton buscarPorNombre)
         {
-            //_L_Cliente.CargarClientes(DgvClientes, listaDeClientes);
-
-
 
             textBox2.Focus();
             _L_Cliente.CargarClientes(DgvClientes, listaDeClientes, filtro, buscarPorCedula, buscarPorNombre);
+
+
 
             if (_L_Cliente.stringBuilder.Length > 0)
             {
@@ -7985,53 +8042,74 @@ namespace CapaVisual_Login
             {
                 dvgClientePagador.DataSource = listaDeClientes; // Asignar aquí en la UI
                 listaTemporalClientes = new List<TB_CTEPPAL>(listaDeClientes); // Inicializar la lista temporal
+
+
+                // Ocultar todas las columnas inicialmente
+                foreach (DataGridViewColumn columna in dvgClientePagador.Columns)
+                {
+                    columna.Visible = false;
+                }
+
+                // Hacer visibles las columnas con índice 0 y 1 (si existen)
+                if (dvgClientePagador.Columns.Count > 2)
+                {
+                    dvgClientePagador.Columns[2].Visible = true;
+                    // Centra el texto del encabezado.
+                    // Esto se hace accediendo al estilo de celda por defecto de la celda del encabezado.
+                    dvgClientePagador.Columns[2].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                }
+
+                if (dvgClientePagador.Columns.Count > 3)
+                {
+                    dvgClientePagador.Columns[3].Visible = true;
+                    // Centra el texto del encabezado.
+                    // Esto se hace accediendo al estilo de celda por defecto de la celda del encabezado.
+                    dvgClientePagador.Columns[3].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                }
+
+
+
+                dvgClientePagador.AllowUserToAddRows = false;
+                dvgClientePagador.AllowUserToDeleteRows = false;
+                dvgClientePagador.ColumnHeadersVisible = true;
+                dvgClientePagador.RowHeadersVisible = false;
+                dvgClientePagador.AllowUserToResizeColumns = false;
+                dvgClientePagador.AllowUserToResizeRows = false;
+
+                // Establecer el DataGridView como de solo lectura
+                dvgClientePagador.ReadOnly = true;
+
+                // Establecer los encabezados de las columnas
+
+                if (dvgClientePagador.ColumnCount > 3)
+                {
+                    dvgClientePagador.Columns[2].HeaderText = "Cédula";
+                }
+                if (dvgClientePagador.ColumnCount > 4)
+                {
+                    dvgClientePagador.Columns[3].HeaderText = "Nombre";
+                }
+
+                //// Quitar la línea vertical entre la columna 0 y la 1
+                //if (DgvClientes.ColumnCount > 1)
+                //{
+                //    foreach (DataGridViewRow row in DgvClientes.Rows)
+                //    {
+                //        row.Cells[0].Style.Border.Right = DataGridViewCellBorderStyles.None;
+                //    }
+                //    // Corrección para acceder a las celdas del encabezado
+                //    if (DgvClientes.ColumnHeadersHeightSizeMode != DataGridViewColumnHeadersHeightSizeMode.DisableResizing && DgvClientes.ColumnHeaders != null && DgvClientes.ColumnHeaders.Cells.Count > 1)
+                //    {
+                //        DgvClientes.ColumnHeaders.Cells[0].Style.Border.Right = DataGridViewCellBorderStyles.None;
+                //    }
+                //}
+
+
+                dvgClientePagador.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                dvgClientePagador.Columns[2].Width = 100;
+                dvgClientePagador.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                dvgClientePagador.Columns[3].Width = 300;
             }
-
-
-
-            // Ocultar todas las columnas inicialmente
-            foreach (DataGridViewColumn columna in dvgClientePagador.Columns)
-            {
-                columna.Visible = false;
-            }
-
-            // Hacer visibles las columnas con índice 0 y 1 (si existen)
-            if (dvgClientePagador.Columns.Count > 3)
-            {
-                dvgClientePagador.Columns[3].Visible = true;
-            }
-
-            if (dvgClientePagador.Columns.Count > 4)
-            {
-                dvgClientePagador.Columns[4].Visible = true;
-            }
-
-
-            dvgClientePagador.AllowUserToAddRows = false;
-            dvgClientePagador.AllowUserToDeleteRows = false;
-            dvgClientePagador.ReadOnly = false;
-            //Dgv_Pnl2_cont.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dvgClientePagador.ColumnHeadersVisible = true;
-            dvgClientePagador.RowHeadersVisible = false;
-            dvgClientePagador.AllowUserToResizeColumns = false;
-            dvgClientePagador.AllowUserToResizeRows = false;
-
-
-
-            if (dvgClientePagador.ColumnCount > 2)
-            {
-                dvgClientePagador.Columns[3].HeaderText = "RIF";
-            }
-            if (dvgClientePagador.ColumnCount > 4)
-            {
-                dvgClientePagador.Columns[4].HeaderText = "Nombre";
-            }
-
-            dvgClientePagador.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            dvgClientePagador.Columns[2].Width = 100; // Establecer el ancho fijo (aproximadamente 0.5 cm)
-            dvgClientePagador.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            dvgClientePagador.Columns[3].Width = 500; // Establecer el ancho fijo (aproximadamente 0.5 cm)
-
         }
 
         private void textBox1_Enter(object sender, EventArgs e)
@@ -8125,6 +8203,7 @@ namespace CapaVisual_Login
                 if (DgvClientes.Columns.Count > 2)
                 {
                     DgvClientes.Columns[2].Visible = true;
+
                 }
 
                 if (DgvClientes.Columns.Count > 3)
@@ -8148,11 +8227,17 @@ namespace CapaVisual_Login
 
                 if (DgvClientes.ColumnCount > 3)
                 {
-                    DgvClientes.Columns[2].HeaderText = "RIF";
+                    DgvClientes.Columns[2].HeaderText = "Cédula";
+                    // Centra el texto del encabezado.
+                    // Esto se hace accediendo al estilo de celda por defecto de la celda del encabezado.
+                    DgvClientes.Columns[2].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
                 }
                 if (DgvClientes.ColumnCount > 4)
                 {
                     DgvClientes.Columns[3].HeaderText = "Nombre";
+                    // Centra el texto del encabezado.
+                    // Esto se hace accediendo al estilo de celda por defecto de la celda del encabezado.
+                    DgvClientes.Columns[3].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
                 }
 
                 //// Quitar la línea vertical entre la columna 0 y la 1
@@ -8173,9 +8258,10 @@ namespace CapaVisual_Login
                 DgvClientes.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
                 DgvClientes.Columns[2].Width = 100;
                 DgvClientes.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-                DgvClientes.Columns[3].Width = 500;
+                DgvClientes.Columns[3].Width = 300;
             }
         }
+
 
         private void guardacliente()
         {
@@ -8822,7 +8908,7 @@ namespace CapaVisual_Login
             if (Cbx_Tap1_TLF_Local.SelectedIndex == -1 && Cbx_Tap1_TLF_Celular.SelectedIndex == -1)
             {
                 Pnl_2_Msj.Visible = true;
-                txt_pl2_msj.Text = "Registre un número de celular o Local para continuar"; // More general message
+                txt_pl2_msj.Text = "Debe registrar un número telefónico para continuar"; // More general message
                 pb_pl2_mj.Visible = true;
 
                 // Decide which ComboBox to focus on. You might prioritize Local, or the first one.
@@ -9118,6 +9204,14 @@ namespace CapaVisual_Login
             grp_pln2_quera5.Enabled = true;
             grp_pln2_OBS.Enabled = true;
 
+            Dgv_Pnl2_cont.Enabled = true;
+            Dgv_Pnl2_conv.Enabled = true;
+            Dgv_Pnl2_medconv.Enabled = true;
+            txt_Pnl2_oftd.Enabled = true;
+            txt_Pnl2_ofti.Enabled = true;
+            txt_Pnl2_reti.Enabled = true;
+            txt_Pnl2_retd.Enabled = true;
+
         }
 
 
@@ -9136,6 +9230,14 @@ namespace CapaVisual_Login
             grp_pln2_ret4.Enabled = false;
             grp_pln2_quera5.Enabled = false;
             grp_pln2_OBS.Enabled = false;
+
+            Dgv_Pnl2_cont.Enabled = false;
+            Dgv_Pnl2_conv.Enabled = false;
+            Dgv_Pnl2_medconv.Enabled = false;
+            txt_Pnl2_oftd.Enabled = false;
+            txt_Pnl2_ofti.Enabled = false;
+            txt_Pnl2_reti.Enabled = false;
+            txt_Pnl2_retd.Enabled = false;
         }
 
         private void BloquearCampos()
@@ -9241,6 +9343,7 @@ namespace CapaVisual_Login
                     grp_pln2_Cont1.Visible = true;
                     CargarExamenCont();
                     AsignarCeroSiVacioDgv_Pnl2_cont();
+                    pnl_tab1_observa.Visible = true;
                     txt_Pnl2_cont_observa.Visible = true;
                     lbl_pnl2_con_obser.Visible = true;
                     ValidarPanel = "Cont";
@@ -9268,8 +9371,9 @@ namespace CapaVisual_Login
                     CargarDgvPnl2MedConv();
                     AsignarCeroSiVacioDgv_Pnl2_medconv();
                     ValidarPanel = "Conv";
+                    pnl_tab1_observa.Visible = false;
                     txt_Pnl2_cont_observa.Visible = false;
-                    lbl_pnl2_con_obser.Visible = false;
+                    //lbl_pnl2_con_obser.Visible = false;
                     break;
 
                 default:
@@ -9421,7 +9525,7 @@ namespace CapaVisual_Login
         private void btn_pln2_reti_Click(object sender, EventArgs e)
         {
             txt_Pnl2_cont_observa.Visible = false;
-            lbl_pnl2_con_obser.Visible = false;
+            //lbl_pnl2_con_obser.Visible = false;
             //RestaurarPosicionOriginal();
             //RestaurarPosicionYAlturaOriginal();
 
@@ -9446,7 +9550,7 @@ namespace CapaVisual_Login
         private void btn_pln2_quer_Click(object sender, EventArgs e)
         {
             txt_Pnl2_cont_observa.Visible = false;
-            lbl_pnl2_con_obser.Visible = false;
+            //lbl_pnl2_con_obser.Visible = false;
             //RestaurarPosicionOriginal();
             //RestaurarPosicionYAlturaOriginal();
 
@@ -9469,6 +9573,7 @@ namespace CapaVisual_Login
         private void Btn_Tap2_Examen_Click(object sender, EventArgs e)
         {
             Txt_Tap2_Examen.Text = "0";
+            mantenervacio = true;
             // Asumiendo que Dtp_Tap2_FecExam es de tipo DateTime
 
 
@@ -9963,13 +10068,13 @@ namespace CapaVisual_Login
         private void Btn_Tap2_GuardarExam_Click(object sender, EventArgs e)
         {
 
-
+            mantenervacio = false;
 
             // First, perform the validation
             if (!ValidarVisionConv())
             {
                 Pnl_2_Msj.Visible = true;
-                txt_pl2_msj.Text = "Combinaciones posibles es el mismo tipo o 'BALANCE', Se ha restablecido";
+                txt_pl2_msj.Text = "Debe colocar tipos de visión validos La combinación posible es el mismo tipo de visión o Balance ";
                 pb_pl2_mj.Visible = true;
                 Pnl_2_Msj.Location = new Point(396, 175);
                 Pnl_2_Msj.BringToFront();
@@ -10056,10 +10161,10 @@ namespace CapaVisual_Login
                 if (!ValidarCont_AllOrNoneZero())
                 {
 
-                    Pnl_2_Msj.Visible = true;
-                    txt_pl2_msj.Text = " Error  valores de la tabla de lentes de contacto";
-                    pb_pl2_mj.Visible = true;
-                    return; // Stop further processing if validation fails
+                    //Pnl_2_Msj.Visible = true;
+                    //txt_pl2_msj.Text = " Error  valores de la tabla de lentes de contacto";
+                    //pb_pl2_mj.Visible = true;
+                    //return; // Stop further processing if validation fails
                 }
 
 
@@ -10078,7 +10183,7 @@ namespace CapaVisual_Login
                 {
 
                     Pnl_2_Msj.Visible = true;
-                    txt_pl2_msj.Text = "Examen Guardado Exitosamente";
+                    txt_pl2_msj.Text = "Examen guardado con éxito ";
                     pb_pl2_mj.Visible = false;
                     btnCargarOrden.Enabled = true;
                     AgregarRx();
@@ -10204,7 +10309,7 @@ namespace CapaVisual_Login
                         if (valorFila0 != valorFila1 && valorFila1 != "BALANCE" && valorFila0 != "BALANCE")
                         {
                             Pnl_2_Msj.Visible = true;
-                            txt_pl2_msj.Text = "Combinaciones posibles es el mismo tipo o 'BALANCE', Se ha restablecido";
+                            txt_pl2_msj.Text = "Debe colocar tipos de visión validos La combinación posible es el mismo tipo de visión o Balance";
                             pb_pl2_mj.Visible = true;
                             //Pnl_2_Msj.Location = new Point(396, 175);
                             Pnl_2_Msj.BringToFront();
@@ -10242,7 +10347,7 @@ namespace CapaVisual_Login
                     if (valorFila0 != valorFila1 && valorFila1 != "BALANCE" && valorFila0 != "BALANCE")
                     {
                         Pnl_2_Msj.Visible = true;
-                        txt_pl2_msj.Text = "Combinaciones posibles es el mismo tipo o  'BALANCE', Se ha restablecido";
+                        txt_pl2_msj.Text = "Debe colocar tipos de visión validos La combinación posible es el mismo tipo de visión o Balance";
                         pb_pl2_mj.Visible = true;
 
                         cellFila1.Value = null; // O el valor que desees restablecer
@@ -10264,7 +10369,7 @@ namespace CapaVisual_Login
             }
 
 
-            if (e.ColumnIndex >= 0 && Dgv_Pnl2_conv.Columns[e.ColumnIndex].Name == "Esfera" && e.RowIndex >= 0)
+            if (e.ColumnIndex > 0 && Dgv_Pnl2_conv.Columns[e.ColumnIndex].Name == "Esfera" && e.RowIndex >= 0)
             {
                 DataGridViewCell cell = Dgv_Pnl2_conv.Rows[e.RowIndex].Cells[e.ColumnIndex];
 
@@ -10381,7 +10486,7 @@ namespace CapaVisual_Login
 
                             // Muestra un mensaje al usuario
                             Pnl_2_Msj.Visible = true;
-                            txt_pl2_msj.Text = $"El valor ingresado debe ser un múltiplo de 5. Se ha ajustado a {roundedValue}.";
+                            txt_pl2_msj.Text = $" El rango valido va desde 0,75 y 3,50  ";
                             pb_pl2_mj.Visible = true;
 
                             // Actualiza el valor de la celda
@@ -10391,7 +10496,7 @@ namespace CapaVisual_Login
                     else
                     {
                         // Si el valor no es un entero válido
-                        MessageBox.Show("Por favor, ingrese un número entero válido.", "Error de entrada", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        //MessageBox.Show("Por favor, ingrese un número entero válido.", "Error de entrada", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         cell.Value = 0; // O la acción que consideres adecuada
                     }
                 }
@@ -10424,9 +10529,9 @@ namespace CapaVisual_Login
                             double roundedValue = Math.Round(enteredValue / 0.25) * 0.25;
 
 
-                            Pnl_2_Msj.Visible = true;
-                            txt_pl2_msj.Text = "El valor ingresado debe ser un múltiplo de 0.25 Se ha ajustado a " + roundedValue.ToString("F2");
-                            pb_pl2_mj.Visible = true;
+                            //Pnl_2_Msj.Visible = true;
+                            //txt_pl2_msj.Text = "El valor ingresado debe ser un múltiplo de 0.25 Se ha ajustado a " + roundedValue.ToString("F2");
+                            //pb_pl2_mj.Visible = true;
 
 
                             // Actualiza el valor de la celda
@@ -11650,6 +11755,56 @@ namespace CapaVisual_Login
                         }
                     }
                 }
+            }
+        }
+
+        private void Txt_Tap1_Nombre_TextChanged(object sender, EventArgs e)
+        {
+            // Guarda la posición actual del cursor (selección)
+            int cursorPosition = this.Txt_Tap1_Nombre.SelectionStart;
+
+            // Convierte el texto a mayúsculas
+            this.Txt_Tap1_Nombre.Text = this.Txt_Tap1_Nombre.Text.ToUpper();
+
+            // Restaura la posición del cursor para una mejor experiencia de usuario
+            // Esto evita que el cursor salte al final cada cada vez que se escribe una letra.
+            this.Txt_Tap1_Nombre.SelectionStart = cursorPosition;
+        }
+
+        private void Txt_Tap1_Nombre_Pagador_TextChanged(object sender, EventArgs e)
+        {
+            // Guarda la posición actual del cursor (selección)
+            int cursorPosition = this.Txt_Tap1_Nombre_Pagador.SelectionStart;
+
+            // Convierte el texto a mayúsculas
+            this.Txt_Tap1_Nombre_Pagador.Text = this.Txt_Tap1_Nombre_Pagador.Text.ToUpper();
+
+            // Restaura la posición del cursor para una mejor experiencia de usuario
+            // Esto evita que el cursor salte al final cada cada vez que se escribe una letra.
+            this.Txt_Tap1_Nombre_Pagador.SelectionStart = cursorPosition;
+        }
+
+        private void Dgv_Pnl2_Querato_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            // Solo aplica la lógica a las celdas de datos (no a los encabezados de fila o columna)
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                // 1. Pintar el fondo y el contenido de la celda, EXCLUYENDO el borde predeterminado.
+                e.Paint(e.CellBounds,
+                        DataGridViewPaintParts.All
+                        & ~DataGridViewPaintParts.Border);
+
+                // 2. Dibujar manualmente solo el borde DERECHO (vertical) de la celda.
+                // Aquí es donde corregimos el uso de GridColor.
+                // Se usa Dgv_Pnl2_Querato.GridColor o ((DataGridView)sender).GridColor
+                using (Pen p = new Pen(this.Dgv_Pnl2_Querato.GridColor, 1)) // <-- CORRECCIÓN AQUÍ
+                {
+                    // Dibujar la línea vertical en el lado derecho de la celda
+                    e.Graphics.DrawLine(p, e.CellBounds.Right - 1, e.CellBounds.Top, e.CellBounds.Right - 1, e.CellBounds.Bottom);
+                }
+
+                // 3. Indicar que el evento ha sido manejado, para que el pintado predeterminado no se ejecute.
+                e.Handled = true;
             }
         }
     }

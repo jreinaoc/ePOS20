@@ -31,6 +31,7 @@ namespace CapaVisual_Login
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmPrincipal));
             this.GbxMenuPrincipal = new System.Windows.Forms.GroupBox();
+            this.btn_FrmCierreDeCaja = new System.Windows.Forms.Button();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.button2 = new System.Windows.Forms.Button();
@@ -69,7 +70,6 @@ namespace CapaVisual_Login
             this.btnTasaSec = new System.Windows.Forms.Button();
             this.btnReimpresion = new System.Windows.Forms.Button();
             this.PnlListadoOrdenes = new System.Windows.Forms.Panel();
-            this.btn_FrmCierreDeCaja = new System.Windows.Forms.Button();
             this.GbxMenuPrincipal.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -132,6 +132,27 @@ namespace CapaVisual_Login
             this.GbxMenuPrincipal.TabIndex = 12;
             this.GbxMenuPrincipal.TabStop = false;
             this.GbxMenuPrincipal.Enter += new System.EventHandler(this.GbxMenuPrincipal_Enter);
+            // 
+            // btn_FrmCierreDeCaja
+            // 
+            this.btn_FrmCierreDeCaja.BackColor = System.Drawing.Color.Transparent;
+            this.btn_FrmCierreDeCaja.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btn_FrmCierreDeCaja.FlatAppearance.BorderSize = 0;
+            this.btn_FrmCierreDeCaja.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(4)))), ((int)(((byte)(185)))), ((int)(((byte)(166)))));
+            this.btn_FrmCierreDeCaja.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(4)))), ((int)(((byte)(185)))), ((int)(((byte)(166)))));
+            this.btn_FrmCierreDeCaja.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_FrmCierreDeCaja.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_FrmCierreDeCaja.ForeColor = System.Drawing.Color.Black;
+            this.btn_FrmCierreDeCaja.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.btn_FrmCierreDeCaja.Location = new System.Drawing.Point(43, 464);
+            this.btn_FrmCierreDeCaja.Name = "btn_FrmCierreDeCaja";
+            this.btn_FrmCierreDeCaja.Size = new System.Drawing.Size(168, 34);
+            this.btn_FrmCierreDeCaja.TabIndex = 35;
+            this.btn_FrmCierreDeCaja.Text = "AbrirCierreDeCaja";
+            this.btn_FrmCierreDeCaja.TextAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.btn_FrmCierreDeCaja.UseVisualStyleBackColor = false;
+            this.btn_FrmCierreDeCaja.Visible = false;
+            this.btn_FrmCierreDeCaja.Click += new System.EventHandler(this.btn_FrmCierreDeCaja_Click);
             // 
             // pictureBox4
             // 
@@ -655,26 +676,6 @@ namespace CapaVisual_Login
             this.PnlListadoOrdenes.Name = "PnlListadoOrdenes";
             this.PnlListadoOrdenes.Size = new System.Drawing.Size(1139, 638);
             this.PnlListadoOrdenes.TabIndex = 15;
-            // 
-            // btn_FrmCierreDeCaja
-            // 
-            this.btn_FrmCierreDeCaja.BackColor = System.Drawing.Color.Transparent;
-            this.btn_FrmCierreDeCaja.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.btn_FrmCierreDeCaja.FlatAppearance.BorderSize = 0;
-            this.btn_FrmCierreDeCaja.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(4)))), ((int)(((byte)(185)))), ((int)(((byte)(166)))));
-            this.btn_FrmCierreDeCaja.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(4)))), ((int)(((byte)(185)))), ((int)(((byte)(166)))));
-            this.btn_FrmCierreDeCaja.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_FrmCierreDeCaja.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_FrmCierreDeCaja.ForeColor = System.Drawing.Color.Black;
-            this.btn_FrmCierreDeCaja.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.btn_FrmCierreDeCaja.Location = new System.Drawing.Point(43, 464);
-            this.btn_FrmCierreDeCaja.Name = "btn_FrmCierreDeCaja";
-            this.btn_FrmCierreDeCaja.Size = new System.Drawing.Size(168, 34);
-            this.btn_FrmCierreDeCaja.TabIndex = 35;
-            this.btn_FrmCierreDeCaja.Text = "AbrirCierreDeCaja";
-            this.btn_FrmCierreDeCaja.TextAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.btn_FrmCierreDeCaja.UseVisualStyleBackColor = false;
-            this.btn_FrmCierreDeCaja.Click += new System.EventHandler(this.btn_FrmCierreDeCaja_Click);
             // 
             // FrmPrincipal
             // 
