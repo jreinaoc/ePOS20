@@ -234,6 +234,7 @@
     <Compile Include="Servicios\Asignar_Rx.cs" />
     <Compile Include="Servicios\CierreCaja_Servicio.cs" />
     <Compile Include="Servicios\LibroVentas_Servicio.cs" />
+    <Compile Include="TasaDia_Logica\TasaSecuencia.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CapaDatos\CapaDatos.csproj">

@@ -223,6 +223,12 @@
     <Compile Include="FrmPagoMovil.Designer.cs">
       <DependentUpon>FrmPagoMovil.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmTasaDia.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmTasaDia.Designer.cs">
+      <DependentUpon>FrmTasaDia.cs</DependentUpon>
+    </Compile>
     <Compile Include="Reportes\DsReppCambio.cs">
       <DependentUpon>DsReppCambio.xsd</DependentUpon>
     </Compile>
@@ -426,6 +432,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FrmRepProSinPag.resx">
       <DependentUpon>FrmRepProSinPag.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmTasaDia.resx">
+      <DependentUpon>FrmTasaDia.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
