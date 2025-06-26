@@ -3116,12 +3116,14 @@ namespace CapaVisual_Login
 
                     if (_Asignar_Rx.stringBuilder.ToString() == "El cristal seleccionado no se adapta a los siguientes rangos")
                     {
+                        LbResultados.Visible = false;
+                        LbResultado2.Visible = false;
                         lblDiametroD.Text = _Asignar_Rx.diamDgl;
                         lblDiametroI.Text = _Asignar_Rx.diamIgl;
                         lblDiametroD.Visible = lblDiametroI.Visible = true;
                         LblTitulo.Text = _Asignar_Rx.stringBuilder.ToString();
                         lblClaveAut.Visible = true;
-                        lblLeyenda.Visible = false;
+                        lblLeyenda.Visible = true;
                         btnAutorizarRangosCrt.Visible = true;
                         pnlRangoCrt.Show();
                         pnlRangoCrt.Location = new Point(200, 150);
@@ -11450,15 +11452,18 @@ namespace CapaVisual_Login
 
                     if (_Asignar_Rx.stringBuilder.ToString() == "El cristal seleccionado no se adapta a los siguientes rangos")
                     {
+                        LbResultados.Visible = false;
+                        LbResultado2.Visible = false;
                         lblDiametroD.Text = _Asignar_Rx.diamDgl;
                         lblDiametroI.Text = _Asignar_Rx.diamIgl;
                         lblDiametroD.Visible = lblDiametroI.Visible = true;
                         LblTitulo.Text = _Asignar_Rx.stringBuilder.ToString();
                         lblClaveAut.Visible = true;
-                        lblLeyenda.Visible = false;
+                        lblLeyenda.Visible = true;
                         btnAutorizarRangosCrt.Visible = true;
                         pnlRangoCrt.Show();
                         pnlRangoCrt.Location = new Point(200, 150);
+                        return;
 
                     }
                     else if (_Asignar_Rx.stringBuilder.ToString() == "El Cristal no se adapta a estos parámetros")
@@ -11473,6 +11478,7 @@ namespace CapaVisual_Login
                         LbResultado2.Visible = true;
                         pnlRangoCrt.Show();
                         pnlRangoCrt.Location = new Point(200, 150);
+                        return;
                     }
                     else
                     {
