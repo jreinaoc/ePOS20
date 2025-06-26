@@ -54,18 +54,19 @@ namespace CapaLogica.CierreCaja_Logica
             }
         }
 
-        public bool CierrePuntodeVenta(string codsuc, string codBanco, string nroLote, DateTime fecha)
+        public DataTable CierrePuntodeVenta(string codsuc, string codBanco, string nroLote, DateTime fecha)
         {
             DataTable dt = _D_CierreCaja.CierrePuntodeVenta(codsuc, codBanco, nroLote, fecha);
 
-            if (dt.Rows.Count > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            //if (dt.Rows.Count > 0)
+            //{
+            //    return dt;
+            //}
+            return dt;
+            //else
+            //{
+            //    return false;
+            //}
         }
 
         public DataTable ObtienePuntosdeVenta(string codPunto)
@@ -98,5 +99,73 @@ namespace CapaLogica.CierreCaja_Logica
             }
         }
 
+        public DataTable ObtineneCambioCierre(DateTime fechaIni, string codsuc)
+        {
+            DataTable dt = _D_CierreCaja.ObtineneCambioCierre(fechaIni, codsuc);
+
+            if (dt.Rows.Count > 0)
+            {
+                return dt;
+            }
+            else
+            {
+                return dt;
+            }
+        }
+        public DataTable ObtieneBancosPagoMovil(string codsuc)
+        {
+            DataTable dt = _D_CierreCaja.ObtieneBancosPagoMovil(codsuc);
+
+            if (dt.Rows.Count > 0)
+            {
+                return dt;
+            }
+            else
+            {
+                return dt;
+            }
+        }
+
+        public DataTable AgregaReferenciaPagoMovil(string codSuc, string nroOs, string referencia, string bancoEmisor)
+        {
+            DataTable dt = _D_CierreCaja.AgregaReferenciaPagoMovil(codSuc, nroOs, referencia, bancoEmisor);
+
+            if (dt.Rows.Count > 0)
+            {
+                return dt;
+            }
+            else
+            {
+                return dt;
+            }
+        }
+
+        public DataTable VerificaAsistenciaPendiente(string fecha, string tipoAsis)
+        {
+            DataTable dt = _D_CierreCaja.VerificaAsistenciaPendiente(fecha, "PEND");
+
+            if (dt.Rows.Count > 0)
+            {
+                return dt;
+            }
+            else
+            {
+                return dt;
+            }
+        }
+
+        public DataTable ActualizaAsistencia(string fecha, string hora, string codEmp, string usuario)
+        {
+            DataTable dt = _D_CierreCaja.ActualizaAsistencia(fecha, hora, codEmp, usuario);
+
+            if (dt.Rows.Count > 0)
+            {
+                return dt;
+            }
+            else
+            {
+                return dt;
+            }
+        }
     }
 }

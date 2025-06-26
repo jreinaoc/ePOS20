@@ -208,7 +208,7 @@ namespace CapaDatos.CierreCaja_Datos
             }
         }
 
-        public DataTable ObtineneCambioCierre(string fecha, string codSuc, SqlCommand command = null)
+        public DataTable ObtineneCambioCierre(DateTime fecha, string codSuc, SqlCommand command = null)
         {
             try
             {
@@ -240,5 +240,177 @@ namespace CapaDatos.CierreCaja_Datos
                 return null;
             }
         }
+
+        public DataTable AgregaReferenciaCambioCierre(string codSuc, string orden, string referencia, string bancoEmisor, SqlCommand command = null)
+        {
+            try
+            {
+                if (command == null)
+                {
+                    SqlConnection connection = cn.LeerCadena();
+                    command = connection.CreateCommand();
+                }
+                SqlCommand cmd = command;
+                cmd.Parameters.Clear();
+
+                cmd.CommandText = "pGetCambioCierre";
+                cmd.CommandType = CommandType.StoredProcedure;
+             
+                cmd.Parameters.AddWithValue("@CodSuc", codSuc);
+                cmd.Parameters.AddWithValue("@NroOs", orden);
+                cmd.Parameters.AddWithValue("@Referencia", referencia);
+                cmd.Parameters.AddWithValue("@BancoEmisor", bancoEmisor);
+
+
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                cmd.Parameters.Clear();
+                return dt;
+
+            }
+            catch (Exception ex)
+            {
+                string Error = string.Format("Error: {0}", ex.Message);
+                return null;
+            }
+        }
+
+        public DataTable ObtieneBancosPagoMovil(string codSuc, SqlCommand command = null)
+        {
+            try
+            {
+                if (command == null)
+                {
+                    SqlConnection connection = cn.LeerCadena();
+                    command = connection.CreateCommand();
+                }
+                SqlCommand cmd = command;
+                cmd.Parameters.Clear();
+
+                cmd.CommandText = "pGetCargoBancoPagomovil";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@suc", codSuc);
+
+
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                cmd.Parameters.Clear();
+                return dt;
+
+            }
+            catch (Exception ex)
+            {
+                string Error = string.Format("Error: {0}", ex.Message);
+                return null;
+            }
+        }
+
+        public DataTable AgregaReferenciaPagoMovil(string codSuc, string nroOs, string referencia, string bancoEmisor, SqlCommand command = null)
+        {
+            try
+            {
+                if (command == null)
+                {
+                    SqlConnection connection = cn.LeerCadena();
+                    command = connection.CreateCommand();
+                }
+                SqlCommand cmd = command;
+                cmd.Parameters.Clear();
+
+                cmd.CommandText = "pAddReferenciaCambio";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@CodSuc", codSuc);
+                cmd.Parameters.AddWithValue("@NroOs", nroOs);
+                cmd.Parameters.AddWithValue("@Referencia", referencia);
+                cmd.Parameters.AddWithValue("@BancoEmisor", bancoEmisor);
+
+
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                cmd.Parameters.Clear();
+                return dt;
+
+            }
+            catch (Exception ex)
+            {
+                string Error = string.Format("Error: {0}", ex.Message);
+                return null;
+            }
+        }
+
+        public DataTable VerificaAsistenciaPendiente(string fecha, string tipoAsis, SqlCommand command = null)
+        {
+            try
+            {
+                if (command == null)
+                {
+                    SqlConnection connection = cn.LeerCadena();
+                    command = connection.CreateCommand();
+                }
+                SqlCommand cmd = command;
+                cmd.Parameters.Clear();
+
+                cmd.CommandText = "pVerificoAsistenciaPend";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@FECHA", fecha);
+                cmd.Parameters.AddWithValue("@ASIS", "PEND");
+
+
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                cmd.Parameters.Clear();
+                return dt;
+
+            }
+            catch (Exception ex)
+            {
+                string Error = string.Format("Error: {0}", ex.Message);
+                return null;
+            }
+        }
+
+        public DataTable ActualizaAsistencia(string fecha, string hora, string codEmp, string usuario, SqlCommand command = null)
+        {
+            try
+            {
+                if (command == null)
+                {
+                    SqlConnection connection = cn.LeerCadena();
+                    command = connection.CreateCommand();
+                }
+                SqlCommand cmd = command;
+                cmd.Parameters.Clear();
+
+                cmd.CommandText = "pUpdHoraSalidaAsistencia";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@FECHA", fecha);
+                cmd.Parameters.AddWithValue("@HORA", hora);
+                cmd.Parameters.AddWithValue("@CODEMP", codEmp);
+                cmd.Parameters.AddWithValue("@USER", usuario);
+
+
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                cmd.Parameters.Clear();
+                return dt;
+
+            }
+            catch (Exception ex)
+            {
+                string Error = string.Format("Error: {0}", ex.Message);
+                return null;
+            }
+        }
+
+
     }
 }
