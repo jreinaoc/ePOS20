@@ -726,7 +726,7 @@ namespace CapaVisual_Login
 
         private void btnUtilitarios_Click(object sender, EventArgs e)
         {
-            //pnlUtilitarios.Visible = true;
+            pnlUtilitarios.Visible = true;
         }
 
         private void btnCierredeCaja_Click(object sender, EventArgs e)
