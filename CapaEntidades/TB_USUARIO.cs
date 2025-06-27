@@ -133,4 +133,11 @@ namespace CapaEntidades
 		public static DateTime? Fecha_ActClave { get; set; }
 
 	}
+
+	public class Usuario
+	{
+		public string COD_USR { get; set; }
+		public string Nombre { get; set; }
+		public string COD_EMPLEADO { get; set; }
+	}
 }

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data;
 using CapaDatos.CierreCaja_Datos;
+using CapaEntidades;
 
 namespace CapaLogica.CierreCaja_Logica
 {
@@ -166,6 +167,74 @@ namespace CapaLogica.CierreCaja_Logica
             {
                 return dt;
             }
+        }
+
+        public DataTable ConsultaOsDia(DateTime fecha, string suc)
+        {
+            DataTable dt = _D_CierreCaja.ConsultaOsDia(fecha,suc);
+
+            if (dt.Rows.Count > 0)
+            {
+                return dt;
+            }
+            else
+            {
+                return dt;
+            }
+        }
+
+        public DataTable ObtieneUsuarios(string suc)
+        {
+            DataTable dt = _D_CierreCaja.ObtieneUsuarios(suc);
+
+            if (dt.Rows.Count > 0)
+            {
+                return dt;
+            }
+            else
+            {
+                return dt;
+            }
+        }
+
+        public void FiltrarUsuario(string filtro, System.Windows.Forms.RadioButton Rd_Pnl3_Descripcion, System.Windows.Forms.RadioButton Rd_Pnl3_Codigo, System.Windows.Forms.DataGridView Dgv_Pnl3_ClienteAfiliado, List<Usuario> listaClienteAfiliado, List<Usuario> listaTemporal)
+        {
+
+            // Verificar si el filtro está vacío
+            if (string.IsNullOrWhiteSpace(filtro))
+            {
+                // Restablecer la información original en el DataGridView
+
+                listaTemporal = new List<Usuario>(listaClienteAfiliado); // Restaurar desde la lista original
+                Dgv_Pnl3_ClienteAfiliado.DataSource = listaTemporal;
+                return;
+            }
+
+            // Convertir el filtro a minúsculas para una búsqueda insensible a mayúsculas
+            filtro = filtro.ToLower();
+
+            // Crear una lista para almacenar los resultados filtrados
+            var datosFiltrados = new List<Usuario>();
+
+            // Recorrer la lista original (listaArticulos) para aplicar el filtro
+            foreach (var clienteAfiliado in listaClienteAfiliado)
+            {
+                // Filtrar según la opción seleccionada
+                if (Rd_Pnl3_Descripcion.Checked && clienteAfiliado.Nombre != null && clienteAfiliado.Nombre.ToLower().Contains(filtro))
+                {
+                    datosFiltrados.Add(clienteAfiliado);
+                }
+                else if (Rd_Pnl3_Codigo.Checked && clienteAfiliado.COD_USR != null && clienteAfiliado.COD_USR.ToLower().Contains(filtro))
+                {
+                    datosFiltrados.Add(clienteAfiliado);
+                }
+            }
+
+            // Actualizar la lista temporal con los datos filtrados
+            listaTemporal = datosFiltrados;
+
+            // Actualizar la fuente de datos del DataGridView con los resultados filtrados
+            Dgv_Pnl3_ClienteAfiliado.DataSource = datosFiltrados;
         }
     }
 }

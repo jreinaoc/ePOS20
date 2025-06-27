@@ -13,6 +13,7 @@ using CapaDatos.Inicio_Datos;
 using CapaEntidades;
 using CapaDatos.Anulacion;
 using System.Globalization;
+using System.Reflection;
 
 
 namespace CapaVisual_Login
@@ -31,6 +32,10 @@ namespace CapaVisual_Login
         FrmClaveGerente _FrmClaveGerente = new FrmClaveGerente();
         D_Anulacion _D_Anulacion = new D_Anulacion();
         public string GerenteAutoriza = "";
+        List<Usuario> usuarios = new List<Usuario>();
+        List<Usuario> listaUsuarios = new List<Usuario>();
+        List<Usuario> listaTemporalUsuarios = new List<Usuario>();
+        DataTable dtCierreCaja = new DataTable();
 
         public FrmCierredeCaja()
         {
@@ -160,8 +165,7 @@ namespace CapaVisual_Login
             lbl_ListadoDeVendedores.BackColor = col3;
             lbl_ListadoDeVendedores.ForeColor = col5;
             Pnl2_ListadoDeVendedores.BackColor = col1;
-            dataGridView4.ColumnHeadersDefaultCellStyle.BackColor = col3;
-            dataGridView4.ColumnHeadersDefaultCellStyle.ForeColor = col1;
+            
 
             //Pagina 4
             tabPage4.BackColor = col1;
@@ -232,16 +236,15 @@ namespace CapaVisual_Login
             lbl_ConsignacionOrdenesServ.ForeColor = col1;
             Dvg_ConsignacionDeOS.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#2f6b64");
             Dvg_ConsignacionDeOS.ColumnHeadersDefaultCellStyle.ForeColor = col1;
-            checkBox1.BackColor = col1;
+            
+
             lbl_CambiarVendedor.BackColor = col6;
             lbl_CambiarVendedor.ForeColor = col1;
             Pnl1_CambiarVendedor.BackColor = ColorTranslator.FromHtml("#257b78");
             lbl_ListadoDeVendedores.BackColor = col6;
             lbl_ListadoDeVendedores.ForeColor = col1;
             Pnl2_ListadoDeVendedores.BackColor = ColorTranslator.FromHtml("#257b78");
-            dataGridView4.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#2f6b64");
-            dataGridView4.ColumnHeadersDefaultCellStyle.ForeColor = col1;
-
+            
             //Pagina 4
             tabPage4.BackColor = col3;
             lbl_CierreDeCaja.BackColor = col6;
@@ -430,7 +433,29 @@ namespace CapaVisual_Login
 
                 FormatoTabla("Asistencia");
 
-                //DataTable dtBancos = _L_CierreCaja.ObtieneBancosPagoMovil(sucursal);
+                //CONSIGNACION
+                DataTable dtConsignacion = _L_CierreCaja.ConsultaOsDia(diaActivo, sucursal);
+
+                // Asignar al DataGridView
+                Dvg_ConsignacionDeOS.DataSource = dtConsignacion;
+
+                FormatoTabla("Consignacion");
+
+                //CIERRE DE CAJA
+                CrearTabla("CierredeCaja");
+
+                dtCierreCaja.Rows.Add("Existente en caja", "");
+                dtCierreCaja.Rows.Add("Gastos", "");
+                dtCierreCaja.Rows.Add("Reintegros", "");
+                dtCierreCaja.Rows.Add("Notas de crédito", "");
+                dtCierreCaja.Rows.Add("Notas de devolucion", "");
+                dtCierreCaja.Rows.Add("Pagos", "");
+                dtCierreCaja.Rows.Add("Diferencia", "");
+
+                // Asignar al DataGridView
+                dgvCierredecaja.DataSource = dtCierreCaja;
+
+                FormatoTabla("CierredeCaja");
             }
             catch (Exception ex)
             {
@@ -451,6 +476,12 @@ namespace CapaVisual_Login
                     dtPtoVenta.Columns.Add("Total T. Débito", typeof(string)); // Vacía
                     dtPtoVenta.Columns.Add("Total T. Otros", typeof(string)); // Vacía
                 break;
+
+                case "CierredeCaja":
+                    dtCierreCaja.Columns.Add("TipoTotal", typeof(string));
+                    dtCierreCaja.Columns.Add("Total", typeof(string));
+
+                    break;
 
                 case "PagoMovil":
                     //dtPagoMovil.Columns.Add("Id", typeof(string));
@@ -489,6 +520,43 @@ namespace CapaVisual_Login
 
                    
                     Dvg_CierrePuntoVenta.Columns["Banco"].ReadOnly = true;
+                    break;
+
+                case "Consignacion":
+
+                    // Asignar ancho personalizado a cada columna
+                    Dvg_ConsignacionDeOS.Columns["Orden"].Width = 60;
+                    Dvg_ConsignacionDeOS.Columns["CodLab"].Visible = false;
+                    Dvg_ConsignacionDeOS.Columns["Lab"].Width = 100;
+                    Dvg_ConsignacionDeOS.Columns["CodServicio"].Visible = false;
+                    Dvg_ConsignacionDeOS.Columns["Servicio"].Width = 160;
+                    Dvg_ConsignacionDeOS.Columns["CodVendedor"].Width = 120;
+                    Dvg_ConsignacionDeOS.Columns["Vendedor"].Width = 180;
+
+                    Dvg_ConsignacionDeOS.Columns["Orden"].ReadOnly = true;
+                    Dvg_ConsignacionDeOS.Columns["Lab"].ReadOnly = true;
+                    Dvg_ConsignacionDeOS.Columns["Servicio"].ReadOnly = true;
+                    
+
+                    Dvg_ConsignacionDeOS.Columns["Orden"].HeaderText = "Orden";
+                    Dvg_ConsignacionDeOS.Columns["Lab"].HeaderText = "Laboratorio";
+                    Dvg_ConsignacionDeOS.Columns["Servicio"].HeaderText = "Servicio";
+                    Dvg_ConsignacionDeOS.Columns["CodVendedor"].HeaderText = "Cod. Vendedor";
+                    Dvg_ConsignacionDeOS.Columns["Vendedor"].HeaderText = "Vendedor";
+
+                    break;
+
+                case "CierredeCaja":
+
+                    // Asignar ancho personalizado a cada columna
+                    dgvCierredecaja.Columns["TipoTotal"].Width = 100;
+                    dgvCierredecaja.Columns["Total"].Width = 100;
+
+                    dgvCierredecaja.Columns["TipoTotal"].HeaderText = "Tipo Total";
+                    dgvCierredecaja.Columns["Total"].HeaderText = "Total";
+
+                    dgvCierredecaja.Columns["TipoTotal"].ReadOnly = true;
+
                     break;
 
                 case "PagoMovil":
@@ -808,6 +876,117 @@ namespace CapaVisual_Login
                         }
                     }
                 }
+            }
+        }
+
+        private void Dvg_ConsignacionDeOS_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                var columna = Dvg_ConsignacionDeOS.Columns[e.ColumnIndex];
+
+                if (columna.Name == "CodVendedor")
+                {
+                    //string codigo = Dvg_ConsignacionDeOS.Rows[e.RowIndex].Cells["CodVendedor"].Value?.ToString();
+                    DataTable dtUsuarios  = _L_CierreCaja.ObtieneUsuarios(sucursal);
+                    usuarios = ConvertToList<Usuario>(dtUsuarios);
+
+                    Dgv_Usuarios.DataSource = dtUsuarios;
+                    //Formato_Dgv_Pnl3_ColoresLC();
+                    
+                    if (Pnl2_ListadoDeVendedores.Visible == true)
+                    {
+                        Pnl2_ListadoDeVendedores.Visible = false;
+                    }
+                    else
+                    {
+                        Pnl2_ListadoDeVendedores.Visible = true;
+                    }
+                }
+            }
+        }
+
+        public static List<T> ConvertToList<T>(DataTable table) where T : new()
+        {
+            List<T> list = new List<T>();
+
+            foreach (DataRow row in table.Rows)
+            {
+                T obj = new T();
+                foreach (DataColumn col in table.Columns)
+                {
+                    PropertyInfo prop = typeof(T).GetProperty(col.ColumnName);
+                    if (prop != null && row[col] != DBNull.Value)
+                        prop.SetValue(obj, Convert.ChangeType(row[col], prop.PropertyType));
+                }
+                list.Add(obj);
+            }
+
+            return list;
+        }
+
+        private void txtFiltroVendedor_TextChanged(object sender, EventArgs e)
+        {
+            // Filtrar los datos según el texto ingresado en el TextBox
+            _L_CierreCaja.FiltrarUsuario(txtFiltroVendedor.Text.ToLower(), rbNombre, rbCodigo, Dgv_Usuarios, usuarios, listaTemporalUsuarios);
+
+        }
+
+        private void Dgv_Usuarios_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                // Obtener datos del usuario seleccionado
+                string codUsr = Dgv_Usuarios.Rows[e.RowIndex].Cells["COD_USR"].Value?.ToString();
+                string nombreUsr = Dgv_Usuarios.Rows[e.RowIndex].Cells["Nombre"].Value?.ToString();
+
+                // Validar que haya una fila seleccionada en Dvg_ConsignacionDeOS
+                if (Dvg_ConsignacionDeOS.CurrentRow != null)
+                {
+                    DataGridViewRow filaActiva = Dvg_ConsignacionDeOS.CurrentRow;
+
+                    filaActiva.Cells["CodVendedor"].Value = codUsr;
+                    filaActiva.Cells["Vendedor"].Value = nombreUsr;
+                }
+            }
+        }
+
+        private void btn_Siguiente_pg3_Click(object sender, EventArgs e)
+        {
+            tcCierreCaja.SelectedIndex = 3;
+            lblPaso.Text = "Paso 4";
+        }
+
+        
+        private double GetValorFila(int filaIndex)
+        {
+            var valor = dgvCierredecaja.Rows[filaIndex].Cells["Total"].Value;
+            if (valor != null && double.TryParse(valor.ToString(), out double resultado))
+            {
+                return resultado;
+            }
+            return 0;
+        }
+
+        private void dgvCierredecaja_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                double existenteEnCaja = GetValorFila(0);
+                double gastos = GetValorFila(1);
+                double reintegros = GetValorFila(2);
+                double notasCredito = GetValorFila(3);
+                double notasDevolucion = GetValorFila(4);
+                double pagos = GetValorFila(5);
+
+                double diferencia = existenteEnCaja - (gastos + reintegros + notasCredito + notasDevolucion) + pagos;
+
+                // Mostrar el resultado en la fila "Diferencia" (fila 6)
+                dgvCierredecaja.Rows[6].Cells["Total"].Value = diferencia.ToString("N2");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al calcular diferencia: " + ex.Message);
             }
         }
     }
