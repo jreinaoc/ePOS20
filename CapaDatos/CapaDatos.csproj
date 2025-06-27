@@ -189,6 +189,7 @@
     <Compile Include="RepositorioExcel\FiltroFechas_LibroVenta.cs" />
     <Compile Include="RepositorioExcel\repositorioLibro_Venta.cs" />
     <Compile Include="RepositorioExcel\TB_LIBRO_VENTA.cs" />
+    <Compile Include="TasaDia_Datos\D_TasaSecuencia.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CapaEntidades\CapaEntidades.csproj">

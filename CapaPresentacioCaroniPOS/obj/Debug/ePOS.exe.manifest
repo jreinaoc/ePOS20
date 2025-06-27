@@ -55,14 +55,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CapaDatos.dll" size="234496">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CapaDatos.dll" size="236544">
       <assemblyIdentity name="CapaDatos" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>VbVD3+DlJC3uV37WJq0ZkpYFpIgMd6ClCUbR8eaCwPU=</dsig:DigestValue>
+        <dsig:DigestValue>jPnvUqoNJRWXFJG/PTpXOYfU/XWGpGOPnBAKX/+6oyM=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -86,7 +86,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>HXF5vB8rDhz+tvu1jAoEgRvj9SDcohxgdXLtDgruQfU=</dsig:DigestValue>
+        <dsig:DigestValue>oTDhYWbtBEztEBrjxEjLJejOJHfqzbq0NqdNyA+m0JE=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -199,14 +199,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ePOS.exe" size="2398208">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ePOS.exe" size="2407936">
       <assemblyIdentity name="ePOS" version="1.0.2.4" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>Kih0qiic8G4amkjLAtSgVVZJmF8SmNLz9zPXRo7gR2A=</dsig:DigestValue>
+        <dsig:DigestValue>/XkxQC+Cg5dur45Q6qNaGx9a8GTxh5590CcD7aQULiU=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
