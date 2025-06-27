@@ -14,7 +14,7 @@ namespace CapaDatos.TasaDia_Datos
     {
         Conexion.Conexion cn = new Conexion.Conexion();
 
-        public DataTable AgregarTasaDia(string codSucursal, decimal tasa, DateTime fechaDiaActivo, string codMoneda, char userCrea , SqlCommand command = null)
+        public DataSet AgregarTasaDia(string codSucursal, decimal tasa, DateTime fechaDiaActivo, string codMoneda, char userCrea , SqlCommand command = null)
         {
             try
             {
@@ -35,11 +35,11 @@ namespace CapaDatos.TasaDia_Datos
                 cmd.Parameters.AddWithValue("@USER_Crea", userCrea);
 
 
-                DataTable dt = new DataTable();
+                DataSet ds = new DataSet();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
+                da.Fill(ds);
                 cmd.Parameters.Clear();
-                return dt;
+                return ds;
 
             }
             catch (Exception ex)
@@ -49,7 +49,7 @@ namespace CapaDatos.TasaDia_Datos
             }
         }
 
-        public DataTable EncripDescrip(string palabra, string accion, SqlCommand command = null)
+        public DataSet EncripDescrip(string palabra, string accion, SqlCommand command = null)
         {
             try
             {
@@ -66,11 +66,11 @@ namespace CapaDatos.TasaDia_Datos
                 cmd.Parameters.AddWithValue("@Palabra", palabra);
                 cmd.Parameters.AddWithValue("@Accion", accion);
 
-                DataTable dt = new DataTable();
+                DataSet ds = new DataSet();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
+                da.Fill(ds);
                 cmd.Parameters.Clear();
-                return dt;
+                return ds;
 
             }
             catch (Exception ex)
@@ -80,7 +80,7 @@ namespace CapaDatos.TasaDia_Datos
             }
         }
 
-        public DataTable ComparaDigitoVerificador(string tasa, char digitoVerificador, SqlCommand command = null)
+        public DataSet ComparaDigitoVerificador(string tasa, char digitoVerificador, SqlCommand command = null)
         {
             try
             {
@@ -97,11 +97,11 @@ namespace CapaDatos.TasaDia_Datos
                 cmd.Parameters.AddWithValue("@Tasa", tasa);
                 cmd.Parameters.AddWithValue("@DigitoVerificador", digitoVerificador);
 
-                DataTable dt = new DataTable();
+                DataSet ds = new DataSet();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
+                da.Fill(ds);
                 cmd.Parameters.Clear();
-                return dt;
+                return ds;
 
             }
             catch (Exception ex)
@@ -111,7 +111,7 @@ namespace CapaDatos.TasaDia_Datos
             }
         }
 
-        public DataTable ActualizarArtDolar(string codSucursal, string usuario, string secuencia, string tasa, DateTime fechaSec,
+        public DataSet ActualizarArtDolar(string codSucursal, string usuario, string secuencia, string tasa, DateTime fechaSec,
                                             string fechaSecA, string fechaPrincipal, SqlCommand command = null)
         {
             try
@@ -134,11 +134,11 @@ namespace CapaDatos.TasaDia_Datos
                 cmd.Parameters.AddWithValue("@FechaSecA", fechaSecA);
                 cmd.Parameters.AddWithValue("@FechaPrincipal", fechaPrincipal);
 
-                DataTable dt = new DataTable();
+                DataSet ds = new DataSet();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
+                da.Fill(ds);
                 cmd.Parameters.Clear();
-                return dt;
+                return ds;
 
             }
             catch (Exception ex)
@@ -147,5 +147,40 @@ namespace CapaDatos.TasaDia_Datos
                 return null;
             }
         }
+
+        public DataSet ObtenerUltSecuencia(string codSucursal, SqlCommand command = null)
+        {
+            try
+            {
+                if (command == null)
+                {
+                    SqlConnection connection = cn.LeerCadena();
+                    command = connection.CreateCommand();
+                }
+                SqlCommand cmd = command;
+                cmd.Parameters.Clear();
+
+                cmd.CommandText = "pGet_UltSecuencia";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Cod_Sucursal", codSucursal);
+
+                DataSet ds = new DataSet();
+
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(ds); 
+                cmd.Parameters.Clear();
+
+                return ds;
+
+
+
+            }
+            catch (Exception ex)
+            {
+                string Error = string.Format("Error: {0}", ex.Message);
+                return null;
+            }
+        }
+
     }
 }
