@@ -151,6 +151,7 @@ namespace CapaVisual_Login
             this.btn_FrmCierreDeCaja.Text = "AbrirCierreDeCaja";
             this.btn_FrmCierreDeCaja.TextAlign = System.Drawing.ContentAlignment.TopLeft;
             this.btn_FrmCierreDeCaja.UseVisualStyleBackColor = false;
+            this.btn_FrmCierreDeCaja.Visible = false;
             this.btn_FrmCierreDeCaja.Click += new System.EventHandler(this.btn_FrmCierreDeCaja_Click);
             // 
             // pictureBox4

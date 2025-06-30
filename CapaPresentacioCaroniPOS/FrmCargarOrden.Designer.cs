@@ -354,11 +354,10 @@ namespace CapaVisual_Login
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.DgvClientes = new System.Windows.Forms.DataGridView();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.txtClienteBuscar = new System.Windows.Forms.TextBox();
             this.label28 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.Pnl_2_Msj = new System.Windows.Forms.Panel();
-            this.pb_pl2_mj = new System.Windows.Forms.PictureBox();
             this.button4 = new System.Windows.Forms.Button();
             this.label30 = new System.Windows.Forms.Label();
             this.txt_pl2_msj = new System.Windows.Forms.Label();
@@ -418,7 +417,6 @@ namespace CapaVisual_Login
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DgvClientes)).BeginInit();
             this.Pnl_2_Msj.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pb_pl2_mj)).BeginInit();
             this.SuspendLayout();
             // 
             // Pnl_1
@@ -2436,7 +2434,7 @@ namespace CapaVisual_Login
             this.label32.Name = "label32";
             this.label32.Size = new System.Drawing.Size(536, 20);
             this.label32.TabIndex = 332;
-            this.label32.Text = "Codigo Mimesys";
+            this.label32.Text = "Código Mimesys";
             this.label32.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label31
@@ -4376,10 +4374,10 @@ namespace CapaVisual_Login
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel2.Controls.Add(this.panel4);
             this.panel2.Controls.Add(this.DgvClientes);
-            this.panel2.Controls.Add(this.textBox2);
+            this.panel2.Controls.Add(this.txtClienteBuscar);
             this.panel2.Controls.Add(this.label28);
             this.panel2.Controls.Add(this.button2);
-            this.panel2.Location = new System.Drawing.Point(1053, 158);
+            this.panel2.Location = new System.Drawing.Point(984, 125);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(480, 331);
             this.panel2.TabIndex = 167;
@@ -4416,7 +4414,7 @@ namespace CapaVisual_Login
             this.radioButton2.Size = new System.Drawing.Size(81, 24);
             this.radioButton2.TabIndex = 0;
             this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "Cedula";
+            this.radioButton2.Text = "Cédula";
             this.radioButton2.UseVisualStyleBackColor = true;
             // 
             // DgvClientes
@@ -4462,18 +4460,21 @@ namespace CapaVisual_Login
             this.DgvClientes.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.DgvClientes.Size = new System.Drawing.Size(418, 187);
             this.DgvClientes.TabIndex = 54;
+            this.DgvClientes.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvClientes_CellDoubleClick);
             // 
-            // textBox2
+            // txtClienteBuscar
             // 
-            this.textBox2.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox2.ForeColor = System.Drawing.Color.Black;
-            this.textBox2.Location = new System.Drawing.Point(31, 63);
-            this.textBox2.MaxLength = 50;
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(261, 21);
-            this.textBox2.TabIndex = 57;
-            this.textBox2.WordWrap = false;
-            this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
+            this.txtClienteBuscar.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtClienteBuscar.ForeColor = System.Drawing.Color.Black;
+            this.txtClienteBuscar.Location = new System.Drawing.Point(31, 63);
+            this.txtClienteBuscar.MaxLength = 50;
+            this.txtClienteBuscar.Name = "txtClienteBuscar";
+            this.txtClienteBuscar.Size = new System.Drawing.Size(261, 21);
+            this.txtClienteBuscar.TabIndex = 57;
+            this.txtClienteBuscar.WordWrap = false;
+            this.txtClienteBuscar.TextChanged += new System.EventHandler(this.txtClienteBuscar_TextChanged);
+            this.txtClienteBuscar.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtClienteBuscar_KeyDown);
+            this.txtClienteBuscar.Leave += new System.EventHandler(this.txtClienteBuscar_Leave);
             // 
             // label28
             // 
@@ -4501,12 +4502,12 @@ namespace CapaVisual_Login
             this.button2.TabIndex = 30;
             this.button2.Text = "Cancelar";
             this.button2.UseVisualStyleBackColor = false;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // Pnl_2_Msj
             // 
             this.Pnl_2_Msj.BackColor = System.Drawing.Color.Transparent;
             this.Pnl_2_Msj.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.Pnl_2_Msj.Controls.Add(this.pb_pl2_mj);
             this.Pnl_2_Msj.Controls.Add(this.button4);
             this.Pnl_2_Msj.Controls.Add(this.label30);
             this.Pnl_2_Msj.Controls.Add(this.txt_pl2_msj);
@@ -4515,17 +4516,6 @@ namespace CapaVisual_Login
             this.Pnl_2_Msj.Size = new System.Drawing.Size(407, 189);
             this.Pnl_2_Msj.TabIndex = 328;
             this.Pnl_2_Msj.Visible = false;
-            // 
-            // pb_pl2_mj
-            // 
-            this.pb_pl2_mj.ErrorImage = null;
-            this.pb_pl2_mj.Image = ((System.Drawing.Image)(resources.GetObject("pb_pl2_mj.Image")));
-            this.pb_pl2_mj.Location = new System.Drawing.Point(23, 61);
-            this.pb_pl2_mj.Name = "pb_pl2_mj";
-            this.pb_pl2_mj.Size = new System.Drawing.Size(77, 78);
-            this.pb_pl2_mj.TabIndex = 314;
-            this.pb_pl2_mj.TabStop = false;
-            this.pb_pl2_mj.Visible = false;
             // 
             // button4
             // 
@@ -4561,7 +4551,7 @@ namespace CapaVisual_Login
             this.txt_pl2_msj.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.txt_pl2_msj.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txt_pl2_msj.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
-            this.txt_pl2_msj.Location = new System.Drawing.Point(106, 44);
+            this.txt_pl2_msj.Location = new System.Drawing.Point(55, 49);
             this.txt_pl2_msj.Name = "txt_pl2_msj";
             this.txt_pl2_msj.Size = new System.Drawing.Size(288, 98);
             this.txt_pl2_msj.TabIndex = 313;
@@ -4695,7 +4685,6 @@ namespace CapaVisual_Login
             this.panel4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DgvClientes)).EndInit();
             this.Pnl_2_Msj.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pb_pl2_mj)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -4972,12 +4961,11 @@ namespace CapaVisual_Login
         private System.Windows.Forms.RadioButton radioButton1;
         private System.Windows.Forms.RadioButton radioButton2;
         private System.Windows.Forms.DataGridView DgvClientes;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox txtClienteBuscar;
         private System.Windows.Forms.Label label28;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Panel Pnl_2_Msj;
         private System.Windows.Forms.Label txt_pl2_msj;
-        private System.Windows.Forms.PictureBox pb_pl2_mj;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Label label30;
         private System.Windows.Forms.Label Lbl_Pnl2_Datos_Cliente;

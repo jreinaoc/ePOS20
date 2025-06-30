@@ -16,6 +16,7 @@ namespace CapaVisual_Login
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            
             Application.Run(new FrmLoguin());
         }
     }

@@ -136,7 +136,7 @@ namespace CapaDatos.CargarClientes_Datos
                     }
                 }
 
-                command.CommandText = "SP_CPOSC_GET_TB_CTEPPAL     "; // para obtener todos los clientes
+                command.CommandText = "SP_CPOSC_GET_SOLO_CTEPPAL"; // para obtener todos los clientes de debe pasar siempre con un filtro
                 command.CommandType = CommandType.StoredProcedure;
 
 
@@ -153,43 +153,43 @@ namespace CapaDatos.CargarClientes_Datos
                 {
                     TB_CTEPPAL cliente = new TB_CTEPPAL
                     {
-                        
+
                         CTE_Nacio = reader["CTE_Nacio"].ToString(),
                         CTE_CedIden = reader["CTE_CedIden"].ToString(),
                         CTE_id = reader["CTE_id"].ToString(),
                         CTE_PNombre = reader["CTE_PNombre"].ToString(),
-                        //CTE_SNombre = reader["CTE_SNombre"] != DBNull.Value ? reader["CTE_SNombre"].ToString() : null,
-                        //CTE_PApellido = reader["CTE_PApellido"].ToString(),
-                        //CTE_SApellido = reader["CTE_SApellido"] != DBNull.Value ? reader["CTE_SApellido"].ToString() : null,
-                        CTE_FNac = reader["CTE_FNac"] != DBNull.Value ? Convert.ToDateTime(reader["CTE_FNac"]) : DateTime.MinValue,
-                        CTE_VIP = reader["CTE_VIP"] != DBNull.Value && Convert.ToBoolean(reader["CTE_VIP"]),
-                        CTE_AfilVip = reader["CTE_AfilVip"] != DBNull.Value ? (DateTime?)Convert.ToDateTime(reader["CTE_AfilVip"]) : null,
-                        CTE_FecAfil = reader["CTE_FecAfil"] != DBNull.Value ? Convert.ToDateTime(reader["CTE_FecAfil"]) : DateTime.MinValue,
-                        COD_STCTE = reader["COD_STCTE"].ToString(),
-                        CTE_Sex = reader["CTE_Sex"].ToString(),
-                        //CTE_CodOcup = reader["CTE_CodOcup"] != DBNull.Value ? reader["CTE_CodOcup"].ToString() : null,
-                        //CTE_EdoCiv = reader["CTE_EdoCiv"] != DBNull.Value ? reader["CTE_EdoCiv"].ToString() : null,
-                        COD_Sucursal = reader["COD_Sucursal"].ToString(),
-                        CTE_FecCreacion = reader["CTE_FecCreacion"] != DBNull.Value ? Convert.ToDateTime(reader["CTE_FecCreacion"]) : DateTime.MinValue,
-                        CTE_FecMod = reader["CTE_FecMod"] != DBNull.Value ? (DateTime?)Convert.ToDateTime(reader["CTE_FecMod"]) : null,
-                        USER_CREA = reader["USER_CREA"].ToString(),
-                        USER_MOD = reader["USER_MOD"] != DBNull.Value ? reader["USER_MOD"].ToString() : null,
-                        ////Direccion_fact = reader["Direccion_fact"] != DBNull.Value ? reader["Direccion_fact"].ToString() : null,
-                        ////Facebook = reader["Facebook"] != DBNull.Value ? reader["Facebook"].ToString() : null,
-                        ////Twitter = reader["Twitter"] != DBNull.Value ? reader["Twitter"].ToString() : null,
-                        ////Instagram = reader["Instagram"] != DBNull.Value ? reader["Instagram"].ToString() : null,
-                        CTE_RETISLR = reader["CTE_RETISLR"] != DBNull.Value && Convert.ToBoolean(reader["CTE_RETISLR"]),
-                        CTE_RETIVA = reader["CTE_RETIVA"] != DBNull.Value && Convert.ToBoolean(reader["CTE_RETIVA"]),
-                        COD_Edo = reader["COD_Edo"] != DBNull.Value ? reader["COD_Edo"].ToString() : null,
-                        COD_Ciud = reader["COD_Ciud"] != DBNull.Value ? reader["COD_Ciud"].ToString() : null,
-                        EDO_Nombre = reader["EDO_Nombre"] != DBNull.Value ? reader["EDO_Nombre"].ToString() : null,
-                        CIUD_Nombre = reader["CIUD_Nombre"] != DBNull.Value ? reader["CIUD_Nombre"].ToString() : null,
-                        NumExamen = reader["NumExamen"] != DBNull.Value ? reader["NumExamen"].ToString() : null,
-                        TLF_Cod002 = reader["TLF_Cod002"] != DBNull.Value ? reader["TLF_Cod002"].ToString() : null,
-                        TLF_Numero002 = reader["TLF_Numero002"] != DBNull.Value ? reader["TLF_Numero002"].ToString() : null,
-                        TLF_Cod003 = reader["TLF_Cod003"] != DBNull.Value ? reader["TLF_Cod003"].ToString() : null,
-                        TLF_Numero003 = reader["TLF_Numero003"] != DBNull.Value ? reader["TLF_Numero003"].ToString() : null,
-                        Mail_Loogin = reader["Mail_Loogin"] != DBNull.Value ? reader["Mail_Loogin"].ToString() : null
+                        ////CTE_SNombre = reader["CTE_SNombre"] != DBNull.Value ? reader["CTE_SNombre"].ToString() : null,
+                        ////CTE_PApellido = reader["CTE_PApellido"].ToString(),
+                        ////CTE_SApellido = reader["CTE_SApellido"] != DBNull.Value ? reader["CTE_SApellido"].ToString() : null,
+                        //CTE_FNac = reader["CTE_FNac"] != DBNull.Value ? Convert.ToDateTime(reader["CTE_FNac"]) : DateTime.MinValue,
+                        //CTE_VIP = reader["CTE_VIP"] != DBNull.Value && Convert.ToBoolean(reader["CTE_VIP"]),
+                        //CTE_AfilVip = reader["CTE_AfilVip"] != DBNull.Value ? (DateTime?)Convert.ToDateTime(reader["CTE_AfilVip"]) : null,
+                        //CTE_FecAfil = reader["CTE_FecAfil"] != DBNull.Value ? Convert.ToDateTime(reader["CTE_FecAfil"]) : DateTime.MinValue,
+                        //COD_STCTE = reader["COD_STCTE"].ToString(),
+                        //CTE_Sex = reader["CTE_Sex"].ToString(),
+                        ////CTE_CodOcup = reader["CTE_CodOcup"] != DBNull.Value ? reader["CTE_CodOcup"].ToString() : null,
+                        ////CTE_EdoCiv = reader["CTE_EdoCiv"] != DBNull.Value ? reader["CTE_EdoCiv"].ToString() : null,
+                        //COD_Sucursal = reader["COD_Sucursal"].ToString(),
+                        //CTE_FecCreacion = reader["CTE_FecCreacion"] != DBNull.Value ? Convert.ToDateTime(reader["CTE_FecCreacion"]) : DateTime.MinValue,
+                        //CTE_FecMod = reader["CTE_FecMod"] != DBNull.Value ? (DateTime?)Convert.ToDateTime(reader["CTE_FecMod"]) : null,
+                        //USER_CREA = reader["USER_CREA"].ToString(),
+                        //USER_MOD = reader["USER_MOD"] != DBNull.Value ? reader["USER_MOD"].ToString() : null,
+                        //////Direccion_fact = reader["Direccion_fact"] != DBNull.Value ? reader["Direccion_fact"].ToString() : null,
+                        //////Facebook = reader["Facebook"] != DBNull.Value ? reader["Facebook"].ToString() : null,
+                        //////Twitter = reader["Twitter"] != DBNull.Value ? reader["Twitter"].ToString() : null,
+                        //////Instagram = reader["Instagram"] != DBNull.Value ? reader["Instagram"].ToString() : null,
+                        //CTE_RETISLR = reader["CTE_RETISLR"] != DBNull.Value && Convert.ToBoolean(reader["CTE_RETISLR"]),
+                        //CTE_RETIVA = reader["CTE_RETIVA"] != DBNull.Value && Convert.ToBoolean(reader["CTE_RETIVA"]),
+                        //COD_Edo = reader["COD_Edo"] != DBNull.Value ? reader["COD_Edo"].ToString() : null,
+                        //COD_Ciud = reader["COD_Ciud"] != DBNull.Value ? reader["COD_Ciud"].ToString() : null,
+                        //EDO_Nombre = reader["EDO_Nombre"] != DBNull.Value ? reader["EDO_Nombre"].ToString() : null,
+                        //CIUD_Nombre = reader["CIUD_Nombre"] != DBNull.Value ? reader["CIUD_Nombre"].ToString() : null,
+                        //NumExamen = reader["NumExamen"] != DBNull.Value ? reader["NumExamen"].ToString() : null,
+                        //TLF_Cod002 = reader["TLF_Cod002"] != DBNull.Value ? reader["TLF_Cod002"].ToString() : null,
+                        //TLF_Numero002 = reader["TLF_Numero002"] != DBNull.Value ? reader["TLF_Numero002"].ToString() : null,
+                        //TLF_Cod003 = reader["TLF_Cod003"] != DBNull.Value ? reader["TLF_Cod003"].ToString() : null,
+                        //TLF_Numero003 = reader["TLF_Numero003"] != DBNull.Value ? reader["TLF_Numero003"].ToString() : null,
+                        //Mail_Loogin = reader["Mail_Loogin"] != DBNull.Value ? reader["Mail_Loogin"].ToString() : null
 
                     };
                     listaClientes.Add(cliente);

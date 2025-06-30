@@ -165,6 +165,7 @@ namespace CapaDatos.ListaFacturas_Datos
                 cmd.Parameters.AddWithValue("@Fecha", fecha.Date);
                 cmd.CommandText = query.ToString();
 
+
                 DataSet dts = new DataSet();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(dts);
