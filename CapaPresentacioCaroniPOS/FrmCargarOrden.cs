@@ -2012,9 +2012,19 @@ namespace CapaVisual_Login
 
         private void btnDetalleOrden_CheckedChanged(object sender, EventArgs e)
         {
+            
             VisualizarPanel("MostrarCabezeraSecundaria");
             Txt_Pnl2_Examen.Text = Txt_Tap2_Examen.Text;
             tabControl.SelectedIndex = 2;
+
+            if (_D_DetalleOrden.TB_PARAMETRO("EditarGridFact") == "1")
+            {
+                Txt_Tap3_Articulo_Precio.Enabled = true;
+            }
+            else
+            {
+                Txt_Tap3_Articulo_Precio.Enabled = false;
+            }
             LLenar_TbTrabajo();
         }
 
@@ -6697,7 +6707,7 @@ namespace CapaVisual_Login
             DgvClientes.DataSource = null;
             DgvClientes.Rows.Clear(); // Ahora sí puedes limpiar
             //
-            //DgvClientes.Rows.Clear();
+            dvgClientePagador.DataSource = null;
             dvgClientePagador.Rows.Clear();
             // Ocultamos todos los GroupBox al principio
             //groupBox1.Visible = false;
@@ -8073,88 +8083,96 @@ namespace CapaVisual_Login
 
         private void CargarDatosDeClientesP(string filtro, RadioButton buscarPorCedula, RadioButton buscarPorNombre)
         {
-
-            txtClienteBuscar.Focus();
-            _L_Cliente.CargarClientes(DgvClientes, listaDeClientes, filtro, buscarPorCedula, buscarPorNombre);
-
-
-
-            if (_L_Cliente.stringBuilder.Length > 0)
+            try
             {
-                MessageBox.Show(_L_Cliente.stringBuilder.ToString());
+
+                txtClienteP.Focus();
+                _L_Cliente.CargarClientes(dvgClientePagador, listaDeClientes, filtro, buscarPorCedula, buscarPorNombre);
+
+
+
+                if (_L_Cliente.stringBuilder.Length > 0)
+                {
+                    MessageBox.Show(_L_Cliente.stringBuilder.ToString());
+                }
+                else
+                {
+                    dvgClientePagador.DataSource = listaDeClientes; // Asignar aquí en la UI
+                    listaTemporalClientes = new List<TB_CTEPPAL>(listaDeClientes); // Inicializar la lista temporal
+
+
+                    // Ocultar todas las columnas inicialmente
+                    foreach (DataGridViewColumn columna in dvgClientePagador.Columns)
+                    {
+                        columna.Visible = false;
+                    }
+
+                    // Hacer visibles las columnas con índice 0 y 1 (si existen)
+                    if (dvgClientePagador.Columns.Count > 2)
+                    {
+                        dvgClientePagador.Columns[2].Visible = true;
+                        // Centra el texto del encabezado.
+                        // Esto se hace accediendo al estilo de celda por defecto de la celda del encabezado.
+                        dvgClientePagador.Columns[2].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                    }
+
+                    if (dvgClientePagador.Columns.Count > 3)
+                    {
+                        dvgClientePagador.Columns[3].Visible = true;
+                        // Centra el texto del encabezado.
+                        // Esto se hace accediendo al estilo de celda por defecto de la celda del encabezado.
+                        dvgClientePagador.Columns[3].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                    }
+
+
+
+                    dvgClientePagador.AllowUserToAddRows = false;
+                    dvgClientePagador.AllowUserToDeleteRows = false;
+                    dvgClientePagador.ColumnHeadersVisible = true;
+                    dvgClientePagador.RowHeadersVisible = false;
+                    dvgClientePagador.AllowUserToResizeColumns = false;
+                    dvgClientePagador.AllowUserToResizeRows = false;
+
+                    // Establecer el DataGridView como de solo lectura
+                    dvgClientePagador.ReadOnly = true;
+
+                    // Establecer los encabezados de las columnas
+
+                    if (dvgClientePagador.ColumnCount > 3)
+                    {
+                        dvgClientePagador.Columns[2].HeaderText = "Cédula";
+                    }
+                    if (dvgClientePagador.ColumnCount > 4)
+                    {
+                        dvgClientePagador.Columns[3].HeaderText = "Nombre";
+                    }
+
+                    //// Quitar la línea vertical entre la columna 0 y la 1
+                    //if (DgvClientes.ColumnCount > 1)
+                    //{
+                    //    foreach (DataGridViewRow row in DgvClientes.Rows)
+                    //    {
+                    //        row.Cells[0].Style.Border.Right = DataGridViewCellBorderStyles.None;
+                    //    }
+                    //    // Corrección para acceder a las celdas del encabezado
+                    //    if (DgvClientes.ColumnHeadersHeightSizeMode != DataGridViewColumnHeadersHeightSizeMode.DisableResizing && DgvClientes.ColumnHeaders != null && DgvClientes.ColumnHeaders.Cells.Count > 1)
+                    //    {
+                    //        DgvClientes.ColumnHeaders.Cells[0].Style.Border.Right = DataGridViewCellBorderStyles.None;
+                    //    }
+                    //}
+
+
+                    dvgClientePagador.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                    dvgClientePagador.Columns[2].Width = 100;
+                    dvgClientePagador.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                    dvgClientePagador.Columns[3].Width = 300;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                dvgClientePagador.DataSource = listaDeClientes; // Asignar aquí en la UI
-                listaTemporalClientes = new List<TB_CTEPPAL>(listaDeClientes); // Inicializar la lista temporal
-
-
-                // Ocultar todas las columnas inicialmente
-                foreach (DataGridViewColumn columna in dvgClientePagador.Columns)
-                {
-                    columna.Visible = false;
-                }
-
-                // Hacer visibles las columnas con índice 0 y 1 (si existen)
-                if (dvgClientePagador.Columns.Count > 2)
-                {
-                    dvgClientePagador.Columns[2].Visible = true;
-                    // Centra el texto del encabezado.
-                    // Esto se hace accediendo al estilo de celda por defecto de la celda del encabezado.
-                    dvgClientePagador.Columns[2].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                }
-
-                if (dvgClientePagador.Columns.Count > 3)
-                {
-                    dvgClientePagador.Columns[3].Visible = true;
-                    // Centra el texto del encabezado.
-                    // Esto se hace accediendo al estilo de celda por defecto de la celda del encabezado.
-                    dvgClientePagador.Columns[3].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                }
-
-
-
-                dvgClientePagador.AllowUserToAddRows = false;
-                dvgClientePagador.AllowUserToDeleteRows = false;
-                dvgClientePagador.ColumnHeadersVisible = true;
-                dvgClientePagador.RowHeadersVisible = false;
-                dvgClientePagador.AllowUserToResizeColumns = false;
-                dvgClientePagador.AllowUserToResizeRows = false;
-
-                // Establecer el DataGridView como de solo lectura
-                dvgClientePagador.ReadOnly = true;
-
-                // Establecer los encabezados de las columnas
-
-                if (dvgClientePagador.ColumnCount > 3)
-                {
-                    dvgClientePagador.Columns[2].HeaderText = "Cédula";
-                }
-                if (dvgClientePagador.ColumnCount > 4)
-                {
-                    dvgClientePagador.Columns[3].HeaderText = "Nombre";
-                }
-
-                //// Quitar la línea vertical entre la columna 0 y la 1
-                //if (DgvClientes.ColumnCount > 1)
-                //{
-                //    foreach (DataGridViewRow row in DgvClientes.Rows)
-                //    {
-                //        row.Cells[0].Style.Border.Right = DataGridViewCellBorderStyles.None;
-                //    }
-                //    // Corrección para acceder a las celdas del encabezado
-                //    if (DgvClientes.ColumnHeadersHeightSizeMode != DataGridViewColumnHeadersHeightSizeMode.DisableResizing && DgvClientes.ColumnHeaders != null && DgvClientes.ColumnHeaders.Cells.Count > 1)
-                //    {
-                //        DgvClientes.ColumnHeaders.Cells[0].Style.Border.Right = DataGridViewCellBorderStyles.None;
-                //    }
-                //}
-
-
-                dvgClientePagador.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-                dvgClientePagador.Columns[2].Width = 100;
-                dvgClientePagador.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-                dvgClientePagador.Columns[3].Width = 300;
+                MessageBox.Show("Error: " + ex.Message + "\nStackTrace: " + ex.StackTrace);
             }
+
         }
 
         private void textBox1_Enter(object sender, EventArgs e)
@@ -9233,6 +9251,8 @@ namespace CapaVisual_Login
 
         private void button3_Click(object sender, EventArgs e)
         {
+            txtClienteP.Text = "";
+            Pnl_5_Lista_ClienPagador.Visible = false;
             Pnl_2_Msj.Visible = false;
         }
 
@@ -11862,6 +11882,36 @@ namespace CapaVisual_Login
         {
             txtClienteBuscar.Text = "";
             panel2.Visible = false;
+        }
+
+        private void txtClienteP_TextChanged(object sender, EventArgs e)
+        {
+            // Obtener el texto del textBox1
+            string textoFiltro = txtClienteP.Text.Trim(); // .Trim() para eliminar espacios en blanco al inicio y al final
+
+            // Validar la longitud del texto
+            if (textoFiltro.Length < 3 && textoFiltro.Length > 0) // Si tiene entre 1 y 2 caracteres
+            {
+                // Mostrar un mensaje al usuario
+                //  MessageBox.Show("Por favor, ingrese al menos 3 caracteres para realizar la búsqueda.", "Filtro Insuficiente", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtClienteP.Focus(); // Opcional: devolver el foco al TextBox para que el usuario corrija
+            }
+            else if (textoFiltro.Length == 0) // Si el campo está vacío, puedes decidir si cargar todo o no hacer nada
+            {
+                // Si el campo está vacío, puedes optar por no hacer nada o cargar todos los datos
+                // Por ejemplo, si quieres que al borrar el texto se muestren todos los clientes:
+                // CargarDatosDeClientes(textoFiltro, radioButton2, radioButton1);
+                // O simplemente no hacer nada si no hay filtro
+                // Console.WriteLine("Campo de filtro vacío, no se realiza búsqueda.");
+            }
+            else // Si la longitud es 3 o más caracteres
+            {
+                // Llamar al método para cargar los datos de los clientes
+                CargarDatosDeClientesP(textoFiltro, radioButton8, radioButton7);
+            }
+
+            //_L_Cliente.FiltrarClientes(textBox2.Text, radioButton2, radioButton1, DgvClientes, listaDeClientes, listaTemporalClientes);
+
         }
     }
 

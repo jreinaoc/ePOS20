@@ -105,7 +105,7 @@ namespace CapaVisual_Login
             this.radioButton7 = new System.Windows.Forms.RadioButton();
             this.radioButton8 = new System.Windows.Forms.RadioButton();
             this.dvgClientePagador = new System.Windows.Forms.DataGridView();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.txtClienteP = new System.Windows.Forms.TextBox();
             this.label29 = new System.Windows.Forms.Label();
             this.button3 = new System.Windows.Forms.Button();
             this.pnlClienteGarantia = new System.Windows.Forms.Panel();
@@ -921,7 +921,7 @@ namespace CapaVisual_Login
             this.Pnl_5_Lista_ClienPagador.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Pnl_5_Lista_ClienPagador.Controls.Add(this.panel6);
             this.Pnl_5_Lista_ClienPagador.Controls.Add(this.dvgClientePagador);
-            this.Pnl_5_Lista_ClienPagador.Controls.Add(this.textBox3);
+            this.Pnl_5_Lista_ClienPagador.Controls.Add(this.txtClienteP);
             this.Pnl_5_Lista_ClienPagador.Controls.Add(this.label29);
             this.Pnl_5_Lista_ClienPagador.Controls.Add(this.button3);
             this.Pnl_5_Lista_ClienPagador.Location = new System.Drawing.Point(533, 115);
@@ -961,7 +961,7 @@ namespace CapaVisual_Login
             this.radioButton8.Size = new System.Drawing.Size(81, 24);
             this.radioButton8.TabIndex = 0;
             this.radioButton8.TabStop = true;
-            this.radioButton8.Text = "Cedula";
+            this.radioButton8.Text = "Cédula";
             this.radioButton8.UseVisualStyleBackColor = true;
             // 
             // dvgClientePagador
@@ -1008,16 +1008,18 @@ namespace CapaVisual_Login
             this.dvgClientePagador.TabIndex = 54;
             this.dvgClientePagador.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dvgClientePagador_CellDoubleClick);
             // 
-            // textBox3
+            // txtClienteP
             // 
-            this.textBox3.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox3.ForeColor = System.Drawing.Color.Black;
-            this.textBox3.Location = new System.Drawing.Point(31, 63);
-            this.textBox3.MaxLength = 50;
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(261, 21);
-            this.textBox3.TabIndex = 57;
-            this.textBox3.WordWrap = false;
+            this.txtClienteP.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtClienteP.ForeColor = System.Drawing.Color.Black;
+            this.txtClienteP.Location = new System.Drawing.Point(31, 63);
+            this.txtClienteP.MaxLength = 50;
+            this.txtClienteP.Name = "txtClienteP";
+
+            this.txtClienteP.Size = new System.Drawing.Size(261, 21);
+            this.txtClienteP.TabIndex = 57;
+            this.txtClienteP.WordWrap = false;
+            this.txtClienteP.TextChanged += new System.EventHandler(this.txtClienteP_TextChanged);
             // 
             // label29
             // 
@@ -1150,6 +1152,8 @@ namespace CapaVisual_Login
             this.Txt_Tap1_Cedula_Pagador.Size = new System.Drawing.Size(103, 27);
             this.Txt_Tap1_Cedula_Pagador.TabIndex = 154;
             this.Txt_Tap1_Cedula_Pagador.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.Txt_Tap1_Cedula_Pagador.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Txt_Tap1_Cedula_Pagador_KeyDown);
+            this.Txt_Tap1_Cedula_Pagador.MouseLeave += new System.EventHandler(this.Txt_Tap1_Cedula_Pagador_MouseLeave);
             // 
             // Txt_Tap1_Edad
             // 
@@ -4953,7 +4957,7 @@ namespace CapaVisual_Login
         private System.Windows.Forms.RadioButton radioButton7;
         private System.Windows.Forms.RadioButton radioButton8;
         private System.Windows.Forms.DataGridView dvgClientePagador;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox txtClienteP;
         private System.Windows.Forms.Label label29;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Panel panel2;
