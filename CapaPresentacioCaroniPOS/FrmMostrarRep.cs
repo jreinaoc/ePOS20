@@ -15,16 +15,43 @@ namespace CapaVisual_Login
 {
     public partial class FrmMostrarRep : Form
     {
-        public FrmMostrarRep()
+        private string _nombreReporte;
+        private string _nombreDataSource;
+        private bool _imprimir;
+        private DataTable _datosReporte;
+
+        public FrmMostrarRep(string nombreReporte = null , string nombreDataSource = null , bool imprimir = false, DataTable datosReporte = null)
         {
             InitializeComponent();
+            _nombreReporte = nombreReporte;
+            _nombreDataSource = nombreDataSource;
+            _datosReporte = datosReporte;
+            _imprimir = imprimir;
         }
 
         private string conexion = ConfigurationManager.ConnectionStrings["Epos"].ConnectionString;
 
         private void FrmMostrarRep_Load(object sender, EventArgs e)
         {
+        if (!string.IsNullOrEmpty(_nombreReporte) && !string.IsNullOrEmpty(_nombreDataSource) && _datosReporte != null)
+        {
 
+                MostrarReporteGenerico(_nombreReporte, _nombreDataSource, _datosReporte);
+               if (_imprimir)
+               {
+                reportViewer1.PrintDialog();
+                this.Close();
+               }
+
+        }
+    }
+
+        private void MostrarReporteGenerico(string nombreReporte, string nombreDataSource, DataTable datos)
+        {
+            reportViewer1.LocalReport.DataSources.Clear();
+            reportViewer1.LocalReport.ReportEmbeddedResource = nombreReporte;
+            reportViewer1.LocalReport.DataSources.Add(new ReportDataSource(nombreDataSource, datos));
+            reportViewer1.RefreshReport();
         }
 
         public void ConfigRep()
