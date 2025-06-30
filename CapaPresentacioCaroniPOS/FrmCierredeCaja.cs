@@ -13,6 +13,7 @@ using CapaDatos.Inicio_Datos;
 using CapaEntidades;
 using CapaDatos.Anulacion;
 using System.Globalization;
+using System.Reflection;
 
 
 namespace CapaVisual_Login
@@ -31,6 +32,11 @@ namespace CapaVisual_Login
         FrmClaveGerente _FrmClaveGerente = new FrmClaveGerente();
         D_Anulacion _D_Anulacion = new D_Anulacion();
         public string GerenteAutoriza = "";
+        List<Usuario> usuarios = new List<Usuario>();
+        List<Usuario> listaUsuarios = new List<Usuario>();
+        List<Usuario> listaTemporalUsuarios = new List<Usuario>();
+        DataTable dtCierreCaja = new DataTable();
+        DataTable dtLogCierre = new DataTable();
 
         public FrmCierredeCaja()
         {
@@ -160,17 +166,13 @@ namespace CapaVisual_Login
             lbl_ListadoDeVendedores.BackColor = col3;
             lbl_ListadoDeVendedores.ForeColor = col5;
             Pnl2_ListadoDeVendedores.BackColor = col1;
-            dataGridView4.ColumnHeadersDefaultCellStyle.BackColor = col3;
-            dataGridView4.ColumnHeadersDefaultCellStyle.ForeColor = col1;
+            
 
             //Pagina 4
             tabPage4.BackColor = col1;
             lbl_CierreDeCaja.BackColor = col3;
             lbl_CierreDeCaja.ForeColor = col5;
-            dataGridView3.ColumnHeadersDefaultCellStyle.BackColor = col3;
-            dataGridView3.ColumnHeadersDefaultCellStyle.ForeColor = col1;
-            dataGridView5.ColumnHeadersDefaultCellStyle.BackColor = col3;
-            dataGridView5.ColumnHeadersDefaultCellStyle.ForeColor = col1;
+            
             lbl_Observaciones.BackColor = col3;
             lbl_Observaciones.ForeColor = col5;
 
@@ -232,24 +234,20 @@ namespace CapaVisual_Login
             lbl_ConsignacionOrdenesServ.ForeColor = col1;
             Dvg_ConsignacionDeOS.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#2f6b64");
             Dvg_ConsignacionDeOS.ColumnHeadersDefaultCellStyle.ForeColor = col1;
-            checkBox1.BackColor = col1;
+            
+
             lbl_CambiarVendedor.BackColor = col6;
             lbl_CambiarVendedor.ForeColor = col1;
             Pnl1_CambiarVendedor.BackColor = ColorTranslator.FromHtml("#257b78");
             lbl_ListadoDeVendedores.BackColor = col6;
             lbl_ListadoDeVendedores.ForeColor = col1;
             Pnl2_ListadoDeVendedores.BackColor = ColorTranslator.FromHtml("#257b78");
-            dataGridView4.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#2f6b64");
-            dataGridView4.ColumnHeadersDefaultCellStyle.ForeColor = col1;
-
+            
             //Pagina 4
             tabPage4.BackColor = col3;
             lbl_CierreDeCaja.BackColor = col6;
             lbl_CierreDeCaja.ForeColor = col1;
-            dataGridView3.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#2f6b64");
-            dataGridView3.ColumnHeadersDefaultCellStyle.ForeColor = col1;
-            dataGridView5.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#2f6b64");
-            dataGridView5.ColumnHeadersDefaultCellStyle.ForeColor = col1;
+            
             lbl_Observaciones.BackColor = col6;
             lbl_Observaciones.ForeColor = col1;
 
@@ -369,6 +367,36 @@ namespace CapaVisual_Login
         {
             try
             {
+                var labelVertical = new VerticalLabel
+                {
+                    Text = "Caja",
+                    Font = new Font("Century Gothic", 13),
+
+
+                    ForeColor = Color.Black,
+                    Size = new Size(30, 145),
+                    Location = new Point(110,130),
+
+                    Invertir = true // ponlo en true si quieres que el texto vaya de abajo hacia arriba
+                };
+                labelVertical.BackColor = Color.FromArgb(0, 186, 173);
+                labelVertical.ForeColor = Color.White;
+                tabPage4.Controls.Add(labelVertical);
+
+                var labelVerticalPagos = new VerticalLabel
+                {
+                    Text = "Pagos",
+                    Font = new Font("Century Gothic", 13),
+                    ForeColor = Color.Black,
+                    Size = new Size(30, 250),
+                    Location = new Point(110, 280),
+                    Invertir = true // ponlo en true si quieres que el texto vaya de abajo hacia arriba
+                };
+                labelVerticalPagos.BackColor = Color.FromArgb(0, 186, 173);
+                labelVerticalPagos.ForeColor = Color.White;
+                tabPage4.Controls.Add(labelVerticalPagos);
+
+
                 sucursal = _D_DetalleOrden.TB_PARAMETRO("sucursalId");
                 diaActivo = _D_Inicio.DiaActivo();
 
@@ -430,7 +458,24 @@ namespace CapaVisual_Login
 
                 FormatoTabla("Asistencia");
 
-                //DataTable dtBancos = _L_CierreCaja.ObtieneBancosPagoMovil(sucursal);
+                //CONSIGNACION
+                DataTable dtConsignacion = _L_CierreCaja.ConsultaOsDia(diaActivo, sucursal);
+
+                // Asignar al DataGridView
+                Dvg_ConsignacionDeOS.DataSource = dtConsignacion;
+
+                FormatoTabla("Consignacion");
+
+                //CIERRE DE CAJA
+                CrearTabla("CierredeCaja");
+
+                dtCierreCaja = _L_CierreCaja.ObtienePagosCierreCaja(sucursal);
+
+
+                // Asignar al DataGridView
+                dgvCierredecaja.DataSource = dtCierreCaja;
+
+                FormatoTabla("CierredeCaja");
             }
             catch (Exception ex)
             {
@@ -451,6 +496,21 @@ namespace CapaVisual_Login
                     dtPtoVenta.Columns.Add("Total T. Débito", typeof(string)); // Vacía
                     dtPtoVenta.Columns.Add("Total T. Otros", typeof(string)); // Vacía
                 break;
+
+                case "CierredeCaja":
+                    dtCierreCaja.Columns.Add("TipoTotal", typeof(string));
+                    dtCierreCaja.Columns.Add("Total", typeof(string));
+
+                    break;
+
+                case "LogCierre":
+                    if (dtLogCierre.Columns.Count == 0)
+                    {
+                        dtLogCierre.Columns.Add("Descripcion", typeof(string));
+                        dtLogCierre.Columns.Add("Resultado", typeof(string));
+                    }
+
+                    break;
 
                 case "PagoMovil":
                     //dtPagoMovil.Columns.Add("Id", typeof(string));
@@ -489,6 +549,63 @@ namespace CapaVisual_Login
 
                    
                     Dvg_CierrePuntoVenta.Columns["Banco"].ReadOnly = true;
+                    break;
+
+                case "Consignacion":
+
+                    // Asignar ancho personalizado a cada columna
+                    Dvg_ConsignacionDeOS.Columns["Orden"].Width = 60;
+                    Dvg_ConsignacionDeOS.Columns["CodLab"].Visible = false;
+                    Dvg_ConsignacionDeOS.Columns["Lab"].Width = 100;
+                    Dvg_ConsignacionDeOS.Columns["CodServicio"].Visible = false;
+                    Dvg_ConsignacionDeOS.Columns["Servicio"].Width = 160;
+                    Dvg_ConsignacionDeOS.Columns["CodVendedor"].Width = 120;
+                    Dvg_ConsignacionDeOS.Columns["Vendedor"].Width = 180;
+
+                    Dvg_ConsignacionDeOS.Columns["Orden"].ReadOnly = true;
+                    Dvg_ConsignacionDeOS.Columns["Lab"].ReadOnly = true;
+                    Dvg_ConsignacionDeOS.Columns["Servicio"].ReadOnly = true;
+                    
+
+                    Dvg_ConsignacionDeOS.Columns["Orden"].HeaderText = "Orden";
+                    Dvg_ConsignacionDeOS.Columns["Lab"].HeaderText = "Laboratorio";
+                    Dvg_ConsignacionDeOS.Columns["Servicio"].HeaderText = "Servicio";
+                    Dvg_ConsignacionDeOS.Columns["CodVendedor"].HeaderText = "Cod. Vendedor";
+                    Dvg_ConsignacionDeOS.Columns["Vendedor"].HeaderText = "Vendedor";
+
+                    break;
+
+                case "CierredeCaja":
+
+                    // Asignar ancho personalizado a cada columna
+                    dgvCierredecaja.Columns["TipoTotal"].Width = 250;
+                    dgvCierredecaja.Columns["Total"].Width = 100;
+
+                    dgvCierredecaja.Columns["TipoTotal"].HeaderText = "Tipo Total";
+                    dgvCierredecaja.Columns["Total"].HeaderText = "Total";
+
+                    dgvCierredecaja.Columns["TipoTotal"].ReadOnly = true;
+
+                    dgvCierredecaja.DefaultCellStyle.Font = new Font("Century Gothic", 13);
+                    // Change the font for the COLUMN HEADERS
+                    dgvCierredecaja.ColumnHeadersDefaultCellStyle.Font = new Font("Century Gothic", 10);
+                    dgvCierredecaja.RowTemplate.Height = 30; // Puedes ajustar el número a tu gusto
+                    dgvCierredecaja.ColumnHeadersVisible = false;
+                    dgvCierredecaja.CellBorderStyle = DataGridViewCellBorderStyle.Single;
+                    dgvCierredecaja.EnableHeadersVisualStyles = false; // Opcional si también quieres personalizar encabezados
+                    dgvCierredecaja.GridColor = Color.FromArgb(200, 200, 200);
+
+
+                    break;
+
+                case "LogCierre":
+
+                    // Asignar ancho personalizado a cada columna
+                    dgvCierredecaja.Columns["Descripcion"].Width = 250;
+                    dgvCierredecaja.Columns["Resultado"].Width = 100;
+
+
+
                     break;
 
                 case "PagoMovil":
@@ -809,6 +926,284 @@ namespace CapaVisual_Login
                     }
                 }
             }
+        }
+
+        private void Dvg_ConsignacionDeOS_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                var columna = Dvg_ConsignacionDeOS.Columns[e.ColumnIndex];
+
+                if (columna.Name == "CodVendedor")
+                {
+                    //string codigo = Dvg_ConsignacionDeOS.Rows[e.RowIndex].Cells["CodVendedor"].Value?.ToString();
+                    DataTable dtUsuarios  = _L_CierreCaja.ObtieneUsuarios(sucursal);
+                    usuarios = ConvertToList<Usuario>(dtUsuarios);
+
+                    Dgv_Usuarios.DataSource = dtUsuarios;
+                    //Formato_Dgv_Pnl3_ColoresLC();
+                    
+                    if (Pnl2_ListadoDeVendedores.Visible == true)
+                    {
+                        Pnl2_ListadoDeVendedores.Visible = false;
+                    }
+                    else
+                    {
+                        Pnl2_ListadoDeVendedores.Visible = true;
+                    }
+                }
+            }
+        }
+
+        public static List<T> ConvertToList<T>(DataTable table) where T : new()
+        {
+            List<T> list = new List<T>();
+
+            foreach (DataRow row in table.Rows)
+            {
+                T obj = new T();
+                foreach (DataColumn col in table.Columns)
+                {
+                    PropertyInfo prop = typeof(T).GetProperty(col.ColumnName);
+                    if (prop != null && row[col] != DBNull.Value)
+                        prop.SetValue(obj, Convert.ChangeType(row[col], prop.PropertyType));
+                }
+                list.Add(obj);
+            }
+
+            return list;
+        }
+
+        private void txtFiltroVendedor_TextChanged(object sender, EventArgs e)
+        {
+            // Filtrar los datos según el texto ingresado en el TextBox
+            _L_CierreCaja.FiltrarUsuario(txtFiltroVendedor.Text.ToLower(), rbNombre, rbCodigo, Dgv_Usuarios, usuarios, listaTemporalUsuarios);
+
+        }
+
+        private void Dgv_Usuarios_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                // Obtener datos del usuario seleccionado
+                string codUsr = Dgv_Usuarios.Rows[e.RowIndex].Cells["COD_USR"].Value?.ToString();
+                string nombreUsr = Dgv_Usuarios.Rows[e.RowIndex].Cells["Nombre"].Value?.ToString();
+
+                // Validar que haya una fila seleccionada en Dvg_ConsignacionDeOS
+                if (Dvg_ConsignacionDeOS.CurrentRow != null)
+                {
+                    DataGridViewRow filaActiva = Dvg_ConsignacionDeOS.CurrentRow;
+
+                    filaActiva.Cells["CodVendedor"].Value = codUsr;
+                    filaActiva.Cells["Vendedor"].Value = nombreUsr;
+                }
+            }
+        }
+
+        private void btn_Siguiente_pg3_Click(object sender, EventArgs e)
+        {
+            tcCierreCaja.SelectedIndex = 3;
+            dgvCierredecaja.ClearSelection();
+
+            lblPaso.Text = "Paso 4";
+        }
+
+        
+        private double GetValorFila(int filaIndex)
+        {
+            var valor = dgvCierredecaja.Rows[filaIndex].Cells["Total"].Value;
+            if (valor != null && double.TryParse(valor.ToString(), out double resultado))
+            {
+                return resultado;
+            }
+            return 0;
+        }
+
+        private void dgvCierredecaja_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                double existenteEnCaja = GetValorFila(0);
+                double efectivo = GetValorFila(5);
+                double debito = GetValorFila(6);
+                double tarjetaCredito = GetValorFila(7);
+                double ivaRetenido = GetValorFila(8);
+                double islrRetenido = GetValorFila(9);
+
+                double transferencia = GetValorFila(10);
+                double transferenciaDivisa = GetValorFila(11);
+
+                double diferencia = existenteEnCaja - (efectivo + debito + tarjetaCredito + ivaRetenido + islrRetenido + transferencia + transferenciaDivisa);
+
+                // Mostrar el resultado en la fila "Diferencia" (fila 6)
+                dgvCierredecaja.Rows[12].Cells["Total"].Value = diferencia.ToString("N2");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al calcular diferencia: " + ex.Message);
+            }
+        }
+
+        public class VerticalLabel : Control
+        {
+            public bool Invertir { get; set; } = false; // si quieres que el texto vaya de abajo hacia arriba
+
+            public VerticalLabel()
+            {
+                this.SetStyle(ControlStyles.SupportsTransparentBackColor, true);
+                this.BackColor = Color.Transparent;
+            }
+
+            protected override void OnPaint(PaintEventArgs e)
+            {
+                base.OnPaint(e);
+
+                using (StringFormat format = new StringFormat())
+                {
+                    format.Alignment = StringAlignment.Center;
+                    format.LineAlignment = StringAlignment.Center;
+
+                    e.Graphics.TranslateTransform(this.Width / 2, this.Height / 2);
+
+                    if (Invertir)
+                        e.Graphics.RotateTransform(-90); // de abajo hacia arriba
+                    else
+                        e.Graphics.RotateTransform(90);  // de arriba hacia abajo
+
+                    e.Graphics.DrawString(this.Text, this.Font, new SolidBrush(this.ForeColor), 0, 0, format);
+                    e.Graphics.ResetTransform();
+                }
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+            //Invenvio
+            string rutaInvenvio;
+            string nombreInvenvio;
+            rutaInvenvio = _D_DetalleOrden.TB_PARAMETRO("RutaInvenvio");
+            nombreInvenvio = _D_DetalleOrden.TB_PARAMETRO("NombreArchInv");
+
+            CrearTabla("LogCierre");
+
+            if (_L_CierreCaja.GeneraInvenvioTXT(sucursal, diaActivo.ToString("yyyyMMdd"), rutaInvenvio + nombreInvenvio))
+            {
+                dtLogCierre.Rows.Add("Archivo Invenvio.txt", "✔ Completado");
+                dgvLogCierre.DataSource = dtLogCierre;
+                dgvLogCierre.Refresh();
+            }
+            else
+            {
+                dtLogCierre.Rows.Add("Archivo Invenvio.txt", "Error");
+                dgvLogCierre.DataSource = dtLogCierre;
+                dgvLogCierre.Refresh();
+            }
+
+
+            //Existencia en Caja
+            if (!_L_CierreCaja.ValidaExistenciaCaja(dgvCierredecaja))
+            {
+                _FrmMensajes.co = 3;
+                _FrmMensajes.avisomensaje("Está seguro que la existencia en caja es 0 (cero)?");
+                _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                _FrmMensajes.ShowDialog();
+
+                if (_FrmMensajes.DialogResult == DialogResult.OK)
+                {
+                    _FrmClaveGerente.ShowDialog();
+                    if (_FrmClaveGerente.ClaveCorrecta == true)
+                    {
+
+                        if (_FrmClaveGerente.DialogResult == DialogResult.OK)
+                        {
+                            //Dvg_MarcajeAsistenciaPendiente.BeginEdit(true); // inicia edición con un clic
+                            GerenteAutoriza = _FrmClaveGerente.RetornoNombreUsuario();
+                        }
+                        else
+                        {
+                            return;
+                        }
+                    }
+                    
+                }
+                else
+                {
+
+                    return;
+                }
+            }
+
+            //SP Cierre de Caja
+            if (_L_CierreCaja.CierreDeCaja(dgvCierredecaja,diaActivo,sucursal,txtBox_observaciones_pg4.Text,TB_USUARIO.COD_USR))
+            {
+                dtLogCierre.Rows.Add("SP Cierre de Caja", "OK");
+                    dgvLogCierre.DataSource = dtLogCierre;
+                   dgvLogCierre.Refresh();
+            }
+            else
+            {
+                dtLogCierre.Rows.Add("SP Cierre de Caja", "Error");
+                dgvLogCierre.DataSource = dtLogCierre;
+                dgvLogCierre.Refresh();
+                return;
+            }
+
+            if (!_L_CierreCaja.ActualizarParamCierreCaja(sucursal))
+            {
+                dtLogCierre.Rows.Add("Error Actualizando parametros", "Error");
+                dgvLogCierre.DataSource = dtLogCierre;
+                dgvLogCierre.Refresh();
+                return;
+            }
+
+            if (!_L_CierreCaja.DesbloqueSistema("PEND",sucursal))
+            {
+                dtLogCierre.Rows.Add("Error Actualizando parametros", "Error");
+                dgvLogCierre.DataSource = dtLogCierre;
+                dgvLogCierre.Refresh();
+                return;
+            }
+
+            if (!_L_CierreCaja.ActualizarFacturas(sucursal))
+            {
+                dtLogCierre.Rows.Add("Error Actualizando Facturas", "Error");
+                dgvLogCierre.DataSource = dtLogCierre;
+                dgvLogCierre.Refresh();
+                return;
+            }
+
+            dtLogCierre.Rows.Add("Generando Libro de Ventas", "...");
+            dgvLogCierre.DataSource = dtLogCierre;
+            dgvLogCierre.Refresh();
+
+            if (_L_CierreCaja.LibroVenta(diaActivo,diaActivo ))
+            {
+                foreach (DataRow row in dtLogCierre.Rows)
+                {
+                    if (row["Descripcion"].ToString() == "Generando Libro de Ventas")
+                    {
+                        row["Resultado"] = "✔ Completado";
+                        break;
+                    }
+                }
+
+            }
+            else
+            {
+                foreach (DataRow row in dtLogCierre.Rows)
+                {
+                    if (row["Descripcion"].ToString() == "Generando Libro de Ventas")
+                    {
+                        row["Resultado"] = "❌ Fallido";
+                        break;
+                    }
+                }
+                return;
+            }
+
+
         }
     }
 }

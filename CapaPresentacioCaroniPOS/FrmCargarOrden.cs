@@ -1814,7 +1814,7 @@ namespace CapaVisual_Login
             //    //MessageBox.Show("Debe Seleccionar un Cliente Valido")
             //    Pnl_2_Msj.Visible = true;
             //    txt_pl2_msj.Text = "Debe Seleccionar un Cliente Valido";
-            //    pb_pl2_mj.Visible = true;
+            //    //pb_pl2_mj.Visible = true;
 
 
             //}
@@ -2012,9 +2012,19 @@ namespace CapaVisual_Login
 
         private void btnDetalleOrden_CheckedChanged(object sender, EventArgs e)
         {
+            
             VisualizarPanel("MostrarCabezeraSecundaria");
             Txt_Pnl2_Examen.Text = Txt_Tap2_Examen.Text;
             tabControl.SelectedIndex = 2;
+
+            if (_D_DetalleOrden.TB_PARAMETRO("EditarGridFact") == "1")
+            {
+                Txt_Tap3_Articulo_Precio.Enabled = true;
+            }
+            else
+            {
+                Txt_Tap3_Articulo_Precio.Enabled = false;
+            }
             LLenar_TbTrabajo();
         }
 
@@ -5119,7 +5129,7 @@ namespace CapaVisual_Login
                 Txt_Tap1_Cedula.Clear();
                 Pnl_2_Msj.Visible = true;
                 txt_pl2_msj.Text = "Debe seleccionar la Nacionalidad antes de ingresar la Cédula";
-                pb_pl2_mj.Visible = true;
+                //pb_pl2_mj.Visible = true;
                 button3.Focus();
 
                 //Cbx_Tap1_Nacionalidad.Focus();
@@ -5164,7 +5174,7 @@ namespace CapaVisual_Login
 
                             Pnl_2_Msj.Visible = true;
                             txt_pl2_msj.Text = "El campo Cédula debe contener solo números";
-                            pb_pl2_mj.Visible = true;
+                            //pb_pl2_mj.Visible = true;
 
                             //MessageBox.Show("El campo Cédula debe contener solo números.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
                             Txt_Tap1_Cedula.SelectAll(); // Selecciona todo el texto para facilitar la corrección.
@@ -5225,7 +5235,7 @@ namespace CapaVisual_Login
 
                     Pnl_2_Msj.Visible = true;
                     txt_pl2_msj.Text = "El formato del correo electrónico no es válido";
-                    pb_pl2_mj.Visible = true;
+                    //pb_pl2_mj.Visible = true;
                     button3.Focus();
 
                     Txt_Tap1_Email.Focus(); // Devolver el foco al TextBox
@@ -5257,7 +5267,7 @@ namespace CapaVisual_Login
 
                     Pnl_2_Msj.Visible = true;
                     txt_pl2_msj.Text = "El número de teléfono debe contener exactamente 7 dígitos";
-                    pb_pl2_mj.Visible = true;
+                    //pb_pl2_mj.Visible = true;
 
                     // El valor ingresado no es un número de 7 dígitos válido
                     //MessageBox.Show("El número de teléfono debe contener exactamente 7 dígitos.", "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
@@ -5301,7 +5311,7 @@ namespace CapaVisual_Login
 
                     Pnl_2_Msj.Visible = true;
                     txt_pl2_msj.Text = "El número de teléfono debe contener exactamente 7 dígitos";
-                    pb_pl2_mj.Visible = true;
+                    //pb_pl2_mj.Visible = true;
 
 
 
@@ -5412,7 +5422,7 @@ namespace CapaVisual_Login
             //        // Muestra el mensaje de error.
             //        Pnl_2_Msj.Visible = true;
             //            txt_pl2_msj.Text = $"El valor debe estar entre {minMeridianoCorneal} y {maxMeridianoCorneal}.";
-            //            pb_pl2_mj.Visible = true;
+            //            //pb_pl2_mj.Visible = true;
 
             //            // Establece el mensaje de error para la celda.
             //            Dgv_Pnl2_Querato.Rows[e.RowIndex].ErrorText = $"Error: El valor está fuera del rango permitido ({minMeridianoCorneal}-{maxMeridianoCorneal}).";
@@ -5503,7 +5513,7 @@ namespace CapaVisual_Login
                         //e.Cancel = true; // Cancela la validación
                         Pnl_2_Msj.Visible = true;
                         txt_pl2_msj.Text = $"Los valores permitidos están entre  {minMeridianoCorneal} y {maxMeridianoCorneal}.";
-                        pb_pl2_mj.Visible = true;
+                        //pb_pl2_mj.Visible = true;
 
 
                         //Dgv_Pnl2_Querato.Rows[e.RowIndex].ErrorText = $"Advertencia: El valor está fuera del rango permitido ({minMeridianoCorneal}-{maxMeridianoCorneal}).";
@@ -5552,7 +5562,7 @@ namespace CapaVisual_Login
             //    {
             //        Pnl_2_Msj.Visible = true;
             //        txt_pl2_msj.Text = "Combinaciones posibles es el mismo tipo o  'BALANCE', Se ha restablecido";
-            //        pb_pl2_mj.Visible = true;
+            //        //pb_pl2_mj.Visible = true;
 
             //        cellFila1.Value = null; // O cellFila1.Value = string.Empty; según lo que permita tu columna
 
@@ -5564,7 +5574,7 @@ namespace CapaVisual_Login
             //        {
             //            Pnl_2_Msj.Visible = false;
             //            txt_pl2_msj.Text = string.Empty;
-            //            pb_pl2_mj.Visible = false;
+            //            //pb_pl2_mj.Visible = false;
             //        }
             //    }
             //}
@@ -5723,7 +5733,7 @@ namespace CapaVisual_Login
                 {
                     Pnl_2_Msj.Visible = true;
                     txt_pl2_msj.Text = "Revisar los valores de Queratomia no debe tener valores en cero";
-                    pb_pl2_mj.Visible = true;
+                    //pb_pl2_mj.Visible = true;
 
                     return false; // Stop validation on the first error found
                 }
@@ -5947,8 +5957,8 @@ namespace CapaVisual_Login
             cilindroColumn.DataPropertyName = "Cilindro";
             cilindroColumn.HeaderText = "Cilindro";
             cilindroColumn.DecimalPlaces = 2;
-            cilindroColumn.Minimum = -5.75M;
-            cilindroColumn.Maximum = 5.75M;
+            cilindroColumn.Minimum = 10M;
+            cilindroColumn.Maximum = -8M;
             cilindroColumn.Increment = 0.25M;
             cilindroColumn.Width = 60;
             cilindroColumn.Resizable = DataGridViewTriState.False;
@@ -6004,11 +6014,13 @@ namespace CapaVisual_Login
             ejeColumn.HeaderText = "Eje";
             ejeColumn.Minimum = 0M;
             ejeColumn.Maximum = 180M;
-            ejeColumn.Increment = 5M;
+            //ejeColumn.Increment = 5M;
             // Formato personalizado para mostrar siempre 3 dígitos
             ejeColumn.DefaultCellStyle.Format = "000";
             ejeColumn.Width = 60;
             ejeColumn.Resizable = DataGridViewTriState.False;
+            ejeColumn.DecimalPlaces = 2;
+            ejeColumn.Increment = 0.25M;
             Dgv_Pnl2_cont.Columns.Add(ejeColumn);
 
 
@@ -6290,7 +6302,7 @@ namespace CapaVisual_Login
             adicionColumn.HeaderText = "Adicion";
             adicionColumn.DecimalPlaces = 2;
             adicionColumn.Minimum = 0;
-            adicionColumn.Maximum = 6.75M;
+            adicionColumn.Maximum = 4.75M;
             adicionColumn.Increment = 0.25M;
             // Formato personalizado para mostrar el signo + en números positivos
             //adicionColumn.DefaultCellStyle.Format = "+0.00;-0.00;0.00";
@@ -6692,7 +6704,10 @@ namespace CapaVisual_Login
             Txt_Tap1_Cedula.Text = "";
             Cbx_Tap1_Nacionalidad.SelectedIndex = -1; // Deselecciona el elemento
             Cbx_Tap1_Nacionalidad.Focus();
-            DgvClientes.Rows.Clear();
+            DgvClientes.DataSource = null;
+            DgvClientes.Rows.Clear(); // Ahora sí puedes limpiar
+            //
+            dvgClientePagador.DataSource = null;
             dvgClientePagador.Rows.Clear();
             // Ocultamos todos los GroupBox al principio
             //groupBox1.Visible = false;
@@ -7011,10 +7026,10 @@ namespace CapaVisual_Login
                     dt.Rows[1]["Altura"] = con.ALTI; // Accede a AVD a través del objeto 'con' (TB_Ficconv)
 
                     dt.Rows[0]["Lejos"] = con.DPDL.HasValue ? con.DPDL.Value : 0M;
-                    dt.Rows[1]["Lejos"] = con.DPDL.HasValue ? con.DPDL.Value : 0M;
+                    dt.Rows[1]["Lejos"] = con.DPIL.HasValue ? con.DPIL.Value : 0M;
 
                     dt.Rows[0]["Cerca"] = con.DPDC.HasValue ? con.DPDC.Value : 0M;
-                    dt.Rows[1]["Cerca"] = con.DPDC.HasValue ? con.DPDC.Value : 0M;
+                    dt.Rows[1]["Cerca"] = con.DPIC.HasValue ? con.DPIC.Value : 0M;
 
 
                     dt.Rows[0]["Grado1"] = con.PBASED;
@@ -7996,19 +8011,29 @@ namespace CapaVisual_Login
 
 
         }
+        private void txtClienteBuscar_Enter(object sender, EventArgs e)
+        {
 
-        private void textBox2_TextChanged(object sender, EventArgs e)
+            txtClienteBuscar_Leave(sender, e);
+        }
+
+        private void txtClienteBuscar_MouseLeave(object sender, EventArgs e)
+        {
+            txtClienteBuscar_Leave(sender, e);
+        }
+
+        private void txtClienteBuscar_Leave(object sender, EventArgs e)
         {
 
             // Obtener el texto del textBox1
-            string textoFiltro = textBox2.Text.Trim(); // .Trim() para eliminar espacios en blanco al inicio y al final
+            string textoFiltro = txtClienteBuscar.Text.Trim(); // .Trim() para eliminar espacios en blanco al inicio y al final
 
             // Validar la longitud del texto
             if (textoFiltro.Length < 3 && textoFiltro.Length > 0) // Si tiene entre 1 y 2 caracteres
             {
                 // Mostrar un mensaje al usuario
-                MessageBox.Show("Por favor, ingrese al menos 3 caracteres para realizar la búsqueda.", "Filtro Insuficiente", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                textBox1.Focus(); // Opcional: devolver el foco al TextBox para que el usuario corrija
+                //  MessageBox.Show("Por favor, ingrese al menos 3 caracteres para realizar la búsqueda.", "Filtro Insuficiente", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtClienteBuscar.Focus(); // Opcional: devolver el foco al TextBox para que el usuario corrija
             }
             else if (textoFiltro.Length == 0) // Si el campo está vacío, puedes decidir si cargar todo o no hacer nada
             {
@@ -8021,97 +8046,133 @@ namespace CapaVisual_Login
             else // Si la longitud es 3 o más caracteres
             {
                 // Llamar al método para cargar los datos de los clientes
-                CargarDatosDeClientesP(textoFiltro, radioButton2, radioButton1);
+                CargarDatosDeClientes(textoFiltro, radioButton2, radioButton1);
             }
-
-            //_L_Cliente.FiltrarClientes(textBox2.Text, radioButton2, radioButton1, DgvClientes, listaDeClientes, listaTemporalClientes);
-
         }
+
+        private void txtClienteBuscar_KeyDown(object sender, KeyEventArgs e)
+        {
+            // Verifica si la tecla presionada es la tecla Enter
+            if (e.KeyCode == Keys.Enter)
+            {
+                // Opcional: Prevenir que el sonido de "ding" del sistema se reproduzca
+                // cuando se presiona Enter en un TextBox multilínea.
+                // Para un TextBox de una sola línea, esto no suele ser necesario.
+                e.SuppressKeyPress = true;
+
+                // Mueve el foco al control DgvClientes
+                // Asegúrate de que 'DgvClientes' es el nombre correcto de tu DataGridView.
+                if (DgvClientes != null) // Es buena práctica verificar que el control no sea nulo
+                {
+                    DgvClientes.Focus();
+                }
+                else
+                {
+                    // Mensaje de depuración si DgvClientes no se encuentra (solo para desarrollo)
+                    Console.WriteLine("Error: El control DgvClientes no se encontró o no está inicializado.");
+                }
+            }
+        }
+
+        private void txtClienteBuscar_TextChanged(object sender, EventArgs e)
+        {
+            txtClienteBuscar_Leave(sender, e);
+        }
+
+
 
         private void CargarDatosDeClientesP(string filtro, RadioButton buscarPorCedula, RadioButton buscarPorNombre)
         {
-
-            textBox2.Focus();
-            _L_Cliente.CargarClientes(DgvClientes, listaDeClientes, filtro, buscarPorCedula, buscarPorNombre);
-
-
-
-            if (_L_Cliente.stringBuilder.Length > 0)
+            try
             {
-                MessageBox.Show(_L_Cliente.stringBuilder.ToString());
+
+                txtClienteP.Focus();
+                _L_Cliente.CargarClientes(dvgClientePagador, listaDeClientes, filtro, buscarPorCedula, buscarPorNombre);
+
+
+
+                if (_L_Cliente.stringBuilder.Length > 0)
+                {
+                    MessageBox.Show(_L_Cliente.stringBuilder.ToString());
+                }
+                else
+                {
+                    dvgClientePagador.DataSource = listaDeClientes; // Asignar aquí en la UI
+                    listaTemporalClientes = new List<TB_CTEPPAL>(listaDeClientes); // Inicializar la lista temporal
+
+
+                    // Ocultar todas las columnas inicialmente
+                    foreach (DataGridViewColumn columna in dvgClientePagador.Columns)
+                    {
+                        columna.Visible = false;
+                    }
+
+                    // Hacer visibles las columnas con índice 0 y 1 (si existen)
+                    if (dvgClientePagador.Columns.Count > 2)
+                    {
+                        dvgClientePagador.Columns[2].Visible = true;
+                        // Centra el texto del encabezado.
+                        // Esto se hace accediendo al estilo de celda por defecto de la celda del encabezado.
+                        dvgClientePagador.Columns[2].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                    }
+
+                    if (dvgClientePagador.Columns.Count > 3)
+                    {
+                        dvgClientePagador.Columns[3].Visible = true;
+                        // Centra el texto del encabezado.
+                        // Esto se hace accediendo al estilo de celda por defecto de la celda del encabezado.
+                        dvgClientePagador.Columns[3].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                    }
+
+
+
+                    dvgClientePagador.AllowUserToAddRows = false;
+                    dvgClientePagador.AllowUserToDeleteRows = false;
+                    dvgClientePagador.ColumnHeadersVisible = true;
+                    dvgClientePagador.RowHeadersVisible = false;
+                    dvgClientePagador.AllowUserToResizeColumns = false;
+                    dvgClientePagador.AllowUserToResizeRows = false;
+
+                    // Establecer el DataGridView como de solo lectura
+                    dvgClientePagador.ReadOnly = true;
+
+                    // Establecer los encabezados de las columnas
+
+                    if (dvgClientePagador.ColumnCount > 3)
+                    {
+                        dvgClientePagador.Columns[2].HeaderText = "Cédula";
+                    }
+                    if (dvgClientePagador.ColumnCount > 4)
+                    {
+                        dvgClientePagador.Columns[3].HeaderText = "Nombre";
+                    }
+
+                    //// Quitar la línea vertical entre la columna 0 y la 1
+                    //if (DgvClientes.ColumnCount > 1)
+                    //{
+                    //    foreach (DataGridViewRow row in DgvClientes.Rows)
+                    //    {
+                    //        row.Cells[0].Style.Border.Right = DataGridViewCellBorderStyles.None;
+                    //    }
+                    //    // Corrección para acceder a las celdas del encabezado
+                    //    if (DgvClientes.ColumnHeadersHeightSizeMode != DataGridViewColumnHeadersHeightSizeMode.DisableResizing && DgvClientes.ColumnHeaders != null && DgvClientes.ColumnHeaders.Cells.Count > 1)
+                    //    {
+                    //        DgvClientes.ColumnHeaders.Cells[0].Style.Border.Right = DataGridViewCellBorderStyles.None;
+                    //    }
+                    //}
+
+
+                    dvgClientePagador.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                    dvgClientePagador.Columns[2].Width = 100;
+                    dvgClientePagador.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                    dvgClientePagador.Columns[3].Width = 300;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                dvgClientePagador.DataSource = listaDeClientes; // Asignar aquí en la UI
-                listaTemporalClientes = new List<TB_CTEPPAL>(listaDeClientes); // Inicializar la lista temporal
-
-
-                // Ocultar todas las columnas inicialmente
-                foreach (DataGridViewColumn columna in dvgClientePagador.Columns)
-                {
-                    columna.Visible = false;
-                }
-
-                // Hacer visibles las columnas con índice 0 y 1 (si existen)
-                if (dvgClientePagador.Columns.Count > 2)
-                {
-                    dvgClientePagador.Columns[2].Visible = true;
-                    // Centra el texto del encabezado.
-                    // Esto se hace accediendo al estilo de celda por defecto de la celda del encabezado.
-                    dvgClientePagador.Columns[2].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                }
-
-                if (dvgClientePagador.Columns.Count > 3)
-                {
-                    dvgClientePagador.Columns[3].Visible = true;
-                    // Centra el texto del encabezado.
-                    // Esto se hace accediendo al estilo de celda por defecto de la celda del encabezado.
-                    dvgClientePagador.Columns[3].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                }
-
-
-
-                dvgClientePagador.AllowUserToAddRows = false;
-                dvgClientePagador.AllowUserToDeleteRows = false;
-                dvgClientePagador.ColumnHeadersVisible = true;
-                dvgClientePagador.RowHeadersVisible = false;
-                dvgClientePagador.AllowUserToResizeColumns = false;
-                dvgClientePagador.AllowUserToResizeRows = false;
-
-                // Establecer el DataGridView como de solo lectura
-                dvgClientePagador.ReadOnly = true;
-
-                // Establecer los encabezados de las columnas
-
-                if (dvgClientePagador.ColumnCount > 3)
-                {
-                    dvgClientePagador.Columns[2].HeaderText = "Cédula";
-                }
-                if (dvgClientePagador.ColumnCount > 4)
-                {
-                    dvgClientePagador.Columns[3].HeaderText = "Nombre";
-                }
-
-                //// Quitar la línea vertical entre la columna 0 y la 1
-                //if (DgvClientes.ColumnCount > 1)
-                //{
-                //    foreach (DataGridViewRow row in DgvClientes.Rows)
-                //    {
-                //        row.Cells[0].Style.Border.Right = DataGridViewCellBorderStyles.None;
-                //    }
-                //    // Corrección para acceder a las celdas del encabezado
-                //    if (DgvClientes.ColumnHeadersHeightSizeMode != DataGridViewColumnHeadersHeightSizeMode.DisableResizing && DgvClientes.ColumnHeaders != null && DgvClientes.ColumnHeaders.Cells.Count > 1)
-                //    {
-                //        DgvClientes.ColumnHeaders.Cells[0].Style.Border.Right = DataGridViewCellBorderStyles.None;
-                //    }
-                //}
-
-
-                dvgClientePagador.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-                dvgClientePagador.Columns[2].Width = 100;
-                dvgClientePagador.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-                dvgClientePagador.Columns[3].Width = 300;
+                MessageBox.Show("Error: " + ex.Message + "\nStackTrace: " + ex.StackTrace);
             }
+
         }
 
         private void textBox1_Enter(object sender, EventArgs e)
@@ -8180,7 +8241,7 @@ namespace CapaVisual_Login
         private void CargarDatosDeClientes(string filtro, RadioButton buscarPorCedula, RadioButton buscarPorNombre)
         {
 
-            textBox1.Focus();
+            txtClienteBuscar.Focus();
             _L_Cliente.CargarClientes(DgvClientes, listaDeClientes, filtro, buscarPorCedula, buscarPorNombre);
 
 
@@ -8426,7 +8487,7 @@ namespace CapaVisual_Login
 
                         Pnl_2_Msj.Visible = true;
                         txt_pl2_msj.Text = " Error al guardar el email: {resultadoEmail}";
-                        pb_pl2_mj.Visible = true;
+                        //pb_pl2_mj.Visible = true;
 
                         // Puedes registrar el error o informar al usuario de otra manera
                     }
@@ -8439,7 +8500,7 @@ namespace CapaVisual_Login
 
                 Pnl_2_Msj.Visible = true;
                 txt_pl2_msj.Text = "Cliente Guardado con Exito";
-                pb_pl2_mj.Visible = false;
+                ////pb_pl2_mj.Visible = false;
                 
                 //MessageBox.Show("Cliente Guardado Exitosamente", "Importante", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
                 btnExamen.Enabled = true;
@@ -8662,13 +8723,14 @@ namespace CapaVisual_Login
 
                 if (string.IsNullOrEmpty(textoIngresadoTLFCelular))
                 {
-                    Pnl_2_Msj.Visible = true;
+                    Pnl_2_Msj.Visible = false;
                     txt_pl2_msj.Text = "Registre un número de celular para continuar";
-                    pb_pl2_mj.Visible = true;
+                    //pb_pl2_mj.Visible = false;
+                    Cbx_Tap1_TLF_Local.Focus(); // Coloca el foco en el ComboBox para que el usuario corrija.
 
                 }
-                Cbx_Tap1_TLF_Local.Focus(); // Coloca el foco en el ComboBox para que el usuario corrija.
-                return false; // Detiene la ejecución del resto del código del botón.
+                
+                return true; // Detiene la ejecución del resto del código del botón.
             }
 
 
@@ -8681,7 +8743,7 @@ namespace CapaVisual_Login
                 {
                     Pnl_2_Msj.Visible = true;
                     txt_pl2_msj.Text = "El número de teléfono debe contener exactamente 7 dígitos";
-                    pb_pl2_mj.Visible = true;
+                    //pb_pl2_mj.Visible = true;
 
                     Txt_Tap1_TLF_Celular.Focus();
                     return false;
@@ -8691,7 +8753,7 @@ namespace CapaVisual_Login
 
                     Pnl_2_Msj.Visible = true;
                     txt_pl2_msj.Text = "Seleccione un número de Operador para continuar";
-                    pb_pl2_mj.Visible = true;
+                    //pb_pl2_mj.Visible = true;
 
                     Cbx_Tap1_TLF_Celular.Focus(); // Coloca el foco en el ComboBox para que el usuario corrija.
                     return false; // Detiene la ejecución del resto del código del botón.
@@ -8708,7 +8770,7 @@ namespace CapaVisual_Login
             //    {
             //        Pnl_2_Msj.Visible = true;
             //        txt_pl2_msj.Text = "Registre un número de Local para continuar";
-            //        pb_pl2_mj.Visible = true;
+            //        //pb_pl2_mj.Visible = true;
 
             //    }
             //    Cbx_Tap1_TLF_Local.Focus(); // Coloca el foco en el ComboBox para que el usuario corrija.
@@ -8722,7 +8784,7 @@ namespace CapaVisual_Login
                 {
                     Pnl_2_Msj.Visible = true;
                     txt_pl2_msj.Text = "El número de teléfono local debe contener exactamente 7 dígitos";
-                    pb_pl2_mj.Visible = true;
+                    //pb_pl2_mj.Visible = true;
 
 
                     Txt_Tap1_TLF_Local.Focus();
@@ -8734,7 +8796,7 @@ namespace CapaVisual_Login
 
                     Pnl_2_Msj.Visible = true;
                     txt_pl2_msj.Text = "Seleccione un número de teléfono local para continuar";
-                    pb_pl2_mj.Visible = true;
+                    //pb_pl2_mj.Visible = true;
 
 
                     Cbx_Tap1_TLF_Local.Focus(); // Coloca el foco en el ComboBox para que el usuario corrija.
@@ -8751,7 +8813,7 @@ namespace CapaVisual_Login
                 {
                     Pnl_2_Msj.Visible = true;
                     txt_pl2_msj.Text = "El formato del correo electrónico no es válido";
-                    pb_pl2_mj.Visible = true;
+                    //pb_pl2_mj.Visible = true;
 
 
 
@@ -8809,7 +8871,7 @@ namespace CapaVisual_Login
 
                 Pnl_2_Msj.Visible = true;
                 txt_pl2_msj.Text = "Seleccione la nacionalidad antes de ingresar la cédula";
-                pb_pl2_mj.Visible = true;
+                //pb_pl2_mj.Visible = true;
                 Cbx_Tap1_Nacionalidad.Focus();
                 return false;
             }
@@ -8820,7 +8882,7 @@ namespace CapaVisual_Login
 
                 Pnl_2_Msj.Visible = true;
                 txt_pl2_msj.Text = "El campo de Cédula no puede estar vacío.";
-                pb_pl2_mj.Visible = true;
+                //pb_pl2_mj.Visible = true;
 
                 //MessageBox.Show("El campo de Cédula no puede estar vacío.", "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
                 Txt_Tap1_Cedula.Focus();
@@ -8833,7 +8895,7 @@ namespace CapaVisual_Login
 
                 Pnl_2_Msj.Visible = true;
                 txt_pl2_msj.Text = "El campo de nombre no puede estar vacío";
-                pb_pl2_mj.Visible = true;
+                //pb_pl2_mj.Visible = true;
 
                 Txt_Tap1_Nombre.Focus();
                 return false;
@@ -8855,7 +8917,7 @@ namespace CapaVisual_Login
                 // La fecha de nacimiento no es válida (es hoy o en el futuro)
                 Pnl_2_Msj.Visible = true;
                 txt_pl2_msj.Text = "La fecha de nacimiento no puede ser igual o posterior al día actual. Por favor, selecciona una fecha válida";
-                pb_pl2_mj.Visible = true;
+                //pb_pl2_mj.Visible = true;
 
                 Dtp_Tap1_Nacimiento.Focus(); // Opcional: enfocar el control DateTimePicker para que el usuario lo corrija
                 return false; // Sale del método porque no se ha seleccionado ninguno.
@@ -8869,7 +8931,7 @@ namespace CapaVisual_Login
 
                 Pnl_2_Msj.Visible = true;
                 txt_pl2_msj.Text = "Debe seleccionar un sexo";
-                pb_pl2_mj.Visible = true;
+                //pb_pl2_mj.Visible = true;
 
                 // Aquí podrías decidir qué RadioButton enfocar. Por ejemplo, enfocar el primero:
                 Rd_Tap1_SexoF.Focus();
@@ -8885,7 +8947,7 @@ namespace CapaVisual_Login
             {
                 Pnl_2_Msj.Visible = true;
                 txt_pl2_msj.Text = "Seleccione un estado para continuar";
-                pb_pl2_mj.Visible = true;
+                //pb_pl2_mj.Visible = true;
 
                 Cbx_Tap1_Estado.Focus();
                 return false;
@@ -8897,7 +8959,7 @@ namespace CapaVisual_Login
 
                 Pnl_2_Msj.Visible = true;
                 txt_pl2_msj.Text = "Seleccione una ciudad para continuar";
-                pb_pl2_mj.Visible = true;
+                //pb_pl2_mj.Visible = true;
 
                 Cbx_Tap1_Ciudad.Focus();
                 return false;
@@ -8911,7 +8973,7 @@ namespace CapaVisual_Login
             {
                 Pnl_2_Msj.Visible = true;
                 txt_pl2_msj.Text = "Debe registrar un número telefónico para continuar"; // More general message
-                pb_pl2_mj.Visible = true;
+                //pb_pl2_mj.Visible = true;
 
                 // Decide which ComboBox to focus on. You might prioritize Local, or the first one.
                 Cbx_Tap1_TLF_Local.Focus();
@@ -8929,7 +8991,7 @@ namespace CapaVisual_Login
 
                 Pnl_2_Msj.Visible = true;
                 txt_pl2_msj.Text = "El campo de Email no puede estar vacío";
-                pb_pl2_mj.Visible = true;
+                //pb_pl2_mj.Visible = true;
 
 
                 Txt_Tap1_TLF_Local.Focus();
@@ -8951,15 +9013,15 @@ namespace CapaVisual_Login
 
             if (int.TryParse(Txt_Tap2_Examen.Text, out int valorActual))
             {
-                //if (valorActual < TopeExamen)
-                //{
-                //    Txt_Tap2_Examen.Text = (valorActual + 1).ToString();
-                //}
-                //else
-                //{
+                if (valorActual < TopeExamen)
+                {
+                    Txt_Tap2_Examen.Text = (valorActual + 1).ToString();
+                }
+                else
+                {
 
                     Txt_Tap2_Examen.Text = TopeExamen.ToString(); // Opcional: Restablecer el valor al máximo
-                //}
+                }
             }
             else
             {
@@ -9189,6 +9251,8 @@ namespace CapaVisual_Login
 
         private void button3_Click(object sender, EventArgs e)
         {
+            txtClienteP.Text = "";
+            Pnl_5_Lista_ClienPagador.Visible = false;
             Pnl_2_Msj.Visible = false;
         }
 
@@ -9972,7 +10036,7 @@ namespace CapaVisual_Login
 
                 Pnl_2_Msj.Visible = true;
                 txt_pl2_msj.Text = "Seleccione un optometrista";
-                pb_pl2_mj.Visible = true;
+                //pb_pl2_mj.Visible = true;
                 todosValidos = false;
                 Cbx_Tap2_Tipo_Optome.Focus();
                 return todosValidos; // Salir anticipadamente si este no es válido
@@ -9998,7 +10062,7 @@ namespace CapaVisual_Login
             {
                 Pnl_2_Msj.Visible = true;
                 txt_pl2_msj.Text = "Seleccione un optometrista";
-                pb_pl2_mj.Visible = true;
+                //pb_pl2_mj.Visible = true;
 
                 todosValidos = false;
                 Cbx_Tap2_Tipo_Optome.Focus();
@@ -10015,7 +10079,7 @@ namespace CapaVisual_Login
 
                     Pnl_2_Msj.Visible = true;
                     txt_pl2_msj.Text = "Selecciona un nombre de optometría";
-                    pb_pl2_mj.Visible = true;
+                    //pb_pl2_mj.Visible = true;
 
                     todosValidos = false;
                     Cbx_Tap2_Nombre_Optome.Focus();
@@ -10027,7 +10091,7 @@ namespace CapaVisual_Login
 
                 Pnl_2_Msj.Visible = true;
                 txt_pl2_msj.Text = "Debe llenar un Nombre de optometría";
-                pb_pl2_mj.Visible = true;
+                //pb_pl2_mj.Visible = true;
                 todosValidos = false;
                 TXT_Tap2_Nombre_Optome.Focus();
                 return todosValidos; // Salir anticipadamente si este no es válido
@@ -10039,7 +10103,7 @@ namespace CapaVisual_Login
 
                 Pnl_2_Msj.Visible = true;
                 txt_pl2_msj.Text = "Selecciona un tipo de examen";
-                pb_pl2_mj.Visible = true;
+                //pb_pl2_mj.Visible = true;
 
                 todosValidos = false;
                 Cbx_Tap2_Tipo_Examen.Focus();
@@ -10052,7 +10116,7 @@ namespace CapaVisual_Login
 
                 Pnl_2_Msj.Visible = true;
                 txt_pl2_msj.Text = " Seleccionar un valor para  ojo";
-                pb_pl2_mj.Visible = true;
+                //pb_pl2_mj.Visible = true;
 
                 todosValidos = false;
                 Cbx_Tap2_Ojo.Focus();
@@ -10077,7 +10141,7 @@ namespace CapaVisual_Login
             {
                 Pnl_2_Msj.Visible = true;
                 txt_pl2_msj.Text = "Debe colocar tipos de visión validos La combinación posible es el mismo tipo de visión o Balance ";
-                pb_pl2_mj.Visible = true;
+                //pb_pl2_mj.Visible = true;
                 Pnl_2_Msj.Location = new Point(396, 175);
                 Pnl_2_Msj.BringToFront();
 
@@ -10090,7 +10154,7 @@ namespace CapaVisual_Login
             {
                 Pnl_2_Msj.Visible = true;
                 txt_pl2_msj.Text = "Valores de Queratometria Incompletos";
-                pb_pl2_mj.Visible = true;
+                //pb_pl2_mj.Visible = true;
                 return;
             }
 
@@ -10165,7 +10229,7 @@ namespace CapaVisual_Login
 
                     //Pnl_2_Msj.Visible = true;
                     //txt_pl2_msj.Text = " Error  valores de la tabla de lentes de contacto";
-                    //pb_pl2_mj.Visible = true;
+                    ////pb_pl2_mj.Visible = true;
                     //return; // Stop further processing if validation fails
                 }
 
@@ -10186,7 +10250,7 @@ namespace CapaVisual_Login
 
                     Pnl_2_Msj.Visible = true;
                     txt_pl2_msj.Text = "Examen guardado con éxito ";
-                    pb_pl2_mj.Visible = false;
+                    //pb_pl2_mj.Visible = false;
                     btnCargarOrden.Enabled = true;
                     AgregarRx();
                 }
@@ -10263,7 +10327,7 @@ namespace CapaVisual_Login
         {
             Pnl_2_Msj.Visible = true;
             txt_pl2_msj.Text = message;
-            pb_pl2_mj.Visible = true;
+            //pb_pl2_mj.Visible = true;
 
             // Optional: Scroll to the error cell and select it
             if (rowIndex >= 0 && rowIndex < dgv.Rows.Count && colIndex >= 0 && colIndex < dgv.Columns.Count)
@@ -10278,7 +10342,7 @@ namespace CapaVisual_Login
         {
             Pnl_2_Msj.Visible = false;
             txt_pl2_msj.Text = string.Empty;
-            pb_pl2_mj.Visible = false;
+            //pb_pl2_mj.Visible = false;
         }
 
         private bool ValidarVisionConv()
@@ -10312,7 +10376,7 @@ namespace CapaVisual_Login
                         {
                             Pnl_2_Msj.Visible = true;
                             txt_pl2_msj.Text = "Debe colocar tipos de visión validos La combinación posible es el mismo tipo de visión o Balance";
-                            pb_pl2_mj.Visible = true;
+                            //pb_pl2_mj.Visible = true;
                             //Pnl_2_Msj.Location = new Point(396, 175);
                             Pnl_2_Msj.BringToFront();
 
@@ -10350,7 +10414,7 @@ namespace CapaVisual_Login
                     {
                         Pnl_2_Msj.Visible = true;
                         txt_pl2_msj.Text = "Debe colocar tipos de visión validos La combinación posible es el mismo tipo de visión o Balance";
-                        pb_pl2_mj.Visible = true;
+                        //pb_pl2_mj.Visible = true;
 
                         cellFila1.Value = null; // O el valor que desees restablecer
                     }
@@ -10360,7 +10424,7 @@ namespace CapaVisual_Login
                         {
                             Pnl_2_Msj.Visible = false;
                             txt_pl2_msj.Text = string.Empty;
-                            pb_pl2_mj.Visible = false;
+                            //pb_pl2_mj.Visible = false;
                         }
                     }
                 }
@@ -10400,7 +10464,7 @@ namespace CapaVisual_Login
 
                             Pnl_2_Msj.Visible = true;
                             txt_pl2_msj.Text = "El valor ingresado debe ser un múltiplo de 0.25 Se ha ajustado a " + roundedValue.ToString("F2");
-                            pb_pl2_mj.Visible = true;
+                            //pb_pl2_mj.Visible = true;
 
 
                             // Actualiza el valor de la celda
@@ -10448,7 +10512,7 @@ namespace CapaVisual_Login
 
                             Pnl_2_Msj.Visible = true;
                             txt_pl2_msj.Text = "El valor ingresado debe ser un múltiplo de 0.25 Se ha ajustado a " + roundedValue.ToString("F2");
-                            pb_pl2_mj.Visible = true;
+                            //pb_pl2_mj.Visible = true;
 
 
                             // Actualiza el valor de la celda
@@ -10486,10 +10550,10 @@ namespace CapaVisual_Login
                             // Calcula el múltiplo de 5 más cercano
                             int roundedValue = (int)Math.Round((double)enteredValue / 5) * 5;
 
-                            // Muestra un mensaje al usuario
-                            Pnl_2_Msj.Visible = true;
-                            txt_pl2_msj.Text = $" El rango valido va desde 0,75 y 3,50  ";
-                            pb_pl2_mj.Visible = true;
+                            //// Muestra un mensaje al usuario
+                            //Pnl_2_Msj.Visible = true;
+                            //txt_pl2_msj.Text = $" El rango valido va desde 0,75 y 3,50  ";
+                            ////pb_pl2_mj.Visible = true;
 
                             // Actualiza el valor de la celda
                             cell.Value = roundedValue;
@@ -10533,7 +10597,7 @@ namespace CapaVisual_Login
 
                             //Pnl_2_Msj.Visible = true;
                             //txt_pl2_msj.Text = "El valor ingresado debe ser un múltiplo de 0.25 Se ha ajustado a " + roundedValue.ToString("F2");
-                            //pb_pl2_mj.Visible = true;
+                            ////pb_pl2_mj.Visible = true;
 
 
                             // Actualiza el valor de la celda
@@ -10580,7 +10644,7 @@ namespace CapaVisual_Login
 
                             Pnl_2_Msj.Visible = true;
                             txt_pl2_msj.Text = "El valor invalido rango de decimales 00,25,50,75 Se ha ajustado a " + roundedValue.ToString("F2");
-                            pb_pl2_mj.Visible = true;
+                            //pb_pl2_mj.Visible = true;
 
 
                             // Actualiza el valor de la celda
@@ -10656,7 +10720,7 @@ namespace CapaVisual_Login
 
                                 Pnl_2_Msj.Visible = true;
                                 txt_pl2_msj.Text = "Ingrese solo los valores permitidos: 0, 90, 180, 270";
-                                pb_pl2_mj.Visible = true;
+                                ////pb_pl2_mj.Visible = true;
 
 
                                 cell.Value = 0; // Ejemplo: Revertir a 0
@@ -10698,7 +10762,7 @@ namespace CapaVisual_Login
 
                                 Pnl_2_Msj.Visible = true;
                                 txt_pl2_msj.Text = "El valor de 'Cerca' no puede ser mayor que el valor de 'Lejos'";
-                                pb_pl2_mj.Visible = true;
+                                //pb_pl2_mj.Visible = true;
 
                                 Dgv_Pnl2_conv.Rows[e.RowIndex].Cells["Cerca"].Value = lejosValue; // Restablece el valor de "Cerca" a "Lejos"
                             }
@@ -11071,7 +11135,7 @@ namespace CapaVisual_Login
 
                             Pnl_2_Msj.Visible = true;
                             txt_pl2_msj.Text = "El valor ingresado debe ser un múltiplo de 0.25 Se ha ajustado a " + roundedValue.ToString("F2");
-                            pb_pl2_mj.Visible = true;
+                            //pb_pl2_mj.Visible = true;
 
                             // Actualiza el valor de la celda
                             cell.Value = roundedValue;
@@ -11120,7 +11184,7 @@ namespace CapaVisual_Login
 
                             Pnl_2_Msj.Visible = true;
                             txt_pl2_msj.Text = "El valor ingresado debe ser un múltiplo de 0.25 Se ha ajustado a " + roundedValue.ToString("F2");
-                            pb_pl2_mj.Visible = true;
+                            //pb_pl2_mj.Visible = true;
 
                             // Actualiza el valor de la celda
                             cell.Value = roundedValue;
@@ -11161,7 +11225,7 @@ namespace CapaVisual_Login
                             // Muestra un mensaje al usuario
                             Pnl_2_Msj.Visible = true;
                             txt_pl2_msj.Text = $"El valor ingresado debe ser un múltiplo de 5. Se ha ajustado a {roundedValue}.";
-                            pb_pl2_mj.Visible = true;
+                            //pb_pl2_mj.Visible = true;
 
                             // Actualiza el valor de la celda
                             cell.Value = roundedValue;
@@ -11812,6 +11876,42 @@ namespace CapaVisual_Login
                 // 3. Indicar que el evento ha sido manejado, para que el pintado predeterminado no se ejecute.
                 e.Handled = true;
             }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            txtClienteBuscar.Text = "";
+            panel2.Visible = false;
+        }
+
+        private void txtClienteP_TextChanged(object sender, EventArgs e)
+        {
+            // Obtener el texto del textBox1
+            string textoFiltro = txtClienteP.Text.Trim(); // .Trim() para eliminar espacios en blanco al inicio y al final
+
+            // Validar la longitud del texto
+            if (textoFiltro.Length < 3 && textoFiltro.Length > 0) // Si tiene entre 1 y 2 caracteres
+            {
+                // Mostrar un mensaje al usuario
+                //  MessageBox.Show("Por favor, ingrese al menos 3 caracteres para realizar la búsqueda.", "Filtro Insuficiente", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtClienteP.Focus(); // Opcional: devolver el foco al TextBox para que el usuario corrija
+            }
+            else if (textoFiltro.Length == 0) // Si el campo está vacío, puedes decidir si cargar todo o no hacer nada
+            {
+                // Si el campo está vacío, puedes optar por no hacer nada o cargar todos los datos
+                // Por ejemplo, si quieres que al borrar el texto se muestren todos los clientes:
+                // CargarDatosDeClientes(textoFiltro, radioButton2, radioButton1);
+                // O simplemente no hacer nada si no hay filtro
+                // Console.WriteLine("Campo de filtro vacío, no se realiza búsqueda.");
+            }
+            else // Si la longitud es 3 o más caracteres
+            {
+                // Llamar al método para cargar los datos de los clientes
+                CargarDatosDeClientesP(textoFiltro, radioButton8, radioButton7);
+            }
+
+            //_L_Cliente.FiltrarClientes(textBox2.Text, radioButton2, radioButton1, DgvClientes, listaDeClientes, listaTemporalClientes);
+
         }
     }
 

@@ -3,8 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data;
+using System.Windows.Forms;
 using CapaDatos.CierreCaja_Datos;
+using CapaEntidades;
+using System.Data;
+using System.IO;
+
 
 namespace CapaLogica.CierreCaja_Logica
 {
@@ -165,6 +169,236 @@ namespace CapaLogica.CierreCaja_Logica
             else
             {
                 return dt;
+            }
+        }
+
+        public DataTable ConsultaOsDia(DateTime fecha, string suc)
+        {
+            DataTable dt = _D_CierreCaja.ConsultaOsDia(fecha,suc);
+
+            if (dt.Rows.Count > 0)
+            {
+                return dt;
+            }
+            else
+            {
+                return dt;
+            }
+        }
+
+        public DataTable ObtieneUsuarios(string suc)
+        {
+            DataTable dt = _D_CierreCaja.ObtieneUsuarios(suc);
+
+            if (dt.Rows.Count > 0)
+            {
+                return dt;
+            }
+            else
+            {
+                return dt;
+            }
+        }
+
+        public bool GeneraInvenvioTXT(string codSuc, string fechaCierre, string ruta)
+        {
+            try
+            {
+                DataTable dt = _D_CierreCaja.GeneraInvenvioTXT(codSuc, fechaCierre);
+
+
+                using (StreamWriter NuevoArchi = new StreamWriter(ruta))
+                {
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        string strLinea = row[0].ToString();
+                        NuevoArchi.WriteLine(strLinea);
+                    }
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                // Código para manejar el error
+                return false;
+            }
+        }
+
+        public void FiltrarUsuario(string filtro, System.Windows.Forms.RadioButton Rd_Pnl3_Descripcion, System.Windows.Forms.RadioButton Rd_Pnl3_Codigo, System.Windows.Forms.DataGridView Dgv_Pnl3_ClienteAfiliado, List<Usuario> listaClienteAfiliado, List<Usuario> listaTemporal)
+        {
+
+            // Verificar si el filtro está vacío
+            if (string.IsNullOrWhiteSpace(filtro))
+            {
+                // Restablecer la información original en el DataGridView
+
+                listaTemporal = new List<Usuario>(listaClienteAfiliado); // Restaurar desde la lista original
+                Dgv_Pnl3_ClienteAfiliado.DataSource = listaTemporal;
+                return;
+            }
+
+            // Convertir el filtro a minúsculas para una búsqueda insensible a mayúsculas
+            filtro = filtro.ToLower();
+
+            // Crear una lista para almacenar los resultados filtrados
+            var datosFiltrados = new List<Usuario>();
+
+            // Recorrer la lista original (listaArticulos) para aplicar el filtro
+            foreach (var clienteAfiliado in listaClienteAfiliado)
+            {
+                // Filtrar según la opción seleccionada
+                if (Rd_Pnl3_Descripcion.Checked && clienteAfiliado.Nombre != null && clienteAfiliado.Nombre.ToLower().Contains(filtro))
+                {
+                    datosFiltrados.Add(clienteAfiliado);
+                }
+                else if (Rd_Pnl3_Codigo.Checked && clienteAfiliado.COD_USR != null && clienteAfiliado.COD_USR.ToLower().Contains(filtro))
+                {
+                    datosFiltrados.Add(clienteAfiliado);
+                }
+            }
+
+            // Actualizar la lista temporal con los datos filtrados
+            listaTemporal = datosFiltrados;
+
+            // Actualizar la fuente de datos del DataGridView con los resultados filtrados
+            Dgv_Pnl3_ClienteAfiliado.DataSource = datosFiltrados;
+        }
+
+
+        public DataTable ObtienePagosCierreCaja(string suc)
+        {
+            DataTable dt = _D_CierreCaja.ObtienePagosCierreCaja(suc);
+
+            if (dt.Rows.Count > 0)
+            {
+                return dt;
+            }
+            else
+            {
+                return dt;
+            }
+        }
+
+        public bool ValidaExistenciaCaja(DataGridView dgvCierredecaja)
+        {
+            double existenteEnCaja = GetValorFila(dgvCierredecaja, 0);
+            if (existenteEnCaja > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private double GetValorFila(DataGridView dgvCierredecaja, int filaIndex)
+        {
+            var valor = dgvCierredecaja.Rows[filaIndex].Cells["Total"].Value;
+            if (valor != null && double.TryParse(valor.ToString(), out double resultado))
+            {
+                return resultado;
+            }
+            return 0;
+        }
+
+        public bool CierreDeCaja(DataGridView dgvCierredecaja, DateTime fecha, string codSucursal, string observacion, string usuario)
+        {
+            decimal M_TotalIngresos = (decimal)GetValorFila(dgvCierredecaja, 0);
+            decimal M_Efectivo = (decimal)GetValorFila(dgvCierredecaja, 5);
+            decimal M_Cheques = 0;
+            decimal M_Cupones = 0;
+            decimal M_TicketsSalud = 0;
+            decimal M_TicketsSaludEfec = 0;
+            decimal M_TarjetaC = (decimal)GetValorFila(dgvCierredecaja, 7);
+            decimal M_TarjetaD = (decimal)GetValorFila(dgvCierredecaja, 6);
+            decimal M_NotaCredito = (decimal)GetValorFila(dgvCierredecaja, 3);
+            decimal M_Credito = 0;
+            decimal M_Reintegro = (decimal)GetValorFila(dgvCierredecaja, 2);
+            decimal M_Gastos = (decimal)GetValorFila(dgvCierredecaja, 1);
+            decimal M_Financiamiento = 0;
+            decimal M_NotaDevolucion = (decimal)GetValorFila(dgvCierredecaja, 4);
+            decimal M_OrdenPago = 0;
+            decimal M_IVARetenido = (decimal)GetValorFila(dgvCierredecaja, 8);
+            decimal M_ISRLRetenido = (decimal)GetValorFila(dgvCierredecaja, 9);
+            decimal M_Transferencia = (decimal)GetValorFila(dgvCierredecaja, 10);
+            decimal M_Vuelto = (decimal)GetValorFila(dgvCierredecaja, 0);
+            string M_Observacion = observacion;
+            string M_Usuario = usuario;
+            bool cierreParcial = false;
+            bool trabajaDomingos = false;
+            string userEntrega = "";
+            string userRecibe = "";
+
+            DataTable dt = _D_CierreCaja.CierreDeCaja(fecha, codSucursal, M_TotalIngresos, M_Efectivo, M_Cheques, M_Cupones, M_TicketsSalud, M_TicketsSaludEfec, M_TarjetaC, M_TarjetaD, M_NotaCredito, M_Credito, M_Reintegro, M_Gastos, M_Financiamiento, M_NotaDevolucion, M_OrdenPago, M_IVARetenido, M_ISRLRetenido, M_Transferencia, M_Vuelto, M_Observacion, M_Usuario, cierreParcial, trabajaDomingos, userEntrega, userRecibe);
+
+            if (dt.Rows[0][0].ToString() == "SATISFACTORIO")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool ActualizarParamCierreCaja(string codSuc)
+        {
+            try
+            {
+                DataTable dt = _D_CierreCaja.ActualizarParamCierreCaja(codSuc);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                // Código para manejar el error
+                return false;
+            }
+        }
+
+        public bool DesbloqueSistema(string bloqueo,string codSuc)
+        {
+            try
+            {
+                DataTable dt = _D_CierreCaja.DesbloqueSistema(bloqueo,codSuc);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                // Código para manejar el error
+                return false;
+            }
+        }
+
+        public bool ActualizarFacturas(string codSuc)
+        {
+            try
+            {
+                DataTable dt = _D_CierreCaja.ActualizarFacturas(codSuc);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                // Código para manejar el error
+                return false;
+            }
+        }
+
+        public bool LibroVenta(DateTime fechaIni, DateTime fechaFin)
+        {
+            try
+            {
+                DataTable dt = _D_CierreCaja.LibroVenta(fechaIni, fechaFin);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                // Código para manejar el error
+                return false;
             }
         }
     }
