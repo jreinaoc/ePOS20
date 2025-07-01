@@ -46,6 +46,7 @@ namespace CapaVisual_Login
         D_Anulacion _D_Anulacion = new D_Anulacion();
         FrmCargarOrden _FrmCargarOrden = new FrmCargarOrden();
         FrmCierredeCaja _FrmCierreDeCaja = new FrmCierredeCaja();
+        FrmTasaDia _FrmTasaDia = new FrmTasaDia();
 
         private D_DetalleOrden _D_DetalleOrden = new D_DetalleOrden();
         public bool osc;
@@ -726,7 +727,7 @@ namespace CapaVisual_Login
 
         private void btnUtilitarios_Click(object sender, EventArgs e)
         {
-            //pnlUtilitarios.Visible = true;
+            pnlUtilitarios.Visible = true;
         }
 
         private void btnCierredeCaja_Click(object sender, EventArgs e)
@@ -802,6 +803,13 @@ namespace CapaVisual_Login
         {
             PnlListadoOrdenes.Controls.Clear();
             addformulario(_FrmCierreDeCaja);
+            Focus();
+        }
+
+        private void btnTasaSec_Click(object sender, EventArgs e)
+        {
+            PnlListadoOrdenes.Controls.Clear();
+            addformulario(_FrmTasaDia);
             Focus();
         }
     }

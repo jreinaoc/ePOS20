@@ -623,7 +623,7 @@ namespace CapaVisual_Login
             this.btnCierredeCaja.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
             this.btnCierredeCaja.Location = new System.Drawing.Point(-1, 74);
             this.btnCierredeCaja.Name = "btnCierredeCaja";
-            this.btnCierredeCaja.Size = new System.Drawing.Size(194, 34);
+            this.btnCierredeCaja.Size = new System.Drawing.Size(194, 31);
             this.btnCierredeCaja.TabIndex = 37;
             this.btnCierredeCaja.Text = "Cierre de Caja";
             this.btnCierredeCaja.TextAlign = System.Drawing.ContentAlignment.TopLeft;
@@ -648,6 +648,7 @@ namespace CapaVisual_Login
             this.btnTasaSec.Text = "Actualización de Tasa";
             this.btnTasaSec.TextAlign = System.Drawing.ContentAlignment.TopLeft;
             this.btnTasaSec.UseVisualStyleBackColor = false;
+            this.btnTasaSec.Click += new System.EventHandler(this.btnTasaSec_Click);
             // 
             // btnReimpresion
             // 

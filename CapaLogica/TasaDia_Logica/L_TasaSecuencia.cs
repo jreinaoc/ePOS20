@@ -18,7 +18,7 @@ using CapaDatos.Anulacion;
 
 namespace CapaLogica.TasaDia_Logica
 {
-    public class TasaSecuencia
+    public class L_TasaSecuencia
     {
         private D_TasaSecuencia _D_TasaSecuencia = new D_TasaSecuencia();
         private D_Inicio _D_Inicio = new D_Inicio();
@@ -26,8 +26,9 @@ namespace CapaLogica.TasaDia_Logica
         public DateTime DateTimeTasa;
         private D_DetalleOrden _D_DetalleOrden = new D_DetalleOrden();
         private D_Anulacion _D_Anulacion = new D_Anulacion();
-        private void BtnActivarS_Click(System.Windows.Forms.TextBox TxtCadenaEncriptada, System.Windows.Forms.Label LblTasaDesenc, System.Windows.Forms.Label LblFechaDesenc, System.Windows.Forms.Label LblHoraDesenc, System.Windows.Forms.ProgressBar ProgressBar1,
-        string AGteRegD, Func<string, string, DialogResult> mostrarPregunta, Action<string> mostrarError, ValidacionEstucheDTO datosEstuche)
+       
+        public void RegistarSecuencia(System.Windows.Forms.TextBox TxtCadenaEncriptada, System.Windows.Forms.Label LblTasaDesenc, System.Windows.Forms.Label LblFechaDesenc, System.Windows.Forms.Label LblHoraDesenc, System.Windows.Forms.ProgressBar ProgressBar1,
+        string AGteRegD, Func<string, string, DialogResult> mostrarPregunta, Action<string> mostrarError)
         {
             try
             {
@@ -481,7 +482,138 @@ namespace CapaLogica.TasaDia_Logica
             string cuerpo = "Secuencia Activación Diaria -  Tasa: " + tasa + " Fecha: " + fechaSecuencia;
             return (asunto, cuerpo);
         }
-        
+
+        public void Ultima_Tasa_Dia(TextBox txtUDolar, TextBox txtUEuro, TextBox txtUFechaDol, TextBox txtUFechaEur, Label lbRegD, Label lbRegE)
+        {
+                DataSet dsConsTasa = _D_TasaSecuencia.TasaDia(_D_DetalleOrden.TB_PARAMETRO("SucursalId"), _D_Inicio.DiaActivo().ToString("yyyy/MM/dd"));
+
+                if (dsConsTasa.Tables[0].Rows.Count > 0)
+                {
+                    foreach (DataRow dr in dsConsTasa.Tables[0].Rows)
+                    {
+                        txtUDolar.Text = Convert.ToDecimal(dr["UTasa_Dol"]).ToString("N6");
+                        txtUEuro.Text = Convert.ToDecimal(dr["UTasa_Eur"]).ToString("N6");
+                        txtUFechaDol.Text = dr["UFecCr_Dol"].ToString();
+                        txtUFechaEur.Text = dr["UFecCr_Eur"].ToString();
+                    }
+                }
+                if (dsConsTasa.Tables.Count > 1 && dsConsTasa.Tables[1].Rows.Count > 0)
+                {
+                    foreach (DataRow dr in dsConsTasa.Tables[1].Rows)
+                    {
+                        lbRegD.Text = dr["CantDolar"].ToString();
+                        lbRegE.Text = dr["CantEuro"].ToString();
+                    }
+                }
+        }
+
+    public void RegistarTasa(TextBox txtDolar, TextBox txtEuro, TextBox txtUDolar, TextBox txtUEuro, TextBox txtUFechaDol, TextBox txtUFechaEur, Label lbRegD, Label lbRegE,
+    ref string AGteRegD, ref string  AGteRegE,
+    Func<string, string, DialogResult> mostrarPregunta, Action<string> mostrarError)
+
+    {
+         try
+         {
+                string ValDol;
+            string ValEur;
+
+            // Autoriz_GteReg(ref AGteRegD, command, glbSucursalActual, glbFechaActiva); // Debes adaptar este método para que reciba los parámetros
+
+            txtDolar.Text = Convert.ToDecimal(txtDolar.Text).ToString("N6");
+            txtEuro.Text = Convert.ToDecimal(txtEuro.Text).ToString("N6");
+
+            // Dólar
+            if (AGteRegD == "NO")
+            {
+                if (!string.IsNullOrEmpty(txtDolar.Text) && txtDolar.Text != "0,000000" && txtDolar.Text != "0.000000")
+                {
+                    ValDol = txtDolar.Text.Replace(".", "").Replace(",", ".");
+
+                    var resultado = mostrarPregunta("¿Está seguro que desea cambiar la tasa del Dolar?", "CONFIRME");
+
+                    if (resultado != DialogResult.OK)
+                    {
+                        return;
+                    }
+                    else
+                    {
+
+                       DataSet dsAgregaFactD = _D_TasaSecuencia.AgregarTasaDia(_D_DetalleOrden.TB_PARAMETRO("SucursalId"), ValDol, _D_Inicio.DiaActivo().ToString("yyyy/MM/dd"),"01",TB_USUARIO.COD_USR);
+
+                        if (dsAgregaFactD != null)
+                        {
+                            if (dsAgregaFactD.Tables[0].Rows[0]["Resultado"].ToString() == "APLICA")
+                            {
+                                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "081", TB_USUARIO.COD_EMPLEADO, "La Tasa del Dolar se actualizó correctamente. Tasa Registrada: "+ ValDol);
+                                mostrarError("La Tasa del Dolar se actualizó correctamente.");                            
+                            }
+                            else if (dsAgregaFactD.Tables[0].Rows[0]["Resultado"].ToString() == "NO APLICA")
+                            {
+                                int ValorD = Convert.ToInt32(dsAgregaFactD.Tables[0].Rows[0]["ValorMinMax"]);
+                                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "081", TB_USUARIO.COD_EMPLEADO, "La Tasa no debe ser menor o mayor a " + ValorD + "% de la tasa vigente. Tasa Registrada: " + ValDol);
+                                mostrarError("La Tasa no debe ser menor o mayor a " + ValorD + "% de la tasa vigente.");
+
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    mostrarError("La tasa no puede ser guardada con valor 0,000000");
+                }
+            }
+
+            // Euro
+            if (AGteRegE == "NO")
+            {
+                if (!string.IsNullOrEmpty(txtEuro.Text) && txtEuro.Text != "0,000000" && txtEuro.Text != "0.000000")
+                {
+                    ValEur = txtEuro.Text.Replace(".", "").Replace(",", ".");
+                    
+                    var resultado = mostrarPregunta("¿Está seguro que desea cambiar la tasa del Euro?", "CONFIRME");
+                    if (resultado != DialogResult.OK)
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        DataSet dsAgregaFactE = _D_TasaSecuencia.AgregarTasaDia(_D_DetalleOrden.TB_PARAMETRO("SucursalId"), ValEur, _D_Inicio.DiaActivo().ToString("yyyy/MM/dd"), "02", TB_USUARIO.COD_USR);
+
+                        if (dsAgregaFactE != null)
+                        {
+                            if (dsAgregaFactE.Tables[0].Rows[0]["Resultado"].ToString() == "APLICA")
+                            {  
+                                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "081", TB_USUARIO.COD_EMPLEADO, "La Tasa del Euro se actualizó correctamente. Tasa Registrada: " + ValEur);
+                                mostrarError("La Tasa del Euro se actualizó correctamente.");
+
+                            }
+                            else if (dsAgregaFactE.Tables[0].Rows[0]["Resultado"].ToString() == "NO APLICA")
+                            {
+                                int ValorE = Convert.ToInt32(dsAgregaFactE.Tables[0].Rows[0]["ValorMinMax"]);  
+                                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "081", TB_USUARIO.COD_EMPLEADO, "La Tasa no debe ser menor o mayor a " + ValorE + "% de la tasa vigente. Tasa Registrada: " + ValEur);
+                                mostrarError("La Tasa no debe ser menor o mayor a " + ValorE + "% de la tasa vigente.");
+
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    mostrarError("La tasa no puede ser guardada con valor 0,000000");          
+                }
+            }
+
+            Ultima_Tasa_Dia(txtUDolar, txtUEuro, txtUFechaDol, txtUFechaEur, lbRegD, lbRegE);
+            txtDolar.Text = "0,000000";
+            txtEuro.Text = "0,000000";
+
+         }
+         catch (Exception ex)
+         {
+                mostrarError($"Error en validación de montos: {ex.Message}");
+         }
+    }
+
         public bool Fecha_formato(System.Windows.Forms.TextBox TxtCadenaEncriptada, System.Windows.Forms.Label LblTasaDesenc, System.Windows.Forms.Label LblFechaDesenc, System.Windows.Forms.Label LblHoraDesenc)
         {
                 // Desencriptar

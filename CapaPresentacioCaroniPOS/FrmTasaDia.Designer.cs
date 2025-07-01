@@ -44,6 +44,8 @@ namespace CapaVisual_Login
             this.label4 = new System.Windows.Forms.Label();
             this.Lbl_Pnl1_SubTitulo1 = new System.Windows.Forms.Label();
             this.Pnl2 = new System.Windows.Forms.Panel();
+            this.lbRegE = new System.Windows.Forms.Label();
+            this.lbRegD = new System.Windows.Forms.Label();
             this.Btn_Pnl2_Regi = new System.Windows.Forms.Button();
             this.Txt_Pnl2_Euro1 = new System.Windows.Forms.TextBox();
             this.Lbl_Pnl2_Euro = new System.Windows.Forms.Label();
@@ -54,14 +56,14 @@ namespace CapaVisual_Login
             this.Lbl_Pnl2_SubTitulo1 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.Pnl3 = new System.Windows.Forms.Panel();
+            this.LblHoraDesenc = new System.Windows.Forms.Label();
+            this.LblFechaDesenc = new System.Windows.Forms.Label();
+            this.LblTasaDesenc = new System.Windows.Forms.Label();
             this.Txt_Pnl3_Secuencia = new System.Windows.Forms.TextBox();
             this.PrBarPnl3 = new System.Windows.Forms.ProgressBar();
             this.Txt_Pnl3_Frcha = new System.Windows.Forms.TextBox();
             this.Btn_Pnl3_Activar = new System.Windows.Forms.Button();
             this.Lbl_Pnl3_SubTitulo1 = new System.Windows.Forms.Label();
-            this.LblTasaDesenc = new System.Windows.Forms.Label();
-            this.LblFechaDesenc = new System.Windows.Forms.Label();
-            this.LblHoraDesenc = new System.Windows.Forms.Label();
             this.Pnl1.SuspendLayout();
             this.Pnl2.SuspendLayout();
             this.Pnl3.SuspendLayout();
@@ -108,7 +110,6 @@ namespace CapaVisual_Login
             this.Pnl1.Name = "Pnl1";
             this.Pnl1.Size = new System.Drawing.Size(351, 185);
             this.Pnl1.TabIndex = 304;
-            this.Pnl1.Visible = false;
             // 
             // Txt_Pnl1_EuroFecha
             // 
@@ -214,6 +215,8 @@ namespace CapaVisual_Login
             // Pnl2
             // 
             this.Pnl2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.Pnl2.Controls.Add(this.lbRegE);
+            this.Pnl2.Controls.Add(this.lbRegD);
             this.Pnl2.Controls.Add(this.Btn_Pnl2_Regi);
             this.Pnl2.Controls.Add(this.Txt_Pnl2_Euro1);
             this.Pnl2.Controls.Add(this.Lbl_Pnl2_Euro);
@@ -226,7 +229,26 @@ namespace CapaVisual_Login
             this.Pnl2.Name = "Pnl2";
             this.Pnl2.Size = new System.Drawing.Size(351, 185);
             this.Pnl2.TabIndex = 305;
-            this.Pnl2.Visible = false;
+            // 
+            // lbRegE
+            // 
+            this.lbRegE.AutoSize = true;
+            this.lbRegE.Font = new System.Drawing.Font("Century Gothic", 11.25F);
+            this.lbRegE.Location = new System.Drawing.Point(218, 109);
+            this.lbRegE.Name = "lbRegE";
+            this.lbRegE.Size = new System.Drawing.Size(59, 20);
+            this.lbRegE.TabIndex = 136;
+            this.lbRegE.Text = "lbRegE";
+            // 
+            // lbRegD
+            // 
+            this.lbRegD.AutoSize = true;
+            this.lbRegD.Font = new System.Drawing.Font("Century Gothic", 11.25F);
+            this.lbRegD.Location = new System.Drawing.Point(215, 70);
+            this.lbRegD.Name = "lbRegD";
+            this.lbRegD.Size = new System.Drawing.Size(62, 20);
+            this.lbRegD.TabIndex = 135;
+            this.lbRegD.Text = "lbRegD";
             // 
             // Btn_Pnl2_Regi
             // 
@@ -241,15 +263,18 @@ namespace CapaVisual_Login
             this.Btn_Pnl2_Regi.TabIndex = 134;
             this.Btn_Pnl2_Regi.Text = "Registrar";
             this.Btn_Pnl2_Regi.UseVisualStyleBackColor = false;
+            this.Btn_Pnl2_Regi.Click += new System.EventHandler(this.Btn_Pnl2_Regi_Click);
             // 
             // Txt_Pnl2_Euro1
             // 
-            this.Txt_Pnl2_Euro1.Enabled = false;
             this.Txt_Pnl2_Euro1.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Txt_Pnl2_Euro1.Location = new System.Drawing.Point(73, 114);
+            this.Txt_Pnl2_Euro1.Location = new System.Drawing.Point(73, 104);
+            this.Txt_Pnl2_Euro1.MaxLength = 15;
             this.Txt_Pnl2_Euro1.Name = "Txt_Pnl2_Euro1";
             this.Txt_Pnl2_Euro1.Size = new System.Drawing.Size(123, 27);
             this.Txt_Pnl2_Euro1.TabIndex = 131;
+            this.Txt_Pnl2_Euro1.Text = "0,000000";
+            this.Txt_Pnl2_Euro1.Click += new System.EventHandler(this.Txt_Pnl2_Euro1_Click);
             this.Txt_Pnl2_Euro1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Txt_Pnl2_Euro1_KeyPress);
             this.Txt_Pnl2_Euro1.LostFocus += new System.EventHandler(this.Txt_Pnl2_Euro1_LostFocus);
             // 
@@ -257,7 +282,7 @@ namespace CapaVisual_Login
             // 
             this.Lbl_Pnl2_Euro.AutoSize = true;
             this.Lbl_Pnl2_Euro.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Lbl_Pnl2_Euro.Location = new System.Drawing.Point(11, 117);
+            this.Lbl_Pnl2_Euro.Location = new System.Drawing.Point(11, 107);
             this.Lbl_Pnl2_Euro.Name = "Lbl_Pnl2_Euro";
             this.Lbl_Pnl2_Euro.Size = new System.Drawing.Size(41, 20);
             this.Lbl_Pnl2_Euro.TabIndex = 133;
@@ -266,19 +291,21 @@ namespace CapaVisual_Login
             // label7
             // 
             this.label7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(135)))), ((int)(((byte)(129)))));
-            this.label7.Location = new System.Drawing.Point(72, 113);
+            this.label7.Location = new System.Drawing.Point(72, 103);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(125, 29);
             this.label7.TabIndex = 132;
             // 
             // Txt_Pnl2_Dolar1
             // 
-            this.Txt_Pnl2_Dolar1.Enabled = false;
             this.Txt_Pnl2_Dolar1.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Txt_Pnl2_Dolar1.Location = new System.Drawing.Point(73, 64);
+            this.Txt_Pnl2_Dolar1.MaxLength = 15;
             this.Txt_Pnl2_Dolar1.Name = "Txt_Pnl2_Dolar1";
             this.Txt_Pnl2_Dolar1.Size = new System.Drawing.Size(123, 27);
             this.Txt_Pnl2_Dolar1.TabIndex = 126;
+            this.Txt_Pnl2_Dolar1.Text = "0,000000";
+            this.Txt_Pnl2_Dolar1.Click += new System.EventHandler(this.Txt_Pnl2_Dolar1_Click);
             this.Txt_Pnl2_Dolar1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Txt_Pnl2_Dolar1_KeyPress);
             this.Txt_Pnl2_Dolar1.LostFocus += new System.EventHandler(this.Txt_Pnl2_Dolar1_LostFocus);
             // 
@@ -341,6 +368,36 @@ namespace CapaVisual_Login
             this.Pnl3.Size = new System.Drawing.Size(353, 194);
             this.Pnl3.TabIndex = 307;
             // 
+            // LblHoraDesenc
+            // 
+            this.LblHoraDesenc.AutoSize = true;
+            this.LblHoraDesenc.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LblHoraDesenc.Location = new System.Drawing.Point(3, 74);
+            this.LblHoraDesenc.Name = "LblHoraDesenc";
+            this.LblHoraDesenc.Size = new System.Drawing.Size(82, 20);
+            this.LblHoraDesenc.TabIndex = 131;
+            this.LblHoraDesenc.Text = "HoraDESC";
+            // 
+            // LblFechaDesenc
+            // 
+            this.LblFechaDesenc.AutoSize = true;
+            this.LblFechaDesenc.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LblFechaDesenc.Location = new System.Drawing.Point(3, 54);
+            this.LblFechaDesenc.Name = "LblFechaDesenc";
+            this.LblFechaDesenc.Size = new System.Drawing.Size(93, 20);
+            this.LblFechaDesenc.TabIndex = 130;
+            this.LblFechaDesenc.Text = "FechaDESC";
+            // 
+            // LblTasaDesenc
+            // 
+            this.LblTasaDesenc.AutoSize = true;
+            this.LblTasaDesenc.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LblTasaDesenc.Location = new System.Drawing.Point(3, 34);
+            this.LblTasaDesenc.Name = "LblTasaDesenc";
+            this.LblTasaDesenc.Size = new System.Drawing.Size(78, 20);
+            this.LblTasaDesenc.TabIndex = 129;
+            this.LblTasaDesenc.Text = "TasaDESC";
+            // 
             // Txt_Pnl3_Secuencia
             // 
             this.Txt_Pnl3_Secuencia.Location = new System.Drawing.Point(62, 84);
@@ -362,6 +419,7 @@ namespace CapaVisual_Login
             // 
             this.Txt_Pnl3_Frcha.BackColor = System.Drawing.Color.Silver;
             this.Txt_Pnl3_Frcha.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.Txt_Pnl3_Frcha.Enabled = false;
             this.Txt_Pnl3_Frcha.Location = new System.Drawing.Point(114, 51);
             this.Txt_Pnl3_Frcha.Name = "Txt_Pnl3_Frcha";
             this.Txt_Pnl3_Frcha.Size = new System.Drawing.Size(129, 20);
@@ -379,6 +437,7 @@ namespace CapaVisual_Login
             this.Btn_Pnl3_Activar.TabIndex = 11;
             this.Btn_Pnl3_Activar.Text = "Activar";
             this.Btn_Pnl3_Activar.UseVisualStyleBackColor = false;
+            this.Btn_Pnl3_Activar.Click += new System.EventHandler(this.Btn_Pnl3_Activar_Click);
             // 
             // Lbl_Pnl3_SubTitulo1
             // 
@@ -390,39 +449,6 @@ namespace CapaVisual_Login
             this.Lbl_Pnl3_SubTitulo1.TabIndex = 11;
             this.Lbl_Pnl3_SubTitulo1.Text = "Registro Secuencia";
             this.Lbl_Pnl3_SubTitulo1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // LblTasaDesenc
-            // 
-            this.LblTasaDesenc.AutoSize = true;
-            this.LblTasaDesenc.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LblTasaDesenc.Location = new System.Drawing.Point(3, 34);
-            this.LblTasaDesenc.Name = "LblTasaDesenc";
-            this.LblTasaDesenc.Size = new System.Drawing.Size(78, 20);
-            this.LblTasaDesenc.TabIndex = 129;
-            this.LblTasaDesenc.Text = "TasaDESC";
-            this.LblTasaDesenc.Visible = false;
-            // 
-            // LblFechaDesenc
-            // 
-            this.LblFechaDesenc.AutoSize = true;
-            this.LblFechaDesenc.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LblFechaDesenc.Location = new System.Drawing.Point(3, 54);
-            this.LblFechaDesenc.Name = "LblFechaDesenc";
-            this.LblFechaDesenc.Size = new System.Drawing.Size(93, 20);
-            this.LblFechaDesenc.TabIndex = 130;
-            this.LblFechaDesenc.Text = "FechaDESC";
-            this.LblFechaDesenc.Visible = false;
-            // 
-            // LblHoraDesenc
-            // 
-            this.LblHoraDesenc.AutoSize = true;
-            this.LblHoraDesenc.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LblHoraDesenc.Location = new System.Drawing.Point(3, 74);
-            this.LblHoraDesenc.Name = "LblHoraDesenc";
-            this.LblHoraDesenc.Size = new System.Drawing.Size(82, 20);
-            this.LblHoraDesenc.TabIndex = 131;
-            this.LblHoraDesenc.Text = "HoraDESC";
-            this.LblHoraDesenc.Visible = false;
             // 
             // FrmTasaDia
             // 
@@ -441,6 +467,7 @@ namespace CapaVisual_Login
             this.Name = "FrmTasaDia";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "TasaDia";
+            this.Load += new System.EventHandler(this.FrmTasaDia_Load);
             this.Pnl1.ResumeLayout(false);
             this.Pnl1.PerformLayout();
             this.Pnl2.ResumeLayout(false);
@@ -487,5 +514,7 @@ namespace CapaVisual_Login
         private System.Windows.Forms.Label LblTasaDesenc;
         private System.Windows.Forms.Label LblHoraDesenc;
         private System.Windows.Forms.Label LblFechaDesenc;
+        private System.Windows.Forms.Label lbRegE;
+        private System.Windows.Forms.Label lbRegD;
     }
 }

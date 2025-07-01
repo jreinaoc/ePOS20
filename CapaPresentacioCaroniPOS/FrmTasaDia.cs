@@ -3,6 +3,7 @@ using CapaDatos.DetalleOrden_Datos;
 using CapaDatos.Inicio_Datos;
 using CapaDatos.TasaDia_Datos;
 using CapaEntidades;
+using CapaLogica.TasaDia_Logica;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -26,7 +27,7 @@ namespace CapaVisual_Login
         private D_DetalleOrden _D_DetalleOrden = new D_DetalleOrden();
         private D_Inicio _D_Inicio = new D_Inicio();
         private D_Anulacion _D_Anulacion = new D_Anulacion();
-
+        private L_TasaSecuencia _L_TasaSecuencia = new L_TasaSecuencia();
         private void mostrarError(string mensaje)
         {
             FrmMensajes.MostrarError(mensaje);
@@ -35,6 +36,77 @@ namespace CapaVisual_Login
         private DialogResult mostrarPregunta(string mensaje, string titulo)
         {
             return FrmMensajes.MostrarPregunta(mensaje, titulo);
+        }
+
+        public (string, string) Autoriz_GteReg(TextBox txtDolar,TextBox txtEuro)
+        {
+            DataSet dsGteReg = _D_TasaSecuencia.TasaDia(_D_DetalleOrden.TB_PARAMETRO("SucursalId"), _D_Inicio.DiaActivo().ToString("yyyy/MM/dd"));
+            string AGteRegD = "SI"; 
+            string AGteRegE = "SI";
+
+            if (dsGteReg.Tables.Count > 1 && dsGteReg.Tables[1].Rows.Count > 0)
+            {
+                foreach (DataRow drGteReg in dsGteReg.Tables[1].Rows)
+                {
+                    //-------- Dólares ------------
+                    if (!string.IsNullOrEmpty(txtDolar.Text) && txtDolar.Text != "0,000000" && txtDolar.Text != "0.000000")
+                    {
+                        if (drGteReg["AutGteRegD"].ToString() == "SI")
+                        {
+                            mostrarError("Superó el límite de registro de tasas de Dólar diario");
+                            AGteRegD = "SI";
+
+                            // Pido clave de gerente regional
+                            _FrmClaveAutorizada.ShowDialog();
+
+                            if (_FrmClaveAutorizada.DialogResult == DialogResult.OK && _FrmClaveAutorizada.ClaveCorrecta == true)
+                            {
+                                _D_TasaSecuencia.Update_TB_Parametro("0", "SwNCAutom");
+                                string GerenteAprueba = VariablesGlobales.UsuarioAutorizado_FrmClaveAutorizada;
+                                AGteRegD = "NO";
+                                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "082", TB_USUARIO.COD_EMPLEADO, "--");
+                            }
+                            else
+                            {
+                                AGteRegD = "SI";
+                            }
+                        }
+                        else
+                        {
+                            AGteRegD = "NO";
+                        }
+                    }
+                    //-------- Euros ------------
+                    if (!string.IsNullOrEmpty(txtEuro.Text) && txtEuro.Text != "0,000000" && txtEuro.Text != "0.000000")
+                    {
+                        if (drGteReg["AutGteRegE"].ToString() == "SI")
+                        {
+                            mostrarError("Superó el límite de registro de tasas de Euro diario");
+                            AGteRegE = "SI";
+
+                            _FrmClaveAutorizada.ShowDialog();
+
+                            if (_FrmClaveAutorizada.DialogResult == DialogResult.OK && _FrmClaveAutorizada.ClaveCorrecta == true)
+                            {
+                                _D_TasaSecuencia.Update_TB_Parametro("0", "SwNCAutom");
+                                string GerenteAprueba = VariablesGlobales.UsuarioAutorizado_FrmClaveAutorizada;
+                                AGteRegE = "NO";
+                                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "082", TB_USUARIO.COD_EMPLEADO, "--");
+                            }
+                            else
+                            {
+                                AGteRegE = "SI";
+                            }
+                        }
+                        else
+                        {
+                            AGteRegE = "NO";
+                        }
+                    }
+                }
+            }
+
+            return (AGteRegD,AGteRegE);
         }
 
         public string Autoriz_GteReg_Activar()
@@ -266,6 +338,52 @@ namespace CapaVisual_Login
                     //UPDATE: colocamos el cursor al final del texto
                     Txt_Pnl2_Euro1.SelectionStart = Txt_Pnl2_Euro1.Text.Length;
                 }
+            }
+        }
+
+        private void Btn_Pnl3_Activar_Click(object sender, EventArgs e)
+        {
+            var Resultado = Autoriz_GteReg_Activar();
+            _L_TasaSecuencia.RegistarSecuencia(Txt_Pnl3_Secuencia, LblTasaDesenc, LblFechaDesenc, LblHoraDesenc, PrBarPnl3, Resultado, mostrarPregunta, mostrarError);
+        }
+
+        private void Btn_Pnl2_Regi_Click(object sender, EventArgs e)
+        {
+            var resultado= Autoriz_GteReg(Txt_Pnl2_Dolar1, Txt_Pnl2_Euro1);
+            _L_TasaSecuencia.RegistarTasa(Txt_Pnl2_Dolar1, Txt_Pnl2_Euro1, Txt_Pnl1_Dolar1, Txt_Pnl1_Euro1, Txt_Pnl1_DolarFecha, Txt_Pnl1_EuroFecha, lbRegD, lbRegE, ref resultado.Item1, ref resultado.Item2, mostrarPregunta, mostrarError);
+        }
+
+        private void FrmTasaDia_Load(object sender, EventArgs e)
+        {
+            _L_TasaSecuencia.Ultima_Tasa_Dia(Txt_Pnl1_Dolar1, Txt_Pnl1_Euro1, Txt_Pnl1_DolarFecha, Txt_Pnl1_EuroFecha, lbRegD, lbRegE);
+           string IActivarSecADia = _D_DetalleOrden.TB_PARAMETRO("ActivarSecADia");
+           //' Desactivar opcion de Activacion de secuencia diaria
+           if (IActivarSecADia == "1")
+            {
+                Txt_Pnl3_Secuencia.Enabled = true;
+                Btn_Pnl3_Activar.Enabled = true;
+            }
+           else if (IActivarSecADia == "0")
+            {
+                Txt_Pnl3_Secuencia.Enabled = false;
+                Btn_Pnl3_Activar.Enabled = false;
+            }
+
+        }
+
+        private void Txt_Pnl2_Dolar1_Click(object sender, EventArgs e)
+        {
+            if (Txt_Pnl2_Dolar1.Text == "0,000000")
+            {
+                Txt_Pnl2_Dolar1.Text = "";
+            }
+        }
+
+        private void Txt_Pnl2_Euro1_Click(object sender, EventArgs e)
+        {
+            if (Txt_Pnl2_Euro1.Text == "0,000000")
+            {
+                Txt_Pnl2_Euro1.Text = "";
             }
         }
     }

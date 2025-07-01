@@ -14,7 +14,7 @@ namespace CapaDatos.TasaDia_Datos
     {
         Conexion.Conexion cn = new Conexion.Conexion();
 
-        public DataSet AgregarTasaDia(string codSucursal, decimal tasa, DateTime fechaDiaActivo, string codMoneda, char userCrea , SqlCommand command = null)
+        public DataSet AgregarTasaDia(string codSucursal, string tasa, string fechaDiaActivo, string codMoneda, string userCrea , SqlCommand command = null)
         {
             try
             {
@@ -210,6 +210,65 @@ namespace CapaDatos.TasaDia_Datos
             {
                 string Error = string.Format("Error: {0}", ex.Message);
                 return null;
+            }
+        }
+
+        public DataSet TasaDia(string codigoSucursal, string DiaActivo, SqlCommand command = null)
+        {
+            try
+            {
+                if (command == null)
+                {
+                    SqlConnection connection = cn.LeerCadena();
+                    command = connection.CreateCommand();
+                }
+                SqlCommand cmd = command;
+                cmd.Parameters.Clear();
+
+                cmd.CommandText = "pGet_TasaDia";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Cod_Sucursal", codigoSucursal);
+                cmd.Parameters.AddWithValue("@fechaDiaActivo", DiaActivo);
+
+                DataSet ds = new DataSet();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(ds);
+                cmd.Parameters.Clear();
+                return ds;
+
+            }
+            catch (Exception ex)
+            {
+                string Error = string.Format("Error: {0}", ex.Message);
+                return null;
+            }
+        }
+
+        public void Update_TB_Parametro(string Valor, string Parametro, SqlCommand command = null)
+        {
+            try
+            {
+                if (command == null)
+                {
+                    SqlConnection connection = cn.LeerCadena();
+                    command = connection.CreateCommand();
+                }
+                SqlCommand cmd = command;
+                cmd.Parameters.Clear();
+
+                cmd.CommandText = ("UPDATE TB_PARAMETRO SET Valor = @Valor  WHERE Parametro = @Parametro");
+                cmd.CommandType = CommandType.Text;
+                cmd.Parameters.AddWithValue("@Valor", Valor);
+                cmd.Parameters.AddWithValue("@Parametro", Parametro);
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+
+            }
+
+            catch (Exception ex)
+            {
+                string Error = string.Format("Error: {0}", ex.Message);
             }
         }
 
