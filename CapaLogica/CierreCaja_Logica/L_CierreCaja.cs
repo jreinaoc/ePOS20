@@ -8,6 +8,8 @@ using CapaDatos.CierreCaja_Datos;
 using CapaEntidades;
 using System.Data;
 using System.IO;
+using CapaDatos.DetalleOrden_Datos;
+
 
 
 namespace CapaLogica.CierreCaja_Logica
@@ -16,6 +18,7 @@ namespace CapaLogica.CierreCaja_Logica
     {
         
         private D_CierreCaja _D_CierreCaja = new D_CierreCaja();
+        private D_DetalleOrden _D_DetalleOrden = new D_DetalleOrden();
         public bool ChequeaFacturasdelDia(string fecha, string usuario)
         {
             DataTable dt = _D_CierreCaja.ChequeaFacturasdelDia(fecha,usuario);
@@ -392,6 +395,71 @@ namespace CapaLogica.CierreCaja_Logica
             try
             {
                 DataTable dt = _D_CierreCaja.LibroVenta(fechaIni, fechaFin);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                // Código para manejar el error
+                return false;
+            }
+        }
+
+        public bool InventarioFaltante(DateTime fechaIni)
+        {
+            try
+            {
+                DataTable dt = _D_CierreCaja.InventarioFaltante(fechaIni);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                // Código para manejar el error
+                return false;
+            }
+        }
+
+        public bool CreaAcc(DateTime fecha, string sucursal)
+        {
+            try
+            {
+                int nroDias = Convert.ToInt32(_D_DetalleOrden.TB_PARAMETRO("CantDiasOSXML"));
+                DataTable dt = _D_CierreCaja.CreaAcc(fecha, nroDias, sucursal);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                // Código para manejar el error
+                return false;
+            }
+        }
+
+        public bool CreaXMLACC(string sucursal)
+        {
+            try
+            {
+                string _xmlRutaDestino = _D_DetalleOrden.TB_PARAMETRO("RutaACC") + sucursal;
+
+                DataTable dt = _D_CierreCaja.ObtieneTablasAcc("");
+
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt.Rows.Count; i++)
+                    {
+                        // SE OBTIENE EL NOMBRE DE LA TABLA ACC
+                        string ACCNombre = dt.Rows[i]["Tabla"].ToString();
+
+                        // SE CREA EL DATASET CON LOS DATOS DE LA TABLA ACC
+                        DataTable ds = _D_CierreCaja.ObtieneTablasAcc(ACCNombre);
+
+                        // SE CREA EL ARCHIVO XML CON LOS DATOS DE LA TABLA ACC
+                        ds.WriteXml(System.IO.Path.Combine(_xmlRutaDestino, ACCNombre + ".xml"));
+                    }
+
+                    return true;
+                }
 
                 return true;
             }

@@ -516,6 +516,7 @@ C:\Desarrollo2022\CaroniPOS1\CapaPresentacioCaroniPOS\obj\Debug\CapaVisual_Login
 C:\Desarrollo2022\CaroniPOS1\CapaPresentacioCaroniPOS\obj\Debug\CapaVisual_Login.FrmRepOrden.resources
 C:\Desarrollo2022\CaroniPOS1\CapaPresentacioCaroniPOS\obj\Debug\CapaVisual_Login.FrmRepOrdenTContact.resources
 C:\Desarrollo2022\CaroniPOS1\CapaPresentacioCaroniPOS\obj\Debug\CapaVisual_Login.FrmRepProSinPag.resources
+C:\Desarrollo2022\CaroniPOS1\CapaPresentacioCaroniPOS\obj\Debug\CapaVisual_Login.FrmTasaDia.resources
 C:\Desarrollo2022\CaroniPOS1\CapaPresentacioCaroniPOS\obj\Debug\CapaVisual_Login.Properties.Resources.resources
 C:\Desarrollo2022\CaroniPOS1\CapaPresentacioCaroniPOS\obj\Debug\CapaVisual_Login.csproj.GenerateResource.cache
 C:\Desarrollo2022\CaroniPOS1\CapaPresentacioCaroniPOS\obj\Debug\RdlCompile.cache
@@ -526,4 +527,3 @@ C:\Desarrollo2022\CaroniPOS1\CapaPresentacioCaroniPOS\obj\Debug\ePOS.application
 C:\Desarrollo2022\CaroniPOS1\CapaPresentacioCaroniPOS\obj\Debug\CapaVisual_Login.csproj.CopyComplete
 C:\Desarrollo2022\CaroniPOS1\CapaPresentacioCaroniPOS\obj\Debug\ePOS.exe
 C:\Desarrollo2022\CaroniPOS1\CapaPresentacioCaroniPOS\obj\Debug\ePOS.pdb
-C:\Programacion\CaroniPOS1\CapaPresentacioCaroniPOS\obj\Debug\CapaVisual_Login.FrmTasaDia.resources
