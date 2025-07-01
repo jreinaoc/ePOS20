@@ -1,4 +1,9 @@
-﻿using System;
+﻿using CapaDatos.Anulacion;
+using CapaDatos.DetalleOrden_Datos;
+using CapaDatos.Inicio_Datos;
+using CapaDatos.TasaDia_Datos;
+using CapaEntidades;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -16,9 +21,58 @@ namespace CapaVisual_Login
         {
             InitializeComponent();
         }
+        private FrmClaveAutorizada _FrmClaveAutorizada = new FrmClaveAutorizada();
+        private D_TasaSecuencia _D_TasaSecuencia = new D_TasaSecuencia();
+        private D_DetalleOrden _D_DetalleOrden = new D_DetalleOrden();
+        private D_Inicio _D_Inicio = new D_Inicio();
+        private D_Anulacion _D_Anulacion = new D_Anulacion();
 
+        private void mostrarError(string mensaje)
+        {
+            FrmMensajes.MostrarError(mensaje);
+        }
 
+        private DialogResult mostrarPregunta(string mensaje, string titulo)
+        {
+            return FrmMensajes.MostrarPregunta(mensaje, titulo);
+        }
 
+        public string Autoriz_GteReg_Activar()
+        {
+        string AGteRegD = "NO";
+        DataSet dsGteReg = _D_TasaSecuencia.ActivacionDia(_D_DetalleOrden.TB_PARAMETRO("SucursalId"), _D_Inicio.DiaActivo().ToString("yyyy/MM/dd"));
+            if (dsGteReg.Tables[0].Rows.Count > 0)
+            {
+                foreach (DataRow drGteReg in dsGteReg.Tables[0].Rows)
+                {
+                    // Secuencia de Activación Diaria
+                    if (drGteReg["AutGteRegD"].ToString() == "SI")
+                    {
+                        mostrarError("Superó el límite de registro de Secuencia de Activación Diaria.");
+                        AGteRegD = "SI";
+                        // Pido clave de gerente regional
+
+                        _FrmClaveAutorizada.ShowDialog();
+
+                        if (_FrmClaveAutorizada.DialogResult == DialogResult.OK && _FrmClaveAutorizada.ClaveCorrecta == true)
+                        {
+                            string GerenteAprueba= VariablesGlobales.UsuarioAutorizado_FrmClaveAutorizada;
+                            AGteRegD = "NO";
+                            _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "082", TB_USUARIO.COD_EMPLEADO, "--");
+                        }
+                        else
+                        {
+                            AGteRegD = "SI";
+                        }
+                    }
+                    else
+                    {
+                        AGteRegD = "NO";
+                    }
+                }
+            }
+            return AGteRegD;
+        }
 
         public void FormatoClaro(System.Drawing.Color col1, System.Drawing.Color col3, System.Drawing.Color col5)
         {

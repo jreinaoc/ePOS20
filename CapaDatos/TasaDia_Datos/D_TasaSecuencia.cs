@@ -80,7 +80,7 @@ namespace CapaDatos.TasaDia_Datos
             }
         }
 
-        public DataSet ComparaDigitoVerificador(string tasa, char digitoVerificador, SqlCommand command = null)
+        public DataSet ComparaDigitoVerificador(string tasa, string digitoVerificador, SqlCommand command = null)
         {
             try
             {
@@ -173,6 +173,37 @@ namespace CapaDatos.TasaDia_Datos
                 return ds;
 
 
+
+            }
+            catch (Exception ex)
+            {
+                string Error = string.Format("Error: {0}", ex.Message);
+                return null;
+            }
+        }
+
+        public DataSet ActivacionDia(string codigoSucursal, string DiaActivo, SqlCommand command = null)
+        {
+            try
+            {
+                if (command == null)
+                {
+                    SqlConnection connection = cn.LeerCadena();
+                    command = connection.CreateCommand();
+                }
+                SqlCommand cmd = command;
+                cmd.Parameters.Clear();
+
+                cmd.CommandText = "pGet_ActivacionDia";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Cod_Sucursal", codigoSucursal);
+                cmd.Parameters.AddWithValue("@fechaDiaActivo", DiaActivo);
+
+                DataSet ds = new DataSet();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(ds);
+                cmd.Parameters.Clear();
+                return ds;
 
             }
             catch (Exception ex)
