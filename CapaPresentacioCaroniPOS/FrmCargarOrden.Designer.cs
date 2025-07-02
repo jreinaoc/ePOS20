@@ -115,6 +115,10 @@ namespace CapaVisual_Login
             this.cbMotivosGarantia = new System.Windows.Forms.ComboBox();
             this.Rd_Tap1_SexoM = new System.Windows.Forms.RadioButton();
             this.Rd_Tap1_SexoF = new System.Windows.Forms.RadioButton();
+            this.Pnl_2_Msj = new System.Windows.Forms.Panel();
+            this.button4 = new System.Windows.Forms.Button();
+            this.label30 = new System.Windows.Forms.Label();
+            this.txt_pl2_msj = new System.Windows.Forms.Label();
             this.Txt_Tap1_Nombre_Pagador = new System.Windows.Forms.TextBox();
             this.Txt_Tap1_Cedula_Pagador = new System.Windows.Forms.TextBox();
             this.Txt_Tap1_Edad = new System.Windows.Forms.TextBox();
@@ -355,10 +359,6 @@ namespace CapaVisual_Login
             this.txtClienteBuscar = new System.Windows.Forms.TextBox();
             this.label28 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
-            this.Pnl_2_Msj = new System.Windows.Forms.Panel();
-            this.button4 = new System.Windows.Forms.Button();
-            this.label30 = new System.Windows.Forms.Label();
-            this.txt_pl2_msj = new System.Windows.Forms.Label();
             this.QuitarLimea3 = new System.Windows.Forms.Label();
             this.Pnl_1.SuspendLayout();
             this.Pnl_2.SuspendLayout();
@@ -370,6 +370,7 @@ namespace CapaVisual_Login
             ((System.ComponentModel.ISupportInitialize)(this.dvgClientePagador)).BeginInit();
             this.pnlClienteGarantia.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvOrdenesGarantia)).BeginInit();
+            this.Pnl_2_Msj.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.grp_pln2_Cont1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Dgv_Pnl2_cont)).BeginInit();
@@ -414,7 +415,6 @@ namespace CapaVisual_Login
             this.panel2.SuspendLayout();
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DgvClientes)).BeginInit();
-            this.Pnl_2_Msj.SuspendLayout();
             this.SuspendLayout();
             // 
             // Pnl_1
@@ -847,6 +847,7 @@ namespace CapaVisual_Login
             this.tabPage1.Controls.Add(this.pnlClienteGarantia);
             this.tabPage1.Controls.Add(this.Rd_Tap1_SexoM);
             this.tabPage1.Controls.Add(this.Rd_Tap1_SexoF);
+            this.tabPage1.Controls.Add(this.Pnl_2_Msj);
             this.tabPage1.Controls.Add(this.Txt_Tap1_Nombre_Pagador);
             this.tabPage1.Controls.Add(this.Txt_Tap1_Cedula_Pagador);
             this.tabPage1.Controls.Add(this.Txt_Tap1_Edad);
@@ -922,7 +923,7 @@ namespace CapaVisual_Login
             this.Pnl_5_Lista_ClienPagador.Controls.Add(this.txtClienteP);
             this.Pnl_5_Lista_ClienPagador.Controls.Add(this.label29);
             this.Pnl_5_Lista_ClienPagador.Controls.Add(this.button3);
-            this.Pnl_5_Lista_ClienPagador.Location = new System.Drawing.Point(533, 115);
+            this.Pnl_5_Lista_ClienPagador.Location = new System.Drawing.Point(810, 112);
             this.Pnl_5_Lista_ClienPagador.Name = "Pnl_5_Lista_ClienPagador";
             this.Pnl_5_Lista_ClienPagador.Size = new System.Drawing.Size(480, 331);
             this.Pnl_5_Lista_ClienPagador.TabIndex = 356;
@@ -1127,6 +1128,60 @@ namespace CapaVisual_Login
             this.Rd_Tap1_SexoF.Text = "Femenino";
             this.Rd_Tap1_SexoF.UseVisualStyleBackColor = true;
             // 
+            // Pnl_2_Msj
+            // 
+            this.Pnl_2_Msj.BackColor = System.Drawing.Color.Transparent;
+            this.Pnl_2_Msj.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.Pnl_2_Msj.Controls.Add(this.button4);
+            this.Pnl_2_Msj.Controls.Add(this.label30);
+            this.Pnl_2_Msj.Controls.Add(this.txt_pl2_msj);
+            this.Pnl_2_Msj.Location = new System.Drawing.Point(321, 164);
+            this.Pnl_2_Msj.Name = "Pnl_2_Msj";
+            this.Pnl_2_Msj.Size = new System.Drawing.Size(407, 189);
+            this.Pnl_2_Msj.TabIndex = 328;
+            this.Pnl_2_Msj.Visible = false;
+            // 
+            // button4
+            // 
+            this.button4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(212)))));
+            this.button4.FlatAppearance.BorderSize = 0;
+            this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button4.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button4.ForeColor = System.Drawing.SystemColors.MenuText;
+            this.button4.Location = new System.Drawing.Point(278, 150);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(105, 31);
+            this.button4.TabIndex = 312;
+            this.button4.Text = "Aceptar";
+            this.button4.UseVisualStyleBackColor = false;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
+            // label30
+            // 
+            this.label30.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(166)))), ((int)(((byte)(156)))));
+            this.label30.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.label30.Font = new System.Drawing.Font("Century Gothic", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label30.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this.label30.Location = new System.Drawing.Point(1, 2);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(403, 41);
+            this.label30.TabIndex = 31;
+            this.label30.Text = "Importante";
+            this.label30.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // txt_pl2_msj
+            // 
+            this.txt_pl2_msj.BackColor = System.Drawing.Color.White;
+            this.txt_pl2_msj.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.txt_pl2_msj.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txt_pl2_msj.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this.txt_pl2_msj.Location = new System.Drawing.Point(55, 49);
+            this.txt_pl2_msj.Name = "txt_pl2_msj";
+            this.txt_pl2_msj.Size = new System.Drawing.Size(288, 98);
+            this.txt_pl2_msj.TabIndex = 313;
+            this.txt_pl2_msj.Text = "Importante";
+            this.txt_pl2_msj.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // Txt_Tap1_Nombre_Pagador
             // 
             this.Txt_Tap1_Nombre_Pagador.Enabled = false;
@@ -1194,9 +1249,8 @@ namespace CapaVisual_Login
             this.Txt_Tap1_Email.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Txt_Tap1_Email.Location = new System.Drawing.Point(496, 240);
             this.Txt_Tap1_Email.Name = "Txt_Tap1_Email";
-            this.Txt_Tap1_Email.Size = new System.Drawing.Size(223, 27);
+            this.Txt_Tap1_Email.Size = new System.Drawing.Size(292, 27);
             this.Txt_Tap1_Email.TabIndex = 155;
-            this.Txt_Tap1_Email.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.Txt_Tap1_Email.TextChanged += new System.EventHandler(this.Txt_Tap1_Email_TextChanged);
             this.Txt_Tap1_Email.Leave += new System.EventHandler(this.Txt_Tap1_Email_Leave);
             // 
@@ -1205,7 +1259,7 @@ namespace CapaVisual_Login
             this.label12.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(135)))), ((int)(((byte)(129)))));
             this.label12.Location = new System.Drawing.Point(495, 238);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(225, 31);
+            this.label12.Size = new System.Drawing.Size(293, 31);
             this.label12.TabIndex = 161;
             // 
             // Cbx_Tap1_TLF_Local
@@ -1716,9 +1770,10 @@ namespace CapaVisual_Login
             this.Dgv_Pnl2_cont.RowHeadersVisible = false;
             this.Dgv_Pnl2_cont.RowHeadersWidth = 51;
             this.Dgv_Pnl2_cont.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.Dgv_Pnl2_cont.Size = new System.Drawing.Size(744, 65);
+            this.Dgv_Pnl2_cont.Size = new System.Drawing.Size(744, 78);
             this.Dgv_Pnl2_cont.TabIndex = 311;
             this.Dgv_Pnl2_cont.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_Pnl2_cont_CellValueChanged);
+
             // 
             // grp_pln2_oft3
             // 
@@ -1824,13 +1879,13 @@ namespace CapaVisual_Login
             this.Dgv_Pnl2_conv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.Dgv_Pnl2_conv.EnableHeadersVisualStyles = false;
             this.Dgv_Pnl2_conv.GridColor = System.Drawing.SystemColors.ControlLightLight;
-            this.Dgv_Pnl2_conv.Location = new System.Drawing.Point(1, 27);
+            this.Dgv_Pnl2_conv.Location = new System.Drawing.Point(55, 27);
             this.Dgv_Pnl2_conv.Name = "Dgv_Pnl2_conv";
             this.Dgv_Pnl2_conv.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.Dgv_Pnl2_conv.RowHeadersVisible = false;
             this.Dgv_Pnl2_conv.RowHeadersWidth = 51;
             this.Dgv_Pnl2_conv.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.Dgv_Pnl2_conv.Size = new System.Drawing.Size(972, 65);
+            this.Dgv_Pnl2_conv.Size = new System.Drawing.Size(972, 76);
             this.Dgv_Pnl2_conv.TabIndex = 311;
             this.Dgv_Pnl2_conv.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.Dgv_Pnl2_conv_CellValidating);
             this.Dgv_Pnl2_conv.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_Pnl2_conv_CellValueChanged);
@@ -2350,7 +2405,7 @@ namespace CapaVisual_Login
             // 
             this.pnlObservCon.Controls.Add(this.txt_Pnl2_cont_observa);
             this.pnlObservCon.Controls.Add(this.lbl_pnl2_con_obser);
-            this.pnlObservCon.Location = new System.Drawing.Point(2, 55);
+            this.pnlObservCon.Location = new System.Drawing.Point(0, 55);
             this.pnlObservCon.Name = "pnlObservCon";
             this.pnlObservCon.Size = new System.Drawing.Size(1046, 155);
             this.pnlObservCon.TabIndex = 336;
@@ -2359,11 +2414,11 @@ namespace CapaVisual_Login
             // txt_Pnl2_cont_observa
             // 
             this.txt_Pnl2_cont_observa.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txt_Pnl2_cont_observa.Location = new System.Drawing.Point(17, 43);
+            this.txt_Pnl2_cont_observa.Location = new System.Drawing.Point(16, 43);
             this.txt_Pnl2_cont_observa.MaxLength = 19;
             this.txt_Pnl2_cont_observa.Multiline = true;
             this.txt_Pnl2_cont_observa.Name = "txt_Pnl2_cont_observa";
-            this.txt_Pnl2_cont_observa.Size = new System.Drawing.Size(1009, 66);
+            this.txt_Pnl2_cont_observa.Size = new System.Drawing.Size(1010, 66);
             this.txt_Pnl2_cont_observa.TabIndex = 335;
             this.txt_Pnl2_cont_observa.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -2383,11 +2438,11 @@ namespace CapaVisual_Login
             // 
             // txt_Pnl2_observa
             // 
-            this.txt_Pnl2_observa.Location = new System.Drawing.Point(3, 170);
+            this.txt_Pnl2_observa.Location = new System.Drawing.Point(2, 170);
             this.txt_Pnl2_observa.MaxLength = 250;
             this.txt_Pnl2_observa.Multiline = true;
             this.txt_Pnl2_observa.Name = "txt_Pnl2_observa";
-            this.txt_Pnl2_observa.Size = new System.Drawing.Size(1040, 40);
+            this.txt_Pnl2_observa.Size = new System.Drawing.Size(1041, 40);
             this.txt_Pnl2_observa.TabIndex = 334;
             // 
             // lbl_pnl2_obser
@@ -2433,7 +2488,7 @@ namespace CapaVisual_Login
             this.txt_Pnl2_conv_mimesys.MaxLength = 19;
             this.txt_Pnl2_conv_mimesys.Multiline = true;
             this.txt_Pnl2_conv_mimesys.Name = "txt_Pnl2_conv_mimesys";
-            this.txt_Pnl2_conv_mimesys.Size = new System.Drawing.Size(533, 34);
+            this.txt_Pnl2_conv_mimesys.Size = new System.Drawing.Size(536, 34);
             this.txt_Pnl2_conv_mimesys.TabIndex = 330;
             this.txt_Pnl2_conv_mimesys.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txt_Pnl2_conv_mimesys.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_Pnl2_conv_mimesys_KeyPress);
@@ -2456,7 +2511,7 @@ namespace CapaVisual_Login
             this.Dgv_Pnl2_medconv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.Dgv_Pnl2_medconv.EnableHeadersVisualStyles = false;
             this.Dgv_Pnl2_medconv.GridColor = System.Drawing.SystemColors.ControlLightLight;
-            this.Dgv_Pnl2_medconv.Location = new System.Drawing.Point(4, 91);
+            this.Dgv_Pnl2_medconv.Location = new System.Drawing.Point(2, 91);
             this.Dgv_Pnl2_medconv.Name = "Dgv_Pnl2_medconv";
             this.Dgv_Pnl2_medconv.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.Dgv_Pnl2_medconv.RowHeadersVisible = false;
@@ -4481,60 +4536,6 @@ namespace CapaVisual_Login
             this.button2.UseVisualStyleBackColor = false;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // Pnl_2_Msj
-            // 
-            this.Pnl_2_Msj.BackColor = System.Drawing.Color.Transparent;
-            this.Pnl_2_Msj.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.Pnl_2_Msj.Controls.Add(this.button4);
-            this.Pnl_2_Msj.Controls.Add(this.label30);
-            this.Pnl_2_Msj.Controls.Add(this.txt_pl2_msj);
-            this.Pnl_2_Msj.Location = new System.Drawing.Point(357, 253);
-            this.Pnl_2_Msj.Name = "Pnl_2_Msj";
-            this.Pnl_2_Msj.Size = new System.Drawing.Size(407, 189);
-            this.Pnl_2_Msj.TabIndex = 328;
-            this.Pnl_2_Msj.Visible = false;
-            // 
-            // button4
-            // 
-            this.button4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(212)))));
-            this.button4.FlatAppearance.BorderSize = 0;
-            this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button4.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button4.ForeColor = System.Drawing.SystemColors.MenuText;
-            this.button4.Location = new System.Drawing.Point(278, 150);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(105, 31);
-            this.button4.TabIndex = 312;
-            this.button4.Text = "Aceptar";
-            this.button4.UseVisualStyleBackColor = false;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
-            // 
-            // label30
-            // 
-            this.label30.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(166)))), ((int)(((byte)(156)))));
-            this.label30.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.label30.Font = new System.Drawing.Font("Century Gothic", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label30.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
-            this.label30.Location = new System.Drawing.Point(1, 2);
-            this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(403, 41);
-            this.label30.TabIndex = 31;
-            this.label30.Text = "Importante";
-            this.label30.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // txt_pl2_msj
-            // 
-            this.txt_pl2_msj.BackColor = System.Drawing.Color.White;
-            this.txt_pl2_msj.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.txt_pl2_msj.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txt_pl2_msj.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
-            this.txt_pl2_msj.Location = new System.Drawing.Point(55, 49);
-            this.txt_pl2_msj.Name = "txt_pl2_msj";
-            this.txt_pl2_msj.Size = new System.Drawing.Size(288, 98);
-            this.txt_pl2_msj.TabIndex = 313;
-            this.txt_pl2_msj.Text = "Importante";
-            this.txt_pl2_msj.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // QuitarLimea3
             // 
             this.QuitarLimea3.BackColor = System.Drawing.Color.White;
@@ -4560,7 +4561,6 @@ namespace CapaVisual_Login
             this.Controls.Add(this.Pnl_2);
             this.Controls.Add(this.Pnl_1);
             this.Controls.Add(this.Pnl_3_CambioPrecio);
-            this.Controls.Add(this.Pnl_2_Msj);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.Pnl_3_Lista_ColoresLC);
             this.Controls.Add(this.Pnl_3_Promociones);
@@ -4595,6 +4595,7 @@ namespace CapaVisual_Login
             ((System.ComponentModel.ISupportInitialize)(this.dvgClientePagador)).EndInit();
             this.pnlClienteGarantia.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvOrdenesGarantia)).EndInit();
+            this.Pnl_2_Msj.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.grp_pln2_Cont1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.Dgv_Pnl2_cont)).EndInit();
@@ -4661,7 +4662,6 @@ namespace CapaVisual_Login
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DgvClientes)).EndInit();
-            this.Pnl_2_Msj.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

@@ -5560,6 +5560,31 @@ namespace CapaVisual_Login
 
         private void Dgv_Pnl2_conv_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
         {
+            if (Dgv_Pnl2_conv.Columns[e.ColumnIndex].Name == "Altura")
+            {
+                string textoIngresado = e.FormattedValue?.ToString();
+
+                if (int.TryParse(textoIngresado, out int valor))
+                {
+                    if (valor == 0 || (valor >= 10 && valor <= 35))
+                    {
+                        // Valor válido → no hacemos nada
+                    }
+                    else
+                    {
+                        // Valor inválido: lo dejamos en blanco
+                        Dgv_Pnl2_conv.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = "0";
+                        e.Cancel = true; // evita que el control sobrescriba con mínimo
+                    }
+                }
+                else
+                {
+                    // No se pudo convertir → borrar celda
+                    Dgv_Pnl2_conv.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = null;
+                    e.Cancel = true;
+                }
+            }
+
 
 
             ////////////
@@ -5611,7 +5636,7 @@ namespace CapaVisual_Login
             Cbx_Tap1_TLF_Local.Items.AddRange(elementosArray);
             Cbx_Tap1_TLF_Local.DropDownWidth = DropDownWidth(Cbx_Tap1_TLF_Local);
 
-            string[] elementosArray2 = { "0414",
+            string[] elementosArray2 = { "0414","0422",
                 "0424",
                 "0416",
                 "0426",
@@ -5970,8 +5995,8 @@ namespace CapaVisual_Login
             cilindroColumn.DataPropertyName = "Cilindro";
             cilindroColumn.HeaderText = "Cilindro";
             cilindroColumn.DecimalPlaces = 2;
-            cilindroColumn.Minimum = 10M;
-            cilindroColumn.Maximum = -8M;
+            cilindroColumn.Minimum = -10M;
+            cilindroColumn.Maximum = 8M;
             cilindroColumn.Increment = 0.25M;
             cilindroColumn.Width = 60;
             cilindroColumn.Resizable = DataGridViewTriState.False;
@@ -6025,8 +6050,8 @@ namespace CapaVisual_Login
             ejeColumn.Name = "Eje";
             ejeColumn.DataPropertyName = "Eje";
             ejeColumn.HeaderText = "Eje";
-            ejeColumn.Minimum = 0.75M;
-            ejeColumn.Maximum = 3.50M;
+            ejeColumn.Minimum = 0M;
+            ejeColumn.Maximum = 180M;
             //ejeColumn.Increment = 5M;
             // Formato personalizado para mostrar siempre 3 dígitos
             ejeColumn.DefaultCellStyle.Format = "000";
@@ -6408,7 +6433,7 @@ namespace CapaVisual_Login
             AlturaColumn.Name = "Altura";
             AlturaColumn.DataPropertyName = "Altura";
             AlturaColumn.HeaderText = "Altura";
-            AlturaColumn.Minimum = 10;
+            AlturaColumn.Minimum = 0;
             AlturaColumn.Maximum = 35;
             // Formato personalizado para mostrar siempre 3 dígitos
             AlturaColumn.DefaultCellStyle.Format = "000";
@@ -8511,8 +8536,8 @@ namespace CapaVisual_Login
 
 
 
-                Pnl_2_Msj.Visible = true;
-                txt_pl2_msj.Text = "Cliente Guardado con Exito";
+                //Pnl_2_Msj.Visible = true;
+                //txt_pl2_msj.Text = "Cliente Guardado con Exito";
                 ////pb_pl2_mj.Visible = false;
                 
                 //MessageBox.Show("Cliente Guardado Exitosamente", "Importante", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
@@ -9053,7 +9078,7 @@ namespace CapaVisual_Login
                 grp_pln2_Cont1.Visible = true;
                 grp_pln2_Cont1.BringToFront();
             }
-            else if (Cbx_Tap2_Tipo_Examen.Text == "CONVENCIONAL")
+            else if (Cbx_Tap2_Tipo_Examen.Text == "CONVENCIONAL" || Cbx_Tap2_Tipo_Examen.Text == "")
             {
                 grp_pln2_Conv2.Visible = true;
                 grp_pln2_Conv2.BringToFront();
@@ -9695,7 +9720,7 @@ namespace CapaVisual_Login
                 grp_pln2_Cont1.Visible = true;
                 grp_pln2_Cont1.BringToFront();
             }
-            else if (Cbx_Tap2_Tipo_Examen.Text == "CONVENCIONAL")
+            else if (Cbx_Tap2_Tipo_Examen.Text == "CONVENCIONAL" || Cbx_Tap2_Tipo_Examen.Text == "")
             {
                 grp_pln2_Conv2.Visible = true;
                 grp_pln2_Conv2.BringToFront();
@@ -10299,9 +10324,10 @@ namespace CapaVisual_Login
                 {
 
                     Pnl_2_Msj.Visible = true;
-                    txt_pl2_msj.Text = "Examen guardado con éxito ";
+                    //txt_pl2_msj.Text = "Examen guardado con éxito ";
                     //pb_pl2_mj.Visible = false;
                     btnCargarOrden.Enabled = true;
+                    tabControl.SelectedIndex = 2;
                     AgregarRx();
                 }
 
@@ -10591,8 +10617,9 @@ namespace CapaVisual_Login
                 }
                 else
                 {
+                    int valoreje = Convert.ToInt32(cell.Value);
                     // Si la celda no está vacía, valida el número ingresado como entero
-                    if (int.TryParse(cell.Value.ToString(), out int enteredValue))
+                    if (int.TryParse(valoreje.ToString(), out int enteredValue))
                     {
                         // Verifica si el valor es un múltiplo de 5
                         if (enteredValue % 5 != 0)
@@ -11263,8 +11290,9 @@ namespace CapaVisual_Login
                 }
                 else
                 {
+                    int valoreje = Convert.ToInt32(cell.Value);
                     // Si la celda no está vacía, valida el número ingresado
-                    if (int.TryParse(cell.Value.ToString(), out int enteredValue))
+                    if (int.TryParse(valoreje.ToString(), out int enteredValue))
                     {
                         // Verifica si el valor es un múltiplo de 5
                         if (enteredValue % 5 != 0)
@@ -11284,7 +11312,7 @@ namespace CapaVisual_Login
                     else
                     {
                         // Si el valor no es un entero válido
-                        MessageBox.Show("Por favor, ingrese un número entero válido.", "Error de entrada", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        //MessageBox.Show("Por favor, ingrese un número entero válido.", "Error de entrada", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         cell.Value = 0; // O la acción que consideres adecuada
                     }
                 }
