@@ -239,6 +239,7 @@ namespace CapaVisual_Login
             this.lbRegE.Size = new System.Drawing.Size(59, 20);
             this.lbRegE.TabIndex = 136;
             this.lbRegE.Text = "lbRegE";
+            this.lbRegE.Visible = false;
             // 
             // lbRegD
             // 
@@ -249,6 +250,7 @@ namespace CapaVisual_Login
             this.lbRegD.Size = new System.Drawing.Size(62, 20);
             this.lbRegD.TabIndex = 135;
             this.lbRegD.Text = "lbRegD";
+            this.lbRegD.Visible = false;
             // 
             // Btn_Pnl2_Regi
             // 
@@ -377,6 +379,7 @@ namespace CapaVisual_Login
             this.LblHoraDesenc.Size = new System.Drawing.Size(82, 20);
             this.LblHoraDesenc.TabIndex = 131;
             this.LblHoraDesenc.Text = "HoraDESC";
+            this.LblHoraDesenc.Visible = false;
             // 
             // LblFechaDesenc
             // 
@@ -387,6 +390,7 @@ namespace CapaVisual_Login
             this.LblFechaDesenc.Size = new System.Drawing.Size(93, 20);
             this.LblFechaDesenc.TabIndex = 130;
             this.LblFechaDesenc.Text = "FechaDESC";
+            this.LblFechaDesenc.Visible = false;
             // 
             // LblTasaDesenc
             // 
@@ -397,6 +401,7 @@ namespace CapaVisual_Login
             this.LblTasaDesenc.Size = new System.Drawing.Size(78, 20);
             this.LblTasaDesenc.TabIndex = 129;
             this.LblTasaDesenc.Text = "TasaDESC";
+            this.LblTasaDesenc.Visible = false;
             // 
             // Txt_Pnl3_Secuencia
             // 

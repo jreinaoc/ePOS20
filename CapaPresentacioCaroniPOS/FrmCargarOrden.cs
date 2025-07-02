@@ -471,8 +471,8 @@ namespace CapaVisual_Login
                     Cbx_Pnl2_Servicio.Visible = true;
                     //Txt_Pnl2_Examen.Visible = true;
                     //Lbl_Pnl2_Num_Examen.Visible = true;
-                    Cbx_Pnl2_Ojo.Visible = true;
-                    label24.Visible = true;
+                    Cbx_Pnl2_Ojo.Visible = false;
+                    label24.Visible = false;
                     Txt_Pnl2_Fecha_Ofre.Visible = true;
                     Lbl_Pnl2_Fecha_Ofre.Visible = true;
                     Lbl_Pnl2_Carga_Art.Visible = true;
@@ -3418,6 +3418,29 @@ namespace CapaVisual_Login
             }
             nuevoTrabajo.TOJO = Cbx_Tap2_Ojo.Text;
             nuevoTrabajo.TipoExamen = Cbx_Tap2_Tipo_Examen.Text;
+            Txt_Pnl2_Cedula.Text = Cbx_Tap1_Nacionalidad.Text.Trim() + "-" +Txt_Tap1_Cedula.Text.Trim();
+
+            bool encontrado = false;
+            for (int i = 0; i < Cbx_Pnl2_Ojo.Items.Count; i++)
+            {
+                var item = Cbx_Pnl2_Ojo.Items[i];
+                // Si es un objeto anónimo o tiene la propiedad Text
+                var textProp = item.GetType().GetProperty("Text");
+                if (textProp != null)
+                {
+                    string texto = textProp.GetValue(item, null)?.ToString();
+                    if (texto.Trim().ToLower() == Cbx_Tap2_Ojo.Text.Trim().ToLower())
+                    {
+                        Cbx_Pnl2_Ojo.SelectedIndex = i;
+                        encontrado = true;
+                        break;
+                    }
+                }
+            }
+            if (!encontrado && Cbx_Pnl2_Ojo.Items.Count > 0)
+            {
+                Cbx_Pnl2_Ojo.SelectedIndex = 0;
+            }
 
         }
 
