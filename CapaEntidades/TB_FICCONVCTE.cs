@@ -20,8 +20,8 @@ namespace CapaEntidades
         public decimal? ALTI { get; set; }
         public decimal? PRISMAD { get; set; }
         public decimal? PRISMAI { get; set; }
-        public decimal? PBASED { get; set; } // ¡Aquí está el cambio!
-        public decimal? PBASEI { get; set; } // ¡Aquí está el cambio!
+        public string PBASED { get; set; } // ¡Aquí está el cambio!
+        public string PBASEI { get; set; } // ¡Aquí está el cambio!
         public string OFTI { get; set; }
         public string OFTD { get; set; }
 
