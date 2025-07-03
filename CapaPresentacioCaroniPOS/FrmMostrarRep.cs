@@ -19,14 +19,16 @@ namespace CapaVisual_Login
         private string _nombreDataSource;
         private bool _imprimir;
         private DataTable _datosReporte;
+        Dictionary<string, string> _Parametros;
 
-        public FrmMostrarRep(string nombreReporte = null , string nombreDataSource = null , bool imprimir = false, DataTable datosReporte = null)
+        public FrmMostrarRep(string nombreReporte = null , string nombreDataSource = null , bool imprimir = false, DataTable datosReporte = null, Dictionary<string, string> parametros = null)
         {
             InitializeComponent();
             _nombreReporte = nombreReporte;
             _nombreDataSource = nombreDataSource;
             _datosReporte = datosReporte;
             _imprimir = imprimir;
+            _Parametros = parametros;
         }
 
         private string conexion = ConfigurationManager.ConnectionStrings["Epos"].ConnectionString;
@@ -36,8 +38,8 @@ namespace CapaVisual_Login
         if (!string.IsNullOrEmpty(_nombreReporte) && !string.IsNullOrEmpty(_nombreDataSource) && _datosReporte != null)
         {
 
-                MostrarReporteGenerico(_nombreReporte, _nombreDataSource, _datosReporte);
-               if (_imprimir)
+                MostrarReporteGenerico(_nombreReporte, _nombreDataSource, _datosReporte, _Parametros);
+                if (_imprimir)
                {
                 reportViewer1.PrintDialog();
                 this.Close();
@@ -46,11 +48,23 @@ namespace CapaVisual_Login
         }
     }
 
-        private void MostrarReporteGenerico(string nombreReporte, string nombreDataSource, DataTable datos)
+        private void MostrarReporteGenerico(string nombreReporte, string nombreDataSource, DataTable datos, Dictionary<string, string> parametros = null)
         {
             reportViewer1.LocalReport.DataSources.Clear();
             reportViewer1.LocalReport.ReportEmbeddedResource = nombreReporte;
             reportViewer1.LocalReport.DataSources.Add(new ReportDataSource(nombreDataSource, datos));
+
+            // Si hay parámetros, los asignas aquí
+            if (parametros != null)
+            {
+                var listaParametros = new List<Microsoft.Reporting.WinForms.ReportParameter>();
+                foreach (var kvp in parametros)
+                {
+                    listaParametros.Add(new Microsoft.Reporting.WinForms.ReportParameter(kvp.Key, kvp.Value));
+                }
+                reportViewer1.LocalReport.SetParameters(listaParametros);
+            }
+
             reportViewer1.RefreshReport();
         }
 
