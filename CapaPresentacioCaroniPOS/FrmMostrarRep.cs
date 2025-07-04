@@ -81,28 +81,28 @@ namespace CapaVisual_Login
 
 
 
-            // cierras cualquier conexion que pueda estar abierta 
-            this.SP_CPOS_RepCambioTableAdapter.Connection.Close();
-            //Abres nuevamente la conexion
-            this.SP_CPOS_RepCambioTableAdapter.Connection.ConnectionString = conexion;
-            this.SP_CPOS_RepCambioTableAdapter.Fill(this.dsCambio.SP_CPOS_RepCambio, "", "", "");
+            //// cierras cualquier conexion que pueda estar abierta 
+            //this.SP_CPOS_RepCambioTableAdapter.Connection.Close();
+            ////Abres nuevamente la conexion
+            //this.SP_CPOS_RepCambioTableAdapter.Connection.ConnectionString = conexion;
+            //this.SP_CPOS_RepCambioTableAdapter.Fill(this.dsCambio.SP_CPOS_RepCambio, "", "", "");
 
 
-            //parametro para enviar al reporte 
-            ReportParameter reportParameter = new ReportParameter("NunFactura", Factura);
-            ReportParameter reportParameter2 = new ReportParameter("NunCorrelativo", correlativo);
-            ReportParameter reportParameter3 = new ReportParameter("NunOs", Orden);
-            ReportParameter reportParameter4 = new ReportParameter("NunSucursal", Nombre_Sucursal);
-            ReportParameter reportParameter5 = new ReportParameter("NunCliente", Cliente);
-            ReportParameter reportParameter6 = new ReportParameter("NunTelefono", telefono);
-            ReportParameter reportParameter7 = new ReportParameter("NunBanco", Banco);
-            ReportParameter reportParameter8 = new ReportParameter("NunMonto", Monto);
+            ////parametro para enviar al reporte 
+            //ReportParameter reportParameter = new ReportParameter("NunFactura", Factura);
+            //ReportParameter reportParameter2 = new ReportParameter("NunCorrelativo", correlativo);
+            //ReportParameter reportParameter3 = new ReportParameter("NunOs", Orden);
+            //ReportParameter reportParameter4 = new ReportParameter("NunSucursal", Nombre_Sucursal);
+            //ReportParameter reportParameter5 = new ReportParameter("NunCliente", Cliente);
+            //ReportParameter reportParameter6 = new ReportParameter("NunTelefono", telefono);
+            //ReportParameter reportParameter7 = new ReportParameter("NunBanco", Banco);
+            //ReportParameter reportParameter8 = new ReportParameter("NunMonto", Monto);
 
-            this.reportViewer1.LocalReport.SetParameters(new ReportParameter[] { reportParameter, reportParameter2, reportParameter3, reportParameter4, reportParameter5, reportParameter6, reportParameter7, reportParameter8 });
+            //this.reportViewer1.LocalReport.SetParameters(new ReportParameter[] { reportParameter, reportParameter2, reportParameter3, reportParameter4, reportParameter5, reportParameter6, reportParameter7, reportParameter8 });
 
-            //Mostrar el reporte en el reportViwer1
-            this.reportViewer1.LocalReport.DataSources.Add(new ReportDataSource("DsRepCambio", bindingSource1));
-            this.reportViewer1.RefreshReport();
+            ////Mostrar el reporte en el reportViwer1
+            //this.reportViewer1.LocalReport.DataSources.Add(new ReportDataSource("DsRepCambio", bindingSource1));
+            //this.reportViewer1.RefreshReport();
 
         }
 
