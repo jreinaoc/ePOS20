@@ -585,7 +585,7 @@ namespace CapaVisual_Login
             this.DgvListadoOrdenes.RowHeadersVisible = false;
             this.DgvListadoOrdenes.RowHeadersWidth = 51;
             this.DgvListadoOrdenes.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.DgvListadoOrdenes.Size = new System.Drawing.Size(892, 150);
+            this.DgvListadoOrdenes.Size = new System.Drawing.Size(1049, 150);
             this.DgvListadoOrdenes.TabIndex = 17;
             this.DgvListadoOrdenes.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvListadoOrdenes_CellContentClick);
             this.DgvListadoOrdenes.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.DgvListadoOrdenes_CellPainting);

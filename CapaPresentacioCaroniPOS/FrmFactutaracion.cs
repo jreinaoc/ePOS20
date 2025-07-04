@@ -3607,7 +3607,7 @@ namespace CapaVisual_Login
                         Double Bolivares = 0.00;
                         Double TotalAbono = 0.00;
 
-                        Double porcRetencion = Convert.ToInt32(_D_DetalleOrden.TB_PARAMETRO("TB_PARAMETRO")) / 100;
+                        double porcRetencion = Convert.ToDouble(_D_DetalleOrden.TB_PARAMETRO("porcRetencion")) / 100.0;
 
                         Bolivares = Math.Round(TB_CAORDSER.VtaImpuesto * porcRetencion, 2);
                         TotalAbono = Convert.ToDouble(_L_Facturacion.TotalizarAbono(DgvAbonos));
