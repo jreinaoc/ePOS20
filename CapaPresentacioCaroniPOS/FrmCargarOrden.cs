@@ -482,6 +482,10 @@ namespace CapaVisual_Login
                     mantengoexamenseleccionado = true;
                     break;
                 case "MostrarCabeceraExamen":
+
+                    Txt_Pnl2_Cedula.Text = Cbx_Tap1_Nacionalidad.Text.Trim() + "-" + Txt_Tap1_Cedula.Text.Trim();
+                    Txt_Pnl_2_Nombre.Text = Txt_Tap1_Nombre.Text;
+
                     this.Pnl_2.Enabled = true;
                     this.Pnl_2.Visible = true;
                     this.Pnl_1.Visible = false;
@@ -1925,19 +1929,41 @@ namespace CapaVisual_Login
 
         private void btnPrincipal_CheckedChanged(object sender, EventArgs e)
         {
+            //mantengoexamenseleccionado = false;
+            //VisualizarPanel("MostrarCabezeraPrincipal");
+            //Txt_Pnl1_Cedula.Visible = false;
+            //Txt_Pnl1_Nombre.Visible = false;
+            //Lbl_Pnl1_Cedula.Visible = false;
+            //Lbl_Pnl1_Nombre.Visible = false;
+        
+            ////tabControl.SelectTab(0);
+            ///*MEIFER*/
+            //if (tabControl.TabPages.Count > 0)
+            //{
+            //    tabControl.SelectedIndex = 0;
+            //    //Pnl_2.Visible = false;
+            //    Pnl_1.Visible = true;
+
+            //    // Opcional: Llamar al evento directamente si la selección no lo dispara
+            //    // tabControl_SelectedIndexChanged(tabControl, EventArgs.Empty);
+            //}
+        }
+
+        private void btnPrincipal_Click(object sender, EventArgs e)
+        {
             mantengoexamenseleccionado = false;
             VisualizarPanel("MostrarCabezeraPrincipal");
             Txt_Pnl1_Cedula.Visible = false;
             Txt_Pnl1_Nombre.Visible = false;
             Lbl_Pnl1_Cedula.Visible = false;
             Lbl_Pnl1_Nombre.Visible = false;
-        
+
             //tabControl.SelectTab(0);
             /*MEIFER*/
             if (tabControl.TabPages.Count > 0)
             {
                 tabControl.SelectedIndex = 0;
-                Pnl_2.Visible = false;
+                //Pnl_2.Visible = false;
                 Pnl_1.Visible = true;
 
                 // Opcional: Llamar al evento directamente si la selección no lo dispara
@@ -1947,7 +1973,8 @@ namespace CapaVisual_Login
 
         private void btnExamen_CheckedChanged(object sender, EventArgs e)
         {
-            mantenervacio = false;
+            //mantenervacio = false;
+            //llenarCabeceraExamenyOrden();
             //if (Cbx_Tap2_Tipo_Examen.Text == "CONTACTO")
             //{
             //    grp_pln2_Cont1.Visible = true;
@@ -1993,7 +2020,9 @@ namespace CapaVisual_Login
 
         private void btnExamen_Click(object sender, EventArgs e)
         {
-            VisualizarPanel("MostrarCabeceraExamen");
+
+            Btn_Tap1_Guardar.PerformClick();
+            //VisualizarPanel("MostrarCabeceraExamen");
 
             //Txt_Pnl_2_Cedula.Visible = true;
             //Txt_Pnl_2_Nombre.Visible = true;
@@ -2003,26 +2032,26 @@ namespace CapaVisual_Login
             //Txt_Pnl_2_Nombre.Text = Txt_Tap1_Nombre.Text.ToString();
             //Txt_Pnl_2_Cedula.Location = new System.Drawing.Point(20, 10);
             //Txt_Pnl_2_Cedula.BringToFront();
-            btnCargarOrden.Enabled = true;
-            if (tabControl.TabPages.Count > 0)
-            {
-                tabControl.SelectedIndex = 1;
-                label43.Text = "Datos de Clientes";
+            //btnCargarOrden.Enabled = true;
+            //if (tabControl.TabPages.Count > 0)
+            //{
+            //    tabControl.SelectedIndex = 1;
+            //    label43.Text = "Datos de Clientes";
 
-                grp_pln2_Cont1.BringToFront();
-                btn_pln2_oft.BringToFront();
-                btn_pln2_reti.BringToFront();
-                btn_pln2_quer.BringToFront();
-                if (mantengoexamenseleccionado == false) // Voy al ultimo
-                {
-                    Btn_Tap2_Derecha_Click(this.Btn_Tap2_Derecha, EventArgs.Empty);
-                }
+            //    grp_pln2_Cont1.BringToFront();
+            //    btn_pln2_oft.BringToFront();
+            //    btn_pln2_reti.BringToFront();
+            //    btn_pln2_quer.BringToFront();
+            //    if (mantengoexamenseleccionado == false) // Voy al ultimo
+            //    {
+            //        Btn_Tap2_Derecha_Click(this.Btn_Tap2_Derecha, EventArgs.Empty);
+            //    }
 
-                // Opcional: Llamar al evento directamente si la selección no lo dispara
-                // tabControl_SelectedIndexChanged(tabControl, EventArgs.Empty);
-            }
-            Pnl_2.Visible = true;
-            grp_pln2_Conv2.Visible = true;
+            //    // Opcional: Llamar al evento directamente si la selección no lo dispara
+            //    // tabControl_SelectedIndexChanged(tabControl, EventArgs.Empty);
+            //}
+            //Pnl_2.Visible = true;
+            //grp_pln2_Conv2.Visible = true;
         }
 
         private void btnDetalleOrden_CheckedChanged(object sender, EventArgs e)
@@ -3403,8 +3432,8 @@ namespace CapaVisual_Login
             nuevoTrabajo.TNACIO = Cbx_Tap1_Nacionalidad.Text.Trim(); // Ajusta según cómo manejas la nacionalidad
             nuevoTrabajo.TALTD = Dgv_Pnl2_conv.Rows[0].Cells["ALTURA"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[0].Cells["ALTURA"].Value) : 0;
             nuevoTrabajo.TALTI = Dgv_Pnl2_conv.Rows[1].Cells["ALTURA"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[1].Cells["ALTURA"].Value) : 0;
-            nuevoTrabajo.TTIPOVISIOND = Dgv_Pnl2_conv.Rows[0].Cells["VISION"]?.Value?.ToString() ?? " ";
-            nuevoTrabajo.TTIPOVISIONI = Dgv_Pnl2_conv.Rows[1].Cells["VISION"]?.Value?.ToString() ?? " ";
+            nuevoTrabajo.TTIPOVISIOND = cbVisionDerecha.Text;//Dgv_Pnl2_conv.Rows[0].Cells["VISION"]?.Value?.ToString() ?? " ";
+            nuevoTrabajo.TTIPOVISIONI = cbVisionIzquierda.Text;
             nuevoTrabajo.TSucursal = _D_DetalleOrden.TB_PARAMETRO("SucursalID");
             nuevoTrabajo.TTIPOTRABAJO = "002";
             nuevoTrabajo.USERCREA = TB_USUARIO.COD_USR;
@@ -3911,7 +3940,6 @@ namespace CapaVisual_Login
 
             mantenervacio = false;
 
-
             if (validarvacio())
             {
 
@@ -3919,7 +3947,11 @@ namespace CapaVisual_Login
                 //limpearExamen();
                 Txt_Tap2_Examen.Text = TopeExamen.ToString(); // Opcional: Restablecer el valor al máximo
                 Btn_Tap2_Derecha_Click(this.Btn_Tap2_Derecha, EventArgs.Empty);
+
+                VisualizarPanel("MostrarCabeceraExamen");
             }
+            
+            //llenarCabeceraExamenyOrden();
         }
 
         private void Btn_Tap3_CristalPropio_Click(object sender, EventArgs e)
@@ -5654,11 +5686,7 @@ namespace CapaVisual_Login
 
         private void CargarCbx_fijos()
         {
-            string[] elementosArray = { "212", "232", "236", "239", "241", "242", "243",
-                "244", "251", "255", "256", "247", "273", "276", "274", "285", "286", "281",
-                "282", "283", "291", "293", "268", "269", "261", "264", "265", "272", "271", "246", "248", "258",
-                "253", "240", "278", "245", "249", "259", "235", "238", "252", "275", "234", "237", "292", "295",
-                "296", "257", "294", "277", "262", "263", "266", "267", "287", "288", "289", "284" };
+            string[] elementosArray = { "0212", "0232", "0236", "0239", "0241", "0242", "0243", "0244", "0251", "0255", "0256", "0247", "0273", "0276", "0274", "0285", "0286", "0281", "0282", "0283", "0291", "0293", "0268", "0269", "0261", "0264", "0265", "0272", "0271", "0246", "0248", "0258", "0253", "0240", "0278", "0245", "0249", "0259", "0235", "0238", "0252", "0275", "0234", "0237", "0292", "0295", "0296", "0257", "0294", "0277", "0262", "0263", "0266", "0267", "0287", "0288", "0289", "0284" };
             Cbx_Tap1_TLF_Local.Items.AddRange(elementosArray);
             Cbx_Tap1_TLF_Local.DropDownWidth = DropDownWidth(Cbx_Tap1_TLF_Local);
 
@@ -5690,7 +5718,12 @@ namespace CapaVisual_Login
             Cbx_Tap2_Ojo.DropDownWidth = DropDownWidth(Cbx_Tap2_Ojo);
 
 
-            //string[] elementosArray5a = { "Cerca", "Lejos", "Bifocal", "Progresivo", "Balance", "Intermedia" };
+            string[] elementosArray5a = { "Cerca", "Lejos", "Bifocal", "Progresivo", "Balance", "Intermedia" };
+            this.cbVisionDerecha.Items.AddRange(elementosArray5a);
+            this.cbVisionIzquierda.Items.AddRange(elementosArray5a);
+
+            cbVisionDerecha.DropDownWidth = DropDownWidth(cbVisionDerecha);
+            cbVisionIzquierda.DropDownWidth = DropDownWidth(cbVisionIzquierda);
             //this.Cbx_Tap2_Visiond.Items.AddRange(elementosArray5a);
             //this.Cbx_Tap2_Visioni.Items.AddRange(elementosArray5a);
             //Cbx_Tap2_Visioni.DropDownWidth = DropDownWidth(Cbx_Tap2_Visioni);
@@ -6467,13 +6500,13 @@ namespace CapaVisual_Login
 
 
             // Now, add your custom DataGridViewComboBoxColumn for "Vision"
-            DataGridViewComboBoxColumn visionComboColumn = new DataGridViewComboBoxColumn();
-            visionComboColumn.Name = "Vision"; // Give it a distinct name for the DataGridView column
-            visionComboColumn.DataPropertyName = "Vision"; // This must match the DataTable column name
-            visionComboColumn.HeaderText = "Visión";
-            visionComboColumn.Items.AddRange(new object[] { "Cerca", "Lejos", "Bifocal", "Progresivo", "Balance", "Intermedia" });
-            visionComboColumn.ValueType = typeof(string);
-            Dgv_Pnl2_conv.Columns.Add(visionComboColumn);
+            //DataGridViewComboBoxColumn visionComboColumn = new DataGridViewComboBoxColumn();
+            //visionComboColumn.Name = "Vision"; // Give it a distinct name for the DataGridView column
+            //visionComboColumn.DataPropertyName = "Vision"; // This must match the DataTable column name
+            //visionComboColumn.HeaderText = "Visión";
+            //visionComboColumn.Items.AddRange(new object[] { "Cerca", "Lejos", "Bifocal", "Progresivo", "Balance", "Intermedia" });
+            //visionComboColumn.ValueType = typeof(string);
+            //Dgv_Pnl2_conv.Columns.Add(visionComboColumn);
 
             //// 2. Crear una nueva DataGridViewComboBoxColumn
             //DataGridViewComboBoxColumn visionComboColumn = new DataGridViewComboBoxColumn();
@@ -6821,11 +6854,11 @@ namespace CapaVisual_Login
             }
 
 
-            if (Dgv_Pnl2_conv.Columns.Contains("Vision"))
-            {
-                Dgv_Pnl2_conv.Columns["Vision"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-                Dgv_Pnl2_conv.Columns["Vision"].Width = 125; // Establecer el ancho fijo (aproximadamente 0.5 cm)
-            }
+            //if (Dgv_Pnl2_conv.Columns.Contains("Vision"))
+            //{
+            //    Dgv_Pnl2_conv.Columns["Vision"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            //    Dgv_Pnl2_conv.Columns["Vision"].Width = 125; // Establecer el ancho fijo (aproximadamente 0.5 cm)
+            //}
 
 
             if (Dgv_Pnl2_conv.Columns.Contains("Esfera"))
@@ -7065,7 +7098,7 @@ namespace CapaVisual_Login
                 dt.Columns.Add("Grado1", typeof(decimal));
 
                 dt.Columns.Add("Altura", typeof(decimal));
-                dt.Columns.Add("Vision", typeof(string));
+                //dt.Columns.Add("Vision", typeof(string));
 
                 // Agregar las dos filas fijas
                 DataRow filaDerecha = dt.NewRow();
@@ -7275,11 +7308,11 @@ namespace CapaVisual_Login
                     dt.Rows[0]["Adicion"] = examen.ADDD;
                     dt.Rows[1]["Adicion"] = examen.ADDI;
 
-                    if (trabajo != null)
-                    {
-                        dt.Rows[0]["Vision"] = (trabajo.TTIPOVISIOND ?? string.Empty).Trim();
-                        dt.Rows[1]["Vision"] = (trabajo.TTIPOVISIONI ?? string.Empty).Trim();
-                    }
+                    //if (trabajo != null)
+                    //{
+                    //    dt.Rows[0]["Vision"] = (trabajo.TTIPOVISIOND ?? string.Empty).Trim();
+                    //    dt.Rows[1]["Vision"] = (trabajo.TTIPOVISIONI ?? string.Empty).Trim();
+                    //}
 
 
 
@@ -9912,8 +9945,8 @@ namespace CapaVisual_Login
                     nuevoFicconv.AVI = Dgv_Pnl2_conv.Rows[1].Cells["VISUAL"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[1].Cells["VISUAL"].Value) : 0;
 
 
-                    nuevoTrabajo.TTIPOVISIOND = Dgv_Pnl2_conv.Rows[0].Cells["VISION"]?.Value?.ToString() ?? " ";
-                    nuevoTrabajo.TTIPOVISIONI = Dgv_Pnl2_conv.Rows[1].Cells["VISION"]?.Value?.ToString() ?? " ";
+                    nuevoTrabajo.TTIPOVISIOND = cbVisionDerecha.Text;
+                    nuevoTrabajo.TTIPOVISIONI = cbVisionIzquierda.Text;
 
 
 
@@ -10364,6 +10397,8 @@ namespace CapaVisual_Login
                 }
 
             }
+
+            LLenar_TbTrabajo();
         }
 
         private bool ValidarCont_AllOrNoneZero()
@@ -10455,46 +10490,59 @@ namespace CapaVisual_Login
 
         private bool ValidarVisionConv()
         {
-            // This assumes you want to check all columns named "Vision" for this rule
-            // If you only want to check a specific column (e.g., the one at index X), adjust the loop.
-            foreach (DataGridViewColumn column in Dgv_Pnl2_conv.Columns)
+            if (cbVisionDerecha.Text != cbVisionIzquierda.Text && cbVisionIzquierda.Text != "BALANCE" && cbVisionDerecha.Text != "BALANCE")
             {
-                if (column.Name == "Vision")
-                {
-                    int columnIndex = column.Index;
+                Pnl_2_Msj.Visible = true;
+                txt_pl2_msj.Text = "Debe colocar tipos de visión validos La combinación posible es el mismo tipo de visión o Balance";
+                //pb_pl2_mj.Visible = true;
+                //Pnl_2_Msj.Location = new Point(396, 175);
+                Pnl_2_Msj.BringToFront();
 
-                    // Ensure there are at least two rows to compare (row 0 and row 1)
-                    if (Dgv_Pnl2_conv.Rows.Count >= 2)
-                    {
-                        DataGridViewCell cellFila0 = Dgv_Pnl2_conv.Rows[0].Cells[columnIndex];
-                        DataGridViewComboBoxCell cellFila1 = Dgv_Pnl2_conv.Rows[1].Cells[columnIndex] as DataGridViewComboBoxCell;
-
-                        // Make sure cellFila1 is indeed a DataGridViewComboBoxCell and not null
-                        if (cellFila1 == null)
-                        {
-                            // Handle cases where the cell might not be a ComboBoxCell, though it should be if configured correctly.
-                            // Or, you might want to log this as an unexpected scenario.
-                            continue;
-                        }
-
-                        string valorFila0 = cellFila0.Value?.ToString().Trim().ToUpper();
-                        string valorFila1 = cellFila1.Value?.ToString().Trim().ToUpper();
-
-                        if (valorFila0 != valorFila1 && valorFila1 != "BALANCE" && valorFila0 != "BALANCE")
-                        {
-                            Pnl_2_Msj.Visible = true;
-                            txt_pl2_msj.Text = "Debe colocar tipos de visión validos La combinación posible es el mismo tipo de visión o Balance";
-                            //pb_pl2_mj.Visible = true;
-                            //Pnl_2_Msj.Location = new Point(396, 175);
-                            Pnl_2_Msj.BringToFront();
-
-                            // Do NOT set cellFila1.Value here, as this would trigger CellValueChanged again.
-                            // Instead, return false to indicate validation failure.
-                            return false;
-                        }
-                    }
-                }
+                // Do NOT set cellFila1.Value here, as this would trigger CellValueChanged again.
+                // Instead, return false to indicate validation failure.
+                return false;
             }
+
+            //// This assumes you want to check all columns named "Vision" for this rule
+            //// If you only want to check a specific column (e.g., the one at index X), adjust the loop.
+            //foreach (DataGridViewColumn column in Dgv_Pnl2_conv.Columns)
+            //{
+            //    if (column.Name == "Vision")
+            //    {
+            //        int columnIndex = column.Index;
+
+            //        // Ensure there are at least two rows to compare (row 0 and row 1)
+            //        if (Dgv_Pnl2_conv.Rows.Count >= 2)
+            //        {
+            //            DataGridViewCell cellFila0 = Dgv_Pnl2_conv.Rows[0].Cells[columnIndex];
+            //            DataGridViewComboBoxCell cellFila1 = Dgv_Pnl2_conv.Rows[1].Cells[columnIndex] as DataGridViewComboBoxCell;
+
+            //            // Make sure cellFila1 is indeed a DataGridViewComboBoxCell and not null
+            //            if (cellFila1 == null)
+            //            {
+            //                // Handle cases where the cell might not be a ComboBoxCell, though it should be if configured correctly.
+            //                // Or, you might want to log this as an unexpected scenario.
+            //                continue;
+            //            }
+
+            //            string valorFila0 = cellFila0.Value?.ToString().Trim().ToUpper();
+            //            string valorFila1 = cellFila1.Value?.ToString().Trim().ToUpper();
+
+            //            if (valorFila0 != valorFila1 && valorFila1 != "BALANCE" && valorFila0 != "BALANCE")
+            //            {
+            //                Pnl_2_Msj.Visible = true;
+            //                txt_pl2_msj.Text = "Debe colocar tipos de visión validos La combinación posible es el mismo tipo de visión o Balance";
+            //                //pb_pl2_mj.Visible = true;
+            //                //Pnl_2_Msj.Location = new Point(396, 175);
+            //                Pnl_2_Msj.BringToFront();
+
+            //                // Do NOT set cellFila1.Value here, as this would trigger CellValueChanged again.
+            //                // Instead, return false to indicate validation failure.
+            //                return false;
+            //            }
+            //        }
+            //    }
+            //}
 
 
             return true; // Validation passed
@@ -11771,8 +11819,8 @@ namespace CapaVisual_Login
                 grp_pln2_OBS.BackColor = col2;
                 Pnl_2_Tap2.BackColor = col3;
                 Lbl_Tap2_Tipo_Exa.BackColor = col3;
-                Lbl_Tap2_Datos.BackColor = col3;
-                Lbl_Tap2_Datos.ForeColor = Color.White;
+                //Lbl_Tap2_Datos.BackColor = col3;
+                //Lbl_Tap2_Datos.ForeColor = Color.White;
                 label31.BackColor = col3;
                 label31.ForeColor = Color.White;
                 lbl_pnl2_obser.BackColor = col3;
@@ -11856,8 +11904,8 @@ namespace CapaVisual_Login
                 grp_pln2_OBS.BackColor = col3;
                 Pnl_2_Tap2.BackColor = ColorTranslator.FromHtml("#003536");
                 Lbl_Tap2_Tipo_Exa.BackColor = ColorTranslator.FromHtml("#003536");
-                Lbl_Tap2_Datos.BackColor = ColorTranslator.FromHtml("#003536");
-                Lbl_Tap2_Datos.ForeColor = Color.White;
+                //Lbl_Tap2_Datos.BackColor = ColorTranslator.FromHtml("#003536");
+                //Lbl_Tap2_Datos.ForeColor = Color.White;
                 label31.BackColor = ColorTranslator.FromHtml("#003536");
                 label31.ForeColor = Color.White;
                 lbl_pnl2_obser.BackColor = ColorTranslator.FromHtml("#003536");
@@ -12028,6 +12076,16 @@ namespace CapaVisual_Login
         {
 
         }
+
+        private void llenarCabeceraExamenyOrden()
+        {
+            //Pnl_2.Visible = true;
+            Txt_Pnl2_Cedula.Text = Cbx_Tap1_Nacionalidad.Text.Trim() + "-" + Txt_Tap1_Cedula.Text.Trim();
+            Txt_Pnl_2_Nombre.Text = Txt_Tap1_Nombre.Text;
+           
+
+        }
+    
     }
 
 }

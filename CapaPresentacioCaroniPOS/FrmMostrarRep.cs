@@ -20,8 +20,9 @@ namespace CapaVisual_Login
         private bool _imprimir;
         private DataTable _datosReporte;
         Dictionary<string, string> _Parametros;
+        Dictionary<string, DataTable> _dataSources;
 
-        public FrmMostrarRep(string nombreReporte = null , string nombreDataSource = null , bool imprimir = false, DataTable datosReporte = null, Dictionary<string, string> parametros = null)
+        public FrmMostrarRep(string nombreReporte = null , string nombreDataSource = null , bool imprimir = false, DataTable datosReporte = null, Dictionary<string, string> parametros = null, Dictionary<string, DataTable> dataSources = null)
         {
             InitializeComponent();
             _nombreReporte = nombreReporte;
@@ -29,6 +30,7 @@ namespace CapaVisual_Login
             _datosReporte = datosReporte;
             _imprimir = imprimir;
             _Parametros = parametros;
+            _dataSources = dataSources;
         }
 
         private string conexion = ConfigurationManager.ConnectionStrings["Epos"].ConnectionString;
@@ -46,20 +48,29 @@ namespace CapaVisual_Login
                }
 
         }
-    }
+            if (!string.IsNullOrEmpty(_nombreReporte) && !string.IsNullOrEmpty(_nombreDataSource) && _dataSources != null)
+            {
+
+                MostrarReporteGenerico2(_nombreReporte, _dataSources, _Parametros);
+                if (_imprimir)
+                {
+                    reportViewer1.PrintDialog();
+                    this.Close();
+                }
+
+            }
+        }
 
         private void MostrarReporteGenerico(string nombreReporte, string nombreDataSource, DataTable datos, Dictionary<string, string> parametros = null)
         {
-            ReportDataSource fuente = new ReportDataSource();
-            fuente.Name = nombreDataSource; // Debe coincidir con el DataSet del RDLC
-            fuente.Value = datos;           // Aquí va tu DataTable o lista de datos
+            // Asigna los datos al BindingSource
+            bindingSource2.DataSource = datos;
+
             reportViewer1.LocalReport.DataSources.Clear();
             reportViewer1.LocalReport.ReportEmbeddedResource = nombreReporte;
-            reportViewer1.LocalReport.DataSources.Add(fuente);
 
-            //reportViewer1.LocalReport.DataSources.Clear();
-            //reportViewer1.LocalReport.ReportEmbeddedResource = nombreReporte;
-            //reportViewer1.LocalReport.DataSources.Add(new ReportDataSource(nombreDataSource, datos));
+            // Usa el BindingSource como fuente de datos para el reporte
+            reportViewer1.LocalReport.DataSources.Add(new ReportDataSource(nombreDataSource, bindingSource2));
 
             if (datos == null || datos.Rows.Count == 0)
             {
@@ -78,33 +89,56 @@ namespace CapaVisual_Login
             }
 
             reportViewer1.RefreshReport();
-
-
-
-            //// cierras cualquier conexion que pueda estar abierta 
-            //this.SP_CPOS_RepCambioTableAdapter.Connection.Close();
-            ////Abres nuevamente la conexion
-            //this.SP_CPOS_RepCambioTableAdapter.Connection.ConnectionString = conexion;
-            //this.SP_CPOS_RepCambioTableAdapter.Fill(this.dsCambio.SP_CPOS_RepCambio, "", "", "");
-
-
-            ////parametro para enviar al reporte 
-            //ReportParameter reportParameter = new ReportParameter("NunFactura", Factura);
-            //ReportParameter reportParameter2 = new ReportParameter("NunCorrelativo", correlativo);
-            //ReportParameter reportParameter3 = new ReportParameter("NunOs", Orden);
-            //ReportParameter reportParameter4 = new ReportParameter("NunSucursal", Nombre_Sucursal);
-            //ReportParameter reportParameter5 = new ReportParameter("NunCliente", Cliente);
-            //ReportParameter reportParameter6 = new ReportParameter("NunTelefono", telefono);
-            //ReportParameter reportParameter7 = new ReportParameter("NunBanco", Banco);
-            //ReportParameter reportParameter8 = new ReportParameter("NunMonto", Monto);
-
-            //this.reportViewer1.LocalReport.SetParameters(new ReportParameter[] { reportParameter, reportParameter2, reportParameter3, reportParameter4, reportParameter5, reportParameter6, reportParameter7, reportParameter8 });
-
-            ////Mostrar el reporte en el reportViwer1
-            //this.reportViewer1.LocalReport.DataSources.Add(new ReportDataSource("DsRepCambio", bindingSource1));
-            //this.reportViewer1.RefreshReport();
-
         }
+
+        private void MostrarReporteGenerico2(
+    string nombreReporte,
+    Dictionary<string, DataTable> dataSources, // Diccionario con nombreDataSource y DataTable
+    Dictionary<string, string> parametros = null)
+        {
+            try
+            {
+                reportViewer1.LocalReport.ReportEmbeddedResource = nombreReporte;
+                reportViewer1.LocalReport.DataSources.Clear();
+
+                // Validar que hay datos en al menos un DataTable
+                bool hasData = false;
+
+                // Agregar cada DataSource al reporte
+                foreach (var ds in dataSources)
+                {
+                    if (ds.Value != null && ds.Value.Rows.Count > 0)
+                    {
+                        reportViewer1.LocalReport.DataSources.Add(
+                            new ReportDataSource(ds.Key, ds.Value));
+                        hasData = true;
+                    }
+                }
+
+                if (!hasData)
+                {
+                    MessageBox.Show("No hay datos para mostrar en el reporte.");
+                    return;
+                }
+
+                // Manejar parámetros
+                if (parametros != null && parametros.Count > 0)
+                {
+                    var listaParametros = parametros.Select(kvp =>
+                        new Microsoft.Reporting.WinForms.ReportParameter(kvp.Key, kvp.Value))
+                        .ToList();
+
+                    reportViewer1.LocalReport.SetParameters(listaParametros);
+                }
+
+                reportViewer1.RefreshReport();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al mostrar el reporte: {ex.Message}");
+            }
+        }
+
 
         public void ConfigRep()
         {

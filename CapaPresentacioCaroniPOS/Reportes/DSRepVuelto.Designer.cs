@@ -297,6 +297,10 @@ namespace CapaVisual_Login.Reportes {
             
             private global::System.Data.DataColumn columnFecha;
             
+            private global::System.Data.DataColumn columnCodSuc;
+            
+            private global::System.Data.DataColumn columnrevision;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public SP_TraerTempCambioDataTable() {
@@ -404,6 +408,22 @@ namespace CapaVisual_Login.Reportes {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn CodSucColumn {
+                get {
+                    return this.columnCodSuc;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn revisionColumn {
+                get {
+                    return this.columnrevision;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -439,7 +459,7 @@ namespace CapaVisual_Login.Reportes {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public SP_TraerTempCambioRow AddSP_TraerTempCambioRow(string NroOrden, string Revision, string Referencia, decimal MontoRecibidoRef, decimal MontoVueltoRef, decimal MontoVueltoBs, string BancoReceptor, string BancoEmisor, System.DateTime Fecha) {
+            public SP_TraerTempCambioRow AddSP_TraerTempCambioRow(string NroOrden, string Revision, string Referencia, decimal MontoRecibidoRef, decimal MontoVueltoRef, decimal MontoVueltoBs, string BancoReceptor, string BancoEmisor, System.DateTime Fecha, string CodSuc, string revision1) {
                 SP_TraerTempCambioRow rowSP_TraerTempCambioRow = ((SP_TraerTempCambioRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         NroOrden,
@@ -450,7 +470,9 @@ namespace CapaVisual_Login.Reportes {
                         MontoVueltoBs,
                         BancoReceptor,
                         BancoEmisor,
-                        Fecha};
+                        Fecha,
+                        CodSuc,
+                        revision1};
                 rowSP_TraerTempCambioRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowSP_TraerTempCambioRow);
                 return rowSP_TraerTempCambioRow;
@@ -482,6 +504,8 @@ namespace CapaVisual_Login.Reportes {
                 this.columnBancoReceptor = base.Columns["BancoReceptor"];
                 this.columnBancoEmisor = base.Columns["BancoEmisor"];
                 this.columnFecha = base.Columns["Fecha"];
+                this.columnCodSuc = base.Columns["CodSuc"];
+                this.columnrevision = base.Columns["revision"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -505,6 +529,10 @@ namespace CapaVisual_Login.Reportes {
                 base.Columns.Add(this.columnBancoEmisor);
                 this.columnFecha = new global::System.Data.DataColumn("Fecha", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnFecha);
+                this.columnCodSuc = new global::System.Data.DataColumn("CodSuc", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnCodSuc);
+                this.columnrevision = new global::System.Data.DataColumn("revision", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnrevision);
                 this.columnNroOrden.AllowDBNull = false;
                 this.columnNroOrden.MaxLength = 7;
                 this.columnRevision.AllowDBNull = false;
@@ -513,6 +541,10 @@ namespace CapaVisual_Login.Reportes {
                 this.columnBancoReceptor.MaxLength = 50;
                 this.columnBancoEmisor.MaxLength = 50;
                 this.columnFecha.AllowDBNull = false;
+                this.columnCodSuc.AllowDBNull = false;
+                this.columnCodSuc.MaxLength = 3;
+                this.columnrevision.AllowDBNull = false;
+                this.columnrevision.MaxLength = 2;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -788,6 +820,28 @@ namespace CapaVisual_Login.Reportes {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string CodSuc {
+                get {
+                    return ((string)(this[this.tableSP_TraerTempCambio.CodSucColumn]));
+                }
+                set {
+                    this[this.tableSP_TraerTempCambio.CodSucColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string revision {
+                get {
+                    return ((string)(this[this.tableSP_TraerTempCambio.revisionColumn]));
+                }
+                set {
+                    this[this.tableSP_TraerTempCambio.revisionColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsReferenciaNull() {
                 return this.IsNull(this.tableSP_TraerTempCambio.ReferenciaColumn);
             }
@@ -1027,6 +1081,8 @@ namespace CapaVisual_Login.Reportes.DSRepVueltoTableAdapters {
             tableMapping.ColumnMappings.Add("BancoReceptor", "BancoReceptor");
             tableMapping.ColumnMappings.Add("BancoEmisor", "BancoEmisor");
             tableMapping.ColumnMappings.Add("Fecha", "Fecha");
+            tableMapping.ColumnMappings.Add("CodSuc", "CodSuc");
+            tableMapping.ColumnMappings.Add("revision", "revision");
             this._adapter.TableMappings.Add(tableMapping);
         }
         
@@ -1047,14 +1103,14 @@ namespace CapaVisual_Login.Reportes.DSRepVueltoTableAdapters {
             this._commandCollection[0].CommandType = global::System.Data.CommandType.StoredProcedure;
             this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@RETURN_VALUE", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.ReturnValue, 10, 0, null, global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@CodSuc", global::System.Data.SqlDbType.VarChar, 7, global::System.Data.ParameterDirection.Input, 0, 0, null, global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Fecha", global::System.Data.SqlDbType.DateTime, 8, global::System.Data.ParameterDirection.Input, 23, 3, null, global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Fecha", global::System.Data.SqlDbType.VarChar, 2147483647, global::System.Data.ParameterDirection.Input, 0, 0, null, global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, true)]
-        public virtual int Fill(DSRepVuelto.SP_TraerTempCambioDataTable dataTable, string CodSuc, global::System.Nullable<global::System.DateTime> Fecha) {
+        public virtual int Fill(DSRepVuelto.SP_TraerTempCambioDataTable dataTable, string CodSuc, string Fecha) {
             this.Adapter.SelectCommand = this.CommandCollection[0];
             if ((CodSuc == null)) {
                 this.Adapter.SelectCommand.Parameters[1].Value = global::System.DBNull.Value;
@@ -1062,11 +1118,11 @@ namespace CapaVisual_Login.Reportes.DSRepVueltoTableAdapters {
             else {
                 this.Adapter.SelectCommand.Parameters[1].Value = ((string)(CodSuc));
             }
-            if ((Fecha.HasValue == true)) {
-                this.Adapter.SelectCommand.Parameters[2].Value = ((System.DateTime)(Fecha.Value));
+            if ((Fecha == null)) {
+                this.Adapter.SelectCommand.Parameters[2].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.SelectCommand.Parameters[2].Value = global::System.DBNull.Value;
+                this.Adapter.SelectCommand.Parameters[2].Value = ((string)(Fecha));
             }
             if ((this.ClearBeforeFill == true)) {
                 dataTable.Clear();
@@ -1079,7 +1135,7 @@ namespace CapaVisual_Login.Reportes.DSRepVueltoTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
-        public virtual DSRepVuelto.SP_TraerTempCambioDataTable GetData(string CodSuc, global::System.Nullable<global::System.DateTime> Fecha) {
+        public virtual DSRepVuelto.SP_TraerTempCambioDataTable GetData(string CodSuc, string Fecha) {
             this.Adapter.SelectCommand = this.CommandCollection[0];
             if ((CodSuc == null)) {
                 this.Adapter.SelectCommand.Parameters[1].Value = global::System.DBNull.Value;
@@ -1087,11 +1143,11 @@ namespace CapaVisual_Login.Reportes.DSRepVueltoTableAdapters {
             else {
                 this.Adapter.SelectCommand.Parameters[1].Value = ((string)(CodSuc));
             }
-            if ((Fecha.HasValue == true)) {
-                this.Adapter.SelectCommand.Parameters[2].Value = ((System.DateTime)(Fecha.Value));
+            if ((Fecha == null)) {
+                this.Adapter.SelectCommand.Parameters[2].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.SelectCommand.Parameters[2].Value = global::System.DBNull.Value;
+                this.Adapter.SelectCommand.Parameters[2].Value = ((string)(Fecha));
             }
             DSRepVuelto.SP_TraerTempCambioDataTable dataTable = new DSRepVuelto.SP_TraerTempCambioDataTable();
             this.Adapter.Fill(dataTable);
