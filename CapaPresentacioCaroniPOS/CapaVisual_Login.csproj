@@ -229,6 +229,14 @@
     <Compile Include="FrmTasaDia.Designer.cs">
       <DependentUpon>FrmTasaDia.cs</DependentUpon>
     </Compile>
+    <Compile Include="Reportes\DSCierreDeCaja.cs">
+      <DependentUpon>DSCierreDeCaja.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\DSCierreDeCaja.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DSCierreDeCaja.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Reportes\DsReppCambio.cs">
       <DependentUpon>DsReppCambio.xsd</DependentUpon>
     </Compile>
@@ -366,6 +374,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DsRepProSinPago.xsd</DependentUpon>
     </Compile>
+    <Compile Include="Reportes\DSRepVuelto.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DSRepVuelto.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Reportes\Impresor.cs" />
     <EmbeddedResource Include="FrmAnulacion.resx">
       <DependentUpon>FrmAnulacion.cs</DependentUpon>
@@ -447,12 +460,14 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="Reportes\RepCambio.rdlc" />
+    <EmbeddedResource Include="Reportes\RepCierreDeCaja.rdlc" />
     <EmbeddedResource Include="Reportes\RepContratoGarantia.rdlc" />
     <EmbeddedResource Include="Reportes\RepDeclaracionResponsabilidad.rdlc" />
     <EmbeddedResource Include="Reportes\RepNotaDevolucion.rdlc" />
     <EmbeddedResource Include="Reportes\RepOrden.rdlc" />
     <EmbeddedResource Include="Reportes\RepOrdenTContacto.rdlc" />
     <EmbeddedResource Include="Reportes\ReportAbono.rdlc" />
+    <EmbeddedResource Include="Reportes\RepVuelto.rdlc" />
     <EmbeddedResource Include="Reportes\RptAbono.rdlc" />
     <EmbeddedResource Include="Reportes\RptProSinPag.rdlc" />
     <None Include="CapaVisual_Login_TemporaryKey.pfx" />
@@ -466,6 +481,17 @@
     </None>
     <None Include="CGarantiaDataSet.xss">
       <DependentUpon>CGarantiaDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="Reportes\DSCierreDeCaja.xsc">
+      <DependentUpon>DSCierreDeCaja.xsd</DependentUpon>
+    </None>
+    <None Include="Reportes\DSCierreDeCaja.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DSCierreDeCaja.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Reportes\DSCierreDeCaja.xss">
+      <DependentUpon>DSCierreDeCaja.xsd</DependentUpon>
     </None>
     <None Include="Reportes\DsReppCambio.xsc">
       <DependentUpon>DsReppCambio.xsd</DependentUpon>
@@ -578,6 +604,17 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icono-puntoDeVenta.ico" />
+    <None Include="Reportes\DSRepVuelto.xsc">
+      <DependentUpon>DSRepVuelto.xsd</DependentUpon>
+    </None>
+    <None Include="Reportes\DSRepVuelto.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DSRepVuelto.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Reportes\DSRepVuelto.xss">
+      <DependentUpon>DSRepVuelto.xsd</DependentUpon>
+    </None>
     <None Include="Resources\LogoCaroni.png" />
     <None Include="Resources\icons8-salir-96.png" />
     <None Include="Resources\icons8-verificar-100.png" />
