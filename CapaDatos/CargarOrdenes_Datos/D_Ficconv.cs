@@ -124,8 +124,8 @@ namespace CapaDatos.CargarOrdenes_Datos
                         command.Parameters.AddWithValue("@RETI", nuevoFicConv.RETI ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@RETD", nuevoFicConv.RETD ?? (object)DBNull.Value);
 
-                        command.Parameters.AddWithValue("@PBASED", nuevoFicConv.PBASED.HasValue ? (object)nuevoFicConv.PBASED.Value : DBNull.Value);
-                        command.Parameters.AddWithValue("@PBASEI", nuevoFicConv.PBASEI.HasValue ? (object)nuevoFicConv.PBASED.Value : DBNull.Value);
+                        command.Parameters.AddWithValue("@PBASED", nuevoFicConv.PBASED);
+                        command.Parameters.AddWithValue("@PBASEI", nuevoFicConv.PBASEI);
                       
                         command.Parameters.AddWithValue("@PROGVISIONLEJOSDISTD", nuevoFicConv.PROGVISIONLEJOSDISTD.HasValue ? (object)nuevoFicConv.PROGVISIONLEJOSDISTD.Value : DBNull.Value);
                         command.Parameters.AddWithValue("@PROGVISIONLEJOSDISTI", nuevoFicConv.PROGVISIONLEJOSDISTI.HasValue ? (object)nuevoFicConv.PROGVISIONLEJOSDISTI.Value : DBNull.Value);
@@ -152,42 +152,51 @@ namespace CapaDatos.CargarOrdenes_Datos
         // Método para mapear los datos del SqlDataReader a un objeto TB_ficconv
         private TB_FICCONVCTE MapDataReaderToFicConv(SqlDataReader reader)
         {
-            return new TB_FICCONVCTE
+            try
             {
-                CTE_Nacio = reader["CTE_Nacio"]?.ToString(),
-                CTE_CedIden = reader["CTE_CedIden"]?.ToString(),
-                COD_Sucursal = reader["COD_Sucursal"]?.ToString(),
-                NUM_Examen = Convert.ToInt32(reader["NUM_Examen"]),
-                DPDL = reader["DPDL"] != DBNull.Value ? (decimal?)Convert.ToDecimal(reader["DPDL"]) : null,
-                DPDC = reader["DPDC"] != DBNull.Value ? (decimal?)Convert.ToDecimal(reader["DPDC"]) : null,
-                DPIL = reader["DPIL"] != DBNull.Value ? (decimal?)Convert.ToDecimal(reader["DPIL"]) : null,
-                DPIC = reader["DPIC"] != DBNull.Value ? (decimal?)Convert.ToDecimal(reader["DPIC"]) : null,
-                ALTD = reader["ALTD"] != DBNull.Value ? (decimal?)Convert.ToDecimal(reader["ALTD"]) : null,
-                ALTI = reader["ALTI"] != DBNull.Value ? (decimal?)Convert.ToDecimal(reader["ALTI"]) : null,
-                PRISMAD = reader["PRISMAD"] != DBNull.Value ? (decimal?)Convert.ToDecimal(reader["PRISMAD"]) : null,
-                PRISMAI = reader["PRISMAI"] != DBNull.Value ? (decimal?)Convert.ToDecimal(reader["PRISMAI"]) : null,
-                PBASED = reader["PBASED"] != DBNull.Value ? (decimal?)Convert.ToDecimal(reader["PBASED"]) : null,
-                PBASEI = reader["PBASEI"] != DBNull.Value ? (decimal?)Convert.ToDecimal(reader["PBASEI"]) : null,
+                return new TB_FICCONVCTE
+                {
+                    CTE_Nacio = reader["CTE_Nacio"]?.ToString(),
+                    CTE_CedIden = reader["CTE_CedIden"]?.ToString(),
+                    COD_Sucursal = reader["COD_Sucursal"]?.ToString(),
+                    NUM_Examen = Convert.ToInt32(reader["NUM_Examen"]),
+                    DPDL = reader["DPDL"] != DBNull.Value ? (decimal?)Convert.ToDecimal(reader["DPDL"]) : null,
+                    DPDC = reader["DPDC"] != DBNull.Value ? (decimal?)Convert.ToDecimal(reader["DPDC"]) : null,
+                    DPIL = reader["DPIL"] != DBNull.Value ? (decimal?)Convert.ToDecimal(reader["DPIL"]) : null,
+                    DPIC = reader["DPIC"] != DBNull.Value ? (decimal?)Convert.ToDecimal(reader["DPIC"]) : null,
+                    ALTD = reader["ALTD"] != DBNull.Value ? (decimal?)Convert.ToDecimal(reader["ALTD"]) : null,
+                    ALTI = reader["ALTI"] != DBNull.Value ? (decimal?)Convert.ToDecimal(reader["ALTI"]) : null,
+                    PRISMAD = reader["PRISMAD"] != DBNull.Value ? (decimal?)Convert.ToDecimal(reader["PRISMAD"]) : null,
+                    PRISMAI = reader["PRISMAI"] != DBNull.Value ? (decimal?)Convert.ToDecimal(reader["PRISMAI"]) : null,
+                    PBASED = reader["PBASED"].ToString(),
+                    PBASEI = reader["PBASEI"].ToString(),
 
-                OFTI = reader["OFTI"]?.ToString(),
-                OFTD = reader["OFTD"]?.ToString(),
-                // ... otras propiedades de tu objeto ...
-                AVD = reader["AVD"] != DBNull.Value ? (decimal?)Convert.ToDecimal(reader["AVD"]) : null,
-                AVI = reader["AVI"] != DBNull.Value ? (decimal?)Convert.ToDecimal(reader["AVI"]) : null,
-                // ... otras propiedades de tu objeto ...
-                RETI = reader["RETI"]?.ToString(),
-                RETD = reader["RETD"]?.ToString(),
-                //PRISMAD2 = reader["PRISMAD2"] != DBNull.Value ? (float?)Convert.ToDecimal(reader["PRISMAD2"]) : null,
-                //PRISMAI2 = reader["PRISMAI2"] != DBNull.Value ? (float?)Convert.ToDecimal(reader["PRISMAI2"]) : null,
-                //PBASED2 = reader["PBASED2"]?.ToString(),
-                PBASEI2 = reader["PBASEI2"]?.ToString(),
-                PROGVISIONLEJOSDISTD = reader["PROGVISIONLEJOSDISTD"] != DBNull.Value ? (decimal?)Convert.ToDecimal(reader["PROGVISIONLEJOSDISTD"]) : null,
-                PROGVISIONLEJOSDISTI = reader["PROGVISIONLEJOSDISTI"] != DBNull.Value ? (decimal?)Convert.ToDecimal(reader["PROGVISIONLEJOSDISTI"]) : null,
-                PROGVISIONCERCADISTD = reader["PROGVISIONCERCADISTD"] != DBNull.Value ? (decimal?)Convert.ToDecimal(reader["PROGVISIONCERCADISTD"]) : null,
-                PROGVISIONCERCADISTI = reader["PROGVISIONCERCADISTI"] != DBNull.Value ? (decimal?)Convert.ToDecimal(reader["PROGVISIONCERCADISTI"]) : null,
-                PROGVISIONMEDIADISTD = reader["PROGVISIONMEDIADISTD"] != DBNull.Value ? (decimal?)Convert.ToDecimal(reader["PROGVISIONMEDIADISTD"]) : null,
-                PROGVISIONMEDIADISTI = reader["PROGVISIONMEDIADISTI"] != DBNull.Value ? (decimal?)Convert.ToDecimal(reader["PROGVISIONMEDIADISTI"]) : null,
-            };
-        }
+                    OFTI = reader["OFTI"]?.ToString(),
+                    OFTD = reader["OFTD"]?.ToString(),
+                    // ... otras propiedades de tu objeto ...
+                    AVD = reader["AVD"] != DBNull.Value ? (decimal?)Convert.ToDecimal(reader["AVD"]) : null,
+                    AVI = reader["AVI"] != DBNull.Value ? (decimal?)Convert.ToDecimal(reader["AVI"]) : null,
+                    // ... otras propiedades de tu objeto ...
+                    RETI = reader["RETI"]?.ToString(),
+                    RETD = reader["RETD"]?.ToString(),
+                    PRISMAD2 = 0,
+                    PRISMAI2 = 0,
+                    PBASED2 = "0",
+                    PBASEI2 = "0",
+                    PROGVISIONLEJOSDISTD = 0,
+                    PROGVISIONLEJOSDISTI = 0,
+                    PROGVISIONCERCADISTD = 0,
+                    PROGVISIONCERCADISTI = 0,
+                    PROGVISIONMEDIADISTD = 0,
+                    PROGVISIONMEDIADISTI = 0
+                };
+            }
+            catch (Exception ex)
+            {
+                stringBuilder.Append(Environment.NewLine + string.Format("Error al obtener TB_ficconv: {0}", ex.Message));
+                // Considerar lanzar la excepción nuevamente o usar un mecanismo de registro más robusto.
+                return null; // o throw;
+            }
+}
     }
 }

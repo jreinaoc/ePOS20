@@ -381,6 +381,7 @@
       <DependentUpon>DsRepProSinPago.xsd</DependentUpon>
     </Compile>
     <Compile Include="Reportes\Impresor.cs" />
+    <Compile Include="SP_CPOS_RepCambioTableAdapter.cs" />
     <EmbeddedResource Include="FrmAnulacion.resx">
       <DependentUpon>FrmAnulacion.cs</DependentUpon>
     </EmbeddedResource>

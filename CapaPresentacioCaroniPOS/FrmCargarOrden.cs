@@ -184,6 +184,8 @@ namespace CapaVisual_Login
 
         private bool mantenervacio;
 
+        private string codigoSucursal;
+
         private void DgvListadoOrdenes_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
@@ -500,7 +502,7 @@ namespace CapaVisual_Login
                     this.Pnl_3_Lista_ClienteAfiliado.Enabled = false;
                     this.Pnl_3_Garantia.Visible = false;
                     this.Pnl_3_Garantia.Enabled = false;
-                    this.Pnl_2.Location = new Point(0, 0); // Establecer posición en (0, 0)
+                    this.Pnl_2.Location = new Point(5, 0); // Establecer posición en (0, 0)
 
                     Cbx_Pnl2_Trbajo.Visible = false;
                     Lbl_Pnl2_Trabajo.Visible = false;
@@ -3945,7 +3947,8 @@ namespace CapaVisual_Login
             /*MEIFER*/
             // Optional: Set the background color for the content area of each tab page
             // (This is separate from the tab headers handled by DrawItem)
-            
+             codigoSucursal = _D_DetalleOrden.TB_PARAMETRO("SucursalId");
+
             foreach (TabPage page in tabControl.TabPages)
             {
                 page.BackColor = Color.White;
@@ -3967,7 +3970,7 @@ namespace CapaVisual_Login
             cbMotivosGarantia.DataSource = dtMotivosGarantia;
 
             dgvOrdenesGarantia.DataSource = _L_Cliente.ObtenerClienteConGarantia(_D_DetalleOrden.TB_PARAMETRO("SucursalID"), Txt_Tap1_Cedula.Text, Cbx_Tap1_Nacionalidad.Text); // Usa la instancia _L_Cliente
-
+           
         }
 
 
@@ -5583,6 +5586,31 @@ namespace CapaVisual_Login
 
         private void Dgv_Pnl2_conv_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
         {
+            if (Dgv_Pnl2_conv.Columns[e.ColumnIndex].Name == "Altura")
+            {
+                string textoIngresado = e.FormattedValue?.ToString();
+
+                if (int.TryParse(textoIngresado, out int valor))
+                {
+                    if (valor == 0 || (valor >= 10 && valor <= 35))
+                    {
+                        // Valor válido → no hacemos nada
+                    }
+                    else
+                    {
+                        // Valor inválido: lo dejamos en blanco
+                        Dgv_Pnl2_conv.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = "0";
+                        e.Cancel = true; // evita que el control sobrescriba con mínimo
+                    }
+                }
+                else
+                {
+                    // No se pudo convertir → borrar celda
+                    Dgv_Pnl2_conv.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = null;
+                    e.Cancel = true;
+                }
+            }
+
 
 
             ////////////
@@ -5634,7 +5662,7 @@ namespace CapaVisual_Login
             Cbx_Tap1_TLF_Local.Items.AddRange(elementosArray);
             Cbx_Tap1_TLF_Local.DropDownWidth = DropDownWidth(Cbx_Tap1_TLF_Local);
 
-            string[] elementosArray2 = { "0414",
+            string[] elementosArray2 = { "0414","0422",
                 "0424",
                 "0416",
                 "0426",
@@ -5993,8 +6021,8 @@ namespace CapaVisual_Login
             cilindroColumn.DataPropertyName = "Cilindro";
             cilindroColumn.HeaderText = "Cilindro";
             cilindroColumn.DecimalPlaces = 2;
-            cilindroColumn.Minimum = 10M;
-            cilindroColumn.Maximum = -8M;
+            cilindroColumn.Minimum = -10M;
+            cilindroColumn.Maximum = 8M;
             cilindroColumn.Increment = 0.25M;
             cilindroColumn.Width = 60;
             cilindroColumn.Resizable = DataGridViewTriState.False;
@@ -6048,8 +6076,8 @@ namespace CapaVisual_Login
             ejeColumn.Name = "Eje";
             ejeColumn.DataPropertyName = "Eje";
             ejeColumn.HeaderText = "Eje";
-            ejeColumn.Minimum = 0.75M;
-            ejeColumn.Maximum = 3.50M;
+            ejeColumn.Minimum = 0M;
+            ejeColumn.Maximum = 180M;
             //ejeColumn.Increment = 5M;
             // Formato personalizado para mostrar siempre 3 dígitos
             ejeColumn.DefaultCellStyle.Format = "000";
@@ -6431,7 +6459,7 @@ namespace CapaVisual_Login
             AlturaColumn.Name = "Altura";
             AlturaColumn.DataPropertyName = "Altura";
             AlturaColumn.HeaderText = "Altura";
-            AlturaColumn.Minimum = 10;
+            AlturaColumn.Minimum = 0;
             AlturaColumn.Maximum = 35;
             // Formato personalizado para mostrar siempre 3 dígitos
             AlturaColumn.DefaultCellStyle.Format = "000";
@@ -6614,6 +6642,8 @@ namespace CapaVisual_Login
         private void LimpiarCampos2()
         {
 
+            Cbx_Tap1_Nacionalidad.Text = "V";
+
             //Btn_Tap1_GuardarET.Enabled = true;
             Cbx_Tap1_Estado.SelectedIndex = -1;
             //Cbx_Tap1_Ciudad.SelectedIndex = -1;
@@ -6728,6 +6758,7 @@ namespace CapaVisual_Login
             Cbx_Tap2_Tipo_Optome.SelectedIndex = -1; // Deselecciona el elemento seleccionado
             Cbx_Tap2_Nombre_Optome.SelectedIndex = -1; // Deselecciona el elemento seleccionado
             TXT_Tap2_Nombre_Optome.Text = ""; // Establece el texto en vacío
+            TXT_Tap2_Nombre_Optome.Enabled = false;
 
         }
         private void LimpiarCamposTodos()
@@ -6738,7 +6769,7 @@ namespace CapaVisual_Login
             Txt_Pnl_2_Nombre.Text = ""; // Ajusta el nombre de la columna
 
             Txt_Tap1_Cedula.Text = "";
-            Cbx_Tap1_Nacionalidad.SelectedIndex = -1; // Deselecciona el elemento
+            //Cbx_Tap1_Nacionalidad.SelectedIndex = -1; // Deselecciona el elemento
             Cbx_Tap1_Nacionalidad.Focus();
             DgvClientes.DataSource = null;
             DgvClientes.Rows.Clear(); // Ahora sí puedes limpiar
@@ -6773,7 +6804,7 @@ namespace CapaVisual_Login
             if (Dgv_Pnl2_conv.Columns.Contains("Agudeza"))
             {
                 Dgv_Pnl2_conv.Columns["Agudeza"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-                Dgv_Pnl2_conv.Columns["Agudeza"].Width = 60; // Establecer el ancho fijo (aproximadamente 0.5 cm)
+                Dgv_Pnl2_conv.Columns["Agudeza"].Width = 40; // Establecer el ancho fijo (aproximadamente 0.5 cm)
             }
 
             if (Dgv_Pnl2_conv.Columns.Contains("Visual"))
@@ -6793,7 +6824,7 @@ namespace CapaVisual_Login
             if (Dgv_Pnl2_conv.Columns.Contains("Vision"))
             {
                 Dgv_Pnl2_conv.Columns["Vision"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-                Dgv_Pnl2_conv.Columns["Vision"].Width = 160; // Establecer el ancho fijo (aproximadamente 0.5 cm)
+                Dgv_Pnl2_conv.Columns["Vision"].Width = 125; // Establecer el ancho fijo (aproximadamente 0.5 cm)
             }
 
 
@@ -7068,8 +7099,8 @@ namespace CapaVisual_Login
                     dt.Rows[1]["Cerca"] = con.DPIC.HasValue ? con.DPIC.Value : 0M;
 
 
-                    dt.Rows[0]["Grado1"] = con.PBASED;
-                    dt.Rows[1]["Grado1"] = con.PBASEI;
+                    dt.Rows[0]["Grado1"] = string.IsNullOrWhiteSpace(con.PBASED) ? "0" : con.PBASED;
+                    dt.Rows[1]["Grado1"] = string.IsNullOrWhiteSpace(con.PBASEI) ? "0" : con.PBASEI;
 
                     dt.Rows[0]["Prisma1"] = con.PRISMAD;
                     dt.Rows[1]["Prisma1"] = con.PRISMAI;
@@ -8398,9 +8429,9 @@ namespace CapaVisual_Login
 
             //nuevoCliente.CTE_CodOcup = string.IsNullOrEmpty(Txt_Tap1_Ocupacion.Text) ? null : Txt_Tap1_Ocupacion.Text.Trim(); // Asume que tienes un Txt_Tap1_Ocupacion
             //nuevoCliente.CTE_EdoCiv = Cbx_Tap1_EstadoCivil.Text.Trim(); // Asume que tienes un Cbx_Tap1_EstadoCivil
-            nuevoCliente.COD_Sucursal = "01"; // Asigna una sucursal por defecto (ajusta según tu lógica)
+            nuevoCliente.COD_Sucursal = codigoSucursal; // Asigna una sucursal por defecto (ajusta según tu lógica)
             nuevoCliente.CTE_FecCreacion = DateTime.Now;
-            nuevoCliente.USER_CREA = "US"; // Reemplaza con el usuario actual del sistema
+            nuevoCliente.USER_CREA = TB_USUARIO.COD_USR;  // Reemplaza con el usuario actual del sistema
 
             //nuevoCliente.Direccion_fact = string.IsNullOrEmpty(Txt_Tap1_Direccion_fact.Text) ? null : Txt_Tap1_Direccion_fact.Text.Trim(); // Asume que tienes un Txt_Tap1_Direccion
             //nuevoCliente.Facebook = string.IsNullOrEmpty(Txt_Tap1_Facebook.Text) ? null : Txt_Tap1_Facebook.Text.Trim(); // Asume que tienes un Txt_Tap1_Facebook
@@ -8442,7 +8473,7 @@ namespace CapaVisual_Login
                     nuevoTelefono.TLF_Numero = this.Txt_Tap1_TLF_Celular.Text; // Valor del control para el número de teléfono (ej: textBoxNumeroTelefono.Text);
                     nuevoTelefono.TLF_Ext = "";// Valor del control para la extensión (ej: textBoxExtensionTelefono.Text);
                                                //nuevoTelefono.TLF_FecCrea = DateTime.Now; // Establecer la fecha de creación (tipo DateTime)nuevoTelefono.TLF_FecCrea = DateTime.Now; // Establecer la fecha de creación (tipo DateTime)
-                    nuevoTelefono.USER_Crea = "us";// Usuario que está creando el registro (debes tenerlo disponible, ej: UsuarioLogueado.NombreUsuario);
+                    nuevoTelefono.USER_Crea = TB_USUARIO.COD_USR; // Usuario que está creando el registro (debes tenerlo disponible, ej: UsuarioLogueado.NombreUsuario);
 
                     // Crea una instancia de la capa lógica para teléfonos
                     resultadoTelefono = logicaClienteTelefono.InsertarTelefono(nuevoTelefono);
@@ -8473,7 +8504,7 @@ namespace CapaVisual_Login
                     nuevoTelefono.TLF_Numero = this.Txt_Tap1_TLF_Local.Text; // Valor del control para el número de teléfono (ej: textBoxNumeroTelefono.Text);
                                                                              //nuevoTelefono.TLF_Ext = Txt_Tap1_ext_Local.Text;// Valor del control para la extensión (ej: textBoxExtensionTelefono.Text);
                                                                              //nuevoTelefono.TLF_FecCrea = DateTime.Now; // Establecer la fecha de creación (tipo DateTime)nuevoTelefono.TLF_FecCrea = DateTime.Now; // Establecer la fecha de creación (tipo DateTime)
-                    nuevoTelefono.USER_Crea = "us";// Usuario que está creando el registro (debes tenerlo disponible, ej: UsuarioLogueado.NombreUsuario);
+                    nuevoTelefono.USER_Crea = TB_USUARIO.COD_USR; // Usuario que está creando el registro (debes tenerlo disponible, ej: UsuarioLogueado.NombreUsuario);
 
                     // Crea una instancia de la capa lógica para teléfonos
                     //CapaLogica.CargarClientes_Logica.L_Cliente logicaClienteTelefono = new CapaLogica.CargarClientes_Logica.L_Cliente();
@@ -8506,7 +8537,7 @@ namespace CapaVisual_Login
                                                                       //nuevoEmail.Mail_Pref = chk_Tap1_email.Checked.ToString();
                     nuevoEmail.Mail_FecCrea = DateTime.Now; // .Fecha de creación actual
                     nuevoEmail.Mail_FecModif = DateTime.Now; // .Fecha de creación actual
-                    nuevoEmail.USER_Crea = "us";// Usuario que está creando el registro (debes tenerlo disponible, ej: UsuarioLogueado.NombreUsuario);
+                    nuevoEmail.USER_Crea = TB_USUARIO.COD_USR; // Usuario que está creando el registro (debes tenerlo disponible, ej: UsuarioLogueado.NombreUsuario);
 
                     // Crea una instancia de la capa lógica para emails (puedes usar la misma instancia si prefieres)
                     CapaLogica.CargarClientes_Logica.L_Cliente logicaClienteEmail = new CapaLogica.CargarClientes_Logica.L_Cliente();
@@ -8534,8 +8565,8 @@ namespace CapaVisual_Login
 
 
 
-                Pnl_2_Msj.Visible = true;
-                txt_pl2_msj.Text = "Cliente Guardado con Exito";
+                //Pnl_2_Msj.Visible = true;
+                //txt_pl2_msj.Text = "Cliente Guardado con Exito";
                 ////pb_pl2_mj.Visible = false;
                 
                 //MessageBox.Show("Cliente Guardado Exitosamente", "Importante", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
@@ -9076,7 +9107,7 @@ namespace CapaVisual_Login
                 grp_pln2_Cont1.Visible = true;
                 grp_pln2_Cont1.BringToFront();
             }
-            else if (Cbx_Tap2_Tipo_Examen.Text == "CONVENCIONAL")
+            else if (Cbx_Tap2_Tipo_Examen.Text == "CONVENCIONAL" || Cbx_Tap2_Tipo_Examen.Text == "")
             {
                 grp_pln2_Conv2.Visible = true;
                 grp_pln2_Conv2.BringToFront();
@@ -9120,9 +9151,9 @@ namespace CapaVisual_Login
 
             //nuevoCliente.CTE_CodOcup = string.IsNullOrEmpty(Txt_Tap1_Ocupacion.Text) ? null : Txt_Tap1_Ocupacion.Text.Trim(); // Asume que tienes un Txt_Tap1_Ocupacion
             //nuevoCliente.CTE_EdoCiv = Cbx_Tap1_EstadoCivil.Text.Trim(); // Asume que tienes un Cbx_Tap1_EstadoCivil
-            nuevoCliente.COD_Sucursal = "01"; // Asigna una sucursal por defecto (ajusta según tu lógica)
+            nuevoCliente.COD_Sucursal = codigoSucursal; // Asigna una sucursal por defecto (ajusta según tu lógica)
             nuevoCliente.CTE_FecCreacion = DateTime.Now;
-            nuevoCliente.USER_CREA = "US"; // Reemplaza con el usuario actual del sistema
+            nuevoCliente.USER_CREA = TB_USUARIO.COD_USR;  // Reemplaza con el usuario actual del sistema
 
             //nuevoCliente.Direccion_fact = string.IsNullOrEmpty(Txt_Tap1_Direccion_fact.Text) ? null : Txt_Tap1_Direccion_fact.Text.Trim(); // Asume que tienes un Txt_Tap1_Direccion
             //nuevoCliente.Facebook = string.IsNullOrEmpty(Txt_Tap1_Facebook.Text) ? null : Txt_Tap1_Facebook.Text.Trim(); // Asume que tienes un Txt_Tap1_Facebook
@@ -9328,6 +9359,7 @@ namespace CapaVisual_Login
             txt_Pnl2_ofti.Enabled = true;
             txt_Pnl2_reti.Enabled = true;
             txt_Pnl2_retd.Enabled = true;
+            TXT_Tap2_Nombre_Optome.Enabled = true;
 
         }
 
@@ -9595,7 +9627,7 @@ namespace CapaVisual_Login
         private void Cbx_Tap2_Tipo_Optome_SelectedIndexChanged(object sender, EventArgs e)
         {
 
-            if (Cbx_Tap2_Tipo_Optome.SelectedItem != null && Cbx_Tap2_Tipo_Optome.SelectedItem.ToString() == "INTERNO")
+            if (Cbx_Tap2_Tipo_Optome.Enabled == true && Cbx_Tap2_Tipo_Optome.SelectedItem != null && Cbx_Tap2_Tipo_Optome.SelectedItem.ToString() == "INTERNO")
             {
                 LlenarCbxTap2NombreOptome();
                 TXT_Tap2_Nombre_Optome.Visible = false;
@@ -9606,6 +9638,7 @@ namespace CapaVisual_Login
                 // Cbx_Tap2_Nombre_Optome.Items.Clear(); // Limpia el ComboBox si no es "Interno"
                 Cbx_Tap2_Nombre_Optome.Visible = false;
                 TXT_Tap2_Nombre_Optome.Visible = true;
+                //TXT_Tap2_Nombre_Optome.Enabled = true;
             }
 
         }
@@ -9718,7 +9751,7 @@ namespace CapaVisual_Login
                 grp_pln2_Cont1.Visible = true;
                 grp_pln2_Cont1.BringToFront();
             }
-            else if (Cbx_Tap2_Tipo_Examen.Text == "CONVENCIONAL")
+            else if (Cbx_Tap2_Tipo_Examen.Text == "CONVENCIONAL" || Cbx_Tap2_Tipo_Examen.Text == "")
             {
                 grp_pln2_Conv2.Visible = true;
                 grp_pln2_Conv2.BringToFront();
@@ -9871,8 +9904,8 @@ namespace CapaVisual_Login
                     nuevoFicconv.ALTD = Dgv_Pnl2_conv.Rows[0].Cells["ALTURA"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[0].Cells["ALTURA"].Value) : 0;
                     nuevoFicconv.ALTI = Dgv_Pnl2_conv.Rows[1].Cells["ALTURA"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[1].Cells["ALTURA"].Value) : 0;
 
-                    nuevoFicconv.PBASED = Dgv_Pnl2_conv.Rows[0].Cells["Grado1"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[0].Cells["Grado1"].Value) : 0;
-                    nuevoFicconv.PBASEI = Dgv_Pnl2_conv.Rows[1].Cells["Grado1"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[1].Cells["Grado1"].Value) : 0;
+                    nuevoFicconv.PBASED = Dgv_Pnl2_conv.Rows[0].Cells["Grado1"]?.Value.ToString();
+                    nuevoFicconv.PBASEI = Dgv_Pnl2_conv.Rows[1].Cells["Grado1"]?.Value.ToString();
 
 
                     nuevoFicconv.AVD = Dgv_Pnl2_conv.Rows[0].Cells["VISUAL"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[0].Cells["VISUAL"].Value) : 0;
@@ -10135,6 +10168,7 @@ namespace CapaVisual_Login
             {
                 Pnl_2_Msj.Visible = true;
                 txt_pl2_msj.Text = "Seleccione un optometrista";
+                Pnl_2_Msj.BringToFront();
                 //pb_pl2_mj.Visible = true;
 
                 todosValidos = false;
@@ -10321,10 +10355,11 @@ namespace CapaVisual_Login
                 if (resultado.Equals("Guardado"))
                 {
 
-                    Pnl_2_Msj.Visible = true;
-                    txt_pl2_msj.Text = "Examen guardado con éxito ";
+                    //Pnl_2_Msj.Visible = true;
+                    //txt_pl2_msj.Text = "Examen guardado con éxito ";
                     //pb_pl2_mj.Visible = false;
                     btnCargarOrden.Enabled = true;
+                    tabControl.SelectedIndex = 2;
                     AgregarRx();
                 }
 
@@ -10614,8 +10649,9 @@ namespace CapaVisual_Login
                 }
                 else
                 {
+                    int valoreje = Convert.ToInt32(cell.Value);
                     // Si la celda no está vacía, valida el número ingresado como entero
-                    if (int.TryParse(cell.Value.ToString(), out int enteredValue))
+                    if (int.TryParse(valoreje.ToString(), out int enteredValue))
                     {
                         // Verifica si el valor es un múltiplo de 5
                         if (enteredValue % 5 != 0)
@@ -11286,8 +11322,9 @@ namespace CapaVisual_Login
                 }
                 else
                 {
+                    int valoreje = Convert.ToInt32(cell.Value);
                     // Si la celda no está vacía, valida el número ingresado
-                    if (int.TryParse(cell.Value.ToString(), out int enteredValue))
+                    if (int.TryParse(valoreje.ToString(), out int enteredValue))
                     {
                         // Verifica si el valor es un múltiplo de 5
                         if (enteredValue % 5 != 0)
@@ -11307,7 +11344,7 @@ namespace CapaVisual_Login
                     else
                     {
                         // Si el valor no es un entero válido
-                        MessageBox.Show("Por favor, ingrese un número entero válido.", "Error de entrada", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        //MessageBox.Show("Por favor, ingrese un número entero válido.", "Error de entrada", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         cell.Value = 0; // O la acción que consideres adecuada
                     }
                 }
@@ -11984,6 +12021,11 @@ namespace CapaVisual_Login
             }
 
             //_L_Cliente.FiltrarClientes(textBox2.Text, radioButton2, radioButton1, DgvClientes, listaDeClientes, listaTemporalClientes);
+
+        }
+
+        private void Pnl_2_Paint(object sender, PaintEventArgs e)
+        {
 
         }
     }

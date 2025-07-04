@@ -36,6 +36,7 @@ namespace CapaVisual_Login
             this.reportViewer1 = new Microsoft.Reporting.WinForms.ReportViewer();
             this.TxtOrden = new System.Windows.Forms.TextBox();
             this.SP_CPOS_RepCambioTableAdapter = new CapaVisual_Login.Reportes.DsReppCambioTableAdapters.SP_CPOS_RepCambioTableAdapter();
+            this.cpos_PagoTransferenciaTableAdapter1 = new CapaVisual_Login.Reportes.DsRepPagosTranferenciaTableAdapters.Cpos_PagoTransferenciaTableAdapter();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dsCambio)).BeginInit();
             this.SuspendLayout();
@@ -77,6 +78,10 @@ namespace CapaVisual_Login
             // 
             this.SP_CPOS_RepCambioTableAdapter.ClearBeforeFill = true;
             // 
+            // cpos_PagoTransferenciaTableAdapter1
+            // 
+            this.cpos_PagoTransferenciaTableAdapter1.ClearBeforeFill = true;
+            // 
             // FrmMostrarRep
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -101,5 +106,6 @@ namespace CapaVisual_Login
         private System.Windows.Forms.TextBox TxtOrden;
         private Reportes.DsReppCambio dsCambio;
         private Reportes.DsReppCambioTableAdapters.SP_CPOS_RepCambioTableAdapter SP_CPOS_RepCambioTableAdapter;
+        private Reportes.DsRepPagosTranferenciaTableAdapters.Cpos_PagoTransferenciaTableAdapter cpos_PagoTransferenciaTableAdapter1;
     }
 }

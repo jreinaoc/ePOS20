@@ -47,6 +47,7 @@ namespace CapaVisual_Login
         FrmCargarOrden _FrmCargarOrden = new FrmCargarOrden();
         FrmCierredeCaja _FrmCierreDeCaja = new FrmCierredeCaja();
         FrmTasaDia _FrmTasaDia = new FrmTasaDia();
+        FrmPrueba _frmPrueba = new FrmPrueba();
 
         private D_DetalleOrden _D_DetalleOrden = new D_DetalleOrden();
         public bool osc;
@@ -810,6 +811,13 @@ namespace CapaVisual_Login
         {
             PnlListadoOrdenes.Controls.Clear();
             addformulario(_FrmTasaDia);
+            Focus();
+        }
+
+        private void button1_Click_6(object sender, EventArgs e)
+        {
+            PnlListadoOrdenes.Controls.Clear();
+            addformulario(_frmPrueba);
             Focus();
         }
     }

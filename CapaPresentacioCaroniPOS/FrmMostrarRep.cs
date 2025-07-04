@@ -50,9 +50,21 @@ namespace CapaVisual_Login
 
         private void MostrarReporteGenerico(string nombreReporte, string nombreDataSource, DataTable datos, Dictionary<string, string> parametros = null)
         {
+            ReportDataSource fuente = new ReportDataSource();
+            fuente.Name = nombreDataSource; // Debe coincidir con el DataSet del RDLC
+            fuente.Value = datos;           // Aquí va tu DataTable o lista de datos
             reportViewer1.LocalReport.DataSources.Clear();
             reportViewer1.LocalReport.ReportEmbeddedResource = nombreReporte;
-            reportViewer1.LocalReport.DataSources.Add(new ReportDataSource(nombreDataSource, datos));
+            reportViewer1.LocalReport.DataSources.Add(fuente);
+
+            //reportViewer1.LocalReport.DataSources.Clear();
+            //reportViewer1.LocalReport.ReportEmbeddedResource = nombreReporte;
+            //reportViewer1.LocalReport.DataSources.Add(new ReportDataSource(nombreDataSource, datos));
+
+            if (datos == null || datos.Rows.Count == 0)
+            {
+                MessageBox.Show("No hay datos para mostrar en el reporte.");
+            }
 
             // Si hay parámetros, los asignas aquí
             if (parametros != null)
@@ -66,6 +78,32 @@ namespace CapaVisual_Login
             }
 
             reportViewer1.RefreshReport();
+
+
+
+            // cierras cualquier conexion que pueda estar abierta 
+            this.SP_CPOS_RepCambioTableAdapter.Connection.Close();
+            //Abres nuevamente la conexion
+            this.SP_CPOS_RepCambioTableAdapter.Connection.ConnectionString = conexion;
+            this.SP_CPOS_RepCambioTableAdapter.Fill(this.dsCambio.SP_CPOS_RepCambio, "", "", "");
+
+
+            //parametro para enviar al reporte 
+            ReportParameter reportParameter = new ReportParameter("NunFactura", Factura);
+            ReportParameter reportParameter2 = new ReportParameter("NunCorrelativo", correlativo);
+            ReportParameter reportParameter3 = new ReportParameter("NunOs", Orden);
+            ReportParameter reportParameter4 = new ReportParameter("NunSucursal", Nombre_Sucursal);
+            ReportParameter reportParameter5 = new ReportParameter("NunCliente", Cliente);
+            ReportParameter reportParameter6 = new ReportParameter("NunTelefono", telefono);
+            ReportParameter reportParameter7 = new ReportParameter("NunBanco", Banco);
+            ReportParameter reportParameter8 = new ReportParameter("NunMonto", Monto);
+
+            this.reportViewer1.LocalReport.SetParameters(new ReportParameter[] { reportParameter, reportParameter2, reportParameter3, reportParameter4, reportParameter5, reportParameter6, reportParameter7, reportParameter8 });
+
+            //Mostrar el reporte en el reportViwer1
+            this.reportViewer1.LocalReport.DataSources.Add(new ReportDataSource("DsRepCambio", bindingSource1));
+            this.reportViewer1.RefreshReport();
+
         }
 
         public void ConfigRep()

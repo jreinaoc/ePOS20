@@ -382,7 +382,7 @@ namespace CapaLogica.Servicios
             if (TB_CAORDSER.Cod_Venta == "002" && TB_CAORDSER.Cod_Servicio != "004")
             {
                 Dictionary<string, string> Variables_calculo = new Dictionary<string, string>
-            {
+                {
                     { "@CRISTAL", Cristal},
                     { "@ANTIREFL", AR},
                     { "@MONTURA",  Montura },
@@ -393,7 +393,7 @@ namespace CapaLogica.Servicios
                     { "@Color", Color },
                     { "@Laboratorio", "" },
                     { "@Sucursal", Sucursal }
-                    };
+                };
 
                 DataSet dsFechaOfr = _D_Articulo.ActulizaFechaOfre(Variables_calculo, null);
 
