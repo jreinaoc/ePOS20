@@ -70,6 +70,7 @@ namespace CapaVisual_Login
             this.btnTasaSec = new System.Windows.Forms.Button();
             this.btnReimpresion = new System.Windows.Forms.Button();
             this.PnlListadoOrdenes = new System.Windows.Forms.Panel();
+            this.button1 = new System.Windows.Forms.Button();
             this.GbxMenuPrincipal.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -94,6 +95,7 @@ namespace CapaVisual_Login
             // GbxMenuPrincipal
             // 
             this.GbxMenuPrincipal.BackColor = System.Drawing.Color.White;
+            this.GbxMenuPrincipal.Controls.Add(this.button1);
             this.GbxMenuPrincipal.Controls.Add(this.btn_FrmCierreDeCaja);
             this.GbxMenuPrincipal.Controls.Add(this.pictureBox4);
             this.GbxMenuPrincipal.Controls.Add(this.pictureBox3);
@@ -677,6 +679,16 @@ namespace CapaVisual_Login
             this.PnlListadoOrdenes.Size = new System.Drawing.Size(1139, 638);
             this.PnlListadoOrdenes.TabIndex = 15;
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(9, 366);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 36;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click_6);
+            // 
             // FrmPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -762,5 +774,6 @@ namespace CapaVisual_Login
         internal System.Windows.Forms.Button btnReimpresion;
         private System.Windows.Forms.Panel PnlListadoOrdenes;
         private System.Windows.Forms.Button btn_FrmCierreDeCaja;
+        private System.Windows.Forms.Button button1;
     }
 }

@@ -1,0 +1,210 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Configuration;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace CapaVisual_Login
+{
+    public partial class FrmPrueba : Form
+    {
+        public FrmPrueba()
+        {
+            InitializeComponent();
+        }
+
+        private string conexion = ConfigurationManager.ConnectionStrings["Epos"].ConnectionString;
+
+        private void checkedListBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            try
+            { 
+            if (checkedListBox1.Text== "PagosTranferencia")
+            {
+                var parametros = new Dictionary<string, string>
+                {
+                      { "FechaDesde", dateTimePicker1.Text },
+                      { "Compania", "Prueba" },
+                      { "RifCompania", "preuba22" },
+                      { "Sucursal", "prueba33" }
+                };
+
+                    // Supón que tienes estos datos:
+                    string nombreReporte = "CapaVisual_Login.Reportes.RptPagosTranferencia.rdlc";
+                    string nombreDataSource = "DsRepPagosTranferencia";     
+                    bool imprimir = false; // o true si quieres imprimir automáticamente
+                DataTable datosReporte = ObtenerDatosParaReporte(conexion,dateTimePicker1.Text, "095"); // Tu método para obtener los datos
+
+                // Instanciar y mostrar el formulario
+                FrmMostrarRep frm = new FrmMostrarRep(nombreReporte, nombreDataSource, imprimir, datosReporte, parametros);
+                frm.ShowDialog();
+
+            }
+            else if (checkedListBox1.Text == "Vuelto")
+            {
+                    var parametros = new Dictionary<string, string>
+                    {
+                      { "uNombreCompania", "Compañia" },
+                      { "uNombreSucursal", "Prueba" },
+                      { "uFechaInicio", dateTimePicker1.Text }
+                    };
+
+                    // Supón que tienes estos datos:
+                    string nombreReporte = "CapaVisual_Login.Reportes.RepVuelto.rdlc";
+                    string nombreDataSource = "DSRepVuelto";
+                    bool imprimir = false; // o true si quieres imprimir automáticamente
+                    DataTable datosReporte = ObtenerDatosParaReporteVuelto(conexion, "095", dateTimePicker1.Text); // Tu método para obtener los datos
+
+                    // Instanciar y mostrar el formulario
+                    FrmMostrarRep frm = new FrmMostrarRep(nombreReporte, nombreDataSource, imprimir, datosReporte, parametros);
+                    frm.ShowDialog();
+                }
+
+                else if (checkedListBox1.Text == "CierreCaja")
+                {
+                    var parametros = new Dictionary<string, string>
+                    {
+                      { "Compania", "Prueba" },
+                      { "Fecha", dateTimePicker1.Text },
+                      { "Sucursal", "prueba33" },
+                      { "RifCompania", "preuba22" }
+                    };
+
+
+                    var dataSources = new Dictionary<string, DataTable>
+                    {
+    { "DS_TB_CAJA", ObtenerDatosParaCierreCaja1(conexion, Convert.ToDateTime(dateTimePicker1.Text), "095")},         // Nombre debe coincidir con el del reporte (.rdlc)
+    { "DS_TB_SUCURSALES", ObtenerDatosParaCierreCaja2(conexion, Convert.ToDateTime(dateTimePicker1.Text), "095")},
+    { "DS_VW_CierreCaja", ObtenerDatosParaCierreCaja3(conexion, Convert.ToDateTime(dateTimePicker1.Text), "095")},
+    { "DS_TB_USUARIO", ObtenerDatosParaCierreCaja4(conexion, Convert.ToDateTime(dateTimePicker1.Text), "095")}
+                    };
+
+                    // Supón que tienes estos datos:
+                    string nombreReporte = "CapaVisual_Login.Reportes.RepCierreDeCaja.rdlc";
+                    string nombreDataSource = "DSCierreDeCaja";
+                    bool imprimir = false; // o true si quieres imprimir automáticamente
+
+                    // Instanciar y mostrar el formulario
+                    FrmMostrarRep frm = new FrmMostrarRep(nombreReporte, nombreDataSource, imprimir, null, parametros, dataSources);
+                    frm.ShowDialog();
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                string Respuesta = string.Format("Error: {0}", ex.Message);
+            }
+        }
+
+
+        
+        public DataTable ObtenerDatosParaCierreCaja1(string conexion, DateTime param1, string param2)
+        {
+            //// Crea una instancia del DataSet y TableAdapter
+            Reportes.DSCierreDeCaja ds = new Reportes.DSCierreDeCaja();
+            ds.EnforceConstraints = false;
+
+            // Configurar y ejecutar cada adaptador
+            var adapter1 = new Reportes.DSCierreDeCajaTableAdapters.TB_CAJATableAdapter();
+            adapter1.Connection.ConnectionString = conexion;
+            adapter1.Fill(ds.TB_CAJA, param1, param2); // Ajusta según necesites parámetros
+
+            return ds.TB_CAJA;
+        }
+
+        public DataTable ObtenerDatosParaCierreCaja2(string conexion, DateTime param1, string param2)
+        {
+            //// Crea una instancia del DataSet y TableAdapter
+            Reportes.DSCierreDeCaja ds = new Reportes.DSCierreDeCaja();
+            ds.EnforceConstraints = false;
+
+            var adapter2 = new Reportes.DSCierreDeCajaTableAdapters.TB_SUCURSALESTableAdapter();
+            adapter2.Connection.ConnectionString = conexion;
+            adapter2.Fill(ds.TB_SUCURSALES, param2);
+
+            // Establecer relaciones si es necesario
+            // ds.Relations.Add(...);
+
+            return ds.TB_SUCURSALES;
+        }
+
+        public DataTable ObtenerDatosParaCierreCaja3(string conexion, DateTime param1, string param2)
+        {
+            //// Crea una instancia del DataSet y TableAdapter
+            Reportes.DSCierreDeCaja ds = new Reportes.DSCierreDeCaja();
+            ds.EnforceConstraints = false;
+
+            var adapter3 = new Reportes.DSCierreDeCajaTableAdapters.VW_CierreCajaTableAdapter();
+            adapter3.Connection.ConnectionString = conexion;
+            adapter3.Fill(ds.VW_CierreCaja, param1); // Ajusta parámetros
+
+            // Establecer relaciones si es necesario
+            // ds.Relations.Add(...);
+
+            return ds.VW_CierreCaja;
+        }
+
+        public DataTable ObtenerDatosParaCierreCaja4(string conexion, DateTime param1, string param2)
+        {
+            //// Crea una instancia del DataSet y TableAdapter
+            Reportes.DSCierreDeCaja ds = new Reportes.DSCierreDeCaja();
+            ds.EnforceConstraints = false;
+
+            var adapter4 = new Reportes.DSCierreDeCajaTableAdapters.TB_USUARIOTableAdapter();
+            adapter4.Connection.ConnectionString = conexion;
+            adapter4.Fill(ds.TB_USUARIO, param2);
+
+            return ds.TB_USUARIO;
+        }
+
+        public DataTable ObtenerDatosParaReporteVuelto(string conexion, string param1, string param2)
+        {
+            // Crea una instancia del DataSet y TableAdapter
+            Reportes.DSRepVuelto ds = new Reportes.DSRepVuelto();
+            Reportes.DSRepVueltoTableAdapters.SP_TraerTempCambioTableAdapter adapter = new Reportes.DSRepVueltoTableAdapters.SP_TraerTempCambioTableAdapter();
+
+            // Cierra cualquier conexión abierta
+            adapter.Connection.Close();
+
+            // Asigna la cadena de conexión
+            adapter.Connection.ConnectionString = conexion;
+            ds.EnforceConstraints = false;
+            // Llena el DataTable usando el TableAdapter y los parámetros necesarios
+            adapter.Fill(ds.SP_TraerTempCambio, param1, param2);
+            //ds.EnforceConstraints = true;
+            // Retorna el DataTable con los datos
+            return ds.SP_TraerTempCambio;
+        }
+
+        public DataTable ObtenerDatosParaReporte(string conexion, string param1, string param2)
+        {
+            // Crea una instancia del DataSet y TableAdapter
+            Reportes.DsRepPagosTranferencia ds = new Reportes.DsRepPagosTranferencia();
+            Reportes.DsRepPagosTranferenciaTableAdapters.Cpos_PagoTransferenciaTableAdapter adapter = new Reportes.DsRepPagosTranferenciaTableAdapters.Cpos_PagoTransferenciaTableAdapter();
+
+            // Cierra cualquier conexión abierta
+            adapter.Connection.Close();
+
+            // Asigna la cadena de conexión
+            adapter.Connection.ConnectionString = conexion;
+
+            // Llena el DataTable usando el TableAdapter y los parámetros necesarios
+            adapter.Fill(ds.Cpos_PagoTransferencia, param1, param2);
+
+            // Retorna el DataTable con los datos
+            return ds.Cpos_PagoTransferencia;
+        }
+    }
+}

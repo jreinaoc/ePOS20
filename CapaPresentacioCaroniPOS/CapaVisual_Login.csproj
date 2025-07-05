@@ -223,6 +223,12 @@
     <Compile Include="FrmPagoMovil.Designer.cs">
       <DependentUpon>FrmPagoMovil.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmPrueba.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmPrueba.Designer.cs">
+      <DependentUpon>FrmPrueba.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmTasaDia.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -236,6 +242,14 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DSCierreDeCaja.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\DsRepPagosTranferencia.cs">
+      <DependentUpon>DsRepPagosTranferencia.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\DsRepPagosTranferencia.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DsRepPagosTranferencia.xsd</DependentUpon>
     </Compile>
     <Compile Include="Reportes\DsReppCambio.cs">
       <DependentUpon>DsReppCambio.xsd</DependentUpon>
@@ -374,12 +388,16 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DsRepProSinPago.xsd</DependentUpon>
     </Compile>
+    <Compile Include="Reportes\DSRepVuelto.cs">
+      <DependentUpon>DSRepVuelto.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Reportes\DSRepVuelto.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DSRepVuelto.xsd</DependentUpon>
     </Compile>
     <Compile Include="Reportes\Impresor.cs" />
+    <Compile Include="SP_CPOS_RepCambioTableAdapter.cs" />
     <EmbeddedResource Include="FrmAnulacion.resx">
       <DependentUpon>FrmAnulacion.cs</DependentUpon>
     </EmbeddedResource>
@@ -431,6 +449,9 @@
     <EmbeddedResource Include="FrmPrincipal.resx">
       <DependentUpon>FrmPrincipal.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FrmPrueba.resx">
+      <DependentUpon>FrmPrueba.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FrmRepContratGart.resx">
       <DependentUpon>FrmRepContratGart.cs</DependentUpon>
     </EmbeddedResource>
@@ -469,6 +490,7 @@
     <EmbeddedResource Include="Reportes\ReportAbono.rdlc" />
     <EmbeddedResource Include="Reportes\RepVuelto.rdlc" />
     <EmbeddedResource Include="Reportes\RptAbono.rdlc" />
+    <EmbeddedResource Include="Reportes\RptPagosTranferencia.rdlc" />
     <EmbeddedResource Include="Reportes\RptProSinPag.rdlc" />
     <None Include="CapaVisual_Login_TemporaryKey.pfx" />
     <None Include="CGarantiaDataSet.xsc">
@@ -492,6 +514,17 @@
     </None>
     <None Include="Reportes\DSCierreDeCaja.xss">
       <DependentUpon>DSCierreDeCaja.xsd</DependentUpon>
+    </None>
+    <None Include="Reportes\DsRepPagosTranferencia.xsc">
+      <DependentUpon>DsRepPagosTranferencia.xsd</DependentUpon>
+    </None>
+    <None Include="Reportes\DsRepPagosTranferencia.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsRepPagosTranferencia.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Reportes\DsRepPagosTranferencia.xss">
+      <DependentUpon>DsRepPagosTranferencia.xsd</DependentUpon>
     </None>
     <None Include="Reportes\DsReppCambio.xsc">
       <DependentUpon>DsReppCambio.xsd</DependentUpon>

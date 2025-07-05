@@ -19,14 +19,18 @@ namespace CapaVisual_Login
         private string _nombreDataSource;
         private bool _imprimir;
         private DataTable _datosReporte;
+        Dictionary<string, string> _Parametros;
+        Dictionary<string, DataTable> _dataSources;
 
-        public FrmMostrarRep(string nombreReporte = null , string nombreDataSource = null , bool imprimir = false, DataTable datosReporte = null)
+        public FrmMostrarRep(string nombreReporte = null , string nombreDataSource = null , bool imprimir = false, DataTable datosReporte = null, Dictionary<string, string> parametros = null, Dictionary<string, DataTable> dataSources = null)
         {
             InitializeComponent();
             _nombreReporte = nombreReporte;
             _nombreDataSource = nombreDataSource;
             _datosReporte = datosReporte;
             _imprimir = imprimir;
+            _Parametros = parametros;
+            _dataSources = dataSources;
         }
 
         private string conexion = ConfigurationManager.ConnectionStrings["Epos"].ConnectionString;
@@ -36,23 +40,105 @@ namespace CapaVisual_Login
         if (!string.IsNullOrEmpty(_nombreReporte) && !string.IsNullOrEmpty(_nombreDataSource) && _datosReporte != null)
         {
 
-                MostrarReporteGenerico(_nombreReporte, _nombreDataSource, _datosReporte);
-               if (_imprimir)
+                MostrarReporteGenerico(_nombreReporte, _nombreDataSource, _datosReporte, _Parametros);
+                if (_imprimir)
                {
                 reportViewer1.PrintDialog();
                 this.Close();
                }
 
         }
-    }
+            if (!string.IsNullOrEmpty(_nombreReporte) && !string.IsNullOrEmpty(_nombreDataSource) && _dataSources != null)
+            {
 
-        private void MostrarReporteGenerico(string nombreReporte, string nombreDataSource, DataTable datos)
+                MostrarReporteGenerico2(_nombreReporte, _dataSources, _Parametros);
+                if (_imprimir)
+                {
+                    reportViewer1.PrintDialog();
+                    this.Close();
+                }
+
+            }
+        }
+
+        private void MostrarReporteGenerico(string nombreReporte, string nombreDataSource, DataTable datos, Dictionary<string, string> parametros = null)
         {
+            // Asigna los datos al BindingSource
+            bindingSource2.DataSource = datos;
+
             reportViewer1.LocalReport.DataSources.Clear();
             reportViewer1.LocalReport.ReportEmbeddedResource = nombreReporte;
-            reportViewer1.LocalReport.DataSources.Add(new ReportDataSource(nombreDataSource, datos));
+
+            // Usa el BindingSource como fuente de datos para el reporte
+            reportViewer1.LocalReport.DataSources.Add(new ReportDataSource(nombreDataSource, bindingSource2));
+
+            if (datos == null || datos.Rows.Count == 0)
+            {
+                MessageBox.Show("No hay datos para mostrar en el reporte.");
+            }
+
+            // Si hay parámetros, los asignas aquí
+            if (parametros != null)
+            {
+                var listaParametros = new List<Microsoft.Reporting.WinForms.ReportParameter>();
+                foreach (var kvp in parametros)
+                {
+                    listaParametros.Add(new Microsoft.Reporting.WinForms.ReportParameter(kvp.Key, kvp.Value));
+                }
+                reportViewer1.LocalReport.SetParameters(listaParametros);
+            }
+
             reportViewer1.RefreshReport();
         }
+
+        private void MostrarReporteGenerico2(
+    string nombreReporte,
+    Dictionary<string, DataTable> dataSources, // Diccionario con nombreDataSource y DataTable
+    Dictionary<string, string> parametros = null)
+        {
+            try
+            {
+                reportViewer1.LocalReport.ReportEmbeddedResource = nombreReporte;
+                reportViewer1.LocalReport.DataSources.Clear();
+
+                // Validar que hay datos en al menos un DataTable
+                bool hasData = false;
+
+                // Agregar cada DataSource al reporte
+                foreach (var ds in dataSources)
+                {
+                    if (ds.Value != null && ds.Value.Rows.Count > 0)
+                    {
+                        reportViewer1.LocalReport.DataSources.Add(
+                            new ReportDataSource(ds.Key, ds.Value));
+                        hasData = true;
+                    }
+                }
+
+                if (!hasData)
+                {
+                    MessageBox.Show("No hay datos para mostrar en el reporte.");
+                    return;
+                }
+
+                // Manejar parámetros
+                if (parametros != null && parametros.Count > 0)
+                {
+                    var listaParametros = parametros.Select(kvp =>
+                        new Microsoft.Reporting.WinForms.ReportParameter(kvp.Key, kvp.Value))
+                        .ToList();
+
+                    reportViewer1.LocalReport.SetParameters(listaParametros);
+                }
+
+                reportViewer1.RefreshReport();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al mostrar el reporte: {ex.Message}");
+            }
+        }
+
 
         public void ConfigRep()
         {

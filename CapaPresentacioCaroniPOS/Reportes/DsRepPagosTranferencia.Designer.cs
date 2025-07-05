@@ -20,17 +20,17 @@ namespace CapaVisual_Login.Reportes {
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
     [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedDataSetSchema")]
-    [global::System.Xml.Serialization.XmlRootAttribute("DSRepVuelto")]
+    [global::System.Xml.Serialization.XmlRootAttribute("DsRepPagosTranferencia")]
     [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.DataSet")]
-    public partial class DSRepVuelto : global::System.Data.DataSet {
+    public partial class DsRepPagosTranferencia : global::System.Data.DataSet {
         
-        private SP_TraerTempCambioDataTable tableSP_TraerTempCambio;
+        private Cpos_PagoTransferenciaDataTable tableCpos_PagoTransferencia;
         
         private global::System.Data.SchemaSerializationMode _schemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        public DSRepVuelto() {
+        public DsRepPagosTranferencia() {
             this.BeginInit();
             this.InitClass();
             global::System.ComponentModel.CollectionChangeEventHandler schemaChangedHandler = new global::System.ComponentModel.CollectionChangeEventHandler(this.SchemaChanged);
@@ -41,7 +41,7 @@ namespace CapaVisual_Login.Reportes {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        protected DSRepVuelto(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+        protected DsRepPagosTranferencia(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                 base(info, context, false) {
             if ((this.IsBinarySerialized(info, context) == true)) {
                 this.InitVars(false);
@@ -54,8 +54,8 @@ namespace CapaVisual_Login.Reportes {
             if ((this.DetermineSchemaSerializationMode(info, context) == global::System.Data.SchemaSerializationMode.IncludeSchema)) {
                 global::System.Data.DataSet ds = new global::System.Data.DataSet();
                 ds.ReadXmlSchema(new global::System.Xml.XmlTextReader(new global::System.IO.StringReader(strSchema)));
-                if ((ds.Tables["SP_TraerTempCambio"] != null)) {
-                    base.Tables.Add(new SP_TraerTempCambioDataTable(ds.Tables["SP_TraerTempCambio"]));
+                if ((ds.Tables["Cpos_PagoTransferencia"] != null)) {
+                    base.Tables.Add(new Cpos_PagoTransferenciaDataTable(ds.Tables["Cpos_PagoTransferencia"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -79,9 +79,9 @@ namespace CapaVisual_Login.Reportes {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Browsable(false)]
         [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
-        public SP_TraerTempCambioDataTable SP_TraerTempCambio {
+        public Cpos_PagoTransferenciaDataTable Cpos_PagoTransferencia {
             get {
-                return this.tableSP_TraerTempCambio;
+                return this.tableCpos_PagoTransferencia;
             }
         }
         
@@ -127,7 +127,7 @@ namespace CapaVisual_Login.Reportes {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         public override global::System.Data.DataSet Clone() {
-            DSRepVuelto cln = ((DSRepVuelto)(base.Clone()));
+            DsRepPagosTranferencia cln = ((DsRepPagosTranferencia)(base.Clone()));
             cln.InitVars();
             cln.SchemaSerializationMode = this.SchemaSerializationMode;
             return cln;
@@ -152,8 +152,8 @@ namespace CapaVisual_Login.Reportes {
                 this.Reset();
                 global::System.Data.DataSet ds = new global::System.Data.DataSet();
                 ds.ReadXml(reader);
-                if ((ds.Tables["SP_TraerTempCambio"] != null)) {
-                    base.Tables.Add(new SP_TraerTempCambioDataTable(ds.Tables["SP_TraerTempCambio"]));
+                if ((ds.Tables["Cpos_PagoTransferencia"] != null)) {
+                    base.Tables.Add(new Cpos_PagoTransferenciaDataTable(ds.Tables["Cpos_PagoTransferencia"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -188,10 +188,10 @@ namespace CapaVisual_Login.Reportes {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         internal void InitVars(bool initTable) {
-            this.tableSP_TraerTempCambio = ((SP_TraerTempCambioDataTable)(base.Tables["SP_TraerTempCambio"]));
+            this.tableCpos_PagoTransferencia = ((Cpos_PagoTransferenciaDataTable)(base.Tables["Cpos_PagoTransferencia"]));
             if ((initTable == true)) {
-                if ((this.tableSP_TraerTempCambio != null)) {
-                    this.tableSP_TraerTempCambio.InitVars();
+                if ((this.tableCpos_PagoTransferencia != null)) {
+                    this.tableCpos_PagoTransferencia.InitVars();
                 }
             }
         }
@@ -199,18 +199,18 @@ namespace CapaVisual_Login.Reportes {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         private void InitClass() {
-            this.DataSetName = "DSRepVuelto";
+            this.DataSetName = "DsRepPagosTranferencia";
             this.Prefix = "";
-            this.Namespace = "http://tempuri.org/DSRepVuelto.xsd";
+            this.Namespace = "http://tempuri.org/DsRepPagosTranferencia.xsd";
             this.EnforceConstraints = true;
             this.SchemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
-            this.tableSP_TraerTempCambio = new SP_TraerTempCambioDataTable();
-            base.Tables.Add(this.tableSP_TraerTempCambio);
+            this.tableCpos_PagoTransferencia = new Cpos_PagoTransferenciaDataTable();
+            base.Tables.Add(this.tableCpos_PagoTransferencia);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        private bool ShouldSerializeSP_TraerTempCambio() {
+        private bool ShouldSerializeCpos_PagoTransferencia() {
             return false;
         }
         
@@ -225,7 +225,7 @@ namespace CapaVisual_Login.Reportes {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedDataSetSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
-            DSRepVuelto ds = new DSRepVuelto();
+            DsRepPagosTranferencia ds = new DsRepPagosTranferencia();
             global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
             global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
             global::System.Xml.Schema.XmlSchemaAny any = new global::System.Xml.Schema.XmlSchemaAny();
@@ -270,41 +270,47 @@ namespace CapaVisual_Login.Reportes {
         }
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        public delegate void SP_TraerTempCambioRowChangeEventHandler(object sender, SP_TraerTempCambioRowChangeEvent e);
+        public delegate void Cpos_PagoTransferenciaRowChangeEventHandler(object sender, Cpos_PagoTransferenciaRowChangeEvent e);
         
         /// <summary>
         ///Represents the strongly named DataTable class.
         ///</summary>
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class SP_TraerTempCambioDataTable : global::System.Data.TypedTableBase<SP_TraerTempCambioRow> {
+        public partial class Cpos_PagoTransferenciaDataTable : global::System.Data.TypedTableBase<Cpos_PagoTransferenciaRow> {
             
-            private global::System.Data.DataColumn columnNroOrden;
+            private global::System.Data.DataColumn columnNumOrdserv;
             
-            private global::System.Data.DataColumn columnRevision;
+            private global::System.Data.DataColumn columnAbo_CVCNROCHEQUE;
             
-            private global::System.Data.DataColumn columnReferencia;
+            private global::System.Data.DataColumn columnCod_Sucursal;
             
-            private global::System.Data.DataColumn columnMontoRecibidoRef;
+            private global::System.Data.DataColumn columnFecha;
+            
+            private global::System.Data.DataColumn columnTipo_Pago;
+            
+            private global::System.Data.DataColumn columnDescripPago;
+            
+            private global::System.Data.DataColumn columnAbo_Monto;
+            
+            private global::System.Data.DataColumn columnBANCO;
+            
+            private global::System.Data.DataColumn columnBANCORECEP;
+            
+            private global::System.Data.DataColumn columnAbo_Fecha;
+            
+            private global::System.Data.DataColumn columnDESCMONEDA;
+            
+            private global::System.Data.DataColumn columnTasa_Abono;
             
             private global::System.Data.DataColumn columnMontoVueltoRef;
             
             private global::System.Data.DataColumn columnMontoVueltoBs;
             
-            private global::System.Data.DataColumn columnBancoReceptor;
-            
-            private global::System.Data.DataColumn columnBancoEmisor;
-            
-            private global::System.Data.DataColumn columnFecha;
-            
-            private global::System.Data.DataColumn columnCodSuc;
-            
-            private global::System.Data.DataColumn columnrevision;
-            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public SP_TraerTempCambioDataTable() {
-                this.TableName = "SP_TraerTempCambio";
+            public Cpos_PagoTransferenciaDataTable() {
+                this.TableName = "Cpos_PagoTransferencia";
                 this.BeginInit();
                 this.InitClass();
                 this.EndInit();
@@ -312,7 +318,7 @@ namespace CapaVisual_Login.Reportes {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            internal SP_TraerTempCambioDataTable(global::System.Data.DataTable table) {
+            internal Cpos_PagoTransferenciaDataTable(global::System.Data.DataTable table) {
                 this.TableName = table.TableName;
                 if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
                     this.CaseSensitive = table.CaseSensitive;
@@ -329,40 +335,104 @@ namespace CapaVisual_Login.Reportes {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            protected SP_TraerTempCambioDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+            protected Cpos_PagoTransferenciaDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public global::System.Data.DataColumn NroOrdenColumn {
+            public global::System.Data.DataColumn NumOrdservColumn {
                 get {
-                    return this.columnNroOrden;
+                    return this.columnNumOrdserv;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public global::System.Data.DataColumn RevisionColumn {
+            public global::System.Data.DataColumn Abo_CVCNROCHEQUEColumn {
                 get {
-                    return this.columnRevision;
+                    return this.columnAbo_CVCNROCHEQUE;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public global::System.Data.DataColumn ReferenciaColumn {
+            public global::System.Data.DataColumn Cod_SucursalColumn {
                 get {
-                    return this.columnReferencia;
+                    return this.columnCod_Sucursal;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public global::System.Data.DataColumn MontoRecibidoRefColumn {
+            public global::System.Data.DataColumn FechaColumn {
                 get {
-                    return this.columnMontoRecibidoRef;
+                    return this.columnFecha;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn Tipo_PagoColumn {
+                get {
+                    return this.columnTipo_Pago;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn DescripPagoColumn {
+                get {
+                    return this.columnDescripPago;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn Abo_MontoColumn {
+                get {
+                    return this.columnAbo_Monto;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn BANCOColumn {
+                get {
+                    return this.columnBANCO;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn BANCORECEPColumn {
+                get {
+                    return this.columnBANCORECEP;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn Abo_FechaColumn {
+                get {
+                    return this.columnAbo_Fecha;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn DESCMONEDAColumn {
+                get {
+                    return this.columnDESCMONEDA;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn Tasa_AbonoColumn {
+                get {
+                    return this.columnTasa_Abono;
                 }
             }
             
@@ -384,46 +454,6 @@ namespace CapaVisual_Login.Reportes {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public global::System.Data.DataColumn BancoReceptorColumn {
-                get {
-                    return this.columnBancoReceptor;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public global::System.Data.DataColumn BancoEmisorColumn {
-                get {
-                    return this.columnBancoEmisor;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public global::System.Data.DataColumn FechaColumn {
-                get {
-                    return this.columnFecha;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public global::System.Data.DataColumn CodSucColumn {
-                get {
-                    return this.columnCodSuc;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public global::System.Data.DataColumn revisionColumn {
-                get {
-                    return this.columnrevision;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -433,55 +463,58 @@ namespace CapaVisual_Login.Reportes {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public SP_TraerTempCambioRow this[int index] {
+            public Cpos_PagoTransferenciaRow this[int index] {
                 get {
-                    return ((SP_TraerTempCambioRow)(this.Rows[index]));
+                    return ((Cpos_PagoTransferenciaRow)(this.Rows[index]));
                 }
             }
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public event SP_TraerTempCambioRowChangeEventHandler SP_TraerTempCambioRowChanging;
+            public event Cpos_PagoTransferenciaRowChangeEventHandler Cpos_PagoTransferenciaRowChanging;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public event SP_TraerTempCambioRowChangeEventHandler SP_TraerTempCambioRowChanged;
+            public event Cpos_PagoTransferenciaRowChangeEventHandler Cpos_PagoTransferenciaRowChanged;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public event SP_TraerTempCambioRowChangeEventHandler SP_TraerTempCambioRowDeleting;
+            public event Cpos_PagoTransferenciaRowChangeEventHandler Cpos_PagoTransferenciaRowDeleting;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public event SP_TraerTempCambioRowChangeEventHandler SP_TraerTempCambioRowDeleted;
+            public event Cpos_PagoTransferenciaRowChangeEventHandler Cpos_PagoTransferenciaRowDeleted;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public void AddSP_TraerTempCambioRow(SP_TraerTempCambioRow row) {
+            public void AddCpos_PagoTransferenciaRow(Cpos_PagoTransferenciaRow row) {
                 this.Rows.Add(row);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public SP_TraerTempCambioRow AddSP_TraerTempCambioRow(string NroOrden, string Revision, string Referencia, decimal MontoRecibidoRef, decimal MontoVueltoRef, decimal MontoVueltoBs, string BancoReceptor, string BancoEmisor, System.DateTime Fecha, string CodSuc, string revision1) {
-                SP_TraerTempCambioRow rowSP_TraerTempCambioRow = ((SP_TraerTempCambioRow)(this.NewRow()));
+            public Cpos_PagoTransferenciaRow AddCpos_PagoTransferenciaRow(string NumOrdserv, string Abo_CVCNROCHEQUE, string Cod_Sucursal, System.DateTime Fecha, string Tipo_Pago, string DescripPago, decimal Abo_Monto, string BANCO, string BANCORECEP, string Abo_Fecha, string DESCMONEDA, decimal Tasa_Abono, decimal MontoVueltoRef, decimal MontoVueltoBs) {
+                Cpos_PagoTransferenciaRow rowCpos_PagoTransferenciaRow = ((Cpos_PagoTransferenciaRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
-                        NroOrden,
-                        Revision,
-                        Referencia,
-                        MontoRecibidoRef,
-                        MontoVueltoRef,
-                        MontoVueltoBs,
-                        BancoReceptor,
-                        BancoEmisor,
+                        NumOrdserv,
+                        Abo_CVCNROCHEQUE,
+                        Cod_Sucursal,
                         Fecha,
-                        CodSuc,
-                        revision1};
-                rowSP_TraerTempCambioRow.ItemArray = columnValuesArray;
-                this.Rows.Add(rowSP_TraerTempCambioRow);
-                return rowSP_TraerTempCambioRow;
+                        Tipo_Pago,
+                        DescripPago,
+                        Abo_Monto,
+                        BANCO,
+                        BANCORECEP,
+                        Abo_Fecha,
+                        DESCMONEDA,
+                        Tasa_Abono,
+                        MontoVueltoRef,
+                        MontoVueltoBs};
+                rowCpos_PagoTransferenciaRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowCpos_PagoTransferenciaRow);
+                return rowCpos_PagoTransferenciaRow;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public override global::System.Data.DataTable Clone() {
-                SP_TraerTempCambioDataTable cln = ((SP_TraerTempCambioDataTable)(base.Clone()));
+                Cpos_PagoTransferenciaDataTable cln = ((Cpos_PagoTransferenciaDataTable)(base.Clone()));
                 cln.InitVars();
                 return cln;
             }
@@ -489,88 +522,101 @@ namespace CapaVisual_Login.Reportes {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             protected override global::System.Data.DataTable CreateInstance() {
-                return new SP_TraerTempCambioDataTable();
+                return new Cpos_PagoTransferenciaDataTable();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             internal void InitVars() {
-                this.columnNroOrden = base.Columns["NroOrden"];
-                this.columnRevision = base.Columns["Revision"];
-                this.columnReferencia = base.Columns["Referencia"];
-                this.columnMontoRecibidoRef = base.Columns["MontoRecibidoRef"];
+                this.columnNumOrdserv = base.Columns["NumOrdserv"];
+                this.columnAbo_CVCNROCHEQUE = base.Columns["Abo_CVCNROCHEQUE"];
+                this.columnCod_Sucursal = base.Columns["Cod_Sucursal"];
+                this.columnFecha = base.Columns["Fecha"];
+                this.columnTipo_Pago = base.Columns["Tipo_Pago"];
+                this.columnDescripPago = base.Columns["DescripPago"];
+                this.columnAbo_Monto = base.Columns["Abo_Monto"];
+                this.columnBANCO = base.Columns["BANCO"];
+                this.columnBANCORECEP = base.Columns["BANCORECEP"];
+                this.columnAbo_Fecha = base.Columns["Abo_Fecha"];
+                this.columnDESCMONEDA = base.Columns["DESCMONEDA"];
+                this.columnTasa_Abono = base.Columns["Tasa_Abono"];
                 this.columnMontoVueltoRef = base.Columns["MontoVueltoRef"];
                 this.columnMontoVueltoBs = base.Columns["MontoVueltoBs"];
-                this.columnBancoReceptor = base.Columns["BancoReceptor"];
-                this.columnBancoEmisor = base.Columns["BancoEmisor"];
-                this.columnFecha = base.Columns["Fecha"];
-                this.columnCodSuc = base.Columns["CodSuc"];
-                this.columnrevision = base.Columns["revision"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             private void InitClass() {
-                this.columnNroOrden = new global::System.Data.DataColumn("NroOrden", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnNroOrden);
-                this.columnRevision = new global::System.Data.DataColumn("Revision", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnRevision);
-                this.columnReferencia = new global::System.Data.DataColumn("Referencia", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnReferencia);
-                this.columnMontoRecibidoRef = new global::System.Data.DataColumn("MontoRecibidoRef", typeof(decimal), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnMontoRecibidoRef);
+                this.columnNumOrdserv = new global::System.Data.DataColumn("NumOrdserv", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnNumOrdserv);
+                this.columnAbo_CVCNROCHEQUE = new global::System.Data.DataColumn("Abo_CVCNROCHEQUE", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnAbo_CVCNROCHEQUE);
+                this.columnCod_Sucursal = new global::System.Data.DataColumn("Cod_Sucursal", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnCod_Sucursal);
+                this.columnFecha = new global::System.Data.DataColumn("Fecha", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnFecha);
+                this.columnTipo_Pago = new global::System.Data.DataColumn("Tipo_Pago", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTipo_Pago);
+                this.columnDescripPago = new global::System.Data.DataColumn("DescripPago", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDescripPago);
+                this.columnAbo_Monto = new global::System.Data.DataColumn("Abo_Monto", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnAbo_Monto);
+                this.columnBANCO = new global::System.Data.DataColumn("BANCO", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnBANCO);
+                this.columnBANCORECEP = new global::System.Data.DataColumn("BANCORECEP", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnBANCORECEP);
+                this.columnAbo_Fecha = new global::System.Data.DataColumn("Abo_Fecha", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnAbo_Fecha);
+                this.columnDESCMONEDA = new global::System.Data.DataColumn("DESCMONEDA", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDESCMONEDA);
+                this.columnTasa_Abono = new global::System.Data.DataColumn("Tasa_Abono", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTasa_Abono);
                 this.columnMontoVueltoRef = new global::System.Data.DataColumn("MontoVueltoRef", typeof(decimal), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnMontoVueltoRef);
                 this.columnMontoVueltoBs = new global::System.Data.DataColumn("MontoVueltoBs", typeof(decimal), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnMontoVueltoBs);
-                this.columnBancoReceptor = new global::System.Data.DataColumn("BancoReceptor", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnBancoReceptor);
-                this.columnBancoEmisor = new global::System.Data.DataColumn("BancoEmisor", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnBancoEmisor);
-                this.columnFecha = new global::System.Data.DataColumn("Fecha", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnFecha);
-                this.columnCodSuc = new global::System.Data.DataColumn("CodSuc", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnCodSuc);
-                this.columnrevision = new global::System.Data.DataColumn("revision", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnrevision);
-                this.columnNroOrden.AllowDBNull = false;
-                this.columnNroOrden.MaxLength = 7;
-                this.columnRevision.AllowDBNull = false;
-                this.columnRevision.MaxLength = 2;
-                this.columnReferencia.MaxLength = 20;
-                this.columnBancoReceptor.MaxLength = 50;
-                this.columnBancoEmisor.MaxLength = 50;
-                this.columnFecha.AllowDBNull = false;
-                this.columnCodSuc.AllowDBNull = false;
-                this.columnCodSuc.MaxLength = 3;
-                this.columnrevision.AllowDBNull = false;
-                this.columnrevision.MaxLength = 2;
+                this.columnNumOrdserv.MaxLength = 20;
+                this.columnAbo_CVCNROCHEQUE.MaxLength = 30;
+                this.columnCod_Sucursal.ReadOnly = true;
+                this.columnCod_Sucursal.MaxLength = 10;
+                this.columnFecha.ReadOnly = true;
+                this.columnTipo_Pago.ReadOnly = true;
+                this.columnTipo_Pago.MaxLength = 10;
+                this.columnDescripPago.ReadOnly = true;
+                this.columnDescripPago.MaxLength = 50;
+                this.columnBANCO.ReadOnly = true;
+                this.columnBANCO.MaxLength = 50;
+                this.columnBANCORECEP.MaxLength = 50;
+                this.columnAbo_Fecha.ReadOnly = true;
+                this.columnAbo_Fecha.MaxLength = 10;
+                this.columnDESCMONEDA.MaxLength = 10;
+                this.columnMontoVueltoBs.ReadOnly = true;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public SP_TraerTempCambioRow NewSP_TraerTempCambioRow() {
-                return ((SP_TraerTempCambioRow)(this.NewRow()));
+            public Cpos_PagoTransferenciaRow NewCpos_PagoTransferenciaRow() {
+                return ((Cpos_PagoTransferenciaRow)(this.NewRow()));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
-                return new SP_TraerTempCambioRow(builder);
+                return new Cpos_PagoTransferenciaRow(builder);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             protected override global::System.Type GetRowType() {
-                return typeof(SP_TraerTempCambioRow);
+                return typeof(Cpos_PagoTransferenciaRow);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanged(e);
-                if ((this.SP_TraerTempCambioRowChanged != null)) {
-                    this.SP_TraerTempCambioRowChanged(this, new SP_TraerTempCambioRowChangeEvent(((SP_TraerTempCambioRow)(e.Row)), e.Action));
+                if ((this.Cpos_PagoTransferenciaRowChanged != null)) {
+                    this.Cpos_PagoTransferenciaRowChanged(this, new Cpos_PagoTransferenciaRowChangeEvent(((Cpos_PagoTransferenciaRow)(e.Row)), e.Action));
                 }
             }
             
@@ -578,8 +624,8 @@ namespace CapaVisual_Login.Reportes {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanging(e);
-                if ((this.SP_TraerTempCambioRowChanging != null)) {
-                    this.SP_TraerTempCambioRowChanging(this, new SP_TraerTempCambioRowChangeEvent(((SP_TraerTempCambioRow)(e.Row)), e.Action));
+                if ((this.Cpos_PagoTransferenciaRowChanging != null)) {
+                    this.Cpos_PagoTransferenciaRowChanging(this, new Cpos_PagoTransferenciaRowChangeEvent(((Cpos_PagoTransferenciaRow)(e.Row)), e.Action));
                 }
             }
             
@@ -587,8 +633,8 @@ namespace CapaVisual_Login.Reportes {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleted(e);
-                if ((this.SP_TraerTempCambioRowDeleted != null)) {
-                    this.SP_TraerTempCambioRowDeleted(this, new SP_TraerTempCambioRowChangeEvent(((SP_TraerTempCambioRow)(e.Row)), e.Action));
+                if ((this.Cpos_PagoTransferenciaRowDeleted != null)) {
+                    this.Cpos_PagoTransferenciaRowDeleted(this, new Cpos_PagoTransferenciaRowChangeEvent(((Cpos_PagoTransferenciaRow)(e.Row)), e.Action));
                 }
             }
             
@@ -596,14 +642,14 @@ namespace CapaVisual_Login.Reportes {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleting(e);
-                if ((this.SP_TraerTempCambioRowDeleting != null)) {
-                    this.SP_TraerTempCambioRowDeleting(this, new SP_TraerTempCambioRowChangeEvent(((SP_TraerTempCambioRow)(e.Row)), e.Action));
+                if ((this.Cpos_PagoTransferenciaRowDeleting != null)) {
+                    this.Cpos_PagoTransferenciaRowDeleting(this, new Cpos_PagoTransferenciaRowChangeEvent(((Cpos_PagoTransferenciaRow)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public void RemoveSP_TraerTempCambioRow(SP_TraerTempCambioRow row) {
+            public void RemoveCpos_PagoTransferenciaRow(Cpos_PagoTransferenciaRow row) {
                 this.Rows.Remove(row);
             }
             
@@ -612,7 +658,7 @@ namespace CapaVisual_Login.Reportes {
             public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
                 global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
                 global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
-                DSRepVuelto ds = new DSRepVuelto();
+                DsRepPagosTranferencia ds = new DsRepPagosTranferencia();
                 global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
                 any1.Namespace = "http://www.w3.org/2001/XMLSchema";
                 any1.MinOccurs = new decimal(0);
@@ -630,7 +676,7 @@ namespace CapaVisual_Login.Reportes {
                 type.Attributes.Add(attribute1);
                 global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
                 attribute2.Name = "tableTypeName";
-                attribute2.FixedValue = "SP_TraerTempCambioDataTable";
+                attribute2.FixedValue = "Cpos_PagoTransferenciaDataTable";
                 type.Attributes.Add(attribute2);
                 type.Particle = sequence;
                 global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
@@ -674,69 +720,216 @@ namespace CapaVisual_Login.Reportes {
         /// <summary>
         ///Represents strongly named DataRow class.
         ///</summary>
-        public partial class SP_TraerTempCambioRow : global::System.Data.DataRow {
+        public partial class Cpos_PagoTransferenciaRow : global::System.Data.DataRow {
             
-            private SP_TraerTempCambioDataTable tableSP_TraerTempCambio;
+            private Cpos_PagoTransferenciaDataTable tableCpos_PagoTransferencia;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            internal SP_TraerTempCambioRow(global::System.Data.DataRowBuilder rb) : 
+            internal Cpos_PagoTransferenciaRow(global::System.Data.DataRowBuilder rb) : 
                     base(rb) {
-                this.tableSP_TraerTempCambio = ((SP_TraerTempCambioDataTable)(this.Table));
+                this.tableCpos_PagoTransferencia = ((Cpos_PagoTransferenciaDataTable)(this.Table));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public string NroOrden {
-                get {
-                    return ((string)(this[this.tableSP_TraerTempCambio.NroOrdenColumn]));
-                }
-                set {
-                    this[this.tableSP_TraerTempCambio.NroOrdenColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public string Revision {
-                get {
-                    return ((string)(this[this.tableSP_TraerTempCambio.RevisionColumn]));
-                }
-                set {
-                    this[this.tableSP_TraerTempCambio.RevisionColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public string Referencia {
+            public string NumOrdserv {
                 get {
                     try {
-                        return ((string)(this[this.tableSP_TraerTempCambio.ReferenciaColumn]));
+                        return ((string)(this[this.tableCpos_PagoTransferencia.NumOrdservColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("El valor de la columna \'Referencia\' de la tabla \'SP_TraerTempCambio\' es DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'NumOrdserv\' de la tabla \'Cpos_PagoTransferencia\' es DBNul" +
+                                "l.", e);
                     }
                 }
                 set {
-                    this[this.tableSP_TraerTempCambio.ReferenciaColumn] = value;
+                    this[this.tableCpos_PagoTransferencia.NumOrdservColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public decimal MontoRecibidoRef {
+            public string Abo_CVCNROCHEQUE {
                 get {
                     try {
-                        return ((decimal)(this[this.tableSP_TraerTempCambio.MontoRecibidoRefColumn]));
+                        return ((string)(this[this.tableCpos_PagoTransferencia.Abo_CVCNROCHEQUEColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("El valor de la columna \'MontoRecibidoRef\' de la tabla \'SP_TraerTempCambio\' es DBN" +
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'Abo_CVCNROCHEQUE\' de la tabla \'Cpos_PagoTransferencia\' es" +
+                                " DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableCpos_PagoTransferencia.Abo_CVCNROCHEQUEColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string Cod_Sucursal {
+                get {
+                    try {
+                        return ((string)(this[this.tableCpos_PagoTransferencia.Cod_SucursalColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'Cod_Sucursal\' de la tabla \'Cpos_PagoTransferencia\' es DBN" +
                                 "ull.", e);
                     }
                 }
                 set {
-                    this[this.tableSP_TraerTempCambio.MontoRecibidoRefColumn] = value;
+                    this[this.tableCpos_PagoTransferencia.Cod_SucursalColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public System.DateTime Fecha {
+                get {
+                    try {
+                        return ((global::System.DateTime)(this[this.tableCpos_PagoTransferencia.FechaColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'Fecha\' de la tabla \'Cpos_PagoTransferencia\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableCpos_PagoTransferencia.FechaColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string Tipo_Pago {
+                get {
+                    try {
+                        return ((string)(this[this.tableCpos_PagoTransferencia.Tipo_PagoColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'Tipo_Pago\' de la tabla \'Cpos_PagoTransferencia\' es DBNull" +
+                                ".", e);
+                    }
+                }
+                set {
+                    this[this.tableCpos_PagoTransferencia.Tipo_PagoColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string DescripPago {
+                get {
+                    try {
+                        return ((string)(this[this.tableCpos_PagoTransferencia.DescripPagoColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'DescripPago\' de la tabla \'Cpos_PagoTransferencia\' es DBNu" +
+                                "ll.", e);
+                    }
+                }
+                set {
+                    this[this.tableCpos_PagoTransferencia.DescripPagoColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public decimal Abo_Monto {
+                get {
+                    try {
+                        return ((decimal)(this[this.tableCpos_PagoTransferencia.Abo_MontoColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'Abo_Monto\' de la tabla \'Cpos_PagoTransferencia\' es DBNull" +
+                                ".", e);
+                    }
+                }
+                set {
+                    this[this.tableCpos_PagoTransferencia.Abo_MontoColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string BANCO {
+                get {
+                    try {
+                        return ((string)(this[this.tableCpos_PagoTransferencia.BANCOColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'BANCO\' de la tabla \'Cpos_PagoTransferencia\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableCpos_PagoTransferencia.BANCOColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string BANCORECEP {
+                get {
+                    try {
+                        return ((string)(this[this.tableCpos_PagoTransferencia.BANCORECEPColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'BANCORECEP\' de la tabla \'Cpos_PagoTransferencia\' es DBNul" +
+                                "l.", e);
+                    }
+                }
+                set {
+                    this[this.tableCpos_PagoTransferencia.BANCORECEPColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string Abo_Fecha {
+                get {
+                    try {
+                        return ((string)(this[this.tableCpos_PagoTransferencia.Abo_FechaColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'Abo_Fecha\' de la tabla \'Cpos_PagoTransferencia\' es DBNull" +
+                                ".", e);
+                    }
+                }
+                set {
+                    this[this.tableCpos_PagoTransferencia.Abo_FechaColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string DESCMONEDA {
+                get {
+                    try {
+                        return ((string)(this[this.tableCpos_PagoTransferencia.DESCMONEDAColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'DESCMONEDA\' de la tabla \'Cpos_PagoTransferencia\' es DBNul" +
+                                "l.", e);
+                    }
+                }
+                set {
+                    this[this.tableCpos_PagoTransferencia.DESCMONEDAColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public decimal Tasa_Abono {
+                get {
+                    try {
+                        return ((decimal)(this[this.tableCpos_PagoTransferencia.Tasa_AbonoColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'Tasa_Abono\' de la tabla \'Cpos_PagoTransferencia\' es DBNul" +
+                                "l.", e);
+                    }
+                }
+                set {
+                    this[this.tableCpos_PagoTransferencia.Tasa_AbonoColumn] = value;
                 }
             }
             
@@ -745,15 +938,15 @@ namespace CapaVisual_Login.Reportes {
             public decimal MontoVueltoRef {
                 get {
                     try {
-                        return ((decimal)(this[this.tableSP_TraerTempCambio.MontoVueltoRefColumn]));
+                        return ((decimal)(this[this.tableCpos_PagoTransferencia.MontoVueltoRefColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("El valor de la columna \'MontoVueltoRef\' de la tabla \'SP_TraerTempCambio\' es DBNul" +
-                                "l.", e);
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'MontoVueltoRef\' de la tabla \'Cpos_PagoTransferencia\' es D" +
+                                "BNull.", e);
                     }
                 }
                 set {
-                    this[this.tableSP_TraerTempCambio.MontoVueltoRefColumn] = value;
+                    this[this.tableCpos_PagoTransferencia.MontoVueltoRefColumn] = value;
                 }
             }
             
@@ -762,154 +955,184 @@ namespace CapaVisual_Login.Reportes {
             public decimal MontoVueltoBs {
                 get {
                     try {
-                        return ((decimal)(this[this.tableSP_TraerTempCambio.MontoVueltoBsColumn]));
+                        return ((decimal)(this[this.tableCpos_PagoTransferencia.MontoVueltoBsColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("El valor de la columna \'MontoVueltoBs\' de la tabla \'SP_TraerTempCambio\' es DBNull" +
-                                ".", e);
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'MontoVueltoBs\' de la tabla \'Cpos_PagoTransferencia\' es DB" +
+                                "Null.", e);
                     }
                 }
                 set {
-                    this[this.tableSP_TraerTempCambio.MontoVueltoBsColumn] = value;
+                    this[this.tableCpos_PagoTransferencia.MontoVueltoBsColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public string BancoReceptor {
-                get {
-                    try {
-                        return ((string)(this[this.tableSP_TraerTempCambio.BancoReceptorColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("El valor de la columna \'BancoReceptor\' de la tabla \'SP_TraerTempCambio\' es DBNull" +
-                                ".", e);
-                    }
-                }
-                set {
-                    this[this.tableSP_TraerTempCambio.BancoReceptorColumn] = value;
-                }
+            public bool IsNumOrdservNull() {
+                return this.IsNull(this.tableCpos_PagoTransferencia.NumOrdservColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public string BancoEmisor {
-                get {
-                    try {
-                        return ((string)(this[this.tableSP_TraerTempCambio.BancoEmisorColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("El valor de la columna \'BancoEmisor\' de la tabla \'SP_TraerTempCambio\' es DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableSP_TraerTempCambio.BancoEmisorColumn] = value;
-                }
+            public void SetNumOrdservNull() {
+                this[this.tableCpos_PagoTransferencia.NumOrdservColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public System.DateTime Fecha {
-                get {
-                    return ((global::System.DateTime)(this[this.tableSP_TraerTempCambio.FechaColumn]));
-                }
-                set {
-                    this[this.tableSP_TraerTempCambio.FechaColumn] = value;
-                }
+            public bool IsAbo_CVCNROCHEQUENull() {
+                return this.IsNull(this.tableCpos_PagoTransferencia.Abo_CVCNROCHEQUEColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public string CodSuc {
-                get {
-                    return ((string)(this[this.tableSP_TraerTempCambio.CodSucColumn]));
-                }
-                set {
-                    this[this.tableSP_TraerTempCambio.CodSucColumn] = value;
-                }
+            public void SetAbo_CVCNROCHEQUENull() {
+                this[this.tableCpos_PagoTransferencia.Abo_CVCNROCHEQUEColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public string revision {
-                get {
-                    return ((string)(this[this.tableSP_TraerTempCambio.revisionColumn]));
-                }
-                set {
-                    this[this.tableSP_TraerTempCambio.revisionColumn] = value;
-                }
+            public bool IsCod_SucursalNull() {
+                return this.IsNull(this.tableCpos_PagoTransferencia.Cod_SucursalColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public bool IsReferenciaNull() {
-                return this.IsNull(this.tableSP_TraerTempCambio.ReferenciaColumn);
+            public void SetCod_SucursalNull() {
+                this[this.tableCpos_PagoTransferencia.Cod_SucursalColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public void SetReferenciaNull() {
-                this[this.tableSP_TraerTempCambio.ReferenciaColumn] = global::System.Convert.DBNull;
+            public bool IsFechaNull() {
+                return this.IsNull(this.tableCpos_PagoTransferencia.FechaColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public bool IsMontoRecibidoRefNull() {
-                return this.IsNull(this.tableSP_TraerTempCambio.MontoRecibidoRefColumn);
+            public void SetFechaNull() {
+                this[this.tableCpos_PagoTransferencia.FechaColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public void SetMontoRecibidoRefNull() {
-                this[this.tableSP_TraerTempCambio.MontoRecibidoRefColumn] = global::System.Convert.DBNull;
+            public bool IsTipo_PagoNull() {
+                return this.IsNull(this.tableCpos_PagoTransferencia.Tipo_PagoColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetTipo_PagoNull() {
+                this[this.tableCpos_PagoTransferencia.Tipo_PagoColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsDescripPagoNull() {
+                return this.IsNull(this.tableCpos_PagoTransferencia.DescripPagoColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetDescripPagoNull() {
+                this[this.tableCpos_PagoTransferencia.DescripPagoColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsAbo_MontoNull() {
+                return this.IsNull(this.tableCpos_PagoTransferencia.Abo_MontoColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetAbo_MontoNull() {
+                this[this.tableCpos_PagoTransferencia.Abo_MontoColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsBANCONull() {
+                return this.IsNull(this.tableCpos_PagoTransferencia.BANCOColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetBANCONull() {
+                this[this.tableCpos_PagoTransferencia.BANCOColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsBANCORECEPNull() {
+                return this.IsNull(this.tableCpos_PagoTransferencia.BANCORECEPColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetBANCORECEPNull() {
+                this[this.tableCpos_PagoTransferencia.BANCORECEPColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsAbo_FechaNull() {
+                return this.IsNull(this.tableCpos_PagoTransferencia.Abo_FechaColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetAbo_FechaNull() {
+                this[this.tableCpos_PagoTransferencia.Abo_FechaColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsDESCMONEDANull() {
+                return this.IsNull(this.tableCpos_PagoTransferencia.DESCMONEDAColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetDESCMONEDANull() {
+                this[this.tableCpos_PagoTransferencia.DESCMONEDAColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsTasa_AbonoNull() {
+                return this.IsNull(this.tableCpos_PagoTransferencia.Tasa_AbonoColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetTasa_AbonoNull() {
+                this[this.tableCpos_PagoTransferencia.Tasa_AbonoColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsMontoVueltoRefNull() {
-                return this.IsNull(this.tableSP_TraerTempCambio.MontoVueltoRefColumn);
+                return this.IsNull(this.tableCpos_PagoTransferencia.MontoVueltoRefColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetMontoVueltoRefNull() {
-                this[this.tableSP_TraerTempCambio.MontoVueltoRefColumn] = global::System.Convert.DBNull;
+                this[this.tableCpos_PagoTransferencia.MontoVueltoRefColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsMontoVueltoBsNull() {
-                return this.IsNull(this.tableSP_TraerTempCambio.MontoVueltoBsColumn);
+                return this.IsNull(this.tableCpos_PagoTransferencia.MontoVueltoBsColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetMontoVueltoBsNull() {
-                this[this.tableSP_TraerTempCambio.MontoVueltoBsColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public bool IsBancoReceptorNull() {
-                return this.IsNull(this.tableSP_TraerTempCambio.BancoReceptorColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public void SetBancoReceptorNull() {
-                this[this.tableSP_TraerTempCambio.BancoReceptorColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public bool IsBancoEmisorNull() {
-                return this.IsNull(this.tableSP_TraerTempCambio.BancoEmisorColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public void SetBancoEmisorNull() {
-                this[this.tableSP_TraerTempCambio.BancoEmisorColumn] = global::System.Convert.DBNull;
+                this[this.tableCpos_PagoTransferencia.MontoVueltoBsColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -917,22 +1140,22 @@ namespace CapaVisual_Login.Reportes {
         ///Row event argument class
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        public class SP_TraerTempCambioRowChangeEvent : global::System.EventArgs {
+        public class Cpos_PagoTransferenciaRowChangeEvent : global::System.EventArgs {
             
-            private SP_TraerTempCambioRow eventRow;
+            private Cpos_PagoTransferenciaRow eventRow;
             
             private global::System.Data.DataRowAction eventAction;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public SP_TraerTempCambioRowChangeEvent(SP_TraerTempCambioRow row, global::System.Data.DataRowAction action) {
+            public Cpos_PagoTransferenciaRowChangeEvent(Cpos_PagoTransferenciaRow row, global::System.Data.DataRowAction action) {
                 this.eventRow = row;
                 this.eventAction = action;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public SP_TraerTempCambioRow Row {
+            public Cpos_PagoTransferenciaRow Row {
                 get {
                     return this.eventRow;
                 }
@@ -948,7 +1171,7 @@ namespace CapaVisual_Login.Reportes {
         }
     }
 }
-namespace CapaVisual_Login.Reportes.DSRepVueltoTableAdapters {
+namespace CapaVisual_Login.Reportes.DsRepPagosTranferenciaTableAdapters {
     
     
     /// <summary>
@@ -960,7 +1183,7 @@ namespace CapaVisual_Login.Reportes.DSRepVueltoTableAdapters {
     [global::System.ComponentModel.DesignerAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterDesigner, Microsoft.VSDesigner" +
         ", Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
     [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-    public partial class SP_TraerTempCambioTableAdapter : global::System.ComponentModel.Component {
+    public partial class Cpos_PagoTransferenciaTableAdapter : global::System.ComponentModel.Component {
         
         private global::System.Data.SqlClient.SqlDataAdapter _adapter;
         
@@ -974,7 +1197,7 @@ namespace CapaVisual_Login.Reportes.DSRepVueltoTableAdapters {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        public SP_TraerTempCambioTableAdapter() {
+        public Cpos_PagoTransferenciaTableAdapter() {
             this.ClearBeforeFill = true;
         }
         
@@ -1071,18 +1294,21 @@ namespace CapaVisual_Login.Reportes.DSRepVueltoTableAdapters {
             this._adapter = new global::System.Data.SqlClient.SqlDataAdapter();
             global::System.Data.Common.DataTableMapping tableMapping = new global::System.Data.Common.DataTableMapping();
             tableMapping.SourceTable = "Table";
-            tableMapping.DataSetTable = "SP_TraerTempCambio";
-            tableMapping.ColumnMappings.Add("NroOrden", "NroOrden");
-            tableMapping.ColumnMappings.Add("Revision", "Revision");
-            tableMapping.ColumnMappings.Add("Referencia", "Referencia");
-            tableMapping.ColumnMappings.Add("MontoRecibidoRef", "MontoRecibidoRef");
+            tableMapping.DataSetTable = "Cpos_PagoTransferencia";
+            tableMapping.ColumnMappings.Add("NumOrdserv", "NumOrdserv");
+            tableMapping.ColumnMappings.Add("Abo_CVCNROCHEQUE", "Abo_CVCNROCHEQUE");
+            tableMapping.ColumnMappings.Add("Cod_Sucursal", "Cod_Sucursal");
+            tableMapping.ColumnMappings.Add("Fecha", "Fecha");
+            tableMapping.ColumnMappings.Add("Tipo_Pago", "Tipo_Pago");
+            tableMapping.ColumnMappings.Add("DescripPago", "DescripPago");
+            tableMapping.ColumnMappings.Add("Abo_Monto", "Abo_Monto");
+            tableMapping.ColumnMappings.Add("BANCO", "BANCO");
+            tableMapping.ColumnMappings.Add("BANCORECEP", "BANCORECEP");
+            tableMapping.ColumnMappings.Add("Abo_Fecha", "Abo_Fecha");
+            tableMapping.ColumnMappings.Add("DESCMONEDA", "DESCMONEDA");
+            tableMapping.ColumnMappings.Add("Tasa_Abono", "Tasa_Abono");
             tableMapping.ColumnMappings.Add("MontoVueltoRef", "MontoVueltoRef");
             tableMapping.ColumnMappings.Add("MontoVueltoBs", "MontoVueltoBs");
-            tableMapping.ColumnMappings.Add("BancoReceptor", "BancoReceptor");
-            tableMapping.ColumnMappings.Add("BancoEmisor", "BancoEmisor");
-            tableMapping.ColumnMappings.Add("Fecha", "Fecha");
-            tableMapping.ColumnMappings.Add("CodSuc", "CodSuc");
-            tableMapping.ColumnMappings.Add("revision", "revision");
             this._adapter.TableMappings.Add(tableMapping);
         }
         
@@ -1099,30 +1325,30 @@ namespace CapaVisual_Login.Reportes.DSRepVueltoTableAdapters {
             this._commandCollection = new global::System.Data.SqlClient.SqlCommand[1];
             this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "dbo.SP_TraerTempCambio";
+            this._commandCollection[0].CommandText = "dbo.Cpos_PagoTransferencia";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.StoredProcedure;
             this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@RETURN_VALUE", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.ReturnValue, 10, 0, null, global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@CodSuc", global::System.Data.SqlDbType.VarChar, 7, global::System.Data.ParameterDirection.Input, 0, 0, null, global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Fecha", global::System.Data.SqlDbType.VarChar, 2147483647, global::System.Data.ParameterDirection.Input, 0, 0, null, global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@CodSucursal", global::System.Data.SqlDbType.VarChar, 3, global::System.Data.ParameterDirection.Input, 0, 0, null, global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, true)]
-        public virtual int Fill(DSRepVuelto.SP_TraerTempCambioDataTable dataTable, string CodSuc, string Fecha) {
+        public virtual int Fill(DsRepPagosTranferencia.Cpos_PagoTransferenciaDataTable dataTable, string Fecha, string CodSucursal) {
             this.Adapter.SelectCommand = this.CommandCollection[0];
-            if ((CodSuc == null)) {
+            if ((Fecha == null)) {
                 this.Adapter.SelectCommand.Parameters[1].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.SelectCommand.Parameters[1].Value = ((string)(CodSuc));
+                this.Adapter.SelectCommand.Parameters[1].Value = ((string)(Fecha));
             }
-            if ((Fecha == null)) {
+            if ((CodSucursal == null)) {
                 this.Adapter.SelectCommand.Parameters[2].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.SelectCommand.Parameters[2].Value = ((string)(Fecha));
+                this.Adapter.SelectCommand.Parameters[2].Value = ((string)(CodSucursal));
             }
             if ((this.ClearBeforeFill == true)) {
                 dataTable.Clear();
@@ -1135,21 +1361,21 @@ namespace CapaVisual_Login.Reportes.DSRepVueltoTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
-        public virtual DSRepVuelto.SP_TraerTempCambioDataTable GetData(string CodSuc, string Fecha) {
+        public virtual DsRepPagosTranferencia.Cpos_PagoTransferenciaDataTable GetData(string Fecha, string CodSucursal) {
             this.Adapter.SelectCommand = this.CommandCollection[0];
-            if ((CodSuc == null)) {
+            if ((Fecha == null)) {
                 this.Adapter.SelectCommand.Parameters[1].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.SelectCommand.Parameters[1].Value = ((string)(CodSuc));
+                this.Adapter.SelectCommand.Parameters[1].Value = ((string)(Fecha));
             }
-            if ((Fecha == null)) {
+            if ((CodSucursal == null)) {
                 this.Adapter.SelectCommand.Parameters[2].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.SelectCommand.Parameters[2].Value = ((string)(Fecha));
+                this.Adapter.SelectCommand.Parameters[2].Value = ((string)(CodSucursal));
             }
-            DSRepVuelto.SP_TraerTempCambioDataTable dataTable = new DSRepVuelto.SP_TraerTempCambioDataTable();
+            DsRepPagosTranferencia.Cpos_PagoTransferenciaDataTable dataTable = new DsRepPagosTranferencia.Cpos_PagoTransferenciaDataTable();
             this.Adapter.Fill(dataTable);
             return dataTable;
         }
@@ -1223,7 +1449,7 @@ namespace CapaVisual_Login.Reportes.DSRepVueltoTableAdapters {
         ///</summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        private int UpdateUpdatedRows(DSRepVuelto dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
+        private int UpdateUpdatedRows(DsRepPagosTranferencia dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
             int result = 0;
             return result;
         }
@@ -1233,7 +1459,7 @@ namespace CapaVisual_Login.Reportes.DSRepVueltoTableAdapters {
         ///</summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        private int UpdateInsertedRows(DSRepVuelto dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
+        private int UpdateInsertedRows(DsRepPagosTranferencia dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
             int result = 0;
             return result;
         }
@@ -1243,7 +1469,7 @@ namespace CapaVisual_Login.Reportes.DSRepVueltoTableAdapters {
         ///</summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        private int UpdateDeletedRows(DSRepVuelto dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows) {
+        private int UpdateDeletedRows(DsRepPagosTranferencia dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows) {
             int result = 0;
             return result;
         }
@@ -1277,7 +1503,7 @@ namespace CapaVisual_Login.Reportes.DSRepVueltoTableAdapters {
         ///</summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        public virtual int UpdateAll(DSRepVuelto dataSet) {
+        public virtual int UpdateAll(DsRepPagosTranferencia dataSet) {
             if ((dataSet == null)) {
                 throw new global::System.ArgumentNullException("dataSet");
             }
