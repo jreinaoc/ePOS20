@@ -1375,7 +1375,14 @@ namespace CapaDatos.CargarOrdenes_Datos
                 cmd.Parameters.AddWithValue("@NumExamen", datos.NumExamen);
                 cmd.Parameters.AddWithValue("@COD_EMPLEADO", datos.COD_EMPLEADO);
                 cmd.Parameters.AddWithValue("@Cod_Laboratorio", datos.Cod_Laboratorio);
-                cmd.Parameters.AddWithValue("@Cod_Servicio", datos.Cod_Servicio);
+                if (string.IsNullOrEmpty(datos.Cod_Servicio))
+                {
+                    cmd.Parameters.AddWithValue("@Cod_Servicio", "000");
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@Cod_Servicio", datos.Cod_Servicio);
+                }
                 cmd.Parameters.AddWithValue("@Vision", (object)datos.Vision ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@Fec_Ofrecido", datos.Fec_ofrecido);
                 cmd.Parameters.AddWithValue("@Hor_Ofrecido", datos.Hor_ofrecido);

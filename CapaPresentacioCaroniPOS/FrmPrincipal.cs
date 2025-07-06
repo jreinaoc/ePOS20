@@ -709,12 +709,17 @@ namespace CapaVisual_Login
 
 
 
+            //FrmCargarOrden formularioSecundario = new FrmCargarOrden();
+            ////formularioSecundario = new FrmCargarOrden();
+            //formularioSecundario.TopLevel = false;
+            //formularioSecundario.Dock = DockStyle.Fill;
+            ////pnlContenedor.Controls.Add(formularioSecundario);  // Tu panel
+            ////formularioSecundario.Show();
 
-
-
+            FrmCargarOrden formularioSecundario = new FrmCargarOrden();
 
             PnlListadoOrdenes.Controls.Clear();
-            addformularioCargaOrdenes(_FrmCargarOrden);
+            addformularioCargaOrdenes(formularioSecundario);
             Focus();
             //_FrmListaOrdenes.cerrar();
             //_FrmListaOrdenes.ListadoOrdenosRebot();
@@ -819,6 +824,12 @@ namespace CapaVisual_Login
             PnlListadoOrdenes.Controls.Clear();
             addformulario(_frmPrueba);
             Focus();
+        }
+
+
+        public void ActualizarTextoLabel(string nuevoTexto)
+        {
+            LblFechday.Text = nuevoTexto;
         }
     }
 }
