@@ -67,7 +67,7 @@ namespace CapaVisual_Login
             //Si no se han cerrado 
             if (dtPuntosCerrados.Rows.Count == 0)
             {
-                bool hayLotesEnBlanco = false;
+                bool todosLotesEnBlanco = true;
 
                 foreach (DataGridViewRow fila in Dvg_CierrePuntoVenta.Rows)
                 {
@@ -76,15 +76,15 @@ namespace CapaVisual_Login
                     {
                         var valorLote = fila.Cells["Nro. Lote"].Value?.ToString().Trim();
 
-                        if (string.IsNullOrEmpty(valorLote))
+                        if (valorLote != "")
                         {
-                            hayLotesEnBlanco = true;
+                            todosLotesEnBlanco = false;
                             break;
                         }
                     }
                 }
 
-                if (hayLotesEnBlanco)
+                if (todosLotesEnBlanco)
                 {
                     _FrmMensajes.co = 2;
                     _FrmMensajes.avisomensaje("Debe escribir el Nro. de lote");
@@ -101,13 +101,17 @@ namespace CapaVisual_Login
                         if (!fila.IsNewRow)
                         {
                             var valorLote = fila.Cells["Nro. Lote"].Value?.ToString().Trim();
-                            decimal.TryParse(fila.Cells[3].Value?.ToString().Trim(), out decimal totalCredito);
+                            if (valorLote != "")
+                            {
+                                decimal.TryParse(fila.Cells[3].Value?.ToString().Trim(), out decimal totalCredito);
                             decimal.TryParse(fila.Cells[4].Value?.ToString().Trim(), out decimal totalAmex);
                             decimal.TryParse(fila.Cells[5].Value?.ToString().Trim(), out decimal totalDebito);
                             decimal.TryParse(fila.Cells[6].Value?.ToString().Trim(), out decimal totalOtros);
 
                            
                             _L_CierreCaja.AgregaPuntosdeVenta(fila.Cells[0].Value?.ToString().Trim(), diaActivo, fila.Cells[2].Value?.ToString().Trim(), totalCredito, totalAmex, totalDebito, totalOtros);
+                        
+                            }
                         }
                     }
                     

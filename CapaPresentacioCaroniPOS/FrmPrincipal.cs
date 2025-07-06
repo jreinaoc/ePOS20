@@ -716,13 +716,20 @@ namespace CapaVisual_Login
             ////pnlContenedor.Controls.Add(formularioSecundario);  // Tu panel
             ////formularioSecundario.Show();
 
-            FrmCargarOrden formularioSecundario = new FrmCargarOrden();
+            //FrmCargarOrden formularioSecundario = new FrmCargarOrden();
 
-            PnlListadoOrdenes.Controls.Clear();
-            addformularioCargaOrdenes(formularioSecundario);
-            Focus();
+            //PnlListadoOrdenes.Controls.Clear();
+            //addformularioCargaOrdenes(formularioSecundario);
+            //Focus();
             //_FrmListaOrdenes.cerrar();
             //_FrmListaOrdenes.ListadoOrdenosRebot();
+
+            FrmCargarOrden nuevoFormulario = new FrmCargarOrden();
+
+            // Cargar usando la función que limpia y configura el panel
+            CerrarYRecargarFormulario(nuevoFormulario);
+
+
 
         }
 
@@ -830,6 +837,30 @@ namespace CapaVisual_Login
         public void ActualizarTextoLabel(string nuevoTexto)
         {
             LblFechday.Text = nuevoTexto;
+        }
+
+        public void CerrarYRecargarFormulario(Form nuevoFormulario)
+        {
+            // Limpiar eventos y controles anteriores
+            foreach (Control ctrl in PnlListadoOrdenes.Controls)
+            {
+                if (ctrl is Form frm)
+                {
+                    frm.Hide();
+                    frm.Close();       // Cierra de forma estándar
+                    frm.Dispose();     // Libera recursos
+                }
+                ctrl.Dispose();        // Por si hay otros controles residuales
+            }
+
+            PnlListadoOrdenes.Controls.Clear();
+            GC.Collect();              // Fuerza limpieza de memoria (opcional)
+
+            // Cargar nuevo formulario
+            nuevoFormulario.TopLevel = false;
+            nuevoFormulario.Dock = DockStyle.Fill;
+            PnlListadoOrdenes.Controls.Add(nuevoFormulario);
+            nuevoFormulario.Show();
         }
     }
 }

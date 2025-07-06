@@ -3432,7 +3432,8 @@ namespace CapaVisual_Login
 //, txtMaxima.Text.Replace(',', '.'), txtPuente.Text.Replace(',', '.'), "0", "0", "0", "0", "0", "A", "Cerca", "Cerca", TB_USUARIO.COD_USR, codSucursal, command);
 
                     AsignarParametrosFaltantes(nuevoTrabajo, numeroOrden, "0", txtHorizontal.Text.Replace(',', '.'), txtVertical.Text.Replace(',', '.'), txtMaxima.Text.Replace(',', '.'), txtPuente.Text.Replace(',', '.'), Cbx_Pnl2_Laboratorio.SelectedValue.ToString(), Cbx_Pnl2_Servicio.SelectedValue?.ToString(), Hora_Ofrecido, "T", Fecha_Ofreci, DateTime.Today, Cbx_Pnl2_Trbajo.SelectedValue.ToString(), Cbx_Pnl2_Trbajo.Text);
-                    //var actualizadoTrabajo = _GuardarOrdenServ.AgregarTrabajo2(nuevoTrabajo, command);
+                    
+                    var actualizadoTrabajo = _GuardarOrdenServ.AgregarTrabajo2(nuevoTrabajo, command);
                     //// _L_Articulo.Inserta_TB_TRABAJO(numeroOrden, txtHorizontal.Text, txtVertical.Text, txtMaxima.Text,"0", "0", "0", "0", "0", "0", "A", "Cerca", "Cerca", TB_USUARIO.COD_USR, codSucursal);
 
                     //if (!actualizadoTrabajo)
@@ -3446,6 +3447,7 @@ namespace CapaVisual_Login
                     //if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "09" && !actualizadoTrabajo)
                     if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "09"
                         )
+
                     {
                         DataSet ds = await _GuardarOrdenServ.LlamarActualizarGarantiaAsync(Os_Garantia_Trabajo, codSucursal, numeroOrden, command);
                     }
@@ -3453,13 +3455,19 @@ namespace CapaVisual_Login
                     transaction.Commit();
                     // Finaliza normalmente
 
-                    FrmPrincipal frmPrincipal = (FrmPrincipal)this.MdiParent ?? this.ParentForm as FrmPrincipal;
-                    FrmListaOrdenes frmListaOrdenes = new FrmListaOrdenes();
-                    frmPrincipal.addformulario(frmListaOrdenes);
+                    Btn_Tap3_Cancelar.PerformClick();
+
+                    btnPrincipal.PerformClick();
+
+                    Btn_Pnl3_Cancelar.PerformClick();
+
+                    //FrmPrincipal frmPrincipal = (FrmPrincipal)this.MdiParent ?? this.ParentForm as FrmPrincipal;
+                    //FrmListaOrdenes frmListaOrdenes = new FrmListaOrdenes();
+                    //frmPrincipal.addformulario(frmListaOrdenes);
 
 
 
-                    this.Close();
+                    //this.Close();
                     //LimpiarGrid();
                     //Btn_Tap3_Procesar.Enabled = true;
 
@@ -11808,6 +11816,8 @@ namespace CapaVisual_Login
                 _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
                 _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
                 _FrmMensajes.ShowDialog();
+
+                CargarComboServicioLaboratorios();
 
                 if (tipoExamen == "CONTACTO")
                 {

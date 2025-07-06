@@ -512,6 +512,7 @@ C:\Desarrollo2022\CaroniPOS1\CapaPresentacioCaroniPOS\obj\Debug\CapaVisual_Login
 C:\Desarrollo2022\CaroniPOS1\CapaPresentacioCaroniPOS\obj\Debug\CapaVisual_Login.FrmMostrarReporte.resources
 C:\Desarrollo2022\CaroniPOS1\CapaPresentacioCaroniPOS\obj\Debug\CapaVisual_Login.FrmPagoMovil.resources
 C:\Desarrollo2022\CaroniPOS1\CapaPresentacioCaroniPOS\obj\Debug\CapaVisual_Login.FrmPrincipal.resources
+C:\Desarrollo2022\CaroniPOS1\CapaPresentacioCaroniPOS\obj\Debug\CapaVisual_Login.FrmPrueba.resources
 C:\Desarrollo2022\CaroniPOS1\CapaPresentacioCaroniPOS\obj\Debug\CapaVisual_Login.FrmRepContratGart.resources
 C:\Desarrollo2022\CaroniPOS1\CapaPresentacioCaroniPOS\obj\Debug\CapaVisual_Login.FrmRepNotaDev.resources
 C:\Desarrollo2022\CaroniPOS1\CapaPresentacioCaroniPOS\obj\Debug\CapaVisual_Login.FrmRepOrden.resources
@@ -528,4 +529,3 @@ C:\Desarrollo2022\CaroniPOS1\CapaPresentacioCaroniPOS\obj\Debug\ePOS.application
 C:\Desarrollo2022\CaroniPOS1\CapaPresentacioCaroniPOS\obj\Debug\CapaVisual_Login.csproj.CopyComplete
 C:\Desarrollo2022\CaroniPOS1\CapaPresentacioCaroniPOS\obj\Debug\ePOS.exe
 C:\Desarrollo2022\CaroniPOS1\CapaPresentacioCaroniPOS\obj\Debug\ePOS.pdb
-C:\Desarrollo2022\CaroniPOS1\CapaPresentacioCaroniPOS\obj\Debug\CapaVisual_Login.FrmPrueba.resources
