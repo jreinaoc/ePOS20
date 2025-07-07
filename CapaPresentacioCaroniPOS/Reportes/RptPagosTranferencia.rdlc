@@ -264,9 +264,9 @@
             </Paragraphs>
             <rd:DefaultName>Textbox6</rd:DefaultName>
             <Top>0.2293cm</Top>
-            <Left>14.52246cm</Left>
+            <Left>16.34809cm</Left>
             <Height>0.6cm</Height>
-            <Width>6.57458cm</Width>
+            <Width>4.35208cm</Width>
             <ZIndex>4</ZIndex>
             <Style>
               <Border>
@@ -306,9 +306,9 @@
             </Paragraphs>
             <rd:DefaultName>Textbox7</rd:DefaultName>
             <Top>0.86458cm</Top>
-            <Left>14.52246cm</Left>
+            <Left>16.34809cm</Left>
             <Height>0.6cm</Height>
-            <Width>6.57458cm</Width>
+            <Width>4.35208cm</Width>
             <ZIndex>5</ZIndex>
             <Style>
               <Border>
@@ -373,7 +373,7 @@
                   <Width>1.9788cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>3.1036cm</Width>
+                  <Width>2.3363cm</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>2.77255cm</Width>
@@ -391,7 +391,7 @@
                   <Width>1.94438cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.50937cm</Width>
+                  <Width>1.64167cm</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -1194,7 +1194,7 @@
               <TablixMembers>
                 <TablixMember>
                   <TablixHeader>
-                    <Size>1.2423cm</Size>
+                    <Size>1.48043cm</Size>
                     <CellContents>
                       <Textbox Name="Textbox27">
                         <CanGrow>true</CanGrow>
@@ -1243,7 +1243,7 @@
                     </SortExpression>
                   </SortExpressions>
                   <TablixHeader>
-                    <Size>1.2423cm</Size>
+                    <Size>1.48043cm</Size>
                     <CellContents>
                       <Textbox Name="BANCO">
                         <CanGrow>true</CanGrow>
@@ -1298,7 +1298,7 @@
             <Top>4.31863cm</Top>
             <Left>0.3175cm</Left>
             <Height>2.4cm</Height>
-            <Width>20.77954cm</Width>
+            <Width>20.38267cm</Width>
             <ZIndex>7</ZIndex>
             <Style>
               <Border>
@@ -1310,7 +1310,7 @@
         <Height>4.41667in</Height>
         <Style />
       </Body>
-      <Width>8.51983in</Width>
+      <Width>8.20733in</Width>
       <Page>
         <PageHeight>29.7cm</PageHeight>
         <PageWidth>21cm</PageWidth>

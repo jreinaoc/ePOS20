@@ -74,7 +74,7 @@ namespace CapaVisual_Login
             }
 
 
-            //ReporteTranferencia(imprimir, RifCompania, Descripcion, NombreSucursal, Sucursal, DiaActivo.AddDays(-5));
+            ////ReporteTranferencia(imprimir, RifCompania, Descripcion, NombreSucursal, Sucursal, DiaActivo.AddDays(-5));
             ReporteTranferencia(imprimir, RifCompania, Descripcion, NombreSucursal, Sucursal, DiaActivo);
             ReporteVuelto(imprimir, RifCompania, Descripcion, NombreSucursal, Sucursal, DiaActivo);
             ReporteCierreCaja(imprimir, RifCompania, Descripcion, NombreSucursal, Sucursal, DiaActivo);
