@@ -590,36 +590,6 @@
               <PaddingBottom>2pt</PaddingBottom>
             </Style>
           </Textbox>
-          <Textbox Name="Textbox4">
-            <CanGrow>true</CanGrow>
-            <KeepTogether>true</KeepTogether>
-            <Paragraphs>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value>Desde:</Value>
-                    <Style />
-                  </TextRun>
-                </TextRuns>
-                <Style />
-              </Paragraph>
-            </Paragraphs>
-            <rd:DefaultName>Textbox4</rd:DefaultName>
-            <Top>2.67821cm</Top>
-            <Left>5.76002cm</Left>
-            <Height>0.6cm</Height>
-            <Width>1.28292cm</Width>
-            <ZIndex>2</ZIndex>
-            <Style>
-              <Border>
-                <Style>None</Style>
-              </Border>
-              <PaddingLeft>2pt</PaddingLeft>
-              <PaddingRight>2pt</PaddingRight>
-              <PaddingTop>2pt</PaddingTop>
-              <PaddingBottom>2pt</PaddingBottom>
-            </Style>
-          </Textbox>
           <Textbox Name="Textbox6">
             <CanGrow>true</CanGrow>
             <KeepTogether>true</KeepTogether>
@@ -627,8 +597,10 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>=Variables!uNombreSucursal.Value</Value>
-                    <Style />
+                    <Value>=Parameters!uNombreCompania.Value</Value>
+                    <Style>
+                      <FontFamily>Calibri</FontFamily>
+                    </Style>
                   </TextRun>
                 </TextRuns>
                 <Style />
@@ -638,8 +610,8 @@
             <Top>0.48217cm</Top>
             <Left>0.52537cm</Left>
             <Height>0.6cm</Height>
-            <Width>2.5cm</Width>
-            <ZIndex>3</ZIndex>
+            <Width>13.14916cm</Width>
+            <ZIndex>2</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -657,8 +629,14 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>Hasta:</Value>
+                    <Value>Hasta: </Value>
                     <Style />
+                  </TextRun>
+                  <TextRun>
+                    <Value>=FormatDateTime(Globals!ExecutionTime, DateFormat.ShortDate)</Value>
+                    <Style>
+                      <FontFamily>Calibri</FontFamily>
+                    </Style>
                   </TextRun>
                 </TextRuns>
                 <Style />
@@ -668,8 +646,8 @@
             <Top>2.67821cm</Top>
             <Left>11.76497cm</Left>
             <Height>0.6cm</Height>
-            <Width>1.28292cm</Width>
-            <ZIndex>4</ZIndex>
+            <Width>6.81271cm</Width>
+            <ZIndex>3</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -687,8 +665,10 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>=Variables!uNombreSucursal.Value</Value>
-                    <Style />
+                    <Value>=Parameters!uNombreSucursal.Value</Value>
+                    <Style>
+                      <FontFamily>Calibri</FontFamily>
+                    </Style>
                   </TextRun>
                 </TextRuns>
                 <Style />
@@ -698,8 +678,8 @@
             <Top>1.25856cm</Top>
             <Left>0.52537cm</Left>
             <Height>0.6cm</Height>
-            <Width>2.5cm</Width>
-            <ZIndex>5</ZIndex>
+            <Width>12.52252cm</Width>
+            <ZIndex>4</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -717,8 +697,14 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>=Variables!uFechaInicio.Value</Value>
+                    <Value>Desde: </Value>
                     <Style />
+                  </TextRun>
+                  <TextRun>
+                    <Value>=Parameters!uFechaInicio.Value</Value>
+                    <Style>
+                      <FontFamily>Calibri</FontFamily>
+                    </Style>
                   </TextRun>
                 </TextRuns>
                 <Style />
@@ -726,10 +712,10 @@
             </Paragraphs>
             <rd:DefaultName>Textbox18</rd:DefaultName>
             <Top>2.67821cm</Top>
-            <Left>7.18405cm</Left>
+            <Left>5.78176cm</Left>
             <Height>0.6cm</Height>
-            <Width>2.5cm</Width>
-            <ZIndex>6</ZIndex>
+            <Width>5.59562cm</Width>
+            <ZIndex>5</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>

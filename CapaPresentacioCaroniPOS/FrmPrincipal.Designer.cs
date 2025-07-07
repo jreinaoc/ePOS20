@@ -31,6 +31,7 @@ namespace CapaVisual_Login
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmPrincipal));
             this.GbxMenuPrincipal = new System.Windows.Forms.GroupBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.btn_FrmCierreDeCaja = new System.Windows.Forms.Button();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
@@ -70,7 +71,6 @@ namespace CapaVisual_Login
             this.btnTasaSec = new System.Windows.Forms.Button();
             this.btnReimpresion = new System.Windows.Forms.Button();
             this.PnlListadoOrdenes = new System.Windows.Forms.Panel();
-            this.button1 = new System.Windows.Forms.Button();
             this.GbxMenuPrincipal.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -134,6 +134,17 @@ namespace CapaVisual_Login
             this.GbxMenuPrincipal.TabIndex = 12;
             this.GbxMenuPrincipal.TabStop = false;
             this.GbxMenuPrincipal.Enter += new System.EventHandler(this.GbxMenuPrincipal_Enter);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(9, 366);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 36;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Visible = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click_6);
             // 
             // btn_FrmCierreDeCaja
             // 
@@ -678,16 +689,6 @@ namespace CapaVisual_Login
             this.PnlListadoOrdenes.Name = "PnlListadoOrdenes";
             this.PnlListadoOrdenes.Size = new System.Drawing.Size(1139, 638);
             this.PnlListadoOrdenes.TabIndex = 15;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(9, 366);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 36;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click_6);
             // 
             // FrmPrincipal
             // 

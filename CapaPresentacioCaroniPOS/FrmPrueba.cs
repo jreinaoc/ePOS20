@@ -1,4 +1,8 @@
-﻿using System;
+﻿using CapaDatos.CargarOrdenes_Datos;
+using CapaDatos.DetalleOrden_Datos;
+using CapaDatos.Inicio_Datos;
+using CapaDatos.Login_Datos;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
@@ -19,6 +23,10 @@ namespace CapaVisual_Login
         }
 
         private string conexion = ConfigurationManager.ConnectionStrings["Epos"].ConnectionString;
+        private D_Login _D_Login = new D_Login();
+        private D_DetalleOrden _D_DetalleOrden = new D_DetalleOrden();
+        private D_Inicio _D_Inicio = new D_Inicio();
+        private D_Articulos _D_Articulos = new D_Articulos() ;
 
         private void checkedListBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -29,76 +37,9 @@ namespace CapaVisual_Login
         private void button1_Click(object sender, EventArgs e)
         {
             try
-            { 
-            if (checkedListBox1.Text== "PagosTranferencia")
             {
-                var parametros = new Dictionary<string, string>
-                {
-                      { "FechaDesde", dateTimePicker1.Text },
-                      { "Compania", "Prueba" },
-                      { "RifCompania", "preuba22" },
-                      { "Sucursal", "prueba33" }
-                };
+                ReportesCierreCaja();
 
-                    // Supón que tienes estos datos:
-                    string nombreReporte = "CapaVisual_Login.Reportes.RptPagosTranferencia.rdlc";
-                    string nombreDataSource = "DsRepPagosTranferencia";     
-                    bool imprimir = false; // o true si quieres imprimir automáticamente
-                DataTable datosReporte = ObtenerDatosParaReporte(conexion,dateTimePicker1.Text, "095"); // Tu método para obtener los datos
-
-                // Instanciar y mostrar el formulario
-                FrmMostrarRep frm = new FrmMostrarRep(nombreReporte, nombreDataSource, imprimir, datosReporte, parametros);
-                frm.ShowDialog();
-
-            }
-            else if (checkedListBox1.Text == "Vuelto")
-            {
-                    var parametros = new Dictionary<string, string>
-                    {
-                      { "uNombreCompania", "Compañia" },
-                      { "uNombreSucursal", "Prueba" },
-                      { "uFechaInicio", dateTimePicker1.Text }
-                    };
-
-                    // Supón que tienes estos datos:
-                    string nombreReporte = "CapaVisual_Login.Reportes.RepVuelto.rdlc";
-                    string nombreDataSource = "DSRepVuelto";
-                    bool imprimir = false; // o true si quieres imprimir automáticamente
-                    DataTable datosReporte = ObtenerDatosParaReporteVuelto(conexion, "095", dateTimePicker1.Text); // Tu método para obtener los datos
-
-                    // Instanciar y mostrar el formulario
-                    FrmMostrarRep frm = new FrmMostrarRep(nombreReporte, nombreDataSource, imprimir, datosReporte, parametros);
-                    frm.ShowDialog();
-                }
-
-                else if (checkedListBox1.Text == "CierreCaja")
-                {
-                    var parametros = new Dictionary<string, string>
-                    {
-                      { "Compania", "Prueba" },
-                      { "Fecha", dateTimePicker1.Text },
-                      { "Sucursal", "prueba33" },
-                      { "RifCompania", "preuba22" }
-                    };
-
-
-                    var dataSources = new Dictionary<string, DataTable>
-                    {
-    { "DS_TB_CAJA", ObtenerDatosParaCierreCaja1(conexion, Convert.ToDateTime(dateTimePicker1.Text), "095")},         // Nombre debe coincidir con el del reporte (.rdlc)
-    { "DS_TB_SUCURSALES", ObtenerDatosParaCierreCaja2(conexion, Convert.ToDateTime(dateTimePicker1.Text), "095")},
-    { "DS_VW_CierreCaja", ObtenerDatosParaCierreCaja3(conexion, Convert.ToDateTime(dateTimePicker1.Text), "095")},
-    { "DS_TB_USUARIO", ObtenerDatosParaCierreCaja4(conexion, Convert.ToDateTime(dateTimePicker1.Text), "095")}
-                    };
-
-                    // Supón que tienes estos datos:
-                    string nombreReporte = "CapaVisual_Login.Reportes.RepCierreDeCaja.rdlc";
-                    string nombreDataSource = "DSCierreDeCaja";
-                    bool imprimir = false; // o true si quieres imprimir automáticamente
-
-                    // Instanciar y mostrar el formulario
-                    FrmMostrarRep frm = new FrmMostrarRep(nombreReporte, nombreDataSource, imprimir, null, parametros, dataSources);
-                    frm.ShowDialog();
-                }
 
             }
             catch (Exception ex)
@@ -108,8 +49,109 @@ namespace CapaVisual_Login
             }
         }
 
+        public void ReportesCierreCaja()
+        {
+            string Sucursal = _D_DetalleOrden.TB_PARAMETRO("SucursalId");
+            DataSet Datos = _D_Login.SucursalCompania(Sucursal);
+            string Descripcion = "";
+            string RifCompania = "";
+            DateTime DiaActivo = _D_Inicio.DiaActivo();
+            string NombreSucursal = "";
+            bool imprimir = true;
 
-        
+            if (Datos.Tables[0].Rows.Count > 0)
+            {
+                DataRow row = Datos.Tables[0].Rows[0];
+                Descripcion = row["DescripcionCompania"].ToString();
+                RifCompania = row["RifCompania"].ToString();
+            }
+
+            DataSet dsSucursal = _D_Articulos.TB_SUCURSALES(Sucursal);
+
+            if (dsSucursal.Tables[0].Rows.Count > 0)
+            {
+                NombreSucursal = Sucursal + " - " + dsSucursal.Tables[0].Rows[0]["Descripcion"].ToString();
+            }
+
+
+            ReporteTranferencia(imprimir, RifCompania, Descripcion, NombreSucursal, Sucursal, DiaActivo);
+            ReporteVuelto(imprimir, RifCompania, Descripcion, NombreSucursal, Sucursal, DiaActivo);
+            ReporteCierreCaja(imprimir, RifCompania, Descripcion, NombreSucursal, Sucursal, DiaActivo);
+
+
+        }
+        public void ReporteTranferencia(bool imprimir, string RifCompania, string Descripcion, string NombreSucursal, string Sucursal, DateTime DiaActivo)
+        {
+
+            var parametros = new Dictionary<string, string>
+                {
+                      { "FechaDesde", DiaActivo.ToString("dd/MM/yyyy")},
+                      { "Compania", Descripcion  },
+                      { "RifCompania", RifCompania },
+                      { "Sucursal",  Sucursal }
+                };
+
+            // Supón que tienes estos datos:
+            string nombreReporte = "CapaVisual_Login.Reportes.RptPagosTranferencia.rdlc";
+            string nombreDataSource = "DsRepPagosTranferencia";
+            DataTable datosReporte = ObtenerDatosParaReporte(conexion, DiaActivo, Sucursal); // Tu método para obtener los datos
+
+            // Instanciar y mostrar el formulario
+            FrmMostrarRep frm = new FrmMostrarRep(nombreReporte, nombreDataSource, imprimir, datosReporte, parametros);
+            frm.ShowDialog();
+        }
+
+        public void ReporteCierreCaja(bool imprimir, string RifCompania, string Descripcion, string NombreSucursal, string Sucursal, DateTime DiaActivo)
+        {
+
+            var parametros = new Dictionary<string, string>
+                    {
+                      { "Compania", Descripcion },
+                      { "Fecha",DiaActivo.ToString("dd/MM/yyyy")},
+                      { "Sucursal", Sucursal },
+                      { "RifCompania",RifCompania }
+                    };
+
+
+            var dataSources = new Dictionary<string, DataTable>
+                    {
+    { "DS_TB_CAJA", ObtenerDatosParaCierreCaja1(conexion, DiaActivo , Sucursal)},         // Nombre debe coincidir con el del reporte (.rdlc)
+    { "DS_TB_SUCURSALES", ObtenerDatosParaCierreCaja2(conexion, DiaActivo ,Sucursal)},
+    { "DS_VW_CierreCaja", ObtenerDatosParaCierreCaja3(conexion, DiaActivo , Sucursal)},
+    { "DS_TB_USUARIO", ObtenerDatosParaCierreCaja4(conexion, DiaActivo , Sucursal)}
+                    };
+
+            // Supón que tienes estos datos:
+            string nombreReporte = "CapaVisual_Login.Reportes.RepCierreDeCaja.rdlc";
+            string nombreDataSource = "DSCierreDeCaja";
+            // o true si quieres imprimir automáticamente
+
+            // Instanciar y mostrar el formulario
+            FrmMostrarRep frm = new FrmMostrarRep(nombreReporte, nombreDataSource, imprimir, null, parametros, dataSources);
+            frm.ShowDialog();
+
+        }
+        public void ReporteVuelto (bool imprimir, string Compania, string Descripcion, string NombreSucursal,string Sucursal, DateTime DiaActivo)
+            {
+            var parametros = new Dictionary<string, string>
+                    {
+                      { "uNombreCompania",Descripcion },
+                      { "uNombreSucursal",NombreSucursal},
+                      { "uFechaInicio", DiaActivo.ToString("dd/MM/yyyy")}
+                    };
+
+            // Supón que tienes estos datos:
+            string nombreReporte = "CapaVisual_Login.Reportes.RepVuelto.rdlc";
+            string nombreDataSource = "DSRepVuelto";
+
+            DataTable datosReporte = ObtenerDatosParaReporteVuelto(conexion, Sucursal, DiaActivo); // Tu método para obtener los datos
+
+            // Instanciar y mostrar el formulario
+            FrmMostrarRep frm = new FrmMostrarRep(nombreReporte, nombreDataSource, imprimir, datosReporte, parametros);
+            frm.ShowDialog();
+
+        }
+
         public DataTable ObtenerDatosParaCierreCaja1(string conexion, DateTime param1, string param2)
         {
             //// Crea una instancia del DataSet y TableAdapter
@@ -169,7 +211,7 @@ namespace CapaVisual_Login
             return ds.TB_USUARIO;
         }
 
-        public DataTable ObtenerDatosParaReporteVuelto(string conexion, string param1, string param2)
+        public DataTable ObtenerDatosParaReporteVuelto(string conexion, string param1, DateTime param2)
         {
             // Crea una instancia del DataSet y TableAdapter
             Reportes.DSRepVuelto ds = new Reportes.DSRepVuelto();
@@ -188,7 +230,7 @@ namespace CapaVisual_Login
             return ds.SP_TraerTempCambio;
         }
 
-        public DataTable ObtenerDatosParaReporte(string conexion, string param1, string param2)
+        public DataTable ObtenerDatosParaReporte(string conexion, DateTime param1, string param2)
         {
             // Crea una instancia del DataSet y TableAdapter
             Reportes.DsRepPagosTranferencia ds = new Reportes.DsRepPagosTranferencia();

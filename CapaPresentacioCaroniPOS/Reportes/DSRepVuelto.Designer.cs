@@ -1103,14 +1103,14 @@ namespace CapaVisual_Login.Reportes.DSRepVueltoTableAdapters {
             this._commandCollection[0].CommandType = global::System.Data.CommandType.StoredProcedure;
             this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@RETURN_VALUE", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.ReturnValue, 10, 0, null, global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@CodSuc", global::System.Data.SqlDbType.VarChar, 7, global::System.Data.ParameterDirection.Input, 0, 0, null, global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Fecha", global::System.Data.SqlDbType.VarChar, 2147483647, global::System.Data.ParameterDirection.Input, 0, 0, null, global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Fecha", global::System.Data.SqlDbType.Date, 3, global::System.Data.ParameterDirection.Input, 10, 0, null, global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, true)]
-        public virtual int Fill(DSRepVuelto.SP_TraerTempCambioDataTable dataTable, string CodSuc, string Fecha) {
+        public virtual int Fill(DSRepVuelto.SP_TraerTempCambioDataTable dataTable, string CodSuc, global::System.Nullable<global::System.DateTime> Fecha) {
             this.Adapter.SelectCommand = this.CommandCollection[0];
             if ((CodSuc == null)) {
                 this.Adapter.SelectCommand.Parameters[1].Value = global::System.DBNull.Value;
@@ -1118,11 +1118,11 @@ namespace CapaVisual_Login.Reportes.DSRepVueltoTableAdapters {
             else {
                 this.Adapter.SelectCommand.Parameters[1].Value = ((string)(CodSuc));
             }
-            if ((Fecha == null)) {
-                this.Adapter.SelectCommand.Parameters[2].Value = global::System.DBNull.Value;
+            if ((Fecha.HasValue == true)) {
+                this.Adapter.SelectCommand.Parameters[2].Value = ((System.DateTime)(Fecha.Value));
             }
             else {
-                this.Adapter.SelectCommand.Parameters[2].Value = ((string)(Fecha));
+                this.Adapter.SelectCommand.Parameters[2].Value = global::System.DBNull.Value;
             }
             if ((this.ClearBeforeFill == true)) {
                 dataTable.Clear();
@@ -1135,7 +1135,7 @@ namespace CapaVisual_Login.Reportes.DSRepVueltoTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
-        public virtual DSRepVuelto.SP_TraerTempCambioDataTable GetData(string CodSuc, string Fecha) {
+        public virtual DSRepVuelto.SP_TraerTempCambioDataTable GetData(string CodSuc, global::System.Nullable<global::System.DateTime> Fecha) {
             this.Adapter.SelectCommand = this.CommandCollection[0];
             if ((CodSuc == null)) {
                 this.Adapter.SelectCommand.Parameters[1].Value = global::System.DBNull.Value;
@@ -1143,11 +1143,11 @@ namespace CapaVisual_Login.Reportes.DSRepVueltoTableAdapters {
             else {
                 this.Adapter.SelectCommand.Parameters[1].Value = ((string)(CodSuc));
             }
-            if ((Fecha == null)) {
-                this.Adapter.SelectCommand.Parameters[2].Value = global::System.DBNull.Value;
+            if ((Fecha.HasValue == true)) {
+                this.Adapter.SelectCommand.Parameters[2].Value = ((System.DateTime)(Fecha.Value));
             }
             else {
-                this.Adapter.SelectCommand.Parameters[2].Value = ((string)(Fecha));
+                this.Adapter.SelectCommand.Parameters[2].Value = global::System.DBNull.Value;
             }
             DSRepVuelto.SP_TraerTempCambioDataTable dataTable = new DSRepVuelto.SP_TraerTempCambioDataTable();
             this.Adapter.Fill(dataTable);

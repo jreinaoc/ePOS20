@@ -844,7 +844,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>=Variables!SaldoEfectivo.Value</Value>
+                    <Value>=Sum(Fields!MANUALEFECTIVO.Value, "DS_TB_CAJA")-Sum(Fields!SISTEMAEFECTIVO.Value, "DS_VW_CierreCaja")</Value>
                     <Style />
                   </TextRun>
                 </TextRuns>
@@ -3440,55 +3440,52 @@ Nombre y Apellido: ____________________________ Firma: ________________________ 
   </ReportParametersLayout>
   <Variables>
     <Variable Name="SaldoEfectivo">
-      <Value>{VW_CierreCaja.MANUALEFECTIVO}- {VW_CierreCaja.SISTEMAEFECTIVO}</Value>
+      <Value>=Sum(Fields!MANUALEFECTIVO.Value, "DS_VW_CierreCaja") -Sum(Fields!SISTEMAEFECTIVO.Value, "DS_VW_CierreCaja")</Value>
     </Variable>
     <Variable Name="SaldoCheques">
-      <Value>{VW_CierreCaja.MANUALCHEQUES}-{VW_CierreCaja.SISTEMACHEQUES}</Value>
+      <Value>=Sum(Fields!MANUALCHEQUES.Value, "DS_TB_CAJA")-Sum(Fields!SISTEMACHEQUES.Value, "DS_TB_CAJA")</Value>
     </Variable>
     <Variable Name="SaldoTarjetaCredito">
-      <Value>{VW_CierreCaja.MANUALTARJETA}-{VW_CierreCaja.SISTEMATARJETA}</Value>
+      <Value>=Sum(Fields!MANUALTARJETA.Value, "DS_VW_CierreCaja")-Sum(Fields!SISTEMATARJETA.Value, "DS_VW_CierreCaja")</Value>
     </Variable>
     <Variable Name="SaldoCupones">
-      <Value>{VW_CierreCaja.MANUALCUPONES} - {VW_CierreCaja.SISTEMACUPONES}</Value>
+      <Value>=Sum(Fields!MANUALCUPONES.Value, "DS_TB_CAJA")-Sum(Fields!SISTEMACUPONES.Value, "DS_TB_CAJA")</Value>
     </Variable>
     <Variable Name="SaldoTicketsSalud">
-      <Value>{VW_CierreCaja.MANUALTICKETSALUD} - {VW_CierreCaja.SISTEMATICKETSALUD}</Value>
+      <Value>=Sum(Fields!MANUALTICKETSALUD.Value, "DS_TB_CAJA")-Sum(Fields!SISTEMATICKETSALUD.Value, "DS_TB_CAJA")</Value>
     </Variable>
     <Variable Name="SaldoTicketSaludEfec">
-      <Value>{VW_CierreCaja.MANUALTICKETSALUDEFEC}-{VW_CierreCaja.SISTEMATICKETSALUDEFEC}</Value>
+      <Value>=Sum(Fields!MANUALTICKETSALUDEFEC.Value, "DS_TB_CAJA")-Sum(Fields!SISTEMATICKETSALUDEFEC.Value, "DS_TB_CAJA")</Value>
     </Variable>
     <Variable Name="SaldoGastos">
-      <Value>{VW_CierreCaja.MANUALGASTOS}-{VW_CierreCaja.SISTEMAGASTOS}</Value>
+      <Value>=Sum(Fields!MANUALGASTOS.Value, "DS_TB_CAJA")-Sum(Fields!SISTEMAGASTOS.Value, "DS_TB_CAJA")</Value>
     </Variable>
     <Variable Name="SaldoFinanciamiento">
-      <Value>{VW_CierreCaja.MANUALFINANCIAMIENTO}-{VW_CierreCaja.SISTEMAFINANCIAMIENTO}</Value>
+      <Value>=Sum(Fields!MANUALFINANCIAMIENTO.Value, "DS_TB_CAJA")-Sum(Fields!SISTEMAFINANCIAMIENTO.Value, "DS_TB_CAJA")</Value>
     </Variable>
     <Variable Name="SaldoIVARetenido">
-      <Value>{VW_CierreCaja.ManualIVARetenido} - {VW_CierreCaja.SistemaIVARetenido}</Value>
+      <Value>=Sum(Fields!ManualIVARetenido.Value, "DS_VW_CierreCaja")-Sum(Fields!SistemaIVARetenido.Value, "DS_VW_CierreCaja")</Value>
     </Variable>
     <Variable Name="SaldoISLRRetenido">
-      <Value>{VW_CierreCaja.ManualISLRRetenido} - {VW_CierreCaja.SistemaISLRRetenido}</Value>
+      <Value>=Sum(Fields!ManualISLRRetenido.Value, "DS_TB_CAJA")-Sum(Fields!SistemaISLRRetenido.Value, "DS_TB_CAJA")</Value>
     </Variable>
     <Variable Name="SaldoTransferencia">
-      <Value>{VW_CierreCaja.MANUALTRANSFERENCIA}- {VW_CierreCaja.SISTEMATRANSFERENCIA}</Value>
+      <Value>=Sum(Fields!MANUALTRANSFERENCIA.Value, "DS_TB_CAJA")-Sum(Fields!SISTEMATRANSFERENCIA.Value, "DS_TB_CAJA")</Value>
     </Variable>
     <Variable Name="SaldoNotaCredito">
-      <Value>{VW_CierreCaja.SISTEMAVUELTO}-{VW_CierreCaja.SISTEMAVUELTO}</Value>
+      <Value>=Sum(Fields!MANUALVUELTO.Value, "DS_TB_CAJA") - Sum(Fields!SISTEMAVUELTO.Value, "DS_TB_CAJA")</Value>
     </Variable>
     <Variable Name="TotalManual">
-      <Value>{VW_CierreCaja.MANUALEFECTIVO} + {VW_CierreCaja.MANUALCHEQUES} + {VW_CierreCaja.MANUALTARJETA} + {VW_CierreCaja.MANUALDEBITO} + {VW_CierreCaja.MANUALCREDITO} + {VW_CierreCaja.MANUALGASTOS} + {VW_CierreCaja.MANUALFINANCIAMIENTO} + {VW_CierreCaja.ManualIVARetenido} + {VW_CierreCaja.ManualISLRRetenido} + {VW_CierreCaja.ManualCUPONES} + {VW_CierreCaja.MANUALTICKETSALUD}+{VW_CierreCaja.MANUALTICKETSALUDEFEC} +{VW_CierreCaja.MANUALTRANSFERENCIA}</Value>
+      <Value>=Sum(Fields!MANUALEFECTIVO.Value, "DS_VW_CierreCaja")+Sum(Fields!MANUALCHEQUES.Value, "DS_VW_CierreCaja")+Sum(Fields!MANUALTARJETA.Value, "DS_VW_CierreCaja")+Sum(Fields!MANUALDEBITO.Value, "DS_VW_CierreCaja")+Sum(Fields!ManualISLRRetenido.Value, "DS_VW_CierreCaja")+Sum(Fields!ManualIVARetenido.Value, "DS_VW_CierreCaja")+Sum(Fields!MANUALTICKETSALUDEFEC.Value, "DS_VW_CierreCaja")+Sum(Fields!MANUALTRANSFERENCIA.Value, "DS_VW_CierreCaja")+Sum(Fields!MANUALVUELTO.Value, "DS_VW_CierreCaja")+Sum(Fields!MANUALREINTEGROS.Value, "DS_VW_CierreCaja")</Value>
     </Variable>
     <Variable Name="TotalSistema">
-      <Value>{VW_CierreCaja.SISTEMACHEQUES}+{VW_CierreCaja.SISTEMACREDITO}+{VW_CierreCaja.SISTEMADEBITO}+{VW_CierreCaja.SISTEMAEFECTIVO}
-+{VW_CierreCaja.SISTEMAFINANCIAMIENTO}+{VW_CierreCaja.SISTEMAGASTOS}+{VW_CierreCaja.SISTEMATARJETA} 
- +{VW_CierreCaja.SISTEMACUPONES} + {VW_CierreCaja.SISTEMATICKETSALUD} + {VW_CierreCaja.SISTEMATICKETSALUDEFEC}
-+{VW_CierreCaja.SISTEMATRANSFERENCIA}</Value>
+      <Value />
     </Variable>
     <Variable Name="SaldoIngresos">
-      <Value> {@TotalManual} - {@TotalSistema}</Value>
+      <Value />
     </Variable>
     <Variable Name="SaldoReintegro">
-      <Value>{VW_CierreCaja.MANUALREINTEGROS}-{VW_CierreCaja.SISTEMAREINTEGRO}</Value>
+      <Value>=Sum(Fields!MANUALREINTEGROS.Value, "DS_VW_CierreCaja")-Sum(Fields!SISTEMAREINTEGRO.Value, "DS_VW_CierreCaja")</Value>
     </Variable>
   </Variables>
   <rd:ReportUnitType>Cm</rd:ReportUnitType>

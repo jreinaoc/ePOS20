@@ -95,7 +95,7 @@ namespace CapaVisual_Login
     string nombreReporte,
     Dictionary<string, DataTable> dataSources, // Diccionario con nombreDataSource y DataTable
     Dictionary<string, string> parametros = null)
-        {
+            {
             try
             {
                 reportViewer1.LocalReport.ReportEmbeddedResource = nombreReporte;

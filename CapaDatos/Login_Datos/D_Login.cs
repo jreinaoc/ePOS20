@@ -93,5 +93,35 @@ namespace CapaDatos.Login_Datos
 
         }
 
+        public DataSet SucursalCompania(string codSucursal, SqlCommand command = null)
+        {
+            try
+            {
+                if (command == null)
+                {
+                    SqlConnection connection = cn.LeerCadena();
+                    command = connection.CreateCommand();
+                }
+                SqlCommand cmd = command;
+                cmd.Parameters.Clear();
+
+                cmd.CommandText = "pGetSucursalCompania";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Suc", codSucursal);
+
+                DataSet ds = new DataSet();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(ds);
+                cmd.Parameters.Clear();
+                return ds;
+
+            }
+            catch (Exception ex)
+            {
+                string Error = string.Format("Error: {0}", ex.Message);
+                return null;
+            }
+        }
+
     }
 }
