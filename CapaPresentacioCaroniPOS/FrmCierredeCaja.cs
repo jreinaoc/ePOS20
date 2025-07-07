@@ -38,9 +38,13 @@ namespace CapaVisual_Login
         DataTable dtCierreCaja = new DataTable();
         DataTable dtLogCierre = new DataTable();
 
+        //private FrmPrincipal _frmPrincipal;
+
+
         public FrmCierredeCaja()
         {
             InitializeComponent();
+
         }
 
         private void btnSiguiente_Click(object sender, EventArgs e)
@@ -63,7 +67,7 @@ namespace CapaVisual_Login
             //Si no se han cerrado 
             if (dtPuntosCerrados.Rows.Count == 0)
             {
-                bool hayLotesEnBlanco = false;
+                bool todosLotesEnBlanco = true;
 
                 foreach (DataGridViewRow fila in Dvg_CierrePuntoVenta.Rows)
                 {
@@ -72,15 +76,15 @@ namespace CapaVisual_Login
                     {
                         var valorLote = fila.Cells["Nro. Lote"].Value?.ToString().Trim();
 
-                        if (string.IsNullOrEmpty(valorLote))
+                        if (valorLote != "")
                         {
-                            hayLotesEnBlanco = true;
+                            todosLotesEnBlanco = false;
                             break;
                         }
                     }
                 }
 
-                if (hayLotesEnBlanco)
+                if (todosLotesEnBlanco)
                 {
                     _FrmMensajes.co = 2;
                     _FrmMensajes.avisomensaje("Debe escribir el Nro. de lote");
@@ -97,13 +101,17 @@ namespace CapaVisual_Login
                         if (!fila.IsNewRow)
                         {
                             var valorLote = fila.Cells["Nro. Lote"].Value?.ToString().Trim();
-                            decimal.TryParse(fila.Cells[3].Value?.ToString().Trim(), out decimal totalCredito);
+                            if (valorLote != "")
+                            {
+                                decimal.TryParse(fila.Cells[3].Value?.ToString().Trim(), out decimal totalCredito);
                             decimal.TryParse(fila.Cells[4].Value?.ToString().Trim(), out decimal totalAmex);
                             decimal.TryParse(fila.Cells[5].Value?.ToString().Trim(), out decimal totalDebito);
                             decimal.TryParse(fila.Cells[6].Value?.ToString().Trim(), out decimal totalOtros);
 
                            
                             _L_CierreCaja.AgregaPuntosdeVenta(fila.Cells[0].Value?.ToString().Trim(), diaActivo, fila.Cells[2].Value?.ToString().Trim(), totalCredito, totalAmex, totalDebito, totalOtros);
+                        
+                            }
                         }
                     }
                     
@@ -374,8 +382,9 @@ namespace CapaVisual_Login
 
 
                     ForeColor = Color.Black,
-                    Size = new Size(30, 145),
-                    Location = new Point(110,130),
+                    Size = new Size(30, 148),
+
+                    Location = new Point(110,126),
 
                     Invertir = true // ponlo en true si quieres que el texto vaya de abajo hacia arriba
                 };
@@ -388,8 +397,8 @@ namespace CapaVisual_Login
                     Text = "Pagos",
                     Font = new Font("Century Gothic", 13),
                     ForeColor = Color.Black,
-                    Size = new Size(30, 250),
-                    Location = new Point(110, 280),
+                    Size = new Size(30, 240),
+                    Location = new Point(110, 278),
                     Invertir = true // ponlo en true si quieres que el texto vaya de abajo hacia arriba
                 };
                 labelVerticalPagos.BackColor = Color.FromArgb(0, 186, 173);
@@ -602,7 +611,9 @@ namespace CapaVisual_Login
 
                     // Asignar ancho personalizado a cada columna
                     dgvLogCierre.Columns["Descripcion"].Width = 300;
-                    dgvLogCierre.Columns["Resultado"].Width = 100;
+                    dgvLogCierre.Columns["Resultado"].Width = 113;
+                    dgvLogCierre.ColumnHeadersDefaultCellStyle.Font = new Font("Century Gothic", 13);
+                    dgvCierredecaja.DefaultCellStyle.Font = new Font("Century Gothic", 10);
 
 
 
@@ -1079,6 +1090,7 @@ namespace CapaVisual_Login
         private void button1_Click(object sender, EventArgs e)
         {
 
+
             //Invenvio
             string rutaInvenvio;
             string nombreInvenvio;
@@ -1087,20 +1099,10 @@ namespace CapaVisual_Login
 
             CrearTabla("LogCierre");
 
-            if (_L_CierreCaja.GeneraInvenvioTXT(sucursal, diaActivo.ToString("yyyyMMdd"), rutaInvenvio + nombreInvenvio))
-            {
-                dtLogCierre.Rows.Add("Archivo Invenvio.txt", "✔ Completado");
-                dgvLogCierre.DataSource = dtLogCierre;
-                dgvLogCierre.Refresh();
-            }
-            else
-            {
-                dtLogCierre.Rows.Add("Archivo Invenvio.txt", "Error");
-                dgvLogCierre.DataSource = dtLogCierre;
-                dgvLogCierre.Refresh();
-            }
+            
 
-            FormatoTabla("LogCierre");
+           
+           
 
             //Existencia en Caja
             if (!_L_CierreCaja.ValidaExistenciaCaja(dgvCierredecaja))
@@ -1145,15 +1147,29 @@ namespace CapaVisual_Login
             }
             else
             {
-                dtLogCierre.Rows.Add("SP Cierre de Caja", "Error");
+                dtLogCierre.Rows.Add("SP Cierre de Caja", "❌ Fallido");
                 dgvLogCierre.DataSource = dtLogCierre;
                 dgvLogCierre.Refresh();
                 return;
             }
+            FormatoTabla("LogCierre");
+
+            if (_L_CierreCaja.GeneraInvenvioTXT(sucursal, diaActivo.ToString("yyyyMMdd"), rutaInvenvio + nombreInvenvio))
+            {
+                dtLogCierre.Rows.Add("Archivo Invenvio.txt", "✔ Completado");
+                dgvLogCierre.DataSource = dtLogCierre;
+                dgvLogCierre.Refresh();
+            }
+            else
+            {
+                dtLogCierre.Rows.Add("Archivo Invenvio.txt", "Error");
+                dgvLogCierre.DataSource = dtLogCierre;
+                dgvLogCierre.Refresh();
+            }
 
             if (!_L_CierreCaja.ActualizarParamCierreCaja(sucursal))
             {
-                dtLogCierre.Rows.Add("Error Actualizando parametros", "Error");
+                dtLogCierre.Rows.Add("Error Actualizando parametros", "❌ Fallido");
                 dgvLogCierre.DataSource = dtLogCierre;
                 dgvLogCierre.Refresh();
                 return;
@@ -1161,7 +1177,7 @@ namespace CapaVisual_Login
 
             if (!_L_CierreCaja.DesbloqueSistema("PEND",sucursal))
             {
-                dtLogCierre.Rows.Add("Error Actualizando parametros", "Error");
+                dtLogCierre.Rows.Add("Error Actualizando parametros", "❌ Fallido");
                 dgvLogCierre.DataSource = dtLogCierre;
                 dgvLogCierre.Refresh();
                 return;
@@ -1169,7 +1185,7 @@ namespace CapaVisual_Login
 
             if (!_L_CierreCaja.ActualizarFacturas(sucursal))
             {
-                dtLogCierre.Rows.Add("Error Actualizando Facturas", "Error");
+                dtLogCierre.Rows.Add("Error Actualizando Facturas", "❌ Fallido");
                 dgvLogCierre.DataSource = dtLogCierre;
                 dgvLogCierre.Refresh();
                 return;
@@ -1272,9 +1288,53 @@ namespace CapaVisual_Login
 
             if (_L_CierreCaja.CreaXMLACC(sucursal))
             {
+                foreach (DataRow row in dtLogCierre.Rows)
+                {
+                    if (row["Descripcion"].ToString() == "Creando zip xml")
+                    {
+                        row["Resultado"] = "✔ Completado";
+                        break;
+                    }
+                }
+
             }
+            else
+            {
+                foreach (DataRow row in dtLogCierre.Rows)
+                {
+                    if (row["Descripcion"].ToString() == "Creando zip xml")
+                    {
+                        row["Resultado"] = "❌ Fallido";
+                        break;
+                    }
+                }
+                return;
+            }
+
             _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "070", TB_USUARIO.COD_EMPLEADO, "Se generaron los ACC correctamente");
 
+            
+            FrmPrincipal frmPrincipal = this.ParentForm as FrmPrincipal;
+
+            if (frmPrincipal != null)
+            {
+                frmPrincipal.ActualizarTextoLabel(diaActivo.AddDays(1).ToString("dd/MM/yyyy"));
+            }
+
+
+
+            dtLogCierre.Rows.Add("Cierre de caja", "✔ Completado");
+            dgvLogCierre.DataSource = dtLogCierre;
+            dgvLogCierre.Refresh();
+
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            tcCierreCaja.SelectedIndex = 2;
+            lblPaso.Text = "Paso 3";
+        }
+
+       
     }
 }

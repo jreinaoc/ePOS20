@@ -9,6 +9,8 @@ using CapaEntidades;
 using System.Data;
 using System.IO;
 using CapaDatos.DetalleOrden_Datos;
+using System.IO.Compression;
+
 
 
 
@@ -270,27 +272,44 @@ namespace CapaLogica.CierreCaja_Logica
 
         public DataTable ObtienePagosCierreCaja(string suc)
         {
-            DataTable dt = _D_CierreCaja.ObtienePagosCierreCaja(suc);
+            try
+            {
+                DataTable dt = _D_CierreCaja.ObtienePagosCierreCaja(suc);
 
-            if (dt.Rows.Count > 0)
-            {
-                return dt;
+                if (dt.Rows.Count > 0)
+                {
+                    return dt;
+                }
+                else
+                {
+                    return dt;
+                }
             }
-            else
+
+            catch (Exception ex)
             {
-                return dt;
+                // Código para manejar el error
+                return null;
             }
         }
 
         public bool ValidaExistenciaCaja(DataGridView dgvCierredecaja)
         {
-            double existenteEnCaja = GetValorFila(dgvCierredecaja, 0);
-            if (existenteEnCaja > 0)
+            try
             {
-                return true;
+                double existenteEnCaja = GetValorFila(dgvCierredecaja, 0);
+                if (existenteEnCaja > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
-            else
+            catch (Exception ex)
             {
+                // Código para manejar el error
                 return false;
             }
         }
@@ -307,40 +326,57 @@ namespace CapaLogica.CierreCaja_Logica
 
         public bool CierreDeCaja(DataGridView dgvCierredecaja, DateTime fecha, string codSucursal, string observacion, string usuario)
         {
-            decimal M_TotalIngresos = (decimal)GetValorFila(dgvCierredecaja, 0);
-            decimal M_Efectivo = (decimal)GetValorFila(dgvCierredecaja, 5);
-            decimal M_Cheques = 0;
-            decimal M_Cupones = 0;
-            decimal M_TicketsSalud = 0;
-            decimal M_TicketsSaludEfec = 0;
-            decimal M_TarjetaC = (decimal)GetValorFila(dgvCierredecaja, 7);
-            decimal M_TarjetaD = (decimal)GetValorFila(dgvCierredecaja, 6);
-            decimal M_NotaCredito = (decimal)GetValorFila(dgvCierredecaja, 3);
-            decimal M_Credito = 0;
-            decimal M_Reintegro = (decimal)GetValorFila(dgvCierredecaja, 2);
-            decimal M_Gastos = (decimal)GetValorFila(dgvCierredecaja, 1);
-            decimal M_Financiamiento = 0;
-            decimal M_NotaDevolucion = (decimal)GetValorFila(dgvCierredecaja, 4);
-            decimal M_OrdenPago = 0;
-            decimal M_IVARetenido = (decimal)GetValorFila(dgvCierredecaja, 8);
-            decimal M_ISRLRetenido = (decimal)GetValorFila(dgvCierredecaja, 9);
-            decimal M_Transferencia = (decimal)GetValorFila(dgvCierredecaja, 10);
-            decimal M_Vuelto = (decimal)GetValorFila(dgvCierredecaja, 0);
-            string M_Observacion = observacion;
-            string M_Usuario = usuario;
-            bool cierreParcial = false;
-            bool trabajaDomingos = false;
-            string userEntrega = "";
-            string userRecibe = "";
-
-            DataTable dt = _D_CierreCaja.CierreDeCaja(fecha, codSucursal, M_TotalIngresos, M_Efectivo, M_Cheques, M_Cupones, M_TicketsSalud, M_TicketsSaludEfec, M_TarjetaC, M_TarjetaD, M_NotaCredito, M_Credito, M_Reintegro, M_Gastos, M_Financiamiento, M_NotaDevolucion, M_OrdenPago, M_IVARetenido, M_ISRLRetenido, M_Transferencia, M_Vuelto, M_Observacion, M_Usuario, cierreParcial, trabajaDomingos, userEntrega, userRecibe);
-
-            if (dt.Rows[0][0].ToString() == "SATISFACTORIO")
+            try
             {
-                return true;
+
+                decimal M_TotalIngresos = (decimal)GetValorFila(dgvCierredecaja, 0);
+                decimal M_Efectivo = (decimal)GetValorFila(dgvCierredecaja, 5);
+                decimal M_Cheques = 0;
+                decimal M_Cupones = 0;
+                decimal M_TicketsSalud = 0;
+                decimal M_TicketsSaludEfec = 0;
+                decimal M_TarjetaC = (decimal)GetValorFila(dgvCierredecaja, 7);
+                decimal M_TarjetaD = (decimal)GetValorFila(dgvCierredecaja, 6);
+                decimal M_NotaCredito = (decimal)GetValorFila(dgvCierredecaja, 3);
+                decimal M_Credito = 0;
+                decimal M_Reintegro = (decimal)GetValorFila(dgvCierredecaja, 2);
+                decimal M_Gastos = (decimal)GetValorFila(dgvCierredecaja, 1);
+                decimal M_Financiamiento = 0;
+                decimal M_NotaDevolucion = (decimal)GetValorFila(dgvCierredecaja, 4);
+                decimal M_OrdenPago = 0;
+                decimal M_IVARetenido = (decimal)GetValorFila(dgvCierredecaja, 8);
+                decimal M_ISRLRetenido = (decimal)GetValorFila(dgvCierredecaja, 9);
+                decimal M_Transferencia = (decimal)GetValorFila(dgvCierredecaja, 10);
+                decimal M_Vuelto = (decimal)GetValorFila(dgvCierredecaja, 0);
+                string M_Observacion = observacion;
+                string M_Usuario = usuario;
+                bool cierreParcial = false;
+                bool trabajaDomingos = false;
+                string userEntrega = "";
+                string userRecibe = "";
+
+                DataTable dt = _D_CierreCaja.CierreDeCaja(fecha, codSucursal, M_TotalIngresos, M_Efectivo, M_Cheques, M_Cupones, M_TicketsSalud, M_TicketsSaludEfec, M_TarjetaC, M_TarjetaD, M_NotaCredito, M_Credito, M_Reintegro, M_Gastos, M_Financiamiento, M_NotaDevolucion, M_OrdenPago, M_IVARetenido, M_ISRLRetenido, M_Transferencia, M_Vuelto, M_Observacion, M_Usuario, cierreParcial, trabajaDomingos, userEntrega, userRecibe);
+
+                if (dt != null)
+                {
+                    if (dt.Rows[0][0].ToString() == "SATISFACTORIO")
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+
             }
-            else
+            catch (Exception ex)
             {
+                // Código para manejar el error
                 return false;
             }
         }
@@ -454,9 +490,13 @@ namespace CapaLogica.CierreCaja_Logica
                         // SE CREA EL DATASET CON LOS DATOS DE LA TABLA ACC
                         DataTable ds = _D_CierreCaja.ObtieneTablasAcc(ACCNombre);
 
+                        ds.TableName = "ACC";
                         // SE CREA EL ARCHIVO XML CON LOS DATOS DE LA TABLA ACC
                         ds.WriteXml(System.IO.Path.Combine(_xmlRutaDestino, ACCNombre + ".xml"));
                     }
+
+                    //string ruta = @"C:\Ruta\Donde\EstánLosXml";
+                    ComprimirXmlEnCarpeta(_xmlRutaDestino, sucursal);
 
                     return true;
                 }
@@ -469,5 +509,40 @@ namespace CapaLogica.CierreCaja_Logica
                 return false;
             }
         }
+
+       public static void ComprimirXmlEnCarpeta(string carpetaPath, string sucursal)
+       {
+            string zipPath = Path.Combine(carpetaPath, "Zip" + sucursal + ".zip");
+
+            // Elimina zip previo si existe
+            if (File.Exists(zipPath))
+                File.Delete(zipPath);
+
+            string[] archivosXml = Directory.GetFiles(carpetaPath, "*.xml");
+
+            using (FileStream zipToOpen = new FileStream(zipPath, FileMode.Create))
+            using (ZipArchive archive = new ZipArchive(zipToOpen, ZipArchiveMode.Create))
+            {
+                foreach (var archivo in archivosXml)
+                {
+                    string nombreArchivo = Path.GetFileName(archivo);
+
+                    // Añade el archivo al zip manualmente
+                    ZipArchiveEntry entry = archive.CreateEntry(nombreArchivo);
+
+                    using (var entryStream = entry.Open())
+                    using (var fileStream = File.OpenRead(archivo))
+                    {
+                        fileStream.CopyTo(entryStream);
+                    }
+                }
+            }
+
+            Console.WriteLine("✅ Archivos XML comprimidos en: " + zipPath);
+        }
+
+
+
+
     }
 }

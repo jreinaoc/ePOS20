@@ -1233,12 +1233,14 @@ namespace CapaVisual_Login
                     Dgv_Pnl3_ColoresLC.DataSource = dsColorLC.Tables[0];
                     Formato_Dgv_Pnl3_ColoresLC();
                     Pnl_3_Lista_Articulo.Visible = false;
-
+                   
                     //VisualizarPanel("MostrarCabezeraSecundaria");
                     //HabilitacionControl("CabezeraPrincipal");
 
                     Pnl_3_Lista_ColoresLC.Visible = true;
                     Pnl_3_Lista_ColoresLC.Location = new Point(250, 1);
+                    Pnl_3_Lista_ColoresLC.BringToFront();
+
 
                     //VisualizarPanel("MostrarCabezeraSecundaria");
                     //HabilitacionControl("CabezeraPrincipal");
@@ -1833,10 +1835,11 @@ namespace CapaVisual_Login
                 VisualizarPanel("MostrarCabezeraSecundaria");
                 _L_Articulo.InicializarDataGridViewTotales(Dgv_Tap3_Totales);
                 Formato_Dgv_Totales();
-                _L_Articulo.BucarTipoVenta(Cbx_Pnl2_Trbajo);
+                //_L_Articulo.BucarTipoVenta(Cbx_Pnl2_Trbajo);
                 _L_Articulo.LlenarComboOjos(Cbx_Pnl2_Ojo);
-                CargarComboLaboratorios();
+                //CargarComboLaboratorios();
                 //_L_Articulo.ObtenerFechaHoraOfrecida(Cbx_Pnl2_Servicio.SelectedValue.ToString(), Cbx_Pnl2_Trbajo.SelectedValue.ToString());
+
 
 
             }
@@ -2021,7 +2024,59 @@ namespace CapaVisual_Login
         private void btnExamen_Click(object sender, EventArgs e)
         {
 
-            Btn_Tap1_Guardar.PerformClick();
+            if (tabControl.SelectedIndex == 0)
+            {
+                Btn_Tap1_Guardar.PerformClick();
+            }
+            else
+            {
+                VisualizarPanel("MostrarCabeceraExamen");
+                tabControl.SelectedIndex = 1;
+            }
+
+
+
+
+
+            //if (Cbx_Tap2_Tipo_Examen.Text == "CONTACTO")
+            //{
+            //    grp_pln2_Cont1.Visible = true;
+            //    grp_pln2_Cont1.BringToFront();
+            //}
+            //else if (Cbx_Tap2_Tipo_Examen.Text == "CONVENCIONAL")
+            //{
+            //    grp_pln2_Conv2.Visible = true;
+            //    grp_pln2_Conv2.BringToFront();
+            //}
+            //VisualizarPanel("MostrarCabeceraExamen");
+
+            //Txt_Pnl_2_Cedula.Visible = true;
+            //Txt_Pnl_2_Nombre.Visible = true;
+            //Lbl_Pnl2_Cedula.Visible = true;
+            //Lbl_Pnl2_Nombre.Visible = true;
+            //Txt_Pnl_2_Cedula.Text = Cbx_Tap1_Nacionalidad.SelectedItem.ToString() + Txt_Tap1_Cedula.Text.ToString();
+            //Txt_Pnl_2_Nombre.Text = Txt_Tap1_Nombre.Text.ToString();
+            //Txt_Pnl_2_Cedula.Location = new System.Drawing.Point(20, 10);
+            //Txt_Pnl_2_Cedula.BringToFront();
+            //btnCargarOrden.Enabled = true;
+            //if (tabControl.TabPages.Count > 0)
+            //{
+            //    tabControl.SelectedIndex = 1;
+            //    label43.Text = "Datos de Clientes";
+
+            //    grp_pln2_Cont1.BringToFront();
+            //    btn_pln2_oft.BringToFront();
+            //    btn_pln2_reti.BringToFront();
+            //    btn_pln2_quer.BringToFront();
+
+            //    Btn_Tap2_Derecha_Click(this.Btn_Tap2_Derecha, EventArgs.Empty);
+
+
+            //    // Opcional: Llamar al evento directamente si la selección no lo dispara
+            //    // tabControl_SelectedIndexChanged(tabControl, EventArgs.Empty);
+            //}
+            //Pnl_2.Visible = true;
+            //grp_pln2_Conv2.Visible = true;
             //VisualizarPanel("MostrarCabeceraExamen");
 
             //Txt_Pnl_2_Cedula.Visible = true;
@@ -2056,8 +2111,33 @@ namespace CapaVisual_Login
 
         private void btnDetalleOrden_CheckedChanged(object sender, EventArgs e)
         {
+            if (tabControl.SelectedIndex == 0)
+            {
+                Btn_Tap1_Guardar.PerformClick();
+                tabControl.SelectedIndex = 2;
+                return;
+            }
+
+            if (tabControl.SelectedIndex == 1)
+            {
+                tabControl.SelectedIndex = 2;
+               return;
+            }
+
+            if (tabControl.SelectedIndex == 2)
+            {
+                tabControl.SelectedIndex = 1;
+                return;
+
+            }
             
-            VisualizarPanel("MostrarCabezeraSecundaria");
+
+
+            
+          
+            //Btn_Tap2_GuardarExam.PerformClick();
+
+            /*VisualizarPanel("MostrarCabezeraSecundaria");
             Txt_Pnl2_Examen.Text = Txt_Tap2_Examen.Text;
             tabControl.SelectedIndex = 2;
 
@@ -2069,7 +2149,7 @@ namespace CapaVisual_Login
             {
                 Txt_Tap3_Articulo_Precio.Enabled = false;
             }
-            LLenar_TbTrabajo();
+            LLenar_TbTrabajo();*/
         }
 
         private void Dgv_Tap3_Articulo_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
@@ -2186,7 +2266,7 @@ namespace CapaVisual_Login
             ValidarRegistrosYHabilitar_Botones();
 
             // Actualizar_Fecha_Ofrecido 
-            ActualizaFechaOfrecida(Cbx_Pnl2_Trbajo.SelectedValue.ToString(), Cbx_Pnl2_Servicio.SelectedValue.ToString());
+            ActualizaFechaOfrecida(Cbx_Pnl2_Trbajo.SelectedValue.ToString(), Cbx_Pnl2_Servicio.SelectedValue?.ToString());
 
         }
 
@@ -3162,7 +3242,7 @@ namespace CapaVisual_Login
 
                 //VerificoParametrosCristales();
                 //VerificoRangoDiametroCristales();
-                AsignarParametrosFaltantes(nuevoTrabajo,"", "0", txtHorizontal.Text.Replace(',', '.'), txtVertical.Text.Replace(',', '.'), txtMaxima.Text.Replace(',', '.'), txtPuente.Text.Replace(',', '.'), Cbx_Pnl2_Laboratorio.SelectedValue.ToString(), Cbx_Pnl2_Servicio.SelectedValue.ToString(), Hora_Ofrecido, "T", Fecha_Ofreci, DateTime.Today, Cbx_Pnl2_Trbajo.SelectedValue.ToString(), Cbx_Pnl2_Trbajo.Text);
+                AsignarParametrosFaltantes(nuevoTrabajo,"", "0", txtHorizontal.Text.Replace(',', '.'), txtVertical.Text.Replace(',', '.'), txtMaxima.Text.Replace(',', '.'), txtPuente.Text.Replace(',', '.'), Cbx_Pnl2_Laboratorio.SelectedValue.ToString(), Cbx_Pnl2_Servicio.SelectedValue?.ToString(), Hora_Ofrecido, "T", Fecha_Ofreci, DateTime.Today, Cbx_Pnl2_Trbajo.SelectedValue.ToString(), Cbx_Pnl2_Trbajo.Text);
 
                 bool Respuesta = _Asignar_Rx.Verificar_Cristales_Parametros_Diametros(nuevoTrabajo, Dgv_Tap3_Articulo, Cbx_Pnl2_Trbajo.SelectedValue.ToString(), codSucursal, Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Txt_Tap2_Examen.Text, LbResultado2, LbResultados, dgvRangoCrt);
                 if (!Respuesta && _Asignar_Rx.stringBuilder.Length > 0)
@@ -3258,13 +3338,18 @@ namespace CapaVisual_Login
                 }
 
                 //Guardar datos en CAORDSERV
-                string codServicio = Cbx_Pnl2_Servicio.SelectedValue.ToString();
+                string codServicio = Cbx_Pnl2_Servicio.SelectedValue?.ToString();
                 var glbCodDetVta = Cbx_Pnl2_Trbajo.SelectedValue.ToString();
                 string sucursal = TB_USUARIO.COD_SUCURSAL;
                 string cedulaAfiliado = Dgv_Pnl3_ClienteAfiliado.CurrentRow?.Cells["Codigo_Emp"]?.Value?.ToString();
                 string codigoEmpresaAfiliada = Dgv_Pnl3_ClienteAfiliado.CurrentRow?.Cells["Codigo_Emp"]?.Value?.ToString();
                 DateTime FechaActiva = _D_Inicio.DiaActivo();
-                bool monturaEstaEnQuorum = _servicioValidaciones.MonturaEstaEnQuorum(codMonturaSeleccionada, sucursal, codServicio);
+                bool monturaEstaEnQuorum = false;
+
+                if ((Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01"))//Convencional
+                {
+                    _servicioValidaciones.MonturaEstaEnQuorum(codMonturaSeleccionada, sucursal, codServicio);
+                }
                 //bool empresaAfiliada = EmpresaAfiliada;
                 //bool esEmpresaAfiliada = empresaAfiliada == "1" || empresaAfiliada.ToLower() == "true";
                 var glbManejaExisLC = _D_DetalleOrden.TB_PARAMETRO("LCManejaExist");
@@ -3291,7 +3376,7 @@ namespace CapaVisual_Login
                         numeroCedula,
                         TB_USUARIO.COD_EMPLEADO,
                         Cbx_Pnl2_Laboratorio.Visible== false? "000": Cbx_Pnl2_Laboratorio.SelectedValue.ToString(),
-                        Cbx_Pnl2_Servicio.Visible == false ? "000" : Cbx_Pnl2_Servicio.SelectedValue.ToString(),
+                        Cbx_Pnl2_Servicio.Visible == false ? "000" : Cbx_Pnl2_Servicio.SelectedValue?.ToString(),
                         glbNumVision,
                         //codigoEmpresaAfiliada,
                         txtObservacion.Text,
@@ -3346,26 +3431,44 @@ namespace CapaVisual_Login
 //                    var actualizadoTrabajo = await _GuardarOrdenServ.ActualizarTrabajoYExistencias(numeroOrden, txtHorizontal.Text.Replace(',', '.'), txtVertical.Text.Replace(',', '.')
 //, txtMaxima.Text.Replace(',', '.'), txtPuente.Text.Replace(',', '.'), "0", "0", "0", "0", "0", "A", "Cerca", "Cerca", TB_USUARIO.COD_USR, codSucursal, command);
 
-                    AsignarParametrosFaltantes(nuevoTrabajo, numeroOrden, "0", txtHorizontal.Text.Replace(',', '.'), txtVertical.Text.Replace(',', '.'), txtMaxima.Text.Replace(',', '.'), txtPuente.Text.Replace(',', '.'), Cbx_Pnl2_Laboratorio.SelectedValue.ToString(), Cbx_Pnl2_Servicio.SelectedValue.ToString(), Hora_Ofrecido, "T", Fecha_Ofreci, DateTime.Today, Cbx_Pnl2_Trbajo.SelectedValue.ToString(), Cbx_Pnl2_Trbajo.Text);
+                    AsignarParametrosFaltantes(nuevoTrabajo, numeroOrden, "0", txtHorizontal.Text.Replace(',', '.'), txtVertical.Text.Replace(',', '.'), txtMaxima.Text.Replace(',', '.'), txtPuente.Text.Replace(',', '.'), Cbx_Pnl2_Laboratorio.SelectedValue.ToString(), Cbx_Pnl2_Servicio.SelectedValue?.ToString(), Hora_Ofrecido, "T", Fecha_Ofreci, DateTime.Today, Cbx_Pnl2_Trbajo.SelectedValue.ToString(), Cbx_Pnl2_Trbajo.Text);
+                    
                     var actualizadoTrabajo = _GuardarOrdenServ.AgregarTrabajo2(nuevoTrabajo, command);
-                    // _L_Articulo.Inserta_TB_TRABAJO(numeroOrden, txtHorizontal.Text, txtVertical.Text, txtMaxima.Text,"0", "0", "0", "0", "0", "0", "A", "Cerca", "Cerca", TB_USUARIO.COD_USR, codSucursal);
+                    //// _L_Articulo.Inserta_TB_TRABAJO(numeroOrden, txtHorizontal.Text, txtVertical.Text, txtMaxima.Text,"0", "0", "0", "0", "0", "0", "A", "Cerca", "Cerca", TB_USUARIO.COD_USR, codSucursal);
 
-                    if (!actualizadoTrabajo)
-                    {
-                        //throw new Exception("Error actualizando la tabla TB_TRABAJO. El proceso no puede continuar");
-                        transaction.Rollback();
-                        return;
-                    }
+                    //if (!actualizadoTrabajo)
+                    //{
+                    //    //throw new Exception("Error actualizando la tabla TB_TRABAJO. El proceso no puede continuar");
+                    //    transaction.Rollback();
+                    //    return;
+                    //}
 
                     // Verifico y Apligo Garantia para trabajo convencional reservado 
-                    if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "09" && !actualizadoTrabajo)
+                    //if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "09" && !actualizadoTrabajo)
+                    if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "09"
+                        )
+
                     {
                         DataSet ds = await _GuardarOrdenServ.LlamarActualizarGarantiaAsync(Os_Garantia_Trabajo, codSucursal, numeroOrden, command);
                     }
 
                     transaction.Commit();
                     // Finaliza normalmente
-                    LimpiarGrid();
+
+                    Btn_Tap3_Cancelar.PerformClick();
+
+                    btnPrincipal.PerformClick();
+
+                    Btn_Pnl3_Cancelar.PerformClick();
+
+                    //FrmPrincipal frmPrincipal = (FrmPrincipal)this.MdiParent ?? this.ParentForm as FrmPrincipal;
+                    //FrmListaOrdenes frmListaOrdenes = new FrmListaOrdenes();
+                    //frmPrincipal.addformulario(frmListaOrdenes);
+
+
+
+                    //this.Close();
+                    //LimpiarGrid();
                     //Btn_Tap3_Procesar.Enabled = true;
 
                 }
@@ -3402,6 +3505,8 @@ namespace CapaVisual_Login
        string Descripcion_Tipo_Venta
    )
         {
+            nuevoTrabajo.TSucursal =
+                _D_DetalleOrden.TB_PARAMETRO("sucursalId");
             nuevoTrabajo.TNumOrdserv = tNumOrdserv;
             nuevoTrabajo.THORIZONTAL = tHorizontal;
             nuevoTrabajo.TVERTICAL = tVertical;
@@ -3950,7 +4055,8 @@ namespace CapaVisual_Login
 
                 VisualizarPanel("MostrarCabeceraExamen");
             }
-            
+
+            Dtp_Tap2_Examen_ValueChanged(Dtp_Tap2_FecExam, EventArgs.Empty);
             //llenarCabeceraExamenyOrden();
         }
 
@@ -3966,20 +4072,21 @@ namespace CapaVisual_Login
 
         private void FrmCargarOrden_Load(object sender, EventArgs e)
         {
-            //tabControl.SelectedIndex = 0;
-            //_L_Articulo.CargarClientesAfiliados(Dgv_Pnl3_ClienteAfiliado, listaClienteAfiliados);
+            BloquearCamposE();
+              //tabControl.SelectedIndex = 0;
+              //_L_Articulo.CargarClientesAfiliados(Dgv_Pnl3_ClienteAfiliado, listaClienteAfiliados);
 
-            //Dgv_Pnl3_ClienteAfiliado.DataSource = listaClienteAfiliados;
-            //Formato_Dgv_Pnl3_ClienteAfiliado();
+              //Dgv_Pnl3_ClienteAfiliado.DataSource = listaClienteAfiliados;
+              //Formato_Dgv_Pnl3_ClienteAfiliado();
 
-            ////Guarda en tb_trabajo temporal
-            //_D_Articulo.Agregar_TB_TRABAJO(_D_DetalleOrden.TB_PARAMETRO("SucursalId"), "", "", Txt_Pnl_2_Cedula.Text.Substring(0, 1), Txt_Pnl_2_Cedula.Text.Substring(2, Txt_Pnl_2_Cedula.Text.Length - 2), "002", Convert.ToInt32(Txt_Pnl2_Examen.Text)
-            //  , txtHorizontal.Text, txtVertical.Text, txtMaxima.Text, txtPuente.Text, "0", "0", "A", "Cerca", "Cerca", "QUO", "001", "T", TB_USUARIO.COD_USR, "02", "CONVENCIONAL", "0", "0", "0", "0");
+              ////Guarda en tb_trabajo temporal
+              //_D_Articulo.Agregar_TB_TRABAJO(_D_DetalleOrden.TB_PARAMETRO("SucursalId"), "", "", Txt_Pnl_2_Cedula.Text.Substring(0, 1), Txt_Pnl_2_Cedula.Text.Substring(2, Txt_Pnl_2_Cedula.Text.Length - 2), "002", Convert.ToInt32(Txt_Pnl2_Examen.Text)
+              //  , txtHorizontal.Text, txtVertical.Text, txtMaxima.Text, txtPuente.Text, "0", "0", "A", "Cerca", "Cerca", "QUO", "001", "T", TB_USUARIO.COD_USR, "02", "CONVENCIONAL", "0", "0", "0", "0");
 
-            /*MEIFER*/
-            // Optional: Set the background color for the content area of each tab page
-            // (This is separate from the tab headers handled by DrawItem)
-             codigoSucursal = _D_DetalleOrden.TB_PARAMETRO("SucursalId");
+              /*MEIFER*/
+              // Optional: Set the background color for the content area of each tab page
+              // (This is separate from the tab headers handled by DrawItem)
+              codigoSucursal = _D_DetalleOrden.TB_PARAMETRO("SucursalId");
 
             foreach (TabPage page in tabControl.TabPages)
             {
@@ -4002,8 +4109,13 @@ namespace CapaVisual_Login
             cbMotivosGarantia.DataSource = dtMotivosGarantia;
 
             dgvOrdenesGarantia.DataSource = _L_Cliente.ObtenerClienteConGarantia(_D_DetalleOrden.TB_PARAMETRO("SucursalID"), Txt_Tap1_Cedula.Text, Cbx_Tap1_Nacionalidad.Text); // Usa la instancia _L_Cliente
-           
+
+            _L_Articulo.BucarTipoVenta(Cbx_Pnl2_Trbajo);
+            CargarComboLaboratorios();
+
         }
+
+
 
 
         private void Btn_Tap3_ClienteAfiliado_Click(object sender, EventArgs e)
@@ -4747,6 +4859,29 @@ namespace CapaVisual_Login
             }
         }
 
+        private void Cbx_Tap2_Ojo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //CargarComboServicioLaboratorios();
+            if (Cbx_Tap2_Ojo.SelectedItem?.ToString() == "OJO DERECHO")
+            {
+                cbVisionIzquierda.Enabled = false;
+                cbVisionDerecha.Enabled = true;
+            }
+           
+
+            if (Cbx_Tap2_Ojo.SelectedItem?.ToString() == "OJO IZQUIERDO")
+            {
+                cbVisionIzquierda.Enabled = true;
+                cbVisionDerecha.Enabled = false;
+            }
+
+            if (Cbx_Tap2_Ojo.SelectedItem?.ToString() == "AMBOS")
+            {
+                cbVisionIzquierda.Enabled = true;
+                cbVisionDerecha.Enabled = true;
+            }
+        }
+
         private void ActualizaFechaOfrecida(string Cod_Vta, string Cod_Serv)
         {
             try
@@ -5437,6 +5572,7 @@ namespace CapaVisual_Login
         {
             LimpiarCamposTodos();
             btnCargarOrden.Enabled = false;
+            BloquearCamposE();
         }
 
         private void Cbx_Tap1_Nacionalidad_SelectedIndexChanged(object sender, EventArgs e)
@@ -5699,11 +5835,11 @@ namespace CapaVisual_Login
             Cbx_Tap1_TLF_Celular.DropDownWidth = DropDownWidth(Cbx_Tap1_TLF_Celular);
 
 
-            string[] elementosArray3 = { "INTERNO",
-                "EXTERNO",
-                "EXTERNO ESPECIAL"};
-            Cbx_Pnl2_Trbajo.Items.AddRange(elementosArray3);
-            Cbx_Pnl2_Trbajo.DropDownWidth = DropDownWidth(Cbx_Pnl2_Trbajo);
+            //string[] elementosArray3 = { "INTERNO",
+            //    "EXTERNO",
+            //    "EXTERNO ESPECIAL"};
+            //Cbx_Pnl2_Trbajo.Items.AddRange(elementosArray3);
+            //Cbx_Pnl2_Trbajo.DropDownWidth = DropDownWidth(Cbx_Pnl2_Trbajo);
 
             string[] elementosArray3a = { "INTERNO",
                 "EXTERNO"};
@@ -6674,8 +6810,10 @@ namespace CapaVisual_Login
 
         private void LimpiarCampos2()
         {
-
-            Cbx_Tap1_Nacionalidad.Text = "V";
+            if (Cbx_Tap1_Nacionalidad.Text == "")
+            {
+                Cbx_Tap1_Nacionalidad.Text = "V";
+            }
 
             //Btn_Tap1_GuardarET.Enabled = true;
             Cbx_Tap1_Estado.SelectedIndex = -1;
@@ -6815,6 +6953,8 @@ namespace CapaVisual_Login
             //groupBox3.Visible = false;
             //groupBox4.Visible = false;
             //groupBox5.Visible = false;
+
+
 
 
         }
@@ -9105,6 +9245,7 @@ namespace CapaVisual_Login
         public void Btn_Tap2_Derecha_Click(object sender, EventArgs e)
         {
 
+
             if (string.IsNullOrEmpty(Txt_Tap2_Examen.Text))
             {
                 Txt_Tap2_Examen.Text = "1";
@@ -9113,7 +9254,7 @@ namespace CapaVisual_Login
 
             if (int.TryParse(Txt_Tap2_Examen.Text, out int valorActual))
             {
-                if (valorActual < TopeExamen)
+                if (valorActual > 0 && valorActual < TopeExamen)
                 {
                     Txt_Tap2_Examen.Text = (valorActual + 1).ToString();
                 }
@@ -9393,6 +9534,7 @@ namespace CapaVisual_Login
             txt_Pnl2_reti.Enabled = true;
             txt_Pnl2_retd.Enabled = true;
             TXT_Tap2_Nombre_Optome.Enabled = true;
+            txt_Pnl2_observa.Enabled = true;
 
         }
 
@@ -9415,11 +9557,12 @@ namespace CapaVisual_Login
 
             Dgv_Pnl2_cont.Enabled = false;
             Dgv_Pnl2_conv.Enabled = false;
-            Dgv_Pnl2_medconv.Enabled = false;
+            //Dgv_Pnl2_medconv.Enabled = false;
             txt_Pnl2_oftd.Enabled = false;
             txt_Pnl2_ofti.Enabled = false;
             txt_Pnl2_reti.Enabled = false;
             txt_Pnl2_retd.Enabled = false;
+            txt_Pnl2_observa.Enabled = false;
         }
 
         private void BloquearCampos()
@@ -10210,8 +10353,8 @@ namespace CapaVisual_Login
             }
             // borrar 
 
-            //Validar Cbx_Tap2_Tipo_Optome
-            if (Cbx_Tap2_Tipo_Optome.SelectedItem?.ToString() != "EXTERNO")
+            //Validar Cbx_Tap2_Tipo_Optome si se esta creando uno nuevo
+            if (Txt_Tap2_Examen.Text == "0" & Cbx_Tap2_Tipo_Optome.SelectedItem?.ToString() != "EXTERNO")
             {
                 // Validar Cbx_Tap2_Nombre_Optome
                 if (Cbx_Tap2_Nombre_Optome.SelectedItem == null || string.IsNullOrEmpty(Cbx_Tap2_Nombre_Optome.Text))
@@ -10226,7 +10369,7 @@ namespace CapaVisual_Login
                     return todosValidos; // Salir anticipadamente si este no es válido
                 }
             }
-            else if (string.IsNullOrEmpty(TXT_Tap2_Nombre_Optome.Text))
+            else if (Txt_Tap2_Examen.Text == "0" & Cbx_Tap2_Tipo_Optome.SelectedItem?.ToString() == "EXTERNO" & string.IsNullOrEmpty(TXT_Tap2_Nombre_Optome.Text))
             {
 
                 Pnl_2_Msj.Visible = true;
@@ -10364,14 +10507,14 @@ namespace CapaVisual_Login
 
                 }
 
-                if (!ValidarCont_AllOrNoneZero())
-                {
+                //if (!ValidarCont_AllOrNoneZero())
+                //{
 
-                    //Pnl_2_Msj.Visible = true;
-                    //txt_pl2_msj.Text = " Error  valores de la tabla de lentes de contacto";
-                    ////pb_pl2_mj.Visible = true;
-                    //return; // Stop further processing if validation fails
-                }
+                //    //Pnl_2_Msj.Visible = true;
+                //    //txt_pl2_msj.Text = " Error  valores de la tabla de lentes de contacto";
+                //    ////pb_pl2_mj.Visible = true;
+                //    //return; // Stop further processing if validation fails
+                //}
 
 
 
@@ -10391,11 +10534,28 @@ namespace CapaVisual_Login
                     //Pnl_2_Msj.Visible = true;
                     //txt_pl2_msj.Text = "Examen guardado con éxito ";
                     //pb_pl2_mj.Visible = false;
-                    btnCargarOrden.Enabled = true;
-                    tabControl.SelectedIndex = 2;
+                    if (tabControl.SelectedIndex == 1)
+                    {
+                        tabControl.SelectedIndex = 2;
+                    }
+                    else
+                    {
+                        tabControl.SelectedIndex = 1;
+                    }
+                    //btnCargarOrden.Enabled = true;
+                    //tabControl.SelectedIndex = 2;
                     AgregarRx();
                 }
 
+            }
+
+            if (_D_DetalleOrden.TB_PARAMETRO("EditarGridFact") == "1")
+            {
+                Txt_Tap3_Articulo_Precio.Enabled = true;
+            }
+            else
+            {
+                Txt_Tap3_Articulo_Precio.Enabled = false;
             }
 
             LLenar_TbTrabajo();
@@ -10490,7 +10650,7 @@ namespace CapaVisual_Login
 
         private bool ValidarVisionConv()
         {
-            if (cbVisionDerecha.Text != cbVisionIzquierda.Text && cbVisionIzquierda.Text != "BALANCE" && cbVisionDerecha.Text != "BALANCE")
+            if (Cbx_Pnl2_Ojo.Text == "AMBOS" && cbVisionDerecha.Text != cbVisionIzquierda.Text && cbVisionIzquierda.Text != "BALANCE" && cbVisionDerecha.Text != "BALANCE")
             {
                 Pnl_2_Msj.Visible = true;
                 txt_pl2_msj.Text = "Debe colocar tipos de visión validos La combinación posible es el mismo tipo de visión o Balance";
@@ -11491,17 +11651,22 @@ namespace CapaVisual_Login
             }
         }
 
+
         private void button6_Click(object sender, EventArgs e)
         {
-            Txt_Tap2_Examen.Text = TopeExamen.ToString();
+            mantenervacio = false;
+            Btn_Tap2_Derecha_Click(this.Btn_Tap2_Derecha, EventArgs.Empty);
 
-            //limpearExamen();
-            CargarExamenConv();
-            CargarExamenCont();
-            CargarDgvPnl2MedConv();
-            CargarFicconvOFT();
 
-            CargarDgv_Pnl2_Querato();
+            //    Txt_Tap2_Examen.Text = TopeExamen.ToString();
+
+            ////limpearExamen();
+            //CargarExamenConv();
+            //CargarExamenCont();
+            //CargarDgvPnl2MedConv();
+            //CargarFicconvOFT();
+
+            //CargarDgv_Pnl2_Querato();
         }
 
         private void button12_Click(object sender, EventArgs e)
@@ -11651,6 +11816,8 @@ namespace CapaVisual_Login
                 _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
                 _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
                 _FrmMensajes.ShowDialog();
+
+                CargarComboServicioLaboratorios();
 
                 if (tipoExamen == "CONTACTO")
                 {
@@ -12085,7 +12252,16 @@ namespace CapaVisual_Login
            
 
         }
-    
+
+        private void button14_Click(object sender, EventArgs e)
+        {
+            FrmPrincipal frmPrincipal = (FrmPrincipal)this.MdiParent ?? this.ParentForm as FrmPrincipal;
+            //FrmListaOrdenes frmListaOrdenes = (FrmListaOrdenes)this.MdiParent ?? this.ParentForm as FrmListaOrdenes;
+            FrmListaOrdenes frmListaOrdenes = new FrmListaOrdenes();
+            frmPrincipal.addformulario(frmListaOrdenes);
+
+            this.Close();
+        }
     }
 
 }
