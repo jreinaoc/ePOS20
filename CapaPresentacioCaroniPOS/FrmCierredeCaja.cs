@@ -1351,6 +1351,19 @@ namespace CapaVisual_Login
             lblPaso.Text = "Paso 3";
         }
 
-       
+        private void btn_MarcarSalida_pg2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tabPage2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

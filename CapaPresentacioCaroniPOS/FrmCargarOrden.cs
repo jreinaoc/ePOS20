@@ -691,7 +691,7 @@ namespace CapaVisual_Login
                     ValidarRegistrosYHabilitar_Botones();
 
                     // Panel de Arriba
-                    this.Txt_Pnl2_Cedula.Enabled = true;
+                    //this.Txt_Pnl2_Cedula.Enabled = true;
                     this.Txt_Pnl2_Examen.Enabled = true;
                     //this.Cbx_Pnl2_Trbajo.Enabled = true;
                     //this.Cbx_Pnl2_Laboratorio.Enabled = true;
@@ -4046,12 +4046,14 @@ namespace CapaVisual_Login
             //validarvacio();
 
             mantenervacio = false;
-
+            //TopeExamen = 0;
             if (validarvacio())
             {
 
                 guardacliente();
-                //limpearExamen();
+                
+                //limpearEx
+                //amen();
                 Txt_Tap2_Examen.Text = TopeExamen.ToString(); // Opcional: Restablecer el valor al máximo
                 Btn_Tap2_Derecha_Click(this.Btn_Tap2_Derecha, EventArgs.Empty);
 
@@ -5408,6 +5410,7 @@ namespace CapaVisual_Login
                         {
 
                             LimpiarCampos2();
+                            //llenarcampos();
                             // Opcionalmente, puedes limpiar las otras cajas de texto o deshabilitarlas.
                         }
                     }
@@ -6902,6 +6905,8 @@ namespace CapaVisual_Login
             AsignarCeroDgv_Pnl2_Querato();
 
             this.Txt_Pnl2_Examen.Text = "0";
+            Txt_Tap2_Examen.Text = "0";
+            //TopeExamen = 0;
             CargarExamenConv();
             CargarExamenCont();
             CargarDgvPnl2MedConv();
@@ -6936,7 +6941,8 @@ namespace CapaVisual_Login
         }
         private void LimpiarCamposTodos()
         {
-
+            
+            
             LimpiarCampos2();
             Txt_Pnl2_Cedula.Text = ""; // Ajusta el nombre de la columna
             Txt_Pnl_2_Nombre.Text = ""; // Ajusta el nombre de la columna
@@ -6956,7 +6962,9 @@ namespace CapaVisual_Login
             //groupBox4.Visible = false;
             //groupBox5.Visible = false;
 
-
+            Txt_Tap2_Examen.Text = "0";
+            dtCliente = null;
+            TopeExamen = 0;
 
 
         }
@@ -9549,7 +9557,7 @@ namespace CapaVisual_Login
 
 
 
-            Cbx_Tap2_Ojo.Enabled = false;
+            //Cbx_Tap2_Ojo.Enabled = false;
             grp_pln2_Cont1.Enabled = false;
             grp_pln2_Conv2.Enabled = false;
             grp_pln2_oft3.Enabled = false;
@@ -11831,7 +11839,18 @@ namespace CapaVisual_Login
                 }
                 return false;
             }
-                return true;
+            if ((tipoVenta == "01" || tipoVenta == "02") && ((Cbx_Pnl2_Ojo.Text == "") ||  (Cbx_Pnl2_Ojo.Text == "Ambos" &&  cbVisionDerecha.Text == "" || cbVisionIzquierda.Text == "") || (Cbx_Pnl2_Ojo.Text == "DERECHO" && cbVisionDerecha.Text == "") || (Cbx_Pnl2_Ojo.Text == "IZQUIERDO" && cbVisionIzquierda.Text == "")))
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("Seleccione el ojo y tipo de visión");
+                _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                _FrmMensajes.ShowDialog();
+
+                return false;
+            }
+
+            return true;
         }
         private void AgregarRx()
         {
