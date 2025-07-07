@@ -37,31 +37,31 @@ namespace CapaVisual_Login
 
         private void FrmMostrarRep_Load(object sender, EventArgs e)
         {
-        if (!string.IsNullOrEmpty(_nombreReporte) && !string.IsNullOrEmpty(_nombreDataSource) && _datosReporte != null)
-        {
+            LocalReport rdlc = null;
 
-                MostrarReporteGenerico(_nombreReporte, _nombreDataSource, _datosReporte, _Parametros);
-                if (_imprimir)
-               {
-                reportViewer1.PrintDialog();
-                this.Close();
-               }
-
-        }
-            if (!string.IsNullOrEmpty(_nombreReporte) && !string.IsNullOrEmpty(_nombreDataSource) && _dataSources != null)
+            if (!string.IsNullOrEmpty(_nombreReporte) && !string.IsNullOrEmpty(_nombreDataSource) && _datosReporte != null)
             {
-
-                MostrarReporteGenerico2(_nombreReporte, _dataSources, _Parametros);
+                rdlc = MostrarReporteGenerico(_nombreReporte, _nombreDataSource, _datosReporte, _Parametros);
                 if (_imprimir)
                 {
-                    reportViewer1.PrintDialog();
+                    Impresor imp = new Impresor();
+                    imp.Imprime(rdlc);                    
                     this.Close();
                 }
-
+            }
+            else if (!string.IsNullOrEmpty(_nombreReporte) && _dataSources != null)
+            {
+                rdlc = MostrarReporteGenerico2(_nombreReporte, _dataSources, _Parametros);
+                if (_imprimir)
+                {
+                    Impresor imp = new Impresor();
+                    imp.Imprime(rdlc);
+                    this.Close();
+                }
             }
         }
 
-        private void MostrarReporteGenerico(string nombreReporte, string nombreDataSource, DataTable datos, Dictionary<string, string> parametros = null)
+        private LocalReport MostrarReporteGenerico(string nombreReporte, string nombreDataSource, DataTable datos, Dictionary<string, string> parametros = null)
         {
             // Asigna los datos al BindingSource
             bindingSource2.DataSource = datos;
@@ -72,10 +72,10 @@ namespace CapaVisual_Login
             // Usa el BindingSource como fuente de datos para el reporte
             reportViewer1.LocalReport.DataSources.Add(new ReportDataSource(nombreDataSource, bindingSource2));
 
-            if (datos == null || datos.Rows.Count == 0)
-            {
-                MessageBox.Show("No hay datos para mostrar en el reporte.");
-            }
+            //if (datos == null || datos.Rows.Count == 0)
+            //{
+            //    MessageBox.Show("No hay datos para mostrar en el reporte.");
+            //}
 
             // Si hay parámetros, los asignas aquí
             if (parametros != null)
@@ -89,22 +89,22 @@ namespace CapaVisual_Login
             }
 
             reportViewer1.RefreshReport();
+
+            return reportViewer1.LocalReport;
         }
 
-        private void MostrarReporteGenerico2(
-    string nombreReporte,
-    Dictionary<string, DataTable> dataSources, // Diccionario con nombreDataSource y DataTable
-    Dictionary<string, string> parametros = null)
-            {
+        private LocalReport MostrarReporteGenerico2(
+            string nombreReporte,
+            Dictionary<string, DataTable> dataSources,
+            Dictionary<string, string> parametros = null)
+        {
             try
             {
                 reportViewer1.LocalReport.ReportEmbeddedResource = nombreReporte;
                 reportViewer1.LocalReport.DataSources.Clear();
 
-                // Validar que hay datos en al menos un DataTable
                 bool hasData = false;
 
-                // Agregar cada DataSource al reporte
                 foreach (var ds in dataSources)
                 {
                     if (ds.Value != null && ds.Value.Rows.Count > 0)
@@ -115,13 +115,12 @@ namespace CapaVisual_Login
                     }
                 }
 
-                if (!hasData)
-                {
-                    MessageBox.Show("No hay datos para mostrar en el reporte.");
-                    return;
-                }
+                //if (!hasData)
+                //{
+                //    MessageBox.Show("No hay datos para mostrar en el reporte.");
+                //    return null;
+                //}
 
-                // Manejar parámetros
                 if (parametros != null && parametros.Count > 0)
                 {
                     var listaParametros = parametros.Select(kvp =>
@@ -132,10 +131,13 @@ namespace CapaVisual_Login
                 }
 
                 reportViewer1.RefreshReport();
+
+                return reportViewer1.LocalReport;
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error al mostrar el reporte: {ex.Message}");
+                return null;
             }
         }
 
