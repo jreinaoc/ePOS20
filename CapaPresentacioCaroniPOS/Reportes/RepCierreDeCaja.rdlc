@@ -678,17 +678,15 @@
                     <Value>CONTEO MANUAL</Value>
                     <Style>
                       <FontFamily>Calibri</FontFamily>
-                      <FontSize>12pt</FontSize>
                     </Style>
                   </TextRun>
                 </TextRuns>
                 <Style>
-                  <TextAlign>Center</TextAlign>
+                  <TextAlign>Left</TextAlign>
                 </Style>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox1</rd:DefaultName>
-            <Top>0.34823cm</Top>
             <Left>5.46952cm</Left>
             <Height>0.6cm</Height>
             <Width>3.55923cm</Width>
@@ -712,17 +710,15 @@
                     <Value>SISTEMA</Value>
                     <Style>
                       <FontFamily>Calibri</FontFamily>
-                      <FontSize>12pt</FontSize>
                     </Style>
                   </TextRun>
                 </TextRuns>
                 <Style>
-                  <TextAlign>Center</TextAlign>
+                  <TextAlign>Left</TextAlign>
                 </Style>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox1</rd:DefaultName>
-            <Top>0.34823cm</Top>
             <Left>10.59506cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
@@ -747,17 +743,15 @@
                     <Value>DIFERENCIA</Value>
                     <Style>
                       <FontFamily>Calibri</FontFamily>
-                      <FontSize>12pt</FontSize>
                     </Style>
                   </TextRun>
                 </TextRuns>
                 <Style>
-                  <TextAlign>Center</TextAlign>
+                  <TextAlign>Left</TextAlign>
                 </Style>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox1</rd:DefaultName>
-            <Top>0.34823cm</Top>
             <Left>15.01775cm</Left>
             <Height>0.6cm</Height>
             <Width>2.88777cm</Width>
@@ -782,17 +776,16 @@
                     <Value>EFECTIVO</Value>
                     <Style>
                       <FontFamily>Calibri</FontFamily>
-                      <FontSize>12pt</FontSize>
                     </Style>
                   </TextRun>
                 </TextRuns>
                 <Style>
-                  <TextAlign>Center</TextAlign>
+                  <TextAlign>Left</TextAlign>
                 </Style>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox1</rd:DefaultName>
-            <Top>1.53885cm</Top>
+            <Top>0.58635cm</Top>
             <Left>0.37042cm</Left>
             <Height>0.6cm</Height>
             <Width>2.07672cm</Width>
@@ -815,14 +808,16 @@
                 <TextRuns>
                   <TextRun>
                     <Value>=Sum(Fields!SISTEMAEFECTIVO.Value, "DS_VW_CierreCaja")</Value>
-                    <Style />
+                    <Style>
+                      <FontFamily>calibri</FontFamily>
+                    </Style>
                   </TextRun>
                 </TextRuns>
                 <Style />
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>SISTEMAEFECTIVO</rd:DefaultName>
-            <Top>1.53885cm</Top>
+            <Top>0.58635cm</Top>
             <Left>10.59506cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
@@ -844,15 +839,17 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>=Sum(Fields!MANUALEFECTIVO.Value, "DS_TB_CAJA")-Sum(Fields!SISTEMAEFECTIVO.Value, "DS_VW_CierreCaja")</Value>
-                    <Style />
+                    <Value>=Variables!SaldoEfectivo.Value</Value>
+                    <Style>
+                      <FontFamily>calibri</FontFamily>
+                    </Style>
                   </TextRun>
                 </TextRuns>
                 <Style />
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox30</rd:DefaultName>
-            <Top>1.53885cm</Top>
+            <Top>0.58635cm</Top>
             <Left>15.01775cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
@@ -877,17 +874,16 @@
                     <Value>CHEQUES</Value>
                     <Style>
                       <FontFamily>Calibri</FontFamily>
-                      <FontSize>12pt</FontSize>
                     </Style>
                   </TextRun>
                 </TextRuns>
                 <Style>
-                  <TextAlign>Center</TextAlign>
+                  <TextAlign>Left</TextAlign>
                 </Style>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox1</rd:DefaultName>
-            <Top>2.31524cm</Top>
+            <Top>1.18635cm</Top>
             <Left>0.37042cm</Left>
             <Height>0.6cm</Height>
             <Width>2.07672cm</Width>
@@ -910,14 +906,16 @@
                 <TextRuns>
                   <TextRun>
                     <Value>=Sum(Fields!MANUALCHEQUES.Value, "DS_VW_CierreCaja")</Value>
-                    <Style />
+                    <Style>
+                      <FontFamily>calibri</FontFamily>
+                    </Style>
                   </TextRun>
                 </TextRuns>
                 <Style />
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>MANUALCHEQUES1</rd:DefaultName>
-            <Top>2.31524cm</Top>
+            <Top>1.18635cm</Top>
             <Left>5.46952cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
@@ -940,14 +938,16 @@
                 <TextRuns>
                   <TextRun>
                     <Value>=Sum(Fields!MANUALEFECTIVO.Value, "DS_VW_CierreCaja")</Value>
-                    <Style />
+                    <Style>
+                      <FontFamily>calibri</FontFamily>
+                    </Style>
                   </TextRun>
                 </TextRuns>
                 <Style />
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>MANUALEFECTIVO</rd:DefaultName>
-            <Top>1.53885cm</Top>
+            <Top>0.58635cm</Top>
             <Left>5.46952cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
@@ -970,14 +970,16 @@
                 <TextRuns>
                   <TextRun>
                     <Value>=Sum(Fields!SISTEMACHEQUES.Value, "DS_VW_CierreCaja")</Value>
-                    <Style />
+                    <Style>
+                      <FontFamily>calibri</FontFamily>
+                    </Style>
                   </TextRun>
                 </TextRuns>
                 <Style />
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>SISTEMACHEQUES</rd:DefaultName>
-            <Top>2.31524cm</Top>
+            <Top>1.18635cm</Top>
             <Left>10.59506cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
@@ -1000,14 +1002,16 @@
                 <TextRuns>
                   <TextRun>
                     <Value>=Variables!SaldoCheques.Value</Value>
-                    <Style />
+                    <Style>
+                      <FontFamily>calibri</FontFamily>
+                    </Style>
                   </TextRun>
                 </TextRuns>
                 <Style />
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox35</rd:DefaultName>
-            <Top>2.31524cm</Top>
+            <Top>1.18635cm</Top>
             <Left>15.01775cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
@@ -1032,17 +1036,16 @@
                     <Value>TRJ.CREDITO</Value>
                     <Style>
                       <FontFamily>Calibri</FontFamily>
-                      <FontSize>12pt</FontSize>
                     </Style>
                   </TextRun>
                 </TextRuns>
                 <Style>
-                  <TextAlign>Center</TextAlign>
+                  <TextAlign>Left</TextAlign>
                 </Style>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox1</rd:DefaultName>
-            <Top>3.09163cm</Top>
+            <Top>2.38635cm</Top>
             <Left>0.37042cm</Left>
             <Height>0.6cm</Height>
             <Width>2.39422cm</Width>
@@ -1064,15 +1067,17 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>=Sum(Fields!MANUALTARJETA.Value, "DS_VW_CierreCaja")</Value>
-                    <Style />
+                    <Value>=Sum(Fields!MANUALDEBITO.Value, "DS_VW_CierreCaja")</Value>
+                    <Style>
+                      <FontFamily>calibri</FontFamily>
+                    </Style>
                   </TextRun>
                 </TextRuns>
                 <Style />
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>MANUALTARJETA</rd:DefaultName>
-            <Top>3.09163cm</Top>
+            <Top>1.78635cm</Top>
             <Left>5.46953cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
@@ -1094,16 +1099,18 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>=Sum(Fields!SISTEMATARJETA.Value, "DS_VW_CierreCaja")</Value>
-                    <Style />
+                    <Value>=Sum(Fields!SISTEMADEBITO.Value, "DS_VW_CierreCaja")</Value>
+                    <Style>
+                      <FontFamily>calibri</FontFamily>
+                    </Style>
                   </TextRun>
                 </TextRuns>
                 <Style />
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>SISTEMATARJETA</rd:DefaultName>
-            <Top>3.09163cm</Top>
-            <Left>10.59506cm</Left>
+            <Top>1.78635cm</Top>
+            <Left>10.59507cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
             <ZIndex>13</ZIndex>
@@ -1124,15 +1131,17 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>=Variables!SaldoTarjetaCredito.Value</Value>
-                    <Style />
+                    <Value>=Variables!SaldoDebito.Value</Value>
+                    <Style>
+                      <FontFamily>calibri</FontFamily>
+                    </Style>
                   </TextRun>
                 </TextRuns>
                 <Style />
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox39</rd:DefaultName>
-            <Top>3.09163cm</Top>
+            <Top>1.78635cm</Top>
             <Left>15.01775cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
@@ -1157,17 +1166,16 @@
                     <Value>CUPONES</Value>
                     <Style>
                       <FontFamily>Calibri</FontFamily>
-                      <FontSize>12pt</FontSize>
                     </Style>
                   </TextRun>
                 </TextRuns>
                 <Style>
-                  <TextAlign>Center</TextAlign>
+                  <TextAlign>Left</TextAlign>
                 </Style>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox1</rd:DefaultName>
-            <Top>3.86802cm</Top>
+            <Top>3.58635cm</Top>
             <Left>0.37042cm</Left>
             <Height>0.6cm</Height>
             <Width>2.39422cm</Width>
@@ -1190,14 +1198,16 @@
                 <TextRuns>
                   <TextRun>
                     <Value>=Sum(Fields!MANUALCUPONES.Value, "DS_VW_CierreCaja")</Value>
-                    <Style />
+                    <Style>
+                      <FontFamily>calibri</FontFamily>
+                    </Style>
                   </TextRun>
                 </TextRuns>
                 <Style />
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>MANUALCUPONES</rd:DefaultName>
-            <Top>3.86802cm</Top>
+            <Top>3.58635cm</Top>
             <Left>5.46952cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
@@ -1220,14 +1230,16 @@
                 <TextRuns>
                   <TextRun>
                     <Value>=Sum(Fields!SISTEMACUPONES.Value, "DS_VW_CierreCaja")</Value>
-                    <Style />
+                    <Style>
+                      <FontFamily>calibri</FontFamily>
+                    </Style>
                   </TextRun>
                 </TextRuns>
                 <Style />
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>SISTEMACUPONES</rd:DefaultName>
-            <Top>3.86802cm</Top>
+            <Top>3.58635cm</Top>
             <Left>10.59506cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
@@ -1250,14 +1262,16 @@
                 <TextRuns>
                   <TextRun>
                     <Value>=Variables!SaldoCupones.Value</Value>
-                    <Style />
+                    <Style>
+                      <FontFamily>calibri</FontFamily>
+                    </Style>
                   </TextRun>
                 </TextRuns>
                 <Style />
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox43</rd:DefaultName>
-            <Top>3.86802cm</Top>
+            <Top>3.58635cm</Top>
             <Left>15.01775cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
@@ -1282,17 +1296,16 @@
                     <Value>TICKETS SALUD TARJETA</Value>
                     <Style>
                       <FontFamily>Calibri</FontFamily>
-                      <FontSize>12pt</FontSize>
                     </Style>
                   </TextRun>
                 </TextRuns>
                 <Style>
-                  <TextAlign>Center</TextAlign>
+                  <TextAlign>Left</TextAlign>
                 </Style>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox1</rd:DefaultName>
-            <Top>4.64441cm</Top>
+            <Top>4.18635cm</Top>
             <Left>0.37042cm</Left>
             <Height>0.6cm</Height>
             <Width>4.48443cm</Width>
@@ -1315,14 +1328,16 @@
                 <TextRuns>
                   <TextRun>
                     <Value>=Sum(Fields!MANUALTICKETSALUD.Value, "DS_VW_CierreCaja")</Value>
-                    <Style />
+                    <Style>
+                      <FontFamily>calibri</FontFamily>
+                    </Style>
                   </TextRun>
                 </TextRuns>
                 <Style />
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>MANUALTICKETSALUD</rd:DefaultName>
-            <Top>4.64441cm</Top>
+            <Top>4.18635cm</Top>
             <Left>5.46952cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
@@ -1345,14 +1360,16 @@
                 <TextRuns>
                   <TextRun>
                     <Value>=Sum(Fields!SISTEMATICKETSALUD.Value, "DS_VW_CierreCaja")</Value>
-                    <Style />
+                    <Style>
+                      <FontFamily>calibri</FontFamily>
+                    </Style>
                   </TextRun>
                 </TextRuns>
                 <Style />
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>SISTEMATICKETSALUD</rd:DefaultName>
-            <Top>4.64441cm</Top>
+            <Top>4.18635cm</Top>
             <Left>10.59506cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
@@ -1375,14 +1392,16 @@
                 <TextRuns>
                   <TextRun>
                     <Value>=Variables!SaldoTicketsSalud.Value</Value>
-                    <Style />
+                    <Style>
+                      <FontFamily>calibri</FontFamily>
+                    </Style>
                   </TextRun>
                 </TextRuns>
                 <Style />
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox48</rd:DefaultName>
-            <Top>4.64441cm</Top>
+            <Top>4.18635cm</Top>
             <Left>15.01775cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
@@ -1407,18 +1426,17 @@
                     <Value>TICKETS SALUD EFECTIVO</Value>
                     <Style>
                       <FontFamily>Calibri</FontFamily>
-                      <FontSize>12pt</FontSize>
                     </Style>
                   </TextRun>
                 </TextRuns>
                 <Style>
-                  <TextAlign>Center</TextAlign>
+                  <TextAlign>Left</TextAlign>
                 </Style>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox1</rd:DefaultName>
-            <Top>5.4208cm</Top>
-            <Left>0.37042cm</Left>
+            <Top>4.78635cm</Top>
+            <Left>0.37045cm</Left>
             <Height>0.6cm</Height>
             <Width>4.77547cm</Width>
             <ZIndex>23</ZIndex>
@@ -1440,15 +1458,17 @@
                 <TextRuns>
                   <TextRun>
                     <Value>=Sum(Fields!MANUALTICKETSALUDEFEC.Value, "DS_VW_CierreCaja")</Value>
-                    <Style />
+                    <Style>
+                      <FontFamily>calibri</FontFamily>
+                    </Style>
                   </TextRun>
                 </TextRuns>
                 <Style />
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>MANUALTICKETSALUDEFEC</rd:DefaultName>
-            <Top>5.4208cm</Top>
-            <Left>5.46953cm</Left>
+            <Top>4.78635cm</Top>
+            <Left>5.46956cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
             <ZIndex>24</ZIndex>
@@ -1470,15 +1490,17 @@
                 <TextRuns>
                   <TextRun>
                     <Value>=Sum(Fields!SISTEMATICKETSALUDEFEC.Value, "DS_VW_CierreCaja")</Value>
-                    <Style />
+                    <Style>
+                      <FontFamily>calibri</FontFamily>
+                    </Style>
                   </TextRun>
                 </TextRuns>
                 <Style />
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>SISTEMATICKETSALUDEFEC</rd:DefaultName>
-            <Top>5.4208cm</Top>
-            <Left>10.59506cm</Left>
+            <Top>4.78635cm</Top>
+            <Left>10.59509cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
             <ZIndex>25</ZIndex>
@@ -1500,15 +1522,17 @@
                 <TextRuns>
                   <TextRun>
                     <Value>=Variables!SaldoTicketSaludEfec.Value</Value>
-                    <Style />
+                    <Style>
+                      <FontFamily>calibri</FontFamily>
+                    </Style>
                   </TextRun>
                 </TextRuns>
                 <Style />
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox52</rd:DefaultName>
-            <Top>5.4208cm</Top>
-            <Left>15.01775cm</Left>
+            <Top>4.78635cm</Top>
+            <Left>15.01778cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
             <ZIndex>26</ZIndex>
@@ -1532,18 +1556,17 @@
                     <Value>GASTOS</Value>
                     <Style>
                       <FontFamily>Calibri</FontFamily>
-                      <FontSize>12pt</FontSize>
                     </Style>
                   </TextRun>
                 </TextRuns>
                 <Style>
-                  <TextAlign>Center</TextAlign>
+                  <TextAlign>Left</TextAlign>
                 </Style>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox1</rd:DefaultName>
-            <Top>6.19719cm</Top>
-            <Left>0.37042cm</Left>
+            <Top>5.38635cm</Top>
+            <Left>0.3704cm</Left>
             <Height>0.6cm</Height>
             <Width>2.39422cm</Width>
             <ZIndex>27</ZIndex>
@@ -1565,15 +1588,17 @@
                 <TextRuns>
                   <TextRun>
                     <Value>=Sum(Fields!MANUALGASTOS.Value, "DS_VW_CierreCaja")</Value>
-                    <Style />
+                    <Style>
+                      <FontFamily>calibri</FontFamily>
+                    </Style>
                   </TextRun>
                 </TextRuns>
                 <Style />
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>MANUALGASTOS</rd:DefaultName>
-            <Top>6.19719cm</Top>
-            <Left>5.46953cm</Left>
+            <Top>5.38635cm</Top>
+            <Left>5.46951cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
             <ZIndex>28</ZIndex>
@@ -1595,15 +1620,17 @@
                 <TextRuns>
                   <TextRun>
                     <Value>=Sum(Fields!SISTEMAGASTOS.Value, "DS_VW_CierreCaja")</Value>
-                    <Style />
+                    <Style>
+                      <FontFamily>calibri</FontFamily>
+                    </Style>
                   </TextRun>
                 </TextRuns>
                 <Style />
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>SISTEMAGASTOS</rd:DefaultName>
-            <Top>6.19719cm</Top>
-            <Left>10.59506cm</Left>
+            <Top>5.38635cm</Top>
+            <Left>10.59504cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
             <ZIndex>29</ZIndex>
@@ -1625,15 +1652,17 @@
                 <TextRuns>
                   <TextRun>
                     <Value>=Variables!SaldoGastos.Value</Value>
-                    <Style />
+                    <Style>
+                      <FontFamily>calibri</FontFamily>
+                    </Style>
                   </TextRun>
                 </TextRuns>
                 <Style />
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox56</rd:DefaultName>
-            <Top>6.19719cm</Top>
-            <Left>15.01775cm</Left>
+            <Top>5.38635cm</Top>
+            <Left>15.01773cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
             <ZIndex>30</ZIndex>
@@ -1657,18 +1686,17 @@
                     <Value>FINANCIAMIENTO</Value>
                     <Style>
                       <FontFamily>Calibri</FontFamily>
-                      <FontSize>12pt</FontSize>
                     </Style>
                   </TextRun>
                 </TextRuns>
                 <Style>
-                  <TextAlign>Center</TextAlign>
+                  <TextAlign>Left</TextAlign>
                 </Style>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox1</rd:DefaultName>
-            <Top>6.97358cm</Top>
-            <Left>0.37042cm</Left>
+            <Top>5.98635cm</Top>
+            <Left>0.37043cm</Left>
             <Height>0.6cm</Height>
             <Width>3.34672cm</Width>
             <ZIndex>31</ZIndex>
@@ -1690,15 +1718,17 @@
                 <TextRuns>
                   <TextRun>
                     <Value>=Sum(Fields!MANUALFINANCIAMIENTO.Value, "DS_VW_CierreCaja")</Value>
-                    <Style />
+                    <Style>
+                      <FontFamily>calibri</FontFamily>
+                    </Style>
                   </TextRun>
                 </TextRuns>
                 <Style />
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>MANUALFINANCIAMIENTO</rd:DefaultName>
-            <Top>6.97358cm</Top>
-            <Left>5.46953cm</Left>
+            <Top>5.98635cm</Top>
+            <Left>5.46954cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
             <ZIndex>32</ZIndex>
@@ -1720,15 +1750,17 @@
                 <TextRuns>
                   <TextRun>
                     <Value>=Sum(Fields!SISTEMAFINANCIAMIENTO.Value, "DS_VW_CierreCaja")</Value>
-                    <Style />
+                    <Style>
+                      <FontFamily>calibri</FontFamily>
+                    </Style>
                   </TextRun>
                 </TextRuns>
                 <Style />
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>SISTEMAFINANCIAMIENTO</rd:DefaultName>
-            <Top>6.97358cm</Top>
-            <Left>10.59506cm</Left>
+            <Top>5.98635cm</Top>
+            <Left>10.59507cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
             <ZIndex>33</ZIndex>
@@ -1750,15 +1782,17 @@
                 <TextRuns>
                   <TextRun>
                     <Value>=Variables!SaldoFinanciamiento.Value</Value>
-                    <Style />
+                    <Style>
+                      <FontFamily>calibri</FontFamily>
+                    </Style>
                   </TextRun>
                 </TextRuns>
                 <Style />
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox60</rd:DefaultName>
-            <Top>6.97358cm</Top>
-            <Left>15.01775cm</Left>
+            <Top>5.98635cm</Top>
+            <Left>15.01776cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
             <ZIndex>34</ZIndex>
@@ -1782,18 +1816,17 @@
                     <Value>IVA RETENIDO</Value>
                     <Style>
                       <FontFamily>Calibri</FontFamily>
-                      <FontSize>12pt</FontSize>
                     </Style>
                   </TextRun>
                 </TextRuns>
                 <Style>
-                  <TextAlign>Center</TextAlign>
+                  <TextAlign>Left</TextAlign>
                 </Style>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox1</rd:DefaultName>
-            <Top>7.74997cm</Top>
-            <Left>0.37042cm</Left>
+            <Top>6.58635cm</Top>
+            <Left>0.37044cm</Left>
             <Height>0.6cm</Height>
             <Width>3.34672cm</Width>
             <ZIndex>35</ZIndex>
@@ -1815,15 +1848,17 @@
                 <TextRuns>
                   <TextRun>
                     <Value>=Sum(Fields!ManualIVARetenido.Value, "DS_VW_CierreCaja")</Value>
-                    <Style />
+                    <Style>
+                      <FontFamily>calibri</FontFamily>
+                    </Style>
                   </TextRun>
                 </TextRuns>
                 <Style />
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>ManualIVARetenido</rd:DefaultName>
-            <Top>7.74997cm</Top>
-            <Left>5.46952cm</Left>
+            <Top>6.58635cm</Top>
+            <Left>5.46954cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
             <ZIndex>36</ZIndex>
@@ -1845,15 +1880,17 @@
                 <TextRuns>
                   <TextRun>
                     <Value>=Sum(Fields!SistemaIVARetenido.Value, "DS_VW_CierreCaja")</Value>
-                    <Style />
+                    <Style>
+                      <FontFamily>calibri</FontFamily>
+                    </Style>
                   </TextRun>
                 </TextRuns>
                 <Style />
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>SistemaIVARetenido</rd:DefaultName>
-            <Top>7.74997cm</Top>
-            <Left>10.59506cm</Left>
+            <Top>6.58635cm</Top>
+            <Left>10.59508cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
             <ZIndex>37</ZIndex>
@@ -1875,15 +1912,17 @@
                 <TextRuns>
                   <TextRun>
                     <Value>=Variables!SaldoIVARetenido.Value</Value>
-                    <Style />
+                    <Style>
+                      <FontFamily>calibri</FontFamily>
+                    </Style>
                   </TextRun>
                 </TextRuns>
                 <Style />
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox64</rd:DefaultName>
-            <Top>7.74997cm</Top>
-            <Left>15.01775cm</Left>
+            <Top>6.58635cm</Top>
+            <Left>15.01777cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
             <ZIndex>38</ZIndex>
@@ -1907,18 +1946,17 @@
                     <Value>ISLR RETENIDO</Value>
                     <Style>
                       <FontFamily>Calibri</FontFamily>
-                      <FontSize>12pt</FontSize>
                     </Style>
                   </TextRun>
                 </TextRuns>
                 <Style>
-                  <TextAlign>Center</TextAlign>
+                  <TextAlign>Left</TextAlign>
                 </Style>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox1</rd:DefaultName>
-            <Top>8.52635cm</Top>
-            <Left>0.37042cm</Left>
+            <Top>7.18635cm</Top>
+            <Left>0.37039cm</Left>
             <Height>0.6cm</Height>
             <Width>3.34672cm</Width>
             <ZIndex>39</ZIndex>
@@ -1940,15 +1978,17 @@
                 <TextRuns>
                   <TextRun>
                     <Value>=Sum(Fields!ManualISLRRetenido.Value, "DS_VW_CierreCaja")</Value>
-                    <Style />
+                    <Style>
+                      <FontFamily>calibri</FontFamily>
+                    </Style>
                   </TextRun>
                 </TextRuns>
                 <Style />
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>ManualISLRRetenido</rd:DefaultName>
-            <Top>8.52635cm</Top>
-            <Left>5.46953cm</Left>
+            <Top>7.18635cm</Top>
+            <Left>5.4695cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
             <ZIndex>40</ZIndex>
@@ -1970,15 +2010,17 @@
                 <TextRuns>
                   <TextRun>
                     <Value>=Sum(Fields!SistemaISLRRetenido.Value, "DS_VW_CierreCaja")</Value>
-                    <Style />
+                    <Style>
+                      <FontFamily>calibri</FontFamily>
+                    </Style>
                   </TextRun>
                 </TextRuns>
                 <Style />
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>SistemaISLRRetenido</rd:DefaultName>
-            <Top>8.52635cm</Top>
-            <Left>10.59506cm</Left>
+            <Top>7.18635cm</Top>
+            <Left>10.59503cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
             <ZIndex>41</ZIndex>
@@ -2000,15 +2042,17 @@
                 <TextRuns>
                   <TextRun>
                     <Value>=Variables!SaldoISLRRetenido.Value</Value>
-                    <Style />
+                    <Style>
+                      <FontFamily>calibri</FontFamily>
+                    </Style>
                   </TextRun>
                 </TextRuns>
                 <Style />
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox68</rd:DefaultName>
-            <Top>8.52635cm</Top>
-            <Left>15.01776cm</Left>
+            <Top>7.18635cm</Top>
+            <Left>15.01773cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
             <ZIndex>42</ZIndex>
@@ -2032,18 +2076,17 @@
                     <Value>TRANSFERENCIA</Value>
                     <Style>
                       <FontFamily>Calibri</FontFamily>
-                      <FontSize>12pt</FontSize>
                     </Style>
                   </TextRun>
                 </TextRuns>
                 <Style>
-                  <TextAlign>Center</TextAlign>
+                  <TextAlign>Left</TextAlign>
                 </Style>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox1</rd:DefaultName>
-            <Top>9.30274cm</Top>
-            <Left>0.37043cm</Left>
+            <Top>7.78635cm</Top>
+            <Left>0.37046cm</Left>
             <Height>0.6cm</Height>
             <Width>3.34672cm</Width>
             <ZIndex>43</ZIndex>
@@ -2065,15 +2108,17 @@
                 <TextRuns>
                   <TextRun>
                     <Value>=Sum(Fields!MANUALTRANSFERENCIA.Value, "DS_VW_CierreCaja")</Value>
-                    <Style />
+                    <Style>
+                      <FontFamily>calibri</FontFamily>
+                    </Style>
                   </TextRun>
                 </TextRuns>
                 <Style />
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>MANUALTRANSFERENCIA</rd:DefaultName>
-            <Top>9.30274cm</Top>
-            <Left>5.46953cm</Left>
+            <Top>7.78635cm</Top>
+            <Left>5.46956cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
             <ZIndex>44</ZIndex>
@@ -2095,15 +2140,17 @@
                 <TextRuns>
                   <TextRun>
                     <Value>=Sum(Fields!SISTEMATRANSFERENCIA.Value, "DS_VW_CierreCaja")</Value>
-                    <Style />
+                    <Style>
+                      <FontFamily>calibri</FontFamily>
+                    </Style>
                   </TextRun>
                 </TextRuns>
                 <Style />
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>SISTEMATRANSFERENCIA</rd:DefaultName>
-            <Top>9.30274cm</Top>
-            <Left>10.59506cm</Left>
+            <Top>7.78635cm</Top>
+            <Left>10.59509cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
             <ZIndex>45</ZIndex>
@@ -2125,15 +2172,17 @@
                 <TextRuns>
                   <TextRun>
                     <Value>=Variables!SaldoTransferencia.Value</Value>
-                    <Style />
+                    <Style>
+                      <FontFamily>calibri</FontFamily>
+                    </Style>
                   </TextRun>
                 </TextRuns>
                 <Style />
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox72</rd:DefaultName>
-            <Top>9.30274cm</Top>
-            <Left>15.01776cm</Left>
+            <Top>7.78635cm</Top>
+            <Left>15.01779cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
             <ZIndex>46</ZIndex>
@@ -2157,18 +2206,17 @@
                     <Value>VUELTO</Value>
                     <Style>
                       <FontFamily>Calibri</FontFamily>
-                      <FontSize>12pt</FontSize>
                     </Style>
                   </TextRun>
                 </TextRuns>
                 <Style>
-                  <TextAlign>Center</TextAlign>
+                  <TextAlign>Left</TextAlign>
                 </Style>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox1</rd:DefaultName>
-            <Top>10.37017cm</Top>
-            <Left>0.37043cm</Left>
+            <Top>8.38635cm</Top>
+            <Left>0.37046cm</Left>
             <Height>0.6cm</Height>
             <Width>3.34672cm</Width>
             <ZIndex>47</ZIndex>
@@ -2190,15 +2238,17 @@
                 <TextRuns>
                   <TextRun>
                     <Value>=Sum(Fields!SISTEMAVUELTO.Value, "DS_VW_CierreCaja")</Value>
-                    <Style />
+                    <Style>
+                      <FontFamily>calibri</FontFamily>
+                    </Style>
                   </TextRun>
                 </TextRuns>
                 <Style />
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>SISTEMAVUELTO</rd:DefaultName>
-            <Top>10.37017cm</Top>
-            <Left>10.59506cm</Left>
+            <Top>8.38635cm</Top>
+            <Left>10.59509cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
             <ZIndex>48</ZIndex>
@@ -2220,15 +2270,17 @@
                 <TextRuns>
                   <TextRun>
                     <Value>=Variables!SaldoNotaCredito.Value</Value>
-                    <Style />
+                    <Style>
+                      <FontFamily>calibri</FontFamily>
+                    </Style>
                   </TextRun>
                 </TextRuns>
                 <Style />
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox75</rd:DefaultName>
-            <Top>10.37017cm</Top>
-            <Left>15.01776cm</Left>
+            <Top>8.38635cm</Top>
+            <Left>15.01779cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
             <ZIndex>49</ZIndex>
@@ -2252,18 +2304,17 @@
                     <Value>TOTAL</Value>
                     <Style>
                       <FontFamily>Calibri</FontFamily>
-                      <FontSize>12pt</FontSize>
                     </Style>
                   </TextRun>
                 </TextRuns>
                 <Style>
-                  <TextAlign>Center</TextAlign>
+                  <TextAlign>Left</TextAlign>
                 </Style>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox1</rd:DefaultName>
-            <Top>11.65917cm</Top>
-            <Left>0.37043cm</Left>
+            <Top>9.39256cm</Top>
+            <Left>0.37041cm</Left>
             <Height>0.6cm</Height>
             <Width>3.34672cm</Width>
             <ZIndex>50</ZIndex>
@@ -2285,15 +2336,17 @@
                 <TextRuns>
                   <TextRun>
                     <Value>=Variables!TotalManual.Value</Value>
-                    <Style />
+                    <Style>
+                      <FontFamily>calibri</FontFamily>
+                    </Style>
                   </TextRun>
                 </TextRuns>
                 <Style />
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox77</rd:DefaultName>
-            <Top>11.65917cm</Top>
-            <Left>5.46953cm</Left>
+            <Top>9.39256cm</Top>
+            <Left>5.46951cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
             <ZIndex>51</ZIndex>
@@ -2315,15 +2368,17 @@
                 <TextRuns>
                   <TextRun>
                     <Value>=Variables!TotalSistema.Value</Value>
-                    <Style />
+                    <Style>
+                      <FontFamily>calibri</FontFamily>
+                    </Style>
                   </TextRun>
                 </TextRuns>
                 <Style />
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox78</rd:DefaultName>
-            <Top>11.65917cm</Top>
-            <Left>10.59507cm</Left>
+            <Top>9.39256cm</Top>
+            <Left>10.59505cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
             <ZIndex>52</ZIndex>
@@ -2345,15 +2400,17 @@
                 <TextRuns>
                   <TextRun>
                     <Value>=Variables!SaldoIngresos.Value</Value>
-                    <Style />
+                    <Style>
+                      <FontFamily>calibri</FontFamily>
+                    </Style>
                   </TextRun>
                 </TextRuns>
                 <Style />
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox79</rd:DefaultName>
-            <Top>11.65917cm</Top>
-            <Left>15.01776cm</Left>
+            <Top>9.39256cm</Top>
+            <Left>15.01774cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
             <ZIndex>53</ZIndex>
@@ -2368,8 +2425,8 @@
             </Style>
           </Textbox>
           <Line Name="Line3">
-            <Top>11.37694cm</Top>
-            <Left>3.75386cm</Left>
+            <Top>9.28673cm</Top>
+            <Left>3.75384cm</Left>
             <Height>0cm</Height>
             <Width>13.76389cm</Width>
             <ZIndex>54</ZIndex>
@@ -2389,18 +2446,17 @@
                     <Value>REINTEGROS</Value>
                     <Style>
                       <FontFamily>Calibri</FontFamily>
-                      <FontSize>12pt</FontSize>
                     </Style>
                   </TextRun>
                 </TextRuns>
                 <Style>
-                  <TextAlign>Center</TextAlign>
+                  <TextAlign>Left</TextAlign>
                 </Style>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox1</rd:DefaultName>
-            <Top>12.43556cm</Top>
-            <Left>0.37043cm</Left>
+            <Top>9.99256cm</Top>
+            <Left>0.37039cm</Left>
             <Height>0.6cm</Height>
             <Width>3.34672cm</Width>
             <ZIndex>55</ZIndex>
@@ -2421,16 +2477,18 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>=Sum(Fields!MANUALREINTEGROS.Value, "DS_VW_CierreCaja")</Value>
-                    <Style />
+                    <Value>=Sum(Fields!MANUALREINTEGROS.Value, "DS_TB_CAJA")</Value>
+                    <Style>
+                      <FontFamily>calibri</FontFamily>
+                    </Style>
                   </TextRun>
                 </TextRuns>
                 <Style />
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>MANUALREINTEGROS</rd:DefaultName>
-            <Top>12.43556cm</Top>
-            <Left>5.46953cm</Left>
+            <Top>9.99256cm</Top>
+            <Left>5.46949cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
             <ZIndex>56</ZIndex>
@@ -2451,16 +2509,18 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>=Sum(Fields!SISTEMAREINTEGRO.Value, "DS_VW_CierreCaja")</Value>
-                    <Style />
+                    <Value>=Sum(Fields!SISTEMAREINTEGRO.Value, "DS_TB_CAJA")</Value>
+                    <Style>
+                      <FontFamily>calibri</FontFamily>
+                    </Style>
                   </TextRun>
                 </TextRuns>
                 <Style />
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>SISTEMAREINTEGRO</rd:DefaultName>
-            <Top>12.43556cm</Top>
-            <Left>10.59507cm</Left>
+            <Top>9.99256cm</Top>
+            <Left>10.59503cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
             <ZIndex>57</ZIndex>
@@ -2482,15 +2542,17 @@
                 <TextRuns>
                   <TextRun>
                     <Value>=Variables!SaldoReintegro.Value</Value>
-                    <Style />
+                    <Style>
+                      <FontFamily>calibri</FontFamily>
+                    </Style>
                   </TextRun>
                 </TextRuns>
                 <Style />
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox83</rd:DefaultName>
-            <Top>12.43556cm</Top>
-            <Left>15.01776cm</Left>
+            <Top>9.99256cm</Top>
+            <Left>15.01772cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
             <ZIndex>58</ZIndex>
@@ -2514,18 +2576,17 @@
                     <Value>NOTAS CREDITO</Value>
                     <Style>
                       <FontFamily>Calibri</FontFamily>
-                      <FontSize>12pt</FontSize>
                     </Style>
                   </TextRun>
                 </TextRuns>
                 <Style>
-                  <TextAlign>Center</TextAlign>
+                  <TextAlign>Left</TextAlign>
                 </Style>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox1</rd:DefaultName>
-            <Top>13.21194cm</Top>
-            <Left>0.37043cm</Left>
+            <Top>10.59256cm</Top>
+            <Left>0.37041cm</Left>
             <Height>0.6cm</Height>
             <Width>3.34672cm</Width>
             <ZIndex>59</ZIndex>
@@ -2546,16 +2607,18 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>=Sum(Fields!MANUALNOTACREDITO.Value, "DS_VW_CierreCaja")</Value>
-                    <Style />
+                    <Value>=Sum(Fields!MANUALNOTACREDITO.Value, "DS_TB_CAJA")</Value>
+                    <Style>
+                      <FontFamily>calibri</FontFamily>
+                    </Style>
                   </TextRun>
                 </TextRuns>
                 <Style />
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>MANUALNOTACREDITO</rd:DefaultName>
-            <Top>13.21194cm</Top>
-            <Left>5.46953cm</Left>
+            <Top>10.59256cm</Top>
+            <Left>5.46951cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
             <ZIndex>60</ZIndex>
@@ -2576,49 +2639,21 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>=Sum(Fields!SISTEMANOTACREDITO.Value, "DS_VW_CierreCaja")</Value>
-                    <Style />
+                    <Value>=Sum(Fields!SISTEMANOTACREDITO.Value, "DS_TB_CAJA")</Value>
+                    <Style>
+                      <FontFamily>calibri</FontFamily>
+                    </Style>
                   </TextRun>
                 </TextRuns>
                 <Style />
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>SISTEMANOTACREDITO</rd:DefaultName>
-            <Top>13.21194cm</Top>
-            <Left>10.59507cm</Left>
+            <Top>10.59256cm</Top>
+            <Left>10.59505cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
             <ZIndex>61</ZIndex>
-            <Style>
-              <Border>
-                <Style>None</Style>
-              </Border>
-              <PaddingLeft>2pt</PaddingLeft>
-              <PaddingRight>2pt</PaddingRight>
-              <PaddingTop>2pt</PaddingTop>
-              <PaddingBottom>2pt</PaddingBottom>
-            </Style>
-          </Textbox>
-          <Textbox Name="Textbox87">
-            <CanGrow>true</CanGrow>
-            <KeepTogether>true</KeepTogether>
-            <Paragraphs>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value>=Variables!SaldoNotaCredito.Value</Value>
-                    <Style />
-                  </TextRun>
-                </TextRuns>
-                <Style />
-              </Paragraph>
-            </Paragraphs>
-            <rd:DefaultName>Textbox87</rd:DefaultName>
-            <Top>13.21194cm</Top>
-            <Left>15.01776cm</Left>
-            <Height>0.6cm</Height>
-            <Width>2.5cm</Width>
-            <ZIndex>62</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2639,21 +2674,20 @@
                     <Value>TOTAL BRUTO:</Value>
                     <Style>
                       <FontFamily>Calibri</FontFamily>
-                      <FontSize>12pt</FontSize>
                     </Style>
                   </TextRun>
                 </TextRuns>
                 <Style>
-                  <TextAlign>Center</TextAlign>
+                  <TextAlign>Left</TextAlign>
                 </Style>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox1</rd:DefaultName>
-            <Top>14.54313cm</Top>
-            <Left>2.77077cm</Left>
+            <Top>11.6939cm</Top>
+            <Left>2.77075cm</Left>
             <Height>0.6cm</Height>
             <Width>3.34672cm</Width>
-            <ZIndex>63</ZIndex>
+            <ZIndex>62</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2674,21 +2708,20 @@
                     <Value>IMPUESTO:</Value>
                     <Style>
                       <FontFamily>Calibri</FontFamily>
-                      <FontSize>12pt</FontSize>
                     </Style>
                   </TextRun>
                 </TextRuns>
                 <Style>
-                  <TextAlign>Center</TextAlign>
+                  <TextAlign>Left</TextAlign>
                 </Style>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox1</rd:DefaultName>
-            <Top>15.31952cm</Top>
-            <Left>2.77077cm</Left>
+            <Top>12.2939cm</Top>
+            <Left>2.77075cm</Left>
             <Height>0.6cm</Height>
             <Width>3.34672cm</Width>
-            <ZIndex>64</ZIndex>
+            <ZIndex>63</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2709,21 +2742,20 @@
                     <Value>TOTAL NETO:</Value>
                     <Style>
                       <FontFamily>Calibri</FontFamily>
-                      <FontSize>12pt</FontSize>
                     </Style>
                   </TextRun>
                 </TextRuns>
                 <Style>
-                  <TextAlign>Center</TextAlign>
+                  <TextAlign>Left</TextAlign>
                 </Style>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox1</rd:DefaultName>
-            <Top>16.0959cm</Top>
-            <Left>2.77077cm</Left>
+            <Top>12.8939cm</Top>
+            <Left>2.77075cm</Left>
             <Height>0.6cm</Height>
             <Width>3.34672cm</Width>
-            <ZIndex>65</ZIndex>
+            <ZIndex>64</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2741,19 +2773,21 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>=Sum(Fields!TOTAL_NETO.Value, "DS_VW_CierreCaja")</Value>
-                    <Style />
+                    <Value>=Sum(Fields!TOTAL_BRUTO.Value, "DS_VW_CierreCaja")</Value>
+                    <Style>
+                      <FontFamily>calibri</FontFamily>
+                    </Style>
                   </TextRun>
                 </TextRuns>
                 <Style />
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>TOTAL_NETO</rd:DefaultName>
-            <Top>14.54313cm</Top>
-            <Left>7.87403cm</Left>
+            <Top>11.6939cm</Top>
+            <Left>7.87401cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
-            <ZIndex>66</ZIndex>
+            <ZIndex>65</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2772,18 +2806,20 @@
                 <TextRuns>
                   <TextRun>
                     <Value>=Sum(Fields!IMPUESTO.Value, "DS_VW_CierreCaja")</Value>
-                    <Style />
+                    <Style>
+                      <FontFamily>calibri</FontFamily>
+                    </Style>
                   </TextRun>
                 </TextRuns>
                 <Style />
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>IMPUESTO</rd:DefaultName>
-            <Top>15.31952cm</Top>
-            <Left>7.87403cm</Left>
+            <Top>12.2939cm</Top>
+            <Left>7.87401cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
-            <ZIndex>67</ZIndex>
+            <ZIndex>66</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2802,18 +2838,20 @@
                 <TextRuns>
                   <TextRun>
                     <Value>=Sum(Fields!TOTAL_NETO.Value, "DS_VW_CierreCaja")</Value>
-                    <Style />
+                    <Style>
+                      <FontFamily>calibri</FontFamily>
+                    </Style>
                   </TextRun>
                 </TextRuns>
                 <Style />
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>TOTAL_NETO1</rd:DefaultName>
-            <Top>16.0959cm</Top>
-            <Left>7.87403cm</Left>
+            <Top>12.8939cm</Top>
+            <Left>7.87401cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
-            <ZIndex>68</ZIndex>
+            <ZIndex>67</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2834,21 +2872,20 @@
                     <Value>Cajero:</Value>
                     <Style>
                       <FontFamily>Calibri</FontFamily>
-                      <FontSize>12pt</FontSize>
                     </Style>
                   </TextRun>
                 </TextRuns>
                 <Style>
-                  <TextAlign>Center</TextAlign>
+                  <TextAlign>Left</TextAlign>
                 </Style>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox1</rd:DefaultName>
-            <Top>15.31952cm</Top>
-            <Left>11.59315cm</Left>
+            <Top>12.2939cm</Top>
+            <Left>11.59313cm</Left>
             <Height>0.6cm</Height>
             <Width>3.34672cm</Width>
-            <ZIndex>69</ZIndex>
+            <ZIndex>68</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2867,18 +2904,20 @@
                 <TextRuns>
                   <TextRun>
                     <Value>=First(Fields!USER_NOMBRE.Value, "DS_VW_CierreCaja")</Value>
-                    <Style />
+                    <Style>
+                      <FontFamily>calibri</FontFamily>
+                    </Style>
                   </TextRun>
                 </TextRuns>
                 <Style />
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>USER_NOMBRE</rd:DefaultName>
-            <Top>15.31952cm</Top>
-            <Left>15.11626cm</Left>
+            <Top>12.2939cm</Top>
+            <Left>15.11624cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
-            <ZIndex>70</ZIndex>
+            <ZIndex>69</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2897,18 +2936,20 @@
                 <TextRuns>
                   <TextRun>
                     <Value>=First(Fields!USER_APELLIDO.Value, "DS_VW_CierreCaja")</Value>
-                    <Style />
+                    <Style>
+                      <FontFamily>calibri</FontFamily>
+                    </Style>
                   </TextRun>
                 </TextRuns>
                 <Style />
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>USER_APELLIDO</rd:DefaultName>
-            <Top>16.0959cm</Top>
-            <Left>15.11626cm</Left>
+            <Top>12.8939cm</Top>
+            <Left>15.11624cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
-            <ZIndex>71</ZIndex>
+            <ZIndex>70</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2929,21 +2970,20 @@
                     <Value>OBSERVACIONES:</Value>
                     <Style>
                       <FontFamily>Calibri</FontFamily>
-                      <FontSize>12pt</FontSize>
                     </Style>
                   </TextRun>
                 </TextRuns>
                 <Style>
-                  <TextAlign>Center</TextAlign>
+                  <TextAlign>Left</TextAlign>
                 </Style>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox1</rd:DefaultName>
-            <Top>17.14927cm</Top>
-            <Left>0.46893cm</Left>
+            <Top>13.67029cm</Top>
+            <Left>0.37039cm</Left>
             <Height>0.6cm</Height>
             <Width>3.34672cm</Width>
-            <ZIndex>72</ZIndex>
+            <ZIndex>71</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2962,18 +3002,20 @@
                 <TextRuns>
                   <TextRun>
                     <Value>=First(Fields!OBSERVACION.Value, "DS_VW_CierreCaja")</Value>
-                    <Style />
+                    <Style>
+                      <FontFamily>calibri</FontFamily>
+                    </Style>
                   </TextRun>
                 </TextRuns>
                 <Style />
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>OBSERVACION</rd:DefaultName>
-            <Top>17.14927cm</Top>
-            <Left>4.12023cm</Left>
+            <Top>13.67029cm</Top>
+            <Left>4.02169cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
-            <ZIndex>73</ZIndex>
+            <ZIndex>72</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2994,21 +3036,20 @@
                     <Value>NOTA:</Value>
                     <Style>
                       <FontFamily>Calibri</FontFamily>
-                      <FontSize>12pt</FontSize>
                     </Style>
                   </TextRun>
                 </TextRuns>
                 <Style>
-                  <TextAlign>Center</TextAlign>
+                  <TextAlign>Left</TextAlign>
                 </Style>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox1</rd:DefaultName>
-            <Top>18.52511cm</Top>
-            <Left>0.46892cm</Left>
+            <Top>14.72863cm</Top>
+            <Left>0.37038cm</Left>
             <Height>0.6cm</Height>
             <Width>1.33589cm</Width>
-            <ZIndex>74</ZIndex>
+            <ZIndex>73</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -3040,10 +3081,44 @@ Nombre y Apellido: ____________________________ Firma: ________________________ 
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox1</rd:DefaultName>
-            <Top>18.52511cm</Top>
-            <Left>1.84009cm</Left>
+            <Top>14.72863cm</Top>
+            <Left>1.74155cm</Left>
             <Height>1.52604cm</Height>
             <Width>16.76109cm</Width>
+            <ZIndex>74</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox38">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>TRJ.DEBITO</Value>
+                    <Style>
+                      <FontFamily>Calibri</FontFamily>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Left</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox1</rd:DefaultName>
+            <Top>1.78635cm</Top>
+            <Left>0.37042cm</Left>
+            <Height>0.6cm</Height>
+            <Width>2.39422cm</Width>
             <ZIndex>75</ZIndex>
             <Style>
               <Border>
@@ -3055,14 +3130,272 @@ Nombre y Apellido: ____________________________ Firma: ________________________ 
               <PaddingBottom>2pt</PaddingBottom>
             </Style>
           </Textbox>
+          <Textbox Name="MANUALTARJETA2">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=Sum(Fields!MANUALTARJETA.Value, "DS_VW_CierreCaja")</Value>
+                    <Style>
+                      <FontFamily>calibri</FontFamily>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>MANUALTARJETA</rd:DefaultName>
+            <Top>2.38635cm</Top>
+            <Left>5.46952cm</Left>
+            <Height>0.6cm</Height>
+            <Width>2.5cm</Width>
+            <ZIndex>76</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Textbox Name="SISTEMATARJETA2">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=Sum(Fields!SISTEMATARJETA.Value, "DS_VW_CierreCaja")</Value>
+                    <Style>
+                      <FontFamily>calibri</FontFamily>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>SISTEMATARJETA</rd:DefaultName>
+            <Top>2.38635cm</Top>
+            <Left>10.59507cm</Left>
+            <Height>0.6cm</Height>
+            <Width>2.5cm</Width>
+            <ZIndex>77</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox40">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=Variables!SaldoTarjetaCredito.Value</Value>
+                    <Style>
+                      <FontFamily>calibri</FontFamily>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox39</rd:DefaultName>
+            <Top>2.38635cm</Top>
+            <Left>15.01775cm</Left>
+            <Height>0.6cm</Height>
+            <Width>2.5cm</Width>
+            <ZIndex>78</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox41">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>CREDITO</Value>
+                    <Style>
+                      <FontFamily>Calibri</FontFamily>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Left</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox1</rd:DefaultName>
+            <Top>2.98635cm</Top>
+            <Left>0.37043cm</Left>
+            <Height>0.6cm</Height>
+            <Width>2.39422cm</Width>
+            <ZIndex>79</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Textbox Name="MANUALTARJETA3">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=Sum(Fields!MANUALCREDITO.Value, "DS_VW_CierreCaja")</Value>
+                    <Style>
+                      <FontFamily>calibri</FontFamily>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>MANUALTARJETA</rd:DefaultName>
+            <Top>2.98635cm</Top>
+            <Left>5.46952cm</Left>
+            <Height>0.6cm</Height>
+            <Width>2.5cm</Width>
+            <ZIndex>80</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Textbox Name="MANUALTARJETA4">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=Sum(Fields!SISTEMACREDITO.Value, "DS_VW_CierreCaja")</Value>
+                    <Style>
+                      <FontFamily>calibri</FontFamily>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>MANUALTARJETA</rd:DefaultName>
+            <Top>2.98635cm</Top>
+            <Left>10.59507cm</Left>
+            <Height>0.6cm</Height>
+            <Width>2.5cm</Width>
+            <ZIndex>81</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox42">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=Variables!SaldoCredito.Value</Value>
+                    <Style>
+                      <FontFamily>calibri</FontFamily>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox39</rd:DefaultName>
+            <Top>2.98635cm</Top>
+            <Left>15.01775cm</Left>
+            <Height>0.6cm</Height>
+            <Width>2.5cm</Width>
+            <ZIndex>82</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox76">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=Variables!SaldoNotaCredito.Value</Value>
+                    <Style>
+                      <FontFamily>calibri</FontFamily>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox75</rd:DefaultName>
+            <Top>10.59257cm</Top>
+            <Left>15.01774cm</Left>
+            <Height>0.6cm</Height>
+            <Width>2.5cm</Width>
+            <ZIndex>83</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
         </ReportItems>
-        <Height>8.15625in</Height>
+        <Height>6.49832in</Height>
         <Style />
       </Body>
       <Width>7.32741in</Width>
       <Page>
         <PageHeader>
-          <Height>3.63453cm</Height>
+          <Height>3.05245cm</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
@@ -3089,7 +3422,6 @@ Nombre y Apellido: ____________________________ Firma: ________________________ 
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox1</rd:DefaultName>
-              <Top>0.3175cm</Top>
               <Left>0.09438cm</Left>
               <Height>0.6cm</Height>
               <Width>8.45722cm</Width>
@@ -3126,7 +3458,7 @@ Nombre y Apellido: ____________________________ Firma: ________________________ 
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox1</rd:DefaultName>
-              <Top>1.05861cm</Top>
+              <Top>0.74111cm</Top>
               <Left>0.09438cm</Left>
               <Height>0.6cm</Height>
               <Width>8.45722cm</Width>
@@ -3164,7 +3496,7 @@ Nombre y Apellido: ____________________________ Firma: ________________________ 
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox1</rd:DefaultName>
-              <Top>1.835cm</Top>
+              <Top>1.5175cm</Top>
               <Left>0.09438cm</Left>
               <Height>0.6cm</Height>
               <Width>8.45722cm</Width>
@@ -3199,7 +3531,7 @@ Nombre y Apellido: ____________________________ Firma: ________________________ 
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox1</rd:DefaultName>
-              <Top>2.66319cm</Top>
+              <Top>2.34569cm</Top>
               <Left>5.46952cm</Left>
               <Height>0.6cm</Height>
               <Width>3.08208cm</Width>
@@ -3237,7 +3569,7 @@ Nombre y Apellido: ____________________________ Firma: ________________________ 
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox1</rd:DefaultName>
-              <Top>2.66319cm</Top>
+              <Top>2.34569cm</Top>
               <Left>10.49661cm</Left>
               <Height>0.6cm</Height>
               <Width>7.40891cm</Width>
@@ -3275,7 +3607,6 @@ Nombre y Apellido: ____________________________ Firma: ________________________ 
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox1</rd:DefaultName>
-              <Top>0.3175cm</Top>
               <Left>13.33093cm</Left>
               <Height>0.6cm</Height>
               <Width>4.57459cm</Width>
@@ -3313,7 +3644,7 @@ Nombre y Apellido: ____________________________ Firma: ________________________ 
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox1</rd:DefaultName>
-              <Top>1.09389cm</Top>
+              <Top>0.77639cm</Top>
               <Left>13.33093cm</Left>
               <Height>0.6cm</Height>
               <Width>4.57459cm</Width>
@@ -3351,7 +3682,7 @@ Nombre y Apellido: ____________________________ Firma: ________________________ 
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox1</rd:DefaultName>
-              <Top>1.835cm</Top>
+              <Top>1.5175cm</Top>
               <Left>13.33093cm</Left>
               <Height>0.6cm</Height>
               <Width>4.57459cm</Width>
@@ -3443,46 +3774,52 @@ Nombre y Apellido: ____________________________ Firma: ________________________ 
       <Value>=Sum(Fields!MANUALEFECTIVO.Value, "DS_VW_CierreCaja") -Sum(Fields!SISTEMAEFECTIVO.Value, "DS_VW_CierreCaja")</Value>
     </Variable>
     <Variable Name="SaldoCheques">
-      <Value>=Sum(Fields!MANUALCHEQUES.Value, "DS_TB_CAJA")-Sum(Fields!SISTEMACHEQUES.Value, "DS_TB_CAJA")</Value>
+      <Value>=Sum(Fields!MANUALCHEQUES.Value, "DS_VW_CierreCaja")-Sum(Fields!SISTEMACHEQUES.Value, "DS_VW_CierreCaja")</Value>
+    </Variable>
+    <Variable Name="SaldoDebito">
+      <Value>=Sum(Fields!MANUALDEBITO.Value, "DS_VW_CierreCaja")-Sum(Fields!SISTEMADEBITO.Value, "DS_VW_CierreCaja")</Value>
     </Variable>
     <Variable Name="SaldoTarjetaCredito">
       <Value>=Sum(Fields!MANUALTARJETA.Value, "DS_VW_CierreCaja")-Sum(Fields!SISTEMATARJETA.Value, "DS_VW_CierreCaja")</Value>
     </Variable>
+    <Variable Name="SaldoCredito">
+      <Value>=Sum(Fields!MANUALCREDITO.Value, "DS_VW_CierreCaja")-Sum(Fields!SISTEMACREDITO.Value, "DS_VW_CierreCaja")</Value>
+    </Variable>
     <Variable Name="SaldoCupones">
-      <Value>=Sum(Fields!MANUALCUPONES.Value, "DS_TB_CAJA")-Sum(Fields!SISTEMACUPONES.Value, "DS_TB_CAJA")</Value>
+      <Value>=Sum(Fields!MANUALCUPONES.Value, "DS_VW_CierreCaja")-Sum(Fields!SISTEMACUPONES.Value, "DS_VW_CierreCaja")</Value>
     </Variable>
     <Variable Name="SaldoTicketsSalud">
-      <Value>=Sum(Fields!MANUALTICKETSALUD.Value, "DS_TB_CAJA")-Sum(Fields!SISTEMATICKETSALUD.Value, "DS_TB_CAJA")</Value>
+      <Value>=Sum(Fields!MANUALTICKETSALUD.Value, "DS_VW_CierreCaja")-Sum(Fields!SISTEMATICKETSALUD.Value, "DS_VW_CierreCaja")</Value>
     </Variable>
     <Variable Name="SaldoTicketSaludEfec">
-      <Value>=Sum(Fields!MANUALTICKETSALUDEFEC.Value, "DS_TB_CAJA")-Sum(Fields!SISTEMATICKETSALUDEFEC.Value, "DS_TB_CAJA")</Value>
+      <Value>=Sum(Fields!MANUALTICKETSALUDEFEC.Value, "DS_VW_CierreCaja")-Sum(Fields!SISTEMATICKETSALUDEFEC.Value, "DS_VW_CierreCaja")</Value>
     </Variable>
     <Variable Name="SaldoGastos">
-      <Value>=Sum(Fields!MANUALGASTOS.Value, "DS_TB_CAJA")-Sum(Fields!SISTEMAGASTOS.Value, "DS_TB_CAJA")</Value>
+      <Value>=Sum(Fields!MANUALGASTOS.Value, "DS_VW_CierreCaja")-Sum(Fields!SISTEMAGASTOS.Value, "DS_VW_CierreCaja")</Value>
     </Variable>
     <Variable Name="SaldoFinanciamiento">
-      <Value>=Sum(Fields!MANUALFINANCIAMIENTO.Value, "DS_TB_CAJA")-Sum(Fields!SISTEMAFINANCIAMIENTO.Value, "DS_TB_CAJA")</Value>
+      <Value>=Sum(Fields!MANUALFINANCIAMIENTO.Value, "DS_VW_CierreCaja")-Sum(Fields!SISTEMAFINANCIAMIENTO.Value, "DS_VW_CierreCaja")</Value>
     </Variable>
     <Variable Name="SaldoIVARetenido">
       <Value>=Sum(Fields!ManualIVARetenido.Value, "DS_VW_CierreCaja")-Sum(Fields!SistemaIVARetenido.Value, "DS_VW_CierreCaja")</Value>
     </Variable>
     <Variable Name="SaldoISLRRetenido">
-      <Value>=Sum(Fields!ManualISLRRetenido.Value, "DS_TB_CAJA")-Sum(Fields!SistemaISLRRetenido.Value, "DS_TB_CAJA")</Value>
+      <Value>=Sum(Fields!ManualISLRRetenido.Value, "DS_VW_CierreCaja")-Sum(Fields!SistemaISLRRetenido.Value, "DS_VW_CierreCaja")</Value>
     </Variable>
     <Variable Name="SaldoTransferencia">
-      <Value>=Sum(Fields!MANUALTRANSFERENCIA.Value, "DS_TB_CAJA")-Sum(Fields!SISTEMATRANSFERENCIA.Value, "DS_TB_CAJA")</Value>
+      <Value>=Sum(Fields!MANUALTRANSFERENCIA.Value, "DS_VW_CierreCaja")-Sum(Fields!SISTEMATRANSFERENCIA.Value, "DS_VW_CierreCaja")</Value>
     </Variable>
     <Variable Name="SaldoNotaCredito">
-      <Value>=Sum(Fields!MANUALVUELTO.Value, "DS_TB_CAJA") - Sum(Fields!SISTEMAVUELTO.Value, "DS_TB_CAJA")</Value>
+      <Value>=Sum(Fields!SISTEMAVUELTO.Value, "DS_VW_CierreCaja")-Sum(Fields!SISTEMAVUELTO.Value, "DS_VW_CierreCaja")</Value>
     </Variable>
     <Variable Name="TotalManual">
-      <Value>=Sum(Fields!MANUALEFECTIVO.Value, "DS_VW_CierreCaja")+Sum(Fields!MANUALCHEQUES.Value, "DS_VW_CierreCaja")+Sum(Fields!MANUALTARJETA.Value, "DS_VW_CierreCaja")+Sum(Fields!MANUALDEBITO.Value, "DS_VW_CierreCaja")+Sum(Fields!ManualISLRRetenido.Value, "DS_VW_CierreCaja")+Sum(Fields!ManualIVARetenido.Value, "DS_VW_CierreCaja")+Sum(Fields!MANUALTICKETSALUDEFEC.Value, "DS_VW_CierreCaja")+Sum(Fields!MANUALTRANSFERENCIA.Value, "DS_VW_CierreCaja")+Sum(Fields!MANUALVUELTO.Value, "DS_VW_CierreCaja")+Sum(Fields!MANUALREINTEGROS.Value, "DS_VW_CierreCaja")</Value>
+      <Value>=Sum(Fields!MANUALEFECTIVO.Value, "DS_VW_CierreCaja")+Sum(Fields!MANUALCHEQUES.Value, "DS_VW_CierreCaja")+Sum(Fields!MANUALTARJETA.Value, "DS_VW_CierreCaja")+Sum(Fields!MANUALDEBITO.Value, "DS_VW_CierreCaja")+Sum(Fields!MANUALCREDITO.Value, "DS_VW_CierreCaja")+Sum(Fields!MANUALGASTOS.Value, "DS_VW_CierreCaja")+Sum(Fields!MANUALFINANCIAMIENTO.Value, "DS_VW_CierreCaja")+Sum(Fields!ManualIVARetenido.Value, "DS_VW_CierreCaja")+Sum(Fields!ManualISLRRetenido.Value, "DS_VW_CierreCaja")+Sum(Fields!MANUALCUPONES.Value, "DS_VW_CierreCaja")+Sum(Fields!MANUALTICKETSALUD.Value, "DS_VW_CierreCaja")+Sum(Fields!MANUALTICKETSALUDEFEC.Value, "DS_VW_CierreCaja")+Sum(Fields!MANUALTRANSFERENCIA.Value, "DS_VW_CierreCaja")</Value>
     </Variable>
     <Variable Name="TotalSistema">
-      <Value />
+      <Value>=Sum(Fields!SISTEMACHEQUES.Value, "DS_VW_CierreCaja")+Sum(Fields!SISTEMACREDITO.Value, "DS_VW_CierreCaja")+Sum(Fields!SISTEMADEBITO.Value, "DS_VW_CierreCaja")+Sum(Fields!SISTEMAEFECTIVO.Value, "DS_VW_CierreCaja")+Sum(Fields!SISTEMAFINANCIAMIENTO.Value, "DS_VW_CierreCaja")+Sum(Fields!SISTEMAGASTOS.Value, "DS_VW_CierreCaja")+Sum(Fields!SISTEMATARJETA.Value, "DS_VW_CierreCaja")+Sum(Fields!SISTEMACUPONES.Value, "DS_VW_CierreCaja")+Sum(Fields!SISTEMATICKETSALUD.Value, "DS_VW_CierreCaja")+Sum(Fields!SISTEMATICKETSALUDEFEC.Value, "DS_VW_CierreCaja")+Sum(Fields!SISTEMATRANSFERENCIA.Value, "DS_VW_CierreCaja")</Value>
     </Variable>
     <Variable Name="SaldoIngresos">
-      <Value />
+      <Value>=Variables!TotalManual.Value - Variables!TotalSistema.Value</Value>
     </Variable>
     <Variable Name="SaldoReintegro">
       <Value>=Sum(Fields!MANUALREINTEGROS.Value, "DS_VW_CierreCaja")-Sum(Fields!SISTEMAREINTEGRO.Value, "DS_VW_CierreCaja")</Value>
