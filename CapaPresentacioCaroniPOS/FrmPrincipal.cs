@@ -885,6 +885,10 @@ namespace CapaVisual_Login
         private void button2_Click(object sender, EventArgs e)
         {
             pnlUtilitarios.Visible = false;
+
+            FrmPrueba frmReportes = new FrmPrueba();
+
+            frmReportes.ReportesCierreCaja();
         }
     }
 }
