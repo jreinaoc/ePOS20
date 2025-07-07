@@ -3455,6 +3455,8 @@ namespace CapaVisual_Login
                     transaction.Commit();
                     // Finaliza normalmente
 
+                    tipoTrabajoSeleccionado = false;
+
                     Btn_Tap3_Cancelar.PerformClick();
 
                     btnPrincipal.PerformClick();

@@ -334,7 +334,8 @@ namespace CapaVisual_Login
                     var HoraSalida2 = filaAsis.Cells["HORASALIDAT2"].Value?.ToString().Trim();
                     var codigoEmp = filaAsis.Cells["COD_EMPLEADO"].Value?.ToString().Trim();
 
-                    if (string.IsNullOrEmpty(HoraEntrada1) || string.IsNullOrEmpty(HoraSalida1) || string.IsNullOrEmpty(HoraEntrada2) || string.IsNullOrEmpty(HoraSalida2))
+                    //if (string.IsNullOrEmpty(HoraEntrada1) || string.IsNullOrEmpty(HoraSalida1) || string.IsNullOrEmpty(HoraEntrada2) || string.IsNullOrEmpty(HoraSalida2))
+                    if (string.IsNullOrEmpty(HoraEntrada1) || string.IsNullOrEmpty(HoraSalida1) || string.IsNullOrEmpty(HoraEntrada2))// || string.IsNullOrEmpty(HoraSalida2))
                     {
                         _FrmMensajes.co = 2;
                         _FrmMensajes.avisomensaje("Debe marcar asistencia");
@@ -1321,7 +1322,22 @@ namespace CapaVisual_Login
                 frmPrincipal.ActualizarTextoLabel(diaActivo.AddDays(1).ToString("dd/MM/yyyy"));
             }
 
+            dtLogCierre.Rows.Add("Imprimiendo reportes", "...");
+            dgvLogCierre.DataSource = dtLogCierre;
+            dgvLogCierre.Refresh();
 
+            FrmPrueba frmReportes = new FrmPrueba();
+
+            frmReportes.ReportesCierreCaja();
+
+            foreach (DataRow row in dtLogCierre.Rows)
+            {
+                if (row["Descripcion"].ToString() == "Imprimiendo reporte")
+                {
+                    row["Resultado"] = "✔ Completado";
+                    break;
+                }
+            }
 
             dtLogCierre.Rows.Add("Cierre de caja", "✔ Completado");
             dgvLogCierre.DataSource = dtLogCierre;

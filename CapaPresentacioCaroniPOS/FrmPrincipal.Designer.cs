@@ -204,6 +204,7 @@ namespace CapaVisual_Login
             this.button2.Text = "Reportes";
             this.button2.TextAlign = System.Drawing.ContentAlignment.TopLeft;
             this.button2.UseVisualStyleBackColor = false;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // btnUtilitarios
             // 
@@ -680,6 +681,7 @@ namespace CapaVisual_Login
             this.btnReimpresion.Text = "Reimpresión de Documentos";
             this.btnReimpresion.TextAlign = System.Drawing.ContentAlignment.TopLeft;
             this.btnReimpresion.UseVisualStyleBackColor = false;
+            this.btnReimpresion.Click += new System.EventHandler(this.btnReimpresion_Click);
             // 
             // PnlListadoOrdenes
             // 

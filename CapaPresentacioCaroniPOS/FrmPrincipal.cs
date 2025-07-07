@@ -85,7 +85,7 @@ namespace CapaVisual_Login
         {
 
 
-
+            pnlUtilitarios.Visible = false;
 
             System.Drawing.Color col2 = System.Drawing.ColorTranslator.FromHtml("#257b78");
             System.Drawing.Color col4 = System.Drawing.ColorTranslator.FromHtml("#2f6b64");
@@ -144,7 +144,7 @@ namespace CapaVisual_Login
 
         private void BtnListadoOrdenes_Click(object sender, EventArgs e)
         {
-
+            pnlUtilitarios.Visible = false;
 
             System.Drawing.Color col2 = System.Drawing.ColorTranslator.FromHtml("#257b78");
 
@@ -424,6 +424,7 @@ namespace CapaVisual_Login
 
         private void btnconfiguracion_Click(object sender, EventArgs e)
         {
+            pnlUtilitarios.Visible = false;
 
             System.Drawing.Color col2 = System.Drawing.ColorTranslator.FromHtml("#257b78");
             if (this.BackColor == col2)
@@ -538,6 +539,8 @@ namespace CapaVisual_Login
 
         private void btnClienteEspera_Click(object sender, EventArgs e)
         {
+            pnlUtilitarios.Visible = false; 
+            
             System.Drawing.Color col2 = System.Drawing.ColorTranslator.FromHtml("#257b78");
             System.Drawing.Color col4 = System.Drawing.ColorTranslator.FromHtml("#2f6b64");
             System.Drawing.Color col3 = System.Drawing.ColorTranslator.FromHtml(" #07a79b");
@@ -616,6 +619,7 @@ namespace CapaVisual_Login
 
         private void btnPagoMovil_Click(object sender, EventArgs e)
         {
+            pnlUtilitarios.Visible = false; 
             System.Drawing.Color col2 = System.Drawing.ColorTranslator.FromHtml("#257b78");
 
             if (this.BackColor == col2)
@@ -648,6 +652,7 @@ namespace CapaVisual_Login
 
         private void btnListaFactura_Click(object sender, EventArgs e)
         {
+            pnlUtilitarios.Visible = false; 
             System.Drawing.Color col2 = System.Drawing.ColorTranslator.FromHtml("#257b78");
 
             if (this.BackColor == col2)
@@ -680,6 +685,7 @@ namespace CapaVisual_Login
 
         private void btnCargarOrdenes_Click(object sender, EventArgs e)
         {
+            pnlUtilitarios.Visible = false;
             System.Drawing.Color col2 = System.Drawing.ColorTranslator.FromHtml("#257b78");
 
 
@@ -718,16 +724,16 @@ namespace CapaVisual_Login
 
             //FrmCargarOrden formularioSecundario = new FrmCargarOrden();
 
-            //PnlListadoOrdenes.Controls.Clear();
-            //addformularioCargaOrdenes(formularioSecundario);
-            //Focus();
+            PnlListadoOrdenes.Controls.Clear();
+            addformularioCargaOrdenes(_FrmCargarOrden);
+            Focus();
             //_FrmListaOrdenes.cerrar();
             //_FrmListaOrdenes.ListadoOrdenosRebot();
 
-            FrmCargarOrden nuevoFormulario = new FrmCargarOrden();
+            //FrmCargarOrden nuevoFormulario = new FrmCargarOrden();
 
             // Cargar usando la función que limpia y configura el panel
-            CerrarYRecargarFormulario(nuevoFormulario);
+            //CerrarYRecargarFormulario(nuevoFormulario);
 
 
 
@@ -740,7 +746,14 @@ namespace CapaVisual_Login
 
         private void btnUtilitarios_Click(object sender, EventArgs e)
         {
-            pnlUtilitarios.Visible = true;
+            if (pnlUtilitarios.Visible == true)
+            {
+                pnlUtilitarios.Visible = false;
+            }
+            else
+            {
+                pnlUtilitarios.Visible = true;
+            }
         }
 
         private void btnCierredeCaja_Click(object sender, EventArgs e)
@@ -821,6 +834,7 @@ namespace CapaVisual_Login
 
         private void btnTasaSec_Click(object sender, EventArgs e)
         {
+            pnlUtilitarios.Visible = false; 
             PnlListadoOrdenes.Controls.Clear();
             addformulario(_FrmTasaDia);
             Focus();
@@ -861,6 +875,16 @@ namespace CapaVisual_Login
             nuevoFormulario.Dock = DockStyle.Fill;
             PnlListadoOrdenes.Controls.Add(nuevoFormulario);
             nuevoFormulario.Show();
+        }
+
+        private void btnReimpresion_Click(object sender, EventArgs e)
+        {
+            pnlUtilitarios.Visible = false;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            pnlUtilitarios.Visible = false;
         }
     }
 }
