@@ -3395,7 +3395,7 @@ Nombre y Apellido: ____________________________ Firma: ________________________ 
       <Width>7.32741in</Width>
       <Page>
         <PageHeader>
-          <Height>3.05245cm</Height>
+          <Height>2.70849cm</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
@@ -3458,7 +3458,7 @@ Nombre y Apellido: ____________________________ Firma: ________________________ 
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox1</rd:DefaultName>
-              <Top>0.74111cm</Top>
+              <Top>0.6cm</Top>
               <Left>0.09438cm</Left>
               <Height>0.6cm</Height>
               <Width>8.45722cm</Width>
@@ -3496,7 +3496,7 @@ Nombre y Apellido: ____________________________ Firma: ________________________ 
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox1</rd:DefaultName>
-              <Top>1.5175cm</Top>
+              <Top>1.2cm</Top>
               <Left>0.09438cm</Left>
               <Height>0.6cm</Height>
               <Width>8.45722cm</Width>
@@ -3531,8 +3531,8 @@ Nombre y Apellido: ____________________________ Firma: ________________________ 
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox1</rd:DefaultName>
-              <Top>2.34569cm</Top>
-              <Left>5.46952cm</Left>
+              <Top>1.97639cm</Top>
+              <Left>5.46956cm</Left>
               <Height>0.6cm</Height>
               <Width>3.08208cm</Width>
               <ZIndex>3</ZIndex>
@@ -3569,8 +3569,8 @@ Nombre y Apellido: ____________________________ Firma: ________________________ 
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox1</rd:DefaultName>
-              <Top>2.34569cm</Top>
-              <Left>10.49661cm</Left>
+              <Top>1.97639cm</Top>
+              <Left>10.20733cm</Left>
               <Height>0.6cm</Height>
               <Width>7.40891cm</Width>
               <ZIndex>4</ZIndex>
@@ -3603,11 +3603,13 @@ Nombre y Apellido: ____________________________ Firma: ________________________ 
                       </Style>
                     </TextRun>
                   </TextRuns>
-                  <Style />
+                  <Style>
+                    <TextAlign>Right</TextAlign>
+                  </Style>
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox1</rd:DefaultName>
-              <Left>13.33093cm</Left>
+              <Left>12.94313cm</Left>
               <Height>0.6cm</Height>
               <Width>4.57459cm</Width>
               <ZIndex>5</ZIndex>
@@ -3640,12 +3642,14 @@ Nombre y Apellido: ____________________________ Firma: ________________________ 
                       </Style>
                     </TextRun>
                   </TextRuns>
-                  <Style />
+                  <Style>
+                    <TextAlign>Right</TextAlign>
+                  </Style>
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox1</rd:DefaultName>
-              <Top>0.77639cm</Top>
-              <Left>13.33093cm</Left>
+              <Top>0.6cm</Top>
+              <Left>12.9432cm</Left>
               <Height>0.6cm</Height>
               <Width>4.57459cm</Width>
               <ZIndex>6</ZIndex>
@@ -3678,12 +3682,14 @@ Nombre y Apellido: ____________________________ Firma: ________________________ 
                       </Style>
                     </TextRun>
                   </TextRuns>
-                  <Style />
+                  <Style>
+                    <TextAlign>Right</TextAlign>
+                  </Style>
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox1</rd:DefaultName>
-              <Top>1.5175cm</Top>
-              <Left>13.33093cm</Left>
+              <Top>1.2cm</Top>
+              <Left>12.9432cm</Left>
               <Height>0.6cm</Height>
               <Width>4.57459cm</Width>
               <ZIndex>7</ZIndex>
