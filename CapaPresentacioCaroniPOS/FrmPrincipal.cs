@@ -48,6 +48,7 @@ namespace CapaVisual_Login
         FrmCierredeCaja _FrmCierreDeCaja = new FrmCierredeCaja();
         FrmTasaDia _FrmTasaDia = new FrmTasaDia();
         FrmPrueba _frmPrueba = new FrmPrueba();
+        FrmReimpresionDocumentos _FrmReimpresionDocumentos = new FrmReimpresionDocumentos();
 
         private D_DetalleOrden _D_DetalleOrden = new D_DetalleOrden();
         public bool osc;
@@ -880,6 +881,9 @@ namespace CapaVisual_Login
         private void btnReimpresion_Click(object sender, EventArgs e)
         {
             pnlUtilitarios.Visible = false;
+            PnlListadoOrdenes.Controls.Clear();
+            addformulario(_FrmReimpresionDocumentos);
+            Focus();
         }
 
         private void button2_Click(object sender, EventArgs e)

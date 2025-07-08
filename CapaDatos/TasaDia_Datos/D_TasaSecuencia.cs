@@ -244,6 +244,38 @@ namespace CapaDatos.TasaDia_Datos
             }
         }
 
+        public DataSet Reimprimir_Documentos(string TipoDocumento, bool TipoUsuario, DateTime fechaDesde, DateTime fechaHasta, string SerialImpresora, SqlCommand command = null)
+        {
+            try
+            {
+                if (command == null)
+                {
+                    SqlConnection connection = cn.LeerCadena();
+                    command = connection.CreateCommand();
+                }
+                SqlCommand cmd = command;
+                cmd.Parameters.Clear();
+
+                cmd.CommandText = "SP_Reimprimir_Documentos";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@TipoDocumento", TipoDocumento);
+                cmd.Parameters.AddWithValue("@TipoUsuario", TipoUsuario);
+                cmd.Parameters.AddWithValue("@fechaDesde", fechaDesde);
+                cmd.Parameters.AddWithValue("@fechaHasta", fechaHasta);
+                cmd.Parameters.AddWithValue("@SerialImpresora", SerialImpresora);
+                DataSet ds = new DataSet();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(ds);
+                cmd.Parameters.Clear();
+                return ds;
+
+            }
+            catch (Exception ex)
+            {
+                string Error = string.Format("Error: {0}", ex.Message);
+                return null;
+            }
+        }
         public void Update_TB_Parametro(string Valor, string Parametro, SqlCommand command = null)
         {
             try
