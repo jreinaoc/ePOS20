@@ -447,7 +447,7 @@ namespace CapaVisual_Login
                     this.Pnl_2.Visible = true;
                     this.Pnl_1.Visible = false;
                     this.Pnl_1.Enabled = false;
-                    this.Pnl_3_Lista_Articulo.Enabled = false;
+                    //this.Pnl_3_Lista_Articulo.Enabled = false;
                     this.Pnl_3_Lista_Articulo.Visible = false;
                     this.Pnl_3_CambioPrecio.Enabled = false;
                     this.Pnl_3_CambioPrecio.Visible = false;
@@ -473,12 +473,21 @@ namespace CapaVisual_Login
                     Cbx_Pnl2_Servicio.Visible = true;
                     //Txt_Pnl2_Examen.Visible = true;
                     //Lbl_Pnl2_Num_Examen.Visible = true;
-                    Cbx_Pnl2_Ojo.Visible = false;
+                    Cbx_Tap2_Ojo.Visible = false;
                     label24.Visible = false;
                     Txt_Pnl2_Fecha_Ofre.Visible = true;
                     Lbl_Pnl2_Fecha_Ofre.Visible = true;
+                    Lbl_Pnl2_Carga_Art.Text = "Carga de orden";
                     Lbl_Pnl2_Carga_Art.Visible = true;
                     Txt_Pnl2_Examen.Text = Txt_Tap2_Examen.Text;
+
+                    label24.Visible = true;
+                    Cbx_Tap2_Ojo.Visible = true;
+                    label26.Visible = true;
+                    cbVisionDerecha.Visible = true;
+                    label33.Visible = true;
+                    cbVisionIzquierda.Visible = true;
+
                     mantengoexamenseleccionado = true;
                     break;
                 case "MostrarCabeceraExamen":
@@ -515,12 +524,20 @@ namespace CapaVisual_Login
                     Lbl_Pnl2_Servicio.Visible = false;
                     Cbx_Pnl2_Servicio.Visible = false;
                     Txt_Pnl2_Examen.Visible = false;
-                    Lbl_Pnl2_Num_Examen.Visible = false;
-                    Cbx_Pnl2_Ojo.Visible = false;
+                    
+                    Cbx_Tap2_Ojo.Visible = false;
                     label24.Visible = false;
                     Txt_Pnl2_Fecha_Ofre.Visible = false;
                     Lbl_Pnl2_Fecha_Ofre.Visible = false;
-                    Lbl_Pnl2_Carga_Art.Visible = false;
+                    Lbl_Pnl2_Carga_Art.Text = "Datos del Cliente";
+                    //Lbl_Pnl2_Carga_Art.Visible = false;
+
+                    label24.Visible = false;
+                    Cbx_Tap2_Ojo.Visible = false;
+                    label26.Visible = false;
+                    cbVisionDerecha.Visible = false;
+                    label33.Visible = false;
+                    cbVisionIzquierda.Visible = false;
 
                     break;
                 case "Lista_Articulo":
@@ -614,7 +631,8 @@ namespace CapaVisual_Login
                     this.Rd_Pnl3_Descripcion.Enabled = true;
                     this.Rd_Pnl3_Codigo.Enabled = true;
                     this.Rd_Pnl3_Descripcion.Checked = false;
-                    this.btnCancelar3.Enabled = true;
+                    //Lo comente porque cuando se guarda un examen y se carga una orden por algun motivo cuando se selecciona el articulo dispara el evento examen click y hace que se devuelva al examen
+                    //this.btnCancelar3.Enabled = true;
 
                     // Botones del TapControl
                     //this.btnPrincipal.Enabled = false;
@@ -635,7 +653,7 @@ namespace CapaVisual_Login
                     this.Txt_Pnl2_Examen.Enabled = false;
                     this.Cbx_Pnl2_Trbajo.Enabled = false;
                     this.Cbx_Pnl2_Laboratorio.Enabled = false;
-                    this.Cbx_Pnl2_Ojo.Enabled = false;
+                    this.Cbx_Tap2_Ojo.Enabled = false;
                     this.Txt_Pnl2_Examen.Enabled = false;
                     this.Cbx_Pnl2_Servicio.Enabled = false;
 
@@ -681,9 +699,12 @@ namespace CapaVisual_Login
                     this.Txt_Pnl3_Articulo.Enabled = false;
                     this.Rd_Pnl3_Descripcion.Enabled = false;
                     this.Rd_Pnl3_Codigo.Enabled = false;
-                    this.btnCancelar3.Enabled = false;
+                    
+                    //Lo comente porque cuando se guarda un examen y se carga una orden por algun motivo cuando se selecciona el articulo dispara el evento examen click y hace que se devuelva al examen
+                    //this.btnCancelar3.Enabled = false;
 
                     //this.btnPrincipal.Enabled = true;
+
                     //this.btnExamen.Enabled = true;
                     this.btnCargarOrden.Enabled = true;
 
@@ -725,7 +746,7 @@ namespace CapaVisual_Login
                     this.Txt_Pnl2_Examen.Enabled = false;
                     this.Cbx_Pnl2_Trbajo.Enabled = false;
                     this.Cbx_Pnl2_Laboratorio.Enabled = false;
-                    this.Cbx_Pnl2_Ojo.Enabled = false;
+                    this.Cbx_Tap2_Ojo.Enabled = false;
                     this.Txt_Pnl2_Examen.Enabled = false;
                     this.Cbx_Pnl2_Servicio.Enabled = false;
 
@@ -779,7 +800,7 @@ namespace CapaVisual_Login
                     this.Txt_Pnl2_Examen.Enabled = false;
                     this.Cbx_Pnl2_Trbajo.Enabled = false;
                     this.Cbx_Pnl2_Laboratorio.Enabled = false;
-                    this.Cbx_Pnl2_Ojo.Enabled = false;
+                    this.Cbx_Tap2_Ojo.Enabled = false;
                     this.Cbx_Pnl2_Servicio.Enabled = false;
 
 
@@ -837,7 +858,7 @@ namespace CapaVisual_Login
                     this.Txt_Pnl2_Examen.Enabled = false;
                     this.Cbx_Pnl2_Trbajo.Enabled = false;
                     this.Cbx_Pnl2_Laboratorio.Enabled = false;
-                    this.Cbx_Pnl2_Ojo.Enabled = false;
+                    this.Cbx_Tap2_Ojo.Enabled = false;
                     this.Txt_Pnl2_Examen.Enabled = false;
                     this.Cbx_Pnl2_Servicio.Enabled = false;
 
@@ -893,7 +914,7 @@ namespace CapaVisual_Login
                     this.Txt_Pnl2_Examen.Enabled = false;
                     this.Cbx_Pnl2_Trbajo.Enabled = false;
                     this.Cbx_Pnl2_Laboratorio.Enabled = false;
-                    this.Cbx_Pnl2_Ojo.Enabled = false;
+                    this.Cbx_Tap2_Ojo.Enabled = false;
                     this.Txt_Pnl2_Examen.Enabled = false;
                     this.Cbx_Pnl2_Servicio.Enabled = false;
 
@@ -943,7 +964,7 @@ namespace CapaVisual_Login
                     this.Txt_Pnl2_Examen.Enabled = false;
                     this.Cbx_Pnl2_Trbajo.Enabled = false;
                     this.Cbx_Pnl2_Laboratorio.Enabled = false;
-                    this.Cbx_Pnl2_Ojo.Enabled = false;
+                    this.Cbx_Tap2_Ojo.Enabled = false;
                     this.Txt_Pnl2_Examen.Enabled = false;
                     this.Cbx_Pnl2_Servicio.Enabled = false;
 
@@ -998,7 +1019,7 @@ namespace CapaVisual_Login
                     this.Txt_Pnl2_Examen.Enabled = false;
                     this.Cbx_Pnl2_Trbajo.Enabled = false;
                     this.Cbx_Pnl2_Laboratorio.Enabled = false;
-                    this.Cbx_Pnl2_Ojo.Enabled = false;
+                    this.Cbx_Tap2_Ojo.Enabled = false;
                     this.Txt_Pnl2_Examen.Enabled = false;
                     this.Cbx_Pnl2_Servicio.Enabled = false;
 
@@ -1045,7 +1066,7 @@ namespace CapaVisual_Login
                     this.Txt_Pnl2_Examen.Enabled = false;
                     this.Cbx_Pnl2_Trbajo.Enabled = false;
                     this.Cbx_Pnl2_Laboratorio.Enabled = false;
-                    this.Cbx_Pnl2_Ojo.Enabled = false;
+                    this.Cbx_Tap2_Ojo.Enabled = false;
                     this.Txt_Pnl2_Examen.Enabled = false;
                     this.Cbx_Pnl2_Servicio.Enabled = false;
 
@@ -1084,7 +1105,8 @@ namespace CapaVisual_Login
                     this.Txt_Pnl3_Articulo.Enabled = false;
                     this.Rd_Pnl3_Descripcion.Enabled = false;
                     this.Rd_Pnl3_Codigo.Enabled = false;
-                    this.btnCancelar3.Enabled = false;
+                    //Lo comente porque cuando se guarda un examen y se carga una orden por algun motivo cuando se selecciona el articulo dispara el evento examen click y hace que se devuelva al examen
+                    //this.btnCancelar3.Enabled = false;
 
                     break;
 
@@ -1280,10 +1302,12 @@ namespace CapaVisual_Login
                         Txt_Tap3_Articulo_Cantidad.Enabled = true;
                         Txt_Tap3_Articulo_Cantidad.Text = string.Empty; // Limpiar el campo de cantidad
 
-                        VisualizarPanel("MostrarCabezeraSecundaria");
+                        //VisualizarPanel("MostrarCabezeraSecundaria");
+                        this.Pnl_3_Lista_Articulo.Visible = false;
                         HabilitacionControl("CabezeraPrincipal");
 
-                        // Establecer el foco en el TextBox de cantidad
+                        // Establecer el f
+                        // oco en el TextBox de cantidad
                         Txt_Tap3_Articulo_Cantidad.Focus();
                     }
 
@@ -1511,7 +1535,7 @@ namespace CapaVisual_Login
 
                 if (articulo.CodArticulo.StartsWith("C") || articulo.CodArticulo.StartsWith("W"))
                 {
-                    string seleccionOjo = Cbx_Pnl2_Ojo.Text ?? "";
+                    string seleccionOjo = Cbx_Tap2_Ojo.Text ?? "";
                     int cantidadInt = 0;
                     int.TryParse(Txt_Tap3_Articulo_Cantidad.Text, out cantidadInt);
 
@@ -1655,7 +1679,7 @@ namespace CapaVisual_Login
 
                 Cbx_Pnl2_Trbajo.Enabled = true;
                 Cbx_Pnl2_Laboratorio.Enabled = true;
-                this.Cbx_Pnl2_Ojo.Enabled = true;
+                this.Cbx_Tap2_Ojo.Enabled = true;
                 this.Txt_Pnl2_Examen.Enabled = true; 
                 Cbx_Pnl2_Servicio.Enabled = true;
                 laboratorioSeleccionado = false;
@@ -1682,6 +1706,10 @@ namespace CapaVisual_Login
                 btnExamen.Enabled = true;
                 btnCargarOrden.Enabled = true;
                 tipoTrabajoSeleccionado = false;
+
+                Cbx_Tap2_Ojo.Text = "AMBOS";
+                cbVisionDerecha.Text = "Cerca";
+                cbVisionIzquierda.Text = "Cerca";
             }
 
             catch (Exception ex)
@@ -1836,7 +1864,7 @@ namespace CapaVisual_Login
                 _L_Articulo.InicializarDataGridViewTotales(Dgv_Tap3_Totales);
                 Formato_Dgv_Totales();
                 //_L_Articulo.BucarTipoVenta(Cbx_Pnl2_Trbajo);
-                _L_Articulo.LlenarComboOjos(Cbx_Pnl2_Ojo);
+                _L_Articulo.LlenarComboOjos(Cbx_Tap2_Ojo);
                 //CargarComboLaboratorios();
                 //_L_Articulo.ObtenerFechaHoraOfrecida(Cbx_Pnl2_Servicio.SelectedValue.ToString(), Cbx_Pnl2_Trbajo.SelectedValue.ToString());
 
@@ -1850,7 +1878,7 @@ namespace CapaVisual_Login
             else if (tabControl.SelectedIndex == 1)
             {
 
-                VisualizarPanel("MostrarCabezeraPrincipal");
+                VisualizarPanel("MostrarCabezeraExamen");
             }
         }
 
@@ -1956,10 +1984,10 @@ namespace CapaVisual_Login
         {
             mantengoexamenseleccionado = false;
             VisualizarPanel("MostrarCabezeraPrincipal");
-            Txt_Pnl1_Cedula.Visible = false;
-            Txt_Pnl1_Nombre.Visible = false;
-            Lbl_Pnl1_Cedula.Visible = false;
-            Lbl_Pnl1_Nombre.Visible = false;
+            //Txt_Pnl1_Cedula.Visible = false;
+            //Txt_Pnl1_Nombre.Visible = false;
+            //Lbl_Pnl1_Cedula.Visible = false;
+            //Lbl_Pnl1_Nombre.Visible = false;
 
             //tabControl.SelectTab(0);
             /*MEIFER*/
@@ -2113,6 +2141,7 @@ namespace CapaVisual_Login
         {
             if (tabControl.SelectedIndex == 0)
             {
+                //Guardo Cliente y voy a carga
                 Btn_Tap1_Guardar.PerformClick();
                 tabControl.SelectedIndex = 2;
                 return;
@@ -2121,6 +2150,7 @@ namespace CapaVisual_Login
             if (tabControl.SelectedIndex == 1)
             {
                 tabControl.SelectedIndex = 2;
+                //ValidarTipoTrabajoTipoExamen(Cbx_Pnl2_Trbajo.SelectedValue.ToString(), Cbx_Tap2_Tipo_Examen.Text);
                return;
             }
 
@@ -3116,6 +3146,7 @@ namespace CapaVisual_Login
         }
         private void CargarComboServicioLaboratorios()
         {
+            //Cbx_Pnl2_Laboratorio.SelectedIndex = 0;
            _L_Articulo.ObtenerServicioLaboratorioCbx(Cbx_Pnl2_Servicio, Cbx_Pnl2_Trbajo, Cbx_Pnl2_Laboratorio, _D_Inicio.Sucursal() ,Cbx_Pnl2_Laboratorio.SelectedValue.ToString());
 
            
@@ -3127,6 +3158,7 @@ namespace CapaVisual_Login
             try
             {
                 //Btn_Tap3_Procesar.Enabled = false;
+                LLenar_TbTrabajo();
 
                 int car;
                 string strMarcaC;
@@ -3320,7 +3352,7 @@ namespace CapaVisual_Login
 
 
                 // Validar Lc CodigoLabLC
-                 if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "02" && !_L_Articulo.VerificoCodigoLabLC(Cbx_Pnl2_Ojo.Text, Dgv_Tap3_Articulo, Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Convert.ToInt16(Txt_Pnl2_Examen.Text)) && _L_Articulo.stringBuilder.Length > 0)
+                 if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "02" && !_L_Articulo.VerificoCodigoLabLC(Cbx_Tap2_Ojo.Text, Dgv_Tap3_Articulo, Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Convert.ToInt16(Txt_Pnl2_Examen.Text)) && _L_Articulo.stringBuilder.Length > 0)
                  {
                         _FrmMensajes.co = 2;
                         _FrmMensajes.avisomensaje(_L_Articulo.stringBuilder.ToString());
@@ -3559,9 +3591,9 @@ namespace CapaVisual_Login
             Txt_Pnl2_Cedula.Text = Cbx_Tap1_Nacionalidad.Text.Trim() + "-" +Txt_Tap1_Cedula.Text.Trim();
 
             bool encontrado = false;
-            for (int i = 0; i < Cbx_Pnl2_Ojo.Items.Count; i++)
+            for (int i = 0; i < Cbx_Tap2_Ojo.Items.Count; i++)
             {
-                var item = Cbx_Pnl2_Ojo.Items[i];
+                var item = Cbx_Tap2_Ojo.Items[i];
                 // Si es un objeto anónimo o tiene la propiedad Text
                 var textProp = item.GetType().GetProperty("Text");
                 if (textProp != null)
@@ -3569,15 +3601,15 @@ namespace CapaVisual_Login
                     string texto = textProp.GetValue(item, null)?.ToString();
                     if (texto.Trim().ToLower() == Cbx_Tap2_Ojo.Text.Trim().ToLower())
                     {
-                        Cbx_Pnl2_Ojo.SelectedIndex = i;
+                        Cbx_Tap2_Ojo.SelectedIndex = i;
                         encontrado = true;
                         break;
                     }
                 }
             }
-            if (!encontrado && Cbx_Pnl2_Ojo.Items.Count > 0)
+            if (!encontrado && Cbx_Tap2_Ojo.Items.Count > 0)
             {
-                Cbx_Pnl2_Ojo.SelectedIndex = 0;
+                Cbx_Tap2_Ojo.SelectedIndex = 0;
             }
 
         }
@@ -4116,7 +4148,10 @@ namespace CapaVisual_Login
 
             _L_Articulo.BucarTipoVenta(Cbx_Pnl2_Trbajo);
             CargarComboLaboratorios();
+            CargarComboServicioLaboratorios();
 
+            cbVisionDerecha.Text = "Cerca";
+            cbVisionIzquierda.Text = "Cerca";
         }
 
 
@@ -4571,9 +4606,9 @@ namespace CapaVisual_Login
             if (TipoVenta == "Venta Directa")
             {
                 Cbx_Pnl2_Laboratorio.Visible = false;
-                this.Cbx_Pnl2_Ojo.Visible = false;
+                this.Cbx_Tap2_Ojo.Visible = false;
                 this.Txt_Pnl2_Examen.Visible = false;
-                Lbl_Pnl2_Num_Examen.Visible = false;
+                
                 label24.Visible = false;
                 Lbl_Pnl2_Fecha_Ofre.Visible = false;
                 Txt_Pnl2_Fecha_Ofre.Visible = false;
@@ -4581,7 +4616,7 @@ namespace CapaVisual_Login
                 Lbl_Pnl2_Servicio.Visible = false;
                 Cbx_Pnl2_Servicio.Visible = false;
                 Txt_Pnl2_Examen.Visible = false;
-                Lbl_Pnl2_Num_Examen.Visible = false;
+               
                 _FechaHoraOfrecida = _L_Articulo.ObtenerFechaHoraOfrecida("", Cbx_Pnl2_Trbajo.SelectedValue.ToString());
                 if (_FechaHoraOfrecida != null && _FechaHoraOfrecida.Count > 0)
                 {
@@ -4591,9 +4626,9 @@ namespace CapaVisual_Login
             }
             else if (TipoVenta == "Reparacion")
             {
-                this.Cbx_Pnl2_Ojo.Visible = false;
+                this.Cbx_Tap2_Ojo.Visible = false;
                 this.Txt_Pnl2_Examen.Visible = false;
-                Lbl_Pnl2_Num_Examen.Visible = false;
+                
                 label24.Visible = false;
                 Lbl_Pnl2_Fecha_Ofre.Visible = false;
                 Txt_Pnl2_Fecha_Ofre.Visible = false;
@@ -4616,7 +4651,7 @@ namespace CapaVisual_Login
             }
             else
             {
-            //    this.Cbx_Pnl2_Ojo.Visible = true;
+            //    this.Cbx_Tap2_Ojo.Visible = true;
             //    this.Txt_Pnl2_Examen.Visible = true;
             //    Lbl_Pnl2_Num_Examen.Visible = true;
             //    label24.Visible = true;
@@ -4641,6 +4676,7 @@ namespace CapaVisual_Login
                 {
                     Cbx_Pnl2_Trbajo.Enabled = false;
                     CargarComboLaboratorios();
+                    //CargarComboServicioLaboratorios();
                     ValidarTipoVenta(Cbx_Pnl2_Trbajo.Text);
                 }
             }
@@ -6195,8 +6231,8 @@ namespace CapaVisual_Login
             cilindroColumn.DataPropertyName = "Cilindro";
             cilindroColumn.HeaderText = "Cilindro";
             cilindroColumn.DecimalPlaces = 2;
-            cilindroColumn.Minimum = -10M;
-            cilindroColumn.Maximum = 8M;
+            cilindroColumn.Minimum = -5.75M;
+            cilindroColumn.Maximum = +5.75M;
             cilindroColumn.Increment = 0.25M;
             cilindroColumn.Width = 60;
             cilindroColumn.Resizable = DataGridViewTriState.False;
@@ -6257,7 +6293,7 @@ namespace CapaVisual_Login
             ejeColumn.DefaultCellStyle.Format = "000";
             ejeColumn.Width = 60;
             ejeColumn.Resizable = DataGridViewTriState.False;
-            ejeColumn.DecimalPlaces = 2;
+            //ejeColumn.DecimalPlaces = 2;
             ejeColumn.Increment = 0.25M;
             Dgv_Pnl2_cont.Columns.Add(ejeColumn);
 
@@ -6268,9 +6304,10 @@ namespace CapaVisual_Login
             adicionColumn.DataPropertyName = "Adicion";
             adicionColumn.HeaderText = "ADD";
             adicionColumn.DecimalPlaces = 2;
-            adicionColumn.Minimum = 0.75m;
-            adicionColumn.Maximum = 3.50M;
+            adicionColumn.Minimum = 0M;
+            adicionColumn.Maximum = +4.75M;
             adicionColumn.Width = 60;
+            adicionColumn.Increment = 1M;
             adicionColumn.Resizable = DataGridViewTriState.False;
             Dgv_Pnl2_cont.Columns.Add(adicionColumn);
 
@@ -6283,6 +6320,7 @@ namespace CapaVisual_Login
             C_baseColumn.Minimum = 6.6M;
             C_baseColumn.Maximum = 10M;
             C_baseColumn.Width = 60;
+            C_baseColumn.Increment = 1M;
             C_baseColumn.Resizable = DataGridViewTriState.False;
             Dgv_Pnl2_cont.Columns.Add(C_baseColumn);
 
@@ -6462,8 +6500,8 @@ namespace CapaVisual_Login
             cilindroColumn.DataPropertyName = "Cilindro";
             cilindroColumn.HeaderText = "Cilindro";
             cilindroColumn.DecimalPlaces = 2;
-            cilindroColumn.Minimum = -8M;
-            cilindroColumn.Maximum = 10M;
+            cilindroColumn.Minimum = -5.75M;
+            cilindroColumn.Maximum = +5.75M;
             cilindroColumn.Increment = 1M;
 
             Dgv_Pnl2_conv.Columns.Add(cilindroColumn);
@@ -6527,7 +6565,7 @@ namespace CapaVisual_Login
             ejeColumn.HeaderText = "Eje";
             ejeColumn.Minimum = 0M;
             ejeColumn.Maximum = 180M;
-            ejeColumn.Increment = 5M;
+            ejeColumn.Increment = 0.25M;
             // Formato personalizado para mostrar siempre 3 dígitos
             ejeColumn.DefaultCellStyle.Format = "000";
             Dgv_Pnl2_conv.Columns.Add(ejeColumn);
@@ -6539,9 +6577,9 @@ namespace CapaVisual_Login
             adicionColumn.DataPropertyName = "Adicion";
             adicionColumn.HeaderText = "Adición";
             adicionColumn.DecimalPlaces = 2;
-            adicionColumn.Minimum = 0.75M;
-            adicionColumn.Maximum = 3.5M;
-            adicionColumn.Increment = 0.25M;
+            adicionColumn.Minimum = 0M;
+            adicionColumn.Maximum = +4.75M;
+            adicionColumn.Increment = 1M;
             // Formato personalizado para mostrar el signo + en números positivos
             //adicionColumn.DefaultCellStyle.Format = "+0.00;-0.00;0.00";
             Dgv_Pnl2_conv.Columns.Add(adicionColumn);
@@ -8756,6 +8794,7 @@ namespace CapaVisual_Login
                 btnExamen.Enabled = true;
 
 
+
                 // Limpiar los campos del formulario si es necesario
                 guardaclienteP();
 
@@ -9131,7 +9170,7 @@ namespace CapaVisual_Login
             {
 
                 Pnl_2_Msj.Visible = true;
-                txt_pl2_msj.Text = "El campo de Cédula no puede estar vacío.";
+                txt_pl2_msj.Text = "Llene el campo cédula para continuar";
                 //pb_pl2_mj.Visible = true;
 
                 //MessageBox.Show("El campo de Cédula no puede estar vacío.", "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
@@ -10546,6 +10585,7 @@ namespace CapaVisual_Login
                     //pb_pl2_mj.Visible = false;
                     if (tabControl.SelectedIndex == 1)
                     {
+                        btnCargarOrden.Enabled = true;
                         tabControl.SelectedIndex = 2;
                     }
                     else
@@ -10569,6 +10609,7 @@ namespace CapaVisual_Login
             }
 
             LLenar_TbTrabajo();
+            
         }
 
         private bool ValidarCont_AllOrNoneZero()
@@ -10660,7 +10701,7 @@ namespace CapaVisual_Login
 
         private bool ValidarVisionConv()
         {
-            if (Cbx_Pnl2_Ojo.Text == "AMBOS" && cbVisionDerecha.Text != cbVisionIzquierda.Text && cbVisionIzquierda.Text != "BALANCE" && cbVisionDerecha.Text != "BALANCE")
+            if (Cbx_Tap2_Ojo.Text == "AMBOS" && cbVisionDerecha.Text != cbVisionIzquierda.Text && cbVisionIzquierda.Text != "BALANCE" && cbVisionDerecha.Text != "BALANCE")
             {
                 Pnl_2_Msj.Visible = true;
                 txt_pl2_msj.Text = "Debe colocar tipos de visión validos La combinación posible es el mismo tipo de visión o Balance";
@@ -11821,13 +11862,16 @@ namespace CapaVisual_Login
         {
             if ((tipoVenta == "01" && tipoExamen == "CONTACTO") ||  (tipoVenta == "02" && tipoExamen == "CONVENCIONAL"))
             {
+                Btn_Tap3_Cancelar.PerformClick();
+
                 _FrmMensajes.co = 2;
                 _FrmMensajes.avisomensaje("El examen seleccionado no aplica para este tipo de trabajo");
                 _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
                 _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
                 _FrmMensajes.ShowDialog();
 
-                CargarComboServicioLaboratorios();
+
+                //CargarComboServicioLaboratorios();
 
                 if (tipoExamen == "CONTACTO")
                 {
@@ -11839,7 +11883,7 @@ namespace CapaVisual_Login
                 }
                 return false;
             }
-            if ((tipoVenta == "01" || tipoVenta == "02") && ((Cbx_Pnl2_Ojo.Text == "") ||  (Cbx_Pnl2_Ojo.Text == "Ambos" &&  cbVisionDerecha.Text == "" || cbVisionIzquierda.Text == "") || (Cbx_Pnl2_Ojo.Text == "DERECHO" && cbVisionDerecha.Text == "") || (Cbx_Pnl2_Ojo.Text == "IZQUIERDO" && cbVisionIzquierda.Text == "")))
+            if ((tipoVenta == "01" || tipoVenta == "02") && ((Cbx_Tap2_Ojo.Text == "") ||  (Cbx_Tap2_Ojo.Text == "Ambos" &&  cbVisionDerecha.Text == "" || cbVisionIzquierda.Text == "") || (Cbx_Tap2_Ojo.Text == "DERECHO" && cbVisionDerecha.Text == "") || (Cbx_Tap2_Ojo.Text == "IZQUIERDO" && cbVisionIzquierda.Text == "")))
             {
                 _FrmMensajes.co = 2;
                 _FrmMensajes.avisomensaje("Seleccione el ojo y tipo de visión");
