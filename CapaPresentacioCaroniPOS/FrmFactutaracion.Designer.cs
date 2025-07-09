@@ -585,8 +585,8 @@ namespace CapaVisual_Login
             this.DgvListadoOrdenes.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.DgvListadoOrdenes.RowHeadersVisible = false;
             this.DgvListadoOrdenes.RowHeadersWidth = 51;
-            this.DgvListadoOrdenes.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.DgvListadoOrdenes.Size = new System.Drawing.Size(1052, 150);
+            this.DgvListadoOrdenes.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.DgvListadoOrdenes.Size = new System.Drawing.Size(1049, 150);
             this.DgvListadoOrdenes.TabIndex = 17;
             this.DgvListadoOrdenes.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvListadoOrdenes_CellContentClick);
             this.DgvListadoOrdenes.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.DgvListadoOrdenes_CellPainting);
@@ -787,7 +787,7 @@ namespace CapaVisual_Login
             this.DgvAbonos.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.DgvAbonos.RowHeadersVisible = false;
             this.DgvAbonos.RowHeadersWidth = 51;
-            this.DgvAbonos.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.DgvAbonos.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.DgvAbonos.Size = new System.Drawing.Size(358, 135);
             this.DgvAbonos.TabIndex = 33;
             // 

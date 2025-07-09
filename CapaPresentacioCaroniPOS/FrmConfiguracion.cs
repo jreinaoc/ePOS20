@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using CapaDatos.DetalleOrden_Datos;
 
 
 namespace CapaVisual_Login
@@ -31,6 +32,7 @@ namespace CapaVisual_Login
 
         public string cod;
         public string Signal;
+        private D_DetalleOrden _D_DetalleOrden = new D_DetalleOrden();
 
         // public string BaseDatos = Convert.ToString(ConfigurationManager.AppSettings.Get("Initial Catalog"));
         //public string Serv = Convert.ToString(ConfigurationManager.AppSettings.Get("Servidor"));
@@ -63,8 +65,8 @@ namespace CapaVisual_Login
             string FCatalog = ";"; // parametro para realizar recorte de string
             string BD = stringBetween(conexion, ICatalog, FCatalog); // Funcion para obtener exactamente la base de datos
             string Servidor = stringBetween(conexion, ISource, FSource);// Funcion para obtener exactamente el servisor 
-
-
+            string diasOsAbonadas = _D_DetalleOrden.TB_PARAMETRO("LimTiempoOsAbo");
+            txtDiasAbo.Text = diasOsAbonadas;
             //string pruebita = Assembly.GetExecutingAssembly().GetName().Version.ToString(); // Esta es una prueba que trae la version del ensamblado
 
             // Para desaparecer los bordes del gruopbox
@@ -170,7 +172,7 @@ namespace CapaVisual_Login
             string PeriodoHasta;
             string TipoGrafico;
 
-            _L_Configuracion.CargarDatosMetas(CodEmpleado, PeriodoM, UnidadesMetas, IngresosBs);
+            _L_Configuracion.CargarDatosMetas(CodEmpleado, PeriodoM, UnidadesMetas, IngresosBs, txtDiasAbo.Text);
             // Validacion para mostrar grafico de metas o de ventas
             if (CbMostrarMetas.Checked)
             {
