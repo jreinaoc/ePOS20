@@ -1710,6 +1710,13 @@ namespace CapaVisual_Login
                 Cbx_Tap2_Ojo.Text = "AMBOS";
                 cbVisionDerecha.Text = "Cerca";
                 cbVisionIzquierda.Text = "Cerca";
+
+                label24.Visible = true;
+                Cbx_Tap2_Ojo.Visible = true;
+                label26.Visible = true;
+                cbVisionDerecha.Visible = true;
+                label33.Visible = true;
+                cbVisionIzquierda.Visible = true;
             }
 
             catch (Exception ex)
@@ -1747,7 +1754,7 @@ namespace CapaVisual_Login
                 DataGridViewButtonCell celBoton = this.Dgv_Tap3_Articulo.Rows[e.RowIndex].Cells["Eliminar"] as DataGridViewButtonCell;
                 Icon IconAtomico;
 
-                IconAtomico = new Icon(Environment.CurrentDirectory + @"\\Eliminar_Ordenes.ico");
+                IconAtomico = new Icon(Environment.CurrentDirectory + @"\\cuadraditoOscuro2.ico");
                 HabEliminar = true; //Se manda señal de boton ACTIVADO para realizar validaciones posteriores
 
                 // Calcula un nuevo tamaño para el icono si quieres hacerlo más pequeño
@@ -3539,8 +3546,7 @@ namespace CapaVisual_Login
        string Descripcion_Tipo_Venta
    )
         {
-            nuevoTrabajo.TSucursal =
-                _D_DetalleOrden.TB_PARAMETRO("sucursalId");
+            nuevoTrabajo.TSucursal = codigoSucursal;
             nuevoTrabajo.TNumOrdserv = tNumOrdserv;
             nuevoTrabajo.THORIZONTAL = tHorizontal;
             nuevoTrabajo.TVERTICAL = tVertical;
@@ -3573,9 +3579,10 @@ namespace CapaVisual_Login
             nuevoTrabajo.TALTI = Dgv_Pnl2_conv.Rows[1].Cells["ALTURA"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[1].Cells["ALTURA"].Value) : 0;
             nuevoTrabajo.TTIPOVISIOND = cbVisionDerecha.Text;//Dgv_Pnl2_conv.Rows[0].Cells["VISION"]?.Value?.ToString() ?? " ";
             nuevoTrabajo.TTIPOVISIONI = cbVisionIzquierda.Text;
-            nuevoTrabajo.TSucursal = _D_DetalleOrden.TB_PARAMETRO("SucursalID");
+            nuevoTrabajo.TSucursal = codigoSucursal;
             nuevoTrabajo.TTIPOTRABAJO = "002";
             nuevoTrabajo.USERCREA = TB_USUARIO.COD_USR;
+            
             if (Dgv_Pnl2_medconv.Rows.Count > 0)
             {
 
@@ -4144,7 +4151,7 @@ namespace CapaVisual_Login
 
             cbMotivosGarantia.DataSource = dtMotivosGarantia;
 
-            dgvOrdenesGarantia.DataSource = _L_Cliente.ObtenerClienteConGarantia(_D_DetalleOrden.TB_PARAMETRO("SucursalID"), Txt_Tap1_Cedula.Text, Cbx_Tap1_Nacionalidad.Text); // Usa la instancia _L_Cliente
+            dgvOrdenesGarantia.DataSource = _L_Cliente.ObtenerClienteConGarantia(codigoSucursal, Txt_Tap1_Cedula.Text, Cbx_Tap1_Nacionalidad.Text); // Usa la instancia _L_Cliente
 
             _L_Articulo.BucarTipoVenta(Cbx_Pnl2_Trbajo);
             CargarComboLaboratorios();
@@ -4152,6 +4159,7 @@ namespace CapaVisual_Login
 
             cbVisionDerecha.Text = "Cerca";
             cbVisionIzquierda.Text = "Cerca";
+
         }
 
 
@@ -4623,6 +4631,13 @@ namespace CapaVisual_Login
                     FechaHoraOfrecida resultado = _FechaHoraOfrecida.First();
                     Txt_Pnl2_Fecha_Ofre.Text = $"{resultado.FechaOfrecida:dd/MM/yyyy}";
                 }
+
+                label24.Visible = false;
+                Cbx_Tap2_Ojo.Visible = false;
+                label26.Visible = false;
+                cbVisionDerecha.Visible = false;
+                label33.Visible = false;
+                cbVisionIzquierda.Visible = false;
             }
             else if (TipoVenta == "Reparacion")
             {
@@ -4632,6 +4647,13 @@ namespace CapaVisual_Login
                 label24.Visible = false;
                 Lbl_Pnl2_Fecha_Ofre.Visible = false;
                 Txt_Pnl2_Fecha_Ofre.Visible = false;
+
+                label24.Visible = false;
+                Cbx_Tap2_Ojo.Visible = false;
+                label26.Visible = false;
+                cbVisionDerecha.Visible = false;
+                label33.Visible = false;
+                cbVisionIzquierda.Visible = false;
             }
             else if (TipoVenta == "TC- Reposicion de Garantia" && string.IsNullOrEmpty(Os_Garantia_Trabajo) && string.IsNullOrEmpty(Numero_Examen_Garantia_Trabajo))
             {
@@ -4909,13 +4931,13 @@ namespace CapaVisual_Login
             }
            
 
-            if (Cbx_Tap2_Ojo.SelectedItem?.ToString() == "OJO IZQUIERDO")
+            if (Cbx_Tap2_Ojo.Text == "Izquierdo")
             {
                 cbVisionIzquierda.Enabled = true;
                 cbVisionDerecha.Enabled = false;
             }
 
-            if (Cbx_Tap2_Ojo.SelectedItem?.ToString() == "AMBOS")
+            if (Cbx_Tap2_Ojo.Text == "Ambos")
             {
                 cbVisionIzquierda.Enabled = true;
                 cbVisionDerecha.Enabled = true;
@@ -5612,7 +5634,11 @@ namespace CapaVisual_Login
         private void Btn_Pnl3_Cancelar_Click(object sender, EventArgs e)
         {
             LimpiarCamposTodos();
+            Cbx_Pnl2_Trbajo.SelectedIndex = 0;
+            LimpiarGrid();
             btnCargarOrden.Enabled = false;
+       
+            //Btn_Tap3_Cancelar.PerformClick();
             BloquearCamposE();
         }
 
@@ -6067,7 +6093,7 @@ namespace CapaVisual_Login
             Ang_PantColumn.DataPropertyName = "T_ANGULOPANTOSCOPICO";
             Ang_PantColumn.HeaderText = "AP";
             //Ang_PantColumn.HeaderText = "DV";
-            Ang_PantColumn.DecimalPlaces = 2;
+            //Ang_PantColumn.DecimalPlaces = 2;
             Ang_PantColumn.Minimum = -5;
             Ang_PantColumn.Maximum = 30;
             Ang_PantColumn.Increment = 1;
@@ -6093,7 +6119,7 @@ namespace CapaVisual_Login
             DDLColumn.DecimalPlaces = 2;
             DDLColumn.Minimum = 0.25M;
             DDLColumn.Maximum = 0.50M;
-            Ang_PantColumn.Increment = 0.01M;
+            DDLColumn.Increment = 0.01M;
             Dgv_Pnl2_medconv.Columns.Add(DDLColumn);
 
         }
@@ -6294,7 +6320,7 @@ namespace CapaVisual_Login
             ejeColumn.Width = 60;
             ejeColumn.Resizable = DataGridViewTriState.False;
             //ejeColumn.DecimalPlaces = 2;
-            ejeColumn.Increment = 0.25M;
+            ejeColumn.Increment =1M;
             Dgv_Pnl2_cont.Columns.Add(ejeColumn);
 
 
@@ -6302,12 +6328,12 @@ namespace CapaVisual_Login
             DataGridViewNumericUpDownColumn adicionColumn = new DataGridViewNumericUpDownColumn();
             adicionColumn.Name = "Adicion";
             adicionColumn.DataPropertyName = "Adicion";
-            adicionColumn.HeaderText = "ADD";
+            adicionColumn.HeaderText = "ADDcont";
             adicionColumn.DecimalPlaces = 2;
-            adicionColumn.Minimum = 0M;
-            adicionColumn.Maximum = +4.75M;
+            adicionColumn.Minimum = 0.75M;
+            adicionColumn.Maximum = +3.50M;
             adicionColumn.Width = 60;
-            adicionColumn.Increment = 1M;
+            adicionColumn.Increment = 0.25M;
             adicionColumn.Resizable = DataGridViewTriState.False;
             Dgv_Pnl2_cont.Columns.Add(adicionColumn);
 
@@ -6331,6 +6357,7 @@ namespace CapaVisual_Login
             DiametroColumn.DecimalPlaces = 2;
             DiametroColumn.Minimum = 8.5M;
             DiametroColumn.Maximum = 14.5M;
+            DiametroColumn.Increment = 0.50M;
             DiametroColumn.Width = 60;
             DiametroColumn.Resizable = DataGridViewTriState.False;
             Dgv_Pnl2_cont.Columns.Add(DiametroColumn);
@@ -6565,7 +6592,7 @@ namespace CapaVisual_Login
             ejeColumn.HeaderText = "Eje";
             ejeColumn.Minimum = 0M;
             ejeColumn.Maximum = 180M;
-            ejeColumn.Increment = 0.25M;
+            ejeColumn.Increment = 1M;
             // Formato personalizado para mostrar siempre 3 dígitos
             ejeColumn.DefaultCellStyle.Format = "000";
             Dgv_Pnl2_conv.Columns.Add(ejeColumn);
@@ -6579,7 +6606,7 @@ namespace CapaVisual_Login
             adicionColumn.DecimalPlaces = 2;
             adicionColumn.Minimum = 0M;
             adicionColumn.Maximum = +4.75M;
-            adicionColumn.Increment = 1M;
+            adicionColumn.Increment = 0.25M;
             // Formato personalizado para mostrar el signo + en números positivos
             //adicionColumn.DefaultCellStyle.Format = "+0.00;-0.00;0.00";
             Dgv_Pnl2_conv.Columns.Add(adicionColumn);
@@ -6609,6 +6636,9 @@ namespace CapaVisual_Login
             agudezaColumn.DataPropertyName = "Agudeza";
             agudezaColumn.HeaderText = " ";
             agudezaColumn.ReadOnly = true; // Hace que la columna no sea editable
+            //agudezaColumn.Minimum = 0M;
+            //agudezaColumn.Maximum = 400M;
+            //agudezaColumn.Increment = 1M;
             Dgv_Pnl2_conv.Columns.Add(agudezaColumn);
 
             // Asigna el valor "20" a todas las filas existentes en la columna "Agudeza"
@@ -6639,7 +6669,7 @@ namespace CapaVisual_Login
             VisualColumn.DataPropertyName = "Visual";
             VisualColumn.HeaderText = "Agudeza";
             VisualColumn.DecimalPlaces = 0;
-            VisualColumn.Minimum = 20;
+            VisualColumn.Minimum = 0;
             VisualColumn.Maximum = 400;
             Dgv_Pnl2_conv.Columns.Add(VisualColumn);
             //if (Dgv_Pnl2_conv.Columns.Contains("VisualColumn"))
@@ -6671,7 +6701,7 @@ namespace CapaVisual_Login
             AlturaColumn.Name = "Altura";
             AlturaColumn.DataPropertyName = "Altura";
             AlturaColumn.HeaderText = "Altura";
-            AlturaColumn.Minimum = 0;
+            AlturaColumn.Minimum = 10;
             AlturaColumn.Maximum = 35;
             // Formato personalizado para mostrar siempre 3 dígitos
             AlturaColumn.DefaultCellStyle.Format = "000";
@@ -6759,7 +6789,7 @@ namespace CapaVisual_Login
         private void ConfigurarDgv_Pnl2_Quera()
         {
             this.Dgv_Pnl2_Querato.DefaultCellStyle.Font = new Font("Century Gothic", 13);
-            this.Dgv_Pnl2_Querato.ColumnHeadersDefaultCellStyle.Font = new Font("Century Gothic", 10);
+            this.Dgv_Pnl2_Querato.ColumnHeadersDefaultCellStyle.Font = new Font("Century Gothic", 8);
             // Crear un DataTable para almacenar los datos del DataGridView
             DataTable dt = new DataTable();
 
@@ -10148,12 +10178,14 @@ namespace CapaVisual_Login
 
                 nuevoExamen.OBSERVACIONES = txt_Pnl2_observa.Text.Trim();
                 nuevoExamen.CodigoMimesys = txt_Pnl2_conv_mimesys.Text.Trim();
-                nuevoExamen.COD_Sucursal = _D_DetalleOrden.TB_PARAMETRO("SucursalID"); 
+                nuevoExamen.COD_Sucursal = codigoSucursal;
+                nuevoExamen.USER_CREA  = TB_USUARIO.COD_USR;
+                nuevoExamen.USER_MOD = TB_USUARIO.COD_USR;
                 //METOD DE GUARDARR OFT
                 //nuevoFicconv.OFTD = txt_Pnl2_oftd.Text.Trim();
                 //nuevoFicconv.OFTI = txt_Pnl2_ofti.Text.Trim();
 
-                nuevoTrabajo.TSucursal = _D_DetalleOrden.TB_PARAMETRO("SucursalID");
+                nuevoTrabajo.TSucursal = codigoSucursal;
                 nuevoTrabajo.TTIPOTRABAJO = "002";
                 nuevoTrabajo.USERCREA = TB_USUARIO.COD_USR;
 
@@ -10443,17 +10475,17 @@ namespace CapaVisual_Login
             }
 
             // Validar Cbx_Tap2_Ojo
-            if (Cbx_Tap2_Ojo.SelectedItem == null || string.IsNullOrEmpty(Cbx_Tap2_Ojo.Text))
-            {
+            //if (Cbx_Tap2_Ojo.SelectedItem == null || string.IsNullOrEmpty(Cbx_Tap2_Ojo.Text))
+            //{
 
-                Pnl_2_Msj.Visible = true;
-                txt_pl2_msj.Text = " Seleccionar un valor para  ojo";
-                //pb_pl2_mj.Visible = true;
+            //    Pnl_2_Msj.Visible = true;
+            //    txt_pl2_msj.Text = " Seleccionar un valor para  ojo";
+            //    //pb_pl2_mj.Visible = true;
 
-                todosValidos = false;
-                Cbx_Tap2_Ojo.Focus();
-                return todosValidos; // Salir anticipadamente si este no es válido
-            }
+            //    todosValidos = false;
+            //    Cbx_Tap2_Ojo.Focus();
+            //    return todosValidos; // Salir anticipadamente si este no es válido
+            //}
 
             return todosValidos; // Salir anticipadamente si este no es válido
         }
@@ -10602,10 +10634,13 @@ namespace CapaVisual_Login
             if (_D_DetalleOrden.TB_PARAMETRO("EditarGridFact") == "1")
             {
                 Txt_Tap3_Articulo_Precio.Enabled = true;
+                Txt_Tap3_Articulo_Precio.ForeColor = Color.Black;
+
             }
             else
             {
                 Txt_Tap3_Articulo_Precio.Enabled = false;
+                Txt_Tap3_Articulo_Precio.ForeColor = Color.DarkGray;
             }
 
             LLenar_TbTrabajo();
@@ -11873,14 +11908,14 @@ namespace CapaVisual_Login
 
                 //CargarComboServicioLaboratorios();
 
-                if (tipoExamen == "CONTACTO")
-                {
-                    Cbx_Pnl2_Trbajo.SelectedIndex = 1;
-                }
-                else if (tipoExamen == "CONVENCIONAL")
-                {
-                    Cbx_Pnl2_Trbajo.SelectedIndex = 0;
-                }
+                //if (tipoExamen == "CONTACTO")
+                //{
+                //    Cbx_Pnl2_Trbajo.SelectedIndex = 1;
+                //}
+                //else if (tipoExamen == "CONVENCIONAL")
+                //{
+                //    Cbx_Pnl2_Trbajo.SelectedIndex = 0;
+                //}
                 return false;
             }
             if ((tipoVenta == "01" || tipoVenta == "02") && ((Cbx_Tap2_Ojo.Text == "") ||  (Cbx_Tap2_Ojo.Text == "Ambos" &&  cbVisionDerecha.Text == "" || cbVisionIzquierda.Text == "") || (Cbx_Tap2_Ojo.Text == "DERECHO" && cbVisionDerecha.Text == "") || (Cbx_Tap2_Ojo.Text == "IZQUIERDO" && cbVisionIzquierda.Text == "")))
