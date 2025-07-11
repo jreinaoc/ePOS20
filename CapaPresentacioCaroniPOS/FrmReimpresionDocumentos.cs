@@ -1,5 +1,6 @@
 ﻿using CapaDatos.Inicio_Datos;
 using CapaDatos.TasaDia_Datos;
+using CapaEntidades;
 using CapaLogica.Impresora_Fiscal;
 using System;
 using System.Collections.Generic;
@@ -68,7 +69,7 @@ namespace CapaVisual_Login
                 resp = objVmax.ObtenerReporteInformativo();
                 string SerialImpresora = objVmax.RetornoMI.sSerial;
                 resp = objVmax.CerrarPuerto();
-                SerialImpresora = "TIX2490051";
+                //SerialImpresora = "TIX2490085";
                 string TipoDocumento = "";
 
                     // Asume que el ComboBox tiene los textos: "Factura", "Nota de credito", "Reporte Z"
@@ -103,33 +104,82 @@ namespace CapaVisual_Login
 
         public bool BuscarDocumento(string TipoDocumen, bool TipoUsuario, DateTime FechaDesde, string SerialImpresora, DateTime? FechaHasta = null)
         {
+            // Desvincular el DataGridView de su fuente de datos
+            gexMensajesDANA.DataSource = null;
+            gexMensajesDANA.DataMember = null;
 
-                DateTime fechaHastaFinal = FechaHasta ?? DateTime.Today;
-                DataTable dt4= null;
-                //CrearTabla(dt4);
-                DataSet ds =  _D_TasaSecuencia.Reimprimir_Documentos(TipoDocumen,TipoUsuario, FechaDesde, fechaHastaFinal, SerialImpresora);
-            dt4 = ds.Tables[0];
-            gexMensajesDANA.DataSource = dt4;
-                FormatoTabla();
-                DataRow dr2;
+            // Eliminar todas las filas
+            gexMensajesDANA.Rows.Clear();
 
-            // Verificar si el DataTable tiene filas antes de recorrer
-            if (ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+            // Eliminar todas las columnas
+            gexMensajesDANA.Columns.Clear();
+
+            // Verificar y eliminar la columna "Eliminar" si existe
+            var dataGridViewColumn2 = gexMensajesDANA.Columns["E"];
+            if (dataGridViewColumn2 != null)
             {
-                foreach (DataRow dr in ds.Tables[0].Rows)
-                {
-                    dr2 = dt4.NewRow();
-                    dr2["E"] = false;
-                    dr2["TipoDocumen"] = dr["TipoDocumen"];
-                    dr2["NumeroDocumento"] = dr["NumeroDocumento"];
-                    dr2["Fecha"] = Convert.ToDateTime(dr["Fecha"]).ToString("dd/MM/yyyy");
-                    dt4.Rows.Add(dr2);
-                }
+                gexMensajesDANA.Columns.Remove(dataGridViewColumn2);
             }
 
-            gexMensajesDANA.DataSource = dt4;
-                FormatoTabla();
-                return true;
+
+
+            DateTime fechaHastaFinal = FechaHasta ?? DateTime.Today;
+
+            DataSet ds = _D_TasaSecuencia.Reimprimir_Documentos(TipoDocumen, TipoUsuario, FechaDesde, fechaHastaFinal, SerialImpresora);
+
+            // Verificar si hay datos
+            if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
+            {
+                gexMensajesDANA.DataSource = new DataTable(); // Asignar tabla vacía para limpiar grid
+                return false;
+            }
+
+            // Clonar estructura original
+            DataTable dtResultado = ds.Tables[0].Clone();
+
+            // Configurar el grid antes de asignar datos
+            gexMensajesDANA.DataSource = dtResultado;
+
+            // Agregar columna de selección directamente al grid
+            if (!gexMensajesDANA.Columns.Contains("E"))
+            {
+                DataGridViewCheckBoxColumn checkColumn = new DataGridViewCheckBoxColumn();
+                checkColumn.Name = "E";
+                checkColumn.HeaderText = "";
+                checkColumn.Width = 80;
+                checkColumn.FalseValue = false;
+                checkColumn.TrueValue = true;
+                gexMensajesDANA.Columns.Insert(0, checkColumn); // Insertar como primera columna
+            }
+
+            // Llenar los datos
+            foreach (DataRow dr in ds.Tables[0].Rows)
+            {
+                DataRow newRow = dtResultado.NewRow();
+
+                // Copiar los datos originales
+                foreach (DataColumn col in dtResultado.Columns)
+                {
+                    if (col.ColumnName == "Fecha")
+                    {
+                        newRow[col] = Convert.ToDateTime(dr["Fecha"]).ToString("dd/MM/yyyy");
+                    }
+                    else
+                    {
+                        newRow[col] = dr[col.ColumnName];
+                    }
+                }
+
+                dtResultado.Rows.Add(newRow);
+            }
+
+            // Asignar los datos con la estructura completa
+            gexMensajesDANA.DataSource = dtResultado;
+
+            // Aplicar formato
+            FormatoTabla();
+
+            return true;
 
         }
 
@@ -253,14 +303,240 @@ namespace CapaVisual_Login
             }
         }
 
-        private void lbl_Utiliarios_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void button5_Click(object sender, EventArgs e)
         {
             ImprimirDocumentoUsuarioSistema();
         }
+
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                this.Cursor = Cursors.WaitCursor;
+                button6.Enabled = false;
+                btn_pg5_reporteX.Enabled = false;
+                button4.Enabled = false;
+                button5.Enabled = false;
+                uint Resp;
+                Resp = objVmax.AbrirPuerto(Convert.ToString(glbPuertoCOM));
+                Resp = objVmax.ReporteZ();
+                Resp = objVmax.CerrarPuerto();
+
+                //CapturaReportesZFaltantes();
+
+                //Crea_ACC_REPORTESZ(glbSucursalActual, glbFechaActiva, 0);
+
+                //bool Resp;
+
+                //if (VerificoReporteZ(Command))
+                //{
+                //    var oReporteZ = new CapaNegocio.ReportesZ();
+                //    string fecha = DateTime.Now.ToString("MM/dd/yyyy");
+
+                //    objVmax.AbrirPuerto(glbPuertoCOM);
+                //    btnProcesarReporteZ.Enabled = false;
+                //    Resp = objVmaxVmax.LeoDatosFiscales();
+                //    Resp = objVmax.CierreDiario("Z");
+
+                //    Thread.Sleep(18000);
+
+                //    Resp = objVmax.LeeZ("");
+                //    this.Cursor = Cursors.Default;
+
+                //    if (Resp)
+                //    {
+                //        while (objVmax.rNumZ == null)
+                //        {
+                //            Resp = objVmax.LeeZ("");
+                //        }
+
+                //        if (Resp && objVmax.rNumZ != null)
+                //        {
+                //            string NumZ = objVmax.rNumZ;
+
+                //            Resp = objVmax.LeeZ(Convert.ToInt32(NumZ));
+                //            string BaseEx = objVmax.rBaseE;
+                //            string BaseGr = objVmax.rBaseG;
+                //            string BaseGrA = objVmax.rBaseA;
+                //            string BaseGrR = objVmax.rBaseR;
+                //            string Alicuota = objVmax.rTasaG;
+                //            string AlicuotaA = objVmax.rTasaA;
+                //            string AlicuotaR = objVmax.rTasaR;
+                //            string UltimaFact = objVmax.rUltimaFacturaZ;
+                //            string SerialZ = objVmax.rSerialZ;
+                //            string totalFact = objVmax.rTotalFacturas;
+                //            string totalNC = objVmax.rTotalNotasCredito;
+                //            string FechaHoraRep = objVmax.rFechaHoraZ;
+                //            string NotaExento = objVmax.rDevE;
+                //            string NotaGravable = objVmax.rDevG;
+                //            string NotaGravA = objVmax.rDevA;
+                //            string NotaGravR = objVmax.rDevR;
+
+                //            string FechaRepAnterioraEste;
+                //            objVmax.LeeZ(Convert.ToInt32(NumZ) - 1);
+                //            FechaRepAnterioraEste = objVmax.rFechaHoraZ;
+
+                //            objVmax.CerrarPuerto();
+
+                //            string Val1 = "";
+                //            string Val2 = "";
+
+                //            DataSet dsReporteZ = _D_TasaSecuencia.GuardarReporteZ(FechaRepAnterioraEste,FechaHoraRep,NumZ,SerialZ,UltimaFact,totalFact,
+                //            totalNC,BaseEx,BaseGr,Alicuota,NotaExento,NotaGravable, _D_Inicio.Sucursal(), TB_USUARIO.COD_EMPLEADO, Val1, Val2,
+                //            BaseGrA,NotaGravA,AlicuotaA,BaseGrR,NotaGravR,AlicuotaR);
+                //            _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "054", TB_USUARIO.COD_EMPLEADO, "Reporte Z: "+ objVmax.rNumZ);
+                //            ReporteDiaImp = true;
+                //        }
+                //        else
+                //        {
+                //            mostrarError("Hubo problemas leyendo los datos del ultimo reporte Z desde la impresora fiscal. Comuniquese con sistemas");
+                //        }
+
+                //        buscarUltimoReporteZImpresora(Command);
+                //        buscarUltimoReporteZBD(Command);
+                //    }
+                //    else
+                //    {
+                //        mostrarError("Hubo problemas leyendo los datos del ultimo reporte Z desde la impresora fiscal. Comuniquese con sistemas");
+                //    }
+
+                //}
+            }
+            catch (Exception ex)
+            {
+                mostrarError($"Error en la función Reporte Z: {ex.Message}");
+            }
+
+            finally
+            {
+                button6.Enabled = true;
+                btn_pg5_reporteX.Enabled = true;
+                button4.Enabled = true;
+                button5.Enabled = true;
+                this.Cursor = Cursors.Default;
+            }
+        }
+
+
+        //private bool CapturaReportesZFaltantes(ref bool bErroresAlGuardar = false)
+        //{
+        //    try
+        //    {
+        //        uint Resp;
+        //        int x, IntentosDeLeer = 0;
+        //        string UltimoRepZ;
+        //        Resp=objVmax.AbrirPuerto(Convert.ToString(glbPuertoCOM));
+        //        Resp = objVmax.ObtenerReporteInformativo();
+        //        string SerialImpresora = objVmax.RetornoMI.sSerial;
+        //        UltimoRepZ = objVmax.RetornoMF.uiUltNumZ.ToString();
+        //        Resp = objVmax.CerrarPuerto();
+
+        //        int nUltimoRep = Convert.ToInt32(UltimoRepZ);
+        //        DataTable dtRepzFalt = _D_TasaSecuencia.ExecuteGetReportesZProcedure(_D_Inicio.Sucursal(), SerialImpresora, nUltimoRep);
+
+        //        if (dtRepzFalt != null)
+        //        {
+        //            barra.Minimum = 0;
+        //            barra.Maximum = dtRepzFalt.Rows.Count;
+        //            barra.Visible = true;
+
+        //            while (Resp != 0 ? false : true == false)
+        //            {
+        //                Resp = objVmax.LeeZ("");
+        //                IntentosDeLeer++;
+
+        //                if (IntentosDeLeer == 100)
+        //                {
+        //                    barra.Visible = false;
+        //                    return false;
+        //                }
+        //            }
+
+        //            foreach (DataRow Fila in dtRepzFalt.Rows)
+        //            {
+        //                string NumRepZFalt = Convert.ToInt32(Fila["Numero"].ToString()).ToString();
+
+        //                Resp = objVmax.LeeZ(NumRepZFalt);
+        //                if (Resp && objVmax.rNumZ != null)
+        //                {
+        //                    string NumZ = objVmax.rNumZ;
+        //                    string BaseEx = objVmax.rBaseE;
+        //                    string BaseGr = objVmax.rBaseG;
+        //                    string BaseGrA = objVmax.rBaseA;
+        //                    string BaseGrR = objVmax.rBaseR;
+        //                    string Alicuota = objVmax.rTasaG;
+        //                    string AlicuotaA = objVmax.rTasaA;
+        //                    string AlicuotaR = objVmax.rTasaR;
+        //                    string UltimaFact = objVmax.rUltimaFacturaZ;
+        //                    string SerialZ = objVmax.rSerialZ;
+        //                    string totalFact = objVmax.rTotalFacturas;
+        //                    string FechaHoraRep = objVmax.rFechaHoraZ;
+        //                    string totalNC = objVmax.rTotalNotasCredito;
+        //                    string NotaExento = objVmax.rDevE;
+        //                    string NotaGravable = objVmax.rDevG;
+        //                    string NotaGravA = objVmax.rDevA;
+        //                    string NotaGravR = objVmax.rDevR;
+
+        //                    string FechaRepAnterior;
+        //                    objVmax.LeeZ(Convert.ToInt32(NumZ) - 1);
+        //                    FechaRepAnterior = objVmax.rFechaHoraZ;
+
+        //                    if (!_D_TasaSecuencia.GuadarReportesZ(FechaRepAnterior, FechaHoraRep, NumZ, SerialZ, UltimaFact,
+        //                        totalFact, totalNC, BaseEx, BaseGr, Alicuota, NotaExento, NotaGravable,
+        //                         _D_Inicio.Sucursal(), TB_USUARIO.COD_EMPLEADO, "1", "", BaseGrA, NotaGravA, AlicuotaA,
+        //                        BaseGrR, NotaGravR, AlicuotaR))
+        //                    {
+        //                        bErroresAlGuardar = true;
+        //                    }
+        //                    barra.Value = barra.Value + 1;
+        //                }
+        //            }
+        //        }
+
+        //        objVmax.CerrarPuerto();
+        //        return true;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        mostrarError($"Error en la función Reporte Z: {ex.Message}");
+        //        return false;
+        //    }
+        //    finally
+        //    {
+        //        barra.Visible = false;
+        //    }
+        //}
+
+        private void btn_pg5_reporteX_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                this.Cursor = Cursors.WaitCursor;
+                button6.Enabled = false;
+                btn_pg5_reporteX.Enabled = false;
+                button4.Enabled = false;
+                button5.Enabled = false;
+                uint Resp;
+                Resp = objVmax.AbrirPuerto(Convert.ToString(glbPuertoCOM));
+                Resp = objVmax.ReporteX();
+                Resp = objVmax.CerrarPuerto();
+            }
+            catch (Exception ex)
+            {
+                mostrarError($"Error en la función Reporte X: {ex.Message}");
+            }
+
+            finally
+            {
+                button6.Enabled = true;
+                btn_pg5_reporteX.Enabled = true;
+                button4.Enabled = true;
+                button5.Enabled = true;
+                this.Cursor = Cursors.Default;
+            }
+        }
     }
-}
+ }
+

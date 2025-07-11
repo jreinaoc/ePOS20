@@ -29,13 +29,10 @@ namespace CapaVisual_Login
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             this.lbl_Utiliarios = new System.Windows.Forms.Label();
-            this.gexMensajesDANA = new System.Windows.Forms.DataGridView();
-            this.NúmeroDeDocumento = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Fecha = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DtReinHasta = new System.Windows.Forms.DateTimePicker();
             this.DtReinDesde = new System.Windows.Forms.DateTimePicker();
             this.button5 = new System.Windows.Forms.Button();
@@ -47,6 +44,7 @@ namespace CapaVisual_Login
             this.CbTipoDocumento = new System.Windows.Forms.ComboBox();
             this.lbl_TipoDocumento = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
+            this.gexMensajesDANA = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.gexMensajesDANA)).BeginInit();
             this.SuspendLayout();
             // 
@@ -59,75 +57,36 @@ namespace CapaVisual_Login
             this.lbl_Utiliarios.Size = new System.Drawing.Size(95, 25);
             this.lbl_Utiliarios.TabIndex = 45;
             this.lbl_Utiliarios.Text = "Utiliarios";
-            this.lbl_Utiliarios.Click += new System.EventHandler(this.lbl_Utiliarios_Click);
-            // 
-            // gexMensajesDANA
-            // 
-            this.gexMensajesDANA.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.gexMensajesDANA.BackgroundColor = System.Drawing.Color.White;
-            this.gexMensajesDANA.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
-            this.gexMensajesDANA.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(173)))));
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gexMensajesDANA.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
-            this.gexMensajesDANA.ColumnHeadersHeight = 25;
-            this.gexMensajesDANA.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            this.gexMensajesDANA.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.NúmeroDeDocumento,
-            this.Fecha});
-            this.gexMensajesDANA.EnableHeadersVisualStyles = false;
-            this.gexMensajesDANA.Location = new System.Drawing.Point(160, 202);
-            this.gexMensajesDANA.Name = "gexMensajesDANA";
-            this.gexMensajesDANA.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            this.gexMensajesDANA.RowHeadersVisible = false;
-            dataGridViewCellStyle6.BackColor = System.Drawing.Color.White;
-            this.gexMensajesDANA.RowsDefaultCellStyle = dataGridViewCellStyle6;
-            this.gexMensajesDANA.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
-            this.gexMensajesDANA.Size = new System.Drawing.Size(551, 150);
-            this.gexMensajesDANA.TabIndex = 44;
-            // 
-            // NúmeroDeDocumento
-            // 
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.NúmeroDeDocumento.DefaultCellStyle = dataGridViewCellStyle5;
-            this.NúmeroDeDocumento.FillWeight = 202.7865F;
-            this.NúmeroDeDocumento.HeaderText = "Número de documento";
-            this.NúmeroDeDocumento.Name = "NúmeroDeDocumento";
-            // 
-            // Fecha
-            // 
-            this.Fecha.FillWeight = 94.04593F;
-            this.Fecha.HeaderText = "Fecha";
-            this.Fecha.Name = "Fecha";
             // 
             // DtReinHasta
             // 
-            this.DtReinHasta.Location = new System.Drawing.Point(501, 167);
+            this.DtReinHasta.CustomFormat = "dd/MM/yyyy";
+            this.DtReinHasta.Font = new System.Drawing.Font("Century Gothic", 12F);
+            this.DtReinHasta.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.DtReinHasta.Location = new System.Drawing.Point(478, 178);
             this.DtReinHasta.Name = "DtReinHasta";
-            this.DtReinHasta.Size = new System.Drawing.Size(210, 20);
+            this.DtReinHasta.Size = new System.Drawing.Size(127, 27);
             this.DtReinHasta.TabIndex = 43;
             // 
             // DtReinDesde
             // 
-            this.DtReinDesde.Location = new System.Drawing.Point(276, 167);
+            this.DtReinDesde.CustomFormat = "dd/MM/yyyy";
+            this.DtReinDesde.Font = new System.Drawing.Font("Century Gothic", 12F);
+            this.DtReinDesde.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.DtReinDesde.Location = new System.Drawing.Point(337, 179);
             this.DtReinDesde.Name = "DtReinDesde";
-            this.DtReinDesde.Size = new System.Drawing.Size(215, 20);
+            this.DtReinDesde.Size = new System.Drawing.Size(127, 27);
             this.DtReinDesde.TabIndex = 42;
             // 
             // button5
             // 
             this.button5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(184)))), ((int)(((byte)(52)))));
             this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button5.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button5.Font = new System.Drawing.Font("Century Gothic", 12F);
             this.button5.ForeColor = System.Drawing.Color.White;
-            this.button5.Location = new System.Drawing.Point(624, 365);
+            this.button5.Location = new System.Drawing.Point(337, 374);
             this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(89, 24);
+            this.button5.Size = new System.Drawing.Size(101, 32);
             this.button5.TabIndex = 41;
             this.button5.Text = "Imprimir";
             this.button5.UseVisualStyleBackColor = false;
@@ -137,11 +96,11 @@ namespace CapaVisual_Login
             // 
             this.button6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(166)))), ((int)(((byte)(156)))));
             this.button6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button6.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button6.Font = new System.Drawing.Font("Century Gothic", 12F);
             this.button6.ForeColor = System.Drawing.Color.White;
-            this.button6.Location = new System.Drawing.Point(732, 165);
+            this.button6.Location = new System.Drawing.Point(625, 176);
             this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(89, 24);
+            this.button6.Size = new System.Drawing.Size(96, 34);
             this.button6.TabIndex = 40;
             this.button6.Text = "Buscar";
             this.button6.UseVisualStyleBackColor = false;
@@ -151,60 +110,66 @@ namespace CapaVisual_Login
             // 
             this.btn_pg5_reporteX.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(117)))), ((int)(((byte)(182)))));
             this.btn_pg5_reporteX.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_pg5_reporteX.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_pg5_reporteX.Font = new System.Drawing.Font("Century Gothic", 12F);
             this.btn_pg5_reporteX.ForeColor = System.Drawing.Color.White;
-            this.btn_pg5_reporteX.Location = new System.Drawing.Point(834, 165);
+            this.btn_pg5_reporteX.Location = new System.Drawing.Point(727, 176);
             this.btn_pg5_reporteX.Name = "btn_pg5_reporteX";
-            this.btn_pg5_reporteX.Size = new System.Drawing.Size(89, 24);
+            this.btn_pg5_reporteX.Size = new System.Drawing.Size(98, 34);
             this.btn_pg5_reporteX.TabIndex = 39;
             this.btn_pg5_reporteX.Text = "Reporte X";
             this.btn_pg5_reporteX.UseVisualStyleBackColor = false;
+            this.btn_pg5_reporteX.Click += new System.EventHandler(this.btn_pg5_reporteX_Click);
             // 
             // button4
             // 
             this.button4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(184)))), ((int)(((byte)(52)))));
             this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button4.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button4.Font = new System.Drawing.Font("Century Gothic", 12F);
             this.button4.ForeColor = System.Drawing.Color.White;
-            this.button4.Location = new System.Drawing.Point(934, 165);
+            this.button4.Location = new System.Drawing.Point(831, 177);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(89, 24);
+            this.button4.Size = new System.Drawing.Size(100, 34);
             this.button4.TabIndex = 38;
             this.button4.Text = "Reporte Z";
             this.button4.UseVisualStyleBackColor = false;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // lbl_hasta
             // 
             this.lbl_hasta.AutoSize = true;
-            this.lbl_hasta.Location = new System.Drawing.Point(498, 150);
+            this.lbl_hasta.Font = new System.Drawing.Font("Century Gothic", 12F);
+            this.lbl_hasta.Location = new System.Drawing.Point(475, 150);
             this.lbl_hasta.Name = "lbl_hasta";
-            this.lbl_hasta.Size = new System.Drawing.Size(35, 13);
+            this.lbl_hasta.Size = new System.Drawing.Size(56, 21);
             this.lbl_hasta.TabIndex = 37;
             this.lbl_hasta.Text = "Hasta";
             // 
             // lbl_desde
             // 
             this.lbl_desde.AutoSize = true;
-            this.lbl_desde.Location = new System.Drawing.Point(275, 150);
+            this.lbl_desde.Font = new System.Drawing.Font("Century Gothic", 12F);
+            this.lbl_desde.Location = new System.Drawing.Point(333, 150);
             this.lbl_desde.Name = "lbl_desde";
-            this.lbl_desde.Size = new System.Drawing.Size(38, 13);
+            this.lbl_desde.Size = new System.Drawing.Size(59, 21);
             this.lbl_desde.TabIndex = 36;
             this.lbl_desde.Text = "Desde";
             // 
             // CbTipoDocumento
             // 
+            this.CbTipoDocumento.Font = new System.Drawing.Font("Century Gothic", 12F);
             this.CbTipoDocumento.FormattingEnabled = true;
-            this.CbTipoDocumento.Location = new System.Drawing.Point(160, 166);
+            this.CbTipoDocumento.Location = new System.Drawing.Point(168, 181);
             this.CbTipoDocumento.Name = "CbTipoDocumento";
-            this.CbTipoDocumento.Size = new System.Drawing.Size(102, 21);
+            this.CbTipoDocumento.Size = new System.Drawing.Size(160, 29);
             this.CbTipoDocumento.TabIndex = 35;
             // 
             // lbl_TipoDocumento
             // 
             this.lbl_TipoDocumento.AutoSize = true;
-            this.lbl_TipoDocumento.Location = new System.Drawing.Point(157, 150);
+            this.lbl_TipoDocumento.Font = new System.Drawing.Font("Century Gothic", 12F);
+            this.lbl_TipoDocumento.Location = new System.Drawing.Point(164, 150);
             this.lbl_TipoDocumento.Name = "lbl_TipoDocumento";
-            this.lbl_TipoDocumento.Size = new System.Drawing.Size(99, 13);
+            this.lbl_TipoDocumento.Size = new System.Drawing.Size(164, 21);
             this.lbl_TipoDocumento.TabIndex = 34;
             this.lbl_TipoDocumento.Text = "Tipo de documento";
             // 
@@ -219,14 +184,57 @@ namespace CapaVisual_Login
             this.label10.Text = "Reimpresión de documentos";
             this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // gexMensajesDANA
+            // 
+            this.gexMensajesDANA.AllowUserToAddRows = false;
+            this.gexMensajesDANA.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.gexMensajesDANA.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.gexMensajesDANA.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
+            this.gexMensajesDANA.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
+            dataGridViewCellStyle7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(2)))), ((int)(((byte)(185)))), ((int)(((byte)(171)))));
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Bold);
+            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gexMensajesDANA.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            this.gexMensajesDANA.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Century Gothic", 8.25F);
+            dataGridViewCellStyle8.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.gexMensajesDANA.DefaultCellStyle = dataGridViewCellStyle8;
+            this.gexMensajesDANA.EnableHeadersVisualStyles = false;
+            this.gexMensajesDANA.GridColor = System.Drawing.SystemColors.ControlLightLight;
+            this.gexMensajesDANA.Location = new System.Drawing.Point(168, 216);
+            this.gexMensajesDANA.Name = "gexMensajesDANA";
+            this.gexMensajesDANA.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gexMensajesDANA.RowHeadersDefaultCellStyle = dataGridViewCellStyle9;
+            this.gexMensajesDANA.RowHeadersVisible = false;
+            this.gexMensajesDANA.RowHeadersWidth = 51;
+            this.gexMensajesDANA.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.gexMensajesDANA.Size = new System.Drawing.Size(270, 152);
+            this.gexMensajesDANA.TabIndex = 55;
+            // 
             // FrmReimpresionDocumentos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1157, 710);
-            this.Controls.Add(this.lbl_Utiliarios);
             this.Controls.Add(this.gexMensajesDANA);
+            this.Controls.Add(this.lbl_Utiliarios);
             this.Controls.Add(this.DtReinHasta);
             this.Controls.Add(this.DtReinDesde);
             this.Controls.Add(this.button5);
@@ -253,9 +261,6 @@ namespace CapaVisual_Login
         #endregion
 
         private System.Windows.Forms.Label lbl_Utiliarios;
-        private System.Windows.Forms.DataGridView gexMensajesDANA;
-        private System.Windows.Forms.DataGridViewTextBoxColumn NúmeroDeDocumento;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Fecha;
         private System.Windows.Forms.DateTimePicker DtReinHasta;
         private System.Windows.Forms.DateTimePicker DtReinDesde;
         private System.Windows.Forms.Button button5;
@@ -267,5 +272,6 @@ namespace CapaVisual_Login
         private System.Windows.Forms.ComboBox CbTipoDocumento;
         private System.Windows.Forms.Label lbl_TipoDocumento;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.DataGridView gexMensajesDANA;
     }
 }
