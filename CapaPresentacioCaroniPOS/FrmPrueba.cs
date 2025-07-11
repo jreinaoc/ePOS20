@@ -57,7 +57,7 @@ namespace CapaVisual_Login
             string RifCompania = "";
             DateTime DiaActivo = _D_Inicio.DiaActivo();
             string NombreSucursal = "";
-            bool imprimir = true;
+            bool imprimir = false;
 
             if (Datos.Tables[0].Rows.Count > 0)
             {
@@ -77,7 +77,7 @@ namespace CapaVisual_Login
             ////ReporteTranferencia(imprimir, RifCompania, Descripcion, NombreSucursal, Sucursal, DiaActivo.AddDays(-5));
             ReporteTranferencia(imprimir, RifCompania, Descripcion, NombreSucursal, Sucursal, DiaActivo);
             ReporteVuelto(imprimir, RifCompania, Descripcion, NombreSucursal, Sucursal, DiaActivo);
-            ReporteCierreCaja(imprimir, RifCompania, Descripcion, NombreSucursal, Sucursal, DiaActivo);
+            ReporteCierreCaja(imprimir, RifCompania, Descripcion, NombreSucursal, Sucursal, DiaActivo.AddDays(-7));
 
 
         }

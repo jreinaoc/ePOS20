@@ -52,7 +52,7 @@ namespace CapaDatos.Configuracion
         }
 
 
-        public DataTable PostHistMetas(string CodEmpleado, string Periodo, string MetaUds, string MetaIng)
+        public DataTable PostHistMetas(string CodEmpleado, string Periodo, string MetaUds, string MetaIng, string ParamLimOSAbo)
         {
             SqlCommand cmd = new SqlCommand("SP_CPOS_POST_HIST_METAS", cn.LeerCadena());
 
@@ -62,6 +62,7 @@ namespace CapaDatos.Configuracion
             cmd.Parameters.AddWithValue("@Periodo", Periodo);
             cmd.Parameters.AddWithValue("@MetaUds", MetaUds);
             cmd.Parameters.AddWithValue("@MetaIngresos", MetaIng);
+            cmd.Parameters.AddWithValue("@ParamLimOSAbo", ParamLimOSAbo);
 
 
             DataTable dt = new DataTable();

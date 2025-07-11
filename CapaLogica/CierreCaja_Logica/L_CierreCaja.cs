@@ -10,6 +10,7 @@ using System.Data;
 using System.IO;
 using CapaDatos.DetalleOrden_Datos;
 using System.IO.Compression;
+using System.Data.SqlClient;
 
 
 
@@ -205,11 +206,11 @@ namespace CapaLogica.CierreCaja_Logica
             }
         }
 
-        public bool GeneraInvenvioTXT(string codSuc, string fechaCierre, string ruta)
+        public bool GeneraInvenvioTXT(string codSuc, string fechaCierre, string ruta, SqlCommand command = null)
         {
             try
             {
-                DataTable dt = _D_CierreCaja.GeneraInvenvioTXT(codSuc, fechaCierre);
+                DataTable dt = _D_CierreCaja.GeneraInvenvioTXT(codSuc, fechaCierre,command);
 
 
                 using (StreamWriter NuevoArchi = new StreamWriter(ruta))
@@ -225,6 +226,7 @@ namespace CapaLogica.CierreCaja_Logica
             catch (Exception ex)
             {
                 // Código para manejar el error
+                EscribirLog(ex.Message.ToString());
                 return false;
             }
         }
@@ -324,7 +326,7 @@ namespace CapaLogica.CierreCaja_Logica
             return 0;
         }
 
-        public bool CierreDeCaja(DataGridView dgvCierredecaja, DateTime fecha, string codSucursal, string observacion, string usuario)
+        public bool CierreDeCaja(DataGridView dgvCierredecaja, DateTime fecha, string codSucursal, string observacion, string usuario, SqlCommand command = null)
         {
             try
             {
@@ -355,7 +357,7 @@ namespace CapaLogica.CierreCaja_Logica
                 string userEntrega = "";
                 string userRecibe = "";
 
-                DataTable dt = _D_CierreCaja.CierreDeCaja(fecha, codSucursal, M_TotalIngresos, M_Efectivo, M_Cheques, M_Cupones, M_TicketsSalud, M_TicketsSaludEfec, M_TarjetaC, M_TarjetaD, M_NotaCredito, M_Credito, M_Reintegro, M_Gastos, M_Financiamiento, M_NotaDevolucion, M_OrdenPago, M_IVARetenido, M_ISRLRetenido, M_Transferencia, M_Vuelto, M_Observacion, M_Usuario, cierreParcial, trabajaDomingos, userEntrega, userRecibe);
+                DataTable dt = _D_CierreCaja.CierreDeCaja(fecha, codSucursal, M_TotalIngresos, M_Efectivo, M_Cheques, M_Cupones, M_TicketsSalud, M_TicketsSaludEfec, M_TarjetaC, M_TarjetaD, M_NotaCredito, M_Credito, M_Reintegro, M_Gastos, M_Financiamiento, M_NotaDevolucion, M_OrdenPago, M_IVARetenido, M_ISRLRetenido, M_Transferencia, M_Vuelto, M_Observacion, M_Usuario, cierreParcial, trabajaDomingos, userEntrega, userRecibe, command);
 
                 if (dt != null)
                 {
@@ -411,11 +413,11 @@ namespace CapaLogica.CierreCaja_Logica
             }
         }
 
-        public bool ActualizarFacturas(string codSuc)
+        public bool ActualizarFacturas(string codSuc, SqlCommand command = null)
         {
             try
             {
-                DataTable dt = _D_CierreCaja.ActualizarFacturas(codSuc);
+                DataTable dt = _D_CierreCaja.ActualizarFacturas(codSuc,command);
 
                 return true;
             }
@@ -426,11 +428,11 @@ namespace CapaLogica.CierreCaja_Logica
             }
         }
 
-        public bool LibroVenta(DateTime fechaIni, DateTime fechaFin)
+        public bool LibroVenta(DateTime fechaIni, DateTime fechaFin,SqlCommand command = null)
         {
             try
             {
-                DataTable dt = _D_CierreCaja.LibroVenta(fechaIni, fechaFin);
+                DataTable dt = _D_CierreCaja.LibroVenta(fechaIni, fechaFin, command);
 
                 return true;
             }
@@ -441,11 +443,11 @@ namespace CapaLogica.CierreCaja_Logica
             }
         }
 
-        public bool InventarioFaltante(DateTime fechaIni)
+        public bool InventarioFaltante(DateTime fechaIni, SqlCommand command = null)
         {
             try
             {
-                DataTable dt = _D_CierreCaja.InventarioFaltante(fechaIni);
+                DataTable dt = _D_CierreCaja.InventarioFaltante(fechaIni,command);
 
                 return true;
             }
@@ -456,12 +458,12 @@ namespace CapaLogica.CierreCaja_Logica
             }
         }
 
-        public bool CreaAcc(DateTime fecha, string sucursal)
+        public bool CreaAcc(DateTime fecha, string sucursal, SqlCommand command = null)
         {
             try
             {
                 int nroDias = Convert.ToInt32(_D_DetalleOrden.TB_PARAMETRO("CantDiasOSXML"));
-                DataTable dt = _D_CierreCaja.CreaAcc(fecha, nroDias, sucursal);
+                DataTable dt = _D_CierreCaja.CreaAcc(fecha, nroDias, sucursal,command);
 
                 return true;
             }
@@ -472,13 +474,13 @@ namespace CapaLogica.CierreCaja_Logica
             }
         }
 
-        public bool CreaXMLACC(string sucursal)
+        public bool CreaXMLACC(string sucursal, SqlCommand command = null)
         {
             try
             {
                 string _xmlRutaDestino = _D_DetalleOrden.TB_PARAMETRO("RutaACC") + sucursal;
 
-                DataTable dt = _D_CierreCaja.ObtieneTablasAcc("");
+                DataTable dt = _D_CierreCaja.ObtieneTablasAcc("",command);
 
                 if (dt != null && dt.Rows.Count > 0)
                 {
@@ -488,7 +490,7 @@ namespace CapaLogica.CierreCaja_Logica
                         string ACCNombre = dt.Rows[i]["Tabla"].ToString();
 
                         // SE CREA EL DATASET CON LOS DATOS DE LA TABLA ACC
-                        DataTable ds = _D_CierreCaja.ObtieneTablasAcc(ACCNombre);
+                        DataTable ds = _D_CierreCaja.ObtieneTablasAcc(ACCNombre, command);
 
                         ds.TableName = "ACC";
                         // SE CREA EL ARCHIVO XML CON LOS DATOS DE LA TABLA ACC
@@ -506,6 +508,7 @@ namespace CapaLogica.CierreCaja_Logica
             catch (Exception ex)
             {
                 // Código para manejar el error
+                EscribirLog(ex.Message.ToString());
                 return false;
             }
         }
@@ -539,9 +542,14 @@ namespace CapaLogica.CierreCaja_Logica
             }
 
             Console.WriteLine("✅ Archivos XML comprimidos en: " + zipPath);
+       }
+
+        public static void EscribirLog(string mensaje)
+        {
+            string ruta = "log.txt";
+            string entrada = $"[{DateTime.Now}] {mensaje}";
+            System.IO.File.AppendAllText(ruta, entrada + Environment.NewLine);
         }
-
-
 
 
     }

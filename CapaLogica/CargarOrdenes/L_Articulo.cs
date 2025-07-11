@@ -3538,7 +3538,7 @@ namespace CapaLogica.CargarOrdenes
 
                 if (!tieneServicioExpress)
                 {
-                    AgregarFila(gridFacturas, articulo.CodArticulo, "", "", "", articulo.DESART, 1, (decimal)precio, (decimal)articulo.PORCTDESCUENTO, (decimal)total, impuesto, "A", CostoPromedio, codigo_cristal);
+                    AgregarFila(gridFacturas, articulo.CodArticulo, "", "", "", articulo.DESART, 1, (decimal)precio, (decimal)articulo.PORCTDESCUENTO, (decimal)total, impuesto, "", CostoPromedio, codigo_cristal);
                 }
             }
 

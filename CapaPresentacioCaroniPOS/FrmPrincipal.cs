@@ -824,6 +824,10 @@ namespace CapaVisual_Login
                 return;
             }
 
+            PnlListadoOrdenes.Controls.Clear();
+            addformulario(_FrmCierreDeCaja);
+            Focus();
+
         }
 
         private void btn_FrmCierreDeCaja_Click(object sender, EventArgs e)

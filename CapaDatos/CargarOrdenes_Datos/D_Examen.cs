@@ -193,8 +193,8 @@ namespace CapaDatos.CargarOrdenes_Datos
                         command.Parameters.AddWithValue("@NOM_Optm", nuevoExamen.NOM_Optm ?? (object)DBNull.Value);
                          command.Parameters.AddWithValue("@EXA_Feccreacion", nuevoExamen.FEC_Examen);
                          command.Parameters.AddWithValue("@EXA_Fecmod", nuevoExamen.FEC_Examen);
-                        //command.Parameters.AddWithValue("@USER_CREA", nuevoExamen.USER_CREA ?? (object)DBNull.Value);
-                        //command.Parameters.AddWithValue("@USER_MOD", nuevoExamen.USER_MOD ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@USER_CREA", nuevoExamen.USER_CREA ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@USER_MOD", nuevoExamen.USER_MOD ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@TIPOEXAMEN", nuevoExamen.TIPOEXAMEN ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@NOMBRE_CLINICA_OPTM", nuevoExamen.NOMBRE_CLINICA_OPTM ?? (object)DBNull.Value);
                         //command.Parameters.AddWithValue("@TLF_TIPO", nuevoExamen.TLF_TIPO ?? (object)DBNull.Value);
