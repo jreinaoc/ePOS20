@@ -946,6 +946,29 @@ namespace CapaDatos.CargarOrdenes_Datos
                 SqlConnection connection = cn.LeerCadena();
                 command = connection.CreateCommand();
             }
+
+            string execSqlPlano = @"
+EXEC pValidoParametrosCRT
+@NACIO = {nacRif},
+@CI = {cedula},
+@EXAM = {numExamen},
+@CRTDERECHO = {codArticulo},
+@OJO = {ojo},
+@VISION = {tipoVision},
+@ALTURA = {alt.ToString(System.Globalization.CultureInfo.InvariantCulture)},
+@DIAMETRO = {diam.ToString(System.Globalization.CultureInfo.InvariantCulture)},
+@DISTVERT = {disVert.ToString(System.Globalization.CultureInfo.InvariantCulture)},
+@ANGFAC = {angFac.ToString(System.Globalization.CultureInfo.InvariantCulture)},
+@ANGPANT = {angPant.ToString(System.Globalization.CultureInfo.InvariantCulture)},
+@COLOR = {Color},
+@TIEMPOENTREGA = {glbServicio},
+@MONTAJE = {lab},
+@MEDDIST = {medDisV},
+@MEDANGF = {medAngF},
+@MEDANGP = {medAngP},
+@MEDDDL = {DDL}
+";
+
             SqlCommand cmd = command;
             cmd.Parameters.Clear();
             cmd.CommandText = "pValidoParametrosCRT";
@@ -965,9 +988,9 @@ namespace CapaDatos.CargarOrdenes_Datos
             cmd.Parameters.AddWithValue("@COLOR", Color);
             cmd.Parameters.AddWithValue("@TIEMPOENTREGA", glbServicio);
             cmd.Parameters.AddWithValue("@MONTAJE", lab);
-            cmd.Parameters.AddWithValue("@MEDDIST", medDisV);
-            cmd.Parameters.AddWithValue("@MEDANGF", medAngF);
-            cmd.Parameters.AddWithValue("@MEDANGP", medAngP);
+            cmd.Parameters.AddWithValue("@MEDDIST", "TRUE");
+            cmd.Parameters.AddWithValue("@MEDANGF", "TRUE");
+            cmd.Parameters.AddWithValue("@MEDANGP", "TRUE");
             cmd.Parameters.AddWithValue("@MEDDDL", DDL);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataSet dts = new DataSet();

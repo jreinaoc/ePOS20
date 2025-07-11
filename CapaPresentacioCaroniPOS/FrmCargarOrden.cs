@@ -1075,7 +1075,7 @@ namespace CapaVisual_Login
                     this.Txt_Pnl2_Examen.Enabled = false;
                     this.Cbx_Pnl2_Trbajo.Enabled = false;
                     this.Cbx_Pnl2_Laboratorio.Enabled = false;
-                    this.Cbx_Tap2_Ojo.Enabled = false;
+                    //this.Cbx_Tap2_Ojo.Enabled = false;
                     this.Txt_Pnl2_Examen.Enabled = false;
                     this.Cbx_Pnl2_Servicio.Enabled = false;
 
@@ -1720,6 +1720,11 @@ namespace CapaVisual_Login
 
                 txtAltD.Text  = "0";
                 txtAltI.Text = "0";
+
+                txtDistVertice.Text = "0,00";
+                txtAngFac.Text = "0,00";
+                txtAngPant.Text = "0";
+                txtDll.Text = "0,00";
             }
 
             catch (Exception ex)
@@ -3482,17 +3487,21 @@ namespace CapaVisual_Login
             nuevoTrabajo.TSucursal = codigoSucursal;
             nuevoTrabajo.TTIPOTRABAJO = "002";
             nuevoTrabajo.USERCREA = TB_USUARIO.COD_USR;
-            
-            if (Dgv_Pnl2_medconv.Rows.Count > 0)
-            {
 
-                nuevoTrabajo.TDISTANCIAVERTICE = Dgv_Pnl2_medconv.Rows[0].Cells[0]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_medconv.Rows[0].Cells[0].Value) : 0;
-                nuevoTrabajo.TANGULOPANTOSCOPICO = Dgv_Pnl2_medconv.Rows[0].Cells[1]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_medconv.Rows[0].Cells[1].Value) : 0;
-                nuevoTrabajo.TANGULOFACIAL = Dgv_Pnl2_medconv.Rows[0].Cells[2]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_medconv.Rows[0].Cells[2].Value) : 0;
-                nuevoTrabajo.TDISTANCIADELECTURA = Dgv_Pnl2_medconv.Rows[0].Cells[3]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_medconv.Rows[0].Cells[3].Value) : 0;
+            //if (Dgv_Pnl2_medconv.Rows.Count > 0)
+            //{
 
+            //nuevoTrabajo.TDISTANCIAVERTICE = Dgv_Pnl2_medconv.Rows[0].Cells[0]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_medconv.Rows[0].Cells[0].Value) : 0;
+            //nuevoTrabajo.TANGULOPANTOSCOPICO = Dgv_Pnl2_medconv.Rows[0].Cells[1]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_medconv.Rows[0].Cells[1].Value) : 0;
+            //nuevoTrabajo.TANGULOFACIAL = Dgv_Pnl2_medconv.Rows[0].Cells[2]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_medconv.Rows[0].Cells[2].Value) : 0;
+            //nuevoTrabajo.TDISTANCIADELECTURA = Dgv_Pnl2_medconv.Rows[0].Cells[3]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_medconv.Rows[0].Cells[3].Value) : 0;
 
-            }
+            nuevoTrabajo.TDISTANCIAVERTICE = Convert.ToDecimal(txtDistVertice.Text);
+            nuevoTrabajo.TANGULOPANTOSCOPICO = Convert.ToDecimal(txtAngPant.Text);
+            nuevoTrabajo.TANGULOFACIAL = Convert.ToDecimal(txtAngFac.Text);
+            nuevoTrabajo.TDISTANCIADELECTURA = Convert.ToDecimal(txtDll.Text);
+
+            //}
             nuevoTrabajo.TOJO = Cbx_Tap2_Ojo.Text;
             if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01" || Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "02")
             {
@@ -4004,6 +4013,7 @@ namespace CapaVisual_Login
             }
 
             Dtp_Tap2_Examen_ValueChanged(Dtp_Tap2_FecExam, EventArgs.Empty);
+            //Dgv_Pnl2_medconv.Enabled = true;
             //llenarCabeceraExamenyOrden();
         }
 
@@ -4048,7 +4058,7 @@ namespace CapaVisual_Login
 
             ConfigurarDgv_Pnl2_conv();
             ConfigurarDgv_Pnl2_cont();
-            ConfigurarDgv_Pnl2_medconv();
+            //ConfigurarDgv_Pnl2_medconv();
             ConfigurarDgv_Pnl2_Quera();
 
             DataTable dtMotivosGarantia = _L_Cliente.ObtenerMotivosReposicion(); // Usa la instancia _L_Cliente
@@ -5789,87 +5799,116 @@ namespace CapaVisual_Login
             return true;
         }
 
-        private void ConfigurarDgv_Pnl2_medconv()
-        {
-            this.Dgv_Pnl2_medconv.DefaultCellStyle.Font = new Font("Century Gothic", 13);
+        //private void ConfigurarDgv_Pnl2_medconv()
+        //{
+        //    this.Dgv_Pnl2_medconv.DefaultCellStyle.Font = new Font("Century Gothic", 13);
 
-            // Change the font for the COLUMN HEADERS
-            this.Dgv_Pnl2_medconv.ColumnHeadersDefaultCellStyle.Font = new Font("Century Gothic", 10);
+        //    // Change the font for the COLUMN HEADERS
+        //    this.Dgv_Pnl2_medconv.ColumnHeadersDefaultCellStyle.Font = new Font("Century Gothic", 10);
 
-            // Crear un DataTable para almacenar los datos del DataGridView
-            DataTable dt = new DataTable();
+        //    // Crear un DataTable para almacenar los datos del DataGridView
+        //    DataTable dt = new DataTable();
 
-            // Agregar la fila fija para el ojo derecho
-            DataRow filaDerecha = dt.NewRow();
-            dt.Rows.Add(filaDerecha);
+        //    // Agregar la fila fija para el ojo derecho
+        //    DataRow filaDerecha = dt.NewRow();
+        //    dt.Rows.Add(filaDerecha);
 
-            // Asignar el DataTable como fuente de datos del DataGridView
-            Dgv_Pnl2_medconv.DataSource = dt;
-            Dgv_Pnl2_medconv.AutoGenerateColumns = false; // Desactivar la generación automática de columnas
+        //    // Asignar el DataTable como fuente de datos del DataGridView
+        //    Dgv_Pnl2_medconv.DataSource = dt;
+        //    Dgv_Pnl2_medconv.AutoGenerateColumns = false; // Desactivar la generación automática de columnas
 
-            // Opcional: Configurar propiedades del DataGridView para mejor visualización
-            Dgv_Pnl2_medconv.AllowUserToAddRows = false;
-            Dgv_Pnl2_medconv.AllowUserToDeleteRows = false;
-            Dgv_Pnl2_medconv.ReadOnly = false;
-            Dgv_Pnl2_medconv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            //Dgv_Pnl2_medconv.ColumnHeadersVisible = true;
-            Dgv_Pnl2_medconv.RowHeadersVisible = false;
-            Dgv_Pnl2_medconv.AllowUserToResizeColumns = false; // Bloquear el cambio de tamaño de las columnas
-            Dgv_Pnl2_medconv.AllowUserToResizeRows = false;    // Bloquear el cambio de tamaño de las filas
+        //    // Opcional: Configurar propiedades del DataGridView para mejor visualización
+        //    Dgv_Pnl2_medconv.AllowUserToAddRows = false;
+        //    Dgv_Pnl2_medconv.AllowUserToDeleteRows = false;
+        //    Dgv_Pnl2_medconv.ReadOnly = false;
+        //    Dgv_Pnl2_medconv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+        //    //Dgv_Pnl2_medconv.ColumnHeadersVisible = true;
+        //    Dgv_Pnl2_medconv.RowHeadersVisible = false;
+        //    Dgv_Pnl2_medconv.AllowUserToResizeColumns = false; // Bloquear el cambio de tamaño de las columnas
+        //    Dgv_Pnl2_medconv.AllowUserToResizeRows = false;    // Bloquear el cambio de tamaño de las filas
 
-            //,[T_DISTANCIAVERTICE]
-            //,[T_ANGULOPANTOSCOPICO]
-            //,[T_ANGULOFACIAL]
-            //,[T_DISTANCIADELECTURA] DV, AP, AF y DDL
+        //    //,[T_DISTANCIAVERTICE]
+        //    //,[T_ANGULOPANTOSCOPICO]
+        //    //,[T_ANGULOFACIAL]
+        //    //,[T_DISTANCIADELECTURA] DV, AP, AF y DDL
 
-            // Crear y agregar las columnas DataGridView
-            DataGridViewNumericUpDownColumn Dist_VertColumn = new DataGridViewNumericUpDownColumn();
-            Dist_VertColumn.Name = "T_DISTANCIAVERTICE";
-            Dist_VertColumn.DataPropertyName = "T_DISTANCIAVERTICE";
-            //Dist_VertColumn.HeaderText = "Dist_Vert";
-            Dist_VertColumn.HeaderText = "DV";
-            Dist_VertColumn.DecimalPlaces = 2;
-            Dist_VertColumn.Minimum = 0;
-            Dist_VertColumn.Maximum = 30;
-            Dist_VertColumn.Increment = 1;
-            Dgv_Pnl2_medconv.Columns.Add(Dist_VertColumn);
+        //    // Crear y agregar las columnas DataGridView
+        //    // Crear el DataTable con la columna esperada
+        //    DataTable dta = new DataTable();
+        //    dta.Columns.Add("T_DISTANCIAVERTICE", typeof(decimal)); // Debe coincidir con DataPropertyName
+
+        //    // Agregar una fila con un valor inicial
+        //    DataRow fila = dta.NewRow();
+        //    fila["T_DISTANCIAVERTICE"] = 0.00M;
+        //    dta.Rows.Add(fila);
+
+        //    // Asignar el DataTable como fuente de datos
+        //    dgvMedEspeciales.DataSource = dta;
+        //    dgvMedEspeciales.AutoGenerateColumns = false;
+
+        //    // Configuración visual del DataGridView
+        //    dgvMedEspeciales.Font = new Font("Century Gothic", 13);
+        //    dgvMedEspeciales.ColumnHeadersDefaultCellStyle.Font = new Font("Century Gothic", 10);
+        //    dgvMedEspeciales.ReadOnly = false;
+        //    dgvMedEspeciales.AllowUserToAddRows = false;
+        //    dgvMedEspeciales.AllowUserToDeleteRows = false;
+        //    dgvMedEspeciales.AllowUserToResizeColumns = false;
+        //    dgvMedEspeciales.AllowUserToResizeRows = false;
+        //    dgvMedEspeciales.RowHeadersVisible = false;
+        //    dgvMedEspeciales.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+        //    dgvMedEspeciales.EditMode = DataGridViewEditMode.EditOnKeystrokeOrF2;
+
+        //    // Crear y agregar columna personalizada editable con 2 decimales
+        //    DataGridViewNumericUpDownColumn Dist_VertColumn = new DataGridViewNumericUpDownColumn();
+        //    Dist_VertColumn.Name = "T_DISTANCIAVERTICE";
+        //    Dist_VertColumn.DataPropertyName = "T_DISTANCIAVERTICE";
+        //    Dist_VertColumn.HeaderText = "DV";
+        //    Dist_VertColumn.DecimalPlaces = 2;
+        //    Dist_VertColumn.Minimum = 0;
+        //    Dist_VertColumn.Maximum = 30;
+        //    Dist_VertColumn.Increment = 1;
+        //    Dist_VertColumn.Width = 100;
+        //    Dist_VertColumn.ReadOnly = false;
+
+        //    dgvMedEspeciales.Columns.Add(Dist_VertColumn);
 
 
-            DataGridViewNumericUpDownColumn Ang_PantColumn = new DataGridViewNumericUpDownColumn();
-            Ang_PantColumn.Name = "T_ANGULOPANTOSCOPICO";
-            Ang_PantColumn.DataPropertyName = "T_ANGULOPANTOSCOPICO";
-            Ang_PantColumn.HeaderText = "AP";
-            //Ang_PantColumn.HeaderText = "DV";
-            //Ang_PantColumn.DecimalPlaces = 2;
-            Ang_PantColumn.Minimum = -5;
-            Ang_PantColumn.Maximum = 30;
-            Ang_PantColumn.Increment = 1;
-            Dgv_Pnl2_medconv.Columns.Add(Ang_PantColumn);
+
+        //    DataGridViewNumericUpDownColumn Ang_PantColumn = new DataGridViewNumericUpDownColumn();
+        //    Ang_PantColumn.Name = "T_ANGULOPANTOSCOPICO";
+        //    Ang_PantColumn.DataPropertyName = "T_ANGULOPANTOSCOPICO";
+        //    Ang_PantColumn.HeaderText = "AP";
+        //    //Ang_PantColumn.HeaderText = "DV";
+        //    //Ang_PantColumn.DecimalPlaces = 2;
+        //    Ang_PantColumn.Minimum = -5;
+        //    Ang_PantColumn.Maximum = 30;
+        //    Ang_PantColumn.Increment = 1;
+        //    Dgv_Pnl2_medconv.Columns.Add(Ang_PantColumn);
 
 
-            DataGridViewNumericUpDownColumn Ang_FacColumn = new DataGridViewNumericUpDownColumn();
-            Ang_FacColumn.Name = "T_ANGULOFACIAL";
-            Ang_FacColumn.DataPropertyName = "T_ANGULOFACIAL";
-            Ang_FacColumn.HeaderText = "AF";
-            //Ang_FacColumn.HeaderText = "DV";
-            Ang_FacColumn.DecimalPlaces = 2;
-            Ang_FacColumn.Minimum = -5;
-            Ang_FacColumn.Maximum = 25;
-            Dist_VertColumn.Increment = 1;
-            Dgv_Pnl2_medconv.Columns.Add(Ang_FacColumn);
+        //    DataGridViewNumericUpDownColumn Ang_FacColumn = new DataGridViewNumericUpDownColumn();
+        //    Ang_FacColumn.Name = "T_ANGULOFACIAL";
+        //    Ang_FacColumn.DataPropertyName = "T_ANGULOFACIAL";
+        //    Ang_FacColumn.HeaderText = "AF";
+        //    //Ang_FacColumn.HeaderText = "DV";
+        //    Ang_FacColumn.DecimalPlaces = 2;
+        //    Ang_FacColumn.Minimum = -5;
+        //    Ang_FacColumn.Maximum = 25;
+        //    Dist_VertColumn.Increment = 1;
+        //    Dgv_Pnl2_medconv.Columns.Add(Ang_FacColumn);
 
-            DataGridViewNumericUpDownColumn DDLColumn = new DataGridViewNumericUpDownColumn();
-            DDLColumn.Name = "T_DISTANCIADELECTURA";
-            DDLColumn.DataPropertyName = "T_DISTANCIADELECTURA";
-            DDLColumn.HeaderText = "DDL";
-            //DDLColumn.HeaderText = "DV";
-            DDLColumn.DecimalPlaces = 2;
-            DDLColumn.Minimum = 0.25M;
-            DDLColumn.Maximum = 0.50M;
-            DDLColumn.Increment = 0.01M;
-            Dgv_Pnl2_medconv.Columns.Add(DDLColumn);
+        //    DataGridViewNumericUpDownColumn DDLColumn = new DataGridViewNumericUpDownColumn();
+        //    DDLColumn.Name = "T_DISTANCIADELECTURA";
+        //    DDLColumn.DataPropertyName = "T_DISTANCIADELECTURA";
+        //    DDLColumn.HeaderText = "DDL";
+        //    //DDLColumn.HeaderText = "DV";
+        //    DDLColumn.DecimalPlaces = 2;
+        //    DDLColumn.Minimum = 0.25M;
+        //    DDLColumn.Maximum = 0.50M;
+        //    DDLColumn.Increment = 0.01M;
+        //    Dgv_Pnl2_medconv.Columns.Add(DDLColumn);
 
-        }
+        //}
 
         private void ConfigurarDgv_Pnl2_cont()
         {
@@ -6714,7 +6753,7 @@ namespace CapaVisual_Login
             grp_pln2_Cont1.BringToFront();
             AsignarCeroDgv_Pnl2_cont();
             AsignarCeroDgv_Pnl2_conv();
-            AsignarCeroDgv_Pnl2_medconv();
+            //AsignarCeroDgv_Pnl2_medconv();
             AsignarCeroDgv_Pnl2_Querato();
 
             this.Txt_Pnl2_Examen.Text = "0";
@@ -6722,14 +6761,14 @@ namespace CapaVisual_Login
             //TopeExamen = 0;
             CargarExamenConv();
             CargarExamenCont();
-            CargarDgvPnl2MedConv();
+            //CargarDgvPnl2MedConv();
             CargarFicconvOFT();
             CargarFicconvOFT();
             CargarDgv_Pnl2_Querato();
 
             AsignarCeroSiVacioDgv_Pnl2_cont();
             AsignarCeroSiVacioDgv_Pnl2_conv();
-            AsignarCeroSiVacioDgv_Pnl2_medconv();
+            //AsignarCeroSiVacioDgv_Pnl2_medconv();
             AsignarCeroSiVacioDgv_Pnl2_Querato();
 
 
@@ -6946,18 +6985,18 @@ namespace CapaVisual_Login
             }
         }
 
-        private void AsignarCeroDgv_Pnl2_medconv()
-        {
-            foreach (DataGridViewRow row in Dgv_Pnl2_Querato.Rows)
-            {
-                foreach (DataGridViewCell cell in row.Cells)
-                {
+        //private void AsignarCeroDgv_Pnl2_medconv()
+        //{
+        //    foreach (DataGridViewRow row in Dgv_Pnl2_Querato.Rows)
+        //    {
+        //        foreach (DataGridViewCell cell in row.Cells)
+        //        {
 
-                    cell.Value = 0; // O "0" si la columna espera un string
+        //            cell.Value = 0; // O "0" si la columna espera un string
 
-                }
-            }
-        }
+        //        }
+        //    }
+        //}
 
         private void CargarFicconvOFT()
         {
@@ -7617,145 +7656,145 @@ namespace CapaVisual_Login
             }
         }
 
-        private void CargarDgvPnl2MedConv()
-        {
-            if (mantenervacio == false)
-            {
+        //private void CargarDgvPnl2MedConv()
+        //{
+        //    if (mantenervacio == false)
+        //    {
 
-                this.Dgv_Pnl2_medconv.DefaultCellStyle.Font = new Font("Century Gothic", 13);
+        //        this.Dgv_Pnl2_medconv.DefaultCellStyle.Font = new Font("Century Gothic", 13);
 
-                // Crear un DataTable para almacenar los datos del DataGridView
-                DataTable dt = new DataTable();
-                dt.Columns.Add("Ojo", typeof(string));
-                dt.Columns.Add("T_DISTANCIAVERTICE", typeof(decimal));
-                dt.Columns.Add("T_ANGULOPANTOSCOPICO", typeof(decimal));
-                dt.Columns.Add("T_ANGULOFACIAL", typeof(decimal));
-                dt.Columns.Add("T_DISTANCIADELECTURA", typeof(decimal));
+        //        // Crear un DataTable para almacenar los datos del DataGridView
+        //        DataTable dt = new DataTable();
+        //        dt.Columns.Add("Ojo", typeof(string));
+        //        dt.Columns.Add("T_DISTANCIAVERTICE", typeof(decimal));
+        //        dt.Columns.Add("T_ANGULOPANTOSCOPICO", typeof(decimal));
+        //        dt.Columns.Add("T_ANGULOFACIAL", typeof(decimal));
+        //        dt.Columns.Add("T_DISTANCIADELECTURA", typeof(decimal));
 
-                // Agregar la fila al DataTable
-                DataRow fila = dt.NewRow();
-                fila["Ojo"] = "Único"; // O "Ambos", dependiendo de la lógica de tu aplicación
-                dt.Rows.Add(fila);
+        //        // Agregar la fila al DataTable
+        //        DataRow fila = dt.NewRow();
+        //        fila["Ojo"] = "Único"; // O "Ambos", dependiendo de la lógica de tu aplicación
+        //        dt.Rows.Add(fila);
 
-                ////-------------------------------------------------
-                // Obtener los valores de los controles de la interfaz de usuario
-                string cedula = Txt_Tap1_Cedula.Text;
-                string nacionalidad = Cbx_Tap1_Nacionalidad.SelectedItem?.ToString();
-                int idExamen;
+        //        ////-------------------------------------------------
+        //        // Obtener los valores de los controles de la interfaz de usuario
+        //        string cedula = Txt_Tap1_Cedula.Text;
+        //        string nacionalidad = Cbx_Tap1_Nacionalidad.SelectedItem?.ToString();
+        //        int idExamen;
 
-                if (!int.TryParse(Txt_Tap2_Examen.Text, out idExamen))
-                {
-                    //MessageBox.Show("  ingrese un ID de examen válido (numérico).", "Error de formato", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
-                    return;
-                }
+        //        if (!int.TryParse(Txt_Tap2_Examen.Text, out idExamen))
+        //        {
+        //            //MessageBox.Show("  ingrese un ID de examen válido (numérico).", "Error de formato", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+        //            return;
+        //        }
 
-                // Verificar que los valores requeridos estén presentes
-                if (string.IsNullOrEmpty(nacionalidad) || string.IsNullOrEmpty(cedula))
-                {
-                    //MessageBox.Show("  ingrese la nacionalidad y la cédula.", "Datos incompletos", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
-                    return;
-                }
+        //        // Verificar que los valores requeridos estén presentes
+        //        if (string.IsNullOrEmpty(nacionalidad) || string.IsNullOrEmpty(cedula))
+        //        {
+        //            //MessageBox.Show("  ingrese la nacionalidad y la cédula.", "Datos incompletos", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+        //            return;
+        //        }
 
-                try
-                {
+        //        try
+        //        {
 
-                    // Crear una instancia de la capa de lógica (L_Trabajo)
-                    L_Trabajo lTrabajo = new L_Trabajo();
-                    // Obtener los datos del trabajo usando el método de la capa lógica
-                    TB_TRABAJOCTE trabajo = lTrabajo.ObtenerTrabajoPorOrdenServicio(nacionalidad, cedula, idExamen);
+        //            // Crear una instancia de la capa de lógica (L_Trabajo)
+        //            L_Trabajo lTrabajo = new L_Trabajo();
+        //            // Obtener los datos del trabajo usando el método de la capa lógica
+        //            TB_TRABAJOCTE trabajo = lTrabajo.ObtenerTrabajoPorOrdenServicio(nacionalidad, cedula, idExamen);
 
-                    if (trabajo != null)
-                    {
-
-
-
-                        //Cbx_Tap2_Ojo T_OJO
-
-                        Cbx_Tap2_Ojo.Text = trabajo.TOJO != null ? trabajo.TOJO.ToString().Trim() : "";
+        //            if (trabajo != null)
+        //            {
 
 
 
-                        // Llenar la fila del DataTable con los datos obtenidos del trabajo, manejando nulos
-                        if (trabajo == null)
-                        {
-                            dt.Rows[0]["T_DISTANCIAVERTICE"] = 0;
-                            dt.Rows[0]["T_ANGULOPANTOSCOPICO"] = 0;
-                            dt.Rows[0]["T_ANGULOFACIAL"] = 0;
-                            dt.Rows[0]["T_DISTANCIADELECTURA"] = 0;
-                        }
-                        else
-                        {
-                            dt.Rows[0]["T_DISTANCIAVERTICE"] = trabajo.TDISTANCIAVERTICE ?? 0;
-                            dt.Rows[0]["T_ANGULOPANTOSCOPICO"] = trabajo.TANGULOPANTOSCOPICO ?? 0;
-                            dt.Rows[0]["T_ANGULOFACIAL"] = trabajo.TANGULOFACIAL ?? 0;
-                            dt.Rows[0]["T_DISTANCIADELECTURA"] = trabajo.TDISTANCIADELECTURA ?? 0;
-                        }
+        //                //Cbx_Tap2_Ojo T_OJO
+
+        //                Cbx_Tap2_Ojo.Text = trabajo.TOJO != null ? trabajo.TOJO.ToString().Trim() : "";
+
+
+
+        //                // Llenar la fila del DataTable con los datos obtenidos del trabajo, manejando nulos
+        //                if (trabajo == null)
+        //                {
+        //                    dt.Rows[0]["T_DISTANCIAVERTICE"] = 0;
+        //                    dt.Rows[0]["T_ANGULOPANTOSCOPICO"] = 0;
+        //                    dt.Rows[0]["T_ANGULOFACIAL"] = 0;
+        //                    dt.Rows[0]["T_DISTANCIADELECTURA"] = 0;
+        //                }
+        //                else
+        //                {
+        //                    dt.Rows[0]["T_DISTANCIAVERTICE"] = trabajo.TDISTANCIAVERTICE ?? 0;
+        //                    dt.Rows[0]["T_ANGULOPANTOSCOPICO"] = trabajo.TANGULOPANTOSCOPICO ?? 0;
+        //                    dt.Rows[0]["T_ANGULOFACIAL"] = trabajo.TANGULOFACIAL ?? 0;
+        //                    dt.Rows[0]["T_DISTANCIADELECTURA"] = trabajo.TDISTANCIADELECTURA ?? 0;
+        //                }
 
 
 
 
-                        // Asignar el DataTable como fuente de datos del DataGridView
-                        Dgv_Pnl2_medconv.DataSource = dt;
-                        Dgv_Pnl2_medconv.AutoGenerateColumns = false; // Desactivar la generación automática de columnas
+        //                // Asignar el DataTable como fuente de datos del DataGridView
+        //                Dgv_Pnl2_medconv.DataSource = dt;
+        //                Dgv_Pnl2_medconv.AutoGenerateColumns = false; // Desactivar la generación automática de columnas
 
-                        // Opcional: Configurar las propiedades del DataGridView para una mejor visualización
-                        Dgv_Pnl2_medconv.AllowUserToAddRows = false;
-                        Dgv_Pnl2_medconv.AllowUserToDeleteRows = false;
-                        Dgv_Pnl2_medconv.ReadOnly = false;
-                        Dgv_Pnl2_medconv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-                        Dgv_Pnl2_medconv.ColumnHeadersVisible = true;
-                        //Dgv_Pnl2_medconv.RowHeadersVisible = false;
-                        Dgv_Pnl2_medconv.AllowUserToResizeColumns = false;
-                        Dgv_Pnl2_medconv.AllowUserToResizeRows = false;
-
-
-                        // Dgv_Pnl2_medconv.Refresh(); // No es necesario aquí, se actualiza al asignar el DataSource
-                    }
-                    else
-                    {
-                        MostrarMensajeTemporal("No se encontraron datos de Trabajo para la cédula, nacionalidad e ID de examen proporcionados.", 9000);
-
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error al cargar los datos: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
-
-                }
+        //                // Opcional: Configurar las propiedades del DataGridView para una mejor visualización
+        //                Dgv_Pnl2_medconv.AllowUserToAddRows = false;
+        //                Dgv_Pnl2_medconv.AllowUserToDeleteRows = false;
+        //                Dgv_Pnl2_medconv.ReadOnly = false;
+        //                Dgv_Pnl2_medconv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+        //                Dgv_Pnl2_medconv.ColumnHeadersVisible = true;
+        //                //Dgv_Pnl2_medconv.RowHeadersVisible = false;
+        //                Dgv_Pnl2_medconv.AllowUserToResizeColumns = false;
+        //                Dgv_Pnl2_medconv.AllowUserToResizeRows = false;
 
 
-                // Asignar el DataTable como fuente de datos del DataGridView
-                Dgv_Pnl2_medconv.DataSource = dt;
-                Dgv_Pnl2_medconv.AutoGenerateColumns = false;
+        //                // Dgv_Pnl2_medconv.Refresh(); // No es necesario aquí, se actualiza al asignar el DataSource
+        //            }
+        //            else
+        //            {
+        //                MostrarMensajeTemporal("No se encontraron datos de Trabajo para la cédula, nacionalidad e ID de examen proporcionados.", 9000);
 
-                // Opcional: Configurar propiedades del DataGridView
-                Dgv_Pnl2_medconv.AllowUserToAddRows = false;
-                Dgv_Pnl2_medconv.AllowUserToDeleteRows = false;
-                Dgv_Pnl2_medconv.ReadOnly = false;
-                Dgv_Pnl2_medconv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-                Dgv_Pnl2_medconv.ColumnHeadersVisible = true;
-                //Dgv_Pnl2_medconv.RowHeadersVisible = false;
-                Dgv_Pnl2_medconv.AllowUserToResizeColumns = false;
-                Dgv_Pnl2_medconv.AllowUserToResizeRows = false;
+        //            }
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            MessageBox.Show("Error al cargar los datos: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
 
-                AsignarCeroSiVacioDgv_Pnl2_medconv();
-            }
-        }
+        //        }
 
 
-        private void AsignarCeroSiVacioDgv_Pnl2_medconv()
-        {
-            foreach (DataGridViewRow row in Dgv_Pnl2_medconv.Rows)
-            {
-                foreach (DataGridViewCell cell in row.Cells)
-                {
-                    if (cell.Value == null || string.IsNullOrEmpty(cell.Value?.ToString()))
-                    {
-                        cell.Value = 0; // O "0" si la columna espera un string
-                    }
-                }
-            }
-        }
+        //        // Asignar el DataTable como fuente de datos del DataGridView
+        //        Dgv_Pnl2_medconv.DataSource = dt;
+        //        Dgv_Pnl2_medconv.AutoGenerateColumns = false;
+
+        //        // Opcional: Configurar propiedades del DataGridView
+        //        Dgv_Pnl2_medconv.AllowUserToAddRows = false;
+        //        Dgv_Pnl2_medconv.AllowUserToDeleteRows = false;
+        //        Dgv_Pnl2_medconv.ReadOnly = false;
+        //        Dgv_Pnl2_medconv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+        //        Dgv_Pnl2_medconv.ColumnHeadersVisible = true;
+        //        //Dgv_Pnl2_medconv.RowHeadersVisible = false;
+        //        Dgv_Pnl2_medconv.AllowUserToResizeColumns = false;
+        //        Dgv_Pnl2_medconv.AllowUserToResizeRows = false;
+
+        //        AsignarCeroSiVacioDgv_Pnl2_medconv();
+        //    }
+        //}
+
+
+        //private void AsignarCeroSiVacioDgv_Pnl2_medconv()
+        //{
+        //    foreach (DataGridViewRow row in Dgv_Pnl2_medconv.Rows)
+        //    {
+        //        foreach (DataGridViewCell cell in row.Cells)
+        //        {
+        //            if (cell.Value == null || string.IsNullOrEmpty(cell.Value?.ToString()))
+        //            {
+        //                cell.Value = 0; // O "0" si la columna espera un string
+        //            }
+        //        }
+        //    }
+        //}
 
         private void CargarDgv_Pnl2_Querato()
         {
@@ -9098,7 +9137,7 @@ namespace CapaVisual_Login
            
             CargarExamenConv();
             CargarExamenCont();
-            CargarDgvPnl2MedConv();
+            //CargarDgvPnl2MedConv();
             CargarFicconvOFT();
 
             CargarDgv_Pnl2_Querato();
@@ -9355,7 +9394,7 @@ namespace CapaVisual_Login
 
             Dgv_Pnl2_cont.Enabled = true;
             Dgv_Pnl2_conv.Enabled = true;
-            Dgv_Pnl2_medconv.Enabled = true;
+            //Dgv_Pnl2_medconv.Enabled = true;
             txt_Pnl2_oftd.Enabled = true;
             txt_Pnl2_ofti.Enabled = true;
             txt_Pnl2_reti.Enabled = true;
@@ -9522,8 +9561,8 @@ namespace CapaVisual_Login
                     //txt_Pnl2_conv_observa.Size = new Size(1008, 31);
                     CargarExamenConv();
                     AsignarCeroSiVacioDgv_Pnl2_cont();
-                    CargarDgvPnl2MedConv();
-                    AsignarCeroSiVacioDgv_Pnl2_medconv();
+                    //CargarDgvPnl2MedConv();
+                    //AsignarCeroSiVacioDgv_Pnl2_medconv();
                     ValidarPanel = "Conv";
                     //pnl_tab1_observa.Visible = false;
                     pnlObservCon.Visible = false;
@@ -9743,7 +9782,7 @@ namespace CapaVisual_Login
             limpearExamen();
             CargarExamenConv();
             CargarExamenCont();
-            CargarDgvPnl2MedConv();
+//            CargarDgvPnl2MedConv();
             CargarFicconvOFT();
             CargarFicconvOFT();
             CargarDgv_Pnl2_Querato();
@@ -9797,11 +9836,13 @@ namespace CapaVisual_Login
 
             CargarExamenConv();
 
-            CargarDgvPnl2MedConv();
+            //CargarDgvPnl2MedConv();
             CargarFicconvOFT();
 
             CargarDgv_Pnl2_Querato();
             CargarExamenCont();
+
+            //Dgv_Pnl2_medconv.Enabled = true;
 
         }
 
@@ -9939,16 +9980,20 @@ namespace CapaVisual_Login
                 nuevoTrabajo.USERCREA = TB_USUARIO.COD_USR;
 
                 //nuevoTrabajo.TEXAMEN = this.Txt_Pnl2_Examen.Text;
-                if (Dgv_Pnl2_medconv.Rows.Count > 0)
-                {
+                //if (Dgv_Pnl2_medconv.Rows.Count > 0)
+                //{
 
-                    nuevoTrabajo.TDISTANCIAVERTICE = Dgv_Pnl2_medconv.Rows[0].Cells[0]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_medconv.Rows[0].Cells[0].Value) : 0;
-                    nuevoTrabajo.TANGULOPANTOSCOPICO = Dgv_Pnl2_medconv.Rows[0].Cells[1]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_medconv.Rows[0].Cells[1].Value) : 0;
-                    nuevoTrabajo.TANGULOFACIAL = Dgv_Pnl2_medconv.Rows[0].Cells[2]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_medconv.Rows[0].Cells[2].Value) : 0;
-                    nuevoTrabajo.TDISTANCIADELECTURA = Dgv_Pnl2_medconv.Rows[0].Cells[3]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_medconv.Rows[0].Cells[3].Value) : 0;
+                    //nuevoTrabajo.TDISTANCIAVERTICE = Dgv_Pnl2_medconv.Rows[0].Cells[0]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_medconv.Rows[0].Cells[0].Value) : 0;
+                    //nuevoTrabajo.TANGULOPANTOSCOPICO = Dgv_Pnl2_medconv.Rows[0].Cells[1]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_medconv.Rows[0].Cells[1].Value) : 0;
+                    //nuevoTrabajo.TANGULOFACIAL = Dgv_Pnl2_medconv.Rows[0].Cells[2]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_medconv.Rows[0].Cells[2].Value) : 0;
+                    //nuevoTrabajo.TDISTANCIADELECTURA = Dgv_Pnl2_medconv.Rows[0].Cells[3]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_medconv.Rows[0].Cells[3].Value) : 0;
 
+                    nuevoTrabajo.TDISTANCIAVERTICE = Convert.ToDecimal(txtDistVertice.Text);
+                    nuevoTrabajo.TANGULOPANTOSCOPICO = Convert.ToDecimal(txtAngPant.Text);
+                    nuevoTrabajo.TANGULOFACIAL = Convert.ToDecimal(txtAngFac.Text);
+                    nuevoTrabajo.TDISTANCIADELECTURA = Convert.ToDecimal(txtDll.Text);
 
-                }
+                //}
                 nuevoTrabajo.TOJO = Cbx_Tap2_Ojo.Text;
 
                 nuevoExamen.TIPOEXAMEN = Cbx_Tap2_Tipo_Examen.Text;
@@ -11796,7 +11841,7 @@ namespace CapaVisual_Login
                 lbl_pnl2_obser.ForeColor = Color.White;
                 label32.BackColor = col3;
                 label32.ForeColor = Color.White;
-                Dgv_Pnl2_medconv.ColumnHeadersDefaultCellStyle.BackColor = col3;
+                //Dgv_Pnl2_medconv.ColumnHeadersDefaultCellStyle.BackColor = col3;
                 Dgv_Pnl2_cont.ColumnHeadersDefaultCellStyle.BackColor = col3;
                 grp_pln2_oft3.BackColor = col2;
                 label36.BackColor = col3;
@@ -11881,7 +11926,7 @@ namespace CapaVisual_Login
                 lbl_pnl2_obser.ForeColor = Color.White;
                 label32.BackColor = ColorTranslator.FromHtml("#003536");
                 label32.ForeColor = Color.White;
-                Dgv_Pnl2_medconv.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#2f6b64");
+                //Dgv_Pnl2_medconv.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#2f6b64");
                 Dgv_Pnl2_cont.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#2f6b64");
                 grp_pln2_oft3.BackColor = col3;
                 label36.BackColor = ColorTranslator.FromHtml("#003536");
@@ -12189,12 +12234,272 @@ namespace CapaVisual_Login
             }
         }
 
+        private void txtDistVertice_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            TextBox txt = sender as TextBox;
+
+            // Permitir solo números, coma y teclas de control (como retroceso)
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != ',')
+            {
+                e.Handled = true;
+                return;
+            }
+
+            // Solo permitir una coma
+            if (e.KeyChar == ',' && txt.Text.Contains(","))
+            {
+                e.Handled = true;
+                return;
+            }
+
+            // Verificar si ya hay coma y limitar los decimales a dos
+            if (txt.Text.Contains(","))
+            {
+                int indexComa = txt.Text.IndexOf(",");
+                string decimales = txt.Text.Substring(indexComa + 1);
+
+                // Si hay 2 decimales y el cursor está después de la coma
+                if (txt.SelectionStart > indexComa && decimales.Length >= 2)
+                {
+                    e.Handled = true;
+                }
+            }
+        }
+
+        private void txtDistVertice_Leave(object sender, EventArgs e)
+        {
+             var cultura = System.Globalization.CultureInfo.CurrentCulture;
+                string texto = txtDistVertice.Text;
+
+                // Expresión regular para máximo 2 decimales
+                // Ejemplo válido: 12,34 — Ejemplo inválido: 12,345
+                var regex = new System.Text.RegularExpressions.Regex(@"^\d{1,3}(,\d{1,2})?$");
+
+                if (!regex.IsMatch(texto))
+                {
+                //_FrmMensajes.co = 2;
+                //_FrmMensajes.avisomensaje("Ingrese un número válido con hasta 2 decimales");
+                //_FrmMensajes.ShowDialog();
+                txtDistVertice.Text = "0,00";
+                    return;
+                }
+
+                // Validar rango con coma como separador decimal
+                if (decimal.TryParse(texto, System.Globalization.NumberStyles.Number, cultura, out decimal valor))
+                {
+                    if (valor < 0 || valor > 30)
+                    {
+                        _FrmMensajes.co = 2;
+                        _FrmMensajes.avisomensaje("Valor fuera del rango permitido 0 a 30");
+                        _FrmMensajes.ShowDialog();
+                    txtDistVertice.Text = "0,00";
+                    }
+                }
+                else
+                {
+                txtDistVertice.Text = "0,00";
+                }
+            
+        }
+
+
+        private void txtAngFac_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            TextBox txt = sender as TextBox;
+
+            // Permitir solo números, coma y teclas de control (como retroceso)
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != ',')
+            {
+                e.Handled = true;
+                return;
+            }
+
+            // Solo permitir una coma
+            if (e.KeyChar == ',' && txt.Text.Contains(","))
+            {
+                e.Handled = true;
+                return;
+            }
+
+            // Verificar si ya hay coma y limitar los decimales a dos
+            if (txt.Text.Contains(","))
+            {
+                int indexComa = txt.Text.IndexOf(",");
+                string decimales = txt.Text.Substring(indexComa + 1);
+
+                // Si hay 2 decimales y el cursor está después de la coma
+                if (txt.SelectionStart > indexComa && decimales.Length >= 2)
+                {
+                    e.Handled = true;
+                }
+            }
+        }
+
+        private void txtAngFac_Leave(object sender, EventArgs e)
+        {
+            var cultura = System.Globalization.CultureInfo.CurrentCulture;
+            string texto = txtAngFac.Text;
+
+            // Expresión regular para máximo 2 decimales
+            // Ejemplo válido: 12,34 — Ejemplo inválido: 12,345
+            var regex = new System.Text.RegularExpressions.Regex(@"^\d{1,3}(,\d{1,2})?$");
+
+            if (!regex.IsMatch(texto))
+            {
+                //_FrmMensajes.co = 2;
+                //_FrmMensajes.avisomensaje("Ingrese un número válido con hasta 2 decimales");
+                //_FrmMensajes.ShowDialog();
+                txtAngFac.Text = "0,00";
+                return;
+            }
+
+            // Validar rango con coma como separador decimal
+            if (decimal.TryParse(texto, System.Globalization.NumberStyles.Number, cultura, out decimal valor))
+            {
+                if (valor < -5 || valor > 25)
+                {
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje("Valor fuera del rango permitido -5 a 25");
+                    _FrmMensajes.ShowDialog();
+                    txtAngFac.Text = "0,00";
+                }
+            }
+            else
+            {
+                txtAngFac.Text = "0,00";
+            }
+
+        }
+
+        private void txtDll_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            TextBox txt = sender as TextBox;
+
+            // Permitir solo números, coma y teclas de control (como retroceso)
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != ',')
+            {
+                e.Handled = true;
+                return;
+            }
+
+            // Solo permitir una coma
+            if (e.KeyChar == ',' && txt.Text.Contains(","))
+            {
+                e.Handled = true;
+                return;
+            }
+
+            // Verificar si ya hay coma y limitar los decimales a dos
+            if (txt.Text.Contains(","))
+            {
+                int indexComa = txt.Text.IndexOf(",");
+                string decimales = txt.Text.Substring(indexComa + 1);
+
+                // Si hay 2 decimales y el cursor está después de la coma
+                if (txt.SelectionStart > indexComa && decimales.Length >= 2)
+                {
+                    e.Handled = true;
+                }
+            }
+        }
+        private void txtDll_Leave(object sender, EventArgs e)
+        {
+            var cultura = System.Globalization.CultureInfo.CurrentCulture;
+            string texto = txtDll.Text;
+
+            // Expresión regular para máximo 2 decimales
+            // Ejemplo válido: 12,34 — Ejemplo inválido: 12,345
+            var regex = new System.Text.RegularExpressions.Regex(@"^\d{1,3}(,\d{1,2})?$");
+
+            if (!regex.IsMatch(texto))
+            {
+                //_FrmMensajes.co = 2;
+                //_FrmMensajes.avisomensaje("Ingrese un número válido con hasta 2 decimales");
+                //_FrmMensajes.ShowDialog();
+                txtDll.Text = "0,00";
+                return;
+            }
+
+            // Validar rango con coma como separador decimal
+            if (double.TryParse(texto, System.Globalization.NumberStyles.Number, cultura, out double valor))
+            {
+                if (valor < 0.25 || valor > 0.50)
+                {
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje("Valor fuera del rango permitido 0,25 a 0,50");
+                    _FrmMensajes.ShowDialog();
+                    txtDll.Text = "0,00";
+                }
+            }
+            else
+            {
+                txtDll.Text = "0,00";
+            }
+
+        }
+
+        private void txtAngPant_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Permitir solo dígitos y teclas de control (retroceso, etc.)
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true; // Bloquear cualquier carácter no numérico (incluye coma)
+            }
+        }
+
+        private void txtAngPant_Leave(object sender, EventArgs e)
+        {
+            var cultura = System.Globalization.CultureInfo.CurrentCulture;
+            string texto = txtAngPant.Text;
+
+            // Expresión regular para máximo 2 decimales
+            // Ejemplo válido: 12,34 — Ejemplo inválido: 12,345
+            var regex = new System.Text.RegularExpressions.Regex(@"^\d{1,3}(,\d{1,2})?$");
+
+            if (!regex.IsMatch(texto))
+            {
+                //_FrmMensajes.co = 2;
+                //_FrmMensajes.avisomensaje("Ingrese un número válido con hasta 2 decimales");
+                //_FrmMensajes.ShowDialog();
+                txtAngPant.Text = "0";
+                return;
+            }
+
+            // Validar rango con coma como separador decimal
+            if (decimal.TryParse(texto, System.Globalization.NumberStyles.Number, cultura, out decimal valor))
+            {
+                if (valor < -5 || valor > 30)
+                {
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje("Valor fuera del rango permitido -5 a 30");
+                    _FrmMensajes.ShowDialog();
+                    txtAngPant.Text = "0";
+                }
+            }
+            else
+            {
+                txtAngPant.Text = "0";
+            }
+
+        }
+
+
         private void Lbl_Tap3_Articulo1_Click(object sender, EventArgs e)
         {
 
         }
 
         private void pnlObservCon_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void btnExamen_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtAngPant_TextChanged(object sender, EventArgs e)
         {
 
         }
