@@ -377,6 +377,9 @@ namespace CapaVisual_Login
         {
             try
             {
+                tcCierreCaja.ItemSize = new Size(0, 1);
+                tcCierreCaja.SizeMode = TabSizeMode.Fixed;
+
                 var labelVertical = new VerticalLabel
                 {
                     Text = "Caja",
@@ -1395,6 +1398,9 @@ namespace CapaVisual_Login
             this.Hide();
         }
 
-       
+        private void panel5_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }

@@ -43,7 +43,6 @@ namespace CapaVisual_Login
             // *** PASO CRÍTICO 2: Suscribir el evento CellValidating ***
             // Asegúrate de que este evento esté suscrito. Si ya lo hiciste en el diseñador,
             // esta línea puede ser redundante, pero no hace daño.
-            Dgv_Pnl2_Querato.CellValidating += Dgv_Pnl2_Querato_CellValidating;
 
             // También es buena práctica limpiar el error al finalizar la edición
             Dgv_Pnl2_Querato.CellEndEdit += Dgv_Pnl2_Querato_CellEndEdit;
@@ -487,6 +486,11 @@ namespace CapaVisual_Login
                     cbVisionDerecha.Visible = true;
                     label33.Visible = true;
                     cbVisionIzquierda.Visible = true;
+                    
+                    label34.Visible = true;
+                    label35.Visible = true;
+                    txtAltD.Visible = true;
+                    txtAltI.Visible = true;
 
                     mantengoexamenseleccionado = true;
                     break;
@@ -538,6 +542,11 @@ namespace CapaVisual_Login
                     cbVisionDerecha.Visible = false;
                     label33.Visible = false;
                     cbVisionIzquierda.Visible = false;
+
+                    label34.Visible = false;
+                    label35.Visible = false;
+                    txtAltD.Visible = false;
+                    txtAltI.Visible = false;
 
                     break;
                 case "Lista_Articulo":
@@ -1115,13 +1124,7 @@ namespace CapaVisual_Login
 
         }
 
-        private void Txt_Tap3_Articulo_Codigo_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == 13)
-            {
-
-            }
-        }
+        
 
         private void Txt_Pnl3_Articulo_TextChanged(object sender, EventArgs e)
         {
@@ -1138,15 +1141,7 @@ namespace CapaVisual_Login
         }
 
 
-        private void Pnl_3_Lista_Articulo_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void ObtenerArticulos()
-        {
-
-        }
+       
 
         private void Formato_Dgv_Busqueda_Articulo()
         {
@@ -1717,6 +1712,14 @@ namespace CapaVisual_Login
                 cbVisionDerecha.Visible = true;
                 label33.Visible = true;
                 cbVisionIzquierda.Visible = true;
+
+                label34.Visible = true;
+                label35.Visible = true;
+                txtAltD.Visible = true;
+                txtAltI.Visible = true;
+
+                txtAltD.Text  = "0";
+                txtAltI.Text = "0";
             }
 
             catch (Exception ex)
@@ -1962,30 +1965,12 @@ namespace CapaVisual_Login
         private void Btn_Tap3_Cancelar_Click(object sender, EventArgs e)
         {
             Cbx_Pnl2_Trbajo.SelectedIndex = 0;
+            Cbx_Pnl2_Laboratorio.SelectedIndex = 0; 
+            Cbx_Pnl2_Servicio.SelectedIndex = 0;
             LimpiarGrid();
         }
 
-        private void btnPrincipal_CheckedChanged(object sender, EventArgs e)
-        {
-            //mantengoexamenseleccionado = false;
-            //VisualizarPanel("MostrarCabezeraPrincipal");
-            //Txt_Pnl1_Cedula.Visible = false;
-            //Txt_Pnl1_Nombre.Visible = false;
-            //Lbl_Pnl1_Cedula.Visible = false;
-            //Lbl_Pnl1_Nombre.Visible = false;
         
-            ////tabControl.SelectTab(0);
-            ///*MEIFER*/
-            //if (tabControl.TabPages.Count > 0)
-            //{
-            //    tabControl.SelectedIndex = 0;
-            //    //Pnl_2.Visible = false;
-            //    Pnl_1.Visible = true;
-
-            //    // Opcional: Llamar al evento directamente si la selección no lo dispara
-            //    // tabControl_SelectedIndexChanged(tabControl, EventArgs.Empty);
-            //}
-        }
 
         private void btnPrincipal_Click(object sender, EventArgs e)
         {
@@ -1996,11 +1981,29 @@ namespace CapaVisual_Login
             //Lbl_Pnl1_Cedula.Visible = false;
             //Lbl_Pnl1_Nombre.Visible = false;
 
-            //tabControl.SelectTab(0);
+            //tabControl.SelectTacb(0);
             /*MEIFER*/
             if (tabControl.TabPages.Count > 0)
             {
+                //if (tabControl.SelectedIndex == 2)
+                //{
+                //    tabControl.SelectedIndex = 2;
+                //}
+                //else
+                //{
+
+                //_FrmMensajes.co = 2;
+                //_FrmMensajes.avisomensaje($"Control con foco: {this.ActiveControl?.Name}");
+                //_FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                //_FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                //_FrmMensajes.ShowDialog();
+                ////Debug.WriteLine($"Control con foco: {this.ActiveControl?.Name}");
+
+                btnPrincipal.Focus();
                 tabControl.SelectedIndex = 0;
+               
+                //}
+
                 //Pnl_2.Visible = false;
                 Pnl_1.Visible = true;
 
@@ -2009,52 +2012,7 @@ namespace CapaVisual_Login
             }
         }
 
-        private void btnExamen_CheckedChanged(object sender, EventArgs e)
-        {
-            //mantenervacio = false;
-            //llenarCabeceraExamenyOrden();
-            //if (Cbx_Tap2_Tipo_Examen.Text == "CONTACTO")
-            //{
-            //    grp_pln2_Cont1.Visible = true;
-            //    grp_pln2_Cont1.BringToFront();
-            //}
-            //else if (Cbx_Tap2_Tipo_Examen.Text == "CONVENCIONAL")
-            //{
-
-            //    grp_pln2_Conv2.Visible = true;
-
-            //    grp_pln2_Conv2.BringToFront();
-            //}
-            //VisualizarPanel("MostrarCabeceraExamen");
-
-            ////Txt_Pnl_2_Cedula.Visible = true;
-            ////Txt_Pnl_2_Nombre.Visible = true;
-            ////Lbl_Pnl2_Cedula.Visible = true;
-            ////Lbl_Pnl2_Nombre.Visible = true;
-            ////Txt_Pnl_2_Cedula.Text = Cbx_Tap1_Nacionalidad.SelectedItem.ToString() + Txt_Tap1_Cedula.Text.ToString();
-            ////Txt_Pnl_2_Nombre.Text = Txt_Tap1_Nombre.Text.ToString();
-            ////Txt_Pnl_2_Cedula.Location = new System.Drawing.Point(20, 10);
-            ////Txt_Pnl_2_Cedula.BringToFront();
-            //btnCargarOrden.Enabled = true;
-            //if (tabControl.TabPages.Count > 0)
-            //{
-            //    tabControl.SelectedIndex = 1;
-            //    label43.Text = "Datos de Clientes";
-
-            //    grp_pln2_Cont1.BringToFront();
-            //    btn_pln2_oft.BringToFront();
-            //    btn_pln2_reti.BringToFront();
-            //    btn_pln2_quer.BringToFront();
-            //    Btn_Tap2_Derecha_Click(this.Btn_Tap2_Derecha, EventArgs.Empty);
-
-
-            //    // Opcional: Llamar al evento directamente si la selección no lo dispara
-            //    // tabControl_SelectedIndexChanged(tabControl, EventArgs.Empty);
-            //}
-            //Pnl_2.Visible = true;
-            //grp_pln2_Conv2.Visible = true;
-
-        }
+        
 
         private void btnExamen_Click(object sender, EventArgs e)
         {
@@ -2066,82 +2024,12 @@ namespace CapaVisual_Login
             else
             {
                 VisualizarPanel("MostrarCabeceraExamen");
+                btnExamen.Focus();
                 tabControl.SelectedIndex = 1;
+               
             }
 
 
-
-
-
-            //if (Cbx_Tap2_Tipo_Examen.Text == "CONTACTO")
-            //{
-            //    grp_pln2_Cont1.Visible = true;
-            //    grp_pln2_Cont1.BringToFront();
-            //}
-            //else if (Cbx_Tap2_Tipo_Examen.Text == "CONVENCIONAL")
-            //{
-            //    grp_pln2_Conv2.Visible = true;
-            //    grp_pln2_Conv2.BringToFront();
-            //}
-            //VisualizarPanel("MostrarCabeceraExamen");
-
-            //Txt_Pnl_2_Cedula.Visible = true;
-            //Txt_Pnl_2_Nombre.Visible = true;
-            //Lbl_Pnl2_Cedula.Visible = true;
-            //Lbl_Pnl2_Nombre.Visible = true;
-            //Txt_Pnl_2_Cedula.Text = Cbx_Tap1_Nacionalidad.SelectedItem.ToString() + Txt_Tap1_Cedula.Text.ToString();
-            //Txt_Pnl_2_Nombre.Text = Txt_Tap1_Nombre.Text.ToString();
-            //Txt_Pnl_2_Cedula.Location = new System.Drawing.Point(20, 10);
-            //Txt_Pnl_2_Cedula.BringToFront();
-            //btnCargarOrden.Enabled = true;
-            //if (tabControl.TabPages.Count > 0)
-            //{
-            //    tabControl.SelectedIndex = 1;
-            //    label43.Text = "Datos de Clientes";
-
-            //    grp_pln2_Cont1.BringToFront();
-            //    btn_pln2_oft.BringToFront();
-            //    btn_pln2_reti.BringToFront();
-            //    btn_pln2_quer.BringToFront();
-
-            //    Btn_Tap2_Derecha_Click(this.Btn_Tap2_Derecha, EventArgs.Empty);
-
-
-            //    // Opcional: Llamar al evento directamente si la selección no lo dispara
-            //    // tabControl_SelectedIndexChanged(tabControl, EventArgs.Empty);
-            //}
-            //Pnl_2.Visible = true;
-            //grp_pln2_Conv2.Visible = true;
-            //VisualizarPanel("MostrarCabeceraExamen");
-
-            //Txt_Pnl_2_Cedula.Visible = true;
-            //Txt_Pnl_2_Nombre.Visible = true;
-            //Lbl_Pnl2_Cedula.Visible = true;
-            //Lbl_Pnl2_Nombre.Visible = true;
-            //Txt_Pnl_2_Cedula.Text = Cbx_Tap1_Nacionalidad.SelectedItem.ToString() + Txt_Tap1_Cedula.Text.ToString();
-            //Txt_Pnl_2_Nombre.Text = Txt_Tap1_Nombre.Text.ToString();
-            //Txt_Pnl_2_Cedula.Location = new System.Drawing.Point(20, 10);
-            //Txt_Pnl_2_Cedula.BringToFront();
-            //btnCargarOrden.Enabled = true;
-            //if (tabControl.TabPages.Count > 0)
-            //{
-            //    tabControl.SelectedIndex = 1;
-            //    label43.Text = "Datos de Clientes";
-
-            //    grp_pln2_Cont1.BringToFront();
-            //    btn_pln2_oft.BringToFront();
-            //    btn_pln2_reti.BringToFront();
-            //    btn_pln2_quer.BringToFront();
-            //    if (mantengoexamenseleccionado == false) // Voy al ultimo
-            //    {
-            //        Btn_Tap2_Derecha_Click(this.Btn_Tap2_Derecha, EventArgs.Empty);
-            //    }
-
-            //    // Opcional: Llamar al evento directamente si la selección no lo dispara
-            //    // tabControl_SelectedIndexChanged(tabControl, EventArgs.Empty);
-            //}
-            //Pnl_2.Visible = true;
-            //grp_pln2_Conv2.Visible = true;
         }
 
         private void btnDetalleOrden_CheckedChanged(object sender, EventArgs e)
@@ -2150,43 +2038,31 @@ namespace CapaVisual_Login
             {
                 //Guardo Cliente y voy a carga
                 Btn_Tap1_Guardar.PerformClick();
+                btnCargarOrden.Focus();
                 tabControl.SelectedIndex = 2;
+                
                 return;
             }
 
             if (tabControl.SelectedIndex == 1)
             {
+                btnCargarOrden.Focus(); 
                 tabControl.SelectedIndex = 2;
+                
                 //ValidarTipoTrabajoTipoExamen(Cbx_Pnl2_Trbajo.SelectedValue.ToString(), Cbx_Tap2_Tipo_Examen.Text);
-               return;
+                return;
             }
 
             if (tabControl.SelectedIndex == 2)
             {
+                btnExamen.Focus();
                 tabControl.SelectedIndex = 1;
+               
                 return;
 
             }
             
 
-
-            
-          
-            //Btn_Tap2_GuardarExam.PerformClick();
-
-            /*VisualizarPanel("MostrarCabezeraSecundaria");
-            Txt_Pnl2_Examen.Text = Txt_Tap2_Examen.Text;
-            tabControl.SelectedIndex = 2;
-
-            if (_D_DetalleOrden.TB_PARAMETRO("EditarGridFact") == "1")
-            {
-                Txt_Tap3_Articulo_Precio.Enabled = true;
-            }
-            else
-            {
-                Txt_Tap3_Articulo_Precio.Enabled = false;
-            }
-            LLenar_TbTrabajo();*/
         }
 
         private void Dgv_Tap3_Articulo_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
@@ -3164,6 +3040,30 @@ namespace CapaVisual_Login
         {
             try
             {
+                //if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01")
+                //{
+                //    if ((Convert.ToInt32(txtAltD.Text) < 10 || Convert.ToInt32(txtAltD.Text) > 35) || Convert.ToInt32(txtAltI.Text) < 10 || Convert.ToInt32(txtAltI.Text) > 35)
+                //    {
+                //        _FrmMensajes.co = 2;
+                //        _FrmMensajes.avisomensaje("Valor inválido, rango entre 10 y 35");
+                //        _FrmMensajes.ShowDialog();
+                //        return;
+                //    }
+                //}
+                if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() != "04" && Cbx_Pnl2_Trbajo.SelectedValue.ToString() != "05")
+                {
+                    if (!ValidarVisionConv())
+                    {
+                        Pnl_2_Msj.Visible = true;
+                        txt_pl2_msj.Text = "Debe colocar tipos de visión validos La combinación posible es el mismo tipo de visión o Balance ";
+                        //pb_pl2_mj.Visible = true;
+                        Pnl_2_Msj.Location = new Point(396, 175);
+                        Pnl_2_Msj.BringToFront();
+
+                        return;
+                    }
+                }
+
                 //Btn_Tap3_Procesar.Enabled = false;
                 LLenar_TbTrabajo();
 
@@ -3575,8 +3475,8 @@ namespace CapaVisual_Login
 
             nuevoTrabajo.TCEDIDEN = Txt_Tap1_Cedula.Text.Trim();
             nuevoTrabajo.TNACIO = Cbx_Tap1_Nacionalidad.Text.Trim(); // Ajusta según cómo manejas la nacionalidad
-            nuevoTrabajo.TALTD = Dgv_Pnl2_conv.Rows[0].Cells["ALTURA"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[0].Cells["ALTURA"].Value) : 0;
-            nuevoTrabajo.TALTI = Dgv_Pnl2_conv.Rows[1].Cells["ALTURA"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[1].Cells["ALTURA"].Value) : 0;
+            nuevoTrabajo.TALTD = Convert.ToDecimal(txtAltD.Text);
+            nuevoTrabajo.TALTI = Convert.ToDecimal(txtAltI.Text);
             nuevoTrabajo.TTIPOVISIOND = cbVisionDerecha.Text;//Dgv_Pnl2_conv.Rows[0].Cells["VISION"]?.Value?.ToString() ?? " ";
             nuevoTrabajo.TTIPOVISIONI = cbVisionIzquierda.Text;
             nuevoTrabajo.TSucursal = codigoSucursal;
@@ -3594,7 +3494,14 @@ namespace CapaVisual_Login
 
             }
             nuevoTrabajo.TOJO = Cbx_Tap2_Ojo.Text;
-            nuevoTrabajo.TipoExamen = Cbx_Tap2_Tipo_Examen.Text;
+            if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01" || Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "02")
+            {
+                nuevoTrabajo.TipoExamen = Cbx_Tap2_Tipo_Examen.Text;
+            }
+            else
+            {
+                nuevoTrabajo.TipoExamen = "";
+            }
             Txt_Pnl2_Cedula.Text = Cbx_Tap1_Nacionalidad.Text.Trim() + "-" +Txt_Tap1_Cedula.Text.Trim();
 
             bool encontrado = false;
@@ -4017,9 +3924,6 @@ namespace CapaVisual_Login
 
         }
 
-        private void btnAutorizarRangosCrt_Click(object sender, EventArgs e)
-        {}
-
         private void btnCancelarRangosCrt_Click(object sender, EventArgs e)
         {
             pnlRangoCrt.Visible = false;
@@ -4182,9 +4086,6 @@ namespace CapaVisual_Login
           
            
         }
-
-        private void panel2_Paint(object sender, PaintEventArgs e)
-        {}
 
         private void btnCancelarAfiliado_Click(object sender, EventArgs e)
         {
@@ -4632,12 +4533,19 @@ namespace CapaVisual_Login
                     Txt_Pnl2_Fecha_Ofre.Text = $"{resultado.FechaOfrecida:dd/MM/yyyy}";
                 }
 
+
+                label34.Visible = false;
+                label35.Visible = false;
+                txtAltD.Visible = false;
+                txtAltI.Visible = false;
+
                 label24.Visible = false;
                 Cbx_Tap2_Ojo.Visible = false;
                 label26.Visible = false;
                 cbVisionDerecha.Visible = false;
                 label33.Visible = false;
                 cbVisionIzquierda.Visible = false;
+
             }
             else if (TipoVenta == "Reparacion")
             {
@@ -4694,13 +4602,13 @@ namespace CapaVisual_Login
 
             if (tipoTrabajoSeleccionado)
             {
-                if (ValidarTipoTrabajoTipoExamen(Cbx_Pnl2_Trbajo.SelectedValue.ToString(), Cbx_Tap2_Tipo_Examen.Text) == true)
-                {
+                //if (ValidarTipoTrabajoTipoExamen(Cbx_Pnl2_Trbajo.SelectedValue.ToString(), Cbx_Tap2_Tipo_Examen.Text) == true)
+                //{
                     Cbx_Pnl2_Trbajo.Enabled = false;
                     CargarComboLaboratorios();
                     //CargarComboServicioLaboratorios();
                     ValidarTipoVenta(Cbx_Pnl2_Trbajo.Text);
-                }
+                //}
             }
 
             else
@@ -4838,8 +4746,7 @@ namespace CapaVisual_Login
             }
         }
 
-        private void txtObservacion_TextChanged(object sender, EventArgs e)
-        {}
+        
 
         private void txtObservacion_Click(object sender, EventArgs e)
         {
@@ -4924,7 +4831,7 @@ namespace CapaVisual_Login
         private void Cbx_Tap2_Ojo_SelectedIndexChanged(object sender, EventArgs e)
         {
             //CargarComboServicioLaboratorios();
-            if (Cbx_Tap2_Ojo.SelectedItem?.ToString() == "OJO DERECHO")
+            if (Cbx_Tap2_Ojo.Text == "Derecho")
             {
                 cbVisionIzquierda.Enabled = false;
                 cbVisionDerecha.Enabled = true;
@@ -4969,10 +4876,6 @@ namespace CapaVisual_Login
 
         }
 
-        private void tabPage1_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void txtHorizontal_Validated(object sender, EventArgs e)
         {
@@ -5228,20 +5131,7 @@ namespace CapaVisual_Login
             Cbx_Pnl2_Servicio.Enabled = true;
         }
 
-        private void btnAceptarOsGarantia_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btnCamcelarOsGarantia_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Txt_Tap1_Cedula_Pagador_TextChanged(object sender, EventArgs e)
-        {
-
-        }
+      
 
         private void Txt_Tap1_Cedula_Pagador_KeyDown(object sender, KeyEventArgs e)
         {
@@ -5308,20 +5198,6 @@ namespace CapaVisual_Login
 
         }
 
-        private void Txt_Tap1_Cedula_MouseClick(object sender, MouseEventArgs e)
-        {
-
-        }
-
-        private void Txt_Tap1_Cedula_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Txt_Tap1_Cedula_Enter(object sender, EventArgs e)
-        {
-
-        }
 
         private void Txt_Tap1_Cedula_KeyDown(object sender, KeyEventArgs e)
         {
@@ -5480,10 +5356,7 @@ namespace CapaVisual_Login
             }
         }
 
-        private void Txt_Tap1_Email_TextChanged(object sender, EventArgs e)
-        {
-
-        }
+     
 
         private void Txt_Tap1_Email_Leave(object sender, EventArgs e)
         {
@@ -5512,11 +5385,7 @@ namespace CapaVisual_Login
             }
         }
 
-        private void Txt_Tap1_TLF_Local_KeyPress(object sender, KeyPressEventArgs e)
-        {
-
-        }
-
+        
         private void Txt_Tap1_TLF_Local_Leave(object sender, EventArgs e)
         {
 
@@ -5545,10 +5414,7 @@ namespace CapaVisual_Login
             }
         }
 
-        private void Txt_Tap1_TLF_Celular_TextChanged(object sender, EventArgs e)
-        {
-
-        }
+       
 
         private void Txt_Tap1_TLF_Celular_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -5659,71 +5525,12 @@ namespace CapaVisual_Login
             }
         }
 
-        private void pnlClienteGarantia_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
 
         /*MEIFER*/
         // Evento CellEndEdit: Se dispara después de que la edición de la celda ha terminado.
         // Es útil para limpiar mensajes de error una vez que la edición ha finalizado.
 
-        private void Dgv_Pnl2_Querato_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
-        {
-
-
-            //// Asegúrate de que la validación se aplique solo a las columnas correctas.
-            //string columnName = Dgv_Pnl2_Querato.Columns[e.ColumnIndex].Name;
-
-            //if (columnName == "QUERATOMD1" || columnName == "QUERATOMI1")
-            //{
-            //    // Obtiene el valor de la celda que se está validando.
-            //    string cellValue = e.FormattedValue?.ToString();
-
-            //    if (decimal.TryParse(cellValue, out decimal valor))
-            //    {
-            //        // Supongo que minMeridianoCorneal y maxMeridianoCorneal son variables accesibles en este contexto.
-            //        if ((valor < minMeridianoCorneal || valor > maxMeridianoCorneal) && valor != 0)
-            //        {
-            //            // Cancela la salida de la celda para mantener el foco en ella.
-            //            e.Cancel = true;
-            //        Dgv_Pnl2_Querato.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = 0;
-            //        // Muestra el mensaje de error.
-            //        Pnl_2_Msj.Visible = true;
-            //            txt_pl2_msj.Text = $"El valor debe estar entre {minMeridianoCorneal} y {maxMeridianoCorneal}.";
-            //            //pb_pl2_mj.Visible = true;
-
-            //            // Establece el mensaje de error para la celda.
-            //            Dgv_Pnl2_Querato.Rows[e.RowIndex].ErrorText = $"Error: El valor está fuera del rango permitido ({minMeridianoCorneal}-{maxMeridianoCorneal}).";
-            //        }
-            //        else
-            //        {
-            //            // Si el valor es válido, limpia cualquier mensaje de error anterior.
-            //            Dgv_Pnl2_Querato.Rows[e.RowIndex].ErrorText = string.Empty;
-            //        }
-            //    }
-            //    else
-            //    {
-            //        // Si el valor no es un número válido, cancela la salida y muestra un error.
-            //        e.Cancel = true;
-            //        Dgv_Pnl2_Querato.Rows[e.RowIndex].ErrorText = "Error: Por favor, introduce un número válido.";
-            //    }
-            //}
-            //else
-            //{
-            //    // Para otras columnas, asegúrate de limpiar cualquier error que pudiera haber quedado.
-            //    Dgv_Pnl2_Querato.Rows[e.RowIndex].ErrorText = string.Empty;
-            //}
-
-
-            // Asegúrate de que "NombreDeTuColumnaMeridiano" sea el nombre real de tu columna en el DataGridView
-
-        }
+        
 
         private void Dgv_Pnl2_Querato_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
@@ -5819,67 +5626,7 @@ namespace CapaVisual_Login
             }
         }
 
-        private void Dgv_Pnl2_conv_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
-        {
-            if (Dgv_Pnl2_conv.Columns[e.ColumnIndex].Name == "Altura")
-            {
-                string textoIngresado = e.FormattedValue?.ToString();
-
-                if (int.TryParse(textoIngresado, out int valor))
-                {
-                    if (valor == 0 || (valor >= 10 && valor <= 35))
-                    {
-                        // Valor válido → no hacemos nada
-                    }
-                    else
-                    {
-                        // Valor inválido: lo dejamos en blanco
-                        Dgv_Pnl2_conv.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = "0";
-                        e.Cancel = true; // evita que el control sobrescriba con mínimo
-                    }
-                }
-                else
-                {
-                    // No se pudo convertir → borrar celda
-                    Dgv_Pnl2_conv.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = null;
-                    e.Cancel = true;
-                }
-            }
-
-
-
-            ////////////
-            //if (e.ColumnIndex >= 0 && Dgv_Pnl2_conv.Columns[e.ColumnIndex].Name == "Vision" && e.RowIndex == 1)
-            //{
-            //    DataGridViewCell cellFila0 = Dgv_Pnl2_conv.Rows[0].Cells[e.ColumnIndex];
-            //    DataGridViewComboBoxCell cellFila1 = (DataGridViewComboBoxCell)Dgv_Pnl2_conv.Rows[1].Cells[e.ColumnIndex];
-
-            //    string valorFila0 = cellFila0.Value?.ToString().Trim().ToUpper();
-            //    string valorFila1 = cellFila1.Value?.ToString().Trim().ToUpper();
-
-            //    if (valorFila0 != valorFila1 && valorFila1 != "BALANCE" && valorFila0 != "BALANCE")
-            //    {
-            //        Pnl_2_Msj.Visible = true;
-            //        txt_pl2_msj.Text = "Combinaciones posibles es el mismo tipo o  'BALANCE', Se ha restablecido";
-            //        //pb_pl2_mj.Visible = true;
-
-            //        cellFila1.Value = null; // O cellFila1.Value = string.Empty; según lo que permita tu columna
-
-            //        e.Cancel = true;
-            //    }
-            //    else
-            //    {
-            //        if (Pnl_2_Msj.Visible)
-            //        {
-            //            Pnl_2_Msj.Visible = false;
-            //            txt_pl2_msj.Text = string.Empty;
-            //            //pb_pl2_mj.Visible = false;
-            //        }
-            //    }
-            //}
-            ////////////
-
-        }
+        
 
         private void Dgv_Pnl2_Querato_Leave(object sender, EventArgs e)
         {
@@ -6065,7 +5812,7 @@ namespace CapaVisual_Login
             Dgv_Pnl2_medconv.AllowUserToDeleteRows = false;
             Dgv_Pnl2_medconv.ReadOnly = false;
             Dgv_Pnl2_medconv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            Dgv_Pnl2_medconv.ColumnHeadersVisible = true;
+            //Dgv_Pnl2_medconv.ColumnHeadersVisible = true;
             Dgv_Pnl2_medconv.RowHeadersVisible = false;
             Dgv_Pnl2_medconv.AllowUserToResizeColumns = false; // Bloquear el cambio de tamaño de las columnas
             Dgv_Pnl2_medconv.AllowUserToResizeRows = false;    // Bloquear el cambio de tamaño de las filas
@@ -6316,11 +6063,11 @@ namespace CapaVisual_Login
             ejeColumn.Maximum = 180M;
             //ejeColumn.Increment = 5M;
             // Formato personalizado para mostrar siempre 3 dígitos
-            ejeColumn.DefaultCellStyle.Format = "000";
+            //ejeColumn.DefaultCellStyle.Format = "000";
             ejeColumn.Width = 60;
             ejeColumn.Resizable = DataGridViewTriState.False;
             //ejeColumn.DecimalPlaces = 2;
-            ejeColumn.Increment =1M;
+            ejeColumn.Increment = 1M;
             Dgv_Pnl2_cont.Columns.Add(ejeColumn);
 
 
@@ -6328,7 +6075,7 @@ namespace CapaVisual_Login
             DataGridViewNumericUpDownColumn adicionColumn = new DataGridViewNumericUpDownColumn();
             adicionColumn.Name = "Adicion";
             adicionColumn.DataPropertyName = "Adicion";
-            adicionColumn.HeaderText = "ADDcont";
+            adicionColumn.HeaderText = "ADD";
             adicionColumn.DecimalPlaces = 2;
             adicionColumn.Minimum = 0.75M;
             adicionColumn.Maximum = +3.50M;
@@ -6593,8 +6340,6 @@ namespace CapaVisual_Login
             ejeColumn.Minimum = 0M;
             ejeColumn.Maximum = 180M;
             ejeColumn.Increment = 1M;
-            // Formato personalizado para mostrar siempre 3 dígitos
-            ejeColumn.DefaultCellStyle.Format = "000";
             Dgv_Pnl2_conv.Columns.Add(ejeColumn);
 
 
@@ -6697,15 +6442,15 @@ namespace CapaVisual_Login
             grado1Column.Increment = 90; // Establece el incremento en 90
             Dgv_Pnl2_conv.Columns.Add(grado1Column);
 
-            DataGridViewNumericUpDownColumn AlturaColumn = new DataGridViewNumericUpDownColumn();
-            AlturaColumn.Name = "Altura";
-            AlturaColumn.DataPropertyName = "Altura";
-            AlturaColumn.HeaderText = "Altura";
-            AlturaColumn.Minimum = 10;
-            AlturaColumn.Maximum = 35;
-            // Formato personalizado para mostrar siempre 3 dígitos
-            AlturaColumn.DefaultCellStyle.Format = "000";
-            Dgv_Pnl2_conv.Columns.Add(AlturaColumn);
+            //DataGridViewNumericUpDownColumn AlturaColumn = new DataGridViewNumericUpDownColumn();
+            //AlturaColumn.Name = "Altura";
+            //AlturaColumn.DataPropertyName = "Altura";
+            //AlturaColumn.HeaderText = "Altura";
+            //AlturaColumn.Minimum = 10;
+            //AlturaColumn.Maximum = 35;
+            //// Formato personalizado para mostrar siempre 3 dígitos
+            //AlturaColumn.DefaultCellStyle.Format = "000";
+            //Dgv_Pnl2_conv.Columns.Add(AlturaColumn);
 
 
             // Now, add your custom DataGridViewComboBoxColumn for "Vision"
@@ -7065,11 +6810,11 @@ namespace CapaVisual_Login
             }
 
 
-            if (Dgv_Pnl2_conv.Columns.Contains("Altura"))
-            {
-                Dgv_Pnl2_conv.Columns["Altura"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-                Dgv_Pnl2_conv.Columns["Altura"].Width = 60; // Establecer el ancho fijo (aproximadamente 0.5 cm)
-            }
+            //if (Dgv_Pnl2_conv.Columns.Contains("Altura"))
+            //{
+            //    Dgv_Pnl2_conv.Columns["Altura"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            //    Dgv_Pnl2_conv.Columns["Altura"].Width = 60; // Establecer el ancho fijo (aproximadamente 0.5 cm)
+            //}
 
 
             //if (Dgv_Pnl2_conv.Columns.Contains("Vision"))
@@ -7315,7 +7060,7 @@ namespace CapaVisual_Login
                 dt.Columns.Add("Prisma1", typeof(decimal));
                 dt.Columns.Add("Grado1", typeof(decimal));
 
-                dt.Columns.Add("Altura", typeof(decimal));
+                //dt.Columns.Add("Altura", typeof(decimal));
                 //dt.Columns.Add("Vision", typeof(string));
 
                 // Agregar las dos filas fijas
@@ -7340,8 +7085,8 @@ namespace CapaVisual_Login
 
                     dt.Rows[0]["Visual"] = con.AVD; // Accede a AVI a través del objeto 'con' (TB_Ficconv)
                     dt.Rows[1]["Visual"] = con.AVI; // Accede a AVD a través del objeto 'con' (TB_Ficconv)
-                    dt.Rows[0]["Altura"] = con.ALTD; // Accede a AVI a través del objeto 'con' (TB_Ficconv)
-                    dt.Rows[1]["Altura"] = con.ALTI; // Accede a AVD a través del objeto 'con' (TB_Ficconv)
+                    //dt.Rows[0]["Altura"] = con.ALTD; // Accede a AVI a través del objeto 'con' (TB_Ficconv)
+                    //dt.Rows[1]["Altura"] = con.ALTI; // Accede a AVD a través del objeto 'con' (TB_Ficconv)
 
                     dt.Rows[0]["Lejos"] = con.DPDL.HasValue ? con.DPDL.Value : 0M;
                     dt.Rows[1]["Lejos"] = con.DPIL.HasValue ? con.DPIL.Value : 0M;
@@ -7715,7 +7460,7 @@ namespace CapaVisual_Login
                         {
                             if (con.ESFD > 0)
                             {
-                                dt.Rows[1]["aEsfera"] = "+";
+                                dt.Rows[0]["aEsfera"] = "+";
                             }
                             else if (con.ESFD < 0) // This condition is redundant with the one below and might be a typo. Should it be con.ESFI < 0?
                             {
@@ -7959,7 +7704,7 @@ namespace CapaVisual_Login
                         Dgv_Pnl2_medconv.ReadOnly = false;
                         Dgv_Pnl2_medconv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
                         Dgv_Pnl2_medconv.ColumnHeadersVisible = true;
-                        Dgv_Pnl2_medconv.RowHeadersVisible = false;
+                        //Dgv_Pnl2_medconv.RowHeadersVisible = false;
                         Dgv_Pnl2_medconv.AllowUserToResizeColumns = false;
                         Dgv_Pnl2_medconv.AllowUserToResizeRows = false;
 
@@ -7989,7 +7734,7 @@ namespace CapaVisual_Login
                 Dgv_Pnl2_medconv.ReadOnly = false;
                 Dgv_Pnl2_medconv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
                 Dgv_Pnl2_medconv.ColumnHeadersVisible = true;
-                Dgv_Pnl2_medconv.RowHeadersVisible = false;
+                //Dgv_Pnl2_medconv.RowHeadersVisible = false;
                 Dgv_Pnl2_medconv.AllowUserToResizeColumns = false;
                 Dgv_Pnl2_medconv.AllowUserToResizeRows = false;
 
@@ -8829,7 +8574,9 @@ namespace CapaVisual_Login
                 guardaclienteP();
 
                 Btn_Tap2_Derecha_Click(this.Btn_Tap2_Derecha, EventArgs.Empty);
+                btnExamen.Focus();
                 tabControl.SelectedIndex = 1;
+                
                 // LimpiarCampos();
                 // Recargar la lista de clientes si es necesario
                 // CargarClientesEnDataGridView();
@@ -8847,6 +8594,7 @@ namespace CapaVisual_Login
             LimpiarCampos2();
             limpearExamen();
 
+            
 
             Txt_Pnl2_Cedula.Text = dtCliente.Rows[0]["CTE_Nacio"].ToString() +"-"+dtCliente.Rows[0]["CTE_CedIden"].ToString(); // Ajusta el nombre de la columna
             Txt_Pnl_2_Nombre.Text = dtCliente.Rows[0]["CTE_PNombre"].ToString(); // Ajusta el nombre de la columna
@@ -8947,13 +8695,13 @@ namespace CapaVisual_Login
 
 
 
-
+            Cbx_Tap1_Estado.SelectedValue = dtCliente.Rows[0]["COD_Edo"].ToString();
 
 
             Cbx_Tap1_Ciudad.SelectedValue = dtCliente.Rows[0]["COD_Ciud"].ToString();
             //Cbx_Tap1_Ciudad.DisplayMember = dtCliente.Rows[0]["CIUD_Nombre"].ToString();
             //
-            Cbx_Tap1_Estado.SelectedValue = dtCliente.Rows[0]["COD_Edo"].ToString();
+           
             //         	   ,NULL[TLF_Cod002]
             //,NULL[TLF_Numero002]
             //,NULL[TLF_Ext002]
@@ -10095,6 +9843,7 @@ namespace CapaVisual_Login
 
 
                 // Recopilar los datos de los controles del formulario
+                nuevoFicconv.COD_Sucursal = codigoSucursal;
                 nuevoFicconv.CTE_CedIden = Txt_Tap1_Cedula.Text.Trim();
                 nuevoFicconv.CTE_Nacio = Cbx_Tap1_Nacionalidad.Text.Trim(); // Ajusta según cómo manejas la nacionalidad
 
@@ -10136,8 +9885,8 @@ namespace CapaVisual_Login
                     nuevoExamen.ESFI2 = Dgv_Pnl2_conv.Rows[1].Cells["Prisma1"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[1].Cells["Prisma1"].Value) : 0;
 
 
-                    nuevoTrabajo.TALTD = Dgv_Pnl2_conv.Rows[0].Cells["ALTURA"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[0].Cells["ALTURA"].Value) : 0;
-                    nuevoTrabajo.TALTI = Dgv_Pnl2_conv.Rows[1].Cells["ALTURA"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[1].Cells["ALTURA"].Value) : 0;
+                    nuevoTrabajo.TALTD = Convert.ToDecimal(txtAltD.Text);
+                    nuevoTrabajo.TALTI = Convert.ToDecimal(txtAltI.Text);
 
                     //ALTD ALTI    PRISMAD PRISMAI  DPDL	DPDC	DPIL	DPIC
 
@@ -10156,8 +9905,8 @@ namespace CapaVisual_Login
                     nuevoFicconv.PRISMAI = Dgv_Pnl2_conv.Rows[1].Cells["Prisma1"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[1].Cells["Prisma1"].Value) : 0;
 
 
-                    nuevoFicconv.ALTD = Dgv_Pnl2_conv.Rows[0].Cells["ALTURA"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[0].Cells["ALTURA"].Value) : 0;
-                    nuevoFicconv.ALTI = Dgv_Pnl2_conv.Rows[1].Cells["ALTURA"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[1].Cells["ALTURA"].Value) : 0;
+                    nuevoFicconv.ALTD = Convert.ToDecimal(txtAltD.Text);
+                    nuevoFicconv.ALTI = Convert.ToDecimal(txtAltI.Text);
 
                     nuevoFicconv.PBASED = Dgv_Pnl2_conv.Rows[0].Cells["Grado1"]?.Value.ToString();
                     nuevoFicconv.PBASEI = Dgv_Pnl2_conv.Rows[1].Cells["Grado1"]?.Value.ToString();
@@ -10205,7 +9954,14 @@ namespace CapaVisual_Login
                 nuevoExamen.TIPOEXAMEN = Cbx_Tap2_Tipo_Examen.Text;
 
 
-                nuevoTrabajo.TipoExamen = Cbx_Tap2_Tipo_Examen.Text;
+                if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01" || Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "02")
+                {
+                    nuevoTrabajo.TipoExamen = Cbx_Tap2_Tipo_Examen.Text;
+                }
+                else
+                {
+                    nuevoTrabajo.TipoExamen = "";
+                }
                 nuevoExamen.TIPO_Optm = Cbx_Tap2_Tipo_Optome.Text;
 
 
@@ -10339,9 +10095,10 @@ namespace CapaVisual_Login
                 //dt.Columns.Add("Gradosd", typeof(decimal));
 
                 // Datos de Dgv_Pnl2_medoftal           
-                if (Dgv_Pnl2_Querato.Rows.Count > 0)
+                if (Dgv_Pnl2_Querato.Rows[0].Cells[0].Value.ToString() != "0" || Dgv_Pnl2_Querato.Rows[0].Cells[1].Value.ToString() != "0" || Dgv_Pnl2_Querato.Rows[0].Cells[2].Value.ToString() != "0" || Dgv_Pnl2_Querato.Rows[0].Cells[3].Value.ToString() != "0"
+                 || Dgv_Pnl2_Querato.Rows[1].Cells[0].Value.ToString() != "0" || Dgv_Pnl2_Querato.Rows[1].Cells[1].Value.ToString() != "0" || Dgv_Pnl2_Querato.Rows[1].Cells[2].Value.ToString() != "0" || Dgv_Pnl2_Querato.Rows[1].Cells[3].Value.ToString() != "0")
                 {
-
+                    nuevoQuerato.COD_Sucursal = codigoSucursal;
                     nuevoQuerato.QUERATOMD1 = Dgv_Pnl2_Querato.Rows[0].Cells[0]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_Querato.Rows[0].Cells[0].Value) : 0;
                     nuevoQuerato.QUERATOGD1 = Dgv_Pnl2_Querato.Rows[0].Cells[1]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_Querato.Rows[0].Cells[1].Value) : 0;
                     nuevoQuerato.QUERATOMD2 = Dgv_Pnl2_Querato.Rows[0].Cells[2]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_Querato.Rows[0].Cells[2].Value) : 0;
@@ -10352,13 +10109,15 @@ namespace CapaVisual_Login
                     nuevoQuerato.QUERATOMI2 = Dgv_Pnl2_Querato.Rows[1].Cells[2]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_Querato.Rows[1].Cells[2].Value) : 0;
                     nuevoQuerato.QUERATOGI2 = Dgv_Pnl2_Querato.Rows[1].Cells[3]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_Querato.Rows[1].Cells[3].Value) : 0;
 
+                    nuevoQuerato.QUE_OBSERV = txt_Pnl2_obsQuero.Text;
+
+
+                    _L_Querato.AgregarQuerato(nuevoQuerato);
+
                 }
 
 
-                nuevoQuerato.QUE_OBSERV = txt_Pnl2_obsQuero.Text;
-
-
-                _L_Querato.AgregarQuerato(nuevoQuerato);
+                
                 _L_Trabajo.AgregarTrabajo(nuevoTrabajo);
 
             }
@@ -10501,16 +10260,16 @@ namespace CapaVisual_Login
             mantenervacio = false;
 
             // First, perform the validation
-            if (!ValidarVisionConv())
-            {
-                Pnl_2_Msj.Visible = true;
-                txt_pl2_msj.Text = "Debe colocar tipos de visión validos La combinación posible es el mismo tipo de visión o Balance ";
-                //pb_pl2_mj.Visible = true;
-                Pnl_2_Msj.Location = new Point(396, 175);
-                Pnl_2_Msj.BringToFront();
+            //if (!ValidarVisionConv())
+            //{
+            //    Pnl_2_Msj.Visible = true;
+            //    txt_pl2_msj.Text = "Debe colocar tipos de visión validos La combinación posible es el mismo tipo de visión o Balance ";
+            //    //pb_pl2_mj.Visible = true;
+            //    Pnl_2_Msj.Location = new Point(396, 175);
+            //    Pnl_2_Msj.BringToFront();
 
-                return;
-            }
+            //    return;
+            //}
 
 
 
@@ -10547,6 +10306,7 @@ namespace CapaVisual_Login
             nuevoQuerato.NUM_Examen = numeroExamen;
             nuevoTrabajo.TEXAMEN = numeroExamen.ToString();
 
+            nuevoFiccont.COD_Sucursal = codigoSucursal;
             nuevoFiccont.CTE_CedIden = Txt_Tap1_Cedula.Text.Trim();
             nuevoFiccont.CTE_Nacio = Cbx_Tap1_Nacionalidad.Text.Trim(); // Ajusta según cómo manejas la nacionalidad
 
@@ -10618,11 +10378,15 @@ namespace CapaVisual_Login
                     if (tabControl.SelectedIndex == 1)
                     {
                         btnCargarOrden.Enabled = true;
+                        btnCargarOrden.Focus();
                         tabControl.SelectedIndex = 2;
+                        
                     }
                     else
                     {
+                        btnExamen.Focus();
                         tabControl.SelectedIndex = 1;
+                       
                     }
                     //btnCargarOrden.Enabled = true;
                     //tabControl.SelectedIndex = 2;
@@ -10736,7 +10500,7 @@ namespace CapaVisual_Login
 
         private bool ValidarVisionConv()
         {
-            if (Cbx_Tap2_Ojo.Text == "AMBOS" && cbVisionDerecha.Text != cbVisionIzquierda.Text && cbVisionIzquierda.Text != "BALANCE" && cbVisionDerecha.Text != "BALANCE")
+            if (Cbx_Tap2_Ojo.Text == "Ambos" && cbVisionDerecha.Text != cbVisionIzquierda.Text && cbVisionIzquierda.Text != "Balance" && cbVisionDerecha.Text != "Balance")
             {
                 Pnl_2_Msj.Visible = true;
                 txt_pl2_msj.Text = "Debe colocar tipos de visión validos La combinación posible es el mismo tipo de visión o Balance";
@@ -10932,44 +10696,44 @@ namespace CapaVisual_Login
                 }
             }
 
-            if (e.ColumnIndex >= 0 && Dgv_Pnl2_conv.Columns[e.ColumnIndex].Name == "Eje" && e.RowIndex >= 0)
-            {
-                DataGridViewCell cell = Dgv_Pnl2_conv.Rows[e.RowIndex].Cells[e.ColumnIndex];
+            //if (e.ColumnIndex >= 0 && Dgv_Pnl2_conv.Columns[e.ColumnIndex].Name == "Eje" && e.RowIndex >= 0)
+            //{
+            //    DataGridViewCell cell = Dgv_Pnl2_conv.Rows[e.RowIndex].Cells[e.ColumnIndex];
 
-                // Verifica si la celda está vacía
-                if (cell.Value == null || string.IsNullOrEmpty(cell.Value.ToString()))
-                {
-                    cell.Value = 0; // Establece el valor a cero
-                }
-                else
-                {
-                    int valoreje = Convert.ToInt32(cell.Value);
-                    // Si la celda no está vacía, valida el número ingresado como entero
-                    if (int.TryParse(valoreje.ToString(), out int enteredValue))
-                    {
-                        // Verifica si el valor es un múltiplo de 5
-                        if (enteredValue % 5 != 0)
-                        {
-                            // Calcula el múltiplo de 5 más cercano
-                            int roundedValue = (int)Math.Round((double)enteredValue / 5) * 5;
+            //    // Verifica si la celda está vacía
+            //    if (cell.Value == null || string.IsNullOrEmpty(cell.Value.ToString()))
+            //    {
+            //        cell.Value = 0; // Establece el valor a cero
+            //    }
+            //    else
+            //    {
+            //        int valoreje = Convert.ToInt32(cell.Value);
+            //        // Si la celda no está vacía, valida el número ingresado como entero
+            //        if (int.TryParse(valoreje.ToString(), out int enteredValue))
+            //        {
+            //            // Verifica si el valor es un múltiplo de 5
+            //            if (enteredValue % 5 != 0)
+            //            {
+            //                // Calcula el múltiplo de 5 más cercano
+            //                int roundedValue = (int)Math.Round((double)enteredValue / 5) * 5;
 
-                            //// Muestra un mensaje al usuario
-                            //Pnl_2_Msj.Visible = true;
-                            //txt_pl2_msj.Text = $" El rango valido va desde 0,75 y 3,50  ";
-                            ////pb_pl2_mj.Visible = true;
+            //                //// Muestra un mensaje al usuario
+            //                //Pnl_2_Msj.Visible = true;
+            //                //txt_pl2_msj.Text = $" El rango valido va desde 0,75 y 3,50  ";
+            //                ////pb_pl2_mj.Visible = true;
 
-                            // Actualiza el valor de la celda
-                            cell.Value = roundedValue;
-                        }
-                    }
-                    else
-                    {
-                        // Si el valor no es un entero válido
-                        //MessageBox.Show("Por favor, ingrese un número entero válido.", "Error de entrada", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        cell.Value = 0; // O la acción que consideres adecuada
-                    }
-                }
-            }
+            //                // Actualiza el valor de la celda
+            //                cell.Value = roundedValue;
+            //            }
+            //        }
+            //        else
+            //        {
+            //            // Si el valor no es un entero válido
+            //            //MessageBox.Show("Por favor, ingrese un número entero válido.", "Error de entrada", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //            cell.Value = 0; // O la acción que consideres adecuada
+            //        }
+            //    }
+            //}
 
             if (e.ColumnIndex >= 0 && Dgv_Pnl2_conv.Columns[e.ColumnIndex].Name == "Adicion" && e.RowIndex >= 0)
             {
@@ -11182,16 +10946,16 @@ namespace CapaVisual_Login
 
 
 
-            if (e.ColumnIndex >= 0 && Dgv_Pnl2_conv.Columns[e.ColumnIndex].Name == "Altura" && e.RowIndex >= 0)
-            {
-                DataGridViewCell cell = Dgv_Pnl2_conv.Rows[e.RowIndex].Cells[e.ColumnIndex];
+            //if (e.ColumnIndex >= 0 && Dgv_Pnl2_conv.Columns[e.ColumnIndex].Name == "Altura" && e.RowIndex >= 0)
+            //{
+            //    DataGridViewCell cell = Dgv_Pnl2_conv.Rows[e.RowIndex].Cells[e.ColumnIndex];
 
-                // Verifica si la celda está vacía (Value es null o una cadena vacía)
-                if (cell.Value == null || string.IsNullOrEmpty(cell.Value.ToString()))
-                {
-                    cell.Value = 0; // Establece el valor a cero
-                }
-            }
+            //    // Verifica si la celda está vacía (Value es null o una cadena vacía)
+            //    if (cell.Value == null || string.IsNullOrEmpty(cell.Value.ToString()))
+            //    {
+            //        cell.Value = 0; // Establece el valor a cero
+            //    }
+            //}
 
 
             if (e.ColumnIndex >= 0 && Dgv_Pnl2_conv.Columns[e.ColumnIndex].Name == "Cilindro")
@@ -11605,44 +11369,44 @@ namespace CapaVisual_Login
                 }
             }
 
-            if (e.ColumnIndex >= 0 && Dgv_Pnl2_cont.Columns[e.ColumnIndex].Name == "Eje" && e.RowIndex >= 0)
-            {
-                DataGridViewCell cell = Dgv_Pnl2_cont.Rows[e.RowIndex].Cells[e.ColumnIndex];
+            //if (e.ColumnIndex >= 0 && Dgv_Pnl2_cont.Columns[e.ColumnIndex].Name == "Eje" && e.RowIndex >= 0)
+            //{
+            //    DataGridViewCell cell = Dgv_Pnl2_cont.Rows[e.RowIndex].Cells[e.ColumnIndex];
 
-                // Verifica si la celda está vacía
-                if (cell.Value == null || string.IsNullOrEmpty(cell.Value.ToString()))
-                {
-                    cell.Value = 0; // Establece el valor a cero
-                }
-                else
-                {
-                    int valoreje = Convert.ToInt32(cell.Value);
-                    // Si la celda no está vacía, valida el número ingresado
-                    if (int.TryParse(valoreje.ToString(), out int enteredValue))
-                    {
-                        // Verifica si el valor es un múltiplo de 5
-                        if (enteredValue % 5 != 0)
-                        {
-                            // Calcula el múltiplo de 5 más cercano
-                            int roundedValue = (int)Math.Round((double)enteredValue / 5) * 5;
+            //    // Verifica si la celda está vacía
+            //    if (cell.Value == null || string.IsNullOrEmpty(cell.Value.ToString()))
+            //    {
+            //        cell.Value = 0; // Establece el valor a cero
+            //    }
+            //    else
+            //    {
+            //        int valoreje = Convert.ToInt32(cell.Value);
+            //        // Si la celda no está vacía, valida el número ingresado
+            //        if (int.TryParse(valoreje.ToString(), out int enteredValue))
+            //        {
+            //            // Verifica si el valor es un múltiplo de 5
+            //            if (enteredValue % 5 != 0)
+            //            {
+            //                // Calcula el múltiplo de 5 más cercano
+            //                int roundedValue = (int)Math.Round((double)enteredValue / 5) * 5;
 
-                            // Muestra un mensaje al usuario
-                            //Pnl_2_Msj.Visible = true;
-                            //txt_pl2_msj.Text = $"El valor ingresado debe ser un múltiplo de 5. Se ha ajustado a {roundedValue}.";
-                            //pb_pl2_mj.Visible = true;
+            //                // Muestra un mensaje al usuario
+            //                //Pnl_2_Msj.Visible = true;
+            //                //txt_pl2_msj.Text = $"El valor ingresado debe ser un múltiplo de 5. Se ha ajustado a {roundedValue}.";
+            //                //pb_pl2_mj.Visible = true;
 
-                            // Actualiza el valor de la celda
-                            cell.Value = roundedValue;
-                        }
-                    }
-                    else
-                    {
-                        // Si el valor no es un entero válido
-                        //MessageBox.Show("Por favor, ingrese un número entero válido.", "Error de entrada", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        cell.Value = 0; // O la acción que consideres adecuada
-                    }
-                }
-            }
+            //                // Actualiza el valor de la celda
+            //                cell.Value = roundedValue;
+            //            }
+            //        }
+            //        else
+            //        {
+            //            // Si el valor no es un entero válido
+            //            //MessageBox.Show("Por favor, ingrese un número entero válido.", "Error de entrada", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //            cell.Value = 0; // O la acción que consideres adecuada
+            //        }
+            //    }
+            //}
 
 
 
@@ -11821,41 +11585,7 @@ namespace CapaVisual_Login
             // Para revalidar datos específicos, tendrías que iterar por las filas y columnas.
         }
 
-        private void tabControl_Selecting(object sender, TabControlCancelEventArgs e)
-        {
-            // Solo aplica la lógica si la pestaña ACTUAL (la que estamos dejando) es la pestaña 1
-            // y si hay cambios pendientes.
-            // e.TabPageIndex es la pestaña A LA QUE VAMOS.
-            // tabControl1.SelectedIndex es la pestaña DE LA QUE VENIMOS.
-
-
-            //if (tabControl.SelectedIndex == 1 && e.TabPageIndex == 0)
-            //{
-
-
-            //    // El usuario está intentando salir de la pestaña 1 y hay cambios sin guardar.
-            //    //DialogResult result = MessageBox.Show(
-            //    //    "Hay cambios sin guardar. ¿Desea guardar los cambios antes de salir de esta pestaña? De lo contrario, los cambios se perderán.",
-            //    //    "Cambios Pendientes",
-            //    //    MessageBoxButtons.YesNoCancel,
-            //    //    MessageBoxIcon.Warning);
-
-            //    //if (result == DialogResult.Yes)
-            //    //{
-            //    Btn_Tap2_GuardarExam_Click(this.Btn_Tap2_GuardarExam, EventArgs.Empty); // Llama a tu método para guardar.
-            //                                                                            //  }
-            //                                                                            //else if (result == DialogResult.No)
-            //                                                                            //{
-            //                                                                            //    //hayCambiosPendientes = false; // El usuario elige no guardar, así que "ignora" los cambios.
-            //                                                                            //}
-            //                                                                            //else // result == DialogResult.Cancel (o el usuario cierra el MessageBox)
-            //                                                                            //{
-            //                                                                            //    e.Cancel = true; // Cancela el cambio de pestaña.
-            //                                                                            //                     // Esto impide que el usuario cambie a la nueva pestaña.
-            //                                                                            //}
-            //}
-
-        }
+        
 
         private void button4_Click(object sender, EventArgs e)
         {
@@ -11863,35 +11593,7 @@ namespace CapaVisual_Login
             Pnl_2_Msj.Visible = false;
         }
 
-        private void Pnl_1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void Pnl_1_Tap2_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void label31_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lbl_pnl2_con_obser_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void txt_Pnl2_cont_observa_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label31_Click_1(object sender, EventArgs e)
-        {
-
-        }
+       
 
         private bool ValidarTipoTrabajoTipoExamen(string tipoVenta, string tipoExamen)
         {
@@ -12206,9 +11908,10 @@ namespace CapaVisual_Login
 
         public void AsignarRx_JuegoPantalla()
         {
-
-                tabControl.SelectedIndex = 1;
-                label43.Text = "Datos de Clientes";
+            btnExamen.Focus();
+            tabControl.SelectedIndex = 1;
+           
+            label43.Text = "Datos de Clientes";
 
                 grp_pln2_Cont1.BringToFront();
                 btn_pln2_oft.BringToFront();
@@ -12339,10 +12042,6 @@ namespace CapaVisual_Login
 
         }
 
-        private void Pnl_2_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
 
         private void llenarCabeceraExamenyOrden()
         {
@@ -12361,6 +12060,143 @@ namespace CapaVisual_Login
             frmPrincipal.addformulario(frmListaOrdenes);
 
             this.Close();
+        }
+
+
+       
+
+        private void txtAltD_Leave(object sender, EventArgs e)
+        {
+            if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01")
+            {
+                if (decimal.TryParse(txtAltD.Text, out decimal valor))
+            {
+                if (valor < 10 || valor > 35)
+                {
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje("Valor inválido, rango entre 10 y 35");
+                    _FrmMensajes.ShowDialog();
+                    txtAltD.Text = "0"; // Borra el contenido si no está en rango
+                    return;
+                    
+                }
+            }
+            else
+            {
+                txtAltD.Text = "0"; // Borra si no es numérico
+            }
+            }
+        }
+
+        private void txtAltI_Leave(object sender, EventArgs e)
+        {
+            if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01")
+            {
+                var cultura = System.Globalization.CultureInfo.CurrentCulture;
+                string texto = txtAltI.Text;
+
+                // Expresión regular para máximo 2 decimales
+                // Ejemplo válido: 12,34 — Ejemplo inválido: 12,345
+                var regex = new System.Text.RegularExpressions.Regex(@"^\d{1,3}(,\d{1,2})?$");
+
+                if (!regex.IsMatch(texto))
+                {
+                    //_FrmMensajes.co = 2;
+                    //_FrmMensajes.avisomensaje("Ingrese un número válido con hasta 2 decimales");
+                    //_FrmMensajes.ShowDialog();
+                    txtAltI.Text = "0";
+                    return;
+                }
+
+                // Validar rango con coma como separador decimal
+                if (decimal.TryParse(texto, System.Globalization.NumberStyles.Number, cultura, out decimal valor))
+                {
+                    if (valor < 10 || valor > 35)
+                    {
+                        _FrmMensajes.co = 2;
+                        _FrmMensajes.avisomensaje("Valor fuera del rango permitido 10 a 35");
+                        _FrmMensajes.ShowDialog();
+                        txtAltI.Text = "0";
+                    }
+                }
+                else
+                {
+                    txtAltI.Text = "0";
+                }
+            }
+        }
+
+        private void txtAltI_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            TextBox txt = sender as TextBox;
+
+            // Permitir solo números, coma y teclas de control (como retroceso)
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != ',')
+            {
+                e.Handled = true;
+                return;
+            }
+
+            // Solo permitir una coma
+            if (e.KeyChar == ',' && txt.Text.Contains(","))
+            {
+                e.Handled = true;
+                return;
+            }
+
+            // Verificar si ya hay coma y limitar los decimales a dos
+            if (txt.Text.Contains(","))
+            {
+                int indexComa = txt.Text.IndexOf(",");
+                string decimales = txt.Text.Substring(indexComa + 1);
+
+                // Si hay 2 decimales y el cursor está después de la coma
+                if (txt.SelectionStart > indexComa && decimales.Length >= 2)
+                {
+                    e.Handled = true;
+                }
+            }
+        }
+        private void txtAltD_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            TextBox txt = sender as TextBox;
+
+            // Permitir solo números, coma y teclas de control (como retroceso)
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != ',')
+            {
+                e.Handled = true;
+                return;
+            }
+
+            // Solo permitir una coma
+            if (e.KeyChar == ',' && txt.Text.Contains(","))
+            {
+                e.Handled = true;
+                return;
+            }
+
+            // Verificar si ya hay coma y limitar los decimales a dos
+            if (txt.Text.Contains(","))
+            {
+                int indexComa = txt.Text.IndexOf(",");
+                string decimales = txt.Text.Substring(indexComa + 1);
+
+                // Si hay 2 decimales y el cursor está después de la coma
+                if (txt.SelectionStart > indexComa && decimales.Length >= 2)
+                {
+                    e.Handled = true;
+                }
+            }
+        }
+
+        private void Lbl_Tap3_Articulo1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pnlObservCon_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 
