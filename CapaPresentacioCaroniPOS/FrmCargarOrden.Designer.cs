@@ -1842,6 +1842,8 @@ namespace CapaVisual_Login
             this.Dgv_Pnl2_cont.Size = new System.Drawing.Size(744, 78);
             this.Dgv_Pnl2_cont.TabIndex = 311;
             this.Dgv_Pnl2_cont.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_Pnl2_cont_CellValueChanged);
+            //this.Dgv_Pnl2_cont.CellValidating += new System.Windows.Forms.(this.Dgv_Pnl2_cont_CellValidating);
+            this.Dgv_Pnl2_cont.CellValidating += Dgv_Pnl2_cont_CellValidating;
             // 
             // grp_pln2_oft3
             // 

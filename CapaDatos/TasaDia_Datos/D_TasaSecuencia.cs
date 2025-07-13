@@ -244,6 +244,38 @@ namespace CapaDatos.TasaDia_Datos
             }
         }
 
+        public DataSet Reimprimir_Documentos(string TipoDocumento, bool TipoUsuario, DateTime fechaDesde, DateTime fechaHasta, string SerialImpresora, SqlCommand command = null)
+        {
+            try
+            {
+                if (command == null)
+                {
+                    SqlConnection connection = cn.LeerCadena();
+                    command = connection.CreateCommand();
+                }
+                SqlCommand cmd = command;
+                cmd.Parameters.Clear();
+
+                cmd.CommandText = "SP_Reimprimir_Documentos";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@TipoDocumento", TipoDocumento);
+                cmd.Parameters.AddWithValue("@TipoUsuario", TipoUsuario);
+                cmd.Parameters.AddWithValue("@fechaDesde", fechaDesde);
+                cmd.Parameters.AddWithValue("@fechaHasta", fechaHasta);
+                cmd.Parameters.AddWithValue("@SerialImpresora", SerialImpresora);
+                DataSet ds = new DataSet();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(ds);
+                cmd.Parameters.Clear();
+                return ds;
+
+            }
+            catch (Exception ex)
+            {
+                string Error = string.Format("Error: {0}", ex.Message);
+                return null;
+            }
+        }
         public void Update_TB_Parametro(string Valor, string Parametro, SqlCommand command = null)
         {
             try
@@ -270,6 +302,109 @@ namespace CapaDatos.TasaDia_Datos
             {
                 string Error = string.Format("Error: {0}", ex.Message);
             }
+        }
+
+        public DataSet GuardarReporteZ(
+    string FechaHoraReporteAnterior,
+    string FechaHoraReporte,
+    string NumReporteZ,
+    string SerialImpresora,
+    string UltimaFactura,
+    string CantidadFacturas,
+    string CantidadNC,
+    string VentasExentas,
+    string VentasGravadas,
+    string Alicuota,
+    string NotaExento,
+    string NotaGravable,
+    string codSucursal,
+    string usercrea,
+    string FechaMod,
+    string usermod,
+    string VentasGravA,
+    string NotaGravA,
+    string AlicuotaA,
+    string VentasGravR,
+    string NotaGravR,
+    string AlicuotaR,
+    SqlCommand command = null)
+        {
+            try
+            {
+                if (command == null)
+                {
+                    SqlConnection connection = cn.LeerCadena();
+                    command = connection.CreateCommand();
+                }
+
+                SqlCommand cmd = command;
+                cmd.Parameters.Clear();
+
+                cmd.CommandText = "SP_GUARDAREPORTEZ";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                // Agregar todos los parámetros necesarios
+                cmd.Parameters.AddWithValue("@FechaHoraReporteAnterior", FechaHoraReporteAnterior);
+                cmd.Parameters.AddWithValue("@FechaHoraReporte", FechaHoraReporte);
+                cmd.Parameters.AddWithValue("@NumReporteZ", NumReporteZ);
+                cmd.Parameters.AddWithValue("@SerialImpresora", SerialImpresora);
+                cmd.Parameters.AddWithValue("@UltimaFactura", UltimaFactura);
+                cmd.Parameters.AddWithValue("@CantidadFacturas", CantidadFacturas);
+                cmd.Parameters.AddWithValue("@CantidadNC", CantidadNC);
+                cmd.Parameters.AddWithValue("@VentasExentas", VentasExentas);
+                cmd.Parameters.AddWithValue("@VentasGravadas", VentasGravadas);
+                cmd.Parameters.AddWithValue("@Alicuota", Alicuota);
+                cmd.Parameters.AddWithValue("@NotaExento", NotaExento);
+                cmd.Parameters.AddWithValue("@NotaGravable", NotaGravable);
+                cmd.Parameters.AddWithValue("@codSucursal", codSucursal);
+                cmd.Parameters.AddWithValue("@usercrea", usercrea);
+                cmd.Parameters.AddWithValue("@FechaMod", FechaMod);
+                cmd.Parameters.AddWithValue("@usermod", usermod);
+                cmd.Parameters.AddWithValue("@VentasGravA", VentasGravA);
+                cmd.Parameters.AddWithValue("@NotaGravA", NotaGravA);
+                cmd.Parameters.AddWithValue("@AlicuotaA", AlicuotaA);
+                cmd.Parameters.AddWithValue("@VentasGravR", VentasGravR);
+                cmd.Parameters.AddWithValue("@NotaGravR", NotaGravR);
+                cmd.Parameters.AddWithValue("@AlicuotaR", AlicuotaR);
+
+                DataSet ds = new DataSet();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(ds);
+                cmd.Parameters.Clear();
+
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                string Error = string.Format("Error al guardar Reporte Z: {0}", ex.Message);
+                // Puedes registrar el error o manejarlo según tus necesidades
+                return null;
+            }
+        }
+
+        public DataTable ExecuteGetReportesZProcedure(string Suc, string SerialImpresora, int RepMax, SqlCommand command = null)
+        {
+            if (command == null)
+            {
+                SqlConnection connection = cn.LeerCadena();
+                command = connection.CreateCommand();
+            }
+            SqlCommand cmd = command;
+            cmd.Parameters.Clear();
+            cmd.CommandText = "pGetReportesZFaltantes";
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@Suc", Suc);
+            cmd.Parameters.AddWithValue("@SerialImpresora", SerialImpresora);
+            cmd.Parameters.AddWithValue("@RepMax", RepMax);
+
+            DataTable dtTabla = new DataTable();
+            using (SqlDataAdapter adapter = new SqlDataAdapter(cmd))
+            {
+                adapter.Fill(dtTabla);
+            }
+
+            return dtTabla;
         }
 
     }

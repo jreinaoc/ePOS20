@@ -1121,6 +1121,8 @@ namespace CapaVisual_Login
                 dgvLogCierre.DataSource = dtLogCierre;
                 dgvLogCierre.Refresh();
 
+                FormatoTabla("LogCierre");
+
                 //Existencia en Caja
                 if (!_L_CierreCaja.ValidaExistenciaCaja(dgvCierredecaja))
                 {
@@ -1170,7 +1172,7 @@ namespace CapaVisual_Login
                     command.Transaction.Rollback();
                     return;
                 }
-                FormatoTabla("LogCierre");
+                
 
                 if (_L_CierreCaja.GeneraInvenvioTXT(sucursal, diaActivo.ToString("yyyyMMdd"), rutaInvenvio + nombreInvenvio,command))
                 {

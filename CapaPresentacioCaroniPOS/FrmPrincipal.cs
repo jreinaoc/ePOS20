@@ -48,6 +48,7 @@ namespace CapaVisual_Login
         FrmCierredeCaja _FrmCierreDeCaja = new FrmCierredeCaja();
         FrmTasaDia _FrmTasaDia = new FrmTasaDia();
         FrmPrueba _frmPrueba = new FrmPrueba();
+        FrmReimpresionDocumentos _FrmReimpresionDocumentos = new FrmReimpresionDocumentos();
 
         private D_DetalleOrden _D_DetalleOrden = new D_DetalleOrden();
         public bool osc;
@@ -782,7 +783,7 @@ namespace CapaVisual_Login
             DateTime currentDate = _D_Inicio.DiaActivo();
             string formattedDate = currentDate.ToString("yyyyMMdd");
 
-            if (!_L_CierreCaja.ChequeaFacturasdelDia(formattedDate, TB_USUARIO.COD_EMPLEADO))
+            if (_L_CierreCaja.ChequeaFacturasdelDia(formattedDate, TB_USUARIO.COD_USR))
             {
                 _FrmMensajes.co = 2;
                 _FrmMensajes.avisomensaje("Existen INCONSISTENCIAS en los abonos de las facturas del día. Comuníquese con el Dpto de sistemas");
@@ -816,7 +817,7 @@ namespace CapaVisual_Login
                 _L_CierreCaja.ORDSERVCRITERIOSVARIOS("","");
 
                 _FrmMensajes.co = 2;
-                _FrmMensajes.avisomensaje("No Puede Cerrar Caja. Hay Ventas Pendientes");
+                _FrmMensajes.avisomensaje("Realice todos los envios digitales antes de realizar el cierre definitivo");
                 _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
                 _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
                 _FrmMensajes.ShowDialog();
@@ -884,6 +885,9 @@ namespace CapaVisual_Login
         private void btnReimpresion_Click(object sender, EventArgs e)
         {
             pnlUtilitarios.Visible = false;
+            PnlListadoOrdenes.Controls.Clear();
+            addformulario(_FrmReimpresionDocumentos);
+            Focus();
         }
 
         private void button2_Click(object sender, EventArgs e)

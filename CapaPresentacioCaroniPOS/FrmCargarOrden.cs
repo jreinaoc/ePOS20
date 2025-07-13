@@ -1880,6 +1880,7 @@ namespace CapaVisual_Login
                 Formato_Dgv_Totales();
                 //_L_Articulo.BucarTipoVenta(Cbx_Pnl2_Trbajo);
                 _L_Articulo.LlenarComboOjos(Cbx_Tap2_Ojo);
+                ValidarTipoVenta(Cbx_Pnl2_Trbajo.Text);
                 //CargarComboLaboratorios();
                 //_L_Articulo.ObtenerFechaHoraOfrecida(Cbx_Pnl2_Servicio.SelectedValue.ToString(), Cbx_Pnl2_Trbajo.SelectedValue.ToString());
 
@@ -3092,7 +3093,7 @@ namespace CapaVisual_Login
                     return;
                 }
 
-                if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01" && (
+                if ((Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01" || Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "09" ) && (
         string.IsNullOrEmpty(txtHorizontal.Text) ||
         string.IsNullOrEmpty(txtVertical.Text) ||
         string.IsNullOrEmpty(txtMaxima.Text) ||
@@ -3363,6 +3364,10 @@ namespace CapaVisual_Login
                         Cbx_Pnl2_Laboratorio,
                         EsEmpresaAfiliada()               // empresa afiliada (depende si tienes lógica para ello)
                     );
+                    if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "02")
+                    {
+                        guardoDetalle = await _GuardarOrdenServ.AgregaRelacionOsLC(codSucursal, numeroOrden,"0", Dgv_Tap3_Articulo,TB_USUARIO.COD_USR,"", command);
+                    }
 
                     if (!guardoDetalle)
                     {
@@ -3503,7 +3508,7 @@ namespace CapaVisual_Login
 
             //}
             nuevoTrabajo.TOJO = Cbx_Tap2_Ojo.Text;
-            if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01" || Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "02")
+            if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01" || Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "02" || Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "09")
             {
                 nuevoTrabajo.TipoExamen = Cbx_Tap2_Tipo_Examen.Text;
             }
@@ -4565,6 +4570,13 @@ namespace CapaVisual_Login
                 label24.Visible = false;
                 Lbl_Pnl2_Fecha_Ofre.Visible = false;
                 Txt_Pnl2_Fecha_Ofre.Visible = false;
+
+                label24.Visible = false;
+                Cbx_Tap2_Ojo.Visible = false;
+                label34.Visible = false;
+                label35.Visible = false;
+                txtAltD.Visible = false;
+                txtAltI.Visible = false;
 
                 label24.Visible = false;
                 Cbx_Tap2_Ojo.Visible = false;
@@ -6116,10 +6128,10 @@ namespace CapaVisual_Login
             adicionColumn.DataPropertyName = "Adicion";
             adicionColumn.HeaderText = "ADD";
             adicionColumn.DecimalPlaces = 2;
-            adicionColumn.Minimum = 0.75M;
+            adicionColumn.Minimum = 0.00M;
             adicionColumn.Maximum = +3.50M;
             adicionColumn.Width = 60;
-            adicionColumn.Increment = 0.25M;
+            adicionColumn.Increment = 1M;
             adicionColumn.Resizable = DataGridViewTriState.False;
             Dgv_Pnl2_cont.Columns.Add(adicionColumn);
 
@@ -6141,9 +6153,10 @@ namespace CapaVisual_Login
             DiametroColumn.DataPropertyName = "Diametro";
             DiametroColumn.HeaderText = "Diámetro ";
             DiametroColumn.DecimalPlaces = 2;
-            DiametroColumn.Minimum = 8.5M;
+            DiametroColumn.Minimum = 0M;
             DiametroColumn.Maximum = 14.5M;
-            DiametroColumn.Increment = 0.50M;
+            //DiametroColumn.Increment = 0.50M; 12/07/2025
+            DiametroColumn.Increment = 1M;
             DiametroColumn.Width = 60;
             DiametroColumn.Resizable = DataGridViewTriState.False;
             Dgv_Pnl2_cont.Columns.Add(DiametroColumn);
@@ -9999,7 +10012,7 @@ namespace CapaVisual_Login
                 nuevoExamen.TIPOEXAMEN = Cbx_Tap2_Tipo_Examen.Text;
 
 
-                if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01" || Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "02")
+                if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01" || Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "02" || Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "09")
                 {
                     nuevoTrabajo.TipoExamen = Cbx_Tap2_Tipo_Examen.Text;
                 }
@@ -11202,10 +11215,43 @@ namespace CapaVisual_Login
                 Dgv_Pnl2_conv_CellEnter(sender, e);
             }
         }
+        private void Dgv_Pnl2_cont_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+        {
+            if (Dgv_Pnl2_cont.Columns[e.ColumnIndex].Name == "Diametro")
+            {
+                if (decimal.TryParse(e.FormattedValue.ToString(), out decimal val))
+                {
+                    if (val != 0M && (val < 8.5M || val > 14.5M))
+                    {
+                        //MessageBox.Show("Solo se permite el valor 0 como excepción o valores entre 8.50 y 14.50.");
+                        _FrmMensajes.co = 2;
+                        _FrmMensajes.avisomensaje("Valor inválido, rango entre 8.50 y 14.50");
+                        _FrmMensajes.ShowDialog();
+                        e.Cancel = true;
+                        return;
+                        
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Ingrese un número válido.");
+                    e.Cancel = true;
+                }
+            }
+        }
 
         private void Dgv_Pnl2_cont_CellEnter(object sender, DataGridViewCellEventArgs e)
         {
+            if (e.ColumnIndex >= 0 && Dgv_Pnl2_cont.Columns[e.ColumnIndex].Name == "Diametro" && e.RowIndex >= 0)
+            {
+                DataGridViewCell cell = Dgv_Pnl2_cont.Rows[e.RowIndex].Cells[e.ColumnIndex];
 
+                // Verifica si la celda está vacía (Value es null o una cadena vacía)
+                if (cell.Value == null || string.IsNullOrEmpty(cell.Value.ToString()))
+                {
+                    cell.Value = 0; // Establece el valor a cero
+                }
+            }
             if (e.ColumnIndex >= 0 && Dgv_Pnl2_cont.Columns[e.ColumnIndex].Name == "Esfera" && e.RowIndex >= 0)
             {
                 DataGridViewCell cell = Dgv_Pnl2_cont.Rows[e.RowIndex].Cells[e.ColumnIndex];
@@ -11313,6 +11359,17 @@ namespace CapaVisual_Login
 
         private void Dgv_Pnl2_cont_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
+
+            if (e.ColumnIndex >= 0 && Dgv_Pnl2_cont.Columns[e.ColumnIndex].Name == "Diametro" && e.RowIndex >= 0)
+            {
+                DataGridViewCell cell = Dgv_Pnl2_cont.Rows[e.RowIndex].Cells[e.ColumnIndex];
+
+                // Verifica si la celda está vacía (Value es null o una cadena vacía)
+                if ( cell.Value == null || string.IsNullOrEmpty(cell.Value.ToString()))
+                {
+                    cell.Value = 0; // Establece el valor a cero
+                }
+            }
 
             if (e.ColumnIndex >= 0 && Dgv_Pnl2_cont.Columns[e.ColumnIndex].Name == "Esfera" && e.RowIndex >= 0)
             {

@@ -229,6 +229,12 @@
     <Compile Include="FrmPrueba.Designer.cs">
       <DependentUpon>FrmPrueba.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmReimpresionDocumentos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmReimpresionDocumentos.Designer.cs">
+      <DependentUpon>FrmReimpresionDocumentos.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmTasaDia.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -451,6 +457,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FrmPrueba.resx">
       <DependentUpon>FrmPrueba.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmReimpresionDocumentos.resx">
+      <DependentUpon>FrmReimpresionDocumentos.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmRepContratGart.resx">
       <DependentUpon>FrmRepContratGart.cs</DependentUpon>

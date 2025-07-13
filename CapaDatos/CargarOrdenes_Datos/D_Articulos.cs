@@ -563,7 +563,7 @@ namespace CapaDatos.CargarOrdenes_Datos
                 da.Fill(ds);
                 cmd.Parameters.Clear();
                 // Verificar si el DataSet tiene datos
-                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                if (ds != null && ds.Tables.Count > 0 )
                 {
                     return ds;
                 }
@@ -2460,6 +2460,43 @@ EXEC pValidoParametrosCRT
             da.Fill(dts);
             cmd.Parameters.Clear();
             return dts;
+        }
+
+        
+
+        public async Task<bool> AgregaRelacionOsLC(string sucursal, string nroOs, string revision, string codArticuloEpos, string codArticuloLab, int cantidad, string ojo, string usuario, string stock, SqlCommand command = null)
+        {
+            return await Task.Run(() =>
+            {
+                if (command == null)
+                {
+                    SqlConnection connection = cn.LeerCadena();
+                    command = connection.CreateCommand();
+                }
+
+                SqlCommand cmd = command;
+                cmd.Parameters.Clear();
+
+                cmd.CommandText = "pAddRelacionOsLc";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@SUC", sucursal);
+                cmd.Parameters.AddWithValue("@NUMOS", nroOs);
+                cmd.Parameters.AddWithValue("@REV", revision);
+                cmd.Parameters.AddWithValue("@CODARTEPOS", codArticuloEpos);
+                cmd.Parameters.AddWithValue("@CODARTLAB", codArticuloLab);
+                cmd.Parameters.AddWithValue("@CANT", cantidad);
+                cmd.Parameters.AddWithValue("@OJO", ojo);
+                cmd.Parameters.AddWithValue("@USER", usuario);
+                cmd.Parameters.AddWithValue("@STOCK", stock);
+
+                DataSet dts = new DataSet();
+                using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                {
+                    da.Fill(dts);
+                }
+
+                return true;
+            });
         }
     }
 

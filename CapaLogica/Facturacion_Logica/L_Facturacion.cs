@@ -168,6 +168,7 @@ namespace CapaLogica.DetalleOrden_Logica
             var Valores = new List<Valor>();
             Valores.Add(new Valor() { Index = "", Value = "" });
             Valores.Add(new Valor() { Index = "0414", Value = "0414" });
+            Valores.Add(new Valor() { Index = "0422", Value = "0422" });
             Valores.Add(new Valor() { Index = "0424", Value = "0424" });
             Valores.Add(new Valor() { Index = "0412", Value = "0412" });
             Valores.Add(new Valor() { Index = "0416", Value = "0416" });
