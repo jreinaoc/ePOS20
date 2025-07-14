@@ -1543,10 +1543,14 @@ namespace CapaVisual_Login
             this.ResumeLayout(false);
 
             this.txtFiltroVendedor.TextChanged += new System.EventHandler(this.txtFiltroVendedor_TextChanged);
-            this.Dvg_MarcajeAsistenciaPendiente.CellClick += Dvg_MarcajeAsistenciaPendiente_CellClick;
+            this.Dvg_MarcajeAsistenciaPendiente.CellClick += Dgv_MarcajeAsistenciaPendiente_CellClick;
             this.Dvg_ConsignacionDeOS.CellClick += Dvg_ConsignacionDeOS_CellClick;
             this.Dgv_Usuarios.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_Usuarios_CellContentClick);
             this.dgvCierredecaja.CellEndEdit += dgvCierredecaja_CellEndEdit;
+            //this.Dvg_MarcajeAsistenciaPendiente.CellBeginEdit += Dvg_MarcajeAsistenciaPendiente_CellBeginEdit;
+
+            //this.Dvg_MarcajeAsistenciaPendiente.CellBeginEdit += Dgv_MarcajeAsistenciaPendiente_CellBeginEdit;
+            //this.Dvg_MarcajeAsistenciaPendiente.CellEndEdit += Dgv_MarcajeAsistenciaPendiente_CellEndEdit;
 
 
         }

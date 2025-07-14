@@ -6055,8 +6055,10 @@ namespace CapaVisual_Login
             cilindroColumn.DataPropertyName = "Cilindro";
             cilindroColumn.HeaderText = "Cilindro";
             cilindroColumn.DecimalPlaces = 2;
-            cilindroColumn.Minimum = -5.75M;
-            cilindroColumn.Maximum = +5.75M;
+            //cilindroColumn.Minimum = -5.75M; 12/07/2025
+            //cilindroColumn.Maximum = +5.75M;
+            cilindroColumn.Minimum = -10M;
+            cilindroColumn.Maximum = +8M;
             cilindroColumn.Increment = 0.25M;
             cilindroColumn.Width = 60;
             cilindroColumn.Resizable = DataGridViewTriState.False;
@@ -6391,7 +6393,8 @@ namespace CapaVisual_Login
             ejeColumn.HeaderText = "Eje";
             ejeColumn.Minimum = 0M;
             ejeColumn.Maximum = 180M;
-            ejeColumn.Increment = 1M;
+            //ejeColumn.Increment = 1M; 12072025
+            ejeColumn.Increment = 5M;
             Dgv_Pnl2_conv.Columns.Add(ejeColumn);
 
 
@@ -6466,8 +6469,9 @@ namespace CapaVisual_Login
             VisualColumn.DataPropertyName = "Visual";
             VisualColumn.HeaderText = "Agudeza";
             VisualColumn.DecimalPlaces = 0;
-            VisualColumn.Minimum = 0;
+            VisualColumn.Minimum = 20;
             VisualColumn.Maximum = 400;
+            VisualColumn.Increment = 1;
             Dgv_Pnl2_conv.Columns.Add(VisualColumn);
             //if (Dgv_Pnl2_conv.Columns.Contains("VisualColumn"))
             //{
@@ -6482,6 +6486,7 @@ namespace CapaVisual_Login
             prisma1Column.DecimalPlaces = 2;
             prisma1Column.Minimum = 0;
             prisma1Column.Maximum = 12;
+            prisma1Column.Increment = 0.25M; //12072025
             Dgv_Pnl2_conv.Columns.Add(prisma1Column);
 
             DataGridViewNumericUpDownColumn grado1Column = new DataGridViewNumericUpDownColumn();
@@ -9931,7 +9936,7 @@ namespace CapaVisual_Login
                     nuevoFicconv.PRISMAD = Dgv_Pnl2_conv.Rows[0].Cells["Prisma1"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[0].Cells["Prisma1"].Value) : 0;
                     nuevoFicconv.PRISMAI = Dgv_Pnl2_conv.Rows[1].Cells["Prisma1"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[1].Cells["Prisma1"].Value) : 0;
 
-
+                    
                     //nuevoExamen.CILD2 = Dgv_Pnl2_conv.Rows[1].Cells["Lejos"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[1].Cells["Lejos"].Value) : 0;
                     //nuevoExamen.CILI2 = Dgv_Pnl2_conv.Rows[1].Cells["Cerca"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[1].Cells["Cerca"].Value) : 0;
                     //nuevoExamen.OBSERVACIONES = Dgv_Pnl2_conv.Rows[1].Cells["Visual"]?.Value?.ToString();
@@ -9962,8 +9967,9 @@ namespace CapaVisual_Login
                     nuevoFicconv.ALTD = Convert.ToDecimal(txtAltD.Text);
                     nuevoFicconv.ALTI = Convert.ToDecimal(txtAltI.Text);
 
-                    nuevoFicconv.PBASED = Dgv_Pnl2_conv.Rows[0].Cells["Grado1"]?.Value.ToString();
-                    nuevoFicconv.PBASEI = Dgv_Pnl2_conv.Rows[1].Cells["Grado1"]?.Value.ToString();
+                    //nuevoFicconv.PBASED = Dgv_Pnl2_conv.Rows[0].Cells["Grado1"]?.Value.ToString();
+                    nuevoFicconv.PBASED = Dgv_Pnl2_conv.Rows[0].Cells["Grado1"]?.Value?.ToString() == "0" ? "" : Dgv_Pnl2_conv.Rows[0].Cells["Grado1"]?.Value?.ToString();
+                    nuevoFicconv.PBASEI = Dgv_Pnl2_conv.Rows[1].Cells["Grado1"]?.Value?.ToString() == "0" ? "" : Dgv_Pnl2_conv.Rows[1].Cells["Grado1"]?.Value?.ToString();
 
 
                     nuevoFicconv.AVD = Dgv_Pnl2_conv.Rows[0].Cells["VISUAL"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[0].Cells["VISUAL"].Value) : 0;
@@ -10035,8 +10041,8 @@ namespace CapaVisual_Login
 
 
 
-                nuevoFicconv.RETD = txt_Pnl2_retd.Text.Trim();
-                nuevoFicconv.RETI = txt_Pnl2_reti.Text.Trim();
+                nuevoFicconv.RETD = string.IsNullOrWhiteSpace(txt_Pnl2_retd.Text) ? null : txt_Pnl2_retd.Text.Trim();
+                nuevoFicconv.RETI = string.IsNullOrWhiteSpace(txt_Pnl2_reti.Text) ? null : txt_Pnl2_reti.Text.Trim();
 
                 //L_Examen
 
@@ -10118,9 +10124,8 @@ namespace CapaVisual_Login
                     Txt_Tap2_Examen.Text = numeroExamen.ToString();
                 }
 
-
-                nuevoFicconv.RETD = txt_Pnl2_retd.Text.Trim();
-                nuevoFicconv.RETI = txt_Pnl2_reti.Text.Trim();
+                nuevoFicconv.RETD = string.IsNullOrWhiteSpace(txt_Pnl2_retd.Text) ? null : txt_Pnl2_retd.Text.Trim();
+                nuevoFicconv.RETI = string.IsNullOrWhiteSpace(txt_Pnl2_reti.Text) ? null : txt_Pnl2_reti.Text.Trim();
             }
 
 
@@ -10194,8 +10199,10 @@ namespace CapaVisual_Login
 
 
 
-                nuevoFicconv.OFTD = txt_Pnl2_oftd.Text.Trim();
-                nuevoFicconv.OFTI = txt_Pnl2_ofti.Text.Trim();
+                //nuevoFicconv.OFTD = txt_Pnl2_oftd.Text.Trim();
+                // Versión con operador ternario
+                nuevoFicconv.OFTD = string.IsNullOrWhiteSpace(txt_Pnl2_oftd.Text) ? null : txt_Pnl2_oftd.Text.Trim();
+                nuevoFicconv.OFTI = string.IsNullOrWhiteSpace(txt_Pnl2_ofti.Text) ? null : txt_Pnl2_ofti.Text.Trim();
 
 
                 _L_Ficconv.AgregarFicconv(nuevoFicconv);
