@@ -54,6 +54,7 @@ namespace CapaVisual_Login
         public bool osc;
         public string mostrarclientes;
         private string mensaje = "";
+        bool menuUtilitariosExpandido = false;
 
         //L_CierreCaja _L_CierreCaja = new L_CierreCaja();
         private L_CierreCaja _L_CierreCaja = new L_CierreCaja();
@@ -747,19 +748,46 @@ namespace CapaVisual_Login
 
         private void btnUtilitarios_Click(object sender, EventArgs e)
         {
-            if (pnlUtilitarios.Visible == true)
-            {
-                pnlUtilitarios.Visible = false;
-            }
+            if (menuUtilitariosExpandido)
+                ContraerMenuUtilitarios();
             else
-            {
-                pnlUtilitarios.Visible = true;
-            }
+                ExpandirMenuUtilitarios();
+        }
+
+        private void ExpandirMenuUtilitarios()
+        {
+            int desplazamiento = pnlUtilitarios.Height;
+
+            pnlUtilitarios.Visible = true;
+
+            button2.Top += desplazamiento;
+            pictureBox4.Top += desplazamiento;
+
+            btnconfiguracion.Top += desplazamiento;
+            PicBoxConfigClaro.Top += desplazamiento;
+
+            menuUtilitariosExpandido = true;
+        }
+
+        private void ContraerMenuUtilitarios()
+        {
+            int desplazamiento = pnlUtilitarios.Height;
+
+            pnlUtilitarios.Visible = false;
+
+            button2.Top -= desplazamiento;
+            pictureBox4.Top -= desplazamiento;
+
+            btnconfiguracion.Top -= desplazamiento;
+            PicBoxConfigClaro.Top -= desplazamiento;
+
+            menuUtilitariosExpandido = false;
         }
 
         private void btnCierredeCaja_Click(object sender, EventArgs e)
         {
-            pnlUtilitarios.Visible = false;
+            if (menuUtilitariosExpandido)
+                ContraerMenuUtilitarios();
 
             string DiaActual = (DateTime.Now.ToString("dd/MM/yyyy"));
             string DiaActivo = _D_Inicio.DiaActivo().ToShortDateString();
@@ -843,6 +871,8 @@ namespace CapaVisual_Login
             PnlListadoOrdenes.Controls.Clear();
             addformulario(_FrmTasaDia);
             Focus();
+            if (menuUtilitariosExpandido)
+                ContraerMenuUtilitarios();
         }
 
         private void button1_Click_6(object sender, EventArgs e)
@@ -888,6 +918,8 @@ namespace CapaVisual_Login
             PnlListadoOrdenes.Controls.Clear();
             addformulario(_FrmReimpresionDocumentos);
             Focus();
+            if (menuUtilitariosExpandido)
+                ContraerMenuUtilitarios();
         }
 
         private void button2_Click(object sender, EventArgs e)

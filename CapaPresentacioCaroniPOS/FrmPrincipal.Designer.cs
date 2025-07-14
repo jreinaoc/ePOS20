@@ -95,6 +95,7 @@ namespace CapaVisual_Login
             // GbxMenuPrincipal
             // 
             this.GbxMenuPrincipal.BackColor = System.Drawing.Color.White;
+            this.GbxMenuPrincipal.Controls.Add(this.pnlUtilitarios);
             this.GbxMenuPrincipal.Controls.Add(this.button1);
             this.GbxMenuPrincipal.Controls.Add(this.btn_FrmCierreDeCaja);
             this.GbxMenuPrincipal.Controls.Add(this.pictureBox4);
@@ -613,11 +614,10 @@ namespace CapaVisual_Login
             // 
             // pnlUtilitarios
             // 
-            this.pnlUtilitarios.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pnlUtilitarios.Controls.Add(this.btnCierredeCaja);
             this.pnlUtilitarios.Controls.Add(this.btnTasaSec);
             this.pnlUtilitarios.Controls.Add(this.btnReimpresion);
-            this.pnlUtilitarios.Location = new System.Drawing.Point(222, 320);
+            this.pnlUtilitarios.Location = new System.Drawing.Point(14, 285);
             this.pnlUtilitarios.Name = "pnlUtilitarios";
             this.pnlUtilitarios.Size = new System.Drawing.Size(198, 108);
             this.pnlUtilitarios.TabIndex = 0;
@@ -699,7 +699,6 @@ namespace CapaVisual_Login
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1370, 722);
-            this.Controls.Add(this.pnlUtilitarios);
             this.Controls.Add(this.BtnMinimizar);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.label2);
