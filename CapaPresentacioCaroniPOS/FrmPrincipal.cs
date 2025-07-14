@@ -764,21 +764,21 @@ namespace CapaVisual_Login
             string DiaActual = (DateTime.Now.ToString("dd/MM/yyyy"));
             string DiaActivo = _D_Inicio.DiaActivo().ToShortDateString();
 
-            
 
-            if (TB_USUARIO.COD_EMPLEADO != "99999")
+
+            //if (TB_USUARIO.COD_EMPLEADO != "99999")
+            //{
+            if (_D_Inicio.DiaActivo() >= DateTime.Now)
             {
-                if (DiaActivo != DiaActual)
-                {
-                    _FrmMensajes.co = 2;
-                    _FrmMensajes.avisomensaje("Debe cerrar caja del día anterior para continuar");
-                    _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
-                    _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
-                    _FrmMensajes.ShowDialog();
-                    return;
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("Imposible cerrar la caja, el día activo es mayor a la fecha de hoy");
+                _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                _FrmMensajes.ShowDialog();
+                return;
 
-                }
             }
+            //}
 
             DateTime currentDate = _D_Inicio.DiaActivo();
             string formattedDate = currentDate.ToString("yyyyMMdd");
