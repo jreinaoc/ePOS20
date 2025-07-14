@@ -296,16 +296,6 @@ namespace CapaVisual_Login
             }
         }
 
-        private void Txt_Tap3_Articulo_Precio_Enter(object sender, EventArgs e)
-        {
-            // Cuando el usuario hace clic o intenta escribir
-            if (Txt_Tap3_Articulo_Precio.Text == "Precio")
-            {
-                Txt_Tap3_Articulo_Precio.Text = ""; // Borrar el texto sugerido
-                Txt_Tap3_Articulo_Precio.ForeColor = Color.Black; // Cambiar el color del texto a negro
-            }
-        }
-
         private void Txt_Tap3_Articulo_Precio_Leave(object sender, EventArgs e)
         {
             // Cuando el usuario deja el TextBox
@@ -1663,6 +1653,7 @@ namespace CapaVisual_Login
                 TipoMonturaPropia = "";
                 EmpresaAfiliada = "";
                 PorcDctoEmpresaAfiliada = 0;
+                Txt_Tap3_Articulo_Codigo.Text = "Código"; // Restaurar el texto sugerido
                 // Cargar los valores
                 ValidarRegistrosYHabilitar_Botones();
                 Garantia = false;
@@ -2122,6 +2113,7 @@ namespace CapaVisual_Login
                 {
                     _L_Articulo.CargarMedidasMontura(txtHorizontal, txtVertical, txtMaxima, txtPuente, Dgv_Tap3_Articulo.Rows[numFilas].Cells["CodArticulo"].Value.ToString());
                 }
+
             }
 
             //Validar si Existe colorocaion agregada SI ya agregaron la coloracion no abro el panel 
@@ -2181,6 +2173,7 @@ namespace CapaVisual_Login
 
 
             // Habilito o desabilito Botones 
+            Txt_Tap3_Articulo_Codigo.Text = "Código";
             ValidarRegistrosYHabilitar_Botones();
 
             // Actualizar_Fecha_Ofrecido 
@@ -2981,6 +2974,18 @@ namespace CapaVisual_Login
             // Mostar o no el tipo de laboratirio y srevicio 
             ValidarTipoVenta(Cbx_Pnl2_Trbajo.Text);
 
+            if (_D_DetalleOrden.TB_PARAMETRO("EditarGridFact") == "1" && Txt_Tap3_Articulo_Codigo.Text.Trim() != "Código")
+            {
+                Txt_Tap3_Articulo_Precio.Enabled = true;
+                Txt_Tap3_Articulo_Precio.ForeColor = Color.White;
+                Txt_Tap3_Articulo_Precio.BackColor = ColorTranslator.FromHtml("#002222");
+            }
+            else
+            {
+                Txt_Tap3_Articulo_Precio.Enabled = false;
+                Txt_Tap3_Articulo_Precio.ForeColor = Color.DarkGray;
+                Txt_Tap3_Articulo_Precio.BackColor = ColorTranslator.FromHtml("#ffffff");
+            }
 
         }
 
@@ -4747,13 +4752,13 @@ namespace CapaVisual_Login
 
         private void Txt_Tap3_Articulo_Precio_TextChanged(object sender, EventArgs e)
         {
-            TextBox textBox = sender as TextBox;
+            //TextBox textBox = sender as TextBox;
 
-            if (decimal.TryParse(textBox.Text, out decimal valor))
-            {
-                // Formatear el texto como un número con dos decimales
-                textBox.Text = valor.ToString("N2");
-            }
+            //if (decimal.TryParse(textBox.Text, out decimal valor))
+            //{
+            //    // Formatear el texto como un número con dos decimales
+            //    textBox.Text = valor.ToString("N2");
+            //}
         }
 
         
@@ -10440,18 +10445,6 @@ namespace CapaVisual_Login
 
             }
 
-            if (_D_DetalleOrden.TB_PARAMETRO("EditarGridFact") == "1")
-            {
-                Txt_Tap3_Articulo_Precio.Enabled = true;
-                Txt_Tap3_Articulo_Precio.ForeColor = Color.Black;
-
-            }
-            else
-            {
-                Txt_Tap3_Articulo_Precio.Enabled = false;
-                Txt_Tap3_Articulo_Precio.ForeColor = Color.DarkGray;
-            }
-
             LLenar_TbTrabajo();
             
         }
@@ -12502,6 +12495,88 @@ namespace CapaVisual_Login
         private void txtAngPant_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void Txt_Tap3_Articulo_Precio_Validated(object sender, EventArgs e)
+        {
+
+            if ((Txt_Tap3_Articulo_Precio.Text == "Precio" && Txt_Tap3_Articulo_Precio.Enabled == true)|| string.IsNullOrEmpty(Txt_Tap3_Articulo_Precio.Text))
+            {
+
+                Txt_Tap3_Articulo_Precio.Text = "0,00";
+            }
+            else
+            {
+                FormatoBs(Convert.ToDouble(Txt_Tap3_Articulo_Precio.Text), Txt_Tap3_Articulo_Precio);
+
+            }
+        }
+
+        private void Txt_Tap3_Articulo_Precio_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == 8)
+            {
+                e.Handled = false;
+                return;
+            }
+
+
+            bool IsDec = false;
+            int nroDec = 0;
+
+
+            if (Txt_Tap3_Articulo_Precio.SelectionLength <= 0)
+            {
+
+                for (int i = 0; i < Txt_Tap3_Articulo_Precio.Text.Length; i++)
+                {
+                    if (Txt_Tap3_Articulo_Precio.Text[i] == ',')
+                        IsDec = true;
+
+                    if (IsDec && nroDec++ >= 2)
+                    {
+                        e.Handled = true;
+                        return;
+                    }
+
+
+                }
+            }
+
+            if (e.KeyChar >= 44 && e.KeyChar <= 57)
+                e.Handled = false;
+            ///46 = .
+            ///46 = ,
+            else if (e.KeyChar == 46)
+                e.Handled = (IsDec) ? true : false;
+            else
+                e.Handled = true;
+
+
+            //para que solo acepte numeros y una sola coma
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != ',')
+            {
+                e.Handled = true;
+            }
+
+            if (e.KeyChar == ',' && (sender as TextBox).Text.IndexOf(',') > -1)
+            {
+                e.Handled = true;
+            }
+
+
+            if (Txt_Tap3_Articulo_Precio.Text.Contains("") && e.KeyChar == 44)
+            {
+                //separamos por punto
+                string[] parts = Txt_Tap3_Articulo_Precio.Text.Split(',');
+                //si el primer elemento está vacío, significa que no se escribió nada antes de, entonces, añadimos el cero al textbox.
+                if (parts[0].Length <= 0)
+                {
+                    Txt_Tap3_Articulo_Precio.Text = "0" + Txt_Tap3_Articulo_Precio.Text;
+                    //UPDATE: colocamos el cursor al final del texto
+                    Txt_Tap3_Articulo_Precio.SelectionStart = Txt_Tap3_Articulo_Precio.Text.Length;
+                }
+            }
         }
     }
 
