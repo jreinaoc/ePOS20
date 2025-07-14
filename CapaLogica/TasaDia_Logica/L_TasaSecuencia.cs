@@ -15,6 +15,7 @@ using CapaDatos.DetalleOrden_Datos;
 using System.Drawing;
 using System.Diagnostics;
 using CapaDatos.Anulacion;
+using System.Globalization;
 
 namespace CapaLogica.TasaDia_Logica
 {
@@ -61,19 +62,30 @@ namespace CapaLogica.TasaDia_Logica
 
                             if (DateTimeTasa >= (_D_Inicio.DiaActivo()))
                             {
-                                if (Convert.ToDateTime(DateTimeTasa) < Convert.ToDateTime(_D_DetalleOrden.TB_PARAMETRO("FechaUSecuencia")))
+                                string FechaSecuencia = _D_DetalleOrden.TB_PARAMETRO("FechaUSecuencia");
+                                CultureInfo cultura = new CultureInfo("es-ES");
+                                cultura.DateTimeFormat.AMDesignator = "a.m.";
+                                cultura.DateTimeFormat.PMDesignator = "p.m.";
+
+                                if (DateTime.TryParseExact(FechaSecuencia, "dd/MM/yyyy hh:mm:ss tt",
+                          cultura,
+                                DateTimeStyles.None,
+                         out DateTime fechaConvertida))
                                 {
-                                    mostrarError("No se puede realizar la Activación.");
-                                }
-                                else
-                                {
+                                    // Ahora podemos hacer la comparación
+                                    if (Convert.ToDateTime(DateTimeTasa) < fechaConvertida)
+                                    {
+                                        mostrarError("No se puede realizar la Activación.");
+                                    }
+                                    else
+                                    {
                                     if (AGteRegD == "NO")
                                     {
                                         var resultado = mostrarPregunta("¿Está seguro que desea Activar la Secuencia Diaria?", "CONFIRME");
 
                                         if (resultado != DialogResult.OK)
                                         {
-                                         return;
+                                            return;
                                         }
                                         else
                                         {
@@ -100,7 +112,7 @@ namespace CapaLogica.TasaDia_Logica
                                                     ResDigitoVerificador = dsDigitoVerificador.Tables[0].Rows[0][0].ToString();
                                                     if (ResDigitoVerificador == "SECUENCIA NO VALIDA")
                                                     {
-                                                        mostrarError("La secuencia no es valida.");
+                                                        mostrarError("La secuencia no es valida");
                                                         return;
                                                     }
                                                 }
@@ -109,12 +121,12 @@ namespace CapaLogica.TasaDia_Logica
 
                                                 if (!string.IsNullOrEmpty(LblTasaDesenc.Text))
                                                 {
-                                                    mostrarError("Se realizará el proceso de actualización.");
+                                                    mostrarError("Se realizará el proceso de actualización");
 
                                                     for (int x = 1; x < 30; x++)
                                                         ProgressBar1.Value = x;
 
-                                                    DataSet DSUpdPrecio = _D_TasaSecuencia.ActualizarArtDolar(_D_DetalleOrden.TB_PARAMETRO("SucursalId"),TB_USUARIO.COD_USR, TxtCadenaEncriptada.Text, LblTasaDesenc.Text, _D_Inicio.DiaActivo(), DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt"),DateTimeTasa.ToString("dd/MM/yyyy hh:mm:ss tt"));
+                                                    DataSet DSUpdPrecio = _D_TasaSecuencia.ActualizarArtDolar(_D_DetalleOrden.TB_PARAMETRO("SucursalId"), TB_USUARIO.COD_USR, TxtCadenaEncriptada.Text, LblTasaDesenc.Text, _D_Inicio.DiaActivo(), DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt"), DateTimeTasa.ToString("dd/MM/yyyy hh:mm:ss tt"));
 
                                                     for (int x = 30; x < 70; x++)
                                                         ProgressBar1.Value = x;
@@ -123,12 +135,12 @@ namespace CapaLogica.TasaDia_Logica
                                                     {
                                                         //lblFecUltActSec.Text = _D_DetalleOrden.TB_PARAMETRO("FechaUActivaT");
 
-                                                        _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "083", TB_USUARIO.COD_EMPLEADO, "La Secuencia de Activación Diaria se actualizó correctamente. ");
+                                                        _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "083", TB_USUARIO.COD_EMPLEADO, "La Secuencia de Activación Diaria se actualizó correctamente");
 
                                                         for (int x = 71; x < 100; x++)
                                                             ProgressBar1.Value = x;
 
-                                                        mostrarError("El proceso culmino correctamente.");
+                                                        mostrarError("El proceso culmino correctamente");
 
                                                         ProgressBar1.Value = 0;
 
@@ -137,11 +149,11 @@ namespace CapaLogica.TasaDia_Logica
 
                                                         if (IActivarEmailASD == "1")
                                                         {
-                                                            
+
 
                                                             string strSucursalDeTrabajo = _D_DetalleOrden.TB_PARAMETRO("Sucursal");
 
-                                                            string NombreSucursal = _D_DetalleOrden.Nombre_Surculsal_PagoMovil(strSucursalDeTrabajo,null);
+                                                            string NombreSucursal = _D_DetalleOrden.Nombre_Surculsal_PagoMovil(strSucursalDeTrabajo, null);
 
                                                             string valor1 = _D_DetalleOrden.TB_PARAMETRO("FechaUSecuencia");
 
@@ -159,15 +171,15 @@ namespace CapaLogica.TasaDia_Logica
                                                         LblTasaDesenc.Text = "";
                                                         LblFechaDesenc.Text = "";
                                                         LblHoraDesenc.Text = "";
-                                                        mostrarError("Hubo problemas realizando el proceso.");
+                                                        mostrarError("Hubo problemas realizando el proceso");
                                                         ProgressBar1.Value = 0;
-                                                        _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "083", TB_USUARIO.COD_EMPLEADO, "La Secuencia de Activación Diaria no se actualizó correctamente. ");
+                                                        _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "083", TB_USUARIO.COD_EMPLEADO, "La Secuencia de Activación Diaria no se actualizó correctamente");
                                                     }
                                                 }
                                                 else
                                                 {
                                                     ProgressBar1.Value = 0;
-                                                    mostrarError("El valor introducido no es correcto. Debe solicitar uno nuevo.");
+                                                    mostrarError("El valor introducido no es correcto. Debe solicitar uno nuevo");
                                                     LblTasaDesenc.Text = "";
                                                     LblFechaDesenc.Text = "";
                                                     LblHoraDesenc.Text = "";
@@ -178,13 +190,14 @@ namespace CapaLogica.TasaDia_Logica
                                     ProgressBar1.Value = 0;
                                 }
                             }
+                            }
                             else
                             {
                                 ProgressBar1.Value = 0;
                                 LblTasaDesenc.Text = "";
                                 LblFechaDesenc.Text = "";
                                 LblHoraDesenc.Text = "";
-                                mostrarError("La fecha de la secuencia debe ser mayor al día activo. Debe solicitar uno nuevo.");
+                                mostrarError("La fecha de la secuencia debe ser mayor al día activo. Debe solicitar uno nuevo");
                             }
                         }
                         else
@@ -195,7 +208,7 @@ namespace CapaLogica.TasaDia_Logica
                                 LblTasaDesenc.Text = "";
                                 LblFechaDesenc.Text = "";
                                 LblHoraDesenc.Text = "";
-                                mostrarError("El valor introducido supera el % permitido para actualizar la secuencia. Debe solicitar uno nuevo.");
+                                mostrarError("El valor introducido supera el % permitido para actualizar la secuencia. Debe solicitar uno nuevo");
                             }
                             else
                             {
@@ -203,7 +216,7 @@ namespace CapaLogica.TasaDia_Logica
                                 LblTasaDesenc.Text = "";
                                 LblFechaDesenc.Text = "";
                                 LblHoraDesenc.Text = "";
-                                mostrarError("El valor introducido no es correcto. Debe solicitar uno nuevo.");
+                                mostrarError("El valor introducido no es correcto. Debe solicitar uno nuevo");
                             }
                         }
                     }
@@ -214,7 +227,7 @@ namespace CapaLogica.TasaDia_Logica
                     LblTasaDesenc.Text = "";
                     LblFechaDesenc.Text = "";
                     LblHoraDesenc.Text = "";
-                    mostrarError("El valor introducido no es correcto. Debe solicitar uno nuevo.");
+                    mostrarError("El valor introducido no es correcto. Debe solicitar uno nuevo");
                 }
             }
             catch (Exception ex)
@@ -232,10 +245,10 @@ namespace CapaLogica.TasaDia_Logica
                 string UResultado = "";
                 int UCadena1 = 0;
                 int i;
-                int VaMinMaxTasa = 0;
-                int PorcMinTasa = 0;
-                int PorcMaxTasa = 0;
-                int UTasaDesenc = 0;
+                decimal VaMinMaxTasa = 0;
+                decimal PorcMinTasa = 0;
+                decimal PorcMaxTasa = 0;
+                string UTasaDesenc = "";
                 string UFechaDesenc = "";
                 string UHoraDesenc = "";
 
@@ -308,7 +321,7 @@ namespace CapaLogica.TasaDia_Logica
                 {
                     UResultado = dsEjecutaDesencriptar2.Tables[0].Rows[0][0].ToString();
                     UCadena1 = UResultado.Length;
-                    UTasaDesenc = int.Parse(UResultado.Substring(0, UCadena1 - 11));
+                    UTasaDesenc = UResultado.Substring(0, UCadena1 - 11);
                     UFechaDesenc = UResultado.Substring(UCadena1 - 11, 6);
                     UHoraDesenc = UResultado.Substring(UCadena1 - 5, 4);
                 }
@@ -316,10 +329,10 @@ namespace CapaLogica.TasaDia_Logica
                 // rango permitido
                 VaMinMaxTasa = Convert.ToInt32(_D_DetalleOrden.TB_PARAMETRO("ValorMinMaxTasa"));
 
-                PorcMinTasa = UTasaDesenc - ((UTasaDesenc * VaMinMaxTasa) / 100);
-                PorcMaxTasa = UTasaDesenc + ((UTasaDesenc * VaMinMaxTasa) / 100);
+            PorcMinTasa = decimal.Parse(UTasaDesenc) - ((decimal.Parse(UTasaDesenc) * VaMinMaxTasa) / 100m);
+            PorcMaxTasa = decimal.Parse(UTasaDesenc) + ((decimal.Parse(UTasaDesenc) * VaMinMaxTasa) / 100m);
 
-                decimal tasaDesenc = 0;
+            decimal tasaDesenc = 0;
                 decimal.TryParse(LblTasaDesenc.Text.Replace(',', '.'), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out tasaDesenc);
 
                 if (tasaDesenc < (PorcMinTasa / 100m))
@@ -545,13 +558,13 @@ namespace CapaLogica.TasaDia_Logica
                             if (dsAgregaFactD.Tables[0].Rows[0]["Resultado"].ToString() == "APLICA")
                             {
                                 _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "081", TB_USUARIO.COD_EMPLEADO, "La Tasa del Dolar se actualizó correctamente. Tasa Registrada: "+ ValDol);
-                                mostrarError("La Tasa del Dolar se actualizó correctamente.");                            
+                                mostrarError("La Tasa del Dolar se actualizó correctamente");                            
                             }
                             else if (dsAgregaFactD.Tables[0].Rows[0]["Resultado"].ToString() == "NO APLICA")
                             {
                                 int ValorD = Convert.ToInt32(dsAgregaFactD.Tables[0].Rows[0]["ValorMinMax"]);
                                 _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "081", TB_USUARIO.COD_EMPLEADO, "La Tasa no debe ser menor o mayor a " + ValorD + "% de la tasa vigente. Tasa Registrada: " + ValDol);
-                                mostrarError("La Tasa no debe ser menor o mayor a " + ValorD + "% de la tasa vigente.");
+                                mostrarError("La Tasa no debe ser menor o mayor a " + ValorD + "% de la tasa vigente");
 
                             }
                         }
@@ -584,14 +597,14 @@ namespace CapaLogica.TasaDia_Logica
                             if (dsAgregaFactE.Tables[0].Rows[0]["Resultado"].ToString() == "APLICA")
                             {  
                                 _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "081", TB_USUARIO.COD_EMPLEADO, "La Tasa del Euro se actualizó correctamente. Tasa Registrada: " + ValEur);
-                                mostrarError("La Tasa del Euro se actualizó correctamente.");
+                                mostrarError("La Tasa del Euro se actualizó correctamente");
 
                             }
                             else if (dsAgregaFactE.Tables[0].Rows[0]["Resultado"].ToString() == "NO APLICA")
                             {
                                 int ValorE = Convert.ToInt32(dsAgregaFactE.Tables[0].Rows[0]["ValorMinMax"]);  
                                 _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "081", TB_USUARIO.COD_EMPLEADO, "La Tasa no debe ser menor o mayor a " + ValorE + "% de la tasa vigente. Tasa Registrada: " + ValEur);
-                                mostrarError("La Tasa no debe ser menor o mayor a " + ValorE + "% de la tasa vigente.");
+                                mostrarError("La Tasa no debe ser menor o mayor a " + ValorE + "% de la tasa vigente");
 
                             }
                         }

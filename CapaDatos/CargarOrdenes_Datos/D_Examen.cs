@@ -201,12 +201,12 @@ namespace CapaDatos.CargarOrdenes_Datos
                         //command.Parameters.AddWithValue("@TLF_COD", nuevoExamen.TLF_COD ?? (object)DBNull.Value);
                         //command.Parameters.AddWithValue("@TLF_NUMERO", nuevoExamen.TLF_NUMERO ?? (object)DBNull.Value);
                         //command.Parameters.AddWithValue("@TLF_EXT", nuevoExamen.TLF_EXT ?? (object)DBNull.Value);
-                        command.Parameters.AddWithValue("@ESFD2", nuevoExamen.ESFD2);
-                        command.Parameters.AddWithValue("@ESFI2", nuevoExamen.ESFI2);
-                        command.Parameters.AddWithValue("@CILD2", nuevoExamen.CILD2);
-                        command.Parameters.AddWithValue("@CILI2", nuevoExamen.CILI2);
-                        command.Parameters.AddWithValue("@EJED2", nuevoExamen.EJED2);
-                        command.Parameters.AddWithValue("@EJEI2", nuevoExamen.EJEI2);
+                        command.Parameters.AddWithValue("@ESFD2", (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@ESFI2", (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@CILD2", (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@CILI2", (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@EJED2", (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@EJEI2", (object)DBNull.Value);
                         command.Parameters.AddWithValue("@CodigoMimesys", nuevoExamen.CodigoMimesys ?? (object)DBNull.Value);
 
                         command.ExecuteNonQuery();

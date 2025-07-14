@@ -79,9 +79,9 @@ namespace CapaLogica.CierreCaja_Logica
             //}
         }
 
-        public DataTable ObtienePuntosdeVenta(string codPunto)
+        public DataTable ObtienePuntosdeVenta(string codPunto, DateTime fecha)
         {
-            DataTable dt = _D_CierreCaja.ObtienePuntosdeVenta(codPunto);
+            DataTable dt = _D_CierreCaja.ObtienePuntosdeVenta(codPunto, fecha);
 
             if (dt.Rows.Count > 0)
             {
@@ -93,19 +93,28 @@ namespace CapaLogica.CierreCaja_Logica
             }
         }
 
-        public DataTable AgregaPuntosdeVenta( string codBanco, DateTime fecha, string nroLote, decimal manualTarjCredito, decimal manualTarjCreditoAmex,
+        public bool AgregaPuntosdeVenta( string codBanco, DateTime fecha, string nroLote, decimal manualTarjCredito, decimal manualTarjCreditoAmex,
     decimal manualTarjDebito, decimal manualTarjOtros)
         {
-            DataTable dt = _D_CierreCaja.AgregaPuntosdeVenta(  codBanco, fecha, nroLote, manualTarjCredito, manualTarjCreditoAmex,
-    manualTarjDebito, manualTarjOtros);
+            try
+            {
+                DataTable dt = _D_CierreCaja.AgregaPuntosdeVenta(  codBanco, fecha, nroLote, manualTarjCredito, manualTarjCreditoAmex,
+                manualTarjDebito, manualTarjOtros);
 
-            if (dt.Rows.Count > 0)
-            {
-                return dt;
+                        if (dt.Rows.Count > 0)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
             }
-            else
+            catch (Exception ex)
             {
-                return dt;
+                // Código para manejar el error
+                EscribirLog(ex.Message.ToString());
+                return false;
             }
         }
 
@@ -210,17 +219,31 @@ namespace CapaLogica.CierreCaja_Logica
         {
             try
             {
-                DataTable dt = _D_CierreCaja.GeneraInvenvioTXT(codSuc, fechaCierre,command);
+                // 1) Defino la carpeta donde quiero dejar el archivo
+                //string carpetaDestino = @"C:\EnviosTXT";
+                // 2) Me aseguro de que exista
+                Directory.CreateDirectory(ruta);
 
+                // 3) Construyo el nombre de archivo (puedes incluir fecha/hora para evitar colisiones)
+                string nombreArchivo = $"INVENVIO.txt";
 
-                using (StreamWriter NuevoArchi = new StreamWriter(ruta))
+                // 4) Combino carpeta y nombre
+                string rutaCompleta = Path.Combine(ruta, nombreArchivo);
+
+                // 5) Genero el DataTable
+                DataTable dt = _D_CierreCaja.GeneraInvenvioTXT(codSuc, fechaCierre, command);
+
+                // 6) Grabo el archivo
+                using (var writer = new StreamWriter(rutaCompleta))
                 {
                     foreach (DataRow row in dt.Rows)
-                    {
-                        string strLinea = row[0].ToString();
-                        NuevoArchi.WriteLine(strLinea);
-                    }
+                        writer.WriteLine(row[0]?.ToString());
                 }
+
+                // 7) Feedback al usuario (opcional)
+                //MessageBox.Show($"Archivo generado en:\n{rutaCompleta}", "Listo",
+                //                MessageBoxButtons.OK, MessageBoxIcon.Information);
+
                 return true;
             }
             catch (Exception ex)

@@ -694,6 +694,7 @@ namespace CapaVisual_Login
             // Cbx_Pnl2_Trbajo
             // 
             this.Cbx_Pnl2_Trbajo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.Cbx_Pnl2_Trbajo.DropDownWidth = 235;
             this.Cbx_Pnl2_Trbajo.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Cbx_Pnl2_Trbajo.ForeColor = System.Drawing.Color.Black;
             this.Cbx_Pnl2_Trbajo.FormattingEnabled = true;
@@ -1666,6 +1667,7 @@ namespace CapaVisual_Login
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.pnlObservCon);
+            this.tabPage2.Controls.Add(this.txt_Pnl2_conv_mimesys);
             this.tabPage2.Controls.Add(this.btn_pln2_reti);
             this.tabPage2.Controls.Add(this.btn_pln2_quer);
             this.tabPage2.Controls.Add(this.btn_pln2_oft);
@@ -2441,7 +2443,6 @@ namespace CapaVisual_Login
             this.grp_pln2_OBS.Controls.Add(this.lbl_pnl2_obser);
             this.grp_pln2_OBS.Controls.Add(this.label32);
             this.grp_pln2_OBS.Controls.Add(this.label31);
-            this.grp_pln2_OBS.Controls.Add(this.txt_Pnl2_conv_mimesys);
             this.grp_pln2_OBS.Location = new System.Drawing.Point(0, 244);
             this.grp_pln2_OBS.Name = "grp_pln2_OBS";
             this.grp_pln2_OBS.Size = new System.Drawing.Size(1043, 252);
@@ -2544,7 +2545,7 @@ namespace CapaVisual_Login
             // txt_Pnl2_conv_mimesys
             // 
             this.txt_Pnl2_conv_mimesys.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txt_Pnl2_conv_mimesys.Location = new System.Drawing.Point(507, 117);
+            this.txt_Pnl2_conv_mimesys.Location = new System.Drawing.Point(507, 361);
             this.txt_Pnl2_conv_mimesys.Margin = new System.Windows.Forms.Padding(3, 15, 3, 3);
             this.txt_Pnl2_conv_mimesys.MaxLength = 19;
             this.txt_Pnl2_conv_mimesys.Multiline = true;

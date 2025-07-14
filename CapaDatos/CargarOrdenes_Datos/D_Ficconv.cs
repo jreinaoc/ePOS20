@@ -114,6 +114,8 @@ namespace CapaDatos.CargarOrdenes_Datos
                         command.Parameters.AddWithValue("@ALTI", nuevoFicConv.ALTI.HasValue ? (object)nuevoFicConv.ALTI.Value : DBNull.Value);
                         command.Parameters.AddWithValue("@PRISMAD", nuevoFicConv.PRISMAD.HasValue ? (object)nuevoFicConv.PRISMAD.Value : DBNull.Value);
                         command.Parameters.AddWithValue("@PRISMAI", nuevoFicConv.PRISMAI.HasValue ? (object)nuevoFicConv.PRISMAI.Value : DBNull.Value);
+                        command.Parameters.AddWithValue("@PRISMAD2", "0");
+                        command.Parameters.AddWithValue("@PRISMAI2", "0");
 
                         //command.Parameters.AddWithValue("@Observaciones", nuevoFicConv.OBSERVACIONES ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@OFTI", nuevoFicConv.OFTI ?? (object)DBNull.Value);
@@ -126,13 +128,15 @@ namespace CapaDatos.CargarOrdenes_Datos
 
                         command.Parameters.AddWithValue("@PBASED", nuevoFicConv.PBASED);
                         command.Parameters.AddWithValue("@PBASEI", nuevoFicConv.PBASEI);
-                      
-                        command.Parameters.AddWithValue("@PROGVISIONLEJOSDISTD", nuevoFicConv.PROGVISIONLEJOSDISTD.HasValue ? (object)nuevoFicConv.PROGVISIONLEJOSDISTD.Value : DBNull.Value);
-                        command.Parameters.AddWithValue("@PROGVISIONLEJOSDISTI", nuevoFicConv.PROGVISIONLEJOSDISTI.HasValue ? (object)nuevoFicConv.PROGVISIONLEJOSDISTI.Value : DBNull.Value);
-                        command.Parameters.AddWithValue("@PROGVISIONCERCADISTD", nuevoFicConv.PROGVISIONCERCADISTD.HasValue ? (object)nuevoFicConv.PROGVISIONCERCADISTD.Value : DBNull.Value);
-                        command.Parameters.AddWithValue("@PROGVISIONCERCADISTI", nuevoFicConv.PROGVISIONCERCADISTI.HasValue ? (object)nuevoFicConv.PROGVISIONCERCADISTI.Value : DBNull.Value);
-                        command.Parameters.AddWithValue("@PROGVISIONMEDIADISTD", nuevoFicConv.PROGVISIONMEDIADISTD.HasValue ? (object)nuevoFicConv.PROGVISIONMEDIADISTD.Value : DBNull.Value);
-                        command.Parameters.AddWithValue("@PROGVISIONMEDIADISTI", nuevoFicConv.PROGVISIONMEDIADISTI.HasValue ? (object)nuevoFicConv.PROGVISIONMEDIADISTI.Value : DBNull.Value);
+                        command.Parameters.AddWithValue("@PBASED2", "");
+                        command.Parameters.AddWithValue("@PBASEI2", "");
+
+                        command.Parameters.AddWithValue("@PROGVISIONLEJOSDISTD", "0");
+                        command.Parameters.AddWithValue("@PROGVISIONLEJOSDISTI", "0");
+                        command.Parameters.AddWithValue("@PROGVISIONCERCADISTD", "0");
+                        command.Parameters.AddWithValue("@PROGVISIONCERCADISTI", "0");
+                        command.Parameters.AddWithValue("@PROGVISIONMEDIADISTD", "0");
+                        command.Parameters.AddWithValue("@PROGVISIONMEDIADISTI", "0");
 
                         // Ejecutar el Stored Procedure y obtener el número de filas afectadas
                         //filasAfectadas = command.ExecuteNonQuery();

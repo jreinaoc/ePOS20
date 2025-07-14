@@ -120,7 +120,7 @@ namespace CapaVisual_Login
                     // Secuencia de Activación Diaria
                     if (drGteReg["AutGteRegD"].ToString() == "SI")
                     {
-                        mostrarError("Superó el límite de registro de Secuencia de Activación Diaria.");
+                        mostrarError("Superó el límite de registro de Secuencia de Activación Diaria");
                         AGteRegD = "SI";
                         // Pido clave de gerente regional
 
@@ -369,6 +369,7 @@ namespace CapaVisual_Login
                 Btn_Pnl3_Activar.Enabled = false;
             }
 
+
         }
 
         private void Txt_Pnl2_Dolar1_Click(object sender, EventArgs e)
@@ -384,6 +385,26 @@ namespace CapaVisual_Login
             if (Txt_Pnl2_Euro1.Text == "0,000000")
             {
                 Txt_Pnl2_Euro1.Text = "";
+            }
+        }
+
+        private void Txt_Pnl3_Secuencia_Enter(object sender, EventArgs e)
+        {
+            // Cuando el usuario hace clic o intenta escribir
+            if (Txt_Pnl3_Secuencia.Text == "Insertar secuencia")
+            {
+                Txt_Pnl3_Secuencia.Text = ""; // Borrar el texto sugerido
+                Txt_Pnl3_Secuencia.ForeColor = Color.Black; // Cambiar el color del texto a negro
+            }
+        }
+
+        private void Txt_Pnl3_Secuencia_Leave(object sender, EventArgs e)
+        {
+            // Cuando el usuario deja el TextBox
+            if (string.IsNullOrWhiteSpace(Txt_Pnl3_Secuencia.Text))
+            {
+                Txt_Pnl3_Secuencia.Text = "Insertar secuencia"; // Restaurar el texto sugerido
+                Txt_Pnl3_Secuencia.ForeColor = Color.DarkGray; // Cambiar el color del texto a gris
             }
         }
     }

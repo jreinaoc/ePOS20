@@ -143,7 +143,7 @@ namespace CapaDatos.CierreCaja_Datos
             }
         }
 
-        public DataTable ObtienePuntosdeVenta(string codPunto, SqlCommand command = null)
+        public DataTable ObtienePuntosdeVenta(string codPunto, DateTime fecha, SqlCommand command = null)
         {
             try
             {
@@ -158,6 +158,7 @@ namespace CapaDatos.CierreCaja_Datos
                 cmd.CommandText = "pGetPuntosVta";
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@CodPunto", codPunto);
+                cmd.Parameters.AddWithValue("@Fecha", fecha);
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(dt);

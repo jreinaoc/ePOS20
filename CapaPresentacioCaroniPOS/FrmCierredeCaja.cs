@@ -110,8 +110,16 @@ namespace CapaVisual_Login
                             decimal.TryParse(fila.Cells[6].Value?.ToString().Trim(), out decimal totalOtros);
 
                            
-                            _L_CierreCaja.AgregaPuntosdeVenta(fila.Cells[0].Value?.ToString().Trim(), diaActivo, fila.Cells[2].Value?.ToString().Trim(), totalCredito, totalAmex, totalDebito, totalOtros);
-                        
+                            if (!_L_CierreCaja.AgregaPuntosdeVenta(fila.Cells[0].Value?.ToString().Trim(), diaActivo, fila.Cells[2].Value?.ToString().Trim(), totalCredito, totalAmex, totalDebito, totalOtros))
+
+                                {
+                                    _FrmMensajes.co = 2;
+                                    _FrmMensajes.avisomensaje("Error registrando puntos de venta");
+                                    _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                                    _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                                    _FrmMensajes.ShowDialog();
+                                    return;
+                                }
                             }
                         }
                     }
@@ -126,6 +134,18 @@ namespace CapaVisual_Login
                 //_FrmMensajes.ShowDialog();
                 //return;
             }
+
+            //ASISTENCIA PENDIENTE
+            DataTable dtAsistenciaPendiente = _L_CierreCaja.VerificaAsistenciaPendiente(diaActivo.ToString("yyyyMMdd"), "PEND");
+
+            dtAsistenciaPendiente.Columns["HORASALIDAT1"].AllowDBNull = true;
+
+            // Asignar al DataGridView
+            Dvg_MarcajeAsistenciaPendiente.DataSource = dtAsistenciaPendiente;
+
+            FormatoTabla("Asistencia");
+
+
             tcCierreCaja.SelectedIndex = 1;
             lblPaso.Text = "Paso 2";
         }
@@ -422,7 +442,7 @@ namespace CapaVisual_Login
                 //Si no se han cerrado lleno datos en 0
                 if (dtPuntosCerrados.Rows.Count == 0)
                 {
-                    DataTable dt = _L_CierreCaja.ObtienePuntosdeVenta("");
+                    DataTable dt = _L_CierreCaja.ObtienePuntosdeVenta("", diaActivo);
 
                     CrearTabla("PuntodeVenta");
                     
@@ -465,12 +485,14 @@ namespace CapaVisual_Login
                 DataTable dtBancos = _L_CierreCaja.ObtieneBancosPagoMovil(sucursal);
 
                 //ASISTENCIA PENDIENTE
-                DataTable dtAsistenciaPendiente = _L_CierreCaja.VerificaAsistenciaPendiente(diaActivo.ToString("yyyyMMdd"), "PEND");
+                //DataTable dtAsistenciaPendiente = _L_CierreCaja.VerificaAsistenciaPendiente(diaActivo.ToString("yyyyMMdd"), "PEND");
 
-                // Asignar al DataGridView
-                Dvg_MarcajeAsistenciaPendiente.DataSource = dtAsistenciaPendiente;
+                //// Asignar al DataGridView
+                //Dvg_MarcajeAsistenciaPendiente.DataSource = dtAsistenciaPendiente;
 
-                FormatoTabla("Asistencia");
+                //FormatoTabla("Asistencia");
+
+                Dvg_MarcajeAsistenciaPendiente.EditMode = DataGridViewEditMode.EditProgrammatically;
 
                 //CONSIGNACION
                 DataTable dtConsignacion = _L_CierreCaja.ConsultaOsDia(diaActivo, sucursal);
@@ -726,6 +748,24 @@ namespace CapaVisual_Login
                     Dvg_MarcajeAsistenciaPendiente.Columns["HORAENTRADAT2"].ReadOnly = true;
                     Dvg_MarcajeAsistenciaPendiente.Columns["HORASALIDAT2"].ReadOnly = true;
 
+                    // Suponiendo que ya hiciste:
+                    // Dgv_MarcajeAsistenciaPendiente.DataSource = dtAsistenciaPendiente;
+
+                    //Dvg_MarcajeAsistenciaPendiente.Columns.Remove("HORASALIDAT1");
+
+                    //var timeCol = new DataGridViewTimePickerColumn
+                    //{
+                    //    Name = "HORASALIDAT1",
+                    //    DataPropertyName = "HORASALIDAT1",
+                    //    HeaderText = "HORASALIDAT1",
+                    //};
+                    //timeCol.DefaultCellStyle.NullValue = "";           // se ve vacío si es DBNull
+                    //timeCol.DefaultCellStyle.Format = "hh:mm tt";   // tu formato
+                    //Dvg_MarcajeAsistenciaPendiente.Columns.Add(timeCol);
+
+                    // Suscribir el BeginEdit
+                    //Dvg_MarcajeAsistenciaPendiente.CellBeginEdit += Dgv_MarcajeAsistenciaPendiente_CellBeginEdit;
+
 
 
 
@@ -830,10 +870,26 @@ namespace CapaVisual_Login
 
                     break;
 
+                case "Usuarios":
+
+                    // Asignar ancho personalizado a cada columna
+                    Dgv_Usuarios.Columns["COD_USR"].Visible  = false;
+                    Dgv_Usuarios.Columns["Nombre"].Width = 320;
+                    Dgv_Usuarios.Columns["COD_EMPLEADO"].HeaderText  = "Código";
+                    Dgv_Usuarios.Columns["COD_EMPLEADO"].Width = 75;
+                    Dgv_Usuarios.ColumnHeadersDefaultCellStyle.Font = new Font("Century Gothic", 10);
+                    Dgv_Usuarios.DefaultCellStyle.Font = new Font("Century Gothic", 9);
+
+
+
+                    break;
+
                 default:
                     break;
             }
         }
+
+        
 
         private void btn_Cancelar_pg2_Click(object sender, EventArgs e)
         {
@@ -846,6 +902,36 @@ namespace CapaVisual_Login
             tcCierreCaja.SelectedIndex = 1;
             lblPaso.Text = "Paso 2";
         }
+        // 1) En tu formulario declara esto a nivel de clase:
+        private HashSet<(int row, int col)> _celdasAutorizadas = new HashSet<(int, int)>();
+
+        // 2) Suscribe ambos eventos en tu Form_Load o constructor:
+
+        // 3) En CellBeginEdit pides la clave y, si es correcta,
+        //    guardas la posición de la celda en el HashSet:
+       
+
+        // 4) En CellEndEdit revisas si la celda estuvo autorizada.
+        //    Si NO, la vacías; si SÍ, la aceptas y quitas la autorización
+        //    para que, si editan de nuevo, vuelvan a pedir clave:
+        //private void Dgv_MarcajeAsistenciaPendiente_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        //{
+        //    if (Dvg_MarcajeAsistenciaPendiente.Columns[e.ColumnIndex] is DataGridViewTimePickerColumn)
+        //    {
+        //        var key = (e.RowIndex, e.ColumnIndex);
+        //        if (!_celdasAutorizadas.Contains(key))
+        //        {
+        //            // limpiamos ese tiempo “por defecto” que se coló
+        //            Dvg_MarcajeAsistenciaPendiente.Rows[e.RowIndex]
+        //                .Cells[e.ColumnIndex].Value = DBNull.Value;
+        //        }
+        //        else
+        //        {
+        //            // ya fue autorizado y guardado: quitamos la marca
+        //            _celdasAutorizadas.Remove(key);
+        //        }
+        //    }
+        //}
 
         public class DataGridViewTimePickerColumn : DataGridViewColumn
         {
@@ -923,27 +1009,59 @@ namespace CapaVisual_Login
             }
         }
 
-        private void Dvg_MarcajeAsistenciaPendiente_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
-            {
-                var columna = Dvg_MarcajeAsistenciaPendiente.Columns[e.ColumnIndex];
-                if (columna is DataGridViewTimePickerColumn)
-                {
-                    _FrmClaveGerente.ShowDialog();
-                    if (_FrmClaveGerente.ClaveCorrecta == true)
-                    {
+        //private void Dvg_MarcajeAsistenciaPendiente_CellClick(object sender, DataGridViewCellEventArgs e)
+        //{
+        //    if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+        //    {
+        //        var columna = Dvg_MarcajeAsistenciaPendiente.Columns[e.ColumnIndex];
 
-                        if (_FrmClaveGerente.DialogResult == DialogResult.OK)
-                        {
-                            Dvg_MarcajeAsistenciaPendiente.BeginEdit(true); // inicia edición con un clic
-                            GerenteAutoriza = _FrmClaveGerente.RetornoNombreUsuario();
-                        }
-                    }
-                }
-            }
-        }
+        //        if (columna is DataGridViewTimePickerColumn)
+        //        {
+        //            _FrmClaveGerente.ShowDialog();
 
+        //            if (_FrmClaveGerente.ClaveCorrecta && _FrmClaveGerente.DialogResult == DialogResult.OK)
+        //            {
+        //                Dvg_MarcajeAsistenciaPendiente.BeginEdit(true);
+        //                GerenteAutoriza = _FrmClaveGerente.RetornoNombreUsuario();
+        //            }
+        //            else
+        //            {
+        //                // ⚠️ Cancelar cualquier edición activa
+        //                if (Dvg_MarcajeAsistenciaPendiente.IsCurrentCellInEditMode)
+        //                    Dvg_MarcajeAsistenciaPendiente.CancelEdit();
+
+        //                // ⚠️ Forzar la celda a un valor nulo
+        //                Dvg_MarcajeAsistenciaPendiente.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = DBNull.Value;
+
+        //                // Opcional: refrescar visualmente el grid
+        //                Dvg_MarcajeAsistenciaPendiente.RefreshEdit();
+        //            }
+        //        }
+        //    }
+        //}
+
+        // 3) En CellBeginEdit pides la clave y, si es correcta,
+        //    guardas la posición de la celda en el HashSet:
+        //private void Dgv_MarcajeAsistenciaPendiente_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        //{
+        //    var col = Dvg_MarcajeAsistenciaPendiente.Columns[e.ColumnIndex];
+        //    if (col is DataGridViewTimePickerColumn)
+        //    {
+        //        _FrmClaveGerente.ShowDialog();
+        //        if (_FrmClaveGerente.DialogResult == DialogResult.OK && _FrmClaveGerente.ClaveCorrecta)
+        //        {
+        //            // autorizamos esta celda:
+        //            _celdasAutorizadas.Add((e.RowIndex, e.ColumnIndex));
+        //            GerenteAutoriza = _FrmClaveGerente.RetornoNombreUsuario();
+        //            return;
+        //        }
+
+        //        // si no autoriza, cancelamos edición de una vez 
+        //        e.Cancel = true;
+        //        Dvg_MarcajeAsistenciaPendiente.Rows[e.RowIndex]
+        //            .Cells[e.ColumnIndex].Value = DBNull.Value;
+        //    }
+        //}
         private void Dvg_ConsignacionDeOS_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
@@ -953,12 +1071,14 @@ namespace CapaVisual_Login
                 if (columna.Name == "CodVendedor")
                 {
                     //string codigo = Dvg_ConsignacionDeOS.Rows[e.RowIndex].Cells["CodVendedor"].Value?.ToString();
-                    DataTable dtUsuarios  = _L_CierreCaja.ObtieneUsuarios(sucursal);
+                    DataTable dtUsuarios = _L_CierreCaja.ObtieneUsuarios(sucursal);
                     usuarios = ConvertToList<Usuario>(dtUsuarios);
 
                     Dgv_Usuarios.DataSource = dtUsuarios;
+
+                    FormatoTabla("Usuarios");
                     //Formato_Dgv_Pnl3_ColoresLC();
-                    
+
                     if (Pnl2_ListadoDeVendedores.Visible == true)
                     {
                         Pnl2_ListadoDeVendedores.Visible = false;
@@ -1061,6 +1181,30 @@ namespace CapaVisual_Login
             }
         }
 
+        private void Dgv_MarcajeAsistenciaPendiente_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
+            if (!(Dvg_MarcajeAsistenciaPendiente.Columns[e.ColumnIndex] is DataGridViewTimePickerColumn))
+                return;
+
+            _FrmClaveGerente.ShowDialog();
+            if (_FrmClaveGerente.DialogResult == DialogResult.OK
+                && _FrmClaveGerente.ClaveCorrecta)
+            {
+                GerenteAutoriza = _FrmClaveGerente.RetornoNombreUsuario();
+                // Aquí sí iniciamos la edición y aparece el picker
+                Dvg_MarcajeAsistenciaPendiente.CurrentCell =
+                    Dvg_MarcajeAsistenciaPendiente.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                Dvg_MarcajeAsistenciaPendiente.BeginEdit(true);
+            }
+            else
+            {
+                // Al no llamar a BeginEdit, nunca instancias el DateTimePicker.
+                // Y de paso dejas el valor en null/blank si quieres:
+                Dvg_MarcajeAsistenciaPendiente.Rows[e.RowIndex]
+                    .Cells[e.ColumnIndex].Value = DBNull.Value;
+            }
+        }
         public class VerticalLabel : Control
         {
             public bool Invertir { get; set; } = false; // si quieres que el texto vaya de abajo hacia arriba
@@ -1113,6 +1257,7 @@ namespace CapaVisual_Login
                 rutaInvenvio = _D_DetalleOrden.TB_PARAMETRO("RutaInvenvio");
                 nombreInvenvio = _D_DetalleOrden.TB_PARAMETRO("NombreArchInv");
 
+                dtLogCierre.Clear();
                 CrearTabla("LogCierre");
 
                 dtLogCierre.Rows.Add("Paso 1", "✔ Completado");
@@ -1120,6 +1265,8 @@ namespace CapaVisual_Login
                 dtLogCierre.Rows.Add("Paso 3", "✔ Completado");
                 dgvLogCierre.DataSource = dtLogCierre;
                 dgvLogCierre.Refresh();
+
+                FormatoTabla("LogCierre");
 
                 //Existencia en Caja
                 if (!_L_CierreCaja.ValidaExistenciaCaja(dgvCierredecaja))
@@ -1170,7 +1317,7 @@ namespace CapaVisual_Login
                     command.Transaction.Rollback();
                     return;
                 }
-                FormatoTabla("LogCierre");
+                
 
                 if (_L_CierreCaja.GeneraInvenvioTXT(sucursal, diaActivo.ToString("yyyyMMdd"), rutaInvenvio + nombreInvenvio,command))
                 {
@@ -1180,7 +1327,7 @@ namespace CapaVisual_Login
                 }
                 else
                 {
-                    dtLogCierre.Rows.Add("Archivo Invenvio.txt", "Error");
+                    dtLogCierre.Rows.Add("Archivo Invenvio.txt", "❌ Fallido");
                     dgvLogCierre.DataSource = dtLogCierre;
                     dgvLogCierre.Refresh();
                 }
@@ -1223,6 +1370,7 @@ namespace CapaVisual_Login
                         if (row["Descripcion"].ToString() == "Generando Libro de Ventas")
                         {
                             row["Resultado"] = "✔ Completado";
+                            dgvLogCierre.Refresh();
                             break;
                         }
                     }
@@ -1236,6 +1384,7 @@ namespace CapaVisual_Login
                         {
                             row["Resultado"] = "❌ Fallido";
                             command.Transaction.Rollback();
+                            dgvLogCierre.Refresh();
                             break;
                         }
                     }
@@ -1253,6 +1402,7 @@ namespace CapaVisual_Login
                         if (row["Descripcion"].ToString() == "Consolidando movimientos")
                         {
                             row["Resultado"] = "✔ Completado";
+                            dgvLogCierre.Refresh();
                             break;
                         }
                     }
@@ -1265,6 +1415,7 @@ namespace CapaVisual_Login
                         if (row["Descripcion"].ToString() == "Consolidando movimientos")
                         {
                             row["Resultado"] = "❌ Fallido";
+                            dgvLogCierre.Refresh();
                             command.Transaction.Rollback();
                             break;
                         }
@@ -1286,6 +1437,7 @@ namespace CapaVisual_Login
                         if (row["Descripcion"].ToString() == "Generando ACC")
                         {
                             row["Resultado"] = "✔ Completado";
+                            dgvLogCierre.Refresh();
                             break;
                         }
                     }
@@ -1298,6 +1450,7 @@ namespace CapaVisual_Login
                         if (row["Descripcion"].ToString() == "Generando ACC")
                         {
                             row["Resultado"] = "❌ Fallido";
+                            dgvLogCierre.Refresh();
                             command.Transaction.Rollback();
                             break;
                         }
@@ -1317,6 +1470,7 @@ namespace CapaVisual_Login
                         if (row["Descripcion"].ToString() == "Creando zip xml")
                         {
                             row["Resultado"] = "✔ Completado";
+                            dgvLogCierre.Refresh();
                             break;
                         }
                     }
@@ -1329,6 +1483,7 @@ namespace CapaVisual_Login
                         if (row["Descripcion"].ToString() == "Creando zip xml")
                         {
                             row["Resultado"] = "❌ Fallido";
+                            dgvLogCierre.Refresh();
                             command.Transaction.Rollback();
                             break;
                         }
@@ -1359,6 +1514,7 @@ namespace CapaVisual_Login
                     if (row["Descripcion"].ToString() == "Imprimiendo reportes")
                     {
                         row["Resultado"] = "✔ Completado";
+                        dgvLogCierre.Refresh();
                         break;
                     }
                 }

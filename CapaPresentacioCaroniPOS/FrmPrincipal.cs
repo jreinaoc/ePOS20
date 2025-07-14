@@ -764,26 +764,26 @@ namespace CapaVisual_Login
             string DiaActual = (DateTime.Now.ToString("dd/MM/yyyy"));
             string DiaActivo = _D_Inicio.DiaActivo().ToShortDateString();
 
-            
 
-            if (TB_USUARIO.COD_EMPLEADO != "99999")
+
+            //if (TB_USUARIO.COD_EMPLEADO != "99999")
+            //{
+            if (_D_Inicio.DiaActivo() >= DateTime.Now)
             {
-                if (DiaActivo != DiaActual)
-                {
-                    _FrmMensajes.co = 2;
-                    _FrmMensajes.avisomensaje("Debe cerrar caja del día anterior para continuar");
-                    _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
-                    _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
-                    _FrmMensajes.ShowDialog();
-                    return;
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("Imposible cerrar la caja, el día activo es mayor a la fecha de hoy");
+                _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                _FrmMensajes.ShowDialog();
+                return;
 
-                }
             }
+            //}
 
             DateTime currentDate = _D_Inicio.DiaActivo();
             string formattedDate = currentDate.ToString("yyyyMMdd");
 
-            if (!_L_CierreCaja.ChequeaFacturasdelDia(formattedDate, TB_USUARIO.COD_EMPLEADO))
+            if (_L_CierreCaja.ChequeaFacturasdelDia(formattedDate, TB_USUARIO.COD_USR))
             {
                 _FrmMensajes.co = 2;
                 _FrmMensajes.avisomensaje("Existen INCONSISTENCIAS en los abonos de las facturas del día. Comuníquese con el Dpto de sistemas");
@@ -817,7 +817,7 @@ namespace CapaVisual_Login
                 _L_CierreCaja.ORDSERVCRITERIOSVARIOS("","");
 
                 _FrmMensajes.co = 2;
-                _FrmMensajes.avisomensaje("No Puede Cerrar Caja. Hay Ventas Pendientes");
+                _FrmMensajes.avisomensaje("Realice todos los envios digitales antes de realizar el cierre definitivo");
                 _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
                 _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
                 _FrmMensajes.ShowDialog();
