@@ -2052,6 +2052,7 @@ namespace CapaVisual_Login
 
             if (tabControl.SelectedIndex == 1)
             {
+                LLenar_TbTrabajo();
                 btnCargarOrden.Focus(); 
                 tabControl.SelectedIndex = 2;
                 
@@ -3492,6 +3493,7 @@ namespace CapaVisual_Login
             nuevoTrabajo.TSucursal = codigoSucursal;
             nuevoTrabajo.TTIPOTRABAJO = "002";
             nuevoTrabajo.USERCREA = TB_USUARIO.COD_USR;
+            nuevoTrabajo.TEXAMEN = Txt_Pnl2_Examen.Text;
 
             //if (Dgv_Pnl2_medconv.Rows.Count > 0)
             //{
@@ -6330,7 +6332,7 @@ namespace CapaVisual_Login
             cilindroColumn.DecimalPlaces = 2;
             cilindroColumn.Minimum = -5.75M;
             cilindroColumn.Maximum = +5.75M;
-            cilindroColumn.Increment = 1M;
+            cilindroColumn.Increment = 0.25M; //pase de 1 a 0.25 14/07/2025
 
             Dgv_Pnl2_conv.Columns.Add(cilindroColumn);
 
@@ -10578,6 +10580,19 @@ namespace CapaVisual_Login
                 return false;
             }
 
+            if (Cbx_Tap2_Ojo.Text == "Ambos" && cbVisionDerecha.Text == "Balance" && cbVisionDerecha.Text == "Balance")
+            {
+                Pnl_2_Msj.Visible = true;
+                txt_pl2_msj.Text = "No se puede colocar Balance en ambos ojos";
+                //pb_pl2_mj.Visible = true;
+                //Pnl_2_Msj.Location = new Point(396, 175);
+                Pnl_2_Msj.BringToFront();
+
+                // Do NOT set cellFila1.Value here, as this would trigger CellValueChanged again.
+                // Instead, return false to indicate validation failure.
+                return false;
+            }
+
             //// This assumes you want to check all columns named "Vision" for this rule
             //// If you only want to check a specific column (e.g., the one at index X), adjust the loop.
             //foreach (DataGridViewColumn column in Dgv_Pnl2_conv.Columns)
@@ -11478,44 +11493,44 @@ namespace CapaVisual_Login
                 }
             }
 
-            //if (e.ColumnIndex >= 0 && Dgv_Pnl2_cont.Columns[e.ColumnIndex].Name == "Eje" && e.RowIndex >= 0)
-            //{
-            //    DataGridViewCell cell = Dgv_Pnl2_cont.Rows[e.RowIndex].Cells[e.ColumnIndex];
+            if (e.ColumnIndex >= 0 && Dgv_Pnl2_cont.Columns[e.ColumnIndex].Name == "Eje" && e.RowIndex >= 0)
+            {
+                DataGridViewCell cell = Dgv_Pnl2_cont.Rows[e.RowIndex].Cells[e.ColumnIndex];
 
-            //    // Verifica si la celda está vacía
-            //    if (cell.Value == null || string.IsNullOrEmpty(cell.Value.ToString()))
-            //    {
-            //        cell.Value = 0; // Establece el valor a cero
-            //    }
-            //    else
-            //    {
-            //        int valoreje = Convert.ToInt32(cell.Value);
-            //        // Si la celda no está vacía, valida el número ingresado
-            //        if (int.TryParse(valoreje.ToString(), out int enteredValue))
-            //        {
-            //            // Verifica si el valor es un múltiplo de 5
-            //            if (enteredValue % 5 != 0)
-            //            {
-            //                // Calcula el múltiplo de 5 más cercano
-            //                int roundedValue = (int)Math.Round((double)enteredValue / 5) * 5;
+                // Verifica si la celda está vacía
+                if (cell.Value == null || string.IsNullOrEmpty(cell.Value.ToString()))
+                {
+                    cell.Value = 0; // Establece el valor a cero
+                }
+                else
+                {
+                    int valoreje = Convert.ToInt32(cell.Value);
+                    // Si la celda no está vacía, valida el número ingresado
+                    if (int.TryParse(valoreje.ToString(), out int enteredValue))
+                    {
+                        // Verifica si el valor es un múltiplo de 5
+                        if (enteredValue % 5 != 0)
+                        {
+                            // Calcula el múltiplo de 5 más cercano
+                            int roundedValue = (int)Math.Round((double)enteredValue / 5) * 5;
 
-            //                // Muestra un mensaje al usuario
-            //                //Pnl_2_Msj.Visible = true;
-            //                //txt_pl2_msj.Text = $"El valor ingresado debe ser un múltiplo de 5. Se ha ajustado a {roundedValue}.";
-            //                //pb_pl2_mj.Visible = true;
+                            // Muestra un mensaje al usuario
+                            //Pnl_2_Msj.Visible = true;
+                            //txt_pl2_msj.Text = $"El valor ingresado debe ser un múltiplo de 5. Se ha ajustado a {roundedValue}.";
+                            //pb_pl2_mj.Visible = true;
 
-            //                // Actualiza el valor de la celda
-            //                cell.Value = roundedValue;
-            //            }
-            //        }
-            //        else
-            //        {
-            //            // Si el valor no es un entero válido
-            //            //MessageBox.Show("Por favor, ingrese un número entero válido.", "Error de entrada", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //            cell.Value = 0; // O la acción que consideres adecuada
-            //        }
-            //    }
-            //}
+                            // Actualiza el valor de la celda
+                            cell.Value = roundedValue;
+                        }
+                    }
+                    else
+                    {
+                        // Si el valor no es un entero válido
+                        //MessageBox.Show("Por favor, ingrese un número entero válido.", "Error de entrada", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        cell.Value = 0; // O la acción que consideres adecuada
+                    }
+                }
+            }
 
 
 

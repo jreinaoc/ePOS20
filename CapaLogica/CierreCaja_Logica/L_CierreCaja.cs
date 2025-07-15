@@ -215,7 +215,7 @@ namespace CapaLogica.CierreCaja_Logica
             }
         }
 
-        public bool GeneraInvenvioTXT(string codSuc, string fechaCierre, string ruta, SqlCommand command = null)
+        public bool GeneraInvenvioTXT(string codSuc, string fechaCierre, string ruta, string nombreArchivo, SqlCommand command = null)
         {
             try
             {
@@ -225,7 +225,7 @@ namespace CapaLogica.CierreCaja_Logica
                 Directory.CreateDirectory(ruta);
 
                 // 3) Construyo el nombre de archivo (puedes incluir fecha/hora para evitar colisiones)
-                string nombreArchivo = $"INVENVIO.txt";
+                //string nombreArchivo = $"INVENVIO.txt";
 
                 // 4) Combino carpeta y nombre
                 string rutaCompleta = Path.Combine(ruta, nombreArchivo);

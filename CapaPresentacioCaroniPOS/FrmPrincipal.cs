@@ -794,7 +794,7 @@ namespace CapaVisual_Login
             }
 
             //Le enviamos el index asociados al valor selecionado en el combobox 
-            DataSet Ordenesrango = _D_ListaOrdenes.CargarOrdPorRango(DateTime.Now.ToString("dd/MM/yyyy"), DateTime.Now.ToString("dd/MM/yyyy"), "004", "", 1, 12);
+            DataSet Ordenesrango = _D_ListaOrdenes.CargarOrdPorRango(DateTime.Now.ToString("yyyyMMdd"), DateTime.Now.ToString("yyyyMMdd"), "004", "", 1, 12);
 
             if (Ordenesrango.Tables[0].Rows.Count > 0)
             {

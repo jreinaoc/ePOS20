@@ -66,7 +66,7 @@ namespace CapaVisual_Login
             DataTable dtPuntosCerrados = _L_CierreCaja.CierrePuntodeVenta(sucursal, "", "", diaActivo);
 
             //Si no se han cerrado 
-            if (dtPuntosCerrados.Rows.Count == 0)
+            if (Dvg_CierrePuntoVenta.Rows.Count > 0 && dtPuntosCerrados.Rows.Count == 0 )
             {
                 bool todosLotesEnBlanco = true;
 
@@ -1319,7 +1319,7 @@ namespace CapaVisual_Login
                 }
                 
 
-                if (_L_CierreCaja.GeneraInvenvioTXT(sucursal, diaActivo.ToString("yyyyMMdd"), rutaInvenvio + nombreInvenvio,command))
+                if (_L_CierreCaja.GeneraInvenvioTXT(sucursal, diaActivo.ToString("yyyyMMdd"), rutaInvenvio, nombreInvenvio,command))
                 {
                     dtLogCierre.Rows.Add("Archivo Invenvio.txt", "✔ Completado");
                     dgvLogCierre.DataSource = dtLogCierre;
@@ -1501,23 +1501,23 @@ namespace CapaVisual_Login
                     frmPrincipal.ActualizarTextoLabel(diaActivo.AddDays(1).ToString("dd/MM/yyyy"));
                 }
 
-                dtLogCierre.Rows.Add("Imprimiendo reportes", "...");
-                dgvLogCierre.DataSource = dtLogCierre;
-                dgvLogCierre.Refresh();
+                //dtLogCierre.Rows.Add("Imprimiendo reportes", "...");
+                //dgvLogCierre.DataSource = dtLogCierre;
+                //dgvLogCierre.Refresh();
 
-                FrmPrueba frmReportes = new FrmPrueba();
+                //FrmPrueba frmReportes = new FrmPrueba();
 
                 //frmReportes.ReportesCierreCaja();
 
-                foreach (DataRow row in dtLogCierre.Rows)
-                {
-                    if (row["Descripcion"].ToString() == "Imprimiendo reportes")
-                    {
-                        row["Resultado"] = "✔ Completado";
-                        dgvLogCierre.Refresh();
-                        break;
-                    }
-                }
+                //foreach (DataRow row in dtLogCierre.Rows)
+                //{
+                //    if (row["Descripcion"].ToString() == "Imprimiendo reportes")
+                //    {
+                //        row["Resultado"] = "✔ Completado";
+                //        dgvLogCierre.Refresh();
+                //        break;
+                //    }
+                //}
 
                 dtLogCierre.Rows.Add("Paso 4", "✔ Completado");
                 dtLogCierre.Rows.Add("Cierre de Caja", "✔ Completado");
