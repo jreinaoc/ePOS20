@@ -83,7 +83,7 @@ namespace CapaVisual_Login
             // LblSubTitulo1
             // 
             this.LblSubTitulo1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(173)))));
-            this.LblSubTitulo1.Font = new System.Drawing.Font("Century Gothic", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LblSubTitulo1.Font = new System.Drawing.Font("Century Gothic", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LblSubTitulo1.ForeColor = System.Drawing.Color.Black;
             this.LblSubTitulo1.Location = new System.Drawing.Point(46, 102);
             this.LblSubTitulo1.Name = "LblSubTitulo1";
@@ -209,7 +209,7 @@ namespace CapaVisual_Login
             this.Lbl_Pnl1_SubTitulo1.Name = "Lbl_Pnl1_SubTitulo1";
             this.Lbl_Pnl1_SubTitulo1.Size = new System.Drawing.Size(351, 34);
             this.Lbl_Pnl1_SubTitulo1.TabIndex = 31;
-            this.Lbl_Pnl1_SubTitulo1.Text = "Ultimo Registro";
+            this.Lbl_Pnl1_SubTitulo1.Text = "Último Registro";
             this.Lbl_Pnl1_SubTitulo1.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
             // Pnl2
@@ -236,21 +236,17 @@ namespace CapaVisual_Login
             this.lbRegE.Font = new System.Drawing.Font("Century Gothic", 11.25F);
             this.lbRegE.Location = new System.Drawing.Point(218, 109);
             this.lbRegE.Name = "lbRegE";
-            this.lbRegE.Size = new System.Drawing.Size(59, 20);
+            this.lbRegE.Size = new System.Drawing.Size(0, 20);
             this.lbRegE.TabIndex = 136;
-            this.lbRegE.Text = "lbRegE";
-            this.lbRegE.Visible = false;
             // 
             // lbRegD
             // 
             this.lbRegD.AutoSize = true;
             this.lbRegD.Font = new System.Drawing.Font("Century Gothic", 11.25F);
-            this.lbRegD.Location = new System.Drawing.Point(215, 70);
+            this.lbRegD.Location = new System.Drawing.Point(215, 67);
             this.lbRegD.Name = "lbRegD";
-            this.lbRegD.Size = new System.Drawing.Size(62, 20);
+            this.lbRegD.Size = new System.Drawing.Size(0, 20);
             this.lbRegD.TabIndex = 135;
-            this.lbRegD.Text = "lbRegD";
-            this.lbRegD.Visible = false;
             // 
             // Btn_Pnl2_Regi
             // 
@@ -345,13 +341,13 @@ namespace CapaVisual_Login
             // label3
             // 
             this.label3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(173)))));
-            this.label3.Font = new System.Drawing.Font("Century Gothic", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Font = new System.Drawing.Font("Century Gothic", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.Black;
             this.label3.Location = new System.Drawing.Point(46, 408);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(1080, 39);
             this.label3.TabIndex = 306;
-            this.label3.Text = "Tasa del día y secuencia";
+            this.label3.Text = "Activación diaria de secuencia";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Pnl3
@@ -405,11 +401,17 @@ namespace CapaVisual_Login
             // 
             // Txt_Pnl3_Secuencia
             // 
+            this.Txt_Pnl3_Secuencia.Font = new System.Drawing.Font("Century Gothic", 12F);
+            this.Txt_Pnl3_Secuencia.ForeColor = System.Drawing.Color.DarkGray;
             this.Txt_Pnl3_Secuencia.Location = new System.Drawing.Point(62, 84);
             this.Txt_Pnl3_Secuencia.Multiline = true;
             this.Txt_Pnl3_Secuencia.Name = "Txt_Pnl3_Secuencia";
             this.Txt_Pnl3_Secuencia.Size = new System.Drawing.Size(233, 26);
             this.Txt_Pnl3_Secuencia.TabIndex = 14;
+            this.Txt_Pnl3_Secuencia.Text = "Insertar secuencia";
+            this.Txt_Pnl3_Secuencia.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.Txt_Pnl3_Secuencia.Enter += new System.EventHandler(this.Txt_Pnl3_Secuencia_Enter);
+            this.Txt_Pnl3_Secuencia.Leave += new System.EventHandler(this.Txt_Pnl3_Secuencia_Leave);
             // 
             // PrBarPnl3
             // 
@@ -418,7 +420,6 @@ namespace CapaVisual_Login
             this.PrBarPnl3.Size = new System.Drawing.Size(280, 17);
             this.PrBarPnl3.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.PrBarPnl3.TabIndex = 13;
-            this.PrBarPnl3.Value = 60;
             // 
             // Txt_Pnl3_Frcha
             // 
