@@ -1666,9 +1666,9 @@ namespace CapaLogica.DetalleOrden_Logica
                     DDL = row["T_DISTANCIADELECTURA"] == DBNull.Value ? (Double)0.00 : Convert.ToDouble(row["T_DISTANCIADELECTURA"].ToString());
 
                     //Coloracion 
-                    CodigoColoracion = row["Cod_Coloracion"].ToString();
-                    DescripColoracion = row["Desc_Color"].ToString();
-                    PorcentajeColoracion = row["Porc_Material"].ToString();
+                    CodigoColoracion = row["Cod_Coloracion"].ToString().Trim();
+                    DescripColoracion = row["Desc_Color"].ToString().Trim();
+                    PorcentajeColoracion = row["Porc_Material"].ToString().Trim();
 
                     //MIMESYS
                     CodigoMIMESYS = row["CodigoMimesys"].ToString();

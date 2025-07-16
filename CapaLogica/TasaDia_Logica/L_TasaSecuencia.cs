@@ -50,7 +50,7 @@ namespace CapaLogica.TasaDia_Logica
                     {
                         bool ValidoDescrip = false;
                         bool ValidoLimiteCambio = false;
-                        ValidoFormatoTasa(TxtCadenaEncriptada, ref ValidoDescrip, ref ValidoLimiteCambio, LblTasaDesenc, LblFechaDesenc, LblHoraDesenc);
+                        ValidoFormatoTasa2(TxtCadenaEncriptada, ref ValidoDescrip, ref ValidoLimiteCambio, LblTasaDesenc, LblFechaDesenc, LblHoraDesenc);
 
                         if (!ValidoDescrip)
                         {
@@ -63,6 +63,10 @@ namespace CapaLogica.TasaDia_Logica
                             if (DateTimeTasa >= (_D_Inicio.DiaActivo()))
                             {
                                 string FechaSecuencia = _D_DetalleOrden.TB_PARAMETRO("FechaUSecuencia");
+                                // Opción 1: Normalizar los designadores AM/PM primero
+                                FechaSecuencia = FechaSecuencia.Replace("a. m.", "a.m.")
+                                                               .Replace("p. m.", "p.m.");
+
                                 CultureInfo cultura = new CultureInfo("es-ES");
                                 cultura.DateTimeFormat.AMDesignator = "a.m.";
                                 cultura.DateTimeFormat.PMDesignator = "p.m.";
@@ -655,5 +659,246 @@ namespace CapaLogica.TasaDia_Logica
                 return true;
           
         }
+
+        ///// <summary>
+        ///// Valida el formato de una tasa desencriptada y sus componentes (tasa, fecha y hora)
+        ///// </summary>
+        ///// <param name="TxtCadenaEncriptada">TextBox con la cadena encriptada</param>
+        ///// <param name="ValidoDescrip">Referencia a bandera que indica si la descripción es válida</param>
+        ///// <param name="ValidoLimiteCambio">Referencia a bandera que indica si se excedió el límite de cambio</param>
+        ///// <param name="LblTasaDesenc">Label donde se muestra la tasa desencriptada</param>
+        ///// <param name="LblFechaDesenc">Label donde se muestra la fecha desencriptada</param>
+        ///// <param name="LblHoraDesenc">Label donde se muestra la hora desencriptada</param>
+        ///// <returns>True si el formato es válido, False si hay errores</returns>
+        public bool ValidoFormatoTasa2(TextBox TxtCadenaEncriptada, ref bool ValidoDescrip, ref bool ValidoLimiteCambio,
+                                     Label LblTasaDesenc, Label LblFechaDesenc, Label LblHoraDesenc)
+        {
+            try
+            {
+                // 1. Inicialización y desencriptación
+                ValidoDescrip = false;
+                ValidoLimiteCambio = false;
+
+                if (string.IsNullOrWhiteSpace(TxtCadenaEncriptada.Text))
+                {
+                    ValidoDescrip = true;
+                    return false;
+                }
+
+                // 2. Desencriptar y extraer componentes
+                var resultadoDesencriptacion = DesencriptarYExtraerComponentes(TxtCadenaEncriptada.Text);
+                if (resultadoDesencriptacion == null)
+                {
+                    ValidoDescrip = true;
+                    return false;
+                }
+
+                LblTasaDesenc.Text = resultadoDesencriptacion.Tasa;
+                LblFechaDesenc.Text = resultadoDesencriptacion.Fecha;
+                LblHoraDesenc.Text = resultadoDesencriptacion.Hora;
+
+                // 3. Validar formato de tasa
+                if (!ValidarFormatoTasa(LblTasaDesenc.Text, ref ValidoDescrip))
+                {
+                    return false;
+                }
+
+                // 4. Validar rango de tasa
+                var ultimaSecuencia = ObtenerUltimaSecuencia();
+                if (ultimaSecuencia != null)
+                {
+                    ValidarRangoTasa(LblTasaDesenc.Text, ultimaSecuencia.Tasa, ref ValidoDescrip, ref ValidoLimiteCambio);
+                }
+
+                // 5. Validar formato de fecha
+                if (!ValidarFormatoFecha(LblFechaDesenc.Text, ref ValidoDescrip))
+                {
+                    return false;
+                }
+
+                // 6. Validar formato de hora
+                if (!ValidarFormatoHora(LblHoraDesenc.Text, ref ValidoDescrip))
+                {
+                    return false;
+                }
+
+                return !ValidoDescrip;
+            }
+            catch (Exception ex)
+            {
+                //// Loggear el error completo
+                //mostrarError($"Error en ValidoFormatoTasa. Valor: {ex.Message}");
+                //Logger.Error($"Error en ValidoFormatoTasa. Valor: {TxtCadenaEncriptada?.Text}", ex);
+                ValidoDescrip = true;
+                return false;
+            }
+        }
+
+        #region Métodos auxiliares
+
+        private class DesencriptacionResult
+        {
+            public string Tasa { get; set; }
+            public string Fecha { get; set; }
+            public string Hora { get; set; }
+        }
+
+        private DesencriptacionResult DesencriptarYExtraerComponentes(string textoEncriptado)
+        {
+            var dsResultado = _D_TasaSecuencia.EncripDescrip(textoEncriptado, "I");
+            if (dsResultado?.Tables[0]?.Rows.Count == 0) return null;
+
+            string resultado = dsResultado.Tables[0].Rows[0][0].ToString();
+            int longitud = resultado.Length;
+
+            return new DesencriptacionResult
+            {
+                Tasa = resultado.Substring(0, longitud - 11),
+                Fecha = resultado.Substring(longitud - 11, 6),
+                Hora = resultado.Substring(longitud - 5, 4)
+            };
+        }
+
+        private bool ValidarFormatoTasa(string tasaText, ref bool validoDescrip)
+        {
+            if (string.IsNullOrWhiteSpace(tasaText))
+            {
+                validoDescrip = true;
+                return false;
+            }
+
+            // Validar longitud mínima
+            if (tasaText.Length < 6)
+            {
+                validoDescrip = true;
+                return false;
+            }
+
+            // Validar caracteres (solo números y coma decimal)
+            foreach (char c in tasaText)
+            {
+                if (!char.IsDigit(c) && c != ',')
+                {
+                    validoDescrip = true;
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private class UltimaSecuenciaResult
+        {
+            public decimal Tasa { get; set; }
+        }
+
+        private UltimaSecuenciaResult ObtenerUltimaSecuencia()
+        {
+            var sucursalId = _D_DetalleOrden.TB_PARAMETRO("SucursalId");
+            var dsResultado = _D_TasaSecuencia.ObtenerUltSecuencia(sucursalId);
+            if (dsResultado?.Tables[0]?.Rows.Count == 0) return null;
+
+            string ultSecCarg = dsResultado.Tables[0].Rows[0][0].ToString();
+            var desencriptado = DesencriptarYExtraerComponentes(ultSecCarg);
+
+            if (desencriptado == null || !decimal.TryParse(desencriptado.Tasa.Replace(",","."), NumberStyles.Any,
+                CultureInfo.InvariantCulture, out decimal tasa))
+            {
+                return null;
+            }
+
+            return new UltimaSecuenciaResult { Tasa = tasa };
+        }
+
+        private void ValidarRangoTasa(string tasaActualText, decimal ultimaTasa, ref bool validoDescrip, ref bool validoLimiteCambio)
+        {
+            if (!decimal.TryParse(tasaActualText.Replace(',', '.'), NumberStyles.Any,
+                CultureInfo.InvariantCulture, out decimal tasaActual))
+            {
+                validoDescrip = true;
+                return;
+            }
+
+            decimal valorMinMaxTasa = Convert.ToInt32(_D_DetalleOrden.TB_PARAMETRO("ValorMinMaxTasa"));
+            decimal porcentajeMin = ultimaTasa - ((ultimaTasa * valorMinMaxTasa) / 100m);
+            decimal porcentajeMax = ultimaTasa + ((ultimaTasa * valorMinMaxTasa) / 100m);
+
+            if (tasaActual < (porcentajeMin / 100m))
+            {
+                validoDescrip = true;
+                validoLimiteCambio = true;
+            }
+
+            if (tasaActual > porcentajeMax)
+            {
+                validoDescrip = true;
+                validoLimiteCambio = true;
+            }
+        }
+
+        private bool ValidarFormatoFecha(string fechaText, ref bool validoDescrip)
+        {
+            if (string.IsNullOrWhiteSpace(fechaText) || fechaText.Length != 6)
+            {
+                validoDescrip = true;
+                return false;
+            }
+
+            // Validar que sean solo dígitos
+            foreach (char c in fechaText)
+            {
+                if (!char.IsDigit(c))
+                {
+                    validoDescrip = true;
+                    return false;
+                }
+            }
+
+            // Validar día, mes y año
+            int dia = int.Parse(fechaText.Substring(0, 2));
+            int mes = int.Parse(fechaText.Substring(2, 2));
+            int anio = int.Parse(fechaText.Substring(4, 2));
+
+            if (dia < 1 || dia > 31 || mes < 1 || mes > 12 || anio < 20 || anio > 50)
+            {
+                validoDescrip = true;
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool ValidarFormatoHora(string horaText, ref bool validoDescrip)
+        {
+            if (string.IsNullOrWhiteSpace(horaText) || horaText.Length != 4)
+            {
+                validoDescrip = true;
+                return false;
+            }
+
+            // Validar que sean solo dígitos
+            foreach (char c in horaText)
+            {
+                if (!char.IsDigit(c))
+                {
+                    validoDescrip = true;
+                    return false;
+                }
+            }
+
+            // Validar hora y minutos
+            int hora = int.Parse(horaText.Substring(0, 2));
+            int minutos = int.Parse(horaText.Substring(2, 2));
+
+            if (hora < 0 || hora > 23 || minutos < 0 || minutos > 59)
+            {
+                validoDescrip = true;
+                return false;
+            }
+
+            return true;
+        }
+
+        #endregion
     }
 }

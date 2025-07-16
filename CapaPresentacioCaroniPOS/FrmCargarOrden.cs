@@ -102,12 +102,14 @@ namespace CapaVisual_Login
         private bool Garantia;
         private string CodColorLC = "";
         private string Codmotivodes = "";
+        private bool ApruebaAORangoCRT = false;
         private bool tipoTrabajoSeleccionado;
         private bool laboratorioSeleccionado;
         private bool servicioSeleccionado;
         private string Codigo_Servicio_Agregar = "";
         private string Os_Garantia_Trabajo = "";
         private string Numero_Examen_Garantia_Trabajo = "";
+        public bool Formato_Claro = true;
         // Variables para guardar los datos recibidos del delegado Lentes de Contacto 
         string codLab = "";
         string generico = "";
@@ -1661,6 +1663,7 @@ namespace CapaVisual_Login
                 Codigo_Servicio_Agregar = "";
                 txtObservacion.Text = "";
                 Codmotivodes = "";
+                ApruebaAORangoCRT = false;
                 // Botones Aciones 
 
                 Cbx_Pnl2_Trbajo.Enabled = true;
@@ -1752,12 +1755,17 @@ namespace CapaVisual_Login
                 e.CellStyle.BackColor = Color.White;
                 DataGridViewButtonCell celBoton = this.Dgv_Tap3_Articulo.Rows[e.RowIndex].Cells["Eliminar"] as DataGridViewButtonCell;
                 Icon IconAtomico;
-
+               
+                if (!Formato_Claro)
                 IconAtomico = new Icon(Environment.CurrentDirectory + @"\\cuadraditoOscuro2.ico");
-                HabEliminar = true; //Se manda señal de boton ACTIVADO para realizar validaciones posteriores
+                else
+                IconAtomico = new Icon(Environment.CurrentDirectory + @"\\cuadraditoOscuro.ico");
 
+                
+
+                HabEliminar = true; //Se manda señal de boton ACTIVADO para realizar validaciones posteriores
                 // Calcula un nuevo tamaño para el icono si quieres hacerlo más pequeño
-                int nuevoAncho = IconAtomico.Width-35 ; // Ejemplo: reducir a la mitad
+                int nuevoAncho = IconAtomico.Width-37 ; // Ejemplo: reducir a la mitad
                 int nuevoAlto = IconAtomico.Height-8 ; // Ejemplo: reducir a la mitad
                 using (Bitmap bmp = new Bitmap(IconAtomico.ToBitmap(), new Size(nuevoAncho, nuevoAlto)))
                 using (Bitmap bmpFondoBlanco = new Bitmap(nuevoAncho, nuevoAlto))
@@ -1779,9 +1787,9 @@ namespace CapaVisual_Login
                         e.Graphics.DrawIcon(iconoConFondoBlanco, x, y);
 
                         // Ajusta la altura de la fila al nuevo tamaño del icono (opcional)
-                        this.Dgv_Tap3_Articulo.Rows[e.RowIndex].Height = nuevoAlto + 2;
+                        this.Dgv_Tap3_Articulo.Rows[e.RowIndex].Height = nuevoAlto + 1;
                         // Ajusta el ancho de la columna al nuevo tamaño del icono (opcional)
-                        this.Dgv_Tap3_Articulo.Columns[e.ColumnIndex].Width = nuevoAncho + 4;
+                        this.Dgv_Tap3_Articulo.Columns[e.ColumnIndex].Width = nuevoAncho + 2;
                     }
                 }
                 e.Handled = true;
@@ -3197,7 +3205,7 @@ namespace CapaVisual_Login
                 AsignarParametrosFaltantes(nuevoTrabajo,"", "0", txtHorizontal.Text.Replace(',', '.'), txtVertical.Text.Replace(',', '.'), txtMaxima.Text.Replace(',', '.'), txtPuente.Text.Replace(',', '.'), Cbx_Pnl2_Laboratorio.SelectedValue.ToString(), Cbx_Pnl2_Servicio.SelectedValue?.ToString(), Hora_Ofrecido, "T", Fecha_Ofreci, DateTime.Today, Cbx_Pnl2_Trbajo.SelectedValue.ToString(), Cbx_Pnl2_Trbajo.Text);
 
                 bool Respuesta = _Asignar_Rx.Verificar_Cristales_Parametros_Diametros(nuevoTrabajo, Dgv_Tap3_Articulo, Cbx_Pnl2_Trbajo.SelectedValue.ToString(), codSucursal, Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Txt_Tap2_Examen.Text, LbResultado2, LbResultados, dgvRangoCrt);
-                if (!Respuesta && _Asignar_Rx.stringBuilder.Length > 0)
+                if (!ApruebaAORangoCRT && !Respuesta && _Asignar_Rx.stringBuilder.Length > 0)
                 {
 
                     if (_Asignar_Rx.stringBuilder.ToString() == "El cristal seleccionado no se adapta a los siguientes rangos")
@@ -11938,7 +11946,6 @@ namespace CapaVisual_Login
         public void FormatoOscuro(System.Drawing.Color col2, System.Drawing.Color col3, System.Drawing.Color col4 )
         {
             // col2 = white; col3 = verde azulado claro
-            bool Formato_Claro = false;
             if (col4.ToString() == "Color [A=255, R=255, G=255, B=255]")
                 Formato_Claro = true;
             else
@@ -12748,6 +12755,19 @@ namespace CapaVisual_Login
                     //UPDATE: colocamos el cursor al final del texto
                     Txt_Tap3_Articulo_Precio.SelectionStart = Txt_Tap3_Articulo_Precio.Text.Length;
                 }
+            }
+        }
+
+        private void btnAutorizarRangosCrt_Click(object sender, EventArgs e)
+        {
+            _FrmClaveAutorizada.Nuevo_Parametro = true;
+            _FrmClaveAutorizada.Parametro_Nuevo = _L_Articulo.BuscarCodigoGerenteDescuento("015");
+            _FrmClaveAutorizada.ShowDialog();
+
+            if (_FrmClaveAutorizada.DialogResult == DialogResult.OK && _FrmClaveAutorizada.ClaveCorrecta == true)
+            {
+                ApruebaAORangoCRT = true;
+                pnlRangoCrt.Visible = false;
             }
         }
     }

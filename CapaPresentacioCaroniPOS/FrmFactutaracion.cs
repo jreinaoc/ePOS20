@@ -7713,8 +7713,23 @@ namespace CapaVisual_Login
         {
             try
             {
-                //Centrar todas las colucnas 
+                // Establecer estilo para encabezados de columna
                 DgvColoracion.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+                // Establecer estilo para todas las celdas
+                DataGridViewCellStyle centerStyle = new DataGridViewCellStyle();
+                centerStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                centerStyle.Font = new Font("Century Gothic", 8.25F);
+
+                DgvColoracion.DefaultCellStyle = centerStyle;
+                DgvColoracion.RowTemplate.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+                // Aplicar a cada columna individualmente
+                foreach (DataGridViewColumn column in DgvColoracion.Columns)
+                {
+                    column.DefaultCellStyle = centerStyle;
+                    column.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                }
 
                 //asignar Nombres a cada colucna 
                 DgvColoracion.Columns["Codigo"].HeaderText = "Código";
@@ -7722,13 +7737,13 @@ namespace CapaVisual_Login
                 DgvColoracion.Columns["Porcentaje_material"].HeaderText = "Porcentaje Material";
 
                 //Ancho de columna
-                DgvColoracion.Columns["Codigo"].Width = 180;
-                DgvColoracion.Columns["Descripcion"].Width = 180;
-                DgvColoracion.Columns["Porcentaje_material"].Width = 180;
+                DgvColoracion.Columns["Codigo"].Width = 170;
+                DgvColoracion.Columns["Descripcion"].Width = 170;
+                DgvColoracion.Columns["Porcentaje_material"].Width = 175;
 
                 DgvColoracion.Columns["Codigo"].ReadOnly = true;
                 DgvColoracion.Columns["Descripcion"].ReadOnly = true;
-                DgvColoracion.Columns["Porcentaje_material"].ReadOnly = true; ;
+                DgvColoracion.Columns["Porcentaje_material"].ReadOnly = true; 
 
                 DgvColoracion.Columns["Codigo"].SortMode = DataGridViewColumnSortMode.NotSortable;
                 DgvColoracion.Columns["Descripcion"].SortMode = DataGridViewColumnSortMode.NotSortable;
@@ -8775,6 +8790,17 @@ namespace CapaVisual_Login
         {
 
         }
+
+        private void DgvColoracion_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void DgvFormula_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
 
         //Para Probar los reportes
 
