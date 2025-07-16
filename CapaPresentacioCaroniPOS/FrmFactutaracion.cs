@@ -5319,7 +5319,7 @@ namespace CapaVisual_Login
                     // FACTURA MANUAL 
                     // Si es factura manual se llena tbfactura de la siguiente manera 
                     string cedula = txtCedula.Text.Substring(2, txtCedula.Text.Length - 2);
-                    string Nacionalidad = cedula[0].ToString();
+                    string Nacionalidad = txtCedula.Text.Substring(0, 1);
 
                     Transaccion = _D_DetalleOrden.GetFactura(TB_CAORDSER.Cod_Sucursal, TxtNumFact.Text, Fecha2, Nacionalidad,
                                      txtCedula.Text.Substring(2, txtCedula.Text.Length - 2), TB_CAORDSER.COD_EMPLEADO, TB_CAORDSER.Cod_Venta, txtNumeroOrden.Text, Convert.ToString(TB_CAORDSER.Fec_ofrecido.ToString("yyyyMMdd")), TB_CAORDSER.Hor_ofrecido, Convert.ToDouble(String.Format(CultureInfo.InvariantCulture, "{0:0.00}", Convert.ToDouble(DtIGTF.Tables[0].Rows[0]["BaseImponible"].ToString()) / 100).Replace(".", ",")),

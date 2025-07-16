@@ -2052,6 +2052,7 @@ namespace CapaVisual_Login
             if (tabControl.SelectedIndex == 1)
             {
                 LLenar_TbTrabajo();
+                _L_Trabajo.AgregarTrabajo(nuevoTrabajo);
                 btnCargarOrden.Focus(); 
                 tabControl.SelectedIndex = 2;
                 
@@ -3085,7 +3086,7 @@ namespace CapaVisual_Login
                 }
 
                 //Btn_Tap3_Procesar.Enabled = false;
-                LLenar_TbTrabajo();
+                //LLenar_TbTrabajo();
 
                 int car;
                 string strMarcaC;
@@ -3496,7 +3497,9 @@ namespace CapaVisual_Login
 
         private void LLenar_TbTrabajo()
         {
+            //TB_TRABAJOCTE nuevoTrabajo = new TB_TRABAJOCTE();
 
+            nuevoTrabajo.TNumOrdserv = null;
             nuevoTrabajo.TCEDIDEN = Txt_Tap1_Cedula.Text.Trim();
             nuevoTrabajo.TNACIO = Cbx_Tap1_Nacionalidad.Text.Trim(); // Ajusta según cómo manejas la nacionalidad
             nuevoTrabajo.TALTD = Convert.ToDecimal(txtAltD.Text);
@@ -3506,7 +3509,8 @@ namespace CapaVisual_Login
             nuevoTrabajo.TSucursal = codigoSucursal;
             nuevoTrabajo.TTIPOTRABAJO = "002";
             nuevoTrabajo.USERCREA = TB_USUARIO.COD_USR;
-            nuevoTrabajo.TEXAMEN = Txt_Pnl2_Examen.Text;
+            nuevoTrabajo.TEXAMEN = Txt_Tap2_Examen.Text;
+
 
             //if (Dgv_Pnl2_medconv.Rows.Count > 0)
             //{
@@ -10384,7 +10388,7 @@ namespace CapaVisual_Login
             nuevoFiccont.NUM_Examen = numeroExamen;
 
             nuevoQuerato.NUM_Examen = numeroExamen;
-            nuevoTrabajo.TEXAMEN = numeroExamen.ToString();
+            nuevoTrabajo.TEXAMEN = Txt_Tap2_Examen.Text;
 
             nuevoFiccont.COD_Sucursal = codigoSucursal;
             nuevoFiccont.CTE_CedIden = Txt_Tap1_Cedula.Text.Trim();
@@ -10458,7 +10462,7 @@ namespace CapaVisual_Login
                     if (tabControl.SelectedIndex == 1)
                     {
                         btnCargarOrden.Enabled = true;
-                        btnCargarOrden.Focus();
+                        //btnCargarOrden.Focus();
                         tabControl.SelectedIndex = 2;
                         
                     }
@@ -10474,7 +10478,7 @@ namespace CapaVisual_Login
                 }
 
             }
-
+            //nuevoTrabajo.TEXAMEN = Txt_Tap2_Examen.Text;
             LLenar_TbTrabajo();
             _L_Trabajo.AgregarTrabajo(nuevoTrabajo);
 

@@ -254,6 +254,29 @@ namespace CapaLogica.CierreCaja_Logica
             }
         }
 
+        public bool HayDatosInvenvioTXT(string codSuc, string fechaCierre, string ruta, string nombreArchivo, SqlCommand command = null)
+        {
+            try
+            {
+                DataTable dt = _D_CierreCaja.GeneraInvenvioTXT(codSuc, fechaCierre, command);
+
+                if (dt.Rows.Count > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                // Código para manejar el error
+                EscribirLog(ex.Message.ToString());
+                return false;
+            }
+        }
+
         public void FiltrarUsuario(string filtro, System.Windows.Forms.RadioButton Rd_Pnl3_Descripcion, System.Windows.Forms.RadioButton Rd_Pnl3_Codigo, System.Windows.Forms.DataGridView Dgv_Pnl3_ClienteAfiliado, List<Usuario> listaClienteAfiliado, List<Usuario> listaTemporal)
         {
 
@@ -563,6 +586,22 @@ namespace CapaLogica.CierreCaja_Logica
                     }
                 }
             }
+
+            foreach (var xmlPath in Directory.EnumerateFiles(carpetaPath, "*.xml"))
+            {
+                try
+                {
+                    // Si el archivo es readonly, primero quita el atributo
+                    File.SetAttributes(xmlPath, FileAttributes.Normal);
+                    File.Delete(xmlPath);
+                }
+                catch (IOException ex)
+                {
+                    //// Aquí podrías hacer retry, loggear, o notificar al usuario
+                    //Console.Error.WriteLine($"No se pudo eliminar '{xmlPath}': {ex.Message}");
+                }
+            }
+
 
             Console.WriteLine("✅ Archivos XML comprimidos en: " + zipPath);
        }
