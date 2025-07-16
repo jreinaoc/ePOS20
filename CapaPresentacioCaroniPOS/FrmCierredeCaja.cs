@@ -1317,19 +1317,21 @@ namespace CapaVisual_Login
                     command.Transaction.Rollback();
                     return;
                 }
-                
 
-                if (_L_CierreCaja.GeneraInvenvioTXT(sucursal, diaActivo.ToString("yyyyMMdd"), rutaInvenvio, nombreInvenvio,command))
+               if (_L_CierreCaja.HayDatosInvenvioTXT(sucursal, diaActivo.ToString("yyyyMMdd"), rutaInvenvio, nombreInvenvio, command))
                 {
-                    dtLogCierre.Rows.Add("Archivo Invenvio.txt", "✔ Completado");
-                    dgvLogCierre.DataSource = dtLogCierre;
-                    dgvLogCierre.Refresh();
-                }
-                else
-                {
-                    dtLogCierre.Rows.Add("Archivo Invenvio.txt", "❌ Fallido");
-                    dgvLogCierre.DataSource = dtLogCierre;
-                    dgvLogCierre.Refresh();
+                    if (_L_CierreCaja.GeneraInvenvioTXT(sucursal, diaActivo.ToString("yyyyMMdd"), rutaInvenvio, nombreInvenvio,command))
+                    {
+                        dtLogCierre.Rows.Add("Archivo Invenvio.txt", "✔ Completado");
+                        dgvLogCierre.DataSource = dtLogCierre;
+                        dgvLogCierre.Refresh();
+                    }
+                    else
+                    {
+                        dtLogCierre.Rows.Add("Archivo Invenvio.txt", "❌ Fallido");
+                        dgvLogCierre.DataSource = dtLogCierre;
+                        dgvLogCierre.Refresh();
+                    }
                 }
 
                 if (!_L_CierreCaja.ActualizarParamCierreCaja(sucursal))
@@ -1520,11 +1522,15 @@ namespace CapaVisual_Login
                 //}
 
                 dtLogCierre.Rows.Add("Paso 4", "✔ Completado");
-                dtLogCierre.Rows.Add("Cierre de Caja", "✔ Completado");
-                dgvLogCierre.DataSource = dtLogCierre;
-                dgvLogCierre.Refresh();
+                //dtLogCierre.Rows.Add("Cierre de Caja", "✔ Completado");
+                //dgvLogCierre.DataSource = dtLogCierre;
+                //dgvLogCierre.Refresh();
 
                 command.Transaction.Commit();
+
+                FrmPrueba frmReportes = new FrmPrueba();
+
+                frmReportes.ReportesCierreCaja();
             }
             catch (Exception ex)
             {

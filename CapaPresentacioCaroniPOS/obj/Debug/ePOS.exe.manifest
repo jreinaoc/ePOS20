@@ -79,14 +79,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CapaLogica.dll" size="320000">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CapaLogica.dll" size="320512">
       <assemblyIdentity name="CapaLogica" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>lO3kva1gucs/c93CJzMZPqTQ1KzWqmQ6uflG3X4f8Lw=</dsig:DigestValue>
+        <dsig:DigestValue>t3i6my8rEnDPwmeKiI9RUV5SCtbFLe9DFOwlaHb7rCw=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -206,7 +206,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>dma8eYgwsl9e9TY6W4sgFnKKJBIygofhmZNM7YbLV/g=</dsig:DigestValue>
+        <dsig:DigestValue>yk4qLGlnHt+Zaj3OXFyvWMgbkGN2yTyOpMEXqEsVSiY=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -1299,13 +1299,13 @@
       <dsig:DigestValue>V/mIEnaNA7+y6AYCdZ7ovh0pOL9ya/R1ocUuN+BTkHw=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="ePOS.exe.config" size="2498">
+  <file name="ePOS.exe.config" size="2517">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>FlJsrJCrByiP5bI1GBl8p4gonkZwuQ2xDAPP/wcF+vw=</dsig:DigestValue>
+      <dsig:DigestValue>7pVb7NE4QAQ/nI/NVBAv/mkBd4TONiLi5U2+iQ7SuNw=</dsig:DigestValue>
     </hash>
   </file>
   <file name="icono-puntoDeVenta.ico" size="205662">
