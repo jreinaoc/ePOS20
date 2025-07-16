@@ -3445,45 +3445,57 @@ namespace CapaVisual_Login
 
         }
 
-        public void AsignarParametrosFaltantes(
-       TB_TRABAJOCTE nuevoTrabajo,
-       string tNumOrdserv,
-       string tRevision,
-       string tHorizontal,
-       string tVertical,
-       string tMaxima,
-       string tPuente,
-       string tLaboratorio,
-       string tServicio,
-       string tHoraOfrecido,
-       string tTipoRx,
-       DateTime? tFechaOfrecido,
-       DateTime? tFecCrea,
-       string codDetVta,
-       string Descripcion_Tipo_Venta
-   )
+        public void AsignarParametrosFaltantes(TB_TRABAJOCTE nuevoTrabajo, string tNumOrdserv, string tRevision, string tHorizontal, string tVertical, string tMaxima,
+       string tPuente, string tLaboratorio,   string tServicio, string tHoraOfrecido, string tTipoRx, DateTime? tFechaOfrecido, DateTime? tFecCrea, string codDetVta, string Descripcion_Tipo_Venta)
         {
             nuevoTrabajo.TSucursal = codigoSucursal;
             nuevoTrabajo.TNumOrdserv = tNumOrdserv;
-            nuevoTrabajo.THORIZONTAL = tHorizontal;
-            nuevoTrabajo.TVERTICAL = tVertical;
-            nuevoTrabajo.TMAXIMA = tMaxima;
-            nuevoTrabajo.TPUENTE = tPuente;
-            nuevoTrabajo.TLABORATORIO = tLaboratorio;
-            nuevoTrabajo.TSERVICIO = tServicio;
-            nuevoTrabajo.THORAOFRECIDO = tHoraOfrecido;
-            nuevoTrabajo.TFECHAOFRECIDO = tFechaOfrecido;
-            nuevoTrabajo.CodDetVta = codDetVta;
-            nuevoTrabajo.TTIPOTRABAJO =  (Descripcion_Tipo_Venta.Trim() == "Reparacion" || Descripcion_Tipo_Venta.Trim() == "Reparacion Empleado") ? "003" : "002";
 
-            if (string.IsNullOrWhiteSpace(nuevoTrabajo.TRevision))
-                nuevoTrabajo.TRevision = tRevision;
+            if (Descripcion_Tipo_Venta == "Venta Directa")
+            {
+                nuevoTrabajo.CodDetVta = codDetVta;
+                nuevoTrabajo.TipoExamen = "";
+                nuevoTrabajo.TTIPOTRABAJO = "001";
+                //nuevoTrabajo.TEXAMEN = "0";
+                nuevoTrabajo.THORIZONTAL = "0";
+                nuevoTrabajo.TVERTICAL = "0";
+                nuevoTrabajo.TMAXIMA = "0";
+                nuevoTrabajo.TPUENTE = "0";
+
+                nuevoTrabajo.TOJO = "";
+                nuevoTrabajo.TTIPOVISIOND = "";
+                nuevoTrabajo.TTIPOVISIONI = "";
+                nuevoTrabajo.TLABORATORIO = "";
+                nuevoTrabajo.TSERVICIO = "";
+
+                nuevoTrabajo.THORAOFRECIDO = tHoraOfrecido;
+                nuevoTrabajo.TFECHAOFRECIDO = tFechaOfrecido;
+            }
+            else
+            {
+                
+                nuevoTrabajo.THORIZONTAL = tHorizontal;
+                nuevoTrabajo.TVERTICAL = tVertical;
+                nuevoTrabajo.TMAXIMA = tMaxima;
+                nuevoTrabajo.TPUENTE = tPuente;
+                nuevoTrabajo.TLABORATORIO = tLaboratorio;
+                nuevoTrabajo.TSERVICIO = tServicio;
+                nuevoTrabajo.THORAOFRECIDO = tHoraOfrecido;
+                nuevoTrabajo.TFECHAOFRECIDO = tFechaOfrecido;
+                nuevoTrabajo.CodDetVta = codDetVta;
+                nuevoTrabajo.TTIPOTRABAJO =  (Descripcion_Tipo_Venta.Trim() == "Reparacion" || Descripcion_Tipo_Venta.Trim() == "Reparacion Empleado") ? "003" : "002";
+
+                if (string.IsNullOrWhiteSpace(nuevoTrabajo.TRevision))
+                    nuevoTrabajo.TRevision = tRevision;
+
+               
+
+                if (!nuevoTrabajo.TFECCREA.HasValue)
+                    nuevoTrabajo.TFECCREA = tFecCrea;
+            }
 
             if (string.IsNullOrWhiteSpace(nuevoTrabajo.TTIPORX))
                 nuevoTrabajo.TTIPORX = tTipoRx;
-
-            if (!nuevoTrabajo.TFECCREA.HasValue)
-                nuevoTrabajo.TFECCREA = tFecCrea;
 
         }
 
@@ -4571,6 +4583,11 @@ namespace CapaVisual_Login
                 cbVisionDerecha.Visible = false;
                 label33.Visible = false;
                 cbVisionIzquierda.Visible = false;
+
+                
+
+
+
 
             }
             else if (TipoVenta == "Reparacion")
