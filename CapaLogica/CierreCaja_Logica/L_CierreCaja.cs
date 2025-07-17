@@ -52,17 +52,26 @@ namespace CapaLogica.CierreCaja_Logica
 
         public bool CierreFueradeHorario(string codsuc, DateTime fechaIni, DateTime fechaFin)
         {
-            DataTable dt = _D_CierreCaja.CierreFueradeHorario(codsuc, fechaIni,fechaFin);
+            try
+            {
+                DataTable dt = _D_CierreCaja.CierreFueradeHorario(codsuc, fechaIni,fechaFin);
 
-            if (dt.Rows.Count > 0)
-            {
-                return true;
+                if (dt.Rows.Count > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
-            else
+            catch (Exception ex)
             {
+                // Código para manejar el error
+                EscribirLog(ex.Message.ToString());
                 return false;
             }
-        }
+}
 
         public DataTable CierrePuntodeVenta(string codsuc, string codBanco, string nroLote, DateTime fecha)
         {
