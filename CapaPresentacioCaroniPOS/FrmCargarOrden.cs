@@ -3185,16 +3185,28 @@ namespace CapaVisual_Login
                 codSucursal = _D_DetalleOrden.TB_PARAMETRO("SucursalId");
                 DateTime Fecha_Ofreci;
                 string Hora_Ofrecido;
+                CultureInfo cultura = new CultureInfo("es-ES");
+                cultura.DateTimeFormat.AMDesignator = "a.m.";
+                cultura.DateTimeFormat.PMDesignator = "p.m.";
                 if (_FechaHoraOfrecida != null && _FechaHoraOfrecida.Count > 0)
                 {
                     FechaHoraOfrecida resultado = _FechaHoraOfrecida.First();
                     Fecha_Ofreci = resultado.FechaOfrecida.Date;
-                    Hora_Ofrecido = resultado.HoraOfrecida;
+                    string horaNormalizada = resultado.HoraOfrecida.Replace("a. m.", "AM").Replace("p. m.", "PM") .Replace(" ", "");  // Eliminar espacios adicionales
+
+                    // Parsear con el formato correcto
+                    DateTime hora = DateTime.ParseExact(horaNormalizada, "HH:mm:sstt", CultureInfo.InvariantCulture);
+
+                    // Formatear de vuelta al formato deseado
+                    Hora_Ofrecido = hora.ToString("hh:mm:ss tt", cultura)
+                        .Replace("a.m.", "a.m.")
+                        .Replace("p.m.", "p.m.");
                 }
                 else
                 {
                     Fecha_Ofreci = DateTime.Today;
-                    Hora_Ofrecido = DateTime.Now.ToString("HH:mm:ss: tt");
+                    Hora_Ofrecido = DateTime.Now.ToString("hh:mm:ss tt", cultura).Replace("a.m.", "a.m.").Replace("p.m.", "p.m.");
+                    //Hora_Ofrecido = DateTime.Now.ToString("HH:mm:ss: tt");
                 }
 
                 //_D_Articulo.Agregar_TB_TRABAJO(codSucursal, "", "", Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), "002", Convert.ToInt32(Txt_Pnl2_Examen.Text)
