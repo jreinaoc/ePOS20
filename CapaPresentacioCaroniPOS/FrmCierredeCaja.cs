@@ -50,10 +50,7 @@ namespace CapaVisual_Login
 
         private void btnSiguiente_Click(object sender, EventArgs e)
         {
-
-            
-
-            if (_L_CierreCaja.CierreFueradeHorario(sucursal,DateTime.Now, DateTime.Now))
+            if (!_L_CierreCaja.CierreFueradeHorario(sucursal,DateTime.Now, DateTime.Now))
             {
                 _FrmMensajes.co = 2;
                 _FrmMensajes.avisomensaje("Debe registrar el cierre de la sucursal");
@@ -1520,14 +1517,16 @@ namespace CapaVisual_Login
                 //        break;
                 //    }
                 //}
+                command.Transaction.Commit();
 
                 dtLogCierre.Rows.Add("Paso 4", "✔ Completado");
+                dgvLogCierre.Refresh();
+                tcCierreCaja.SelectedIndex = 0;
+
                 //dtLogCierre.Rows.Add("Cierre de Caja", "✔ Completado");
                 //dgvLogCierre.DataSource = dtLogCierre;
                 //dgvLogCierre.Refresh();
-
-                command.Transaction.Commit();
-
+                
                 FrmPrueba frmReportes = new FrmPrueba();
 
                 frmReportes.ReportesCierreCaja();

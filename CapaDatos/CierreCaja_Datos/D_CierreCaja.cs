@@ -122,7 +122,7 @@ namespace CapaDatos.CierreCaja_Datos
                 SqlCommand cmd = command;
                 cmd.Parameters.Clear();
 
-                cmd.CommandText = "pGetCierrePtoVta";
+                cmd.CommandText = "SP_CPOS_GetCierrePtoVta";
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@CodSuc", codsuc);
                 cmd.Parameters.AddWithValue("@CodBanco", codBanco);
@@ -155,7 +155,7 @@ namespace CapaDatos.CierreCaja_Datos
                 SqlCommand cmd = command;
                 cmd.Parameters.Clear();
 
-                cmd.CommandText = "pGetPuntosVta";
+                cmd.CommandText = "SP_CPOS_GetPuntosVta";
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@CodPunto", codPunto);
                 cmd.Parameters.AddWithValue("@Fecha", fecha);
