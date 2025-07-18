@@ -1309,7 +1309,7 @@ namespace CapaVisual_Login
         }
 
         private void CargarArticulos_Girdvew()
-        {
+       {
             /////// ******************Validaciones **************************************
             ///***********************               *************************************
 
@@ -3192,7 +3192,7 @@ namespace CapaVisual_Login
                 {
                     FechaHoraOfrecida resultado = _FechaHoraOfrecida.First();
                     Fecha_Ofreci = resultado.FechaOfrecida.Date;
-                    string horaNormalizada = resultado.HoraOfrecida.Replace("a. m.", "AM").Replace("p. m.", "PM") .Replace(" ", "");  // Eliminar espacios adicionales
+                    string horaNormalizada = resultado.HoraOfrecida.ToLower().Replace("a. m.", "am").Replace("p. m.", "pm").Replace("a.m.", "am").Replace("p.m.", "pm").Replace(" ", "");  // Eliminar espacios adicionales
 
                     // Parsear con el formato correcto
                     DateTime hora = DateTime.ParseExact(horaNormalizada, "HH:mm:sstt", CultureInfo.InvariantCulture);

@@ -52,9 +52,8 @@ namespace CapaVisual_Login
             this.LblClaveAutorizada.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LblClaveAutorizada.ForeColor = System.Drawing.Color.White;
             this.LblClaveAutorizada.Location = new System.Drawing.Point(0, 0);
-            this.LblClaveAutorizada.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LblClaveAutorizada.Name = "LblClaveAutorizada";
-            this.LblClaveAutorizada.Size = new System.Drawing.Size(821, 46);
+            this.LblClaveAutorizada.Size = new System.Drawing.Size(616, 37);
             this.LblClaveAutorizada.TabIndex = 0;
             this.LblClaveAutorizada.Text = "Clave Autorizada";
             this.LblClaveAutorizada.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -64,10 +63,9 @@ namespace CapaVisual_Login
             this.LblSelecGerente.AutoSize = true;
             this.LblSelecGerente.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LblSelecGerente.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.LblSelecGerente.Location = new System.Drawing.Point(51, 124);
-            this.LblSelecGerente.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.LblSelecGerente.Location = new System.Drawing.Point(38, 101);
             this.LblSelecGerente.Name = "LblSelecGerente";
-            this.LblSelecGerente.Size = new System.Drawing.Size(298, 23);
+            this.LblSelecGerente.Size = new System.Drawing.Size(234, 19);
             this.LblSelecGerente.TabIndex = 1;
             this.LblSelecGerente.Text = "Seleccione Gerente Regional";
             // 
@@ -80,10 +78,9 @@ namespace CapaVisual_Login
             this.CbxSelecGerent.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.CbxSelecGerent.ForeColor = System.Drawing.SystemColors.ScrollBar;
             this.CbxSelecGerent.FormattingEnabled = true;
-            this.CbxSelecGerent.Location = new System.Drawing.Point(51, 171);
-            this.CbxSelecGerent.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.CbxSelecGerent.Location = new System.Drawing.Point(38, 139);
             this.CbxSelecGerent.Name = "CbxSelecGerent";
-            this.CbxSelecGerent.Size = new System.Drawing.Size(305, 31);
+            this.CbxSelecGerent.Size = new System.Drawing.Size(230, 29);
             this.CbxSelecGerent.TabIndex = 2;
             this.CbxSelecGerent.SelectedIndexChanged += new System.EventHandler(this.CbxSelecGerent_SelectedIndexChanged);
             this.CbxSelecGerent.Enter += new System.EventHandler(this.CbxSelecGerent_Enter);
@@ -94,10 +91,9 @@ namespace CapaVisual_Login
             this.LblGeneraCodigo.AutoSize = true;
             this.LblGeneraCodigo.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LblGeneraCodigo.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.LblGeneraCodigo.Location = new System.Drawing.Point(599, 124);
-            this.LblGeneraCodigo.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.LblGeneraCodigo.Location = new System.Drawing.Point(449, 101);
             this.LblGeneraCodigo.Name = "LblGeneraCodigo";
-            this.LblGeneraCodigo.Size = new System.Drawing.Size(169, 23);
+            this.LblGeneraCodigo.Size = new System.Drawing.Size(135, 19);
             this.LblGeneraCodigo.TabIndex = 3;
             this.LblGeneraCodigo.Text = "Generar Código";
             // 
@@ -108,10 +104,9 @@ namespace CapaVisual_Login
             this.BtnGenerar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnGenerar.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnGenerar.ForeColor = System.Drawing.Color.White;
-            this.BtnGenerar.Location = new System.Drawing.Point(604, 161);
-            this.BtnGenerar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BtnGenerar.Location = new System.Drawing.Point(453, 131);
             this.BtnGenerar.Name = "BtnGenerar";
-            this.BtnGenerar.Size = new System.Drawing.Size(164, 54);
+            this.BtnGenerar.Size = new System.Drawing.Size(123, 44);
             this.BtnGenerar.TabIndex = 4;
             this.BtnGenerar.Text = "Generar";
             this.BtnGenerar.UseVisualStyleBackColor = false;
@@ -121,10 +116,9 @@ namespace CapaVisual_Login
             // 
             this.LblClave.AutoSize = true;
             this.LblClave.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LblClave.Location = new System.Drawing.Point(139, 327);
-            this.LblClave.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.LblClave.Location = new System.Drawing.Point(104, 266);
             this.LblClave.Name = "LblClave";
-            this.LblClave.Size = new System.Drawing.Size(68, 23);
+            this.LblClave.Size = new System.Drawing.Size(55, 19);
             this.LblClave.TabIndex = 5;
             this.LblClave.Text = "Clave";
             // 
@@ -132,10 +126,9 @@ namespace CapaVisual_Login
             // 
             this.TxtClave.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.TxtClave.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TxtClave.Location = new System.Drawing.Point(256, 330);
-            this.TxtClave.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.TxtClave.Location = new System.Drawing.Point(192, 268);
             this.TxtClave.Name = "TxtClave";
-            this.TxtClave.Size = new System.Drawing.Size(376, 25);
+            this.TxtClave.Size = new System.Drawing.Size(282, 20);
             this.TxtClave.TabIndex = 6;
             this.TxtClave.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtClave_KeyPress);
             // 
@@ -146,10 +139,9 @@ namespace CapaVisual_Login
             this.BtnCancelar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnCancelar.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnCancelar.ForeColor = System.Drawing.Color.White;
-            this.BtnCancelar.Location = new System.Drawing.Point(475, 417);
-            this.BtnCancelar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BtnCancelar.Location = new System.Drawing.Point(356, 339);
             this.BtnCancelar.Name = "BtnCancelar";
-            this.BtnCancelar.Size = new System.Drawing.Size(135, 48);
+            this.BtnCancelar.Size = new System.Drawing.Size(101, 39);
             this.BtnCancelar.TabIndex = 11;
             this.BtnCancelar.Text = "Cancelar";
             this.BtnCancelar.UseVisualStyleBackColor = false;
@@ -162,10 +154,9 @@ namespace CapaVisual_Login
             this.BtnGuardar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnGuardar.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnGuardar.ForeColor = System.Drawing.Color.White;
-            this.BtnGuardar.Location = new System.Drawing.Point(636, 417);
-            this.BtnGuardar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BtnGuardar.Location = new System.Drawing.Point(477, 339);
             this.BtnGuardar.Name = "BtnGuardar";
-            this.BtnGuardar.Size = new System.Drawing.Size(135, 48);
+            this.BtnGuardar.Size = new System.Drawing.Size(101, 39);
             this.BtnGuardar.TabIndex = 12;
             this.BtnGuardar.Text = "Guardar ";
             this.BtnGuardar.UseVisualStyleBackColor = false;
@@ -177,64 +168,58 @@ namespace CapaVisual_Login
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.LblClaveAleatoria.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LblClaveAleatoria.Location = new System.Drawing.Point(603, 219);
-            this.LblClaveAleatoria.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.LblClaveAleatoria.Location = new System.Drawing.Point(452, 178);
             this.LblClaveAleatoria.Name = "LblClaveAleatoria";
-            this.LblClaveAleatoria.Size = new System.Drawing.Size(165, 53);
+            this.LblClaveAleatoria.Size = new System.Drawing.Size(124, 43);
             this.LblClaveAleatoria.TabIndex = 13;
             this.LblClaveAleatoria.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // panel5
             // 
             this.panel5.BackColor = System.Drawing.Color.DimGray;
-            this.panel5.Location = new System.Drawing.Point(0, 497);
-            this.panel5.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel5.Location = new System.Drawing.Point(0, 404);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(1069, 12);
+            this.panel5.Size = new System.Drawing.Size(802, 10);
             this.panel5.TabIndex = 14;
             // 
             // panel6
             // 
             this.panel6.BackColor = System.Drawing.Color.DimGray;
-            this.panel6.Location = new System.Drawing.Point(0, -10);
-            this.panel6.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel6.Location = new System.Drawing.Point(0, -8);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(1069, 12);
+            this.panel6.Size = new System.Drawing.Size(802, 10);
             this.panel6.TabIndex = 15;
             // 
             // panel7
             // 
             this.panel7.BackColor = System.Drawing.Color.DimGray;
-            this.panel7.Location = new System.Drawing.Point(812, 1);
-            this.panel7.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel7.Location = new System.Drawing.Point(609, 1);
             this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(13, 559);
+            this.panel7.Size = new System.Drawing.Size(10, 454);
             this.panel7.TabIndex = 16;
             // 
             // panel8
             // 
             this.panel8.BackColor = System.Drawing.Color.DimGray;
-            this.panel8.Location = new System.Drawing.Point(-11, -2);
-            this.panel8.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel8.Location = new System.Drawing.Point(-8, -2);
             this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(13, 559);
+            this.panel8.Size = new System.Drawing.Size(10, 454);
             this.panel8.TabIndex = 17;
             // 
             // label36
             // 
             this.label36.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(135)))), ((int)(((byte)(129)))));
-            this.label36.Location = new System.Drawing.Point(253, 327);
-            this.label36.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label36.Location = new System.Drawing.Point(190, 266);
             this.label36.Name = "label36";
-            this.label36.Size = new System.Drawing.Size(381, 31);
+            this.label36.Size = new System.Drawing.Size(286, 25);
             this.label36.TabIndex = 120;
             // 
             // FrmClaveAutorizada
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(817, 503);
+            this.ClientSize = new System.Drawing.Size(613, 409);
             this.Controls.Add(this.TxtClave);
             this.Controls.Add(this.label36);
             this.Controls.Add(this.panel8);
@@ -251,7 +236,6 @@ namespace CapaVisual_Login
             this.Controls.Add(this.LblSelecGerente);
             this.Controls.Add(this.LblClaveAutorizada);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "FrmClaveAutorizada";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FrmClaveAutorizada";

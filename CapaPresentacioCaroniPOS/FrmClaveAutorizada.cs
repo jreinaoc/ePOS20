@@ -14,6 +14,7 @@ using System.Data.SqlClient;
 using System.Windows.Forms;
 using System;
 using CapaDatos.DetalleOrden_Datos;
+using System.Collections;
 
 namespace CapaVisual_Login
 {
@@ -38,314 +39,238 @@ namespace CapaVisual_Login
 
         L_Colores _L_Colores = new L_Colores();
 
-
         public FrmClaveAutorizada()
         {
             InitializeComponent();
             CbxSelecGerent.Text = "Seleccionar";
-
-
-
         }
 
-        public void validarclave()
+        public void ValidarClave()
         {
-            if (TxtClave.Text == probar)
+            if (TxtClave.Text != probar)
             {
-                string mensaje = "¿ Esta seguro de devolver esta orden ? ";
-                _FrmMensajes.co = 3;
-                _FrmMensajes.avisomensaje(mensaje);
-                _FrmMensajes.ShowDialog();
-                if (orden == "24551")
-                {
-
-                }
-                if (_FrmMensajes.DialogResult == DialogResult.OK)
-                {
-                    _FrmAnulacion.CargarOrdenAnular(orden);
-                    //this.Hide();
-                    _FrmAnulacion.ShowDialog();
-
-
-                }
-                else
-                {
-
-                }
+                MostrarMensajeError("La clave ingresada es invalida");
+                return;
             }
-            else
+
+            var mensaje = "¿Está seguro de devolver esta orden?";
+            _FrmMensajes.co = 3;
+            _FrmMensajes.avisomensaje(mensaje);
+            _FrmMensajes.ShowDialog();
+
+            if (_FrmMensajes.DialogResult == DialogResult.OK)
             {
-                string mensaje = "La clave ingresada es invalida";
-                _FrmMensajes.co = 2;
-                _FrmMensajes.avisomensaje(mensaje);
-                _FrmMensajes.ShowDialog();
+                _FrmAnulacion.CargarOrdenAnular(orden);
+                _FrmAnulacion.ShowDialog();
             }
         }
 
         public void IngresoClaveEsp(string gerente)
         {
-            string a;
-            string b;
-            string mensaje;
-            SqlCommand cmd = new SqlCommand("SELECT Id_especial FROM TB_USUARIO WHERE @gerente = USER_NOMBRE + ' '+ USER_APELLIDO", cn.LeerCadena());
-            cmd.Parameters.AddWithValue("gerente", gerente);
-            SqlDataAdapter da = new SqlDataAdapter(cmd);
-            DataTable dt = new DataTable();
-            da.Fill(dt);
-
-            if (dt.Rows.Count == 1)
+            using (var cmd = new SqlCommand(
+                "SELECT Id_especial FROM TB_USUARIO WHERE @gerente = USER_NOMBRE + ' ' + USER_APELLIDO",
+                cn.LeerCadena()))
             {
-                //this.Hide();
+                cmd.Parameters.AddWithValue("gerente", gerente);
 
-                a = dt.Rows[0][0].ToString();
-                //b = a.Substring(0, 3);
-                idespecial = Convert.ToInt32(a);
-                //if (b == TxtClave.Text)
+                using (var da = new SqlDataAdapter(cmd))
                 {
-                   // idespecial = Convert.ToInt32(b);
-                    //MessageBox.Show("se pudo");
+                    var dt = new DataTable();
+                    da.Fill(dt);
+
+                    if (dt.Rows.Count == 1)
+                    {
+                        idespecial = Convert.ToInt32(dt.Rows[0][0]);
+                    }
                 }
-                //else
-                //{
-                //    mensaje = "Su clave de gerente es invalida" ;
-                //    _frmMensajes.co = 2;
-                //    _frmMensajes.avisomensaje(mensaje);
-                //    _frmMensajes.ShowDialog();
-
-                //}
-
             }
-
         }
 
-        private void BtnGuardar_Click(object sender, System.EventArgs e)
+        private void BtnGuardar_Click(object sender, EventArgs e)
         {
-
             DialogResult = DialogResult.OK;
-            string gerente;
-            gerente = CbxSelecGerent.Text;
+            var gerente = CbxSelecGerent.Text;
             IngresoClaveEsp(gerente);
             validacion = _L_ClaveAutorizada.clavegenerada + idespecial;
-            probar = $"{validacion}";
+            probar = validacion.ToString();
 
             if (TxtClave.TextLength < 5)
             {
                 CampoCorrect = false;
-                string mensajer = "El campo de clave debe tener al menos 5 carácteres";
-                _FrmMensajes.co = 2;
-                _FrmMensajes.avisomensaje(mensajer);
-                _FrmMensajes.ShowDialog();
+                MostrarMensajeError("El campo de clave debe tener al menos 5 carácteres");
+                return;
             }
 
+            CampoCorrect = true;
+            if (TxtClave.Text == probar)
+            {
+                ClaveCorrecta = true;
+                VariablesGlobales.UsuarioAutorizado_FrmClaveAutorizada = gerente;
+            }
             else
             {
-                CampoCorrect = true;
-                if (TxtClave.Text == probar)
-                {
-                    ClaveCorrecta = true;
-                    // Asignar el valor del usuario autorizado a la propiedad estática
-                    VariablesGlobales.UsuarioAutorizado_FrmClaveAutorizada = CbxSelecGerent.Text;
-
-
-                }
-                else
-                {
-                    ClaveCorrecta = false;
-                    // Asignar el valor del usuario autorizado a la propiedad estática
-                    VariablesGlobales.UsuarioAutorizado_FrmClaveAutorizada = "";
-                    string mensajer = "La clave ingresada es invalida";
-                    _FrmMensajes.co = 2;
-                    _FrmMensajes.avisomensaje(mensajer);
-                    _FrmMensajes.ShowDialog();
-
-                }
+                ClaveCorrecta = false;
+                VariablesGlobales.UsuarioAutorizado_FrmClaveAutorizada = "";
+                MostrarMensajeError("La clave ingresada es invalida");
             }
+
             Limpiar();
             Nuevo_Parametro = false;
             Parametro_Nuevo = "";
-
         }
 
-        private void FrmClaveAutorizada_Load(object sender, System.EventArgs e)
+
+
+        private void FrmClaveAutorizada_Load(object sender, EventArgs e)
         {
             Limpiar();
-             if (Nuevo_Parametro)
-             {
+            CargarDatosComboBox();
+            AplicarFormatoVisual();
+        }
+
+        private void CargarDatosComboBox()
+        {
+            object dataSource = null;
+
+            if (Nuevo_Parametro)
+            {
                 if (!string.IsNullOrEmpty(Parametro_Nuevo))
                 {
-                    CbxSelecGerent.DataSource = _D_ClaveAutorizada.ObtengoGerentesClaveAutorizadaII(Parametro_Nuevo);// Antes tenia el valor steado ahora es por codigo de sucursal 
-                    CbxSelecGerent.DisplayMember = "NOMBRE";
-                    CbxSelecGerent.ValueMember = "COD_USR";
+                    CbxSelecGerent.DataSource = _D_ClaveAutorizada.ObtengoGerentesClaveAutorizadaII(Parametro_Nuevo);
                 }
                 else
                 {
-                    Parametro_Nuevo = _D_DetalleOrden.TB_PARAMETRO("Codigo_nomina");
-                    CbxSelecGerent.DataSource = _D_ClaveAutorizada.ClaveAutorizadaII(Parametro_Nuevo);// Antes tenia el valor steado ahora es por codigo de sucursal 
-                    CbxSelecGerent.DisplayMember = "NOMBRE";
-                    CbxSelecGerent.ValueMember = "COD_USR";
-
+                    CbxSelecGerent.DataSource = _D_ClaveAutorizada.ClaveAutorizadaII(_D_DetalleOrden.TB_PARAMETRO("Codigo_nomina"));
                 }
+            }
+            else
+            {
+                CbxSelecGerent.DataSource = _D_ClaveAutorizada.ClaveAutorizada(TB_USUARIO.COD_SUCURSAL);
+            }
 
-             }
-             else
-             { 
-                CbxSelecGerent.DataSource = _D_ClaveAutorizada.ClaveAutorizada(TB_USUARIO.COD_SUCURSAL);// Antes tenia el valor steado ahora es por codigo de sucursal 
+            if (CbxSelecGerent.Items.Count > 0)
+            {
+                CbxSelecGerent.SelectedIndex = 0;
                 CbxSelecGerent.DisplayMember = "NOMBRE";
                 CbxSelecGerent.ValueMember = "COD_USR";
-             }
+            }
+        }
 
-            if(L_Colores.Oscuro == true)
+        private void ConfigurarDisplayYValueMembers(object dataSource)
+        {
+            var firstItem = (dataSource as IEnumerable)?.Cast<object>().FirstOrDefault();
+            if (firstItem != null)
             {
+                var type = firstItem.GetType();
 
+                if (type.GetProperty("NOMBRE") != null)
+                    CbxSelecGerent.DisplayMember = "NOMBRE";
+
+                if (type.GetProperty("COD_USR") != null)
+                    CbxSelecGerent.ValueMember = "COD_USR";
+            }
+        }
+
+        private void AplicarFormatoVisual()
+        {
+            if (L_Colores.Oscuro)
+            {
                 FormatoOsc();
             }
             else
             {
                 FormatoClar();
             }
-
-            if (CbxSelecGerent.Items.Count > 0)
-            {
-                CbxSelecGerent.SelectedIndex = 0; 
-            }
-
         }
 
-        private void BtnCancelar_Click(object sender, System.EventArgs e)
+        private void BtnCancelar_Click(object sender, EventArgs e)
         {
-            this.Hide();
+            Hide();
             Limpiar();
             Nuevo_Parametro = false;
             Parametro_Nuevo = "";
         }
 
-        private void CbxSelecGerent_Enter(object sender, System.EventArgs e)
+        private void CbxSelecGerent_Enter(object sender, EventArgs e)
         {
             CbxSelecGerent.Text = "Seleccionar";
             CbxSelecGerent.ForeColor = Color.Gray;
         }
 
-        private void CbxSelecGerent_Leave(object sender, System.EventArgs e)
+        private void CbxSelecGerent_Leave(object sender, EventArgs e)
         {
-            texto = CbxSelecGerent.Text;
-            if (texto.Equals("Seleccionar"))
-            {
-                CbxSelecGerent.Text = "Seleccionar";
-                CbxSelecGerent.ForeColor = Color.Gray;
+            var texto = CbxSelecGerent.Text;
+            CbxSelecGerent.Text = string.IsNullOrEmpty(texto) || texto == "Seleccionar"
+                ? "Seleccionar"
+                : texto;
 
-
-
-            }
-            else
-            {
-                if (texto.Equals(""))
-                {
-                    CbxSelecGerent.Text = "Seleccionar";
-                    CbxSelecGerent.ForeColor = Color.Gray;
-                }
-                else
-                {
-                    CbxSelecGerent.Text = texto;
-                    CbxSelecGerent.ForeColor = Color.Black;
-
-                }
-            }
+            CbxSelecGerent.ForeColor = texto == "Seleccionar" || string.IsNullOrEmpty(texto)
+                ? Color.Gray
+                : Color.Black;
         }
 
-        private void BtnGenerar_Click(object sender, System.EventArgs e)
+        private void BtnGenerar_Click(object sender, EventArgs e)
         {
-
-            string mensaje;
-            string gerente;
-            gerente = CbxSelecGerent.Text;
-            //IngresoClaveEsp(gerente);
             _L_ClaveAutorizada.generador();
             LblClaveAleatoria.Text = _L_ClaveAutorizada.digitos;
-            //mensaje ="Su numero aleatorio es: " + _L_ClaveAutorizada.digitos;
-            //_frmMensajes.co = 1;
-            //_frmMensajes.avisomensaje(mensaje);
-            //_frmMensajes.ShowDialog();
-            //validacion = _L_ClaveAutorizada.clavegenerada + idespecial;
-            //probar = $"{validacion}";
-            //this.Visible = true;
+        }
+
+        public void ObtenerOrden(string numero) => orden = numero;
+
+        public void Limpiar()
+        {
+            if (string.IsNullOrWhiteSpace(TxtClave.Text) && string.IsNullOrEmpty(LblClaveAleatoria.Text))
+            {
+                ClaveCorrecta = false;
+            }
+
+            TxtClave.Text = "";
+            LblClaveAleatoria.Text = "";
+            CbxSelecGerent.SelectedIndex = -1;
+            //CbxSelecGerent.BeginUpdate();
+            CbxSelecGerent.DataSource = null;
+            CbxSelecGerent.Items.Clear();
+        }
+
+        public string RetornoNombreUsuario() => CbxSelecGerent.Text;
+
+        public string RetornoClave() => TxtClave.Text;
+
+        private void TxtClave_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = !char.IsNumber(e.KeyChar) && e.KeyChar != (char)Keys.Back;
+        }
+
+        public void FormatoOsc()
+        {
+            this.BackColor = ColorTranslator.FromHtml("#07a79b");
+            LblSelecGerente.ForeColor = Color.White;
+            LblGeneraCodigo.ForeColor = Color.White;
+            LblClave.ForeColor = Color.White;
+            LblClaveAutorizada.BackColor = ColorTranslator.FromHtml("#003536");
+            LblClaveAutorizada.ForeColor = Color.White;
+        }
+
+        public void FormatoClar()
+        {
+            this.BackColor = ColorTranslator.FromHtml("#ffffff");
+            LblSelecGerente.ForeColor = Color.DarkGray;
+            LblGeneraCodigo.ForeColor = Color.DarkGray;
+            LblClave.ForeColor = Color.Black;
+            LblClaveAutorizada.BackColor = ColorTranslator.FromHtml("#07a79b");
+            LblClaveAutorizada.ForeColor = Color.White;
+        }
+
+        private void MostrarMensajeError(string mensaje)
+        {
+            _FrmMensajes.co = 2;
+            _FrmMensajes.avisomensaje(mensaje);
+            _FrmMensajes.ShowDialog();
         }
 
         private void CbxSelecGerent_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
-
-        public void ObtenerOrden(string Numero)
-        {
-            orden = Numero;
-        }
-
-
-        public void Limpiar()
-        {
-
-            if(TxtClave.Text.Replace(" ","") == "" & LblClaveAleatoria.Text == "")
-            {
-                ClaveCorrecta = false;
-            }
-            TxtClave.Text = "";
-            //CbxSelecGerent.Text = "";
-            LblClaveAleatoria.Text = "";
-            CbxSelecGerent.SelectedIndex = - 1;
-            // Eliminar el DataSource antes de limpiar los elementos
-            CbxSelecGerent.DataSource = null;
-            CbxSelecGerent.Items.Clear();
-        }
-
-        public string RetornoNombreUsuario()
-        {
-            string usuario = CbxSelecGerent.Text;
-            return usuario;
-
-        }
-
-        public string RetornoClave()
-        {
-            string clave = TxtClave.Text;
-            return clave;
-
-        }
-
-        private void TxtClave_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (!(char.IsNumber(e.KeyChar)) && (e.KeyChar != (char)Keys.Back))
-            {
-                e.Handled = true;
-            }
-        }
-
-        public void FormatoOsc()
-        {
-            //System.Drawing.Color col2 = System.Drawing.ColorTranslator.FromHtml("#257b78"); color anterior
-            System.Drawing.Color col2 = System.Drawing.ColorTranslator.FromHtml(" #07a79b");
-            this.BackColor = col2;
-            LblSelecGerente.ForeColor = Color.White;
-            LblGeneraCodigo.ForeColor = Color.White;
-            LblClave.ForeColor = Color.White;
-            LblClaveAutorizada.BackColor = ColorTranslator.FromHtml("#003536");
-            LblClaveAutorizada.ForeColor = Color.White;
-
-        }
-        public void FormatoClar()
-        {
-            System.Drawing.Color col1 = System.Drawing.ColorTranslator.FromHtml("#ffffff");
-            System.Drawing.Color col2 = System.Drawing.ColorTranslator.FromHtml(" #07a79b");
-            this.BackColor = col1;
-            LblSelecGerente.ForeColor = Color.DarkGray;
-            LblGeneraCodigo.ForeColor = Color.DarkGray;
-            LblClave.ForeColor = Color.Black;
-            LblClaveAutorizada.BackColor = col2;
-            LblClaveAutorizada.ForeColor = Color.White;
-        }
-   
-
-       
-
-
     }
 }
