@@ -55,7 +55,7 @@ namespace CapaVisual_Login
             DataSet Datos = _D_Login.SucursalCompania(Sucursal);
             string Descripcion = "";
             string RifCompania = "";
-            DateTime DiaActivo = _D_Inicio.DiaActivo();
+            DateTime DiaActivo = _D_Inicio.DiaActivo().AddDays(-1);
             string NombreSucursal = "";
             bool imprimir = true;
 
