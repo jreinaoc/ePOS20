@@ -666,7 +666,7 @@ namespace CapaVisual_Login
 
                     dgvCierredecaja.Columns["TipoTotal"].ReadOnly = true;
 
-                    dgvCierredecaja.DefaultCellStyle.Font = new Font("Century Gothic", 13);
+                    dgvCierredecaja.DefaultCellStyle.Font = new Font("Century Gothic", 10);
                     // Change the font for the COLUMN HEADERS
                     dgvCierredecaja.ColumnHeadersDefaultCellStyle.Font = new Font("Century Gothic", 10);
                     dgvCierredecaja.RowTemplate.Height = 30; // Puedes ajustar el número a tu gusto
@@ -681,10 +681,10 @@ namespace CapaVisual_Login
                 case "LogCierre":
 
                     // Asignar ancho personalizado a cada columna
-                    dgvLogCierre.Columns["Descripcion"].Width = 300;
-                    dgvLogCierre.Columns["Resultado"].Width = 113;
-                    dgvLogCierre.ColumnHeadersDefaultCellStyle.Font = new Font("Century Gothic", 13);
-                    dgvCierredecaja.DefaultCellStyle.Font = new Font("Century Gothic", 10);
+                    dgvLogCierre.Columns["Descripcion"].Width = 248;
+                    dgvLogCierre.Columns["Resultado"].Width = 130;
+                    dgvLogCierre.ColumnHeadersDefaultCellStyle.Font = new Font("Century Gothic", 10);
+                    dgvLogCierre.DefaultCellStyle.Font = new Font("Century Gothic", 10);
 
 
 
@@ -1613,6 +1613,48 @@ namespace CapaVisual_Login
         private void panel5_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        // 1) Al entrar en modo edición…
+        private void Dvg_OSconPagoMovil_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+        {
+            // Comprueba si la celda que se edita es de la columna "Referencia"
+            if (Dvg_OSconPagoMovil.CurrentCell.ColumnIndex ==
+                Dvg_OSconPagoMovil.Columns["Referencia"].Index)
+            {
+                // Es un TextBox por defecto en DataGridViewTextBoxColumn
+                var tb = e.Control as TextBox;
+                if (tb != null)
+                {
+                    // Quita cualquier handler previo para no enganchar varios
+                    tb.KeyPress -= ReferenciaColumn_KeyPress;
+
+                    // Limita la longitud a 10
+                    tb.MaxLength = 10;
+
+                    // Engancha el KeyPress para filtrar sólo dígitos
+                    tb.KeyPress += ReferenciaColumn_KeyPress;
+                }
+            }
+            else
+            {
+                // Si sale de esa columna, opcionalmente remueve el handler
+                var tb = e.Control as TextBox;
+                if (tb != null)
+                    tb.KeyPress -= ReferenciaColumn_KeyPress;
+            }
+        }
+
+        // 2) Valida cada pulsación de tecla
+        private void ReferenciaColumn_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Permitir Backspace, Delete, flechas, etc.
+            if (char.IsControl(e.KeyChar))
+                return;
+
+            // Permitir sólo dígitos
+            if (!char.IsDigit(e.KeyChar))
+                e.Handled = true;
         }
     }
 }

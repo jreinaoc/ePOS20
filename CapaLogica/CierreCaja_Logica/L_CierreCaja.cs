@@ -622,6 +622,20 @@ namespace CapaLogica.CierreCaja_Logica
             System.IO.File.AppendAllText(ruta, entrada + Environment.NewLine);
         }
 
+        public bool ObtieneAsistenciaPendiente(string fecha, string usuario)
+        {
+            DataTable dt = _D_CierreCaja.ObtieneAsistenciaPendiente(fecha, usuario);
+
+            if (dt.Rows.Count > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
 
     }
 }
