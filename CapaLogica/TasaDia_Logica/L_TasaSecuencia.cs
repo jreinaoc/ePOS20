@@ -29,7 +29,7 @@ namespace CapaLogica.TasaDia_Logica
         private D_Anulacion _D_Anulacion = new D_Anulacion();
        
         public void RegistarSecuencia(System.Windows.Forms.TextBox TxtCadenaEncriptada, System.Windows.Forms.Label LblTasaDesenc, System.Windows.Forms.Label LblFechaDesenc, System.Windows.Forms.Label LblHoraDesenc, System.Windows.Forms.ProgressBar ProgressBar1,
-        string AGteRegD, Func<string, string, DialogResult> mostrarPregunta, Action<string> mostrarError)
+        string AGteRegD, Func<string, string, DialogResult> mostrarPregunta, Action<string> mostrarError, System.Windows.Forms.Button Btn_Pnl3_Activar)
         {
             try
             {
@@ -85,7 +85,7 @@ namespace CapaLogica.TasaDia_Logica
                                     {
                                     if (AGteRegD == "NO")
                                     {
-                                        var resultado = mostrarPregunta("¿Está seguro que desea Activar la Secuencia Diaria?", "CONFIRME");
+                                        var resultado = mostrarPregunta("¿Está seguro que desea activar la secuencia diaria?", "CONFIRME");
 
                                         if (resultado != DialogResult.OK)
                                         {
@@ -144,7 +144,7 @@ namespace CapaLogica.TasaDia_Logica
                                                         for (int x = 71; x < 100; x++)
                                                             ProgressBar1.Value = x;
 
-                                                        mostrarError("El proceso culmino correctamente");
+                                                        mostrarError("El proceso culminó correctamente");
 
                                                         ProgressBar1.Value = 0;
 
@@ -169,8 +169,22 @@ namespace CapaLogica.TasaDia_Logica
 
                                                         // Blanquear campo de Secuencia al finalizar proceso de activación 
                                                         TxtCadenaEncriptada.Text = "";
-                                                    }
-                                                    else
+
+                                                            string IActivarSecADia = _D_DetalleOrden.TB_PARAMETRO("ActivarSecADia");
+                                                            //' Desactivar opcion de Activacion de secuencia diaria
+                                                            if (IActivarSecADia == "1")
+                                                            {
+                                                                TxtCadenaEncriptada.Enabled = true;
+                                                                Btn_Pnl3_Activar.Enabled = true;
+                                                            }
+                                                            else if (IActivarSecADia == "0")
+                                                            {
+                                                                TxtCadenaEncriptada.Enabled = false;
+                                                                Btn_Pnl3_Activar.Enabled = false;
+                                                            }
+
+                                                        }
+                                                        else
                                                     {
                                                         LblTasaDesenc.Text = "";
                                                         LblFechaDesenc.Text = "";
@@ -546,7 +560,7 @@ namespace CapaLogica.TasaDia_Logica
                 {
                     ValDol = txtDolar.Text.Replace(".", "").Replace(",", ".");
 
-                    var resultado = mostrarPregunta("¿Está seguro que desea cambiar la tasa del Dolar?", "CONFIRME");
+                    var resultado = mostrarPregunta("¿Está seguro que desea cambiar la tasa del Dólar?", "CONFIRME");
 
                     if (resultado != DialogResult.OK)
                     {
@@ -561,7 +575,7 @@ namespace CapaLogica.TasaDia_Logica
                         {
                             if (dsAgregaFactD.Tables[0].Rows[0]["Resultado"].ToString() == "APLICA")
                             {
-                                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "081", TB_USUARIO.COD_EMPLEADO, "La Tasa del Dolar se actualizó correctamente. Tasa Registrada: "+ ValDol);
+                                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "081", TB_USUARIO.COD_EMPLEADO, "La Tasa del Dólar se actualizó correctamente. Tasa Registrada: "+ ValDol);
                                 mostrarError("La Tasa del Dolar se actualizó correctamente");                            
                             }
                             else if (dsAgregaFactD.Tables[0].Rows[0]["Resultado"].ToString() == "NO APLICA")

@@ -45,10 +45,8 @@ namespace CapaVisual_Login
             this.Lbl_Pnl1_SubTitulo1 = new System.Windows.Forms.Label();
             this.Pnl2 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.label8 = new System.Windows.Forms.Label();
             this.lbRegE = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label6 = new System.Windows.Forms.Label();
             this.lbRegD = new System.Windows.Forms.Label();
             this.Btn_Pnl2_Regi = new System.Windows.Forms.Button();
             this.Txt_Pnl2_Euro1 = new System.Windows.Forms.TextBox();
@@ -242,56 +240,34 @@ namespace CapaVisual_Login
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.label8);
             this.panel2.Controls.Add(this.lbRegE);
-            this.panel2.Location = new System.Drawing.Point(217, 103);
+            this.panel2.Location = new System.Drawing.Point(203, 103);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(67, 28);
+            this.panel2.Size = new System.Drawing.Size(28, 28);
             this.panel2.TabIndex = 142;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(3, 6);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(41, 20);
-            this.label8.TabIndex = 138;
-            this.label8.Text = "Euro";
             // 
             // lbRegE
             // 
             this.lbRegE.AutoSize = true;
             this.lbRegE.Font = new System.Drawing.Font("Century Gothic", 11.25F);
-            this.lbRegE.Location = new System.Drawing.Point(53, 7);
+            this.lbRegE.Location = new System.Drawing.Point(5, 5);
             this.lbRegE.Name = "lbRegE";
             this.lbRegE.Size = new System.Drawing.Size(0, 20);
             this.lbRegE.TabIndex = 136;
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.label6);
             this.panel1.Controls.Add(this.lbRegD);
-            this.panel1.Location = new System.Drawing.Point(216, 63);
+            this.panel1.Location = new System.Drawing.Point(203, 63);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(67, 28);
+            this.panel1.Size = new System.Drawing.Size(28, 28);
             this.panel1.TabIndex = 141;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(3, 7);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(48, 20);
-            this.label6.TabIndex = 137;
-            this.label6.Text = "Dólar";
             // 
             // lbRegD
             // 
             this.lbRegD.AutoSize = true;
             this.lbRegD.Font = new System.Drawing.Font("Century Gothic", 11.25F);
-            this.lbRegD.Location = new System.Drawing.Point(54, 7);
+            this.lbRegD.Location = new System.Drawing.Point(5, 5);
             this.lbRegD.Name = "lbRegD";
             this.lbRegD.Size = new System.Drawing.Size(0, 20);
             this.lbRegD.TabIndex = 135;
@@ -389,17 +365,17 @@ namespace CapaVisual_Login
             // label9
             // 
             this.label9.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(135)))), ((int)(((byte)(129)))));
-            this.label9.Location = new System.Drawing.Point(215, 62);
+            this.label9.Location = new System.Drawing.Point(202, 62);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(69, 31);
+            this.label9.Size = new System.Drawing.Size(30, 31);
             this.label9.TabIndex = 140;
             // 
             // label11
             // 
             this.label11.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(135)))), ((int)(((byte)(129)))));
-            this.label11.Location = new System.Drawing.Point(216, 102);
+            this.label11.Location = new System.Drawing.Point(202, 102);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(69, 31);
+            this.label11.Size = new System.Drawing.Size(30, 31);
             this.label11.TabIndex = 143;
             // 
             // label3
@@ -590,8 +566,6 @@ namespace CapaVisual_Login
         private System.Windows.Forms.Label LblFechaDesenc;
         private System.Windows.Forms.Label lbRegE;
         private System.Windows.Forms.Label lbRegD;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label9;
