@@ -344,7 +344,7 @@ namespace CapaVisual_Login
         private void Btn_Pnl3_Activar_Click(object sender, EventArgs e)
         {
             var Resultado = Autoriz_GteReg_Activar();
-            _L_TasaSecuencia.RegistarSecuencia(Txt_Pnl3_Secuencia, LblTasaDesenc, LblFechaDesenc, LblHoraDesenc, PrBarPnl3, Resultado, mostrarPregunta, mostrarError);
+            _L_TasaSecuencia.RegistarSecuencia(Txt_Pnl3_Secuencia, LblTasaDesenc, LblFechaDesenc, LblHoraDesenc, PrBarPnl3, Resultado, mostrarPregunta, mostrarError, Btn_Pnl3_Activar);
         }
 
         private void Btn_Pnl2_Regi_Click(object sender, EventArgs e)
