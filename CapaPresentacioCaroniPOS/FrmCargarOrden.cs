@@ -3470,10 +3470,13 @@ namespace CapaVisual_Login
         {
             nuevoTrabajo.TSucursal = codigoSucursal;
             nuevoTrabajo.TNumOrdserv = tNumOrdserv;
+            nuevoTrabajo.CodDetVta = codDetVta;
+            nuevoTrabajo.THORAOFRECIDO = tHoraOfrecido;
+            nuevoTrabajo.TFECHAOFRECIDO = tFechaOfrecido;
 
             if (Descripcion_Tipo_Venta == "Venta Directa")
             {
-                nuevoTrabajo.CodDetVta = codDetVta;
+                //nuevoTrabajo.CodDetVta = codDetVta;
                 nuevoTrabajo.TipoExamen = "";
                 nuevoTrabajo.TTIPOTRABAJO = "001";
                 //nuevoTrabajo.TEXAMEN = "0";
@@ -3487,13 +3490,27 @@ namespace CapaVisual_Login
                 nuevoTrabajo.TTIPOVISIONI = "";
                 nuevoTrabajo.TLABORATORIO = "";
                 nuevoTrabajo.TSERVICIO = "";
+            }
+            else if (Descripcion_Tipo_Venta == "Reparacion")
+            {
+                nuevoTrabajo.THORIZONTAL = "0";
+                nuevoTrabajo.TVERTICAL = "0";
+                nuevoTrabajo.TMAXIMA = "0";
+                nuevoTrabajo.TPUENTE = "0";
 
-                nuevoTrabajo.THORAOFRECIDO = tHoraOfrecido;
-                nuevoTrabajo.TFECHAOFRECIDO = tFechaOfrecido;
+                nuevoTrabajo.TOJO = "";
+                nuevoTrabajo.TTIPOVISIOND = "";
+                nuevoTrabajo.TTIPOVISIONI = "";
+                nuevoTrabajo.TLABORATORIO = tLaboratorio;
+                nuevoTrabajo.TSERVICIO = tServicio;
+                nuevoTrabajo.TipoExamen = "";
+
+
+
             }
             else
             {
-                
+
                 nuevoTrabajo.THORIZONTAL = tHorizontal;
                 nuevoTrabajo.TVERTICAL = tVertical;
                 nuevoTrabajo.TMAXIMA = tMaxima;
@@ -3503,12 +3520,12 @@ namespace CapaVisual_Login
                 nuevoTrabajo.THORAOFRECIDO = tHoraOfrecido;
                 nuevoTrabajo.TFECHAOFRECIDO = tFechaOfrecido;
                 nuevoTrabajo.CodDetVta = codDetVta;
-                nuevoTrabajo.TTIPOTRABAJO =  (Descripcion_Tipo_Venta.Trim() == "Reparacion" || Descripcion_Tipo_Venta.Trim() == "Reparacion Empleado") ? "003" : "002";
+                nuevoTrabajo.TTIPOTRABAJO = (Descripcion_Tipo_Venta.Trim() == "Reparacion" || Descripcion_Tipo_Venta.Trim() == "Reparacion Empleado") ? "003" : "002";
 
                 if (string.IsNullOrWhiteSpace(nuevoTrabajo.TRevision))
                     nuevoTrabajo.TRevision = tRevision;
 
-               
+
 
                 if (!nuevoTrabajo.TFECCREA.HasValue)
                     nuevoTrabajo.TFECCREA = tFecCrea;

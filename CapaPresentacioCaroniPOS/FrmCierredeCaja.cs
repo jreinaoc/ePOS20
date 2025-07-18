@@ -450,6 +450,32 @@ namespace CapaVisual_Login
             }
         }
 
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            // 1) Detecta ENTER
+            if (keyData == Keys.Enter)
+            {
+                // 2) ¿Estamos en la columna TimePicker?
+                var col = Dvg_MarcajeAsistenciaPendiente.CurrentCell?.OwningColumn;
+                if (col is DataGridViewTimePickerColumn)
+                {
+                    var dgv = Dvg_MarcajeAsistenciaPendiente;
+
+                    // 3) Si ya editamos, finaliza; si no, inicia
+                    if (dgv.IsCurrentCellInEditMode)
+                        dgv.EndEdit();
+                    else
+                        dgv.BeginEdit(false);
+
+                    // 4) Consume ENTER para que no siga al DateTimePicker
+                    return true;
+                }
+            }
+
+            // Deja el resto de teclas con su comportamiento normal
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+
         public void CrearTabla(string tipo)
         {
             switch (tipo)
@@ -1578,9 +1604,9 @@ namespace CapaVisual_Login
                 //dgvLogCierre.DataSource = dtLogCierre;
                 //dgvLogCierre.Refresh();
 
-                //FrmPrueba frmReportes = new FrmPrueba();
+                FrmPrueba frmReportes = new FrmPrueba();
 
-                //frmReportes.ReportesCierreCaja();
+                frmReportes.ReportesCierreCaja();
             }
             catch (Exception ex)
             {
