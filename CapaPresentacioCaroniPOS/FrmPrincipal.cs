@@ -173,7 +173,18 @@ namespace CapaVisual_Login
                 btnCargarOrdenes.BackColor = Color.White;
             }
 
+            DateTime currentDate = _D_Inicio.DiaActivo();
+            string formattedDate = currentDate.ToString("yyyyMMdd");
 
+            if (!_L_CierreCaja.ObtieneAsistenciaPendiente(formattedDate, TB_USUARIO.COD_USR))
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("Debe marcar asistencia para el día activo");
+                _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                _FrmMensajes.ShowDialog();
+                return;
+            }
 
 
             string bloqFacturacion = _D_DetalleOrden.TB_PARAMETRO("BloqFacturacion");
@@ -657,6 +668,19 @@ namespace CapaVisual_Login
             pnlUtilitarios.Visible = false; 
             System.Drawing.Color col2 = System.Drawing.ColorTranslator.FromHtml("#257b78");
 
+            DateTime currentDate = _D_Inicio.DiaActivo();
+            string formattedDate = currentDate.ToString("yyyyMMdd");
+
+            if (!_L_CierreCaja.ObtieneAsistenciaPendiente(formattedDate, TB_USUARIO.COD_USR))
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("Debe marcar asistencia para el día activo");
+                _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                _FrmMensajes.ShowDialog();
+                return;
+            }
+
             if (this.BackColor == col2)
             {
                 btnListaFactura.BackColor = Color.FromArgb(4, 185, 166);
@@ -714,17 +738,18 @@ namespace CapaVisual_Login
                 btnListaFactura.BackColor = Color.White;
             }
 
+            DateTime currentDate = _D_Inicio.DiaActivo();
+            string formattedDate = currentDate.ToString("yyyyMMdd");
 
-
-
-            //FrmCargarOrden formularioSecundario = new FrmCargarOrden();
-            ////formularioSecundario = new FrmCargarOrden();
-            //formularioSecundario.TopLevel = false;
-            //formularioSecundario.Dock = DockStyle.Fill;
-            ////pnlContenedor.Controls.Add(formularioSecundario);  // Tu panel
-            ////formularioSecundario.Show();
-
-            //FrmCargarOrden formularioSecundario = new FrmCargarOrden();
+            if (!_L_CierreCaja.ObtieneAsistenciaPendiente(formattedDate, TB_USUARIO.COD_USR))
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("Debe marcar asistencia para el día activo");
+                _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                _FrmMensajes.ShowDialog();
+                return;
+            }
 
             PnlListadoOrdenes.Controls.Clear();
             addformularioCargaOrdenes(_FrmCargarOrden);
@@ -786,6 +811,20 @@ namespace CapaVisual_Login
 
         private void btnCierredeCaja_Click(object sender, EventArgs e)
         {
+            DateTime currentDate = _D_Inicio.DiaActivo();
+            string formattedDate = currentDate.ToString("yyyyMMdd");
+            
+            //Si no tiene asistencia marcada
+            if (!_L_CierreCaja.ObtieneAsistenciaPendiente(formattedDate, TB_USUARIO.COD_USR))
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("Debe marcar asistencia para el día activo");
+                _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                _FrmMensajes.ShowDialog();
+                return;
+            }
+
             if (menuUtilitariosExpandido)
                 ContraerMenuUtilitarios();
 
@@ -808,8 +847,7 @@ namespace CapaVisual_Login
             }
             //}
 
-            DateTime currentDate = _D_Inicio.DiaActivo();
-            string formattedDate = currentDate.ToString("yyyyMMdd");
+            
 
             if (_L_CierreCaja.ChequeaFacturasdelDia(formattedDate, TB_USUARIO.COD_USR))
             {

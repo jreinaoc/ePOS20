@@ -39,6 +39,9 @@ namespace CapaVisual_Login
         DataTable dtCierreCaja = new DataTable();
         DataTable dtLogCierre = new DataTable();
 
+        DataTable dtConsignacion = new DataTable();
+        DataTable dtAsistenciaPendiente = new DataTable();
+
         //private FrmPrincipal _frmPrincipal;
 
 
@@ -50,7 +53,17 @@ namespace CapaVisual_Login
 
         private void btnSiguiente_Click(object sender, EventArgs e)
         {
-            if (!_L_CierreCaja.CierreFueradeHorario(sucursal,DateTime.Now, DateTime.Now))
+            if (_D_Inicio.DiaActivo() >= DateTime.Now)
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("Imposible cerrar la caja, el día activo es mayor a la fecha de hoy");
+                _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                _FrmMensajes.ShowDialog();
+                return;
+
+            }
+            if (!_L_CierreCaja.CierreFueradeHorario(sucursal,DateTime.Now, DateTime.Now) && txtCierreHora.Text == "")
             {
                 _FrmMensajes.co = 2;
                 _FrmMensajes.avisomensaje("Debe registrar el cierre de la sucursal");
@@ -133,7 +146,7 @@ namespace CapaVisual_Login
             }
 
             //ASISTENCIA PENDIENTE
-            DataTable dtAsistenciaPendiente = _L_CierreCaja.VerificaAsistenciaPendiente(diaActivo.ToString("yyyyMMdd"), "PEND");
+             dtAsistenciaPendiente = _L_CierreCaja.VerificaAsistenciaPendiente(diaActivo.ToString("yyyyMMdd"), "PEND");
 
             dtAsistenciaPendiente.Columns["HORASALIDAT1"].AllowDBNull = true;
 
@@ -427,88 +440,9 @@ namespace CapaVisual_Login
                 labelVerticalPagos.ForeColor = Color.White;
                 tabPage4.Controls.Add(labelVerticalPagos);
 
-
-                sucursal = _D_DetalleOrden.TB_PARAMETRO("sucursalId");
-                diaActivo = _D_Inicio.DiaActivo();
-
-                //PUNTOS DE VENTA
-                //Consulto si existen cerrados
-                
-                DataTable dtPuntosCerrados = _L_CierreCaja.CierrePuntodeVenta(sucursal, "", "", diaActivo);
-                
-                //Si no se han cerrado lleno datos en 0
-                if (dtPuntosCerrados.Rows.Count == 0)
-                {
-                    DataTable dt = _L_CierreCaja.ObtienePuntosdeVenta("", diaActivo);
-
-                    CrearTabla("PuntodeVenta");
-                    
-                    foreach (DataRow fila in dt.Rows)
-                        {
-                            dtPtoVenta.Rows.Add(fila["CodPunto"], fila["Descripcion"], "", "0,00", "0,00", "0,00", "0,00");
-                        }
-                   
-
-                    // Asignar al DataGridView
-                    Dvg_CierrePuntoVenta.DataSource = dtPtoVenta;
-
-                    FormatoTabla("PuntodeVenta");
-                }
-                else
-                {
-                    CrearTabla("PuntodeVenta");
-
-                    foreach (DataRow fila in dtPuntosCerrados.Rows)
-                    {
-                        dtPtoVenta.Rows.Add(fila[0], fila[1], fila[2], fila[3], fila[4], fila[5], fila[6]);
-                    }
+                CargarDatos();
 
 
-                    // Asignar al DataGridView
-                    Dvg_CierrePuntoVenta.DataSource = dtPtoVenta;
-
-                    FormatoTabla("PuntodeVenta");
-                }
-
-
-                //OS CON PAGOMOVIL
-                DataTable dtPagoMovil = _L_CierreCaja.ObtineneCambioCierre(diaActivo, sucursal);
-
-                // Asignar al DataGridView
-                Dvg_OSconPagoMovil.DataSource = dtPagoMovil;
-
-                FormatoTabla("PagoMovil");
-
-                DataTable dtBancos = _L_CierreCaja.ObtieneBancosPagoMovil(sucursal);
-
-                //ASISTENCIA PENDIENTE
-                //DataTable dtAsistenciaPendiente = _L_CierreCaja.VerificaAsistenciaPendiente(diaActivo.ToString("yyyyMMdd"), "PEND");
-
-                //// Asignar al DataGridView
-                //Dvg_MarcajeAsistenciaPendiente.DataSource = dtAsistenciaPendiente;
-
-                //FormatoTabla("Asistencia");
-
-                Dvg_MarcajeAsistenciaPendiente.EditMode = DataGridViewEditMode.EditProgrammatically;
-
-                //CONSIGNACION
-                DataTable dtConsignacion = _L_CierreCaja.ConsultaOsDia(diaActivo, sucursal);
-
-                // Asignar al DataGridView
-                Dvg_ConsignacionDeOS.DataSource = dtConsignacion;
-
-                FormatoTabla("Consignacion");
-
-                //CIERRE DE CAJA
-                CrearTabla("CierredeCaja");
-
-                dtCierreCaja = _L_CierreCaja.ObtienePagosCierreCaja(sucursal);
-
-
-                // Asignar al DataGridView
-                dgvCierredecaja.DataSource = dtCierreCaja;
-
-                FormatoTabla("CierredeCaja");
             }
             catch (Exception ex)
             {
@@ -521,19 +455,24 @@ namespace CapaVisual_Login
             switch (tipo)
             {
                 case "PuntodeVenta":
-                    dtPtoVenta.Columns.Add("CodPunto", typeof(string));
-                    dtPtoVenta.Columns.Add("Banco", typeof(string));
-                    dtPtoVenta.Columns.Add("Nro. Lote", typeof(string)); // Vacía
-                    dtPtoVenta.Columns.Add("Total T. Crédito", typeof(string)); // Vacía
-                    dtPtoVenta.Columns.Add("Total T. Amex", typeof(string)); // Vacía
-                    dtPtoVenta.Columns.Add("Total T. Débito", typeof(string)); // Vacía
-                    dtPtoVenta.Columns.Add("Total T. Otros", typeof(string)); // Vacía
-                break;
+                    if (dtPtoVenta.Columns.Count == 0)
+                    {
+                        dtPtoVenta.Columns.Add("CodPunto", typeof(string));
+                        dtPtoVenta.Columns.Add("Banco", typeof(string));
+                        dtPtoVenta.Columns.Add("Nro. Lote", typeof(string)); // Vacía
+                        dtPtoVenta.Columns.Add("Total T. Crédito", typeof(string)); // Vacía
+                        dtPtoVenta.Columns.Add("Total T. Amex", typeof(string)); // Vacía
+                        dtPtoVenta.Columns.Add("Total T. Débito", typeof(string)); // Vacía
+                        dtPtoVenta.Columns.Add("Total T. Otros", typeof(string)); // Vacía
+                    }
+                    break;
 
                 case "CierredeCaja":
-                    dtCierreCaja.Columns.Add("TipoTotal", typeof(string));
-                    dtCierreCaja.Columns.Add("Total", typeof(string));
-
+                    if (dtCierreCaja.Columns.Count == 0)
+                    {
+                        dtCierreCaja.Columns.Add("TipoTotal", typeof(string));
+                        dtCierreCaja.Columns.Add("Total", typeof(string));
+                    }
                     break;
 
                 case "LogCierre":
@@ -564,6 +503,114 @@ namespace CapaVisual_Login
             }
         }
 
+
+        public void CargarDatos()
+        {
+            lblPaso.Text = "Paso 1";
+
+            dtLogCierre.Clear();
+            dgvLogCierre.Refresh();
+
+            dtCierreCaja.Clear();
+            dgvCierredecaja.Refresh();
+
+            dtPagoMovil.Clear();
+            Dvg_OSconPagoMovil.Refresh();
+
+            dtAsistenciaPendiente.Clear();
+            Dvg_MarcajeAsistenciaPendiente.Refresh();
+
+            dtConsignacion.Clear();
+            Dvg_ConsignacionDeOS.Refresh();
+
+            dtPtoVenta.Clear();
+            Dvg_CierrePuntoVenta.Refresh();
+
+            sucursal = _D_DetalleOrden.TB_PARAMETRO("sucursalId");
+            diaActivo = _D_Inicio.DiaActivo();
+
+            txtCierreHora.Text = "";
+            txtBox_observaciones_pg4.Text = "";
+
+            //PUNTOS DE VENTA
+            //Consulto si existen cerrados
+
+            DataTable dtPuntosCerrados = _L_CierreCaja.CierrePuntodeVenta(sucursal, "", "", diaActivo);
+
+            //Si no se han cerrado lleno datos en 0
+            if (dtPuntosCerrados.Rows.Count == 0)
+            {
+                DataTable dt = _L_CierreCaja.ObtienePuntosdeVenta("", diaActivo);
+
+                CrearTabla("PuntodeVenta");
+
+                foreach (DataRow fila in dt.Rows)
+                {
+                    dtPtoVenta.Rows.Add(fila["CodPunto"], fila["Descripcion"], "", "0,00", "0,00", "0,00", "0,00");
+                }
+
+
+                // Asignar al DataGridView
+                Dvg_CierrePuntoVenta.DataSource = dtPtoVenta;
+
+                FormatoTabla("PuntodeVenta");
+            }
+            else
+            {
+                CrearTabla("PuntodeVenta");
+
+                foreach (DataRow fila in dtPuntosCerrados.Rows)
+                {
+                    dtPtoVenta.Rows.Add(fila[0], fila[1], fila[2], fila[3], fila[4], fila[5], fila[6]);
+                }
+
+
+                // Asignar al DataGridView
+                Dvg_CierrePuntoVenta.DataSource = dtPtoVenta;
+
+                FormatoTabla("PuntodeVenta");
+            }
+
+
+            //OS CON PAGOMOVIL
+             dtPagoMovil = _L_CierreCaja.ObtineneCambioCierre(diaActivo, sucursal);
+
+            // Asignar al DataGridView
+            Dvg_OSconPagoMovil.DataSource = dtPagoMovil;
+
+            FormatoTabla("PagoMovil");
+
+            DataTable dtBancos = _L_CierreCaja.ObtieneBancosPagoMovil(sucursal);
+
+            //ASISTENCIA PENDIENTE
+            //DataTable dtAsistenciaPendiente = _L_CierreCaja.VerificaAsistenciaPendiente(diaActivo.ToString("yyyyMMdd"), "PEND");
+
+            //// Asignar al DataGridView
+            //Dvg_MarcajeAsistenciaPendiente.DataSource = dtAsistenciaPendiente;
+
+            //FormatoTabla("Asistencia");
+
+            Dvg_MarcajeAsistenciaPendiente.EditMode = DataGridViewEditMode.EditProgrammatically;
+
+            //CONSIGNACION
+             dtConsignacion = _L_CierreCaja.ConsultaOsDia(diaActivo, sucursal);
+
+            // Asignar al DataGridView
+            Dvg_ConsignacionDeOS.DataSource = dtConsignacion;
+
+            FormatoTabla("Consignacion");
+
+            //CIERRE DE CAJA
+            CrearTabla("CierredeCaja");
+
+            dtCierreCaja = _L_CierreCaja.ObtienePagosCierreCaja(sucursal);
+
+
+            // Asignar al DataGridView
+            dgvCierredecaja.DataSource = dtCierreCaja;
+
+            FormatoTabla("CierredeCaja");
+        }
         public void FormatoTabla(string tipo)
         {
             switch (tipo)
@@ -619,7 +666,7 @@ namespace CapaVisual_Login
 
                     dgvCierredecaja.Columns["TipoTotal"].ReadOnly = true;
 
-                    dgvCierredecaja.DefaultCellStyle.Font = new Font("Century Gothic", 13);
+                    dgvCierredecaja.DefaultCellStyle.Font = new Font("Century Gothic", 10);
                     // Change the font for the COLUMN HEADERS
                     dgvCierredecaja.ColumnHeadersDefaultCellStyle.Font = new Font("Century Gothic", 10);
                     dgvCierredecaja.RowTemplate.Height = 30; // Puedes ajustar el número a tu gusto
@@ -634,10 +681,10 @@ namespace CapaVisual_Login
                 case "LogCierre":
 
                     // Asignar ancho personalizado a cada columna
-                    dgvLogCierre.Columns["Descripcion"].Width = 300;
-                    dgvLogCierre.Columns["Resultado"].Width = 113;
-                    dgvLogCierre.ColumnHeadersDefaultCellStyle.Font = new Font("Century Gothic", 13);
-                    dgvCierredecaja.DefaultCellStyle.Font = new Font("Century Gothic", 10);
+                    dgvLogCierre.Columns["Descripcion"].Width = 248;
+                    dgvLogCierre.Columns["Resultado"].Width = 130;
+                    dgvLogCierre.ColumnHeadersDefaultCellStyle.Font = new Font("Century Gothic", 10);
+                    dgvLogCierre.DefaultCellStyle.Font = new Font("Century Gothic", 10);
 
 
 
@@ -1522,14 +1569,18 @@ namespace CapaVisual_Login
                 dtLogCierre.Rows.Add("Paso 4", "✔ Completado");
                 dgvLogCierre.Refresh();
                 tcCierreCaja.SelectedIndex = 0;
+               
+                
+
+                CargarDatos();
 
                 //dtLogCierre.Rows.Add("Cierre de Caja", "✔ Completado");
                 //dgvLogCierre.DataSource = dtLogCierre;
                 //dgvLogCierre.Refresh();
-                
-                FrmPrueba frmReportes = new FrmPrueba();
 
-                frmReportes.ReportesCierreCaja();
+                //FrmPrueba frmReportes = new FrmPrueba();
+
+                //frmReportes.ReportesCierreCaja();
             }
             catch (Exception ex)
             {
@@ -1562,6 +1613,48 @@ namespace CapaVisual_Login
         private void panel5_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        // 1) Al entrar en modo edición…
+        private void Dvg_OSconPagoMovil_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+        {
+            // Comprueba si la celda que se edita es de la columna "Referencia"
+            if (Dvg_OSconPagoMovil.CurrentCell.ColumnIndex ==
+                Dvg_OSconPagoMovil.Columns["Referencia"].Index)
+            {
+                // Es un TextBox por defecto en DataGridViewTextBoxColumn
+                var tb = e.Control as TextBox;
+                if (tb != null)
+                {
+                    // Quita cualquier handler previo para no enganchar varios
+                    tb.KeyPress -= ReferenciaColumn_KeyPress;
+
+                    // Limita la longitud a 10
+                    tb.MaxLength = 10;
+
+                    // Engancha el KeyPress para filtrar sólo dígitos
+                    tb.KeyPress += ReferenciaColumn_KeyPress;
+                }
+            }
+            else
+            {
+                // Si sale de esa columna, opcionalmente remueve el handler
+                var tb = e.Control as TextBox;
+                if (tb != null)
+                    tb.KeyPress -= ReferenciaColumn_KeyPress;
+            }
+        }
+
+        // 2) Valida cada pulsación de tecla
+        private void ReferenciaColumn_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Permitir Backspace, Delete, flechas, etc.
+            if (char.IsControl(e.KeyChar))
+                return;
+
+            // Permitir sólo dígitos
+            if (!char.IsDigit(e.KeyChar))
+                e.Handled = true;
         }
     }
 }

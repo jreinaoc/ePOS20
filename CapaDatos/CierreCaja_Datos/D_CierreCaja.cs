@@ -862,7 +862,38 @@ namespace CapaDatos.CierreCaja_Datos
             }
         }
 
-        
+        public DataTable ObtieneAsistenciaPendiente(string fecha, string codUsuario, SqlCommand command = null)
+        {
+            try
+            {
+                if (command == null)
+                {
+                    SqlConnection connection = cn.LeerCadena();
+                    command = connection.CreateCommand();
+                }
+                SqlCommand cmd = command;
+                cmd.Parameters.Clear();
+
+                cmd.CommandText = "SP_CPOS_GetAsistenciaPend";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@FECHA", fecha);
+                cmd.Parameters.AddWithValue("@CODUSER", codUsuario);
+
+
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                cmd.Parameters.Clear();
+                return dt;
+
+            }
+            catch (Exception ex)
+            {
+                string Error = string.Format("Error: {0}", ex.Message);
+                return null;
+            }
+        }
 
     }
 }
