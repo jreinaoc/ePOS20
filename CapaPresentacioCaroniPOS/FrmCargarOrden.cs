@@ -12773,7 +12773,7 @@ namespace CapaVisual_Login
         private void btnAutorizarRangosCrt_Click(object sender, EventArgs e)
         {
             _FrmClaveAutorizada.Nuevo_Parametro = true;
-            _FrmClaveAutorizada.Parametro_Nuevo = _L_Articulo.BuscarCodigoGerenteDescuento("015");
+            _FrmClaveAutorizada.Id_Rol = "015";
             _FrmClaveAutorizada.ShowDialog();
 
             if (_FrmClaveAutorizada.DialogResult == DialogResult.OK && _FrmClaveAutorizada.ClaveCorrecta == true)

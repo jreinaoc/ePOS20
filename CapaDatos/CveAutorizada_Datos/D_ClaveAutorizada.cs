@@ -26,7 +26,7 @@ namespace CapaDatos.CveAutorizada_Datos
 
             try
             {
-                using (SqlCommand cmd = new SqlCommand("pGet_Usuarios_ClaveAutorizada_I", cn.LeerCadena()))
+                using (SqlCommand cmd = new SqlCommand("pGet_Usuarios_ClaveAutorizada", cn.LeerCadena()))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@CodSucursa", CodSucursal);
@@ -143,6 +143,37 @@ namespace CapaDatos.CveAutorizada_Datos
             }
             
             catch(Exception ex)
+            {
+                string Error = string.Format("Error: {0}", ex.Message);
+                return null;
+            }
+
+        }
+        public DataTable ObtengoGerentesClaveAutorizadaIII(string CodEmpleado, SqlCommand command = null)
+        {
+
+            try
+            {
+                if (command == null)
+                {
+                    SqlConnection connection = cn.LeerCadena();
+                    command = connection.CreateCommand();
+                }
+                SqlCommand cmd = command;
+                cmd.Parameters.Clear();
+
+                cmd.CommandText = "pGet_Usuarios_ClaveAutorizada_III";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Parametro", CodEmpleado);
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                cmd.Parameters.Clear();
+                return dt;
+
+            }
+
+            catch (Exception ex)
             {
                 string Error = string.Format("Error: {0}", ex.Message);
                 return null;

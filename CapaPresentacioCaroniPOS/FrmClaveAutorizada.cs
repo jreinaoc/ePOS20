@@ -37,6 +37,8 @@ namespace CapaVisual_Login
         public bool Nuevo_Parametro { get; set; }
         public string Parametro_Nuevo { get; set; }
 
+        public string Id_Rol { get; set; }
+
         L_Colores _L_Colores = new L_Colores();
 
         public FrmClaveAutorizada()
@@ -117,6 +119,7 @@ namespace CapaVisual_Login
             Limpiar();
             Nuevo_Parametro = false;
             Parametro_Nuevo = "";
+            Id_Rol = "";
         }
 
 
@@ -137,6 +140,10 @@ namespace CapaVisual_Login
                 if (!string.IsNullOrEmpty(Parametro_Nuevo))
                 {
                     CbxSelecGerent.DataSource = _D_ClaveAutorizada.ObtengoGerentesClaveAutorizadaII(Parametro_Nuevo);
+                }
+                else if (!string.IsNullOrEmpty(Id_Rol))
+                {
+                    CbxSelecGerent.DataSource = _D_ClaveAutorizada.ObtengoGerentesClaveAutorizadaIII(Id_Rol);
                 }
                 else
                 {
@@ -189,6 +196,7 @@ namespace CapaVisual_Login
             Limpiar();
             Nuevo_Parametro = false;
             Parametro_Nuevo = "";
+            Id_Rol = "";
         }
 
         private void CbxSelecGerent_Enter(object sender, EventArgs e)
