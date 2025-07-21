@@ -57,7 +57,7 @@ namespace CapaVisual_Login
             string RifCompania = "";
             DateTime DiaActivo = _D_Inicio.DiaActivo().AddDays(-1);
             string NombreSucursal = "";
-            bool imprimir = true;
+            bool imprimir = false;
 
             if (Datos.Tables[0].Rows.Count > 0)
             {
@@ -248,6 +248,11 @@ namespace CapaVisual_Login
 
             // Retorna el DataTable con los datos
             return ds.Cpos_PagoTransferencia;
+        }
+
+        private void FrmPrueba_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

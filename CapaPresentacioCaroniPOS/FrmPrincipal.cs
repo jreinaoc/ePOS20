@@ -865,7 +865,7 @@ namespace CapaVisual_Login
             if (Ordenesrango.Tables[0].Rows.Count > 0)
             {
                 _FrmMensajes.co = 2;
-                _FrmMensajes.avisomensaje("No Puede Cerrar Caja. Hay Ventas Pendientes");
+                _FrmMensajes.avisomensaje("No puede cerrar la caja, hay ventas pendientes");
                 _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
                 _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
                 _FrmMensajes.ShowDialog();

@@ -246,7 +246,10 @@ namespace CapaLogica.DetalleOrden_Logica
                     Status = "Facturada";
                     break;
                 case "003":
-                    Status = "Anulada";
+                    if (TB_CAORDSER.Nota == false)
+                        Status = "Anulada";
+                    else
+                        Status = "Reversada";
                     break;
                 case "004":
                     Status = "Por pagar";

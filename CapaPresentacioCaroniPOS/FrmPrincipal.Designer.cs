@@ -31,6 +31,10 @@ namespace CapaVisual_Login
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmPrincipal));
             this.GbxMenuPrincipal = new System.Windows.Forms.GroupBox();
+            this.pnlUtilitarios = new System.Windows.Forms.Panel();
+            this.btnCierredeCaja = new System.Windows.Forms.Button();
+            this.btnTasaSec = new System.Windows.Forms.Button();
+            this.btnReimpresion = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.btn_FrmCierreDeCaja = new System.Windows.Forms.Button();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
@@ -66,12 +70,9 @@ namespace CapaVisual_Login
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.BtnMinimizar = new System.Windows.Forms.Button();
-            this.pnlUtilitarios = new System.Windows.Forms.Panel();
-            this.btnCierredeCaja = new System.Windows.Forms.Button();
-            this.btnTasaSec = new System.Windows.Forms.Button();
-            this.btnReimpresion = new System.Windows.Forms.Button();
             this.PnlListadoOrdenes = new System.Windows.Forms.Panel();
             this.GbxMenuPrincipal.SuspendLayout();
+            this.pnlUtilitarios.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicBoxCargaOrdenClaro)).BeginInit();
@@ -89,7 +90,6 @@ namespace CapaVisual_Login
             ((System.ComponentModel.ISupportInitialize)(this.PicBoxConfigOsc)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictBoxPagoMovilOsc)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.pnlUtilitarios.SuspendLayout();
             this.SuspendLayout();
             // 
             // GbxMenuPrincipal
@@ -135,6 +135,77 @@ namespace CapaVisual_Login
             this.GbxMenuPrincipal.TabIndex = 12;
             this.GbxMenuPrincipal.TabStop = false;
             this.GbxMenuPrincipal.Enter += new System.EventHandler(this.GbxMenuPrincipal_Enter);
+            // 
+            // pnlUtilitarios
+            // 
+            this.pnlUtilitarios.Controls.Add(this.btnReimpresion);
+            this.pnlUtilitarios.Controls.Add(this.btnCierredeCaja);
+            this.pnlUtilitarios.Controls.Add(this.btnTasaSec);
+            this.pnlUtilitarios.Location = new System.Drawing.Point(14, 285);
+            this.pnlUtilitarios.Name = "pnlUtilitarios";
+            this.pnlUtilitarios.Size = new System.Drawing.Size(198, 108);
+            this.pnlUtilitarios.TabIndex = 0;
+            this.pnlUtilitarios.Visible = false;
+            // 
+            // btnCierredeCaja
+            // 
+            this.btnCierredeCaja.BackColor = System.Drawing.Color.Transparent;
+            this.btnCierredeCaja.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnCierredeCaja.FlatAppearance.BorderSize = 0;
+            this.btnCierredeCaja.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(4)))), ((int)(((byte)(185)))), ((int)(((byte)(166)))));
+            this.btnCierredeCaja.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(4)))), ((int)(((byte)(185)))), ((int)(((byte)(166)))));
+            this.btnCierredeCaja.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCierredeCaja.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCierredeCaja.ForeColor = System.Drawing.Color.Black;
+            this.btnCierredeCaja.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.btnCierredeCaja.Location = new System.Drawing.Point(-1, 74);
+            this.btnCierredeCaja.Name = "btnCierredeCaja";
+            this.btnCierredeCaja.Size = new System.Drawing.Size(206, 31);
+            this.btnCierredeCaja.TabIndex = 37;
+            this.btnCierredeCaja.Text = "Cierre de Caja";
+            this.btnCierredeCaja.TextAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.btnCierredeCaja.UseVisualStyleBackColor = false;
+            this.btnCierredeCaja.Click += new System.EventHandler(this.btnCierredeCaja_Click);
+            // 
+            // btnTasaSec
+            // 
+            this.btnTasaSec.BackColor = System.Drawing.Color.Transparent;
+            this.btnTasaSec.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnTasaSec.FlatAppearance.BorderSize = 0;
+            this.btnTasaSec.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(4)))), ((int)(((byte)(185)))), ((int)(((byte)(166)))));
+            this.btnTasaSec.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(4)))), ((int)(((byte)(185)))), ((int)(((byte)(166)))));
+            this.btnTasaSec.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnTasaSec.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnTasaSec.ForeColor = System.Drawing.Color.Black;
+            this.btnTasaSec.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.btnTasaSec.Location = new System.Drawing.Point(-1, 2);
+            this.btnTasaSec.Name = "btnTasaSec";
+            this.btnTasaSec.Size = new System.Drawing.Size(198, 34);
+            this.btnTasaSec.TabIndex = 36;
+            this.btnTasaSec.Text = "Actualización de Tasa";
+            this.btnTasaSec.TextAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.btnTasaSec.UseVisualStyleBackColor = false;
+            this.btnTasaSec.Click += new System.EventHandler(this.btnTasaSec_Click);
+            // 
+            // btnReimpresion
+            // 
+            this.btnReimpresion.BackColor = System.Drawing.Color.Transparent;
+            this.btnReimpresion.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnReimpresion.FlatAppearance.BorderSize = 0;
+            this.btnReimpresion.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(4)))), ((int)(((byte)(185)))), ((int)(((byte)(166)))));
+            this.btnReimpresion.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(4)))), ((int)(((byte)(185)))), ((int)(((byte)(166)))));
+            this.btnReimpresion.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnReimpresion.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnReimpresion.ForeColor = System.Drawing.Color.Black;
+            this.btnReimpresion.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.btnReimpresion.Location = new System.Drawing.Point(-1, 38);
+            this.btnReimpresion.Name = "btnReimpresion";
+            this.btnReimpresion.Size = new System.Drawing.Size(199, 34);
+            this.btnReimpresion.TabIndex = 35;
+            this.btnReimpresion.Text = "Reimpresión de Documentos";
+            this.btnReimpresion.TextAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.btnReimpresion.UseVisualStyleBackColor = false;
+            this.btnReimpresion.Click += new System.EventHandler(this.btnReimpresion_Click);
             // 
             // button1
             // 
@@ -612,77 +683,6 @@ namespace CapaVisual_Login
             this.BtnMinimizar.UseVisualStyleBackColor = false;
             this.BtnMinimizar.Click += new System.EventHandler(this.BtnMinimizar_Click);
             // 
-            // pnlUtilitarios
-            // 
-            this.pnlUtilitarios.Controls.Add(this.btnCierredeCaja);
-            this.pnlUtilitarios.Controls.Add(this.btnTasaSec);
-            this.pnlUtilitarios.Controls.Add(this.btnReimpresion);
-            this.pnlUtilitarios.Location = new System.Drawing.Point(14, 285);
-            this.pnlUtilitarios.Name = "pnlUtilitarios";
-            this.pnlUtilitarios.Size = new System.Drawing.Size(198, 108);
-            this.pnlUtilitarios.TabIndex = 0;
-            this.pnlUtilitarios.Visible = false;
-            // 
-            // btnCierredeCaja
-            // 
-            this.btnCierredeCaja.BackColor = System.Drawing.Color.Transparent;
-            this.btnCierredeCaja.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.btnCierredeCaja.FlatAppearance.BorderSize = 0;
-            this.btnCierredeCaja.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(4)))), ((int)(((byte)(185)))), ((int)(((byte)(166)))));
-            this.btnCierredeCaja.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(4)))), ((int)(((byte)(185)))), ((int)(((byte)(166)))));
-            this.btnCierredeCaja.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCierredeCaja.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCierredeCaja.ForeColor = System.Drawing.Color.Black;
-            this.btnCierredeCaja.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.btnCierredeCaja.Location = new System.Drawing.Point(-1, 74);
-            this.btnCierredeCaja.Name = "btnCierredeCaja";
-            this.btnCierredeCaja.Size = new System.Drawing.Size(194, 31);
-            this.btnCierredeCaja.TabIndex = 37;
-            this.btnCierredeCaja.Text = "Cierre de Caja";
-            this.btnCierredeCaja.TextAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.btnCierredeCaja.UseVisualStyleBackColor = false;
-            this.btnCierredeCaja.Click += new System.EventHandler(this.btnCierredeCaja_Click);
-            // 
-            // btnTasaSec
-            // 
-            this.btnTasaSec.BackColor = System.Drawing.Color.Transparent;
-            this.btnTasaSec.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.btnTasaSec.FlatAppearance.BorderSize = 0;
-            this.btnTasaSec.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(4)))), ((int)(((byte)(185)))), ((int)(((byte)(166)))));
-            this.btnTasaSec.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(4)))), ((int)(((byte)(185)))), ((int)(((byte)(166)))));
-            this.btnTasaSec.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnTasaSec.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTasaSec.ForeColor = System.Drawing.Color.Black;
-            this.btnTasaSec.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.btnTasaSec.Location = new System.Drawing.Point(-1, 38);
-            this.btnTasaSec.Name = "btnTasaSec";
-            this.btnTasaSec.Size = new System.Drawing.Size(198, 34);
-            this.btnTasaSec.TabIndex = 36;
-            this.btnTasaSec.Text = "Actualización de Tasa";
-            this.btnTasaSec.TextAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.btnTasaSec.UseVisualStyleBackColor = false;
-            this.btnTasaSec.Click += new System.EventHandler(this.btnTasaSec_Click);
-            // 
-            // btnReimpresion
-            // 
-            this.btnReimpresion.BackColor = System.Drawing.Color.Transparent;
-            this.btnReimpresion.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.btnReimpresion.FlatAppearance.BorderSize = 0;
-            this.btnReimpresion.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(4)))), ((int)(((byte)(185)))), ((int)(((byte)(166)))));
-            this.btnReimpresion.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(4)))), ((int)(((byte)(185)))), ((int)(((byte)(166)))));
-            this.btnReimpresion.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnReimpresion.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnReimpresion.ForeColor = System.Drawing.Color.Black;
-            this.btnReimpresion.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.btnReimpresion.Location = new System.Drawing.Point(0, 1);
-            this.btnReimpresion.Name = "btnReimpresion";
-            this.btnReimpresion.Size = new System.Drawing.Size(206, 34);
-            this.btnReimpresion.TabIndex = 35;
-            this.btnReimpresion.Text = "Reimpresión de Documentos";
-            this.btnReimpresion.TextAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.btnReimpresion.UseVisualStyleBackColor = false;
-            this.btnReimpresion.Click += new System.EventHandler(this.btnReimpresion_Click);
-            // 
             // PnlListadoOrdenes
             // 
             this.PnlListadoOrdenes.AutoSize = true;
@@ -712,6 +712,7 @@ namespace CapaVisual_Login
             this.Load += new System.EventHandler(this.FrmPrincipal_Load_1);
             this.GbxMenuPrincipal.ResumeLayout(false);
             this.GbxMenuPrincipal.PerformLayout();
+            this.pnlUtilitarios.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicBoxCargaOrdenClaro)).EndInit();
@@ -729,7 +730,6 @@ namespace CapaVisual_Login
             ((System.ComponentModel.ISupportInitialize)(this.PicBoxConfigOsc)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictBoxPagoMovilOsc)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.pnlUtilitarios.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 

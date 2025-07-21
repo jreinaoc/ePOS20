@@ -1342,7 +1342,7 @@ namespace CapaVisual_Login
                 if (!_L_CierreCaja.ValidaExistenciaCaja(dgvCierredecaja))
                 {
                     _FrmMensajes.co = 3;
-                    _FrmMensajes.avisomensaje("Está seguro que la existencia en caja es 0 (cero)?");
+                    _FrmMensajes.avisomensaje("¿Está seguro de querer cerrar la caja en cero?");
                     _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
                     _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
                     _FrmMensajes.ShowDialog();

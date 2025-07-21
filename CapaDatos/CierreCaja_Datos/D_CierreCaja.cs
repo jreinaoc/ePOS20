@@ -88,7 +88,7 @@ namespace CapaDatos.CierreCaja_Datos
                 SqlCommand cmd = command;
                 cmd.Parameters.Clear();
 
-                cmd.CommandText = "pGetCierreSucursal";
+                cmd.CommandText = "SP_CPOS_GetCierreSucursal";
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@CodSuc", codsuc);
                 cmd.Parameters.AddWithValue("@FechaIni", fechaIni);
