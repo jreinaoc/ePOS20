@@ -20,6 +20,7 @@ using CapaLogica.CargarOrdenes_Logica;
 using DataGridViewNumericUpDownElements;
 using System.Text.RegularExpressions;
 using CapaLogica.Servicios;
+using CapaDatos.Anulacion;
 using System.Drawing; // Necesario para Font, Color, Pen
 using System.Windows.Forms; // Necesario para DataGridView y DataGridViewCellPaintingEventArgs
 
@@ -186,6 +187,7 @@ namespace CapaVisual_Login
         private bool mantenervacio;
 
         private string codigoSucursal;
+        D_Anulacion _D_Anulacion = new D_Anulacion();
 
         private void DgvListadoOrdenes_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -3075,11 +3077,17 @@ namespace CapaVisual_Login
                 {
                     if (!ValidarVisionConv())
                     {
-                        Pnl_2_Msj.Visible = true;
-                        txt_pl2_msj.Text = "Debe colocar tipos de visión validos La combinación posible es el mismo tipo de visión o Balance ";
-                        //pb_pl2_mj.Visible = true;
-                        Pnl_2_Msj.Location = new Point(396, 175);
-                        Pnl_2_Msj.BringToFront();
+                        _FrmMensajes.co = 2;
+                        _FrmMensajes.avisomensaje("Debe colocar tipos de visión validos La combinación posible es el mismo tipo de visión o Balance");
+                        _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                        _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                        _FrmMensajes.ShowDialog();
+
+                        //Pnl_2_Msj.Visible = true;
+                        //txt_pl2_msj.Text = "Debe colocar tipos de visión validos La combinación posible es el mismo tipo de visión o Balance ";
+                        ////pb_pl2_mj.Visible = true;
+                        //Pnl_2_Msj.Location = new Point(396, 175);
+                        //Pnl_2_Msj.BringToFront();
 
                         return;
                     }
@@ -6919,6 +6927,14 @@ namespace CapaVisual_Login
 
             Dgv_Pnl2_conv.Columns[0].ReadOnly = true; // Hace que la columna no sea editable
 
+            // Configurar la columna "aEsfera" para que no se ajuste automáticamente
+            if (Dgv_Pnl2_conv.Columns.Contains("aEsfera"))
+            {
+                Dgv_Pnl2_conv.Columns["aEsfera"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                Dgv_Pnl2_conv.Columns["aEsfera"].Width = 10; // Establecer el ancho fijo (aproximadamente 0.5 cm)
+                Dgv_Pnl2_conv.Columns["aEsfera"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+            }
+
             if (Dgv_Pnl2_conv.Columns.Contains("Agudeza"))
             {
                 Dgv_Pnl2_conv.Columns["Agudeza"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
@@ -6928,7 +6944,7 @@ namespace CapaVisual_Login
             if (Dgv_Pnl2_conv.Columns.Contains("Visual"))
             {
                 Dgv_Pnl2_conv.Columns["Visual"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-                Dgv_Pnl2_conv.Columns["Visual"].Width = 60; // Establecer el ancho fijo (aproximadamente 0.5 cm)
+                Dgv_Pnl2_conv.Columns["Visual"].Width = 80; // Establecer el ancho fijo (aproximadamente 0.5 cm)
             }
 
 
@@ -6949,47 +6965,47 @@ namespace CapaVisual_Login
             if (Dgv_Pnl2_conv.Columns.Contains("Esfera"))
             {
                 Dgv_Pnl2_conv.Columns["Esfera"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-                Dgv_Pnl2_conv.Columns["Esfera"].Width = 60; // Establecer el ancho fijo (aproximadamente 0.5 cm)
+                Dgv_Pnl2_conv.Columns["Esfera"].Width = 80; // Establecer el ancho fijo (aproximadamente 0.5 cm)
             }
             if (Dgv_Pnl2_conv.Columns.Contains("Eje"))
             {
                 Dgv_Pnl2_conv.Columns["Eje"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-                Dgv_Pnl2_conv.Columns["Eje"].Width = 60; // Establecer el ancho fijo (aproximadamente 0.5 cm)
+                Dgv_Pnl2_conv.Columns["Eje"].Width = 80; // Establecer el ancho fijo (aproximadamente 0.5 cm)
             }
 
             if (Dgv_Pnl2_conv.Columns.Contains("Grado1"))
             {
                 Dgv_Pnl2_conv.Columns["Grado1"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-                Dgv_Pnl2_conv.Columns["Grado1"].Width = 60; // Establecer el ancho fijo (aproximadamente 0.5 cm)
+                Dgv_Pnl2_conv.Columns["Grado1"].Width = 80; // Establecer el ancho fijo (aproximadamente 0.5 cm)
             }
             if (Dgv_Pnl2_conv.Columns.Contains("Cilindro"))
             {
                 Dgv_Pnl2_conv.Columns["Cilindro"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-                Dgv_Pnl2_conv.Columns["Cilindro"].Width = 60; // Establecer el ancho fijo (aproximadamente 0.5 cm)
+                Dgv_Pnl2_conv.Columns["Cilindro"].Width = 80; // Establecer el ancho fijo (aproximadamente 0.5 cm)
             }
             if (Dgv_Pnl2_conv.Columns.Contains("Adicion"))
             {
                 Dgv_Pnl2_conv.Columns["Adicion"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-                Dgv_Pnl2_conv.Columns["Adicion"].Width = 60; // Establecer el ancho fijo (aproximadamente 0.5 cm)
+                Dgv_Pnl2_conv.Columns["Adicion"].Width = 80; // Establecer el ancho fijo (aproximadamente 0.5 cm)
             }
 
 
             if (Dgv_Pnl2_conv.Columns.Contains("Lejos"))
             {
                 Dgv_Pnl2_conv.Columns["Lejos"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-                Dgv_Pnl2_conv.Columns["Lejos"].Width = 60; // Establecer el ancho fijo (aproximadamente 0.5 cm)
+                Dgv_Pnl2_conv.Columns["Lejos"].Width = 80; // Establecer el ancho fijo (aproximadamente 0.5 cm)
             }
 
             if (Dgv_Pnl2_conv.Columns.Contains("Cerca"))
             {
                 Dgv_Pnl2_conv.Columns["Cerca"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-                Dgv_Pnl2_conv.Columns["Cerca"].Width = 60; // Establecer el ancho fijo (aproximadamente 0.5 cm)
+                Dgv_Pnl2_conv.Columns["Cerca"].Width = 80; // Establecer el ancho fijo (aproximadamente 0.5 cm)
             }
 
             if (Dgv_Pnl2_conv.Columns.Contains("Prisma1"))
             {
                 Dgv_Pnl2_conv.Columns["Prisma1"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-                Dgv_Pnl2_conv.Columns["Prisma1"].Width = 60; // Establecer el ancho fijo (aproximadamente 0.5 cm)
+                Dgv_Pnl2_conv.Columns["Prisma1"].Width = 80; // Establecer el ancho fijo (aproximadamente 0.5 cm)
             }
 
 
@@ -12797,6 +12813,111 @@ namespace CapaVisual_Login
             {
                 ApruebaAORangoCRT = true;
                 pnlRangoCrt.Visible = false;
+            }
+        }
+
+        private bool ValidoAlturaMedidas(ref SqlCommand sqlCom)
+        {
+            try
+            {
+                //var gerenteRegio = new frmClaveAutorizada();
+                bool altura = true;
+                bool resultado = false;
+
+                // Validación de altura - medida vertical de la montura
+                if (Cbx_Tap2_Ojo.Text == "Ambos")
+                {
+                    if (!string.IsNullOrWhiteSpace(txtVertical.Text) &&
+                        !string.IsNullOrWhiteSpace(txtAltD.Text) &&
+                        !string.IsNullOrWhiteSpace(txtAltI.Text))
+                    {
+                        int vertical = Convert.ToInt32(txtVertical.Text);
+                        int altD = Convert.ToInt32(txtAltD.Text);
+                        int altI = Convert.ToInt32(txtAltI.Text);
+
+                        if (cbVisionDerecha.Text == "Progresivo" && vertical - altD < 8)
+                            altura = false;
+                        else if (cbVisionIzquierda.Text == "Progresivo" && vertical - altI < 8)
+                            altura = false;
+                        else
+                        {
+                            altura = true;
+                            resultado = true;
+                        }
+                    }
+                }
+                else if (Cbx_Tap2_Ojo.Text == "Derecho")
+                {
+                    if (!string.IsNullOrWhiteSpace(txtVertical.Text) &&
+                        !string.IsNullOrWhiteSpace(txtAltD.Text))
+                    {
+                        int vertical = Convert.ToInt32(txtVertical.Text);
+                        int altD = Convert.ToInt32(txtAltD.Text);
+
+                        if (cbVisionDerecha.Text == "Progresivo" && vertical - altD < 8)
+                            altura = false;
+                        else
+                        {
+                            altura = true;
+                            resultado = true;
+                        }
+                    }
+                }
+                else if (Cbx_Tap2_Ojo.Text == "Izquierdo")
+                {
+                    if (!string.IsNullOrWhiteSpace(txtVertical.Text) &&
+                        !string.IsNullOrWhiteSpace(txtAltI.Text))
+                    {
+                        int vertical = Convert.ToInt32(txtVertical.Text);
+                        int altI = Convert.ToInt32(txtAltI.Text);
+
+                        if (cbVisionIzquierda.Text == "Progresivo" && vertical - altI < 8)
+                            altura = false;
+                        else
+                        {
+                            altura = true;
+                            resultado = true;
+                        }
+                    }
+                }
+                else
+                {
+                    altura = true;
+                    resultado = true;
+                }
+
+                if (!altura)
+                {
+                    _FrmMensajes.co = 3;
+                    _FrmMensajes.avisomensaje("La Medida Vertical de la montura menos la Altura debe ser mayor o igual a 8\n¿Desea generar la venta con clave AUTORIZADA?");
+                    _FrmMensajes.ShowDialog();
+
+                    if (_FrmMensajes.DialogResult == DialogResult.OK)
+                    {
+                        _FrmClaveAutorizada.ShowDialog();
+
+                        if (_FrmClaveAutorizada.DialogResult == DialogResult.OK && _FrmClaveAutorizada.ClaveCorrecta == true)
+                        {
+                            _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "058", TB_USUARIO.COD_EMPLEADO, $"OS:  Altura D: {txtAltD.Text} Altura I: {txtAltI.Text} MVertical: {txtVertical.Text}, Autoriza: {TB_USUARIO.COD_EMPLEADO}");
+                        }
+
+                    }
+
+                }
+                return resultado;
+            }
+            catch (Exception ex)
+            {
+                //MensajeError.MuestroMensaje(
+                //    "Error en la función",
+                //    "frmFacturas.VerificoCantidadProducto",
+                //    "Por favor comunicarse con el Dpto de Sistemas y reportar el siguiente error: ",
+                //    ex.Message,
+                //    CapaNegocio.MensajesGenerales.TiposIconos.IconoError,
+                //    glbUsuarioActual);
+
+                //MensajeError.ShowDialog();
+                return false;
             }
         }
     }

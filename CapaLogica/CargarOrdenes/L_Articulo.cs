@@ -4313,7 +4313,7 @@ namespace CapaLogica.CargarOrdenes
                         int maxVta = Convert.ToInt32(DT_ValorMaximo.Rows[0]["Max_Vta"]);
                         if (tipo.Value > maxVta)
                         {
-                            stringBuilder.AppendLine($"La cantidad de artículos tipo {tipo.Key} ({tipo.Value}) sobrepasa el límite máximo por venta ({maxVta}). Modifique la cantidad o elimine el producto.");
+                            stringBuilder.AppendLine($"La cantidad del articulo sobrepasa su límite para la venta");
                         }
                     }
                 }

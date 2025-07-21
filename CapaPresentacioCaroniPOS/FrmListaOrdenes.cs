@@ -375,7 +375,7 @@ namespace CapaVisual_Login
             System.Drawing.Color colporp = System.Drawing.ColorTranslator.FromHtml("#e9e9e9");
             System.Drawing.Color colanul = System.Drawing.ColorTranslator.FromHtml("#ff353a");
             System.Drawing.Color IVAS_ISLR = System.Drawing.ColorTranslator.FromHtml("#1881b0");
-            System.Drawing.Color colrevers = System.Drawing.ColorTranslator.FromHtml("#f6973a");
+            System.Drawing.Color colrevers = System.Drawing.ColorTranslator.FromHtml("#ff1493");
 
 
             try
@@ -1139,7 +1139,7 @@ namespace CapaVisual_Login
                     _FrmFacturacion.CargarDatosOrden(DgvListadoOrdenes.CurrentRow.Cells["NumOrdserv"].Value.ToString(), DgvListadoOrdenes.CurrentRow.Cells["Nombre"].Value.ToString(), DgvListadoOrdenes.CurrentRow.Cells["Revision"].Value.ToString());
 
                     // Se pregunta si esta seguro de anular 
-                    string mensaje = "¿ Esta seguro de devolver esta orden ? ";
+                    string mensaje = "¿ Esta seguro de anular esta orden ? ";
                     _FrmMensajes.co = 3;
                     _FrmMensajes.avisomensaje(mensaje);
                     _FrmMensajes.ShowDialog();

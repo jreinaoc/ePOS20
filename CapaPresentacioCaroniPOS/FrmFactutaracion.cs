@@ -143,6 +143,7 @@ namespace CapaVisual_Login
             System.Drawing.Color colabon = System.Drawing.ColorTranslator.FromHtml("#f59e51");
             System.Drawing.Color colporp = System.Drawing.ColorTranslator.FromHtml("#e9e9e9");
             System.Drawing.Color colanul = System.Drawing.ColorTranslator.FromHtml("#ff353a");
+            System.Drawing.Color colrevers = System.Drawing.ColorTranslator.FromHtml("#ff1493");
 
 
             try
@@ -156,6 +157,11 @@ namespace CapaVisual_Login
                 if (TxtStatus.Text == "Anulada")
                 {
                     TxtStatus.BackColor = colanul;
+                }
+
+                if (TxtStatus.Text == "Reversada")
+                {
+                    TxtStatus.BackColor = colrevers;
                 }
 
                 if (TxtStatus.Text == "Por pagar")

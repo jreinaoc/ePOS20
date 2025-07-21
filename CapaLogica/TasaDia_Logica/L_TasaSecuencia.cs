@@ -215,7 +215,7 @@ namespace CapaLogica.TasaDia_Logica
                                 LblTasaDesenc.Text = "";
                                 LblFechaDesenc.Text = "";
                                 LblHoraDesenc.Text = "";
-                                mostrarError("La fecha de la secuencia debe ser mayor al día activo. Debe solicitar uno nuevo");
+                                mostrarError("La fecha de la secuencia debe ser mayor al día activo, solicite uno nuevo");
                             }
                         }
                         else
