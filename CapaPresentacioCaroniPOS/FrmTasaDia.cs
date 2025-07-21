@@ -53,7 +53,7 @@ namespace CapaVisual_Login
                     {
                         if (drGteReg["AutGteRegD"].ToString() == "SI")
                         {
-                            mostrarError("Superó el límite de registro de tasas de Dólar diario");
+                            mostrarError("Superó el límite de registro de tasas de dólar diario");
                             AGteRegD = "SI";
 
                             // Pido clave de gerente regional
@@ -81,7 +81,7 @@ namespace CapaVisual_Login
                     {
                         if (drGteReg["AutGteRegE"].ToString() == "SI")
                         {
-                            mostrarError("Superó el límite de registro de tasas de Euro diario");
+                            mostrarError("Superó el límite de registro de tasas de euro diario");
                             AGteRegE = "SI";
 
                             _FrmClaveAutorizada.ShowDialog();
@@ -120,7 +120,7 @@ namespace CapaVisual_Login
                     // Secuencia de Activación Diaria
                     if (drGteReg["AutGteRegD"].ToString() == "SI")
                     {
-                        mostrarError("Superó el límite de registro de Secuencia de Activación Diaria");
+                        mostrarError("Superó el límite de registro de secuencia de activación diaria");
                         AGteRegD = "SI";
                         // Pido clave de gerente regional
 

@@ -444,9 +444,8 @@ namespace CapaVisual_Login
             this.Txt_Pnl3_Secuencia.Font = new System.Drawing.Font("Century Gothic", 12F);
             this.Txt_Pnl3_Secuencia.ForeColor = System.Drawing.Color.DarkGray;
             this.Txt_Pnl3_Secuencia.Location = new System.Drawing.Point(62, 84);
-            this.Txt_Pnl3_Secuencia.Multiline = true;
             this.Txt_Pnl3_Secuencia.Name = "Txt_Pnl3_Secuencia";
-            this.Txt_Pnl3_Secuencia.Size = new System.Drawing.Size(233, 26);
+            this.Txt_Pnl3_Secuencia.Size = new System.Drawing.Size(233, 27);
             this.Txt_Pnl3_Secuencia.TabIndex = 14;
             this.Txt_Pnl3_Secuencia.Text = "Insertar secuencia";
             this.Txt_Pnl3_Secuencia.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;

@@ -16,6 +16,7 @@ using System.Drawing;
 using System.Diagnostics;
 using CapaDatos.Anulacion;
 using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace CapaLogica.TasaDia_Logica
 {
@@ -37,10 +38,10 @@ namespace CapaLogica.TasaDia_Logica
                 {
                     // Validar espacios en blanco
                     bool ValidoEspacio = false;
-
-                    for (int i = 0; i < TxtCadenaEncriptada.Text.Length; i++)
+                    string Encriptada = TxtCadenaEncriptada.Text.Trim();
+                    for (int i = 0; i < Encriptada.Length; i++)
                     {
-                        if (TxtCadenaEncriptada.Text.Substring(i, 1) == " ")
+                        if (Encriptada.Substring(i, 1) == " ")
                         {
                             ValidoEspacio = true;
                         }
@@ -63,18 +64,28 @@ namespace CapaLogica.TasaDia_Logica
                             if (DateTimeTasa >= (_D_Inicio.DiaActivo()))
                             {
                                 string FechaSecuencia = _D_DetalleOrden.TB_PARAMETRO("FechaUSecuencia");
-                                // Opción 1: Normalizar los designadores AM/PM primero
-                                FechaSecuencia = FechaSecuencia.Replace("a. m.", "a.m.")
-                                                               .Replace("p. m.", "p.m.");
+
+                                // 1. Reemplazar cualquier tipo de espacio entre "p." y "m." (incluyendo NO-BREAK SPACE)
+                                FechaSecuencia = Regex.Replace(FechaSecuencia, @"p\.\s*m\.", "p.m.", RegexOptions.IgnoreCase);
+
+                                // 2. Reemplazar cualquier tipo de espacio entre "a." y "m." (por si hay AM)
+                                FechaSecuencia = Regex.Replace(FechaSecuencia, @"a\.\s*m\.", "a.m.", RegexOptions.IgnoreCase);
+
+                                // 3. Eliminar espacios adicionales antes del AM/PM
+                                FechaSecuencia = FechaSecuencia.Trim();
+
+                               // // Opción 1: Normalizar los designadores AM/PM primero
+                               // FechaSecuencia = FechaSecuencia.Replace("a. m.", "a.m.")
+                               //.Replace("p. m.", "p.m.")
+                               //.Replace(" a. m.", "a.m.")
+                               //.Replace(" p. m.", "p.m.")
+                               //.Replace("\u00A0", " "); // Reemplazar espacios no rompibles
 
                                 CultureInfo cultura = new CultureInfo("es-ES");
                                 cultura.DateTimeFormat.AMDesignator = "a.m.";
                                 cultura.DateTimeFormat.PMDesignator = "p.m.";
 
-                                if (DateTime.TryParseExact(FechaSecuencia, "dd/MM/yyyy hh:mm:ss tt",
-                          cultura,
-                                DateTimeStyles.None,
-                         out DateTime fechaConvertida))
+                                if (DateTime.TryParseExact(FechaSecuencia, "dd/MM/yyyy hh:mm:ss tt", cultura, DateTimeStyles.None, out DateTime fechaConvertida))
                                 {
                                     // Ahora podemos hacer la comparación
                                     if (Convert.ToDateTime(DateTimeTasa) < fechaConvertida)
@@ -96,7 +107,7 @@ namespace CapaLogica.TasaDia_Logica
                                             if (!string.IsNullOrEmpty(TxtCadenaEncriptada.Text))
                                             {
                                                 // Desencriptar
-                                                DataSet dsEjecutaDesencriptar = _D_TasaSecuencia.EncripDescrip(TxtCadenaEncriptada.Text, "I");
+                                                DataSet dsEjecutaDesencriptar = _D_TasaSecuencia.EncripDescrip(TxtCadenaEncriptada.Text.Trim(), "I");
                                                 string Resultado = "";
                                                 int Cadena1 = 0;
 
@@ -112,7 +123,7 @@ namespace CapaLogica.TasaDia_Logica
                                                     LblFechaDesenc.Text = Resultado.Substring(Cadena1 - 11, 6);
                                                     LblHoraDesenc.Text = Resultado.Substring(Cadena1 - 5, 4);
                                                     DigitoVerificador = Resultado.Substring(Cadena1 - 1, 1);
-                                                    dsDigitoVerificador = _D_TasaSecuencia.ComparaDigitoVerificador(TxtCadenaEncriptada.Text, DigitoVerificador);
+                                                    dsDigitoVerificador = _D_TasaSecuencia.ComparaDigitoVerificador(TxtCadenaEncriptada.Text.Trim(), DigitoVerificador);
                                                     ResDigitoVerificador = dsDigitoVerificador.Tables[0].Rows[0][0].ToString();
                                                     if (ResDigitoVerificador == "SECUENCIA NO VALIDA")
                                                     {
@@ -130,7 +141,7 @@ namespace CapaLogica.TasaDia_Logica
                                                     for (int x = 1; x < 30; x++)
                                                         ProgressBar1.Value = x;
 
-                                                    DataSet DSUpdPrecio = _D_TasaSecuencia.ActualizarArtDolar(_D_DetalleOrden.TB_PARAMETRO("SucursalId"), TB_USUARIO.COD_USR, TxtCadenaEncriptada.Text, LblTasaDesenc.Text, _D_Inicio.DiaActivo(), DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt"), DateTimeTasa.ToString("dd/MM/yyyy hh:mm:ss tt"));
+                                                    DataSet DSUpdPrecio = _D_TasaSecuencia.ActualizarArtDolar(_D_DetalleOrden.TB_PARAMETRO("SucursalId"), TB_USUARIO.COD_USR, TxtCadenaEncriptada.Text.Trim(), LblTasaDesenc.Text, _D_Inicio.DiaActivo(), DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt"), DateTimeTasa.ToString("dd/MM/yyyy hh:mm:ss tt"));
 
                                                     for (int x = 30; x < 70; x++)
                                                         ProgressBar1.Value = x;
@@ -191,7 +202,7 @@ namespace CapaLogica.TasaDia_Logica
                                                         LblHoraDesenc.Text = "";
                                                         mostrarError("Hubo problemas realizando el proceso");
                                                         ProgressBar1.Value = 0;
-                                                        _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "083", TB_USUARIO.COD_EMPLEADO, "La Secuencia de Activación Diaria no se actualizó correctamente");
+                                                        _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "083", TB_USUARIO.COD_EMPLEADO, "La Secuencia de activación diaria no se actualizó correctamente");
                                                     }
                                                 }
                                                 else
@@ -560,7 +571,7 @@ namespace CapaLogica.TasaDia_Logica
                 {
                     ValDol = txtDolar.Text.Replace(".", "").Replace(",", ".");
 
-                    var resultado = mostrarPregunta("¿Está seguro que desea cambiar la tasa del Dólar?", "CONFIRME");
+                    var resultado = mostrarPregunta("¿Está seguro que desea cambiar la tasa del dólar?", "CONFIRME");
 
                     if (resultado != DialogResult.OK)
                     {
@@ -575,14 +586,14 @@ namespace CapaLogica.TasaDia_Logica
                         {
                             if (dsAgregaFactD.Tables[0].Rows[0]["Resultado"].ToString() == "APLICA")
                             {
-                                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "081", TB_USUARIO.COD_EMPLEADO, "La Tasa del Dólar se actualizó correctamente. Tasa Registrada: "+ ValDol);
-                                mostrarError("La Tasa del Dolar se actualizó correctamente");                            
+                                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "081", TB_USUARIO.COD_EMPLEADO, "La tasa del dólar se actualizó correctamente. Tasa registrada: "+ ValDol);
+                                mostrarError("La tasa del dólar se actualizó correctamente");                            
                             }
                             else if (dsAgregaFactD.Tables[0].Rows[0]["Resultado"].ToString() == "NO APLICA")
                             {
                                 int ValorD = Convert.ToInt32(dsAgregaFactD.Tables[0].Rows[0]["ValorMinMax"]);
-                                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "081", TB_USUARIO.COD_EMPLEADO, "La Tasa no debe ser menor o mayor a " + ValorD + "% de la tasa vigente. Tasa Registrada: " + ValDol);
-                                mostrarError("La Tasa no debe ser menor o mayor a " + ValorD + "% de la tasa vigente");
+                                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "081", TB_USUARIO.COD_EMPLEADO, "La tasa no debe ser menor o mayor a " + ValorD + "% de la tasa vigente. Tasa registrada: " + ValDol);
+                                mostrarError("La tasa no debe ser menor o mayor a " + ValorD + "% de la tasa vigente");
 
                             }
                         }
@@ -601,7 +612,7 @@ namespace CapaLogica.TasaDia_Logica
                 {
                     ValEur = txtEuro.Text.Replace(".", "").Replace(",", ".");
                     
-                    var resultado = mostrarPregunta("¿Está seguro que desea cambiar la tasa del Euro?", "CONFIRME");
+                    var resultado = mostrarPregunta("¿Está seguro que desea cambiar la tasa del euro?", "CONFIRME");
                     if (resultado != DialogResult.OK)
                     {
                         return;
@@ -614,15 +625,15 @@ namespace CapaLogica.TasaDia_Logica
                         {
                             if (dsAgregaFactE.Tables[0].Rows[0]["Resultado"].ToString() == "APLICA")
                             {  
-                                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "081", TB_USUARIO.COD_EMPLEADO, "La Tasa del Euro se actualizó correctamente. Tasa Registrada: " + ValEur);
-                                mostrarError("La Tasa del Euro se actualizó correctamente");
+                                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "081", TB_USUARIO.COD_EMPLEADO, "La tasa del euro se actualizó correctamente. Tasa Registrada: " + ValEur);
+                                mostrarError("La tasa del euro se actualizó correctamente");
 
                             }
                             else if (dsAgregaFactE.Tables[0].Rows[0]["Resultado"].ToString() == "NO APLICA")
                             {
                                 int ValorE = Convert.ToInt32(dsAgregaFactE.Tables[0].Rows[0]["ValorMinMax"]);  
-                                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "081", TB_USUARIO.COD_EMPLEADO, "La Tasa no debe ser menor o mayor a " + ValorE + "% de la tasa vigente. Tasa Registrada: " + ValEur);
-                                mostrarError("La Tasa no debe ser menor o mayor a " + ValorE + "% de la tasa vigente");
+                                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "081", TB_USUARIO.COD_EMPLEADO, "La tasa no debe ser menor o mayor a " + ValorE + "% de la tasa vigente. Tasa registrada: " + ValEur);
+                                mostrarError("La tasa no debe ser menor o mayor a " + ValorE + "% de la tasa vigente");
 
                             }
                         }
@@ -648,7 +659,7 @@ namespace CapaLogica.TasaDia_Logica
         public bool Fecha_formato(System.Windows.Forms.TextBox TxtCadenaEncriptada, System.Windows.Forms.Label LblTasaDesenc, System.Windows.Forms.Label LblFechaDesenc, System.Windows.Forms.Label LblHoraDesenc)
         {
                 // Desencriptar
-                DataSet dsEjecutaDesencriptar = _D_TasaSecuencia.EncripDescrip(TxtCadenaEncriptada.Text,"I");
+                DataSet dsEjecutaDesencriptar = _D_TasaSecuencia.EncripDescrip(TxtCadenaEncriptada.Text.Trim(),"I");
                 string Resultado = "";
                 int Cadena1 = 0;
 
@@ -693,14 +704,14 @@ namespace CapaLogica.TasaDia_Logica
                 ValidoDescrip = false;
                 ValidoLimiteCambio = false;
 
-                if (string.IsNullOrWhiteSpace(TxtCadenaEncriptada.Text))
+                if (string.IsNullOrWhiteSpace(TxtCadenaEncriptada.Text.Trim()))
                 {
                     ValidoDescrip = true;
                     return false;
                 }
 
                 // 2. Desencriptar y extraer componentes
-                var resultadoDesencriptacion = DesencriptarYExtraerComponentes(TxtCadenaEncriptada.Text);
+                var resultadoDesencriptacion = DesencriptarYExtraerComponentes(TxtCadenaEncriptada.Text.Trim());
                 if (resultadoDesencriptacion == null)
                 {
                     ValidoDescrip = true;
