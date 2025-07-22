@@ -537,7 +537,7 @@ namespace CapaVisual_Login
 
         public void CargarDatos()
         {
-            DateTime FechaInicioCierre = DateTime.Now;
+            FechaInicioCierre = DateTime.Now;
             lblPaso.Text = "Confirmación";
             btnFinalizar.Text = "Finalizar";
 
