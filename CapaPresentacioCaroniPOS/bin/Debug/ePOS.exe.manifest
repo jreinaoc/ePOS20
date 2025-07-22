@@ -62,7 +62,11 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+<<<<<<< HEAD
         <dsig:DigestValue>DbTdjdhQbT6NNpu8zKPWxJFrRXnnmPtozhU2/i6Z3+o=</dsig:DigestValue>
+=======
+        <dsig:DigestValue>uGe7Ee/CGQnG55oyUnRLNIBzDbiIMRvEWvlOnki/lxg=</dsig:DigestValue>
+>>>>>>> 0f3787aecc475ddf4b490f0bdaa4e607aeef19a8
       </hash>
     </dependentAssembly>
   </dependency>
@@ -86,7 +90,11 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+<<<<<<< HEAD
         <dsig:DigestValue>SEPulLlC06ix/777TlSP0jqf0Pr2h5IByX+hLLwXS5o=</dsig:DigestValue>
+=======
+        <dsig:DigestValue>pslYMrAdDLbUQWywThkghN6JCXjSKzsLTgauxGyn5oI=</dsig:DigestValue>
+>>>>>>> 0f3787aecc475ddf4b490f0bdaa4e607aeef19a8
       </hash>
     </dependentAssembly>
   </dependency>
@@ -199,14 +207,22 @@
     </dependentAssembly>
   </dependency>
   <dependency>
+<<<<<<< HEAD
     <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ePOS.exe" size="3002880">
+=======
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ePOS.exe" size="3004416">
+>>>>>>> 0f3787aecc475ddf4b490f0bdaa4e607aeef19a8
       <assemblyIdentity name="ePOS" version="1.0.2.4" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+<<<<<<< HEAD
         <dsig:DigestValue>MT4CA39lzh5IdUuI0ckbeNhX9v5Q98aEiBx0PZ27cOI=</dsig:DigestValue>
+=======
+        <dsig:DigestValue>gwf3loL6XPRmDw6jbKda9+TrqrZbFhaJEJoPZ/W+cAA=</dsig:DigestValue>
+>>>>>>> 0f3787aecc475ddf4b490f0bdaa4e607aeef19a8
       </hash>
     </dependentAssembly>
   </dependency>

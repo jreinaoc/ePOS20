@@ -134,13 +134,14 @@ namespace CapaVisual_Login
             frm.ShowDialog();
 
         }
-        public void ReporteVuelto (bool imprimir, string Compania, string Descripcion, string NombreSucursal,string Sucursal, DateTime DiaActivo)
+        public void ReporteVuelto (bool imprimir, string RifCompania, string Descripcion, string NombreSucursal,string Sucursal, DateTime DiaActivo)
             {
             var parametros = new Dictionary<string, string>
                     {
                       { "uNombreCompania",Descripcion },
                       { "uNombreSucursal",NombreSucursal},
-                      { "uFechaInicio", DiaActivo.ToString("dd/MM/yyyy")}
+                      { "uFechaInicio", DiaActivo.ToString("dd/MM/yyyy")},
+                      { "RifCompania",RifCompania},
                     };
 
             // Supón que tienes estos datos:

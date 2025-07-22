@@ -3406,7 +3406,7 @@ Nombre y Apellido: ____________________________ Firma: ________________________ 
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>Compañia:  </Value>
+                      <Value>Compañía:  </Value>
                       <Style>
                         <FontFamily>Calibri</FontFamily>
                       </Style>
