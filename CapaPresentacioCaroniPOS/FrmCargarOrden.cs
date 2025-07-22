@@ -4076,12 +4076,13 @@ namespace CapaVisual_Login
             {
 
                 guardacliente();
-                
-                //limpearEx
-                //amen();
-                Txt_Tap2_Examen.Text = TopeExamen.ToString(); // Opcional: Restablecer el valor al máximo
-                Btn_Tap2_Derecha_Click(this.Btn_Tap2_Derecha, EventArgs.Empty);
 
+                Btn_Tap2_Derecha_Click(this.Btn_Tap2_Derecha, EventArgs.Empty);
+                btnExamen.Focus();
+                tabControl.SelectedIndex = 1;
+                Txt_Tap2_Examen.Text = TopeExamen.ToString(); // Opcional: Restablecer el valor al máximo
+                                                              //Btn_Tap2_Derecha_Click(this.Btn_Tap2_Derecha, EventArgs.Empty);
+                Cbx_Tap2_Tipo_Examen_SelectedIndexChanged(Cbx_Tap2_Tipo_Examen, EventArgs.Empty);
                 VisualizarPanel("MostrarCabeceraExamen");
             }
 
@@ -6203,7 +6204,7 @@ namespace CapaVisual_Login
             adicionColumn.DataPropertyName = "Adicion";
             adicionColumn.HeaderText = "ADD";
             adicionColumn.DecimalPlaces = 2;
-            adicionColumn.Minimum = 0.00M;
+            adicionColumn.Minimum = 0.75M;
             adicionColumn.Maximum = +3.50M;
             adicionColumn.Width = 60;
             adicionColumn.Increment = 1M;
@@ -6931,8 +6932,8 @@ namespace CapaVisual_Login
             if (Dgv_Pnl2_conv.Columns.Contains("aEsfera"))
             {
                 Dgv_Pnl2_conv.Columns["aEsfera"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-                Dgv_Pnl2_conv.Columns["aEsfera"].Width = 10; // Establecer el ancho fijo (aproximadamente 0.5 cm)
-                Dgv_Pnl2_conv.Columns["aEsfera"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                Dgv_Pnl2_conv.Columns["aEsfera"].Width = 20; // Establecer el ancho fijo (aproximadamente 0.5 cm)
+                //Dgv_Pnl2_conv.Columns["aEsfera"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
             }
 
             if (Dgv_Pnl2_conv.Columns.Contains("Agudeza"))
@@ -7017,11 +7018,11 @@ namespace CapaVisual_Login
             }
 
             // Configurar la columna "aEsfera" para que no se ajuste automáticamente
-            if (Dgv_Pnl2_conv.Columns.Contains("aEsfera"))
-            {
-                Dgv_Pnl2_conv.Columns["aEsfera"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-                Dgv_Pnl2_conv.Columns["aEsfera"].Width = 20; // Establecer el ancho fijo (aproximadamente 0.5 cm)
-            }
+            //if (Dgv_Pnl2_conv.Columns.Contains("aEsfera"))
+            //{
+            //    Dgv_Pnl2_conv.Columns["aEsfera"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            //    Dgv_Pnl2_conv.Columns["aEsfera"].Width = 20; // Establecer el ancho fijo (aproximadamente 0.5 cm)
+            //}
             //--------------------------------------------------------------------------------------------
             // Suponiendo que Dgv_Pnl2_conv es tu control DataGridView
 
@@ -8711,9 +8712,7 @@ namespace CapaVisual_Login
                 // Limpiar los campos del formulario si es necesario
                 guardaclienteP();
 
-                Btn_Tap2_Derecha_Click(this.Btn_Tap2_Derecha, EventArgs.Empty);
-                btnExamen.Focus();
-                tabControl.SelectedIndex = 1;
+                
                 
                 // LimpiarCampos();
                 // Recargar la lista de clientes si es necesario
@@ -9250,8 +9249,10 @@ namespace CapaVisual_Login
             {
                 grp_pln2_Conv2.Visible = true;
                 grp_pln2_Conv2.BringToFront();
+              
+
             }
-           
+
             btn_pln2_oft.BringToFront();
             btn_pln2_reti.BringToFront();
             btn_pln2_quer.BringToFront();

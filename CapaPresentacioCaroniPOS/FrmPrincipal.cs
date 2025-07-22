@@ -16,6 +16,7 @@ using CapaEntidades;
 using CapaDatos.Anulacion;
 using CapaLogica.CierreCaja_Logica;
 using CapaDatos.ListaOrdenes_Datos;
+using CapaDatos.TasaDia_Datos;
 
 namespace CapaVisual_Login
 {
@@ -59,6 +60,7 @@ namespace CapaVisual_Login
         //L_CierreCaja _L_CierreCaja = new L_CierreCaja();
         private L_CierreCaja _L_CierreCaja = new L_CierreCaja();
         private D_ListaOrdenes _D_ListaOrdenes = new D_ListaOrdenes();
+        private D_TasaSecuencia _D_TasaSecuencia = new D_TasaSecuencia();
         public void addformulario(Form F)
         {
             F.TopLevel = false;
@@ -740,15 +742,41 @@ namespace CapaVisual_Login
 
             DateTime currentDate = _D_Inicio.DiaActivo();
             string formattedDate = currentDate.ToString("yyyyMMdd");
+            string StatusTasa = "";
+            string StatusSec = "";
 
-            if (!_L_CierreCaja.ObtieneAsistenciaPendiente(formattedDate, TB_USUARIO.COD_USR))
+            DataSet dsConsTasa = _D_TasaSecuencia.TasaDia(_D_DetalleOrden.TB_PARAMETRO("SucursalId"), _D_Inicio.DiaActivo().ToString("yyyy/MM/dd"));
+
+            for (int x = 0; x < dsConsTasa.Tables[0].Rows.Count; x++)
+            {
+                StatusTasa = (string)dsConsTasa.Tables[0].Rows[x]["Fecha_Activa_Ppal"];
+                StatusSec = (string)dsConsTasa.Tables[0].Rows[x]["Fecha_Activa_PpalSec"];
+            }
+            if  (_D_DetalleOrden.TB_PARAMETRO("ActivarSecAdia") == "0")
+            {
+                StatusSec = "SI";
+            }
+
+            if (StatusTasa != "SI" || StatusSec != "SI")
             {
                 _FrmMensajes.co = 2;
-                _FrmMensajes.avisomensaje("Debe marcar asistencia para el día activo");
+                _FrmMensajes.avisomensaje("Debe actualizar la tasa de las monedas y activación de secuencia diaria");
                 _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
                 _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
                 _FrmMensajes.ShowDialog();
                 return;
+            }
+            if (TB_USUARIO.COD_EMPLEADO != "99999")
+            {
+                if (!_L_CierreCaja.ObtieneAsistenciaPendiente(formattedDate, TB_USUARIO.COD_USR))
+                {
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje("Debe marcar asistencia para el día activo");
+                    _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                    _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                    _FrmMensajes.ShowDialog();
+                    return;
+                }
             }
 
             PnlListadoOrdenes.Controls.Clear();
@@ -891,6 +919,7 @@ namespace CapaVisual_Login
             }
 
             PnlListadoOrdenes.Controls.Clear();
+            _FrmCierreDeCaja.CargarInicio();
             addformulario(_FrmCierreDeCaja);
             Focus();
 
