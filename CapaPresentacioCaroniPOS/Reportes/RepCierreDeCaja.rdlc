@@ -3442,7 +3442,7 @@ Nombre y Apellido: ____________________________ Firma: ________________________ 
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>Riff: </Value>
+                      <Value>RIFF: </Value>
                       <Style>
                         <FontFamily>Calibri</FontFamily>
                       </Style>
@@ -3486,7 +3486,7 @@ Nombre y Apellido: ____________________________ Firma: ________________________ 
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value>=Parameters!Sucursal.Value</Value>
+                      <Value>=Parameters!NombreSucursal.Value</Value>
                       <Style>
                         <FontFamily>Calibri</FontFamily>
                       </Style>
@@ -3522,17 +3522,18 @@ Nombre y Apellido: ____________________________ Firma: ________________________ 
                       <Style>
                         <FontFamily>Calibri</FontFamily>
                         <FontSize>12pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
                       </Style>
                     </TextRun>
                   </TextRuns>
                   <Style>
-                    <TextAlign>Center</TextAlign>
+                    <TextAlign>Left</TextAlign>
                   </Style>
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox1</rd:DefaultName>
-              <Top>1.97639cm</Top>
-              <Left>5.46956cm</Left>
+              <Top>1.2cm</Top>
+              <Left>5.46949cm</Left>
               <Height>0.6cm</Height>
               <Width>3.08208cm</Width>
               <ZIndex>3</ZIndex>
@@ -3569,8 +3570,8 @@ Nombre y Apellido: ____________________________ Firma: ________________________ 
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox1</rd:DefaultName>
-              <Top>1.97639cm</Top>
-              <Left>10.20733cm</Left>
+              <Top>1.8cm</Top>
+              <Left>5.46949cm</Left>
               <Height>0.6cm</Height>
               <Width>7.40891cm</Width>
               <ZIndex>4</ZIndex>
@@ -3746,6 +3747,12 @@ Nombre y Apellido: ____________________________ Firma: ________________________ 
       <AllowBlank>true</AllowBlank>
       <Prompt>ReportParameter1</Prompt>
     </ReportParameter>
+    <ReportParameter Name="NombreSucursal">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>ReportParameter1</Prompt>
+    </ReportParameter>
   </ReportParameters>
   <ReportParametersLayout>
     <GridLayoutDefinition>
@@ -3771,6 +3778,11 @@ Nombre y Apellido: ____________________________ Firma: ________________________ 
           <ColumnIndex>3</ColumnIndex>
           <RowIndex>0</RowIndex>
           <ParameterName>RifCompania</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>1</RowIndex>
+          <ParameterName>NombreSucursal</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>

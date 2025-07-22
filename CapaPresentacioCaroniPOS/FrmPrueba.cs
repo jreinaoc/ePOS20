@@ -55,7 +55,7 @@ namespace CapaVisual_Login
             DataSet Datos = _D_Login.SucursalCompania(Sucursal);
             string Descripcion = "";
             string RifCompania = "";
-            DateTime DiaActivo = _D_Inicio.DiaActivo().AddDays(-1);
+            DateTime DiaActivo = _D_Inicio.DiaActivo().AddDays(-9);
             string NombreSucursal = "";
             bool imprimir = false;
 
@@ -89,7 +89,8 @@ namespace CapaVisual_Login
                       { "FechaDesde", DiaActivo.ToString("dd/MM/yyyy")},
                       { "Compania", Descripcion  },
                       { "RifCompania", RifCompania },
-                      { "Sucursal",  Sucursal }
+                      { "Sucursal",  Sucursal },
+                      { "NombreSucursal", NombreSucursal },
                 };
 
             // Supón que tienes estos datos:
@@ -110,7 +111,8 @@ namespace CapaVisual_Login
                       { "Compania", Descripcion },
                       { "Fecha",DiaActivo.ToString("dd/MM/yyyy")},
                       { "Sucursal", Sucursal },
-                      { "RifCompania",RifCompania }
+                      { "RifCompania",RifCompania },
+                      { "NombreSucursal", NombreSucursal },
                     };
 
 
