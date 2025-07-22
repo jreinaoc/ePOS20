@@ -41,6 +41,7 @@ namespace CapaVisual_Login
 
         DataTable dtConsignacion = new DataTable();
         DataTable dtAsistenciaPendiente = new DataTable();
+        DateTime FechaInicioCierre;
 
         //private FrmPrincipal _frmPrincipal;
 
@@ -157,13 +158,13 @@ namespace CapaVisual_Login
 
 
             tcCierreCaja.SelectedIndex = 1;
-            lblPaso.Text = "Paso 2";
+            lblPaso.Text = "Asistencia";
         }
 
         private void btnAtrasPaso1_Click(object sender, EventArgs e)
         {
             tcCierreCaja.SelectedIndex = 0;
-            lblPaso.Text = "Paso 1";
+            lblPaso.Text = "Confirmación";
 
         }
 
@@ -400,7 +401,7 @@ namespace CapaVisual_Login
 
 
             tcCierreCaja.SelectedIndex = 2;
-            lblPaso.Text = "Paso 3";
+            lblPaso.Text = "Ordenes";
         }
 
         private void FrmCierredeCaja_Load(object sender, EventArgs e)
@@ -529,10 +530,16 @@ namespace CapaVisual_Login
             }
         }
 
+        public void CargarInicio()
+        {
+            FechaInicioCierre = DateTime.Now;
+        }
 
         public void CargarDatos()
         {
-            lblPaso.Text = "Paso 1";
+            DateTime FechaInicioCierre = DateTime.Now;
+            lblPaso.Text = "Confirmación";
+            btnFinalizar.Text = "Finalizar";
 
             dtLogCierre.Clear();
             dgvLogCierre.Refresh();
@@ -708,7 +715,7 @@ namespace CapaVisual_Login
 
                     // Asignar ancho personalizado a cada columna
                     dgvLogCierre.Columns["Descripcion"].Width = 248;
-                    dgvLogCierre.Columns["Resultado"].Width = 130;
+                    dgvLogCierre.Columns["Resultado"].Width = 173;
                     dgvLogCierre.ColumnHeadersDefaultCellStyle.Font = new Font("Century Gothic", 10);
                     dgvLogCierre.DefaultCellStyle.Font = new Font("Century Gothic", 10);
 
@@ -964,13 +971,13 @@ namespace CapaVisual_Login
         private void btn_Cancelar_pg2_Click(object sender, EventArgs e)
         {
             tcCierreCaja.SelectedIndex = 0;
-            lblPaso.Text = "Paso 1";
+            lblPaso.Text = "Confirmación";
         }
 
         private void btn_Cancelar_pg3_Click(object sender, EventArgs e)
         {
             tcCierreCaja.SelectedIndex = 1;
-            lblPaso.Text = "Paso 2";
+            lblPaso.Text = "Asistencia";
         }
         // 1) En tu formulario declara esto a nivel de clase:
         private HashSet<(int row, int col)> _celdasAutorizadas = new HashSet<(int, int)>();
@@ -1212,7 +1219,7 @@ namespace CapaVisual_Login
             tcCierreCaja.SelectedIndex = 3;
             dgvCierredecaja.ClearSelection();
 
-            lblPaso.Text = "Paso 4";
+            lblPaso.Text = "Cierre";
         }
 
         
@@ -1309,316 +1316,326 @@ namespace CapaVisual_Login
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Conexion cn = new Conexion();
-            SqlConnection connection = cn.LeerCadena();
-            SqlCommand command = connection.CreateCommand();
-            SqlTransaction transaction;
-            transaction = connection.BeginTransaction();
-            command.Connection = connection;
-            command.Transaction = transaction;
-            command.Parameters.Clear();
-            command.CommandTimeout = 300000;
-
-            try
+            if (btnFinalizar.Text == "Finalizar")
             {
-                //Invenvio
-                string rutaInvenvio;
-                string nombreInvenvio;
-                rutaInvenvio = _D_DetalleOrden.TB_PARAMETRO("RutaInvenvio");
-                nombreInvenvio = _D_DetalleOrden.TB_PARAMETRO("NombreArchInv");
+                Conexion cn = new Conexion();
+                SqlConnection connection = cn.LeerCadena();
+                SqlCommand command = connection.CreateCommand();
+                SqlTransaction transaction;
+                transaction = connection.BeginTransaction();
+                command.Connection = connection;
+                command.Transaction = transaction;
+                command.Parameters.Clear();
+                command.CommandTimeout = 300000;
 
-                dtLogCierre.Clear();
-                CrearTabla("LogCierre");
-
-                dtLogCierre.Rows.Add("Paso 1", "✔ Completado");
-                dtLogCierre.Rows.Add("Paso 2", "✔ Completado");
-                dtLogCierre.Rows.Add("Paso 3", "✔ Completado");
-                dgvLogCierre.DataSource = dtLogCierre;
-                dgvLogCierre.Refresh();
-
-                FormatoTabla("LogCierre");
-
-                //Existencia en Caja
-                if (!_L_CierreCaja.ValidaExistenciaCaja(dgvCierredecaja))
+                try
                 {
-                    _FrmMensajes.co = 3;
-                    _FrmMensajes.avisomensaje("¿Está seguro de querer cerrar la caja en cero?");
-                    _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
-                    _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
-                    _FrmMensajes.ShowDialog();
+                    //Invenvio
+                    string rutaInvenvio;
+                    string nombreInvenvio;
+                    rutaInvenvio = _D_DetalleOrden.TB_PARAMETRO("RutaInvenvio");
+                    nombreInvenvio = _D_DetalleOrden.TB_PARAMETRO("NombreArchInv");
 
-                    if (_FrmMensajes.DialogResult == DialogResult.OK)
+                    dtLogCierre.Clear();
+                    CrearTabla("LogCierre");
+
+                    dtLogCierre.Rows.Add("Inicio", FechaInicioCierre); 
+                    dtLogCierre.Rows.Add("Confirmación", "✔ Completado");
+                    dtLogCierre.Rows.Add("Asistencia", "✔ Completado");
+                    dtLogCierre.Rows.Add("Ordenes", "✔ Completado");
+                    dgvLogCierre.DataSource = dtLogCierre;
+                    dgvLogCierre.Refresh();
+
+                    FormatoTabla("LogCierre");
+
+                    //Existencia en Caja
+                    if (!_L_CierreCaja.ValidaExistenciaCaja(dgvCierredecaja))
                     {
-                        _FrmClaveGerente.ShowDialog();
-                        if (_FrmClaveGerente.ClaveCorrecta == true)
+                        _FrmMensajes.co = 3;
+                        _FrmMensajes.avisomensaje("¿Está seguro de querer cerrar la caja en cero?");
+                        _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                        _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                        _FrmMensajes.ShowDialog();
+
+                        if (_FrmMensajes.DialogResult == DialogResult.OK)
+                        {
+                            _FrmClaveGerente.ShowDialog();
+                            if (_FrmClaveGerente.ClaveCorrecta == true)
+                            {
+
+                                if (_FrmClaveGerente.DialogResult == DialogResult.OK)
+                                {
+                                    //Dvg_MarcajeAsistenciaPendiente.BeginEdit(true); // inicia edición con un clic
+                                    GerenteAutoriza = _FrmClaveGerente.RetornoNombreUsuario();
+                                }
+                                else
+                                {
+                                    return;
+                                }
+                            }
+
+                        }
+                        else
                         {
 
-                            if (_FrmClaveGerente.DialogResult == DialogResult.OK)
-                            {
-                                //Dvg_MarcajeAsistenciaPendiente.BeginEdit(true); // inicia edición con un clic
-                                GerenteAutoriza = _FrmClaveGerente.RetornoNombreUsuario();
-                            }
-                            else
-                            {
-                                return;
-                            }
+                            return;
                         }
-                    
+                    }
+
+                    //SP Cierre de Caja
+                    if (_L_CierreCaja.CierreDeCaja(dgvCierredecaja, diaActivo, sucursal, txtBox_observaciones_pg4.Text, TB_USUARIO.COD_USR, command))
+                    {
+                        dtLogCierre.Rows.Add("Cierre de Caja", "✔ Completado");
+                        dgvLogCierre.DataSource = dtLogCierre;
+                        dgvLogCierre.Refresh();
                     }
                     else
                     {
-
+                        dtLogCierre.Rows.Add("Cierre de Caja", "❌ Fallido");
+                        dgvLogCierre.DataSource = dtLogCierre;
+                        dgvLogCierre.Refresh();
+                        command.Transaction.Rollback();
                         return;
                     }
-                }
 
-                //SP Cierre de Caja
-                if (_L_CierreCaja.CierreDeCaja(dgvCierredecaja,diaActivo,sucursal,txtBox_observaciones_pg4.Text,TB_USUARIO.COD_USR, command))
-                {
-                    dtLogCierre.Rows.Add("SP Cierre de Caja", "✔ Completado");
-                        dgvLogCierre.DataSource = dtLogCierre;
-                       dgvLogCierre.Refresh();
-                }
-                else
-                {
-                    dtLogCierre.Rows.Add("SP Cierre de Caja", "❌ Fallido");
-                    dgvLogCierre.DataSource = dtLogCierre;
-                    dgvLogCierre.Refresh();
-                    command.Transaction.Rollback();
-                    return;
-                }
-
-               if (_L_CierreCaja.HayDatosInvenvioTXT(sucursal, diaActivo.ToString("yyyyMMdd"), rutaInvenvio, nombreInvenvio, command))
-                {
-                    if (_L_CierreCaja.GeneraInvenvioTXT(sucursal, diaActivo.ToString("yyyyMMdd"), rutaInvenvio, nombreInvenvio,command))
+                    if (_L_CierreCaja.HayDatosInvenvioTXT(sucursal, diaActivo.ToString("yyyyMMdd"), rutaInvenvio, nombreInvenvio, command))
                     {
-                        dtLogCierre.Rows.Add("Archivo Invenvio.txt", "✔ Completado");
+                        if (_L_CierreCaja.GeneraInvenvioTXT(sucursal, diaActivo.ToString("yyyyMMdd"), rutaInvenvio, nombreInvenvio, command))
+                        {
+                            dtLogCierre.Rows.Add("Archivo Invenvio.txt", "✔ Completado");
+                            dgvLogCierre.DataSource = dtLogCierre;
+                            dgvLogCierre.Refresh();
+                        }
+                        else
+                        {
+                            dtLogCierre.Rows.Add("Archivo Invenvio.txt", "❌ Fallido");
+                            dgvLogCierre.DataSource = dtLogCierre;
+                            dgvLogCierre.Refresh();
+                        }
+                    }
+
+                    if (!_L_CierreCaja.ActualizarParamCierreCaja(sucursal))
+                    {
+                        dtLogCierre.Rows.Add("Error Actualizando parametros", "❌ Fallido");
                         dgvLogCierre.DataSource = dtLogCierre;
                         dgvLogCierre.Refresh();
+                        command.Transaction.Rollback();
+                        return;
+                    }
+
+                    if (!_L_CierreCaja.DesbloqueSistema("PEND", sucursal))
+                    {
+                        dtLogCierre.Rows.Add("Error Actualizando parametros", "❌ Fallido");
+                        dgvLogCierre.DataSource = dtLogCierre;
+                        dgvLogCierre.Refresh();
+                        command.Transaction.Rollback();
+                        return;
+                    }
+
+                    if (!_L_CierreCaja.ActualizarFacturas(sucursal, command))
+                    {
+                        dtLogCierre.Rows.Add("Error Actualizando Facturas", "❌ Fallido");
+                        dgvLogCierre.DataSource = dtLogCierre;
+                        dgvLogCierre.Refresh();
+                        command.Transaction.Rollback();
+                        return;
+                    }
+
+                    dtLogCierre.Rows.Add("Generando Libro de Ventas", "...");
+                    dgvLogCierre.DataSource = dtLogCierre;
+                    dgvLogCierre.Refresh();
+
+                    if (_L_CierreCaja.LibroVenta(diaActivo, diaActivo, command))
+                    {
+                        foreach (DataRow row in dtLogCierre.Rows)
+                        {
+                            if (row["Descripcion"].ToString() == "Generando Libro de Ventas")
+                            {
+                                row["Resultado"] = "✔ Completado";
+                                dgvLogCierre.Refresh();
+                                break;
+                            }
+                        }
+
                     }
                     else
                     {
-                        dtLogCierre.Rows.Add("Archivo Invenvio.txt", "❌ Fallido");
-                        dgvLogCierre.DataSource = dtLogCierre;
-                        dgvLogCierre.Refresh();
+                        foreach (DataRow row in dtLogCierre.Rows)
+                        {
+                            if (row["Descripcion"].ToString() == "Generando Libro de Ventas")
+                            {
+                                row["Resultado"] = "❌ Fallido";
+                                command.Transaction.Rollback();
+                                dgvLogCierre.Refresh();
+                                break;
+                            }
+                        }
+                        return;
                     }
-                }
 
-                if (!_L_CierreCaja.ActualizarParamCierreCaja(sucursal))
-                {
-                    dtLogCierre.Rows.Add("Error Actualizando parametros", "❌ Fallido");
+                    dtLogCierre.Rows.Add("Consolidando movimientos", "...");
                     dgvLogCierre.DataSource = dtLogCierre;
                     dgvLogCierre.Refresh();
-                    command.Transaction.Rollback();
-                    return;
-                }
 
-                if (!_L_CierreCaja.DesbloqueSistema("PEND",sucursal))
-                {
-                    dtLogCierre.Rows.Add("Error Actualizando parametros", "❌ Fallido");
+                    if (_L_CierreCaja.InventarioFaltante(diaActivo, command))
+                    {
+                        foreach (DataRow row in dtLogCierre.Rows)
+                        {
+                            if (row["Descripcion"].ToString() == "Consolidando movimientos")
+                            {
+                                row["Resultado"] = "✔ Completado";
+                                dgvLogCierre.Refresh();
+                                break;
+                            }
+                        }
+
+                    }
+                    else
+                    {
+                        foreach (DataRow row in dtLogCierre.Rows)
+                        {
+                            if (row["Descripcion"].ToString() == "Consolidando movimientos")
+                            {
+                                row["Resultado"] = "❌ Fallido";
+                                dgvLogCierre.Refresh();
+                                command.Transaction.Rollback();
+                                break;
+                            }
+                        }
+                        return;
+                    }
+
+                    _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "027", TB_USUARIO.COD_EMPLEADO, "Fin de cierre definitivo");
+
+                    //ACC
+                    dtLogCierre.Rows.Add("Generando ACC", "...");
                     dgvLogCierre.DataSource = dtLogCierre;
                     dgvLogCierre.Refresh();
-                    command.Transaction.Rollback();
-                    return;
-                }
 
-                if (!_L_CierreCaja.ActualizarFacturas(sucursal,command))
-                {
-                    dtLogCierre.Rows.Add("Error Actualizando Facturas", "❌ Fallido");
+                    if (_L_CierreCaja.CreaAcc(diaActivo, sucursal, command))
+                    {
+                        foreach (DataRow row in dtLogCierre.Rows)
+                        {
+                            if (row["Descripcion"].ToString() == "Generando ACC")
+                            {
+                                row["Resultado"] = "✔ Completado";
+                                dgvLogCierre.Refresh();
+                                break;
+                            }
+                        }
+
+                    }
+                    else
+                    {
+                        foreach (DataRow row in dtLogCierre.Rows)
+                        {
+                            if (row["Descripcion"].ToString() == "Generando ACC")
+                            {
+                                row["Resultado"] = "❌ Fallido";
+                                dgvLogCierre.Refresh();
+                                command.Transaction.Rollback();
+                                break;
+                            }
+                        }
+                        return;
+                    }
+
+                    //XML ACC
+                    dtLogCierre.Rows.Add("Creando zip xml", "...");
                     dgvLogCierre.DataSource = dtLogCierre;
                     dgvLogCierre.Refresh();
+
+                    if (_L_CierreCaja.CreaXMLACC(sucursal, command))
+                    {
+                        foreach (DataRow row in dtLogCierre.Rows)
+                        {
+                            if (row["Descripcion"].ToString() == "Creando zip xml")
+                            {
+                                row["Resultado"] = "✔ Completado";
+                                dgvLogCierre.Refresh();
+                                break;
+                            }
+                        }
+
+                    }
+                    else
+                    {
+                        foreach (DataRow row in dtLogCierre.Rows)
+                        {
+                            if (row["Descripcion"].ToString() == "Creando zip xml")
+                            {
+                                row["Resultado"] = "❌ Fallido";
+                                dgvLogCierre.Refresh();
+                                command.Transaction.Rollback();
+                                break;
+                            }
+                        }
+                        return;
+                    }
+
+                    _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "070", TB_USUARIO.COD_EMPLEADO, "Se generaron los ACC correctamente");
+
+
+                    FrmPrincipal frmPrincipal = this.ParentForm as FrmPrincipal;
+
+                    if (frmPrincipal != null)
+                    {
+                        frmPrincipal.ActualizarTextoLabel(diaActivo.AddDays(1).ToString("dd/MM/yyyy"));
+                    }
+
+                    //dtLogCierre.Rows.Add("Imprimiendo reportes", "...");
+                    //dgvLogCierre.DataSource = dtLogCierre;
+                    //dgvLogCierre.Refresh();
+
+                    //FrmPrueba frmReportes = new FrmPrueba();
+
+                    //frmReportes.ReportesCierreCaja();
+
+                    //foreach (DataRow row in dtLogCierre.Rows)
+                    //{
+                    //    if (row["Descripcion"].ToString() == "Imprimiendo reportes")
+                    //    {
+                    //        row["Resultado"] = "✔ Completado";
+                    //        dgvLogCierre.Refresh();
+                    //        break;
+                    //    }
+                    //}
+                    command.Transaction.Commit();
+
+                    dtLogCierre.Rows.Add("Fin", DateTime.Now);
+                    dgvLogCierre.Refresh();
+                    //tcCierreCaja.SelectedIndex = 0;
+                    btnFinalizar.Text = "Confirmar";
+
+
+                    //CargarDatos();
+
+                    //dtLogCierre.Rows.Add("Cierre de Caja", "✔ Completado");
+                    //dgvLogCierre.DataSource = dtLogCierre;
+                    //dgvLogCierre.Refresh();
+
+                    FrmPrueba frmReportes = new FrmPrueba();
+
+                    frmReportes.ReportesCierreCaja();
+                }
+                catch (Exception ex)
+                {
                     command.Transaction.Rollback();
-                    return;
                 }
-
-                dtLogCierre.Rows.Add("Generando Libro de Ventas", "...");
-                dgvLogCierre.DataSource = dtLogCierre;
-                dgvLogCierre.Refresh();
-
-                if (_L_CierreCaja.LibroVenta(diaActivo,diaActivo,command ))
-                {
-                    foreach (DataRow row in dtLogCierre.Rows)
-                    {
-                        if (row["Descripcion"].ToString() == "Generando Libro de Ventas")
-                        {
-                            row["Resultado"] = "✔ Completado";
-                            dgvLogCierre.Refresh();
-                            break;
-                        }
-                    }
-
-                }
-                else
-                {
-                    foreach (DataRow row in dtLogCierre.Rows)
-                    {
-                        if (row["Descripcion"].ToString() == "Generando Libro de Ventas")
-                        {
-                            row["Resultado"] = "❌ Fallido";
-                            command.Transaction.Rollback();
-                            dgvLogCierre.Refresh();
-                            break;
-                        }
-                    }
-                    return;
-                }
-
-                dtLogCierre.Rows.Add("Consolidando movimientos", "...");
-                dgvLogCierre.DataSource = dtLogCierre;
-                dgvLogCierre.Refresh();
-
-                if (_L_CierreCaja.InventarioFaltante(diaActivo,command))
-                {
-                    foreach (DataRow row in dtLogCierre.Rows)
-                    {
-                        if (row["Descripcion"].ToString() == "Consolidando movimientos")
-                        {
-                            row["Resultado"] = "✔ Completado";
-                            dgvLogCierre.Refresh();
-                            break;
-                        }
-                    }
-
-                }
-                else
-                {
-                    foreach (DataRow row in dtLogCierre.Rows)
-                    {
-                        if (row["Descripcion"].ToString() == "Consolidando movimientos")
-                        {
-                            row["Resultado"] = "❌ Fallido";
-                            dgvLogCierre.Refresh();
-                            command.Transaction.Rollback();
-                            break;
-                        }
-                    }
-                    return;
-                }
-
-                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "027", TB_USUARIO.COD_EMPLEADO, "Fin de cierre definitivo");
-
-                //ACC
-                dtLogCierre.Rows.Add("Generando ACC", "...");
-                dgvLogCierre.DataSource = dtLogCierre;
-                dgvLogCierre.Refresh();
-
-                if (_L_CierreCaja.CreaAcc(diaActivo, sucursal,command))
-                {
-                    foreach (DataRow row in dtLogCierre.Rows)
-                    {
-                        if (row["Descripcion"].ToString() == "Generando ACC")
-                        {
-                            row["Resultado"] = "✔ Completado";
-                            dgvLogCierre.Refresh();
-                            break;
-                        }
-                    }
-
-                }
-                else
-                {
-                    foreach (DataRow row in dtLogCierre.Rows)
-                    {
-                        if (row["Descripcion"].ToString() == "Generando ACC")
-                        {
-                            row["Resultado"] = "❌ Fallido";
-                            dgvLogCierre.Refresh();
-                            command.Transaction.Rollback();
-                            break;
-                        }
-                    }
-                    return;
-                }
-
-                //XML ACC
-                dtLogCierre.Rows.Add("Creando zip xml", "...");
-                dgvLogCierre.DataSource = dtLogCierre;
-                dgvLogCierre.Refresh();
-
-                if (_L_CierreCaja.CreaXMLACC(sucursal,command))
-                {
-                    foreach (DataRow row in dtLogCierre.Rows)
-                    {
-                        if (row["Descripcion"].ToString() == "Creando zip xml")
-                        {
-                            row["Resultado"] = "✔ Completado";
-                            dgvLogCierre.Refresh();
-                            break;
-                        }
-                    }
-
-                }
-                else
-                {
-                    foreach (DataRow row in dtLogCierre.Rows)
-                    {
-                        if (row["Descripcion"].ToString() == "Creando zip xml")
-                        {
-                            row["Resultado"] = "❌ Fallido";
-                            dgvLogCierre.Refresh();
-                            command.Transaction.Rollback();
-                            break;
-                        }
-                    }
-                    return;
-                }
-
-                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "070", TB_USUARIO.COD_EMPLEADO, "Se generaron los ACC correctamente");
-
-            
-                FrmPrincipal frmPrincipal = this.ParentForm as FrmPrincipal;
-
-                if (frmPrincipal != null)
-                {
-                    frmPrincipal.ActualizarTextoLabel(diaActivo.AddDays(1).ToString("dd/MM/yyyy"));
-                }
-
-                //dtLogCierre.Rows.Add("Imprimiendo reportes", "...");
-                //dgvLogCierre.DataSource = dtLogCierre;
-                //dgvLogCierre.Refresh();
-
-                //FrmPrueba frmReportes = new FrmPrueba();
-
-                //frmReportes.ReportesCierreCaja();
-
-                //foreach (DataRow row in dtLogCierre.Rows)
-                //{
-                //    if (row["Descripcion"].ToString() == "Imprimiendo reportes")
-                //    {
-                //        row["Resultado"] = "✔ Completado";
-                //        dgvLogCierre.Refresh();
-                //        break;
-                //    }
-                //}
-                command.Transaction.Commit();
-
-                dtLogCierre.Rows.Add("Paso 4", "✔ Completado");
-                dgvLogCierre.Refresh();
-                tcCierreCaja.SelectedIndex = 0;
-               
-                
-
-                CargarDatos();
-
-                //dtLogCierre.Rows.Add("Cierre de Caja", "✔ Completado");
-                //dgvLogCierre.DataSource = dtLogCierre;
-                //dgvLogCierre.Refresh();
-
-                FrmPrueba frmReportes = new FrmPrueba();
-
-                frmReportes.ReportesCierreCaja();
             }
-            catch (Exception ex)
+            else
             {
-                command.Transaction.Rollback();
+                tcCierreCaja.SelectedIndex = 0;
+                CargarDatos();
             }
+
 
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
             tcCierreCaja.SelectedIndex = 2;
-            lblPaso.Text = "Paso 3";
+            lblPaso.Text = "Ordenes";
         }
 
         private void btn_MarcarSalida_pg2_Click(object sender, EventArgs e)
