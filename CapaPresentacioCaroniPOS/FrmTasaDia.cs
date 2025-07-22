@@ -407,5 +407,7 @@ namespace CapaVisual_Login
                 Txt_Pnl3_Secuencia.ForeColor = Color.DarkGray; // Cambiar el color del texto a gris
             }
         }
+
+
     }
 }

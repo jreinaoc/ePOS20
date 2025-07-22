@@ -95,7 +95,7 @@ namespace CapaVisual_Login
             this.LblSubTitulo1.Name = "LblSubTitulo1";
             this.LblSubTitulo1.Size = new System.Drawing.Size(1080, 39);
             this.LblSubTitulo1.TabIndex = 303;
-            this.LblSubTitulo1.Text = "Tasa del día y secuencia";
+            this.LblSubTitulo1.Text = "Tasa del día";
             this.LblSubTitulo1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Pnl1
@@ -241,7 +241,7 @@ namespace CapaVisual_Login
             // panel2
             // 
             this.panel2.Controls.Add(this.lbRegE);
-            this.panel2.Location = new System.Drawing.Point(203, 103);
+            this.panel2.Location = new System.Drawing.Point(253, 103);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(28, 28);
             this.panel2.TabIndex = 142;
@@ -258,7 +258,7 @@ namespace CapaVisual_Login
             // panel1
             // 
             this.panel1.Controls.Add(this.lbRegD);
-            this.panel1.Location = new System.Drawing.Point(203, 63);
+            this.panel1.Location = new System.Drawing.Point(253, 63);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(28, 28);
             this.panel1.TabIndex = 141;
@@ -290,7 +290,7 @@ namespace CapaVisual_Login
             // Txt_Pnl2_Euro1
             // 
             this.Txt_Pnl2_Euro1.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Txt_Pnl2_Euro1.Location = new System.Drawing.Point(73, 104);
+            this.Txt_Pnl2_Euro1.Location = new System.Drawing.Point(123, 104);
             this.Txt_Pnl2_Euro1.MaxLength = 15;
             this.Txt_Pnl2_Euro1.Name = "Txt_Pnl2_Euro1";
             this.Txt_Pnl2_Euro1.Size = new System.Drawing.Size(123, 27);
@@ -304,7 +304,7 @@ namespace CapaVisual_Login
             // 
             this.Lbl_Pnl2_Euro.AutoSize = true;
             this.Lbl_Pnl2_Euro.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Lbl_Pnl2_Euro.Location = new System.Drawing.Point(11, 107);
+            this.Lbl_Pnl2_Euro.Location = new System.Drawing.Point(61, 107);
             this.Lbl_Pnl2_Euro.Name = "Lbl_Pnl2_Euro";
             this.Lbl_Pnl2_Euro.Size = new System.Drawing.Size(41, 20);
             this.Lbl_Pnl2_Euro.TabIndex = 133;
@@ -313,7 +313,7 @@ namespace CapaVisual_Login
             // label7
             // 
             this.label7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(135)))), ((int)(((byte)(129)))));
-            this.label7.Location = new System.Drawing.Point(72, 103);
+            this.label7.Location = new System.Drawing.Point(122, 103);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(125, 29);
             this.label7.TabIndex = 132;
@@ -321,7 +321,7 @@ namespace CapaVisual_Login
             // Txt_Pnl2_Dolar1
             // 
             this.Txt_Pnl2_Dolar1.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Txt_Pnl2_Dolar1.Location = new System.Drawing.Point(73, 64);
+            this.Txt_Pnl2_Dolar1.Location = new System.Drawing.Point(123, 64);
             this.Txt_Pnl2_Dolar1.MaxLength = 15;
             this.Txt_Pnl2_Dolar1.Name = "Txt_Pnl2_Dolar1";
             this.Txt_Pnl2_Dolar1.Size = new System.Drawing.Size(123, 27);
@@ -335,7 +335,7 @@ namespace CapaVisual_Login
             // 
             this.Lbl_Pnl2_Dolar.AutoSize = true;
             this.Lbl_Pnl2_Dolar.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Lbl_Pnl2_Dolar.Location = new System.Drawing.Point(11, 67);
+            this.Lbl_Pnl2_Dolar.Location = new System.Drawing.Point(61, 67);
             this.Lbl_Pnl2_Dolar.Name = "Lbl_Pnl2_Dolar";
             this.Lbl_Pnl2_Dolar.Size = new System.Drawing.Size(48, 20);
             this.Lbl_Pnl2_Dolar.TabIndex = 128;
@@ -344,7 +344,7 @@ namespace CapaVisual_Login
             // label10
             // 
             this.label10.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(135)))), ((int)(((byte)(129)))));
-            this.label10.Location = new System.Drawing.Point(72, 63);
+            this.label10.Location = new System.Drawing.Point(122, 63);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(125, 29);
             this.label10.TabIndex = 127;
@@ -365,7 +365,7 @@ namespace CapaVisual_Login
             // label9
             // 
             this.label9.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(135)))), ((int)(((byte)(129)))));
-            this.label9.Location = new System.Drawing.Point(202, 62);
+            this.label9.Location = new System.Drawing.Point(252, 62);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(30, 31);
             this.label9.TabIndex = 140;
@@ -373,7 +373,7 @@ namespace CapaVisual_Login
             // label11
             // 
             this.label11.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(135)))), ((int)(((byte)(129)))));
-            this.label11.Location = new System.Drawing.Point(202, 102);
+            this.label11.Location = new System.Drawing.Point(252, 102);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(30, 31);
             this.label11.TabIndex = 143;
