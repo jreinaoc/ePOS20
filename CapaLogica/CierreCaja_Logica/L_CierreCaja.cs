@@ -346,6 +346,7 @@ namespace CapaLogica.CierreCaja_Logica
             catch (Exception ex)
             {
                 // Código para manejar el error
+                EscribirLog(ex.Message.ToString());
                 return null;
             }
         }
@@ -367,6 +368,7 @@ namespace CapaLogica.CierreCaja_Logica
             catch (Exception ex)
             {
                 // Código para manejar el error
+                EscribirLog(ex.Message.ToString());
                 return false;
             }
         }
@@ -434,6 +436,7 @@ namespace CapaLogica.CierreCaja_Logica
             catch (Exception ex)
             {
                 // Código para manejar el error
+                EscribirLog(ex.Message.ToString());
                 return false;
             }
         }
@@ -449,6 +452,7 @@ namespace CapaLogica.CierreCaja_Logica
             catch (Exception ex)
             {
                 // Código para manejar el error
+                EscribirLog(ex.Message.ToString());
                 return false;
             }
         }
@@ -464,6 +468,7 @@ namespace CapaLogica.CierreCaja_Logica
             catch (Exception ex)
             {
                 // Código para manejar el error
+                EscribirLog(ex.Message.ToString());
                 return false;
             }
         }
@@ -479,6 +484,7 @@ namespace CapaLogica.CierreCaja_Logica
             catch (Exception ex)
             {
                 // Código para manejar el error
+                EscribirLog(ex.Message.ToString());
                 return false;
             }
         }
@@ -494,6 +500,7 @@ namespace CapaLogica.CierreCaja_Logica
             catch (Exception ex)
             {
                 // Código para manejar el error
+                EscribirLog(ex.Message.ToString());
                 return false;
             }
         }
@@ -509,6 +516,7 @@ namespace CapaLogica.CierreCaja_Logica
             catch (Exception ex)
             {
                 // Código para manejar el error
+                EscribirLog(ex.Message.ToString());
                 return false;
             }
         }
@@ -525,6 +533,7 @@ namespace CapaLogica.CierreCaja_Logica
             catch (Exception ex)
             {
                 // Código para manejar el error
+                EscribirLog(ex.Message.ToString());
                 return false;
             }
         }

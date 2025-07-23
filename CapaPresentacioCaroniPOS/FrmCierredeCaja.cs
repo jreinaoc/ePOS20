@@ -147,9 +147,9 @@ namespace CapaVisual_Login
             }
 
             //ASISTENCIA PENDIENTE
-             dtAsistenciaPendiente = _L_CierreCaja.VerificaAsistenciaPendiente(diaActivo.ToString("yyyyMMdd"), "PEND");
+            dtAsistenciaPendiente = _L_CierreCaja.VerificaAsistenciaPendiente(diaActivo.ToString("yyyyMMdd"), "PEND");
 
-            dtAsistenciaPendiente.Columns["HORASALIDAT1"].AllowDBNull = true;
+            //dtAsistenciaPendiente.Columns["HORASALIDAT1"].AllowDBNull = true;
 
             // Asignar al DataGridView
             Dvg_MarcajeAsistenciaPendiente.DataSource = dtAsistenciaPendiente;
@@ -158,13 +158,17 @@ namespace CapaVisual_Login
 
 
             tcCierreCaja.SelectedIndex = 1;
+            //tcCierreCaja.SelectedIndex = 0;
+            //tcCierreCaja.SelectedIndex = 1;
             lblPaso.Text = "Asistencia";
+            lbPaso.Text = "Paso 2";
         }
 
         private void btnAtrasPaso1_Click(object sender, EventArgs e)
         {
             tcCierreCaja.SelectedIndex = 0;
             lblPaso.Text = "Confirmación";
+            lbPaso.Text = "Paso 1";
 
         }
 
@@ -357,6 +361,9 @@ namespace CapaVisual_Login
             
             foreach (DataGridViewRow filaAsis in Dvg_MarcajeAsistenciaPendiente.Rows)
             {
+                Dvg_MarcajeAsistenciaPendiente.CurrentCell = Dvg_MarcajeAsistenciaPendiente.Rows[0].Cells[0];
+                Dvg_MarcajeAsistenciaPendiente.Rows[0].Cells[0].Selected = true;
+                btn_Cancelar_pg2.Focus();
                 // Ignorar fila nueva si está habilitada la opción de agregar
                 if (!filaAsis.IsNewRow)
                 {
@@ -367,7 +374,7 @@ namespace CapaVisual_Login
                     var codigoEmp = filaAsis.Cells["COD_EMPLEADO"].Value?.ToString().Trim();
 
                     //if (string.IsNullOrEmpty(HoraEntrada1) || string.IsNullOrEmpty(HoraSalida1) || string.IsNullOrEmpty(HoraEntrada2) || string.IsNullOrEmpty(HoraSalida2))
-                    if (string.IsNullOrEmpty(HoraEntrada1) || string.IsNullOrEmpty(HoraSalida1) || string.IsNullOrEmpty(HoraEntrada2))// || string.IsNullOrEmpty(HoraSalida2))
+                    if (string.IsNullOrEmpty(HoraEntrada1) || string.IsNullOrEmpty(HoraSalida1) || string.IsNullOrEmpty(HoraEntrada2) || string.IsNullOrEmpty(HoraSalida2))
                     {
                         _FrmMensajes.co = 2;
                         _FrmMensajes.avisomensaje("Debe marcar asistencia");
@@ -402,12 +409,22 @@ namespace CapaVisual_Login
 
             tcCierreCaja.SelectedIndex = 2;
             lblPaso.Text = "Ordenes";
+            lbPaso.Text = "Paso 3";
         }
 
         private void FrmCierredeCaja_Load(object sender, EventArgs e)
         {
             try
             {
+                //this.txtFiltroVendedor.TextChanged += new System.EventHandler(this.txtFiltroVendedor_TextChanged);
+                //this.Dvg_MarcajeAsistenciaPendiente.CellClick += Dgv_MarcajeAsistenciaPendiente_CellClick;
+                //this.Dvg_ConsignacionDeOS.CellClick += Dvg_ConsignacionDeOS_CellClick;
+                //this.Dgv_Usuarios.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_Usuarios_CellContentClick);
+                ////this.Dvg_OSconPagoMovil.EditingControlShowing += new DataGridViewEditingControlShowingEventHandler(this.Dvg_OSconPagoMovil_EditingControlShowing);
+                //this.Dvg_OSconPagoMovil.EditingControlShowing += Dvg_OSconPagoMovil_EditingControlShowing;
+                //this.Dvg_CierrePuntoVenta.EditingControlShowing += Dvg_CierrePuntoVenta_EditingControlShowing;
+                //this dgvCierredecaja.CellEndEdit += dgvCierredecaja_CellEndEdit;
+
                 tcCierreCaja.ItemSize = new Size(0, 1);
                 tcCierreCaja.SizeMode = TabSizeMode.Fixed;
 
@@ -450,6 +467,27 @@ namespace CapaVisual_Login
                 //MessageBox.Show($"Ocurrió un error al obtener la información del cliente: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
             }
         }
+
+        //protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        //{
+        //    var col = Dvg_MarcajeAsistenciaPendiente.CurrentCell?.OwningColumn;
+
+        //    if (col is DataGridViewTimePickerColumn)
+        //    {
+        //        var dgv = Dvg_MarcajeAsistenciaPendiente;
+
+        //        if (dgv.IsCurrentCellInEditMode)
+        //            dgv.EndEdit();
+        //        else
+        //            dgv.BeginEdit(false);
+
+        //        // Solo consumir ENTER, no otras teclas
+        //        if (keyData == Keys.Enter)
+        //            return true;
+        //    }
+
+        //    return base.ProcessCmdKey(ref msg, keyData);
+        //}
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
@@ -533,13 +571,16 @@ namespace CapaVisual_Login
         public void CargarInicio()
         {
             FechaInicioCierre = DateTime.Now;
+            btnCancelar.Enabled = true;
         }
 
         public void CargarDatos()
         {
             FechaInicioCierre = DateTime.Now;
             lblPaso.Text = "Confirmación";
+            lbPaso.Text = "Paso 1";
             btnFinalizar.Text = "Finalizar";
+            btnCancelar.Enabled = true;
 
             dtLogCierre.Clear();
             dgvLogCierre.Refresh();
@@ -714,12 +755,13 @@ namespace CapaVisual_Login
                 case "LogCierre":
 
                     // Asignar ancho personalizado a cada columna
-                    dgvLogCierre.Columns["Descripcion"].Width = 248;
-                    dgvLogCierre.Columns["Resultado"].Width = 173;
+                    dgvLogCierre.Columns["Descripcion"].Width = 245;
+                    dgvLogCierre.Columns["Resultado"].Width = 177;
                     dgvLogCierre.ColumnHeadersDefaultCellStyle.Font = new Font("Century Gothic", 10);
                     dgvLogCierre.DefaultCellStyle.Font = new Font("Century Gothic", 10);
 
-
+                    dgvLogCierre.ClearSelection();
+                    dgvLogCierre.CurrentCell = null;
 
                     break;
 
@@ -792,7 +834,9 @@ namespace CapaVisual_Login
 
                     // Manejar posibles errores silenciosamente
                     Dvg_OSconPagoMovil.DataError += (s, e) => { e.ThrowException = false; };
-                   
+
+                    Dvg_OSconPagoMovil.Columns["CodBancoEmisor"].Visible = false;
+                    Dvg_OSconPagoMovil.Columns["CodigoBancoEmisor"].Visible = false;
 
                     break;
 
@@ -824,6 +868,17 @@ namespace CapaVisual_Login
                     Dvg_MarcajeAsistenciaPendiente.Columns["HORASALIDAT1"].ReadOnly = true;
                     Dvg_MarcajeAsistenciaPendiente.Columns["HORAENTRADAT2"].ReadOnly = true;
                     Dvg_MarcajeAsistenciaPendiente.Columns["HORASALIDAT2"].ReadOnly = true;
+
+                    //foreach (DataGridViewRow row in Dvg_MarcajeAsistenciaPendiente.Rows)
+                    //{
+                    //    if (!row.IsNewRow)
+                    //    {
+                    //        row.Cells["HORAENTRADAT1"].Value = " ";
+                    //        row.Cells["HORASALIDAT1"].Value = " ";
+                    //        row.Cells["HORAENTRADAT2"].Value = " ";
+                    //        row.Cells["HORASALIDAT2"].Value = " ";
+                    //    }
+                    //}
 
                     // Suponiendo que ya hiciste:
                     // Dgv_MarcajeAsistenciaPendiente.DataSource = dtAsistenciaPendiente;
@@ -931,7 +986,7 @@ namespace CapaVisual_Login
                                     Name = "HORASALIDAT2",
                                     HeaderText = "Salida 2",
                                     Width = 100,
-                                    DataPropertyName = "HORASALIDAT1",
+                                    DataPropertyName = "HORASALIDAT2",
                                     DefaultCellStyle = new DataGridViewCellStyle { Format = "t" } // formato corto de hora
                                 };
 
@@ -972,12 +1027,15 @@ namespace CapaVisual_Login
         {
             tcCierreCaja.SelectedIndex = 0;
             lblPaso.Text = "Confirmación";
+            lbPaso.Text = "Paso 1";
         }
+
 
         private void btn_Cancelar_pg3_Click(object sender, EventArgs e)
         {
             tcCierreCaja.SelectedIndex = 1;
             lblPaso.Text = "Asistencia";
+            lbPaso.Text = "Paso 2";
         }
         // 1) En tu formulario declara esto a nivel de clase:
         private HashSet<(int row, int col)> _celdasAutorizadas = new HashSet<(int, int)>();
@@ -1219,7 +1277,8 @@ namespace CapaVisual_Login
             tcCierreCaja.SelectedIndex = 3;
             dgvCierredecaja.ClearSelection();
 
-            lblPaso.Text = "Cierre";
+            lblPaso.Text = "Cierre de Caja";
+            lbPaso.Text = "Paso 4";
         }
 
         
@@ -1318,6 +1377,7 @@ namespace CapaVisual_Login
         {
             if (btnFinalizar.Text == "Finalizar")
             {
+                bool cierreEncero = false;
                 Conexion cn = new Conexion();
                 SqlConnection connection = cn.LeerCadena();
                 SqlCommand command = connection.CreateCommand();
@@ -1336,17 +1396,7 @@ namespace CapaVisual_Login
                     rutaInvenvio = _D_DetalleOrden.TB_PARAMETRO("RutaInvenvio");
                     nombreInvenvio = _D_DetalleOrden.TB_PARAMETRO("NombreArchInv");
 
-                    dtLogCierre.Clear();
-                    CrearTabla("LogCierre");
-
-                    dtLogCierre.Rows.Add("Inicio", FechaInicioCierre); 
-                    dtLogCierre.Rows.Add("Confirmación", "✔ Completado");
-                    dtLogCierre.Rows.Add("Asistencia", "✔ Completado");
-                    dtLogCierre.Rows.Add("Ordenes", "✔ Completado");
-                    dgvLogCierre.DataSource = dtLogCierre;
-                    dgvLogCierre.Refresh();
-
-                    FormatoTabla("LogCierre");
+                   
 
                     //Existencia en Caja
                     if (!_L_CierreCaja.ValidaExistenciaCaja(dgvCierredecaja))
@@ -1362,7 +1412,7 @@ namespace CapaVisual_Login
                             _FrmClaveGerente.ShowDialog();
                             if (_FrmClaveGerente.ClaveCorrecta == true)
                             {
-
+                                cierreEncero = true;
                                 if (_FrmClaveGerente.DialogResult == DialogResult.OK)
                                 {
                                     //Dvg_MarcajeAsistenciaPendiente.BeginEdit(true); // inicia edición con un clic
@@ -1382,6 +1432,20 @@ namespace CapaVisual_Login
                         }
                     }
 
+                    dtLogCierre.Clear();
+                    CrearTabla("LogCierre");
+                    dgvLogCierre.DataSource = dtLogCierre;
+                    FormatoTabla("LogCierre");
+
+                    dtLogCierre.Rows.Add("Inicio", FechaInicioCierre);
+                    dtLogCierre.Rows.Add("Confirmación", "✔ Completado");
+                    dtLogCierre.Rows.Add("Asistencia", "✔ Completado");
+                    dtLogCierre.Rows.Add("Ordenes", "✔ Completado");
+                    
+                    dgvLogCierre.Refresh();
+
+                
+
                     //SP Cierre de Caja
                     if (_L_CierreCaja.CierreDeCaja(dgvCierredecaja, diaActivo, sucursal, txtBox_observaciones_pg4.Text, TB_USUARIO.COD_USR, command))
                     {
@@ -1394,7 +1458,10 @@ namespace CapaVisual_Login
                         dtLogCierre.Rows.Add("Cierre de Caja", "❌ Fallido");
                         dgvLogCierre.DataSource = dtLogCierre;
                         dgvLogCierre.Refresh();
-                        command.Transaction.Rollback();
+                        if (command.Transaction != null && command.Transaction.Connection != null)
+                        {
+                            command.Transaction.Rollback();
+                        }
                         return;
                     }
 
@@ -1606,7 +1673,7 @@ namespace CapaVisual_Login
                     dgvLogCierre.Refresh();
                     //tcCierreCaja.SelectedIndex = 0;
                     btnFinalizar.Text = "Confirmar";
-
+                    btnCancelar.Enabled = false;
 
                     //CargarDatos();
 
@@ -1616,7 +1683,7 @@ namespace CapaVisual_Login
 
                     FrmPrueba frmReportes = new FrmPrueba();
 
-                    frmReportes.ReportesCierreCaja();
+                    frmReportes.ReportesCierreCaja(cierreEncero);
                 }
                 catch (Exception ex)
                 {
@@ -1636,6 +1703,7 @@ namespace CapaVisual_Login
         {
             tcCierreCaja.SelectedIndex = 2;
             lblPaso.Text = "Ordenes";
+            lbPaso.Text = "Paso 3";
         }
 
         private void btn_MarcarSalida_pg2_Click(object sender, EventArgs e)
@@ -1698,6 +1766,179 @@ namespace CapaVisual_Login
             // Permitir sólo dígitos
             if (!char.IsDigit(e.KeyChar))
                 e.Handled = true;
+        }
+
+
+        private void Dvg_CierrePuntoVenta_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+        {
+            // Comprueba si la celda que se edita es de la columna "Referencia"
+            if (Dvg_CierrePuntoVenta.CurrentCell.ColumnIndex == Dvg_CierrePuntoVenta.Columns["Nro. Lote"].Index)
+            {
+                // Es un TextBox por defecto en DataGridViewTextBoxColumn
+                var tb = e.Control as TextBox;
+                if (tb != null)
+                {
+                    // Quita cualquier handler previo para no enganchar varios
+                    tb.KeyPress -= NroLoteColumn_KeyPress;
+
+                    // Limita la longitud a 10
+                    tb.MaxLength = 10;
+
+                    // Engancha el KeyPress para filtrar sólo dígitos
+                    tb.KeyPress += NroLoteColumn_KeyPress;
+                }
+            }
+
+            if (Dvg_CierrePuntoVenta.CurrentCell != null &&  (Dvg_CierrePuntoVenta.CurrentCell.ColumnIndex == Dvg_CierrePuntoVenta.Columns["Total T. Crédito"].Index ) 
+                || Dvg_CierrePuntoVenta.CurrentCell.ColumnIndex == Dvg_CierrePuntoVenta.Columns["Total T. Amex"].Index
+                || Dvg_CierrePuntoVenta.CurrentCell.ColumnIndex == Dvg_CierrePuntoVenta.Columns["Total T. Débito"].Index
+                || Dvg_CierrePuntoVenta.CurrentCell.ColumnIndex == Dvg_CierrePuntoVenta.Columns["Total T. Otros"].Index)
+            {
+                TextBox tb = e.Control as TextBox;
+                if (tb != null)
+                {
+                    tb.KeyPress -= TotalCredito_KeyPress;
+                    tb.KeyPress += TotalCredito_KeyPress;
+                    tb.MaxLength = 10; // Opcional: límite de caracteres
+                }
+            }
+
+            //if (Dvg_CierrePuntoVenta.CurrentCell != null && Dvg_CierrePuntoVenta.CurrentCell.ColumnIndex == Dvg_CierrePuntoVenta.Columns["Total T. Amex"].Index)
+            //{
+            //    TextBox tb = e.Control as TextBox;
+            //    if (tb != null)
+            //    {
+            //        tb.KeyPress -= TotalCredito_KeyPress;
+            //        tb.KeyPress += TotalCredito_KeyPress;
+            //        tb.MaxLength = 10; // Opcional: límite de caracteres
+            //    }
+            //}
+
+            else
+            {
+                TextBox tb = e.Control as TextBox;
+                if (tb != null)
+                {
+                    tb.KeyPress -= TotalCredito_KeyPress;
+                }
+            }
+
+            //Dvg_CierrePuntoVenta.Columns["Total T. Crédito"].Width = 120;
+            //Dvg_CierrePuntoVenta.Columns["Total T. Amex"].Width = 120;
+            //Dvg_CierrePuntoVenta.Columns["Total T. Débito"].Width = 120;
+            //Dvg_CierrePuntoVenta.Columns["Total T. Otros"].Width = 100;
+           
+        }
+        private void TotalCredito_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            TextBox tb = sender as TextBox;
+
+            // Permitir teclas de control (Backspace, Delete, etc.)
+            if (char.IsControl(e.KeyChar))
+                return;
+
+            // Permitir dígitos
+            if (char.IsDigit(e.KeyChar))
+                return;
+
+            // Permitir una sola coma
+            if (e.KeyChar == ',' && !tb.Text.Contains(","))
+                return;
+
+            // Bloquear cualquier otro carácter
+            e.Handled = true;
+        }
+
+
+        private void NroLoteColumn_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Permitir Backspace, Delete, flechas, etc.
+            if (char.IsControl(e.KeyChar))
+                return;
+
+            // Permitir sólo dígitos
+            if (!char.IsDigit(e.KeyChar))
+                e.Handled = true;
+        }
+
+        private void dgvCierredecaja_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+        {
+            if (dgvCierredecaja.CurrentCell != null && (dgvCierredecaja.CurrentCell.ColumnIndex == dgvCierredecaja.Columns["Total"].Index))
+            {
+                TextBox tb = e.Control as TextBox;
+                if (tb != null)
+                {
+                    tb.KeyPress -= TotalCierre_KeyPress;
+                    tb.KeyPress += TotalCierre_KeyPress;
+                    tb.MaxLength = 10; // Opcional: límite de caracteres
+                }
+            }
+
+            else
+            {
+                TextBox tb = e.Control as TextBox;
+                if (tb != null)
+                {
+                    tb.KeyPress -= TotalCierre_KeyPress;
+                }
+            }
+
+
+        }
+        private void TotalCierre_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            TextBox tb = sender as TextBox;
+
+            // Permitir teclas de control (Backspace, Delete, etc.)
+            if (char.IsControl(e.KeyChar))
+                return;
+
+            // Permitir dígitos
+            if (char.IsDigit(e.KeyChar))
+                return;
+
+            // Permitir una sola coma
+            if (e.KeyChar == ',' && !tb.Text.Contains(","))
+                return;
+
+            // Bloquear cualquier otro carácter
+            e.Handled = true;
+        }
+
+
+        private void lbl_Paso3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dgvCierredecaja_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void lbl_Observaciones_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtBox_observaciones_pg4_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_Cancelar_pnl2_Click(object sender, EventArgs e)
+        {
+            Pnl2_ListadoDeVendedores.Visible = false;
+        }
+
+        private void tabPage1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lbl_Paso2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
