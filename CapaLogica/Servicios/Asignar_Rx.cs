@@ -228,10 +228,14 @@ namespace CapaLogica.Servicios
 
                 if (!AceptaCristalD || !AceptaCristalI)
                 {
-                    DataSet dsConsultaCristal = _D_Articulo.MostrarParametrosCrtGrid(CristalD, CristalI);
+                    DataSet dsConsultaCristal = _D_Articulo.MostrarRangoCrtGrid(CristalD, CristalI);
+                    dgvRangoCrt.DataSource = null;
+                    dgvRangoCrt.Rows.Clear();
+                    dgvRangoCrt.Columns.Clear();
                     dgvRangoCrt.DataSource = dsConsultaCristal.Tables[0];
                     diamDgl = diamD;
                     diamIgl = diamI;
+                    stringBuilder.Clear();
                     stringBuilder.Append("El cristal seleccionado no se adapta a los siguientes rangos");
                     return false; // No se adapta a los rangos
                 }
@@ -359,6 +363,7 @@ namespace CapaLogica.Servicios
 
                 DataSet dsConsultaCristal = _D_Articulo.MostrarParametrosCrtGrid(CristalD, CristalI, command);
                 dgvRangoCrt.DataSource = dsConsultaCristal.Tables[0];
+                stringBuilder.Clear();
                 stringBuilder.Append("El Cristal no se adapta a estos parámetros");
             }
 

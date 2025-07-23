@@ -3237,10 +3237,11 @@ namespace CapaVisual_Login
                         lblDiametroD.Visible = lblDiametroI.Visible = true;
                         LblTitulo.Text = _Asignar_Rx.stringBuilder.ToString();
                         lblClaveAut.Visible = true;
-                        lblLeyenda.Visible = true;
+                        lblLeyenda.Visible = false;
                         btnAutorizarRangosCrt.Visible = true;
                         pnlRangoCrt.Show();
                         pnlRangoCrt.Location = new Point(200, 150);
+                        FormatoTablaRango();
                         return;
 
                     }
@@ -3256,6 +3257,7 @@ namespace CapaVisual_Login
                         LbResultado2.Visible = true;
                         pnlRangoCrt.Show();
                         pnlRangoCrt.Location = new Point(200, 150);
+                        FormatoDataGridRangosCristales();
                         return;
                     }
                     else
@@ -3820,68 +3822,16 @@ namespace CapaVisual_Login
 
             try
             {
+                // Establecer estilo para encabezados de columna
+                dgvRangoCrt.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
-                //Centrar todas las colucnas 
-                //DgvListadoOrdenes.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                // Verificar y agregar columnas si no existen
+                // Establecer estilo para todas las celdas
+                DataGridViewCellStyle centerStyle = new DataGridViewCellStyle();
+                centerStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                centerStyle.Font = new Font("Century Gothic", 6.25F);
 
-
-                //asignar Nombres a cada colucna 
-                //dgvRangoCrt.Columns.Add("Cristal", "Esfera/Cilindro");
-                //dgvRangoCrt.Columns.Add("EsfCil", "Esfera/Cilindro");
-                //dgvRangoCrt.Columns.Add("Lejos", "Lejos");
-                //dgvRangoCrt.Columns.Add("Cerca", "Cerca");
-                //dgvRangoCrt.Columns.Add("Bifocal", "Bifocal");
-                //dgvRangoCrt.Columns.Add("Progresivo", "Progresivo");
-                //dgvRangoCrt.Columns.Add("Balance", "Balance");
-                //dgvRangoCrt.Columns.Add("DPLejos", "DP Lejos");
-                //dgvRangoCrt.Columns.Add("DPCerca", "DP Cerca");
-                //dgvRangoCrt.Columns.Add("AddMin", "Adición Min");
-                //dgvRangoCrt.Columns.Add("AddMax", "Adición Max");
-                //dgvRangoCrt.Columns.Add("AltMin", "Altura Min");
-                //dgvRangoCrt.Columns.Add("AltMax", "Altura Max");
-                //dgvRangoCrt.Columns.Add("PrismaMin", "Prisma Min");
-                //dgvRangoCrt.Columns.Add("PrismaMax", "Prisma Max");
-                //dgvRangoCrt.Columns.Add("DiamMax", "Diámetro Max");
-                //dgvRangoCrt.Columns.Add("DVCMin", "DVC Min");
-                //dgvRangoCrt.Columns.Add("DVCMax", "DVC Max");
-                //dgvRangoCrt.Columns.Add("AFMin", "Ángulo Facial Min");
-                //dgvRangoCrt.Columns.Add("AFMax", "Ángulo Facial Max");
-                //dgvRangoCrt.Columns.Add("APMin", "Ángulo Pantoscópico Min");
-                //dgvRangoCrt.Columns.Add("APMax", "Ángulo Pantoscópico Max");
-                //dgvRangoCrt.Columns.Add("ColorSi", "Color Sí");
-                //dgvRangoCrt.Columns.Add("ColorNo", "Color No");
-                //dgvRangoCrt.Columns.Add("Express1Hr", "Express 1 Hora");
-                //dgvRangoCrt.Columns.Add("Express3Hr", "Express 3 Horas");
-                //dgvRangoCrt.Columns.Add("Express12Hr", "Express 12 Horas");
-                //dgvRangoCrt.Columns.Add("5Dias", "5 Días");
-                //dgvRangoCrt.Columns.Add("7DiasHab", "7 Días Hábiles");
-                //dgvRangoCrt.Columns.Add("15Dias", "15 Días");
-                //dgvRangoCrt.Columns.Add("30Dias", "30 Días");
-                //dgvRangoCrt.Columns.Add("21Dias", "21 Días");
-                //dgvRangoCrt.Columns.Add("45Dias", "45 Días");
-                //dgvRangoCrt.Columns.Add("60Dias", "60 Días");
-                //dgvRangoCrt.Columns.Add("90Dias", "90 Días");
-                //dgvRangoCrt.Columns.Add("MontRemoto", "Montaje Remoto");
-                //dgvRangoCrt.Columns.Add("MontQuorum", "Montaje Quorum");
-
-
-                //dgvRangoCrt.Columns["linea"].HeaderText = "Linea";
-                //dgvRangoCrt.Columns["activo"].HeaderText = "Activo";
-                //dgvRangoCrt.Columns["codCristalOptica"].HeaderText = "Código Cristal Óptica";
-                //dgvRangoCrt.Columns["esferaMin"].HeaderText = "Esfera Min";
-                //dgvRangoCrt.Columns["esferaMax"].HeaderText = "Esfera Max";
-                //dgvRangoCrt.Columns["cilindroMin"].HeaderText = "Cilindro Min";
-                //dgvRangoCrt.Columns["cilindroMax"].HeaderText = "Cilindro Max";
-                //dgvRangoCrt.Columns["sumatoriaMin"].HeaderText = "Sumatoria Min";
-                //dgvRangoCrt.Columns["diametroMax"].HeaderText = "Diámetro Max";
-                //dgvRangoCrt.Columns["adicionMin"].HeaderText = "Adición Min";
-                //dgvRangoCrt.Columns["adicionMax"].HeaderText = "Adición Max";
-                //dgvRangoCrt.Columns["alturaMin"].HeaderText = "Altura Min";
-                //dgvRangoCrt.Columns["alturaMax"].HeaderText = "Altura Max";
-                //dgvRangoCrt.Columns["impresora"].HeaderText = "Impresora";
-                //dgvRangoCrt.Columns["EVDCODE"].HeaderText = "EVD Code";
-                //dgvRangoCrt.Columns["codCalculo"].HeaderText = "Código Cálculo";
+                dgvRangoCrt.DefaultCellStyle = centerStyle;
+                dgvRangoCrt.RowTemplate.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
                 //Ancho de columna
                 dgvRangoCrt.Columns["Cristal"].Width = 75;
@@ -3935,51 +3885,7 @@ namespace CapaVisual_Login
                 dgvRangoCrt.Columns["ProgVisionMediaDistMax"].Visible = false;
                 dgvRangoCrt.Columns["2daRefraccion"].Visible = false;
 
-                //Bloquear Columna 
-                //DgvListadoOrdenes.Columns["linea"].ReadOnly = true;
-                //    DgvListadoOrdenes.Columns["Abo_Tipo"].ReadOnly = true;
-                //    DgvListadoOrdenes.Columns["Abo_Monto"].ReadOnly = true;
-
-                //Posicion  
-                //DgvListadoOrdenes.Columns["Fecha"].DisplayIndex = 0;
-                //DgvListadoOrdenes.Columns["Abo_Tipo"].DisplayIndex = 1;
-                //DgvListadoOrdenes.Columns["Abo_Monto"].DisplayIndex = 2;
-                //DgvListadoOrdenes.Columns["Eliminar"].DisplayIndex = 3;
-                //DgvListadoOrdenes.Columns["Tipo_Pago"].DisplayIndex = 4;
-                //DgvListadoOrdenes.Columns["Fec_Crea"].DisplayIndex = 5;
-                //DgvListadoOrdenes.Columns["ID_Abono"].DisplayIndex = 6;
-
-                //Alineación
-
-                //dgvRangoCrt.Columns["linea"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                //dgvRangoCrt.Columns["activo"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                //dgvRangoCrt.Columns["codCristalOptica"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                //dgvRangoCrt.Columns["esferaMin"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                //dgvRangoCrt.Columns["esferaMax"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                //dgvRangoCrt.Columns["cilindroMin"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                //dgvRangoCrt.Columns["cilindroMax"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                //dgvRangoCrt.Columns["sumatoriaMin"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                //dgvRangoCrt.Columns["diametroMax"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                //dgvRangoCrt.Columns["adicionMin"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                //dgvRangoCrt.Columns["adicionMax"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                //dgvRangoCrt.Columns["alturaMin"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                //dgvRangoCrt.Columns["alturaMax"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                //dgvRangoCrt.Columns["impresora"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                //dgvRangoCrt.Columns["EVDCODE"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                //dgvRangoCrt.Columns["codCalculo"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
-
-                //dgvRangoCrt.Columns["linea"].Visible = false;
-                //dgvRangoCrt.Columns["activo"].Visible = false;
-
-                //if (TB_CAORDSER.OrSer_Status != "005")
-                //{
-                //    DgvListadoOrdenes.Columns["Eliminar"].Visible = false;
-                //    DgvListadoOrdenes.Columns["Fecha"].Width = 360;
-                //    DgvListadoOrdenes.Columns["Abo_Tipo"].Width = 350;
-                //    DgvListadoOrdenes.Columns["Abo_Monto"].Width = 360;
-                //}
-
+                
 
                 // nuevo 21-08-2023 
                 //dgvRangoCrt.Columns["Abo_Monto"].DefaultCellStyle.Format = "##,##0.00";
@@ -3987,6 +3893,103 @@ namespace CapaVisual_Login
             }
 
 
+            catch (Exception ex)
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje(string.Format("Error: {0}", ex.Message) + ", Error inesperado");
+                _FrmMensajes.ShowDialog();
+            }
+        }
+
+        private void FormatoTablaRango()
+        {
+            try
+            {
+                // Establecer estilo para encabezados de columna
+                dgvRangoCrt.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+                // Establecer estilo para todas las celdas
+                DataGridViewCellStyle centerStyle = new DataGridViewCellStyle();
+                centerStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                centerStyle.Font = new Font("Century Gothic", 6.25F);
+
+                dgvRangoCrt.DefaultCellStyle = centerStyle;
+                dgvRangoCrt.RowTemplate.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+                // Configurar mayúsculas para la columna codCristalOptica
+                dgvRangoCrt.Columns["codCristalOptica"].DefaultCellStyle.Font = new Font(dgvRangoCrt.Font, FontStyle.Bold);
+
+                // Ancho de las columnas
+                dgvRangoCrt.Columns["codCristalOptica"].Width = 65;
+                dgvRangoCrt.Columns["esferaMin"].Width = 50;
+                dgvRangoCrt.Columns["esferaMax"].Width = 60;
+                dgvRangoCrt.Columns["cilindroMin"].Width = 55;
+                dgvRangoCrt.Columns["cilindroMax"].Width = 60;
+                dgvRangoCrt.Columns["sumatoriaMin"].Width = 60;
+                dgvRangoCrt.Columns["diametroMax"].Width = 60;
+                dgvRangoCrt.Columns["adicionMin"].Width = 55;
+                dgvRangoCrt.Columns["adicionMax"].Width = 60;
+                dgvRangoCrt.Columns["alturaMin"].Width = 55;
+                dgvRangoCrt.Columns["alturaMax"].Width = 60;
+
+                // Alineación del texto
+                dgvRangoCrt.Columns["codCristalOptica"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+                dgvRangoCrt.Columns["esferaMin"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+                dgvRangoCrt.Columns["esferaMax"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                dgvRangoCrt.Columns["cilindroMin"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                dgvRangoCrt.Columns["cilindroMax"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                dgvRangoCrt.Columns["sumatoriaMin"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                dgvRangoCrt.Columns["diametroMax"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                dgvRangoCrt.Columns["adicionMin"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                dgvRangoCrt.Columns["adicionMax"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                dgvRangoCrt.Columns["alturaMin"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                dgvRangoCrt.Columns["alturaMax"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+                // Hacer columnas no editables
+                dgvRangoCrt.Columns["codCristalOptica"].ReadOnly = true;
+                dgvRangoCrt.Columns["esferaMin"].ReadOnly = true;
+                dgvRangoCrt.Columns["esferaMax"].ReadOnly = true;
+                dgvRangoCrt.Columns["cilindroMin"].ReadOnly = true;
+                dgvRangoCrt.Columns["cilindroMax"].ReadOnly = true;
+                dgvRangoCrt.Columns["sumatoriaMin"].ReadOnly = true;
+                dgvRangoCrt.Columns["diametroMax"].ReadOnly = true;
+                dgvRangoCrt.Columns["adicionMin"].ReadOnly = true;
+                dgvRangoCrt.Columns["adicionMax"].ReadOnly = true;
+                dgvRangoCrt.Columns["alturaMin"].ReadOnly = true;
+                dgvRangoCrt.Columns["alturaMax"].ReadOnly = true;
+
+                // Configurar los títulos de las columnas
+                dgvRangoCrt.Columns["codCristalOptica"].HeaderText = "Cristal";
+                dgvRangoCrt.Columns["esferaMin"].HeaderText = "Esf.Min";
+                dgvRangoCrt.Columns["esferaMax"].HeaderText = "Esf.Max";
+                dgvRangoCrt.Columns["cilindroMin"].HeaderText = "Cil.Min";
+                dgvRangoCrt.Columns["cilindroMax"].HeaderText = "Cil.Max";
+                dgvRangoCrt.Columns["sumatoriaMin"].HeaderText = "Sum.Min";
+                dgvRangoCrt.Columns["diametroMax"].HeaderText = "Diam.Max";
+                dgvRangoCrt.Columns["adicionMin"].HeaderText = "Add.Min";
+                dgvRangoCrt.Columns["adicionMax"].HeaderText = "Add.Max";
+                dgvRangoCrt.Columns["alturaMin"].HeaderText = "Alt.Min";
+                dgvRangoCrt.Columns["alturaMax"].HeaderText = "Alt.Max";
+
+                // Ocultar columnas
+                dgvRangoCrt.Columns["linea"].Visible = false;
+                dgvRangoCrt.Columns["activo"].Visible = false;
+                dgvRangoCrt.Columns["impresora"].Visible = false;
+                dgvRangoCrt.Columns["EVDCODE"].Visible = false;
+                dgvRangoCrt.Columns["codCalculo"].Visible = false;
+
+                // Configurar estilo visual
+                dgvRangoCrt.BackgroundColor = Color.Honeydew;
+                //dgvRangoCrt.DefaultCellStyle.Font = new Font("Arial", 9, FontStyle.Bold);
+                dgvRangoCrt.RowHeadersVisible = false; // Equivalente a GroupByBoxVisible = false
+                dgvRangoCrt.DefaultCellStyle.SelectionBackColor = Color.Yellow;
+
+                // Enfocar la columna 7 (ajustar índice según necesidad)
+                if (dgvRangoCrt.Columns.Count > 7)
+                {
+                    dgvRangoCrt.CurrentCell = dgvRangoCrt.Rows[0].Cells[7];
+                }
+            }
             catch (Exception ex)
             {
                 _FrmMensajes.co = 2;
@@ -4228,113 +4231,7 @@ namespace CapaVisual_Login
 
         }
 
-        public void VerificoRangoDiametroCristales()
-        {
-            bool AceptaCristalD = false;
-            bool AceptaCristalI = false;
-            string CristalD = "";
-            string CristalI = "";
-            string Montura = "";
-            string diamD = "";
-            string diamI = "";
-
-            for (int xx = 0; xx < Dgv_Tap3_Articulo.RowCount; xx++)
-            {
-                var row = Dgv_Tap3_Articulo.Rows[xx];
-                if (row.Cells["CodArticulo"].Value.ToString().StartsWith("C"))
-                {
-                    switch (row.Cells["Ojo"].Value.ToString())
-                    {
-                        case "A":
-                            CristalD = CristalI = row.Cells["CodArticulo"].Value.ToString();
-                            break;
-                        case "D":
-                            CristalD = row.Cells["CodArticulo"].Value.ToString();
-                            break;
-                        case "I":
-                            CristalI = row.Cells["CodArticulo"].Value.ToString();
-                            break;
-                    }
-                }
-                else if (row.Cells["CodArticulo"].Value.ToString().StartsWith("M"))
-                {
-                    Montura = row.Cells["CodArticulo"].Value.ToString();
-                }
-            }
-
-            DataSet dsDiametroEfectivo;
-
-            _L_Articulo.LlenarTB_Trbajo(_TRABAJO, _D_Inicio.Sucursal(), Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2));
-            var _Trabajo = _TRABAJO.FirstOrDefault(a => a.T_CEDIDEN == Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2) & a.T_NACIO == Txt_Pnl2_Cedula.Text.Substring(0, 1));
-
-
-            dsDiametroEfectivo = _D_Articulo.MostrarDiametroEfectivoCrtGrid(Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Txt_Pnl2_Examen.Text,CristalD, CristalI, "A",_Trabajo.T_TIPOVISIOND, _Trabajo.T_TIPOVISIONI,Montura, txtHorizontal.Text.Replace(".", ""),  txtMaxima.Text.Replace(".", ""),  txtPuente.Text.Replace(".", ""), _D_Inicio.Sucursal());
-
-
-            //DataSet dsDiametroEfectivo = ManBD.EjecutaStoreProcedure("pGetDiametroEfectivo",
-            //    $"{txtNacRif.Text}','{Cedula}','{NumExamen}','{CristalD}','{CristalI}','{TxtOjo.Text.Substring(0, 1)}','{TxtTipoVisionD.Text.ToUpper()}','{TxtTipoVisionI.Text.ToUpper()}','{Montura}',{txtHorizontal.Text.Replace(".", "")}, {txtMaxima.Text.Replace(".", "")}, {txtPuente.Text.Replace(".", "")}, '{glbSucursalActual}'");
-
-            if (Convert.ToInt32(dsDiametroEfectivo.Tables[1].Rows[0][0]) > 0)
-            {
-                diamD = dsDiametroEfectivo.Tables[1].Rows[0]["DIAMETROEFECTIVODERECHO"].ToString();
-                diamI = dsDiametroEfectivo.Tables[1].Rows[0]["DIAMETROEFECTIVOIZQUIERDO"].ToString();
-            }
-            else
-            {
-                diamD = "0";
-                diamI = "0";
-            }
-
-            if (CristalD.StartsWith("C") || CristalI.StartsWith("C"))
-            {
-                DataSet dsValidaciones;
-
-
-                 dsValidaciones = _D_Articulo.MostrarValidaRangoCrtGrid(Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Txt_Pnl2_Examen.Text, "A", CristalD, CristalI, _Trabajo.T_ALTD, _Trabajo.T_ALTI, _Trabajo.T_TIPOVISIOND, _Trabajo.T_TIPOVISIONI, diamD, diamI);
-
-
-                //= ManBD.EjecutaStoreProcedure("pValidarangoCristal",
-                //                    $"{txtNacRif.Text}', '{Cedula}', '{NumExamen}', '{TxtOjo.Text.Substring(0, 1)}', '{CristalD}', '{CristalI}', {txtAltD.Text.Replace(",", ".")}, {txtAltI.Text.Replace(",", ".")}, '{TxtTipoVisionD.Text.ToUpper()}', '{TxtTipoVisionI.Text.ToUpper()}', '{diamD}', '{diamI}'");
-
-                string ojo = "A"; //TxtOjo.Text.Value.ToString().Substring(0, 1).ToUpper();
-                if (ojo == "A")
-                {
-                    AceptaCristalD = dsValidaciones.Tables[0].Rows.Count > 0;
-                    AceptaCristalI = dsValidaciones.Tables[1].Rows.Count > 0;
-                }
-                else if (ojo == "D")
-                {
-                    AceptaCristalD = dsValidaciones.Tables[0].Rows.Count > 0;
-                    AceptaCristalI = true;
-                }
-                else if (ojo == "I")
-                {
-                    AceptaCristalI = dsValidaciones.Tables[0].Rows.Count > 0;
-                    AceptaCristalD = true;
-                }
-
-                if (!AceptaCristalD || !AceptaCristalI)
-                {
-                    //DataSet dsConsultaCristal = ManBD.EjecutaStoreProcedure("pGetRangoCristal", $"{CristalD}', '{CristalI}'");
-                    DataSet dsConsultaCristal = _D_Articulo.MostrarParametrosCrtGrid(CristalD, CristalI);
-                    //dgvRangoCrt.ClearStructure();
-                    dgvRangoCrt.DataSource = dsConsultaCristal.Tables[0];
-                    //dgvRangoCrt.RetrieveStructure();
-                    //FormatoTablaRango();
-
-                    lblDiametroD.Text = diamD;
-                    lblDiametroI.Text = diamI;
-
-                    lblDiametroD.Visible = lblDiametroI.Visible = true;
-                    LblTitulo.Text = "El cristal seleccionado no se adapta a los siguientes rangos:";
-                    lblClaveAut.Visible = true;
-                    lblLeyenda.Visible = false;
-                    btnAutorizarRangosCrt.Visible =  true;
-                    pnlRangoCrt.Show();
-                }
-            }
-
-        }
+       
 
         private void Dgv_Pnl3_ClienteAfiliado_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -11914,10 +11811,11 @@ namespace CapaVisual_Login
                         lblDiametroD.Visible = lblDiametroI.Visible = true;
                         LblTitulo.Text = _Asignar_Rx.stringBuilder.ToString();
                         lblClaveAut.Visible = true;
-                        lblLeyenda.Visible = true;
+                        lblLeyenda.Visible = false;
                         btnAutorizarRangosCrt.Visible = true;
                         pnlRangoCrt.Show();
                         pnlRangoCrt.Location = new Point(200, 150);
+                        FormatoTablaRango();
                         return;
 
                     }
@@ -11933,6 +11831,7 @@ namespace CapaVisual_Login
                         LbResultado2.Visible = true;
                         pnlRangoCrt.Show();
                         pnlRangoCrt.Location = new Point(200, 150);
+                        FormatoDataGridRangosCristales();
                         return;
                     }
                     else
