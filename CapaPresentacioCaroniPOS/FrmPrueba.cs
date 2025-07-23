@@ -38,7 +38,7 @@ namespace CapaVisual_Login
         {
             try
             {
-                ReportesCierreCaja();
+                ReportesCierreCaja(false);
 
 
             }
@@ -49,13 +49,13 @@ namespace CapaVisual_Login
             }
         }
 
-        public void ReportesCierreCaja()
+        public void ReportesCierreCaja(bool cierreEnCero)
         {
             string Sucursal = _D_DetalleOrden.TB_PARAMETRO("SucursalId");
             DataSet Datos = _D_Login.SucursalCompania(Sucursal);
             string Descripcion = "";
             string RifCompania = "";
-            DateTime DiaActivo = _D_Inicio.DiaActivo().AddDays(-9);
+            DateTime DiaActivo = _D_Inicio.DiaActivo().AddDays(-1);
             string NombreSucursal = "";
             bool imprimir = false;
 
@@ -75,10 +75,16 @@ namespace CapaVisual_Login
 
 
             ////ReporteTranferencia(imprimir, RifCompania, Descripcion, NombreSucursal, Sucursal, DiaActivo.AddDays(-5));
-            ReporteCierreCaja(imprimir, RifCompania, Descripcion, NombreSucursal, Sucursal, DiaActivo);
-            ReporteTranferencia(imprimir, RifCompania, Descripcion, NombreSucursal, Sucursal, DiaActivo);
-            ReporteVuelto(imprimir, RifCompania, Descripcion, NombreSucursal, Sucursal, DiaActivo);
-
+            if (cierreEnCero)
+            {
+                ReporteCierreCaja(imprimir, RifCompania, Descripcion, NombreSucursal, Sucursal, DiaActivo);
+            }
+            else
+            {
+                ReporteCierreCaja(imprimir, RifCompania, Descripcion, NombreSucursal, Sucursal, DiaActivo);
+                ReporteTranferencia(imprimir, RifCompania, Descripcion, NombreSucursal, Sucursal, DiaActivo);
+                ReporteVuelto(imprimir, RifCompania, Descripcion, NombreSucursal, Sucursal, DiaActivo);
+            }
 
         }
         public void ReporteTranferencia(bool imprimir, string RifCompania, string Descripcion, string NombreSucursal, string Sucursal, DateTime DiaActivo)

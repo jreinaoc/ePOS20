@@ -995,7 +995,7 @@ namespace CapaVisual_Login
 
             FrmPrueba frmReportes = new FrmPrueba();
 
-            frmReportes.ReportesCierreCaja();
+            frmReportes.ReportesCierreCaja(false);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -165,17 +166,24 @@ namespace CapaLogica.TasaDia_Logica
                                                         if (IActivarEmailASD == "1")
                                                         {
 
+                                                            string urlApp = _D_DetalleOrden.TB_PARAMETRO("RutaEnvioEmail") + "AppEnvioEmail.exe";
 
-                                                            string strSucursalDeTrabajo = _D_DetalleOrden.TB_PARAMETRO("Sucursal");
+                                                                if (File.Exists(urlApp))
+                                                                {
+                                                                    string strSucursalDeTrabajo = _D_DetalleOrden.TB_PARAMETRO("Sucursal");
 
-                                                            string NombreSucursal = _D_DetalleOrden.Nombre_Surculsal_PagoMovil(strSucursalDeTrabajo, null);
+                                                                    string NombreSucursal = _D_DetalleOrden.Nombre_Surculsal_PagoMovil(strSucursalDeTrabajo, null);
 
-                                                            string valor1 = _D_DetalleOrden.TB_PARAMETRO("FechaUSecuencia");
+                                                                    string valor1 = _D_DetalleOrden.TB_PARAMETRO("FechaUSecuencia");
 
-                                                            var Correo = FormatoCorreoSecuencia(strSucursalDeTrabajo, NombreSucursal, LblTasaDesenc.Text, valor1);
+                                                                    var Correo = FormatoCorreoSecuencia(strSucursalDeTrabajo, NombreSucursal, LblTasaDesenc.Text, valor1);
 
-                                                            EnviarCorreo(Correo.Asunto, Correo.CuerpoMensaje);
-
+                                                                    EnviarCorreo(Correo.Asunto, Correo.CuerpoMensaje);
+                                                                }
+                                                                else
+                                                                {
+                                                                    mostrarError("No se encontró la aplicación de envío de mail");
+                                                                }
                                                         }
 
                                                         // Blanquear campo de Secuencia al finalizar proceso de activación 

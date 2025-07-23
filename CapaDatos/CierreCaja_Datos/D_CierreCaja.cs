@@ -40,6 +40,7 @@ namespace CapaDatos.CierreCaja_Datos
             catch (Exception ex)
             {
                 string Error = string.Format("Error: {0}", ex.Message);
+                EscribirLog(ex.Message.ToString());
                 return null;
             }
         }
@@ -72,6 +73,7 @@ namespace CapaDatos.CierreCaja_Datos
             catch (Exception ex)
             {
                 string Error = string.Format("Error: {0}", ex.Message);
+                EscribirLog(ex.Message.ToString());
                 return null;
             }
         }
@@ -106,6 +108,7 @@ namespace CapaDatos.CierreCaja_Datos
             catch (Exception ex)
             {
                 string Error = string.Format("Error: {0}", ex.Message);
+                EscribirLog(ex.Message.ToString());
                 return null;
             }
         }
@@ -139,6 +142,7 @@ namespace CapaDatos.CierreCaja_Datos
             catch (Exception ex)
             {
                 string Error = string.Format("Error: {0}", ex.Message);
+                EscribirLog(ex.Message.ToString());
                 return null;
             }
         }
@@ -169,6 +173,7 @@ namespace CapaDatos.CierreCaja_Datos
             catch (Exception ex)
             {
                 string Error = string.Format("Error: {0}", ex.Message);
+                EscribirLog(ex.Message.ToString());
                 return null;
             }
         }
@@ -205,6 +210,7 @@ namespace CapaDatos.CierreCaja_Datos
             catch (Exception ex)
             {
                 string Error = string.Format("Error: {0}", ex.Message);
+                EscribirLog(ex.Message.ToString());
                 return null;
             }
         }
@@ -238,6 +244,7 @@ namespace CapaDatos.CierreCaja_Datos
             catch (Exception ex)
             {
                 string Error = string.Format("Error: {0}", ex.Message);
+                EscribirLog(ex.Message.ToString());
                 return null;
             }
         }
@@ -273,6 +280,7 @@ namespace CapaDatos.CierreCaja_Datos
             catch (Exception ex)
             {
                 string Error = string.Format("Error: {0}", ex.Message);
+                EscribirLog(ex.Message.ToString());
                 return null;
             }
         }
@@ -305,6 +313,7 @@ namespace CapaDatos.CierreCaja_Datos
             catch (Exception ex)
             {
                 string Error = string.Format("Error: {0}", ex.Message);
+                EscribirLog(ex.Message.ToString());
                 return null;
             }
         }
@@ -340,6 +349,7 @@ namespace CapaDatos.CierreCaja_Datos
             catch (Exception ex)
             {
                 string Error = string.Format("Error: {0}", ex.Message);
+                EscribirLog(ex.Message.ToString());
                 return null;
             }
         }
@@ -373,6 +383,7 @@ namespace CapaDatos.CierreCaja_Datos
             catch (Exception ex)
             {
                 string Error = string.Format("Error: {0}", ex.Message);
+                EscribirLog(ex.Message.ToString());
                 return null;
             }
         }
@@ -408,6 +419,7 @@ namespace CapaDatos.CierreCaja_Datos
             catch (Exception ex)
             {
                 string Error = string.Format("Error: {0}", ex.Message);
+                EscribirLog(ex.Message.ToString());
                 return null;
             }
         }
@@ -444,6 +456,7 @@ namespace CapaDatos.CierreCaja_Datos
             catch (Exception ex)
             {
                 string Error = string.Format("Error: {0}", ex.Message);
+                EscribirLog(ex.Message.ToString());
                 return null;
             }
         }
@@ -479,6 +492,7 @@ namespace CapaDatos.CierreCaja_Datos
             catch (Exception ex)
             {
                 string Error = string.Format("Error: {0}", ex.Message);
+                EscribirLog(ex.Message.ToString());
                 return null;
             }
         }
@@ -541,6 +555,7 @@ namespace CapaDatos.CierreCaja_Datos
             catch (Exception ex)
             {
                 string Error = string.Format("Error: {0}", ex.Message);
+                EscribirLog(ex.Message.ToString());
                 return null;
             }
         }
@@ -573,6 +588,7 @@ namespace CapaDatos.CierreCaja_Datos
             catch (Exception ex)
             {
                 string Error = string.Format("Error: {0}", ex.Message);
+                EscribirLog(ex.Message.ToString());
                 return null;
             }
         }
@@ -606,6 +622,7 @@ namespace CapaDatos.CierreCaja_Datos
             catch (Exception ex)
             {
                 string Error = string.Format("Error: {0}", ex.Message);
+                EscribirLog(ex.Message.ToString());
                 return null;
             }
         }
@@ -637,6 +654,7 @@ namespace CapaDatos.CierreCaja_Datos
             catch (Exception ex)
             {
                 string Error = string.Format("Error: {0}", ex.Message);
+                EscribirLog(ex.Message.ToString());
                 return null;
             }
         }
@@ -669,6 +687,7 @@ namespace CapaDatos.CierreCaja_Datos
             catch (Exception ex)
             {
                 string Error = string.Format("Error: {0}", ex.Message);
+                EscribirLog(ex.Message.ToString());
                 return null;
             }
         }
@@ -699,6 +718,7 @@ namespace CapaDatos.CierreCaja_Datos
             catch (Exception ex)
             {
                 string Error = string.Format("Error: {0}", ex.Message);
+                EscribirLog(ex.Message.ToString());
                 return null;
             }
         }
@@ -729,6 +749,7 @@ namespace CapaDatos.CierreCaja_Datos
             catch (Exception ex)
             {
                 string Error = string.Format("Error: {0}", ex.Message);
+                EscribirLog(ex.Message.ToString());
                 return null;
             }
         }
@@ -761,6 +782,7 @@ namespace CapaDatos.CierreCaja_Datos
             catch (Exception ex)
             {
                 string Error = string.Format("Error: {0}", ex.Message);
+                EscribirLog(ex.Message.ToString());
                 return null;
             }
         }
@@ -794,6 +816,7 @@ namespace CapaDatos.CierreCaja_Datos
             catch (Exception ex)
             {
                 string Error = string.Format("Error: {0}", ex.Message);
+                EscribirLog(ex.Message.ToString());
                 return null;
             }
         }
@@ -827,6 +850,7 @@ namespace CapaDatos.CierreCaja_Datos
             catch (Exception ex)
             {
                 string Error = string.Format("Error: {0}", ex.Message);
+                EscribirLog(ex.Message.ToString());
                 return null;
             }
         }
@@ -858,6 +882,7 @@ namespace CapaDatos.CierreCaja_Datos
             catch (Exception ex)
             {
                 string Error = string.Format("Error: {0}", ex.Message);
+                EscribirLog(ex.Message.ToString());
                 return null;
             }
         }
@@ -891,8 +916,16 @@ namespace CapaDatos.CierreCaja_Datos
             catch (Exception ex)
             {
                 string Error = string.Format("Error: {0}", ex.Message);
+                EscribirLog(ex.Message.ToString());
                 return null;
             }
+        }
+
+        public static void EscribirLog(string mensaje)
+        {
+            string ruta = "log.txt";
+            string entrada = $"[{DateTime.Now}] {mensaje}";
+            System.IO.File.AppendAllText(ruta, entrada + Environment.NewLine);
         }
 
     }
