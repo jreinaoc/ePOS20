@@ -3442,7 +3442,7 @@ Nombre y Apellido: ____________________________ Firma: ________________________ 
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>RIFF: </Value>
+                      <Value>RIF: </Value>
                       <Style>
                         <FontFamily>Calibri</FontFamily>
                       </Style>
@@ -3533,9 +3533,9 @@ Nombre y Apellido: ____________________________ Firma: ________________________ 
               </Paragraphs>
               <rd:DefaultName>Textbox1</rd:DefaultName>
               <Top>1.2cm</Top>
-              <Left>5.46949cm</Left>
+              <Left>7.87401cm</Left>
               <Height>0.6cm</Height>
-              <Width>3.08208cm</Width>
+              <Width>3.5086cm</Width>
               <ZIndex>3</ZIndex>
               <Style>
                 <Border>
@@ -3571,9 +3571,9 @@ Nombre y Apellido: ____________________________ Firma: ________________________ 
               </Paragraphs>
               <rd:DefaultName>Textbox1</rd:DefaultName>
               <Top>1.8cm</Top>
-              <Left>5.46949cm</Left>
+              <Left>7.87401cm</Left>
               <Height>0.6cm</Height>
-              <Width>7.40891cm</Width>
+              <Width>3.5086cm</Width>
               <ZIndex>4</ZIndex>
               <Style>
                 <Border>

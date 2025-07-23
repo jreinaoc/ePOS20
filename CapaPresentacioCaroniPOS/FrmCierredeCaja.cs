@@ -216,9 +216,10 @@ namespace CapaVisual_Login
             tabPage4.BackColor = col1;
             lbl_CierreDeCaja.BackColor = col3;
             lbl_CierreDeCaja.ForeColor = col5;
-            
             lbl_Observaciones.BackColor = col3;
             lbl_Observaciones.ForeColor = col5;
+            dgvCierredecaja.BackColor = col1;
+            dgvCierredecaja.BackgroundColor = col1;
 
             //Pagina 5
             tabPage5.BackColor = col1;
@@ -291,9 +292,10 @@ namespace CapaVisual_Login
             tabPage4.BackColor = col3;
             lbl_CierreDeCaja.BackColor = col6;
             lbl_CierreDeCaja.ForeColor = col1;
-            
             lbl_Observaciones.BackColor = col6;
             lbl_Observaciones.ForeColor = col1;
+            dgvCierredecaja.BackColor = col3;
+            dgvCierredecaja.BackgroundColor = col3;
 
             //Pagina 5
             tabPage5.BackColor = col3;

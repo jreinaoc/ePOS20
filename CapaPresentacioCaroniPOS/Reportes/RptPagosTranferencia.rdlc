@@ -133,7 +133,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>RIFF:</Value>
+                    <Value>RIF:</Value>
                     <Style>
                       <FontFamily>Calibri</FontFamily>
                       <FontWeight>Normal</FontWeight>
@@ -358,10 +358,10 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox8</rd:DefaultName>
-            <Top>3.2603cm</Top>
-            <Left>0.3175cm</Left>
+            <Top>3.08391cm</Top>
+            <Left>8.67516cm</Left>
             <Height>0.6cm</Height>
-            <Width>10.93703cm</Width>
+            <Width>5.43688cm</Width>
             <ZIndex>6</ZIndex>
             <Style>
               <Border>
