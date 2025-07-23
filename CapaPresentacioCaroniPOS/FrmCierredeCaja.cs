@@ -158,8 +158,8 @@ namespace CapaVisual_Login
 
 
             tcCierreCaja.SelectedIndex = 1;
-            tcCierreCaja.SelectedIndex = 0;
-            tcCierreCaja.SelectedIndex = 1;
+            //tcCierreCaja.SelectedIndex = 0;
+            //tcCierreCaja.SelectedIndex = 1;
             lblPaso.Text = "Asistencia";
             lbPaso.Text = "Paso 2";
         }
@@ -869,16 +869,16 @@ namespace CapaVisual_Login
                     Dvg_MarcajeAsistenciaPendiente.Columns["HORAENTRADAT2"].ReadOnly = true;
                     Dvg_MarcajeAsistenciaPendiente.Columns["HORASALIDAT2"].ReadOnly = true;
 
-                    foreach (DataGridViewRow row in Dvg_MarcajeAsistenciaPendiente.Rows)
-                    {
-                        if (!row.IsNewRow)
-                        {
-                            row.Cells["HORAENTRADAT1"].Value = " ";
-                            row.Cells["HORASALIDAT1"].Value = " ";
-                            row.Cells["HORAENTRADAT2"].Value = " ";
-                            row.Cells["HORASALIDAT2"].Value = " ";
-                        }
-                    }
+                    //foreach (DataGridViewRow row in Dvg_MarcajeAsistenciaPendiente.Rows)
+                    //{
+                    //    if (!row.IsNewRow)
+                    //    {
+                    //        row.Cells["HORAENTRADAT1"].Value = " ";
+                    //        row.Cells["HORASALIDAT1"].Value = " ";
+                    //        row.Cells["HORAENTRADAT2"].Value = " ";
+                    //        row.Cells["HORASALIDAT2"].Value = " ";
+                    //    }
+                    //}
 
                     // Suponiendo que ya hiciste:
                     // Dgv_MarcajeAsistenciaPendiente.DataSource = dtAsistenciaPendiente;
