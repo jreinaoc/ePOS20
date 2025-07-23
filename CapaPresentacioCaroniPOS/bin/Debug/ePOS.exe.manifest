@@ -86,7 +86,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>cQS4JUlXkassMdXlVoY45lgK96TermVv+KBwQ1TJGGA=</dsig:DigestValue>
+        <dsig:DigestValue>FNXd8NSJcPjBgQeQpcQUHGxMtZiPAX/mswY89YdYVvA=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -199,14 +199,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ePOS.exe" size="3004928">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ePOS.exe" size="3010048">
       <assemblyIdentity name="ePOS" version="1.0.2.4" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>gmgt7HC0sO/5nIKSvig68+LBu41xsojfP95tFlc/Hb8=</dsig:DigestValue>
+        <dsig:DigestValue>8Who82C8eeeb2gZ4fn7JHLMxXST0I0ALNvdXYmqTgLw=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

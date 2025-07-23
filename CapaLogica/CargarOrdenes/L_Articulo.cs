@@ -304,8 +304,8 @@ namespace CapaLogica.CargarOrdenes
             }
             catch (Exception ex)
             {
-                // Lanzar una excepción personalizada para que sea manejada en la capa visual
-                throw new Exception("Error al agregar una fila al DataGridView. Detalles: " + ex.Message, ex);
+                //// Lanzar una excepción personalizada para que sea manejada en la capa visual
+                //throw new Exception("Error al agregar una fila al DataGridView. Detalles: " + ex.Message, ex);
             }
 
         }
@@ -4559,7 +4559,7 @@ namespace CapaLogica.CargarOrdenes
                 //AR
                 DataSet dsServAR = _D_Articulos.ServiciosAR_btnProcesar("", false);
 
-                if (dsGetLC.Tables.Count > 1 && dsGetLC.Tables[2].Rows.Count > 0)
+                if (dsGetLC.Tables.Count > 2 && dsGetLC.Tables[2].Rows.Count > 0)
                 {
                     foreach (DataGridViewRow row in DgvArticulo.Rows)
                     {

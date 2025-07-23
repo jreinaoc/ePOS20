@@ -2163,6 +2163,22 @@ namespace CapaVisual_Login
                     _FrmMensajes.co = 2;
                     _FrmMensajes.avisomensaje(_L_Articulo.stringBuilder.ToString());
                     _FrmMensajes.ShowDialog();
+
+                    if (_L_Articulo.stringBuilder.ToString()== "Esta OS no aplica Reposición" && Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "09")
+                    {
+                        int FilaPorBorrar = e.RowIndex;
+                        // Verificar si se puede borrar el artículo
+                        bool puedeBorrar = _L_Articulo.VerificarYBorrarArticulo(Dgv_Tap3_Articulo, ref FilaPorBorrar);
+
+                        if (puedeBorrar)
+                        {
+                            // Si se puede borrar, eliminar la fila
+
+                            Dgv_Tap3_Articulo.Rows.RemoveAt(FilaPorBorrar);
+                            return;
+
+                        }
+                    }
                 }
 
             }
@@ -3073,6 +3089,31 @@ namespace CapaVisual_Login
                 //        return;
                 //    }
                 //}
+
+                if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "09")
+                {
+                    bool TieneMontura= false;
+                    // Verificar si tiene  Montura
+                    foreach (DataGridViewRow row in Dgv_Tap3_Articulo.Rows)
+                    {
+                        if (row.Cells["CodArticulo"].Value != null && (row.Cells["CodArticulo"].Value.ToString().StartsWith("M") || row.Cells["CodArticulo"].Value.ToString().StartsWith("L")))
+                        {
+                            TieneMontura = true;
+                        }
+                        else
+                        {
+                            TieneMontura = false;
+                        }
+                    }
+
+                    if (TieneMontura == false && Montura_Propia== false)
+                    {
+                        Btn_Tap3_MonturaPropia.PerformClick();
+                        return;
+                    }
+                }
+
+
                 if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() != "04" && Cbx_Pnl2_Trbajo.SelectedValue.ToString() != "05")
                 {
                     if (!ValidarVisionConv())
