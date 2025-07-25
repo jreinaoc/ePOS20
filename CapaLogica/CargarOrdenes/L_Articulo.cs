@@ -4670,7 +4670,7 @@ namespace CapaLogica.CargarOrdenes
                 }
                 else
                 {
-                    stringBuilder.Append("Esta OS no aplica Reposición");
+                    stringBuilder.Append("Esta orden no aplica para reposición de garantia");
                     return false;
                 }
             }

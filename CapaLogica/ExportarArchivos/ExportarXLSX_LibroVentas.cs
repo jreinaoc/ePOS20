@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Globalization;
+
 using System.Threading.Tasks;
 
 namespace CapaLogica.ExportarArchivos
@@ -199,6 +201,9 @@ namespace CapaLogica.ExportarArchivos
                 // Filtramos los datos que NO sean totales o filas vacías (si aplicas EsTotal)
                 var listaDatos = data.Cast<tbLibroVentas_Reporte>().Where(x => !x.EsTotal).ToList();
 
+                CultureInfo cultura = new CultureInfo("es-VE");
+
+
                 if (listaDatos.Count > 0)
                 {
                     // ======= AGREGAR FILA DE TOTALES =======
@@ -209,11 +214,11 @@ namespace CapaLogica.ExportarArchivos
                     ws.Cell(totalRow, 4).Style.Font.Bold = true;
 
                     // Totales en sus respectivas columnas
-                    ws.Cell(totalRow, 12).Value = listaDatos.Sum(x => x.TotalVentas_Iva);
-                    ws.Cell(totalRow, 13).Value = listaDatos.Sum(x => x.VentasExentas);
-                    ws.Cell(totalRow, 16).Value = listaDatos.Sum(x => x.TotalNoGravadas);
-                    ws.Cell(totalRow, 17).Value = listaDatos.Sum(x => x.BaseImponible);
-                    ws.Cell(totalRow, 19).Value = listaDatos.Sum(x => x.ImpuestoIVA);
+                    ws.Cell(totalRow, 12).Value = listaDatos.Sum(x => x.TotalVentas_Iva).ToString("N2", cultura);
+                    ws.Cell(totalRow, 13).Value = listaDatos.Sum(x => x.VentasExentas).ToString("N2", cultura);
+                    ws.Cell(totalRow, 16).Value = listaDatos.Sum(x => x.TotalNoGravadas).ToString("N2", cultura);
+                    ws.Cell(totalRow, 17).Value = listaDatos.Sum(x => x.BaseImponible).ToString("N2", cultura);
+                    ws.Cell(totalRow, 19).Value = listaDatos.Sum(x => x.ImpuestoIVA).ToString("N2", cultura);
 
                     var totalRange = ws.Range(totalRow, 4, totalRow, 19);
                     totalRange.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;

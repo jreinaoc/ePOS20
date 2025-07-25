@@ -74,8 +74,19 @@ namespace CapaVisual_Login
                 return;
             }
 
+            int cantCaracteres = Convert.ToInt32(_D_DetalleOrden.TB_PARAMETRO("canCaractCierre"));
+
             DataTable dtPuntosCerrados = _L_CierreCaja.CierrePuntodeVenta(sucursal, "", "", diaActivo);
 
+            if (txtCierreHora.Text.Length < cantCaracteres)
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("La observación debe tener al menos " + cantCaracteres + " caracteres obligatoriamente");
+                _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                _FrmMensajes.ShowDialog();
+                return;
+            }
             //Si no se han cerrado 
             if (Dvg_CierrePuntoVenta.Rows.Count > 0 && dtPuntosCerrados.Rows.Count == 0 )
             {
@@ -418,14 +429,13 @@ namespace CapaVisual_Login
         {
             try
             {
-                //this.txtFiltroVendedor.TextChanged += new System.EventHandler(this.txtFiltroVendedor_TextChanged);
-                //this.Dvg_MarcajeAsistenciaPendiente.CellClick += Dgv_MarcajeAsistenciaPendiente_CellClick;
-                //this.Dvg_ConsignacionDeOS.CellClick += Dvg_ConsignacionDeOS_CellClick;
-                //this.Dgv_Usuarios.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_Usuarios_CellContentClick);
-                ////this.Dvg_OSconPagoMovil.EditingControlShowing += new DataGridViewEditingControlShowingEventHandler(this.Dvg_OSconPagoMovil_EditingControlShowing);
-                //this.Dvg_OSconPagoMovil.EditingControlShowing += Dvg_OSconPagoMovil_EditingControlShowing;
-                //this.Dvg_CierrePuntoVenta.EditingControlShowing += Dvg_CierrePuntoVenta_EditingControlShowing;
-                //this dgvCierredecaja.CellEndEdit += dgvCierredecaja_CellEndEdit;
+                this.txtFiltroVendedor.TextChanged += new System.EventHandler(this.txtFiltroVendedor_TextChanged);
+                this.Dvg_MarcajeAsistenciaPendiente.CellClick += Dgv_MarcajeAsistenciaPendiente_CellClick;
+                this.Dvg_ConsignacionDeOS.CellClick += Dvg_ConsignacionDeOS_CellClick;
+                this.Dgv_Usuarios.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_Usuarios_CellContentClick);
+                this.Dvg_OSconPagoMovil.EditingControlShowing += Dvg_OSconPagoMovil_EditingControlShowing;
+                this.Dvg_CierrePuntoVenta.EditingControlShowing += Dvg_CierrePuntoVenta_EditingControlShowing;
+                this.dgvCierredecaja.EditingControlShowing += dgvCierredecaja_EditingControlShowing;
 
                 tcCierreCaja.ItemSize = new Size(0, 1);
                 tcCierreCaja.SizeMode = TabSizeMode.Fixed;
@@ -574,6 +584,14 @@ namespace CapaVisual_Login
         {
             FechaInicioCierre = DateTime.Now;
             btnCancelar.Enabled = true;
+            if (!_L_CierreCaja.CierreFueradeHorario(sucursal, DateTime.Now, DateTime.Now) && txtCierreHora.Text == "")
+            {
+                txtCierreHora.Enabled = true;
+            }
+            else
+            {
+                txtCierreHora.Enabled = false;
+            }
         }
 
         public void CargarDatos()
@@ -583,6 +601,18 @@ namespace CapaVisual_Login
             lbPaso.Text = "Paso 1";
             btnFinalizar.Text = "Finalizar";
             btnCancelar.Enabled = true;
+
+            sucursal = _D_DetalleOrden.TB_PARAMETRO("sucursalId");
+            diaActivo = _D_Inicio.DiaActivo();
+
+            if (!_L_CierreCaja.CierreFueradeHorario(sucursal, DateTime.Now, DateTime.Now) && txtCierreHora.Text == "")
+            {
+                txtCierreHora.Enabled = true;
+            }
+            else
+            {
+                txtCierreHora.Enabled = false;
+            }
 
             dtLogCierre.Clear();
             dgvLogCierre.Refresh();
@@ -602,8 +632,7 @@ namespace CapaVisual_Login
             dtPtoVenta.Clear();
             Dvg_CierrePuntoVenta.Refresh();
 
-            sucursal = _D_DetalleOrden.TB_PARAMETRO("sucursalId");
-            diaActivo = _D_Inicio.DiaActivo();
+            
 
             txtCierreHora.Text = "";
             txtBox_observaciones_pg4.Text = "";
@@ -1424,6 +1453,10 @@ namespace CapaVisual_Login
                                 {
                                     return;
                                 }
+                            }
+                            else
+                            {
+                                return;
                             }
 
                         }

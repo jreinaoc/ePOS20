@@ -756,19 +756,19 @@ namespace CapaVisual_Login
             {
                 StatusSec = "SI";
             }
-
-            if (StatusTasa != "SI" || StatusSec != "SI")
-            {
-                _FrmMensajes.co = 2;
-                _FrmMensajes.avisomensaje("Debe actualizar la tasa de las monedas y activación de secuencia diaria");
-                _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
-                _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
-                _FrmMensajes.ShowDialog();
-                return;
-            }
             if (TB_USUARIO.COD_EMPLEADO != "99999")
             {
-                if (!_L_CierreCaja.ObtieneAsistenciaPendiente(formattedDate, TB_USUARIO.COD_USR))
+
+                if (StatusTasa != "SI" || StatusSec != "SI")
+                {
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje("Debe actualizar la tasa de las monedas y activación de secuencia diaria");
+                    _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                    _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                    _FrmMensajes.ShowDialog();
+                    return;
+                }
+              if (!_L_CierreCaja.ObtieneAsistenciaPendiente(formattedDate, TB_USUARIO.COD_USR))
                 {
                     _FrmMensajes.co = 2;
                     _FrmMensajes.avisomensaje("Debe marcar asistencia para el día activo");
