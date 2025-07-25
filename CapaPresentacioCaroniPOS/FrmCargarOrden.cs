@@ -1300,10 +1300,10 @@ namespace CapaVisual_Login
                         Txt_Tap3_Articulo_Cantidad.Focus();
                     }
 
-                    if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "09")
-                    {
-                        AplicoGarantia(Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Txt_Pnl2_Cedula.Text.Substring(0, 1), "", Txt_Pnl2_Examen.Text, _D_Inicio.Sucursal());
-                    }
+                    //if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "09")
+                    //{
+                    //    AplicoGarantia(Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Txt_Pnl2_Cedula.Text.Substring(0, 1), "", Txt_Pnl2_Examen.Text, _D_Inicio.Sucursal());
+                    //}
                 }
 
 
@@ -1455,6 +1455,18 @@ namespace CapaVisual_Login
 
         }
 
+        //private void Txt_Tap3_Articulo_Cantidad_KeyDown(object sender, KeyEventArgs e)
+        //{
+        //    if (e.KeyCode == Keys.Enter)
+        //    {
+        //        // Validar que el texto sea un número válido y mayor que 0
+        //        if (int.TryParse(Txt_Tap3_Articulo_Cantidad.Text, out int cantidad) && cantidad > 0)
+        //        {
+        //            CargarArticulos_Girdvew();
+        //        }
+        //    }
+        //}
+
         private void Txt_Tap3_Articulo_Cantidad_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -1462,6 +1474,19 @@ namespace CapaVisual_Login
                 // Validar que el texto sea un número válido y mayor que 0
                 if (int.TryParse(Txt_Tap3_Articulo_Cantidad.Text, out int cantidad) && cantidad > 0)
                 {
+                    if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "09")
+                    {
+                        if (!_L_Articulo.AplicoGarantia(Dgv_Tap3_Articulo, Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Os_Garantia_Trabajo, Numero_Examen_Garantia_Trabajo))
+                        {
+                            _FrmMensajes.co = 2;
+                            _FrmMensajes.avisomensaje("Esta orden no aplica para reposición de garantia");
+                            _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                            _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                            _FrmMensajes.ShowDialog();
+
+                            return;
+                        }
+                    }
                     CargarArticulos_Girdvew();
                 }
             }
@@ -1954,10 +1979,10 @@ namespace CapaVisual_Login
                     // Buscar el articulo 
                     _L_Articulo.FiltrarArticulos_Tap3(Txt_Tap3_Articulo_Codigo.Text, listaArticulos, listaTemporal, Txt_Tap3_Articulo_Codigo, Txt_Tap3_Articulo_Descripcion, Txt_Tap3_Articulo_Precio, Txt_Tap3_Articulo_Cantidad);
 
-                    if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "09")
-                    {
-                        AplicoGarantia(Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Txt_Pnl2_Cedula.Text.Substring(0, 1), "", Txt_Pnl2_Examen.Text, _D_Inicio.Sucursal());
-                    }
+                    //if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "09")
+                    //{
+                    //    AplicoGarantia(Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Txt_Pnl2_Cedula.Text.Substring(0, 1), "", Txt_Pnl2_Examen.Text, _D_Inicio.Sucursal());
+                    //}
 
                     // Evitar que el evento se propague
                     e.Handled = true;
@@ -3247,9 +3272,10 @@ namespace CapaVisual_Login
                     DateTime hora = DateTime.ParseExact(horaNormalizada, "HH:mm:sstt", CultureInfo.InvariantCulture);
 
                     // Formatear de vuelta al formato deseado
-                    Hora_Ofrecido = hora.ToString("hh:mm:ss tt", cultura)
-                        .Replace("a.m.", "a.m.")
-                        .Replace("p.m.", "p.m.");
+                    //Hora_Ofrecido = hora.ToString("hh:mm:ss tt", cultura)
+                    //    .Replace("a.m.", "a.m.")
+                    //    .Replace("p.m.", "p.m.");
+                    Hora_Ofrecido = "00:00";
                 }
                 else
                 {
@@ -3263,7 +3289,9 @@ namespace CapaVisual_Login
 
                 //VerificoParametrosCristales();
                 //VerificoRangoDiametroCristales();
+                LLenar_TbTrabajo();
                 AsignarParametrosFaltantes(nuevoTrabajo,"", "0", txtHorizontal.Text.Replace(',', '.'), txtVertical.Text.Replace(',', '.'), txtMaxima.Text.Replace(',', '.'), txtPuente.Text.Replace(',', '.'), Cbx_Pnl2_Laboratorio.SelectedValue.ToString(), Cbx_Pnl2_Servicio.SelectedValue?.ToString(), Hora_Ofrecido, "T", Fecha_Ofreci, DateTime.Today, Cbx_Pnl2_Trbajo.SelectedValue.ToString(), Cbx_Pnl2_Trbajo.Text);
+                _L_Trabajo.AgregarTrabajo(nuevoTrabajo);
 
                 bool Respuesta = _Asignar_Rx.Verificar_Cristales_Parametros_Diametros(nuevoTrabajo, Dgv_Tap3_Articulo, Cbx_Pnl2_Trbajo.SelectedValue.ToString(), codSucursal, Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Txt_Tap2_Examen.Text, LbResultado2, LbResultados, dgvRangoCrt);
                 if (!ApruebaAORangoCRT && !Respuesta && _Asignar_Rx.stringBuilder.Length > 0)
@@ -3455,11 +3483,12 @@ namespace CapaVisual_Login
                     }
 
                     // --- Actualizar Trabajo y Existencias ---
-//                    var actualizadoTrabajo = await _GuardarOrdenServ.ActualizarTrabajoYExistencias(numeroOrden, txtHorizontal.Text.Replace(',', '.'), txtVertical.Text.Replace(',', '.')
-//, txtMaxima.Text.Replace(',', '.'), txtPuente.Text.Replace(',', '.'), "0", "0", "0", "0", "0", "A", "Cerca", "Cerca", TB_USUARIO.COD_USR, codSucursal, command);
-
+                    //                    var actualizadoTrabajo = await _GuardarOrdenServ.ActualizarTrabajoYExistencias(numeroOrden, txtHorizontal.Text.Replace(',', '.'), txtVertical.Text.Replace(',', '.')
+                    //, txtMaxima.Text.Replace(',', '.'), txtPuente.Text.Replace(',', '.'), "0", "0", "0", "0", "0", "A", "Cerca", "Cerca", TB_USUARIO.COD_USR, codSucursal, command);
+                    LLenar_TbTrabajo();
                     AsignarParametrosFaltantes(nuevoTrabajo, numeroOrden, "0", txtHorizontal.Text.Replace(',', '.'), txtVertical.Text.Replace(',', '.'), txtMaxima.Text.Replace(',', '.'), txtPuente.Text.Replace(',', '.'), Cbx_Pnl2_Laboratorio.SelectedValue.ToString(), Cbx_Pnl2_Servicio.SelectedValue?.ToString(), Hora_Ofrecido, "T", Fecha_Ofreci, DateTime.Today, Cbx_Pnl2_Trbajo.SelectedValue.ToString(), Cbx_Pnl2_Trbajo.Text);
-                    
+                    _L_Trabajo.AgregarTrabajo(nuevoTrabajo);
+
                     var actualizadoTrabajo = _GuardarOrdenServ.AgregarTrabajo2(nuevoTrabajo, command);
                     //// _L_Articulo.Inserta_TB_TRABAJO(numeroOrden, txtHorizontal.Text, txtVertical.Text, txtMaxima.Text,"0", "0", "0", "0", "0", "0", "A", "Cerca", "Cerca", TB_USUARIO.COD_USR, codSucursal);
 
@@ -3602,6 +3631,8 @@ namespace CapaVisual_Login
             nuevoTrabajo.TTIPOTRABAJO = "002";
             nuevoTrabajo.USERCREA = TB_USUARIO.COD_USR;
             nuevoTrabajo.TEXAMEN = Txt_Tap2_Examen.Text;
+            nuevoTrabajo.TALTD = Convert.ToDecimal(txtAltD.Text);
+            nuevoTrabajo.TALTI = Convert.ToDecimal(txtAltI.Text);
 
 
             //if (Dgv_Pnl2_medconv.Rows.Count > 0)
