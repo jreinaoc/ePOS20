@@ -579,7 +579,7 @@ namespace CapaLogica.CierreCaja_Logica
 
        public static void ComprimirXmlEnCarpeta(string carpetaPath, string sucursal)
        {
-            string zipPath = Path.Combine(carpetaPath, "Zip" + sucursal + ".zip");
+            string zipPath = Path.Combine(carpetaPath, "ZIP" + sucursal + ".zip");
 
             // Elimina zip previo si existe
             if (File.Exists(zipPath))
@@ -637,11 +637,11 @@ namespace CapaLogica.CierreCaja_Logica
 
             if (dt.Rows.Count > 0)
             {
-                return true;
+                return false;
             }
             else
             {
-                return false;
+                return true;
             }
         }
 

@@ -190,7 +190,7 @@ namespace CapaVisual_Login
             string DiaActual = (DateTime.Now.ToString("dd/MM/yyyy"));
             string DiaActivo = _D_Inicio.DiaActivo().ToShortDateString();
 
-            string bloqFacturacion = _D_DetalleOrden.TB_PARAMETRO("BloqFacturacion");
+            string bloqFacturacion = _D_DetalleOrden.TB_PARAMETRO("FactEliminada");
 
             if (bloqFacturacion == "1")
             {

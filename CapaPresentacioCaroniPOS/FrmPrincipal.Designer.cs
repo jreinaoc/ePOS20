@@ -237,17 +237,19 @@ namespace CapaVisual_Login
             this.btn_FrmCierreDeCaja.Text = "AbrirCierreDeCaja";
             this.btn_FrmCierreDeCaja.TextAlign = System.Drawing.ContentAlignment.TopLeft;
             this.btn_FrmCierreDeCaja.UseVisualStyleBackColor = false;
+            this.btn_FrmCierreDeCaja.Visible = false;
             this.btn_FrmCierreDeCaja.Click += new System.EventHandler(this.btn_FrmCierreDeCaja_Click);
             // 
             // pictureBox4
             // 
             this.pictureBox4.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox4.Image")));
-            this.pictureBox4.Location = new System.Drawing.Point(16, 293);
+            this.pictureBox4.Location = new System.Drawing.Point(16, 500);
             this.pictureBox4.Name = "pictureBox4";
             this.pictureBox4.Size = new System.Drawing.Size(15, 20);
             this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.pictureBox4.TabIndex = 34;
             this.pictureBox4.TabStop = false;
+            this.pictureBox4.Visible = false;
             // 
             // pictureBox3
             // 
@@ -270,13 +272,14 @@ namespace CapaVisual_Login
             this.button2.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button2.ForeColor = System.Drawing.Color.Black;
             this.button2.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.button2.Location = new System.Drawing.Point(43, 289);
+            this.button2.Location = new System.Drawing.Point(43, 500);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(168, 34);
             this.button2.TabIndex = 32;
             this.button2.Text = "Reportes";
             this.button2.TextAlign = System.Drawing.ContentAlignment.TopLeft;
             this.button2.UseVisualStyleBackColor = false;
+            this.button2.Visible = false;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // btnUtilitarios
@@ -453,7 +456,7 @@ namespace CapaVisual_Login
             // PicBoxConfigClaro
             // 
             this.PicBoxConfigClaro.Image = ((System.Drawing.Image)(resources.GetObject("PicBoxConfigClaro.Image")));
-            this.PicBoxConfigClaro.Location = new System.Drawing.Point(9, 327);
+            this.PicBoxConfigClaro.Location = new System.Drawing.Point(9, 293);
             this.PicBoxConfigClaro.Name = "PicBoxConfigClaro";
             this.PicBoxConfigClaro.Size = new System.Drawing.Size(28, 31);
             this.PicBoxConfigClaro.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -481,7 +484,7 @@ namespace CapaVisual_Login
             this.btnconfiguracion.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnconfiguracion.ForeColor = System.Drawing.Color.Black;
             this.btnconfiguracion.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.btnconfiguracion.Location = new System.Drawing.Point(43, 326);
+            this.btnconfiguracion.Location = new System.Drawing.Point(43, 293);
             this.btnconfiguracion.Name = "btnconfiguracion";
             this.btnconfiguracion.Size = new System.Drawing.Size(168, 34);
             this.btnconfiguracion.TabIndex = 12;
@@ -620,7 +623,7 @@ namespace CapaVisual_Login
             // PicBoxConfigOsc
             // 
             this.PicBoxConfigOsc.Image = ((System.Drawing.Image)(resources.GetObject("PicBoxConfigOsc.Image")));
-            this.PicBoxConfigOsc.Location = new System.Drawing.Point(9, 327);
+            this.PicBoxConfigOsc.Location = new System.Drawing.Point(9, 293);
             this.PicBoxConfigOsc.Name = "PicBoxConfigOsc";
             this.PicBoxConfigOsc.Size = new System.Drawing.Size(28, 31);
             this.PicBoxConfigOsc.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
