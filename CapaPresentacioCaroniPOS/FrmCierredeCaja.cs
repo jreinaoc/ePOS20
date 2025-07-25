@@ -791,6 +791,8 @@ namespace CapaVisual_Login
                     dgvLogCierre.ColumnHeadersDefaultCellStyle.Font = new Font("Century Gothic", 10);
                     dgvLogCierre.DefaultCellStyle.Font = new Font("Century Gothic", 10);
 
+                    dgvLogCierre.Columns["Descripcion"].HeaderText = "Descripción";
+
                     dgvLogCierre.ClearSelection();
                     dgvLogCierre.CurrentCell = null;
 

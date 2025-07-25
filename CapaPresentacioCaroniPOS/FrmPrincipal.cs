@@ -189,7 +189,7 @@ namespace CapaVisual_Login
             }
 
 
-            string bloqFacturacion = _D_DetalleOrden.TB_PARAMETRO("BloqFacturacion");
+            string bloqFacturacion = _D_DetalleOrden.TB_PARAMETRO("FactEliminada");
 
             if (bloqFacturacion == "0")
             {

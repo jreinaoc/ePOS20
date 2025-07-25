@@ -768,6 +768,21 @@ namespace CapaVisual_Login
                 e.Handled = true;
             }
 
+            if (e.ColumnIndex >= 0 && this.DgvListadoOrdenes.Columns[e.ColumnIndex].Name == "Btn6" && e.RowIndex >= 0)
+            {
+                e.Paint(e.CellBounds, DataGridViewPaintParts.All);
+                e.CellStyle.BackColor = Color.Black;
+                DataGridViewButtonCell celBoton = this.DgvListadoOrdenes.Rows[e.RowIndex].Cells["Btn6"] as DataGridViewButtonCell;
+                Icon IconAtomico = new Icon(Environment.CurrentDirectory + @"\\Asignar examen.ico");
+                e.Graphics.DrawIcon(IconAtomico, e.CellBounds.Left + 1, e.CellBounds.Top + 0);
+
+
+                this.DgvListadoOrdenes.Rows[e.RowIndex].Height = IconAtomico.Height + 0;
+                this.DgvListadoOrdenes.Columns[e.ColumnIndex].Width = IconAtomico.Width + 2;
+
+                e.Handled = true;
+            }
+
             if (e.ColumnIndex >= 0)
             {
                 ColorearStatus();
@@ -2278,6 +2293,14 @@ namespace CapaVisual_Login
                     if (e.Value != System.DBNull.Value)
                     {
                         cell.ToolTipText = "Comprobante de Retención";
+                    }
+                }
+                if (this.DgvListadoOrdenes.Columns[e.ColumnIndex].Name == "Btn6")
+                {
+                    // comprobar si la celda tiene contenido válido
+                    if (e.Value != System.DBNull.Value)
+                    {
+                        cell.ToolTipText = "Espera de Rx";
                     }
                 }
 
