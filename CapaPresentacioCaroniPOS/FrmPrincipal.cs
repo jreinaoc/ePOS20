@@ -841,9 +841,11 @@ namespace CapaVisual_Login
         {
             DateTime currentDate = _D_Inicio.DiaActivo();
             string formattedDate = currentDate.ToString("yyyyMMdd");
-            
-            //Si no tiene asistencia marcada
-            if (!_L_CierreCaja.ObtieneAsistenciaPendiente(formattedDate, TB_USUARIO.COD_USR))
+
+            if (TB_USUARIO.COD_EMPLEADO != "99999")
+            {
+                //Si no tiene asistencia marcada
+                if (!_L_CierreCaja.ObtieneAsistenciaPendiente(formattedDate, TB_USUARIO.COD_USR))
             {
                 _FrmMensajes.co = 2;
                 _FrmMensajes.avisomensaje("Debe marcar asistencia para el día activo");
@@ -917,7 +919,7 @@ namespace CapaVisual_Login
                 _FrmMensajes.ShowDialog();
                 return;
             }
-
+            }
             PnlListadoOrdenes.Controls.Clear();
             _FrmCierreDeCaja.CargarInicio();
             addformulario(_FrmCierreDeCaja);

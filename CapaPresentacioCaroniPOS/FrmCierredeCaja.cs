@@ -78,14 +78,17 @@ namespace CapaVisual_Login
 
             DataTable dtPuntosCerrados = _L_CierreCaja.CierrePuntodeVenta(sucursal, "", "", diaActivo);
 
-            if (txtCierreHora.Text.Length < cantCaracteres)
+            if (!_L_CierreCaja.CierreFueradeHorario(sucursal, DateTime.Now, DateTime.Now) && txtCierreHora.Text == "")
             {
-                _FrmMensajes.co = 2;
-                _FrmMensajes.avisomensaje("La observación debe tener al menos " + cantCaracteres + " caracteres obligatoriamente");
-                _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
-                _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
-                _FrmMensajes.ShowDialog();
-                return;
+                if (txtCierreHora.Text.Length < cantCaracteres)
+                {
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje("La observación debe tener al menos " + cantCaracteres + " caracteres obligatoriamente");
+                    _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                    _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                    _FrmMensajes.ShowDialog();
+                    return;
+                }
             }
             //Si no se han cerrado 
             if (Dvg_CierrePuntoVenta.Rows.Count > 0 && dtPuntosCerrados.Rows.Count == 0 )
@@ -462,7 +465,7 @@ namespace CapaVisual_Login
                     Text = "Pagos",
                     Font = new Font("Century Gothic", 13),
                     ForeColor = Color.Black,
-                    Size = new Size(30, 240),
+                    Size = new Size(30, 210),
                     Location = new Point(110, 278),
                     Invertir = true // ponlo en true si quieres que el texto vaya de abajo hacia arriba
                 };
@@ -1329,6 +1332,17 @@ namespace CapaVisual_Login
         {
             try
             {
+                if (dgvCierredecaja.Columns[e.ColumnIndex].Name == "Total")
+                {
+                    var cell = dgvCierredecaja.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                    if (decimal.TryParse(cell.Value?.ToString(), out decimal valor))
+                    {
+                        // Formato con punto como miles y coma como decimales
+                        CultureInfo cultura = new CultureInfo("es-VE"); // o "es-ES"
+                        cell.Value = valor.ToString("#,##0.00", cultura);
+                    }
+                }
+
                 double existenteEnCaja = GetValorFila(0);
                 double efectivo = GetValorFila(5);
                 double debito = GetValorFila(6);
@@ -1337,12 +1351,12 @@ namespace CapaVisual_Login
                 double islrRetenido = GetValorFila(9);
 
                 double transferencia = GetValorFila(10);
-                double transferenciaDivisa = GetValorFila(11);
+                //double transferenciaDivisa = GetValorFila(11);
 
-                double diferencia = existenteEnCaja - (efectivo + debito + tarjetaCredito + ivaRetenido + islrRetenido + transferencia + transferenciaDivisa);
+                double diferencia = existenteEnCaja - (efectivo + debito + tarjetaCredito + ivaRetenido + islrRetenido + transferencia);
 
                 // Mostrar el resultado en la fila "Diferencia" (fila 6)
-                dgvCierredecaja.Rows[12].Cells["Total"].Value = diferencia.ToString("N2");
+                dgvCierredecaja.Rows[11].Cells["Total"].Value = diferencia.ToString("N2");
             }
             catch (Exception ex)
             {
@@ -1934,8 +1948,12 @@ namespace CapaVisual_Login
             if (char.IsDigit(e.KeyChar))
                 return;
 
-            // Permitir una sola coma
+            // Permitir una sola coma como separador decimal
             if (e.KeyChar == ',' && !tb.Text.Contains(","))
+                return;
+
+            // Permitir un solo punto como separador de miles
+            if (e.KeyChar == '.' && !tb.Text.Contains("."))
                 return;
 
             // Bloquear cualquier otro carácter
