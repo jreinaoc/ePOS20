@@ -2125,11 +2125,12 @@ namespace CapaVisual_Login
                         _L_Articulo.EvaluoServicioAgregado(PorcDctoEmpresaAfiliada,Dgv_Tap3_Articulo, numFilas, Dgv_Tap3_Articulo.Rows[numFilas].Cells["Ojo"].Value.ToString(), Convert.ToInt32(Txt_Pnl2_Examen.Text), Cbx_Pnl2_Trbajo.SelectedValue.ToString(), Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2));
                     }
 
-                    if (Montura_Propia == true)
-                    {
-                        _L_Articulo.CargarServicioMonturaPropia(Dgv_Tap3_Articulo, TipoMonturaPropia == "Completa");
+                    //Nota se Movio al panel de montura propia en el boton aceptar
+                    //if (Montura_Propia == true)
+                    //{
+                    //    _L_Articulo.CargarServicioMonturaPropia(Dgv_Tap3_Articulo, TipoMonturaPropia == "Completa");
 
-                    }
+                    //}
 
                     if (Garantia == true)
                     {
@@ -3099,7 +3100,6 @@ namespace CapaVisual_Login
            
         }
 
-
         private async void Btn_Tap3_Procesar_Click(object sender, EventArgs e)
         {
             try
@@ -3143,18 +3143,6 @@ namespace CapaVisual_Login
                 {
                     if (!ValidarVisionConv())
                     {
-                        _FrmMensajes.co = 2;
-                        _FrmMensajes.avisomensaje("Debe colocar tipos de visión validos La combinación posible es el mismo tipo de visión o Balance");
-                        _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
-                        _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
-                        _FrmMensajes.ShowDialog();
-
-                        //Pnl_2_Msj.Visible = true;
-                        //txt_pl2_msj.Text = "Debe colocar tipos de visión validos La combinación posible es el mismo tipo de visión o Balance ";
-                        ////pb_pl2_mj.Visible = true;
-                        //Pnl_2_Msj.Location = new Point(396, 175);
-                        //Pnl_2_Msj.BringToFront();
-
                         return;
                     }
                 }
@@ -3266,16 +3254,26 @@ namespace CapaVisual_Login
                 {
                     FechaHoraOfrecida resultado = _FechaHoraOfrecida.First();
                     Fecha_Ofreci = resultado.FechaOfrecida.Date;
-                    string horaNormalizada = resultado.HoraOfrecida.ToLower().Replace("a. m.", "am").Replace("p. m.", "pm").Replace("a.m.", "am").Replace("p.m.", "pm").Replace(" ", "");  // Eliminar espacios adicionales
+                    string horaNormalizada = resultado.HoraOfrecida.ToLower().Replace("a. m.", "a.m.").Replace("p. m.", "p.m.").Replace("a.m.", "a.m.").Replace("p.m.", "p.m.");  // Eliminar espacios adicionales
 
                     // Parsear con el formato correcto
-                    DateTime hora = DateTime.ParseExact(horaNormalizada, "HH:mm:sstt", CultureInfo.InvariantCulture);
+                    //DateTime hora = DateTime.ParseExact(horaNormalizada, "HH:mm:sstt", CultureInfo.InvariantCulture);
 
-                    // Formatear de vuelta al formato deseado
+                    Hora_Ofrecido = horaNormalizada;
+
+                    // 1. Reemplazar cualquier tipo de espacio entre "p." y "m." (incluyendo NO-BREAK SPACE)
+                    Hora_Ofrecido = Regex.Replace(Hora_Ofrecido, @"p\.\s*m\.", "p.m.", RegexOptions.IgnoreCase);
+
+                    // 2. Reemplazar cualquier tipo de espacio entre "a." y "m." (por si hay AM)
+                    Hora_Ofrecido = Regex.Replace(Hora_Ofrecido, @"a\.\s*m\.", "a.m.", RegexOptions.IgnoreCase);
+
+                    // 3. Eliminar espacios adicionales antes del AM/PM
+                    Hora_Ofrecido = Hora_Ofrecido.Trim();
+
+                    //// Formatear de vuelta al formato deseado
                     //Hora_Ofrecido = hora.ToString("hh:mm:ss tt", cultura)
                     //    .Replace("a.m.", "a.m.")
                     //    .Replace("p.m.", "p.m.");
-                    Hora_Ofrecido = "00:00";
                 }
                 else
                 {
@@ -3289,6 +3287,13 @@ namespace CapaVisual_Login
 
                 //VerificoParametrosCristales();
                 //VerificoRangoDiametroCristales();
+
+                // VerificarCantidad Cantidad de Ojo y Cristal 
+                if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() != "04" && Cbx_Pnl2_Trbajo.SelectedValue.ToString() != "05" && Cristal_Propio == false && !_L_Articulo.ValidarCantidadCristales(Cbx_Tap2_Ojo.Text, Dgv_Tap3_Articulo, mostrarError))
+                {
+                    return; // Salir 
+                }
+
                 LLenar_TbTrabajo();
                 AsignarParametrosFaltantes(nuevoTrabajo,"", "0", txtHorizontal.Text.Replace(',', '.'), txtVertical.Text.Replace(',', '.'), txtMaxima.Text.Replace(',', '.'), txtPuente.Text.Replace(',', '.'), Cbx_Pnl2_Laboratorio.SelectedValue.ToString(), Cbx_Pnl2_Servicio.SelectedValue?.ToString(), Hora_Ofrecido, "T", Fecha_Ofreci, DateTime.Today, Cbx_Pnl2_Trbajo.SelectedValue.ToString(), Cbx_Pnl2_Trbajo.Text);
                 _L_Trabajo.AgregarTrabajo(nuevoTrabajo);
@@ -3405,6 +3410,7 @@ namespace CapaVisual_Login
                 //bool esEmpresaAfiliada = empresaAfiliada == "1" || empresaAfiliada.ToLower() == "true";
                 var glbManejaExisLC = _D_DetalleOrden.TB_PARAMETRO("LCManejaExist");
 
+
                 Conexion cn = new Conexion();
                 SqlConnection connection = cn.LeerCadena();
                 SqlCommand command = connection.CreateCommand();
@@ -3485,9 +3491,11 @@ namespace CapaVisual_Login
                     // --- Actualizar Trabajo y Existencias ---
                     //                    var actualizadoTrabajo = await _GuardarOrdenServ.ActualizarTrabajoYExistencias(numeroOrden, txtHorizontal.Text.Replace(',', '.'), txtVertical.Text.Replace(',', '.')
                     //, txtMaxima.Text.Replace(',', '.'), txtPuente.Text.Replace(',', '.'), "0", "0", "0", "0", "0", "A", "Cerca", "Cerca", TB_USUARIO.COD_USR, codSucursal, command);
-                    LLenar_TbTrabajo();
+                    //LLenar_TbTrabajo();
+
                     AsignarParametrosFaltantes(nuevoTrabajo, numeroOrden, "0", txtHorizontal.Text.Replace(',', '.'), txtVertical.Text.Replace(',', '.'), txtMaxima.Text.Replace(',', '.'), txtPuente.Text.Replace(',', '.'), Cbx_Pnl2_Laboratorio.SelectedValue.ToString(), Cbx_Pnl2_Servicio.SelectedValue?.ToString(), Hora_Ofrecido, "T", Fecha_Ofreci, DateTime.Today, Cbx_Pnl2_Trbajo.SelectedValue.ToString(), Cbx_Pnl2_Trbajo.Text);
-                    _L_Trabajo.AgregarTrabajo(nuevoTrabajo);
+                    
+                    //_L_Trabajo.AgregarTrabajo(nuevoTrabajo);
 
                     var actualizadoTrabajo = _GuardarOrdenServ.AgregarTrabajo2(nuevoTrabajo, command);
                     //// _L_Articulo.Inserta_TB_TRABAJO(numeroOrden, txtHorizontal.Text, txtVertical.Text, txtMaxima.Text,"0", "0", "0", "0", "0", "0", "A", "Cerca", "Cerca", TB_USUARIO.COD_USR, codSucursal);
@@ -3716,179 +3724,6 @@ namespace CapaVisual_Login
 
 
 
-        //////////////////////////////////////////////////////
-
-        public void VerificoParametrosCristales()
-        {
-            string CristalI = "";
-            string CristalD = "";
-            bool AceptaCristalD = false;
-            bool AceptaCristalI = false;
-            string diamD = "";
-            string diamI = "";
-            DataSet dsParamCRT;
-            DataSet dsParamCRT2;
-            string Color = "";
-
-            LbResultados.Items.Clear();
-            LbResultado2.Items.Clear();
-
-            _L_Articulo.LlenarTB_Trbajo(_TRABAJO, _D_Inicio.Sucursal(), Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2));
-            var _Trabajo = _TRABAJO.FirstOrDefault(a => a.T_CEDIDEN == Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2) & a.T_NACIO == Txt_Pnl2_Cedula.Text.Substring(0, 1));
-
-
-            for (int xx = 0; xx < Dgv_Tap3_Articulo.RowCount; xx++)
-            {
-
-                if (Dgv_Tap3_Articulo.Rows[xx].Cells["CodArticulo"].Value.ToString() == "S000004")
-                {
-                    Color = "SI";
-                }
-                else if (Dgv_Tap3_Articulo.Rows[xx].Cells["CodArticulo"].Value.ToString().StartsWith("C") && Dgv_Tap3_Articulo.Rows[xx].Cells["ojo"].Value.ToString() == "A")
-                {
-                    CristalD = Dgv_Tap3_Articulo.Rows[xx].Cells["CodArticulo"].Value.ToString();
-                    CristalI = Dgv_Tap3_Articulo.Rows[xx].Cells["CodArticulo"].Value.ToString();
-                }
-                else if (Dgv_Tap3_Articulo.Rows[xx].Cells["CodArticulo"].Value.ToString().StartsWith("C") && Dgv_Tap3_Articulo.Rows[xx].Cells["ojo"].Value.ToString() == "D")
-                {
-                    CristalD = Dgv_Tap3_Articulo.Rows[xx].Cells["CodArticulo"].Value.ToString();
-                }
-                else if (Dgv_Tap3_Articulo.Rows[xx].Cells["CodArticulo"].Value.ToString().StartsWith("C") && Dgv_Tap3_Articulo.Rows[xx].Cells["ojo"].Value.ToString() == "I")
-                {
-                    CristalI = Dgv_Tap3_Articulo.Rows[xx].Cells["CodArticulo"].Value.ToString();
-                }
-            }
-
-            string lab = "QUO";
-
-            LbResultados.Items.Add("OJO DERECHO");
-            LbResultado2.Items.Add("OJO IZQUIERDO");
-
-            for (int xx = 0; xx < Dgv_Tap3_Articulo.RowCount; xx++)
-            {
-                if (Dgv_Tap3_Articulo.Rows[xx].Cells["CodArticulo"].Value.ToString().StartsWith("C"))
-                {
-                    if (Dgv_Tap3_Articulo.Rows[xx].Cells["Ojo"].Value.ToString() == "A")
-                    {
-                        dsParamCRT = _D_Articulo.MostrarRangosCrtGrid(Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Txt_Pnl2_Examen.Text, Dgv_Tap3_Articulo.Rows[xx].Cells["CodArticulo"].Value.ToString(), "D", _Trabajo.T_TIPOVISIOND, Convert.ToDecimal(_Trabajo.T_ALTD), 0, Convert.ToDecimal(_Trabajo.T_DISTANCIAVERTICE), Convert.ToDecimal(_Trabajo.T_ANGULOFACIAL), Convert.ToDecimal(_Trabajo.T_ANGULOPANTOSCOPICO), "", _Trabajo.T_SERVICIO, _Trabajo.T_LABORATORIO, Convert.ToString(_Trabajo.T_DISTANCIAVERTICE), Convert.ToString(_Trabajo.T_ANGULOFACIAL), Convert.ToString(_Trabajo.T_ANGULOPANTOSCOPICO), Convert.ToString(_Trabajo.T_DISTANCIADELECTURA));
-                        dsParamCRT2 = _D_Articulo.MostrarRangosCrtGrid(Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Txt_Pnl2_Examen.Text, Dgv_Tap3_Articulo.Rows[xx].Cells["CodArticulo"].Value.ToString(), "I", _Trabajo.T_TIPOVISIONI, Convert.ToDecimal(_Trabajo.T_ALTI), 0, Convert.ToDecimal(_Trabajo.T_DISTANCIAVERTICE), Convert.ToDecimal(_Trabajo.T_ANGULOFACIAL), Convert.ToDecimal(_Trabajo.T_ANGULOPANTOSCOPICO), "", _Trabajo.T_SERVICIO, _Trabajo.T_LABORATORIO, Convert.ToString(_Trabajo.T_DISTANCIAVERTICE), Convert.ToString(_Trabajo.T_ANGULOFACIAL), Convert.ToString(_Trabajo.T_ANGULOPANTOSCOPICO), Convert.ToString(_Trabajo.T_DISTANCIADELECTURA));
-
-                        // Validación de parámetros
-
-                        if (Enumerable.Range(0, 13).All(x => dsParamCRT.Tables[2].Rows[0][x].ToString() == "1"))
-                        {
-                            AceptaCristalD = true;
-                        }
-                        else
-                        {
-                            AceptaCristalD = false;
-                            for (int x = 0; x <= 16; x++)
-                            {
-                                if (dsParamCRT.Tables[2].Rows[0][x].ToString() != "1")
-                                {
-                                    LbResultados.Items.Add(dsParamCRT.Tables[2].Rows[0][x].ToString());
-                                }
-                            }
-                        }
-
-                        if (Enumerable.Range(0, 17).All(x => dsParamCRT2.Tables[2].Rows[0][x].ToString() == "1"))
-                        {
-                            AceptaCristalI = true;
-                        }
-                        else
-                        {
-                            AceptaCristalI = false;
-                            for (int x = 0; x <= 16; x++)
-                            {
-                                if (dsParamCRT2.Tables[2].Rows[0][x].ToString() != "1")
-                                {
-                                    LbResultado2.Items.Add(dsParamCRT2.Tables[2].Rows[0][x].ToString());
-                                }
-                            }
-                        }
-                    }
-                    else if (Dgv_Tap3_Articulo.Rows[xx].Cells["Ojo"].Value.ToString() == "D")
-                    {
-                        dsParamCRT = _D_Articulo.MostrarRangosCrtGrid(Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Txt_Pnl2_Examen.Text, Dgv_Tap3_Articulo.Rows[xx].Cells["CodArticulo"].Value.ToString(), "D", _Trabajo.T_TIPOVISIOND, Convert.ToDecimal(_Trabajo.T_ALTD), 0, Convert.ToDecimal(_Trabajo.T_DISTANCIAVERTICE), Convert.ToDecimal(_Trabajo.T_ANGULOFACIAL), Convert.ToDecimal(_Trabajo.T_ANGULOPANTOSCOPICO), "", _Trabajo.T_SERVICIO, _Trabajo.T_LABORATORIO, Convert.ToString(_Trabajo.T_DISTANCIAVERTICE), Convert.ToString(_Trabajo.T_ANGULOFACIAL), Convert.ToString(_Trabajo.T_ANGULOPANTOSCOPICO), Convert.ToString(_Trabajo.T_DISTANCIADELECTURA));
-
-                        AceptaCristalD = Enumerable.Range(0, 17).All(x => dsParamCRT.Tables[2].Rows[0][x].ToString() == "1");
-                        AceptaCristalI = AceptaCristalD;
-
-                        if (!AceptaCristalD)
-                        {
-                            for (int x = 0; x <= 16; x++)
-                            {
-                                if (dsParamCRT.Tables[2].Rows[0][x].ToString() != "1")
-                                {
-                                    LbResultados.Items.Add(dsParamCRT.Tables[2].Rows[0][x].ToString());
-                                }
-                            }
-                        }
-                    }
-                    else if (Dgv_Tap3_Articulo.Rows[xx].Cells["Ojo"].Value.ToString() == "I")
-                    {
-                        dsParamCRT2 = _D_Articulo.MostrarRangosCrtGrid(Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Txt_Pnl2_Examen.Text, Dgv_Tap3_Articulo.Rows[xx].Cells["CodArticulo"].Value.ToString(), "I", _Trabajo.T_TIPOVISIONI, Convert.ToDecimal(_Trabajo.T_ALTI), 0, Convert.ToDecimal(_Trabajo.T_DISTANCIAVERTICE), Convert.ToDecimal(_Trabajo.T_ANGULOFACIAL), Convert.ToDecimal(_Trabajo.T_ANGULOPANTOSCOPICO), "", _Trabajo.T_SERVICIO, _Trabajo.T_LABORATORIO, Convert.ToString(_Trabajo.T_DISTANCIAVERTICE), Convert.ToString(_Trabajo.T_ANGULOFACIAL), Convert.ToString(_Trabajo.T_ANGULOPANTOSCOPICO), Convert.ToString(_Trabajo.T_DISTANCIADELECTURA));
-
-                        AceptaCristalI = Enumerable.Range(0, 17).All(x => dsParamCRT2.Tables[2].Rows[0][x].ToString() == "1");
-                        AceptaCristalD = AceptaCristalI;
-
-                        if (!AceptaCristalI)
-                        {
-                            for (int x = 0; x <= 16; x++)
-                            {
-                                if (dsParamCRT2.Tables[2].Rows[0][x].ToString() != "1")
-                                {
-                                    LbResultado2.Items.Add(dsParamCRT2.Tables[2].Rows[0][x].ToString());
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            bool VerificoParametrosCristales;
-            if (AceptaCristalD == true && AceptaCristalI == true)
-            {
-                VerificoParametrosCristales = true;
-            }
-            else if (AceptaCristalD == false || AceptaCristalI == false)
-            {
-                VerificoParametrosCristales = false;
-
-                DataSet dsConsultaCristal = _D_Articulo.MostrarParametrosCrtGrid(CristalD, CristalI);
-
-                dgvRangoCrt.DataSource = dsConsultaCristal.Tables[0];
-                FormatoDataGridRangosCristales();
-
-                lblDiametroD.Visible = false;
-                lblDiametroI.Visible = false;
-
-                LblTitulo.Text = "El Cristal no se adapta a estos parámetros";
-                lblClaveAut.Visible = false;
-                lblLeyenda.Visible = true;
-                // lblLeyenda.Text = "P: Puede usarse según el Examen. NC: No corresponde. X: Aplica";
-                btnAutorizarRangosCrt.Visible = false;
-                //BtCancelarRgo.Visible = false;
-                //BtRegresar.Visible = true;
-                LbResultados.Visible = true;
-                LbResultado2.Visible = true;
-
-                pnlRangoCrt.Show();
-                pnlRangoCrt.Location = new Point(200,150);
-            }
-
-
-            //DataSet RangosCrt = _L_Facturacion.MostrarRangosCrtGrid(TB_CAORDSER.Cod_Sucursal, txtNumeroOrden.Text, TB_CAORDSER.Revision);
-
-            //if (RangosCrt.Tables[0].Rows.Count > 0)
-            //{
-            //    pnlRangoCrt.Visible = true;
-            //    CantAbonosPrevios = RangosCrt.Tables[0].Rows.Count;
-            //    dgvRangoCrt.DataSource = RangosCrt;
-            //    FormatoDataGridRangosCristales();
-            //}
-        }
-
         private void FormatoDataGridRangosCristales()
         {
 
@@ -3988,8 +3823,8 @@ namespace CapaVisual_Login
                 dgvRangoCrt.DefaultCellStyle = centerStyle;
                 dgvRangoCrt.RowTemplate.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
-                // Configurar mayúsculas para la columna codCristalOptica
-                dgvRangoCrt.Columns["codCristalOptica"].DefaultCellStyle.Font = new Font(dgvRangoCrt.Font, FontStyle.Bold);
+                ////// Configurar mayúsculas para la columna codCristalOptica
+                ////dgvRangoCrt.Columns["codCristalOptica"].DefaultCellStyle.Font = new Font(dgvRangoCrt.Font, FontStyle.Regular);
 
                 // Ancho de las columnas
                 dgvRangoCrt.Columns["codCristalOptica"].Width = 65;
@@ -4124,6 +3959,12 @@ namespace CapaVisual_Login
                 txtMaxima.Enabled = true;
                 txtPuente.Enabled = true;
                 CerrarPanelMonturaPropia();
+
+                if (Montura_Propia == true && Cbx_Pnl2_Trbajo.SelectedValue.ToString() != "09")
+                {
+                    _L_Articulo.CargarServicioMonturaPropia(Dgv_Tap3_Articulo, TipoMonturaPropia == "Completa");
+
+                }
             }
 
         }
@@ -10607,11 +10448,17 @@ namespace CapaVisual_Login
         {
             if (Cbx_Tap2_Ojo.Text == "Ambos" && cbVisionDerecha.Text != cbVisionIzquierda.Text && cbVisionIzquierda.Text != "Balance" && cbVisionDerecha.Text != "Balance")
             {
-                Pnl_2_Msj.Visible = true;
-                txt_pl2_msj.Text = "Debe colocar tipos de visión validos La combinación posible es el mismo tipo de visión o Balance";
-                //pb_pl2_mj.Visible = true;
-                //Pnl_2_Msj.Location = new Point(396, 175);
-                Pnl_2_Msj.BringToFront();
+                ////Pnl_2_Msj.Visible = true;
+                ////txt_pl2_msj.Text = "Debe colocar tipos de visión validos La combinación posible es el mismo tipo de visión o Balance";
+                //////pb_pl2_mj.Visible = true;
+                //////Pnl_2_Msj.Location = new Point(396, 175);
+                ////Pnl_2_Msj.BringToFront();
+
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("Debe colocar tipos de visión validos La combinación posible es el mismo tipo de visión o Balance");
+                _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                _FrmMensajes.ShowDialog();
 
                 // Do NOT set cellFila1.Value here, as this would trigger CellValueChanged again.
                 // Instead, return false to indicate validation failure.
@@ -10620,11 +10467,17 @@ namespace CapaVisual_Login
 
             if (Cbx_Tap2_Ojo.Text == "Ambos" && cbVisionDerecha.Text == "Balance" && cbVisionDerecha.Text == "Balance")
             {
-                Pnl_2_Msj.Visible = true;
-                txt_pl2_msj.Text = "No se puede colocar Balance en ambos ojos";
-                //pb_pl2_mj.Visible = true;
-                //Pnl_2_Msj.Location = new Point(396, 175);
-                Pnl_2_Msj.BringToFront();
+                //Pnl_2_Msj.Visible = true;
+                //txt_pl2_msj.Text = "No se puede colocar Balance en ambos ojos";
+                ////pb_pl2_mj.Visible = true;
+                ////Pnl_2_Msj.Location = new Point(396, 175);
+                //Pnl_2_Msj.BringToFront();
+
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("Debe colocar tipos de visión validos La combinación posible es el mismo tipo de visión o Balance");
+                _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                _FrmMensajes.ShowDialog();
 
                 // Do NOT set cellFila1.Value here, as this would trigger CellValueChanged again.
                 // Instead, return false to indicate validation failure.
@@ -12892,6 +12745,7 @@ namespace CapaVisual_Login
                 return false;
             }
         }
+
     }
 
 }

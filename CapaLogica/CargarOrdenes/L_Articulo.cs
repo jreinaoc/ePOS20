@@ -4680,6 +4680,64 @@ namespace CapaLogica.CargarOrdenes
                 return false;
             }
         }
+
+
+        public bool ValidarCantidadCristales(string OjoSelecionado, System.Windows.Forms.DataGridView Dgv_Tap3_Articulo, Action<string> mostrarError)
+        {
+            string ojo = "";
+            string ojoGrid = "";
+            int countCristales = 0;
+
+            foreach (DataGridViewRow row in Dgv_Tap3_Articulo.Rows)
+            {
+                if (row.IsNewRow) continue;
+                string cod = row.Cells["CodArticulo"].Value?.ToString() ?? "";
+                if ((cod.StartsWith("C") || cod.StartsWith("W")))
+                {
+                    countCristales = Convert.ToInt32( row.Cells["ART_EXIST"].Value?.ToString() ?? "0");
+                }
+            }
+
+
+            if (OjoSelecionado == "Ambos")
+            {
+                if (countCristales < 2)
+                {
+                    mostrarError($"Debe agregar exactamente 2 cristales o lentes de contacto para Ambos ojos");
+                    return false;
+                }
+                else if (countCristales > 2)
+                {
+                    mostrarError("Solo puede haber 2 cristales o lentes de contacto para Ambos ojos");
+                    return false;
+                }
+                else if (countCristales == 2)
+                {
+                    return true;
+                }
+
+            }
+            else if (OjoSelecionado == "Izquierdo" || OjoSelecionado == "Derecho")
+            {
+
+                if (countCristales > 1)
+                {
+                    mostrarError($"Solo puede haber 1 cristal o lente de contacto para 'Ojo {OjoSelecionado}'");
+                    return false;
+                }
+                else if (countCristales <= 0)
+                {
+                    mostrarError($"Debe agregar  1 cristal o lente de contacto para 'Ojo {OjoSelecionado}'");
+                    return false;
+                }
+                else if (countCristales == 1)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 }
 
