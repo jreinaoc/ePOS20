@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -494,10 +495,10 @@ namespace CapaLogica.Servicios
                 T_NACIO = trabajoCte.TNACIO,
                 T_TIPOTRABAJO = trabajoCte.TTIPOTRABAJO,
                 T_EXAMEN = int.TryParse(trabajoCte.TEXAMEN, out int examen) ? (int?)examen : null,
-                T_HORIZONTAL = float.TryParse(trabajoCte.THORIZONTAL, out float horizontal) ? (float?)horizontal : null,
-                T_VERTICAL = float.TryParse(trabajoCte.TVERTICAL, out float vertical) ? (float?)vertical : null,
-                T_MAXIMA = float.TryParse(trabajoCte.TMAXIMA, out float maxima) ? (float?)maxima : null,
-                T_PUENTE = float.TryParse(trabajoCte.TPUENTE, out float puente) ? (float?)puente : null,
+                T_HORIZONTAL = float.TryParse(trabajoCte.THORIZONTAL, NumberStyles.Float, CultureInfo.InvariantCulture, out float horizontal) ? (float?)horizontal : null,
+                T_VERTICAL = float.TryParse(trabajoCte.TVERTICAL, NumberStyles.Float, CultureInfo.InvariantCulture, out float vertical) ? (float?)vertical : null,
+                T_MAXIMA = float.TryParse(trabajoCte.TMAXIMA, NumberStyles.Float, CultureInfo.InvariantCulture, out float maxima) ? (float?)maxima : null,
+                T_PUENTE = float.TryParse(trabajoCte.TPUENTE, NumberStyles.Float, CultureInfo.InvariantCulture , out float puente) ? (float?)puente : null,
                 T_ALTD = (float?)trabajoCte.TALTD,
                 T_ALTI = (float?)trabajoCte.TALTI,
                 T_OJO = trabajoCte.T_OJO ?? trabajoCte.TOJO,
