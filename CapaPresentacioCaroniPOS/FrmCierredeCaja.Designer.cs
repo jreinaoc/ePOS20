@@ -639,7 +639,7 @@ namespace CapaVisual_Login
             // txtBox_observaciones_pg4
             // 
             this.txtBox_observaciones_pg4.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtBox_observaciones_pg4.Location = new System.Drawing.Point(112, 560);
+            this.txtBox_observaciones_pg4.Location = new System.Drawing.Point(112, 543);
             this.txtBox_observaciones_pg4.MaxLength = 200;
             this.txtBox_observaciones_pg4.Multiline = true;
             this.txtBox_observaciones_pg4.Name = "txtBox_observaciones_pg4";
@@ -653,7 +653,7 @@ namespace CapaVisual_Login
             this.lbl_Observaciones.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lbl_Observaciones.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl_Observaciones.ForeColor = System.Drawing.Color.White;
-            this.lbl_Observaciones.Location = new System.Drawing.Point(112, 532);
+            this.lbl_Observaciones.Location = new System.Drawing.Point(112, 515);
             this.lbl_Observaciones.Name = "lbl_Observaciones";
             this.lbl_Observaciones.Size = new System.Drawing.Size(387, 29);
             this.lbl_Observaciones.TabIndex = 16;
@@ -765,7 +765,7 @@ namespace CapaVisual_Login
             this.dgvCierredecaja.RowHeadersVisible = false;
             this.dgvCierredecaja.RowHeadersWidth = 51;
             this.dgvCierredecaja.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.dgvCierredecaja.Size = new System.Drawing.Size(414, 401);
+            this.dgvCierredecaja.Size = new System.Drawing.Size(414, 384);
             this.dgvCierredecaja.TabIndex = 313;
             this.dgvCierredecaja.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvCierredecaja_CellContentClick);
             this.dgvCierredecaja.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvCierredecaja_CellEndEdit);
@@ -1620,14 +1620,6 @@ namespace CapaVisual_Login
             this.tcCierreCaja.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
-
-            //this.txtFiltroVendedor.TextChanged += new System.EventHandler(this.txtFiltroVendedor_TextChanged);
-            //this.Dvg_MarcajeAsistenciaPendiente.CellClick += Dgv_MarcajeAsistenciaPendiente_CellClick;
-            //this.Dvg_ConsignacionDeOS.CellClick += Dvg_ConsignacionDeOS_CellClick;
-            //this.Dgv_Usuarios.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_Usuarios_CellContentClick);
-            //this.Dvg_OSconPagoMovil.EditingControlShowing += Dvg_OSconPagoMovil_EditingControlShowing;
-            //this.Dvg_CierrePuntoVenta.EditingControlShowing += Dvg_CierrePuntoVenta_EditingControlShowing;
-            //this.dgvCierredecaja.EditingControlShowing += dgvCierredecaja_EditingControlShowing;
 
         }
 

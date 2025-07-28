@@ -71,6 +71,7 @@ namespace CapaVisual_Login
                 _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
                 _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
                 _FrmMensajes.ShowDialog();
+                txtCierreHora.Enabled = true;
                 return;
             }
 
@@ -78,14 +79,17 @@ namespace CapaVisual_Login
 
             DataTable dtPuntosCerrados = _L_CierreCaja.CierrePuntodeVenta(sucursal, "", "", diaActivo);
 
-            if (txtCierreHora.Text.Length < cantCaracteres)
+            if (!_L_CierreCaja.CierreFueradeHorario(sucursal, DateTime.Now, DateTime.Now))
             {
-                _FrmMensajes.co = 2;
-                _FrmMensajes.avisomensaje("La observación debe tener al menos " + cantCaracteres + " caracteres obligatoriamente");
-                _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
-                _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
-                _FrmMensajes.ShowDialog();
-                return;
+                if (txtCierreHora.Text.Length < cantCaracteres)
+                {
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje("La observación debe tener al menos " + cantCaracteres + " caracteres obligatoriamente");
+                    _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                    _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                    _FrmMensajes.ShowDialog();
+                    return;
+                }
             }
             //Si no se han cerrado 
             if (Dvg_CierrePuntoVenta.Rows.Count > 0 && dtPuntosCerrados.Rows.Count == 0 )
@@ -462,7 +466,7 @@ namespace CapaVisual_Login
                     Text = "Pagos",
                     Font = new Font("Century Gothic", 13),
                     ForeColor = Color.Black,
-                    Size = new Size(30, 240),
+                    Size = new Size(30, 210),
                     Location = new Point(110, 278),
                     Invertir = true // ponlo en true si quieres que el texto vaya de abajo hacia arriba
                 };
@@ -1329,6 +1333,17 @@ namespace CapaVisual_Login
         {
             try
             {
+                if (dgvCierredecaja.Columns[e.ColumnIndex].Name == "Total")
+                {
+                    var cell = dgvCierredecaja.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                    if (decimal.TryParse(cell.Value?.ToString(), out decimal valor))
+                    {
+                        // Formato con punto como miles y coma como decimales
+                        CultureInfo cultura = new CultureInfo("es-VE"); // o "es-ES"
+                        cell.Value = valor.ToString("#,##0.00", cultura);
+                    }
+                }
+
                 double existenteEnCaja = GetValorFila(0);
                 double efectivo = GetValorFila(5);
                 double debito = GetValorFila(6);
@@ -1337,12 +1352,12 @@ namespace CapaVisual_Login
                 double islrRetenido = GetValorFila(9);
 
                 double transferencia = GetValorFila(10);
-                double transferenciaDivisa = GetValorFila(11);
+                //double transferenciaDivisa = GetValorFila(11);
 
-                double diferencia = existenteEnCaja - (efectivo + debito + tarjetaCredito + ivaRetenido + islrRetenido + transferencia + transferenciaDivisa);
+                double diferencia = existenteEnCaja - (efectivo + debito + tarjetaCredito + ivaRetenido + islrRetenido + transferencia);
 
                 // Mostrar el resultado en la fila "Diferencia" (fila 6)
-                dgvCierredecaja.Rows[12].Cells["Total"].Value = diferencia.ToString("N2");
+                dgvCierredecaja.Rows[11].Cells["Total"].Value = diferencia.ToString("N2");
             }
             catch (Exception ex)
             {
@@ -1934,8 +1949,12 @@ namespace CapaVisual_Login
             if (char.IsDigit(e.KeyChar))
                 return;
 
-            // Permitir una sola coma
+            // Permitir una sola coma como separador decimal
             if (e.KeyChar == ',' && !tb.Text.Contains(","))
+                return;
+
+            // Permitir un solo punto como separador de miles
+            if (e.KeyChar == '.' && !tb.Text.Contains("."))
                 return;
 
             // Bloquear cualquier otro carácter
@@ -1976,6 +1995,177 @@ namespace CapaVisual_Login
         private void lbl_Paso2_Click(object sender, EventArgs e)
         {
 
+        }
+
+        public bool BuscoAsistencia(string Codigo)
+        {
+            try
+            {
+                //var Suc = new Configuration.AppSettingsReader();
+                //var Asis = new CapaNegocio.Asistencia();
+                //var Usu = new CapaNegocio.Usuario();
+                //var Asist = new EPOS.frAsistencia();
+                bool OkAsis = false;
+                //var Sucur = new CapaNegocio.ConfiguraSucursal();
+
+                //string IActivarAsisDia = ValorParametro("ActivarAsisDia", sqlCom);
+                //if (IActivarAsisDia == "0")
+                //{
+                //    DataSet dsInsertDetalle = ManBD.EjecutaStoreProcedure("SP_INSERTATB_ASISTENCIA", glbSucursalActual, sqlCom);
+                //}
+
+                ////Usu.ObtenerUsuarioCodigo(Codigo, sqlCom);
+                DateTime currentDate = DateTime.Now;
+                string formattedDate = currentDate.ToString("yyyyMMdd");
+
+                if (TB_USUARIO.Id_Rol  != "000" && TB_USUARIO.Id_Rol != "013" && TB_USUARIO.Id_Rol != "017")
+                {
+                   
+                    //Asis.ObtenerAsistenciasCodEmpleado(Codigo, DateTime.Today.ToString("dd/MM/yyyy"), sucursal, command);
+                    DataTable dtAsis = _L_CierreCaja.ObtieneAsistenciaPendienteds(formattedDate, TB_USUARIO.COD_USR);
+
+                    if (dtAsis.Rows.Count == 0 || string.IsNullOrWhiteSpace(dtAsis.Rows[0]["CodEmpleado"].ToString()))
+                    {
+                        _FrmMensajes.co = 2;
+                        _FrmMensajes.avisomensaje("Debe marcar asistencia para el día activo");
+                        _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                        _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                        _FrmMensajes.ShowDialog();
+                        return false;
+                        
+
+                    }
+                    else
+                    {
+                        if (string.IsNullOrWhiteSpace(dtAsis.Rows[0]["HoraDeSalidaPrimerTurno"]?.ToString()))
+                        {
+                            OkAsis = true;
+                        }
+                        else if (!string.IsNullOrWhiteSpace(dtAsis.Rows[0]["HoraDeEntradaSegundoTurno"]?.ToString()) &&
+                                 string.IsNullOrWhiteSpace(dtAsis.Rows[0]["HoraDeSalidaSegundoTurno"]?.ToString()))
+                        {
+                            OkAsis = true;
+                        }
+                        else if (!string.IsNullOrWhiteSpace(dtAsis.Rows[0]["HoraDeEntradaTercerTurno"]?.ToString()) &&
+                                 string.IsNullOrWhiteSpace(dtAsis.Rows[0]["HoraDeSalidaTercerTurno"]?.ToString()))
+                        {
+                            OkAsis = true;
+                        }
+                        else
+                        {
+                            //if (IActivarAsisDia == "1")
+                            //{
+                                _FrmMensajes.co = 2;
+                                _FrmMensajes.avisomensaje("Debe marcar asistencia para la entrada de turno");
+                                _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                                _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                                _FrmMensajes.ShowDialog();
+                                return false;
+                            //}
+                        }
+                    }
+
+                    if (OkAsis)
+                    {
+                        return VerificarTiempoMaxTrabajo(Codigo, sucursal);
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+                //MensajeError.MuestroMensaje("Error en la función", "Variables.BuscoAsistencia", "Por favor comunicarse con el Dpto. de Sistemas y reportar el siguiente error: ", ex.Message, CapaNegocio.MensajesGenerales.TiposIconos.IconoError, glbUsuarioActual);
+                //MensajeError.ShowDialog();
+                //return false;
+            }
+        }
+
+        public bool VerificarTiempoMaxTrabajo(string CodigoUsuario, string sucursal)
+        {
+            try
+            {
+                //var Asis = new CapaNegocio.Asistencia();
+                //var Usu = new CapaNegocio.Usuario();
+                string UltimaHoraMarcada;
+               
+                DateTime currentDate = _D_Inicio.DiaActivo();
+                string formattedDate = currentDate.ToString("yyyyMMdd");
+
+                //Usu.ObtenerUsuarioCodigo(sucursal, sqlCom);
+                if (TB_USUARIO.Id_Rol != "013")
+                {
+                    //Asis.ObtenerAsistenciasCodEmpleado(CodigoUsuario, DateTime.Today.ToString("dd/MM/yyyy"), sucursal, sqlCom);
+                    DataTable dtAsis = _L_CierreCaja.ObtieneAsistenciaPendienteds(formattedDate, TB_USUARIO.COD_USR);
+
+                    if (string.IsNullOrWhiteSpace(dtAsis.Rows[0]["HoraDeSalidaPrimerTurno"]?.ToString()))
+                    {
+                        DateTime entradaPrimerTurno = Convert.ToDateTime(dtAsis.Rows[0]["HoraDeEntradaPrimerTurno"]?.ToString());
+                        int tiempoMax = Convert.ToInt32(_D_DetalleOrden.TB_PARAMETRO("TiempMaxTraba"));
+                        double horasTrabajadas = DateTime.Now.Subtract(entradaPrimerTurno).TotalHours;
+
+                        if (horasTrabajadas < tiempoMax)
+                        {
+                            double avisoHoras = DateTime.Now.Subtract(entradaPrimerTurno.AddMinutes(-30)).TotalHours;
+                            if (avisoHoras >= tiempoMax)
+                            {
+                                //var Usus = new CapaNegocio.Usuario();
+                                //Usus.ObtenerUsuarioCodigo(CodigoUsuario, sqlCom);
+                                int minutosRestantes = 30 - DateTime.Now.Subtract(entradaPrimerTurno.AddMinutes(-30)).Minutes;
+
+                                _FrmMensajes.co = 2;
+                                _FrmMensajes.avisomensaje(TB_USUARIO.USER_NOMBRE + " en los próximos " + minutosRestantes +" comienza su tiempo de descanso obligatorio");
+                                _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                                _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                                _FrmMensajes.ShowDialog();
+                                return false;
+
+                                //MessageBox.Show(TB_USUARIO.USER_NOMBRE + "en los próximos {minutosRestantes} min\ncomienza su tiempo de descanso obligatorio",
+                                //    "Tome sus medidas preventivas...", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+                            }
+
+                            return true;
+                        }
+                        else
+                        {
+                            _FrmMensajes.co = 2;
+                            _FrmMensajes.avisomensaje("Hay más de " + tiempoMax + "horas desde su última marca en ASISTENCIA y por lo tanto debe marcar una Salida");
+                            _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                            _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                            _FrmMensajes.ShowDialog();
+                            return false;
+                            //MessageBox.Show($"Hay más de {tiempoMax} horas desde su última marca en ASISTENCIA y por lo tanto debe marcar una Salida\n(Presione las teclas Ctrl + F2 para marcar su asistencia)",
+                            //    "Más de 4 horas", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+                            //return false;
+                        }
+                    }
+                    else
+                    {
+                        // Lógica de verificación para segundo y tercer turno desactivada según comentario original
+                        return true;
+                    }
+                }
+                else
+                {
+                    // RolEmpleado "013" se considera exento
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                //MensajeError.MuestroMensaje("Error en la función", "Variables.VerificarTiempoMaxTrabajo",
+                //    "Por favor comunicarse con el Dpto. de Sistemas y reportar el siguiente error: ",
+                //    ex.Message, CapaNegocio.MensajesGenerales.TiposIconos.IconoError, CodigoUsuario);
+                //MensajeError.ShowDialog();
+                return false;
+            }
         }
     }
 }

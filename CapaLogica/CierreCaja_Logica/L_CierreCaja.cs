@@ -406,7 +406,7 @@ namespace CapaLogica.CierreCaja_Logica
                 decimal M_IVARetenido = (decimal)GetValorFila(dgvCierredecaja, 8);
                 decimal M_ISRLRetenido = (decimal)GetValorFila(dgvCierredecaja, 9);
                 decimal M_Transferencia = (decimal)GetValorFila(dgvCierredecaja, 10);
-                decimal M_Vuelto = (decimal)GetValorFila(dgvCierredecaja, 0);
+                decimal M_Vuelto = 0;
                 string M_Observacion = observacion;
                 string M_Usuario = usuario;
                 bool cierreParcial = false;
@@ -633,17 +633,48 @@ namespace CapaLogica.CierreCaja_Logica
 
         public bool ObtieneAsistenciaPendiente(string fecha, string usuario)
         {
-            DataTable dt = _D_CierreCaja.ObtieneAsistenciaPendiente(fecha, usuario);
+            DataSet ds = _D_CierreCaja.ObtieneAsistenciaPendiente(fecha, usuario);
 
-            if (dt.Rows.Count > 0)
+            DataTable dtExiste = ds.Tables[0];
+            DataTable dtAsistenciaPendiente = ds.Tables[1];
+            //Si existe en la tabla
+            if (dtExiste.Rows.Count > 0)
             {
-                return false;
+                //No tiene marcas asistencia
+                if (dtAsistenciaPendiente.Rows.Count > 0)
+                {
+                    return true;
+                }
             }
-            else
-            {
-                return true;
-            }
+            //else
+            //{
+            //    return false;
+            //}
+            return false;
         }
+
+        public DataTable  ObtieneAsistenciaPendienteds (string fecha, string usuario)
+        {
+            DataSet ds = _D_CierreCaja.ObtieneAsistenciaPendiente(fecha, usuario);
+
+            DataTable dtExiste = ds.Tables[0];
+            DataTable dtAsistenciaPendiente = ds.Tables[1];
+            //Si existe en la tabla
+            //if (dtExiste.Rows.Count > 0)
+            //{
+            //    //No tiene marcas asistencia
+            //    if (dtAsistenciaPendiente.Rows.Count > 0)
+            //    {
+            //        return true;
+            //    }
+            //}
+            //else
+            //{
+            //    return false;
+            //}
+            return dtExiste;
+        }
+
 
 
     }

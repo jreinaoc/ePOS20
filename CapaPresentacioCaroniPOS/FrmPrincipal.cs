@@ -148,6 +148,7 @@ namespace CapaVisual_Login
 
         private void BtnListadoOrdenes_Click(object sender, EventArgs e)
         {
+            _FrmInicio.Actualizar_Tasas(); 
             pnlUtilitarios.Visible = false;
 
             System.Drawing.Color col2 = System.Drawing.ColorTranslator.FromHtml("#257b78");
@@ -178,13 +179,14 @@ namespace CapaVisual_Login
             DateTime currentDate = _D_Inicio.DiaActivo();
             string formattedDate = currentDate.ToString("yyyyMMdd");
 
-            if (!_L_CierreCaja.ObtieneAsistenciaPendiente(formattedDate, TB_USUARIO.COD_USR))
+            //if (_L_CierreCaja.ObtieneAsistenciaPendiente(formattedDate, TB_USUARIO.COD_USR))
+            if (!_FrmCierreDeCaja.BuscoAsistencia(TB_USUARIO.COD_USR))
             {
-                _FrmMensajes.co = 2;
-                _FrmMensajes.avisomensaje("Debe marcar asistencia para el día activo");
-                _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
-                _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
-                _FrmMensajes.ShowDialog();
+                //_FrmMensajes.co = 2;
+                //_FrmMensajes.avisomensaje("Debe marcar asistencia para el día activo");
+                //_FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                //_FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                //_FrmMensajes.ShowDialog();
                 return;
             }
 
@@ -554,6 +556,7 @@ namespace CapaVisual_Login
 
         private void btnClienteEspera_Click(object sender, EventArgs e)
         {
+            _FrmInicio.Actualizar_Tasas(); 
             pnlUtilitarios.Visible = false; 
             
             System.Drawing.Color col2 = System.Drawing.ColorTranslator.FromHtml("#257b78");
@@ -659,6 +662,19 @@ namespace CapaVisual_Login
                 btnCargarOrdenes.BackColor = Color.White;
             }
 
+            DateTime currentDate = _D_Inicio.DiaActivo();
+            string formattedDate = currentDate.ToString("yyyyMMdd");
+
+            if (!_L_CierreCaja.ObtieneAsistenciaPendiente(formattedDate, TB_USUARIO.COD_USR))
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("Debe marcar asistencia para el día activo");
+                _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                _FrmMensajes.ShowDialog();
+                return;
+            }
+
             PnlListadoOrdenes.Controls.Clear();
             addformulario(_FrmPagoMovil);
             _FrmPagoMovil.btnlupa_Click_1(this, EventArgs.Empty);
@@ -667,6 +683,7 @@ namespace CapaVisual_Login
 
         private void btnListaFactura_Click(object sender, EventArgs e)
         {
+            _FrmInicio.Actualizar_Tasas(); 
             pnlUtilitarios.Visible = false; 
             System.Drawing.Color col2 = System.Drawing.ColorTranslator.FromHtml("#257b78");
 
@@ -713,6 +730,7 @@ namespace CapaVisual_Login
 
         private void btnCargarOrdenes_Click(object sender, EventArgs e)
         {
+            _FrmInicio.Actualizar_Tasas();
             pnlUtilitarios.Visible = false;
             System.Drawing.Color col2 = System.Drawing.ColorTranslator.FromHtml("#257b78");
 
@@ -740,8 +758,21 @@ namespace CapaVisual_Login
                 btnListaFactura.BackColor = Color.White;
             }
 
+           
             DateTime currentDate = _D_Inicio.DiaActivo();
             string formattedDate = currentDate.ToString("yyyyMMdd");
+
+            if (!_L_CierreCaja.ObtieneAsistenciaPendiente(formattedDate, TB_USUARIO.COD_USR))
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("Debe marcar asistencia para el día activo");
+                _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                _FrmMensajes.ShowDialog();
+                return;
+            }
+
+
             string StatusTasa = "";
             string StatusSec = "";
 
@@ -841,17 +872,19 @@ namespace CapaVisual_Login
         {
             DateTime currentDate = _D_Inicio.DiaActivo();
             string formattedDate = currentDate.ToString("yyyyMMdd");
-            
-            //Si no tiene asistencia marcada
-            if (!_L_CierreCaja.ObtieneAsistenciaPendiente(formattedDate, TB_USUARIO.COD_USR))
+
+            if (TB_USUARIO.COD_EMPLEADO != "99999")
             {
-                _FrmMensajes.co = 2;
-                _FrmMensajes.avisomensaje("Debe marcar asistencia para el día activo");
-                _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
-                _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
-                _FrmMensajes.ShowDialog();
-                return;
-            }
+                //Si no tiene asistencia marcada
+            //    if (!_L_CierreCaja.ObtieneAsistenciaPendiente(formattedDate, TB_USUARIO.COD_USR))
+            //{
+            //    _FrmMensajes.co = 2;
+            //    _FrmMensajes.avisomensaje("Debe marcar asistencia para el día activo");
+            //    _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+            //    _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+            //    _FrmMensajes.ShowDialog();
+            //    return;
+            //}
 
             if (menuUtilitariosExpandido)
                 ContraerMenuUtilitarios();
@@ -917,7 +950,7 @@ namespace CapaVisual_Login
                 _FrmMensajes.ShowDialog();
                 return;
             }
-
+            }
             PnlListadoOrdenes.Controls.Clear();
             _FrmCierreDeCaja.CargarInicio();
             addformulario(_FrmCierreDeCaja);
