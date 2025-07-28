@@ -234,7 +234,8 @@ namespace CapaLogica.TasaDia_Logica
                                 LblTasaDesenc.Text = "";
                                 LblFechaDesenc.Text = "";
                                 LblHoraDesenc.Text = "";
-                                mostrarError("La fecha de la secuencia debe ser mayor al día activo. Debe solicitar uno nuevo");
+                                // mostrarError("La fecha de la secuencia debe ser mayor al día activo. Debe solicitar uno nuevo");
+                                mostrarError("Secuencia inválida");
                             }
                         }
                         else
@@ -245,7 +246,7 @@ namespace CapaLogica.TasaDia_Logica
                                 LblTasaDesenc.Text = "";
                                 LblFechaDesenc.Text = "";
                                 LblHoraDesenc.Text = "";
-                                mostrarError("El valor introducido supera el % permitido para actualizar la secuencia. Debe solicitar uno nuevo");
+                                mostrarError("El valor introducido supera el % permitido para actualizar la secuencia");
                             }
                             else
                             {
@@ -253,7 +254,8 @@ namespace CapaLogica.TasaDia_Logica
                                 LblTasaDesenc.Text = "";
                                 LblFechaDesenc.Text = "";
                                 LblHoraDesenc.Text = "";
-                                mostrarError("El valor introducido no es correcto. Debe solicitar uno nuevo");
+                                //mostrarError("El valor introducido no es correcto. Debe solicitar uno nuevo");
+                                mostrarError("Secuencia inválida");
                             }
                         }
                     }

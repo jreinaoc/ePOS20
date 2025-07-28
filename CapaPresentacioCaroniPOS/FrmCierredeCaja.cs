@@ -79,7 +79,7 @@ namespace CapaVisual_Login
 
             DataTable dtPuntosCerrados = _L_CierreCaja.CierrePuntodeVenta(sucursal, "", "", diaActivo);
 
-            if (!_L_CierreCaja.CierreFueradeHorario(sucursal, DateTime.Now, DateTime.Now) && txtCierreHora.Text == "")
+            if (!_L_CierreCaja.CierreFueradeHorario(sucursal, DateTime.Now, DateTime.Now))
             {
                 if (txtCierreHora.Text.Length < cantCaracteres)
                 {
