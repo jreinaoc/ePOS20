@@ -887,7 +887,7 @@ namespace CapaDatos.CierreCaja_Datos
             }
         }
 
-        public DataTable ObtieneAsistenciaPendiente(string fecha, string codUsuario, SqlCommand command = null)
+        public DataSet ObtieneAsistenciaPendiente(string fecha, string codUsuario, SqlCommand command = null)
         {
             try
             {
@@ -905,12 +905,11 @@ namespace CapaDatos.CierreCaja_Datos
                 cmd.Parameters.AddWithValue("@FECHA", fecha);
                 cmd.Parameters.AddWithValue("@CODUSER", codUsuario);
 
-
-                DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
+                DataSet dts = new DataSet();
+                da.Fill(dts);
                 cmd.Parameters.Clear();
-                return dt;
+                return dts;
 
             }
             catch (Exception ex)

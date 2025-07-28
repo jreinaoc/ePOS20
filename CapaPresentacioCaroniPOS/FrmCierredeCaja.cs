@@ -71,6 +71,7 @@ namespace CapaVisual_Login
                 _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
                 _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
                 _FrmMensajes.ShowDialog();
+                txtCierreHora.Enabled = true;
                 return;
             }
 
