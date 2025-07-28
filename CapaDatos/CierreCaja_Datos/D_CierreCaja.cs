@@ -927,5 +927,9 @@ namespace CapaDatos.CierreCaja_Datos
             System.IO.File.AppendAllText(ruta, entrada + Environment.NewLine);
         }
 
+        
+
+       
+
     }
 }

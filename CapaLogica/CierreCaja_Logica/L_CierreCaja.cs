@@ -653,6 +653,29 @@ namespace CapaLogica.CierreCaja_Logica
             return false;
         }
 
+        public DataTable  ObtieneAsistenciaPendienteds (string fecha, string usuario)
+        {
+            DataSet ds = _D_CierreCaja.ObtieneAsistenciaPendiente(fecha, usuario);
+
+            DataTable dtExiste = ds.Tables[0];
+            DataTable dtAsistenciaPendiente = ds.Tables[1];
+            //Si existe en la tabla
+            //if (dtExiste.Rows.Count > 0)
+            //{
+            //    //No tiene marcas asistencia
+            //    if (dtAsistenciaPendiente.Rows.Count > 0)
+            //    {
+            //        return true;
+            //    }
+            //}
+            //else
+            //{
+            //    return false;
+            //}
+            return dtExiste;
+        }
+
+
 
     }
 }

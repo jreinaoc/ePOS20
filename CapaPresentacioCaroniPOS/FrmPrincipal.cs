@@ -179,13 +179,14 @@ namespace CapaVisual_Login
             DateTime currentDate = _D_Inicio.DiaActivo();
             string formattedDate = currentDate.ToString("yyyyMMdd");
 
-            if (_L_CierreCaja.ObtieneAsistenciaPendiente(formattedDate, TB_USUARIO.COD_USR))
+            //if (_L_CierreCaja.ObtieneAsistenciaPendiente(formattedDate, TB_USUARIO.COD_USR))
+            if (!_FrmCierreDeCaja.BuscoAsistencia(TB_USUARIO.COD_USR))
             {
-                _FrmMensajes.co = 2;
-                _FrmMensajes.avisomensaje("Debe marcar asistencia para el día activo");
-                _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
-                _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
-                _FrmMensajes.ShowDialog();
+                //_FrmMensajes.co = 2;
+                //_FrmMensajes.avisomensaje("Debe marcar asistencia para el día activo");
+                //_FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                //_FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                //_FrmMensajes.ShowDialog();
                 return;
             }
 
@@ -875,15 +876,15 @@ namespace CapaVisual_Login
             if (TB_USUARIO.COD_EMPLEADO != "99999")
             {
                 //Si no tiene asistencia marcada
-                if (!_L_CierreCaja.ObtieneAsistenciaPendiente(formattedDate, TB_USUARIO.COD_USR))
-            {
-                _FrmMensajes.co = 2;
-                _FrmMensajes.avisomensaje("Debe marcar asistencia para el día activo");
-                _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
-                _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
-                _FrmMensajes.ShowDialog();
-                return;
-            }
+            //    if (!_L_CierreCaja.ObtieneAsistenciaPendiente(formattedDate, TB_USUARIO.COD_USR))
+            //{
+            //    _FrmMensajes.co = 2;
+            //    _FrmMensajes.avisomensaje("Debe marcar asistencia para el día activo");
+            //    _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+            //    _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+            //    _FrmMensajes.ShowDialog();
+            //    return;
+            //}
 
             if (menuUtilitariosExpandido)
                 ContraerMenuUtilitarios();
