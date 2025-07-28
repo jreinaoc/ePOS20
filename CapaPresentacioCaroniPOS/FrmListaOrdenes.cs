@@ -28,6 +28,10 @@ namespace CapaVisual_Login
 
         string orden = "";
         string cedula = "";
+
+        // Delegado para el cierre (puede ser reemplazado por un evento si prefieres)
+        private Action _onCierreSolicitado;
+
         public FrmListaOrdenes()
 
         {
@@ -35,6 +39,9 @@ namespace CapaVisual_Login
 
             //KEDWIN
             kedInstancia = this;
+
+            // Inicializa el delegado con la lógica por defecto (clic en BtnCancelar)
+            _onCierreSolicitado = () => BtnCancelar.PerformClick();
         }
 
         //Instanciamos nuestra clase D_Loguin para poder utilizar sus miembros
@@ -1524,6 +1531,9 @@ namespace CapaVisual_Login
                         BtnCancelar.Visible = true;
                         PnlLSecundario.Controls.Clear();
                         _FrmFacturacion.LimpiaVariablesIdAbonoPagoMovil();
+                        _FrmCargarOrden = new FrmCargarOrden();
+                        //Pasarle un delegado
+                        _FrmCargarOrden.SetOnCierreSolicitado(() => BtnCancelar.PerformClick());
                         AbrirForm(_FrmCargarOrden);
                         _FrmCargarOrden.Txt_Tap1_Cedula.Text = TB_CAORDSER.CTE_CedIden;
                         _FrmCargarOrden.Cbx_Tap1_Nacionalidad.Text = TB_CAORDSER.CTE_Nacio;
@@ -1546,7 +1556,7 @@ namespace CapaVisual_Login
 
         }
 
-        public void AbrirForm(Form F)
+        public void AbrirForm(Form F, Action onCierreSolicitado = null)
         {
 
             while (PnlLSecundario.Controls.Count > 0)
@@ -1566,8 +1576,13 @@ namespace CapaVisual_Login
             F.BringToFront();
             return;
 
+
         }
 
+        public void SetCierreCallback(Action onCierreSolicitado)
+        {
+            _onCierreSolicitado = onCierreSolicitado;
+        }
 
 
         private void txtNumeroOrden_Enter(object sender, EventArgs e)
@@ -1628,6 +1643,9 @@ namespace CapaVisual_Login
 
         public void BtnCancelar_Click(object sender, EventArgs e)
         {
+            //// Ejecuta el delegado de cierre (si está asignado)
+            //_onCierreSolicitado?.Invoke();
+
             string NumOrden = RecNumOrden();
             string NumCedula = RecNumCedula();
 

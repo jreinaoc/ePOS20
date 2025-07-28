@@ -28,6 +28,15 @@ namespace CapaVisual_Login
 {
     public partial class FrmCargarOrden : Form
     {
+        // Campo para almacenar el delegado de cierre
+        private Action _onCierreSolicitado;
+
+        // Método público para asignar el delegado desde el padre
+        public void SetOnCierreSolicitado(Action onCierre)
+        {
+            _onCierreSolicitado = onCierre;
+        }
+
         public FrmCargarOrden()
         {
             InitializeComponent();
@@ -10332,7 +10341,7 @@ namespace CapaVisual_Login
                     //Pnl_2_Msj.Visible = true;
                     //txt_pl2_msj.Text = "Examen guardado con éxito ";
                     //pb_pl2_mj.Visible = false;
-                    if (tabControl.SelectedIndex == 1)
+                    if (tabControl.SelectedIndex == 1 && !Formulario_ListaOrdenes)
                     {
                         btnCargarOrden.Enabled = true;
                         //btnCargarOrden.Focus();
@@ -11807,11 +11816,12 @@ namespace CapaVisual_Login
 
                     }
 
+                    // Cerrar el contenedor después de procesar exitosamente
+                    _onCierreSolicitado?.Invoke(); // 👈 Ejecuta el cierre del padre
                 }
 
             }
         }
-
 
         public void FormatoOscuro(System.Drawing.Color col2, System.Drawing.Color col3, System.Drawing.Color col4 )
         {
