@@ -656,10 +656,13 @@ namespace CapaLogica.CargarOrdenes
             int cantidadCristales = 0;
             foreach (DataGridViewRow row in Dgv_Tap3_Articulo.Rows)
             {
-                if (row.Cells["CodArticulo"].Value?.ToString() == Codigo)
+                if (!row.Cells["CodArticulo"].Value.ToString().StartsWith("W"))
                 {
-                    //MessageBox.Show("El artículo ya está agregado.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return true;
+                    if (row.Cells["CodArticulo"].Value?.ToString() == Codigo)
+                    {
+                        //MessageBox.Show("El artículo ya está agregado.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return true;
+                    }   
                 }
 
                 //Verificar si ya hay un cristal agregado
@@ -940,6 +943,7 @@ namespace CapaLogica.CargarOrdenes
                     {
                         return true;
                     }
+
                 }
             }
 
@@ -4061,7 +4065,7 @@ namespace CapaLogica.CargarOrdenes
 
         }
 
-        public bool BuscoCodigoLabLC(string codArticulo, string codColor, string Nacionalidad, string Cedula, int NumExamen, string ojo, string cant,
+        public bool BuscoCodigoLabLC(string codArticulo, string codColor, string Nacionalidad, string Cedula, int NumExamen, string ojoVision,string ojoLenteContacto, string cant,
             Action<string, string> guardarDatos // <-- delegado
         )
         {
@@ -4076,8 +4080,23 @@ namespace CapaLogica.CargarOrdenes
                     return false;
                 }
 
+                if (ojoVision == "Ambos")
+                {
+                    ojoVision = "A";
+                }
+
+                if (ojoVision == "Derecho")
+                {
+                    ojoVision = "D";
+                }
+
+                if (ojoVision == "Izquierdo")
+                {
+                    ojoVision = "I";
+                }
+
                 // Ejecuta el procedimiento almacenado
-                DataSet dsGetLC = _D_Articulos.lenteContacto_Color_Existencia(ojo, codColor, Nacionalidad, Cedula, NumExamen.ToString(), codArticulo, null);
+                DataSet dsGetLC = _D_Articulos.lenteContacto_Color_Existencia(string.IsNullOrEmpty(ojoLenteContacto) ? ojoVision : ojoLenteContacto, codColor, Nacionalidad, Cedula, NumExamen.ToString(), codArticulo, null);
 
                 if (dsGetLC.Tables[0].Rows.Count == 1)
                 {
@@ -4176,7 +4195,7 @@ namespace CapaLogica.CargarOrdenes
                         return false;
                     }
 
-                    if (existencia <= 0)
+                    if (cant <= 0)
                         lcSinExist = true;
                     else
                     {
@@ -4703,7 +4722,7 @@ namespace CapaLogica.CargarOrdenes
             {
                 if (countCristales < 2)
                 {
-                    mostrarError($"Debe agregar exactamente 2 cristales o lentes de contacto para Ambos ojos");
+                    mostrarError($"La cantidad de cristales no es correcta");
                     return false;
                 }
                 else if (countCristales > 2)
@@ -4737,6 +4756,94 @@ namespace CapaLogica.CargarOrdenes
             }
 
             return false;
+        }
+
+        public bool VerificoCantidadCristales(string OjoSelecionado, System.Windows.Forms.DataGridView Dgv_Tap3_Articulo, Action<string> mostrarError)
+        {
+            try
+            {
+                int cristal = 0;
+                int cantc = 0;
+                bool LenteContacto = false;
+
+                // Verificar cantidad de cristales
+                foreach (DataGridViewRow row in Dgv_Tap3_Articulo.Rows)
+                {
+                    string codigo = row.Cells["CodArticulo"].Value?.ToString() ?? "";
+                    string cantidadTexto = row.Cells["ART_EXIST"].Value?.ToString() ?? "";
+
+                    if (codigo.StartsWith("C"))
+                    {
+                        if (string.IsNullOrWhiteSpace(cantidadTexto))
+                        {
+                            mostrarError($"La cantidad de cristales no es correcta");
+                            return false;
+                           
+                        }
+                        else if (cantidadTexto == "2")
+                        {
+                            cristal = 2;
+                            break;
+                        }
+                        else if (cantidadTexto == "1")
+                        {
+                            cristal += 1;
+                        }
+                    }
+                }
+
+                // Verificar lentes de contacto
+                foreach (DataGridViewRow row in Dgv_Tap3_Articulo.Rows)
+                {
+                    string codigo = row.Cells["CodArticulo"].Value?.ToString() ?? "";
+                    if (codigo.StartsWith("W"))
+                    {
+                        object cantidad = row.Cells["ART_EXIST"].Value?.ToString() ?? "";
+                        if (cantidad != null && int.TryParse(cantidad.ToString(), out int valor))
+                        {
+                            cantc += valor;
+                        }
+                        LenteContacto = true;
+                    }
+                }
+
+                // Verificar trabajo y ojo seleccionado
+                
+
+                if (OjoSelecionado != "Ambos")
+                {
+                    cristal += 1;
+                }
+
+                if (cristal == 2)
+                {
+                    return true;
+                }
+                else if (LenteContacto)
+                {
+                    if (OjoSelecionado != "Ambos")
+                    {
+                        return cantc == 2 ? true : true;
+                    }
+                    else
+                    {
+                        return cantc == 2 ? true : true;
+                    }
+                }
+                else
+                {
+                    mostrarError($"La cantidad de cristales no es correcta");
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                //MensajeError.MuestroMensaje("Error en la función", "frmFacturas.VerificoCantidadCristales",
+                //    "Por favor comunicarse con el Dpto de Sistemas y reportar el siguiente error: ",
+                //    ex.Message, CapaNegocio.MensajesGenerales.TiposIconos.IconoError, glbUsuarioActual);
+                //MensajeError.ShowDialog();
+                return false;
+            }
         }
     }
 }

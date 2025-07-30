@@ -30,6 +30,7 @@ namespace CapaVisual_Login
     {
         // Campo para almacenar el delegado de cierre
         private Action _onCierreSolicitado;
+        private D_Articulos _D_Articulos  = new D_Articulos();
 
         // Método público para asignar el delegado desde el padre
         public void SetOnCierreSolicitado(Action onCierre)
@@ -197,6 +198,8 @@ namespace CapaVisual_Login
 
         private string codigoSucursal;
         D_Anulacion _D_Anulacion = new D_Anulacion();
+        private string ojoLenteContacto;
+        private bool LcAmbosCant1 = false;
 
         private void DgvListadoOrdenes_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -1314,6 +1317,34 @@ namespace CapaVisual_Login
                     //    AplicoGarantia(Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Txt_Pnl2_Cedula.Text.Substring(0, 1), "", Txt_Pnl2_Examen.Text, _D_Inicio.Sucursal());
                     //}
                 }
+                bool EsAR = false;
+                DataSet dsServAR = _D_Articulos.ServiciosAR_btnProcesar(articulo.CodArticulo, false, null);
+                //Si es un AR (validar con tabla 1 del dataset)
+                foreach (DataRow filaAR in dsServAR.Tables[1].Rows)
+                {
+                    string codAR = filaAR["CodServicio"].ToString();
+                    if (articulo.CodArticulo == codAR)
+                    {
+                        EsAR = true;
+                        break;
+                    }
+                }
+
+                if (Txt_Tap3_Articulo_Codigo.Text.StartsWith("W") || Txt_Tap3_Articulo_Codigo.Text.StartsWith("C") || EsAR)
+                {
+                    if (Cbx_Tap2_Ojo.Text == "Ambos")
+                    {
+                        Txt_Tap3_Articulo_Cantidad.Text = "2";
+                    }
+                    else
+                    {
+                        Txt_Tap3_Articulo_Cantidad.Text = "1";
+                    }
+                }
+                else
+                {
+                    Txt_Tap3_Articulo_Cantidad.Text = "1";
+                }
 
 
             }
@@ -1413,7 +1444,49 @@ namespace CapaVisual_Login
             if (_L_Articulo.VerificoCantidadCristales(Txt_Tap3_Articulo_Codigo.Text, Convert.ToInt16(Txt_Tap3_Articulo_Cantidad.Text), _TRABAJO))
             {
                 // Definir Accion
+                
             }
+
+            if (Txt_Tap3_Articulo_Codigo.Text.StartsWith("W"))
+            {
+                if (Cbx_Tap2_Ojo.Text == "Ambos" & Txt_Tap3_Articulo_Cantidad.Text == "1")
+                {
+                    if (LcAmbosCant1 == false)
+                    {
+                        pnlOjo.Visible = true;
+                        return;
+                    }
+                    else
+                    {
+                        // Verifica si ya hay un artículo C o W con ojo D en el grid
+                        string ojoGrid = "";
+                        bool existeD = false;
+                        foreach (DataGridViewRow row in Dgv_Tap3_Articulo.Rows)
+                        {
+                            if (row.IsNewRow) continue;
+                            string cod = row.Cells["CodArticulo"].Value?.ToString() ?? "";
+                            ojoGrid = row.Cells["Ojo"].Value?.ToString() ?? "";
+                            if (cod.StartsWith("W"))
+                            {
+                                existeD = true;
+                                break;
+                            }
+                        }
+                        //no hay nada en el grid
+                        if (existeD == true)
+                        {
+                            ojoLenteContacto = (ojoGrid == "I") ? "D" : "I";
+
+                        }
+                    }
+                }
+                else
+                {
+                    pnlOjo.Visible = false;
+                }
+            }
+
+            
 
             if (Cristal_Propio== true && Txt_Tap3_Articulo_Codigo.Text.StartsWith("C"))
             {
@@ -1435,7 +1508,7 @@ namespace CapaVisual_Login
             }
 
             // Verifico Existencia LC
-            if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "02" && Txt_Tap3_Articulo_Codigo.Text.StartsWith("W") && !_L_Articulo.BuscoCodigoLabLC(Txt_Tap3_Articulo_Codigo.Text, CodColorLC, Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Convert.ToInt16(Txt_Pnl2_Examen.Text), Txt_Tap3_Articulo_Cantidad.Text == "2" ? "A": "I", Txt_Tap3_Articulo_Cantidad.Text,
+            if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "02" && Txt_Tap3_Articulo_Codigo.Text.StartsWith("W") && !_L_Articulo.BuscoCodigoLabLC(Txt_Tap3_Articulo_Codigo.Text, CodColorLC, Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Convert.ToInt16(Txt_Pnl2_Examen.Text),  Cbx_Tap2_Ojo.Text, ojoLenteContacto, Txt_Tap3_Articulo_Cantidad.Text,
                   // delegado
                   (lab, gen) => { codLab = lab; generico = gen; })
                 && _L_Articulo.stringBuilder.Length > 0)
@@ -1556,7 +1629,7 @@ namespace CapaVisual_Login
 
                 string ojo = "";
 
-                if (articulo.CodArticulo.StartsWith("C") || articulo.CodArticulo.StartsWith("W"))
+                if (articulo.CodArticulo.StartsWith("C"))
                 {
                     string seleccionOjo = Cbx_Tap2_Ojo.Text ?? "";
                     int cantidadInt = 0;
@@ -1599,6 +1672,66 @@ namespace CapaVisual_Login
                         //    _FrmMensajes.ShowDialog();
                         //    return;
                             
+                        //}
+                    }
+                }
+
+                if (articulo.CodArticulo.StartsWith("W"))
+                {
+                    string seleccionOjo = Cbx_Tap2_Ojo.Text ?? "";
+                    int cantidadInt = 0;
+                    int.TryParse(Txt_Tap3_Articulo_Cantidad.Text, out cantidadInt);
+
+                    string ojoGrid = "";
+
+                    if (seleccionOjo == "Ambos")
+                    {
+
+                        if (cantidadInt == 1)
+                        {
+                         
+                            // Verifica si ya hay un artículo C o W con ojo D en el grid
+                            bool existeD = false;
+                            foreach (DataGridViewRow row in Dgv_Tap3_Articulo.Rows)
+                            {
+                                if (row.IsNewRow) continue;
+                                string cod = row.Cells["CodArticulo"].Value?.ToString() ?? "";
+                                ojoGrid = row.Cells["Ojo"].Value?.ToString() ?? "";
+                                if (cod.StartsWith("W"))
+                                {
+                                    existeD = true;
+                                    break;
+                                }
+                            }
+                            //no hay nada en el grid
+                            if (existeD == false)
+                            {
+                                ojo = ojoLenteContacto;
+                            }
+                            else
+                            {
+                                ojo = (ojoGrid == "D") ? "I" : "D";
+
+                            }
+
+                        }
+                        else
+                        {
+                            ojo = "A";
+                        }
+
+                    }
+                    else if (seleccionOjo == "Izquierdo" || seleccionOjo == "Derecho")
+                    {
+
+                        ojo = seleccionOjo.Substring(0, 1);
+
+                        //else if (cantidadInt >= 2)
+                        //{
+                        //    _FrmMensajes.avisomensaje("No puede seleccionar cantidad: " + cantidadInt  + " para un solo ojo");
+                        //    _FrmMensajes.ShowDialog();
+                        //    return;
+
                         //}
                     }
                 }
@@ -1647,7 +1780,16 @@ namespace CapaVisual_Login
                     // Si se puede borrar, eliminar la fila
                     
                     Dgv_Tap3_Articulo.Rows.RemoveAt(FilaPorBorrar);
-                    
+
+                    if (Cbx_Tap2_Tipo_Examen.Text == "CONTACTO")
+                    {
+                        if (Dgv_Tap3_Articulo.Rows.Count == 0)
+                        {
+                            LcAmbosCant1 = false;
+                            ojoLenteContacto = "";
+                        }
+                    }
+
                 }
                 else
                 {
@@ -1755,6 +1897,10 @@ namespace CapaVisual_Login
                 txtAngFac.Text = "0,00";
                 txtAngPant.Text = "0";
                 txtDll.Text = "0,00";
+
+                ojoLenteContacto = "";
+                pnlOjo.Visible = false;
+                LcAmbosCant1 = false;
             }
 
             catch (Exception ex)
@@ -3246,7 +3392,7 @@ namespace CapaVisual_Login
                         _L_Articulo.CargarServicioGarantia(Dgv_Tap3_Articulo);
 
                     }
-                    MessageBox.Show("Este examen debe poseer DNP valida para este tipo de vision.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    //MessageBox.Show("Este examen debe poseer DNP valida para este tipo de vision.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     _L_Articulo.ActualizarTotales(Dgv_Tap3_Articulo, Dgv_Tap3_Totales);
                     //Btn_Tap3_Procesar.Enabled = true;
                     return;
@@ -3298,7 +3444,7 @@ namespace CapaVisual_Login
                 //VerificoRangoDiametroCristales();
 
                 // VerificarCantidad Cantidad de Ojo y Cristal 
-                if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() != "04" && Cbx_Pnl2_Trbajo.SelectedValue.ToString() != "05" && Cristal_Propio == false && !_L_Articulo.ValidarCantidadCristales(Cbx_Tap2_Ojo.Text, Dgv_Tap3_Articulo, mostrarError))
+                if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() != "04" && Cbx_Pnl2_Trbajo.SelectedValue.ToString() != "05" && Cristal_Propio == false && !_L_Articulo.VerificoCantidadCristales(Cbx_Tap2_Ojo.Text, Dgv_Tap3_Articulo, mostrarError))
                 {
                     return; // Salir 
                 }
@@ -12756,6 +12902,25 @@ namespace CapaVisual_Login
             }
         }
 
+        private void panel5_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void button14_Click_1(object sender, EventArgs e)
+        {
+            if (rbDerecho.Checked == true)
+            {
+                ojoLenteContacto = "D";
+            }
+            else
+            {
+                ojoLenteContacto = "I";
+            }
+            pnlOjo.Visible = false;
+            LcAmbosCant1 = true;
+            CargarArticulos_Girdvew();
+        }
     }
 
 }
