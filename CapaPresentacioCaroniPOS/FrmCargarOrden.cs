@@ -1897,6 +1897,117 @@ namespace CapaVisual_Login
                 txtAngFac.Text = "0,00";
                 txtAngPant.Text = "0";
                 txtDll.Text = "0,00";
+                txt_Pnl2_conv_mimesys.Text = "";
+
+                ojoLenteContacto = "";
+                pnlOjo.Visible = false;
+                LcAmbosCant1 = false;
+            }
+
+            catch (Exception ex)
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje(string.Format("Error: {0}", ex.Message) + ", Error inesperado");
+                _FrmMensajes.ShowDialog();
+            }
+
+        }
+
+        public void LimpiarGridMantenerMedidasEsp()
+        {
+            try
+            {
+                // Desvincular el DataGridView de su fuente de datos
+                Dgv_Tap3_Articulo.DataSource = null;
+                Dgv_Tap3_Articulo.DataMember = null;
+
+                // Eliminar todas las filas
+                Dgv_Tap3_Articulo.Rows.Clear();
+
+                // Eliminar todas las columnas
+                Dgv_Tap3_Articulo.Columns.Clear();
+
+                // Verificar y eliminar la columna "Eliminar" si existe
+                var dataGridViewColumn2 = Dgv_Tap3_Articulo.Columns["Eliminar"];
+                if (dataGridViewColumn2 != null)
+                {
+                    Dgv_Tap3_Articulo.Columns.Remove(dataGridViewColumn2);
+                }
+
+                // Limpiar Variables Coloracion y Promociones, montura propia , cristal propio y empresa afiliada 
+                Codigo_Coloracion = "";
+                Codigo_Promocion = "";
+                Promocion_Aplicada = false;
+                Cristal_Propio = false;
+                Montura_Propia = false;
+                TipoMonturaPropia = "";
+                EmpresaAfiliada = "";
+                PorcDctoEmpresaAfiliada = 0;
+                Txt_Tap3_Articulo_Codigo.Text = "Código"; // Restaurar el texto sugerido
+                // Cargar los valores
+                ValidarRegistrosYHabilitar_Botones();
+                Garantia = false;
+                CodColorLC = "";
+                Codigo_Servicio_Agregar = "";
+                txtObservacion.Text = "";
+                Codmotivodes = "";
+                ApruebaAORangoCRT = false;
+                // Botones Aciones 
+
+                //Cbx_Pnl2_Trbajo.Enabled = true;
+                //Cbx_Pnl2_Laboratorio.Enabled = true;
+                //this.Cbx_Tap2_Ojo.Enabled = true;
+                //this.Txt_Pnl2_Examen.Enabled = true;
+                //Cbx_Pnl2_Servicio.Enabled = true;
+                //laboratorioSeleccionado = false;
+
+                txtHorizontal.Text = "";
+                txtVertical.Text = "";
+                txtMaxima.Text = "";
+                txtPuente.Text = "";
+                codLab = "";
+                generico = "";
+                Os_Garantia_Trabajo = "";
+                Numero_Examen_Garantia_Trabajo = "";
+                txtHorizontal.Enabled = false;
+                txtVertical.Enabled = false;
+                txtMaxima.Enabled = false;
+                txtPuente.Enabled = false;
+
+                txtObservacion.Text = "";
+
+                ReiniciarBusquedaarticulo();
+
+                Lbl_Tap3_Articulo1.Text = "Ingresar Articulo";
+                //btnPrincipal.Enabled = true;
+                //btnExamen.Enabled = true;
+                //btnCargarOrden.Enabled = true;
+                //tipoTrabajoSeleccionado = false;
+
+                //Cbx_Tap2_Ojo.Text = "AMBOS";
+                //cbVisionDerecha.Text = "Cerca";
+                //cbVisionIzquierda.Text = "Cerca";
+
+                //label24.Visible = true;
+                //Cbx_Tap2_Ojo.Visible = true;
+                //label26.Visible = true;
+                //cbVisionDerecha.Visible = true;
+                //label33.Visible = true;
+                //cbVisionIzquierda.Visible = true;
+
+                //label34.Visible = true;
+                //label35.Visible = true;
+                //txtAltD.Visible = true;
+                //txtAltI.Visible = true;
+
+                //txtAltD.Text = "0";
+                //txtAltI.Text = "0";
+
+                //txtDistVertice.Text = "0,00";
+                //txtAngFac.Text = "0,00";
+                //txtAngPant.Text = "0";
+                //txtDll.Text = "0,00";
+                //txt_Pnl2_conv_mimesys.Text = "";
 
                 ojoLenteContacto = "";
                 pnlOjo.Visible = false;
@@ -2157,7 +2268,12 @@ namespace CapaVisual_Login
             LimpiarGrid();
         }
 
-        
+        public void CancelarPorCambioExamen()
+        {
+            
+            LimpiarGridMantenerMedidasEsp();
+        }
+
 
         private void btnPrincipal_Click(object sender, EventArgs e)
         {
@@ -2233,6 +2349,7 @@ namespace CapaVisual_Login
 
             if (tabControl.SelectedIndex == 1)
             {
+                CancelarPorCambioExamen();
                 LLenar_TbTrabajo();
                 _L_Trabajo.AgregarTrabajo(nuevoTrabajo);
                 btnCargarOrden.Focus(); 
@@ -9205,7 +9322,7 @@ namespace CapaVisual_Login
 
         public void Btn_Tap2_Derecha_Click(object sender, EventArgs e)
         {
-
+            CancelarPorCambioExamen();
 
             if (string.IsNullOrEmpty(Txt_Tap2_Examen.Text))
             {
@@ -9869,6 +9986,7 @@ namespace CapaVisual_Login
 
         private void Btn_Tap2_Examen_Click(object sender, EventArgs e)
         {
+            CancelarPorCambioExamen();
             Txt_Tap2_Examen.Text = "0";
             mantenervacio = true;
             // Asumiendo que Dtp_Tap2_FecExam es de tipo DateTime
@@ -9904,6 +10022,10 @@ namespace CapaVisual_Login
 
         private void Btn_Tap2_Izquierda_Click(object sender, EventArgs e)
         {
+            CancelarPorCambioExamen();
+
+
+
             if (string.IsNullOrEmpty(Txt_Tap2_Examen.Text))
             {
                 Txt_Tap2_Examen.Text = "1";
@@ -10400,6 +10522,8 @@ namespace CapaVisual_Login
 
         private void Btn_Tap2_GuardarExam_Click(object sender, EventArgs e)
         {
+
+            CancelarPorCambioExamen();
 
             mantenervacio = false;
 

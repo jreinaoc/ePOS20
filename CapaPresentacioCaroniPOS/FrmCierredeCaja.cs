@@ -2121,7 +2121,7 @@ namespace CapaVisual_Login
                                 int minutosRestantes = 30 - DateTime.Now.Subtract(entradaPrimerTurno.AddMinutes(-30)).Minutes;
 
                                 _FrmMensajes.co = 2;
-                                _FrmMensajes.avisomensaje(TB_USUARIO.USER_NOMBRE + " en los próximos " + minutosRestantes +" comienza su tiempo de descanso obligatorio");
+                                _FrmMensajes.avisomensaje(TB_USUARIO.USER_NOMBRE + " iniciará su período de descanso obligatorio en los próximos " + minutosRestantes +" minutos");
                                 _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
                                 _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
                                 _FrmMensajes.ShowDialog();
@@ -2136,8 +2136,8 @@ namespace CapaVisual_Login
                         else
                         {
                             _FrmMensajes.co = 2;
-                            _FrmMensajes.avisomensaje("Hay más de " + tiempoMax + "horas desde su última marca en ASISTENCIA y por lo tanto debe marcar una Salida");
-                            _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                            _FrmMensajes.avisomensaje("Han transcurrido más de " + tiempoMax + " horas desde su última marca de asistencia, registre su salida");
+                             _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
                             _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
                             _FrmMensajes.ShowDialog();
                             return false;
