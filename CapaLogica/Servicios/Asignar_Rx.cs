@@ -522,5 +522,260 @@ namespace CapaLogica.Servicios
                 T_DISTANCIADELECTURA = trabajoCte.TDISTANCIADELECTURA.HasValue ? (float?)trabajoCte.TDISTANCIADELECTURA.Value : null
             };
         }
+
+        public bool ValidarExamenOptico(
+           Action<string> mostrarError,
+           List<TB_TRABAJO> trabajos,
+           TB_EXAMENCTE examen,
+           List<TB_FICCONV> examenConv2,
+           string cbTipoVisionD,
+           string cbTipoVisionI,
+           ComboBox cbOjo,
+           ComboBox cbTipoVta,
+           string cedula,
+           string numExam,
+           string nacionalidad,
+           string sucursalActual,
+           TextBox txtAltD,
+           TextBox txtAltI)
+        {
+            // Validación inicial de tipo de venta
+            var tipoVenta = trabajos.FirstOrDefault()?.TipoExamen ?? "";
+            if (tipoVenta == "CONVENCIONAL" && cbTipoVta.SelectedValue?.ToString() != "08")
+            {
+                if (string.IsNullOrEmpty(numExam))
+                {
+                    mostrarError("Este cliente no posee exámen. Agregue un nuevo exámen.");
+                    return false;
+                }
+
+
+                var examenConv = examenConv2.FirstOrDefault(e =>
+           e.CTE_Nacio == Convert.ToChar(nacionalidad) &&
+           e.CTE_CedIden == cedula &&
+           e.NUM_Examen == Convert.ToInt32(numExam) &&
+           e.COD_Sucursal == sucursalActual);
+
+                // Obtén el primer trabajo (o el que corresponda según tu lógica)
+                var _Trabajo = trabajos.FirstOrDefault();
+
+                // Validar que los exámenes no sean nulos
+                if (examen == null || examenConv == null)
+                {
+                    mostrarError("No se encontró el examen especificado.");
+                    return false;
+                }
+
+                // Validación cilindro/eje (usando examenConv)
+                if ((examen.CILD == 0m && examen.EJED > 0m) ||
+                    (examen.CILI == 0m && examen.EJEI > 0m))
+                {
+                    mostrarError("Este exámen debe poseer valor en el eje si existe valor para el cilindro y viceversa. Modifíquelo, Agregue o Seleccione otro.");
+                    return false;
+                }
+
+                // Validación para lentes progresivos/bifocales
+                if (cbTipoVisionD == "Progresivo" || cbTipoVisionD == "Bifocal")
+                {
+                    if (((examen.ADDD == 0m && (cbOjo.Text == "Ambos" || cbOjo.Text == "Derecho")) ||
+                        ((examen.ADDI == 0m) && (cbOjo.Text == "Ambos" || cbOjo.Text == "Izquierdo"))) &&
+                        (examen.ESFD2 == 0m && examen.ESFI2 == 0m))
+                    {
+                        mostrarError("Este exámen debe poseer adición por usar cristal bifocal o progresivo. Modifíquelo, Agregue o Seleccione otro.");
+                        return false;
+                    }
+
+                    // Validación de distancias pupilares para progresivos/bifocales
+                    if (((decimal)examenConv.DPDC == 0m) || ((decimal)examenConv.DPIC == 0m) ||
+                        ((decimal)examenConv.DPDL == 0m) || ((decimal)examenConv.DPIL == 0m) ||
+                        ((examenConv.DPDC >= examenConv.DPDL) || (examenConv.DPIC >= examenConv.DPIL)))
+                    {
+                        mostrarError("Este exámen debe poseer DNP Lejos y DNP Cerca válidas para cristal bifocal o progresivo. Modifíquelo, Agregue o Seleccione otro.");
+                        return false;
+                    }
+
+                    if (string.IsNullOrEmpty(txtAltD.Text) || string.IsNullOrEmpty(txtAltI.Text))
+                    {
+                        mostrarError("Debe colocar valores de altura para cristal bifocal o progresivo.");
+                        return false;
+                    }
+                }
+
+                // Validación de DP según tipo de visión y ojo
+                if (cbOjo.Text == "Ambos")
+                {
+                    if ((cbTipoVisionD == "Cerca" && cbTipoVisionI == "Cerca") &&
+                        (((decimal)examenConv.DPDC == 0m && (cbOjo.Text == "Derecho" || cbOjo.Text == "Ambos")) ||
+                        ((decimal)examenConv.DPIC == 0m && (cbOjo.Text == "Izquierdo" || cbOjo.Text == "Ambos"))) ||
+                        ((cbOjo.Text == "Ambos" && ((examenConv.DPDC >= examenConv.DPDL) || (examenConv.DPIC >= examenConv.DPIL)))))
+                    {
+                        mostrarError("Este examen debe poseer DNP Cerca válida para el tipo de visión. Modifíquelo, Agregue o Seleccione otro.\nNota: Asegúrese que la DNP Cerca sea menor que DNP Lejos");
+                        return false;
+                    }
+
+                    if ((cbTipoVisionD == "Lejos" && cbTipoVisionI == "Lejos") &&
+                        (((decimal)examenConv.DPDL == 0m && (cbOjo.Text == "Derecho" || cbOjo.Text == "Ambos")) ||
+                        ((decimal)examenConv.DPIL == 0m && (cbOjo.Text == "Izquierdo" || cbOjo.Text == "Ambos"))) ||
+                        ((cbOjo.Text == "Ambos" && ((examenConv.DPDC >= examenConv.DPDL) || (examenConv.DPIC >= examenConv.DPIL)))))
+                    {
+                        mostrarError("Este examen debe poseer DNP Lejos válida para el tipo de visión. Modifíquelo, Agregue o Seleccione otro.\nNota: Asegúrese que la DNP Cerca sea menor que DNP Lejos");
+                        return false;
+                    }
+                }
+                else
+                {
+                    if (cbOjo.Text == "Derecho")
+                    {
+                        if (cbTipoVisionD == "Cerca" && ((decimal)examenConv.DPDC == 0m || examenConv.DPDC >= examenConv.DPDL))
+                        {
+                            mostrarError("Este examen debe poseer DNP Cerca válida para el tipo de visión. Modifíquelo, Agregue o Seleccione otro.\nNota: Asegúrese que la DNP Cerca sea menor que DNP Lejos");
+                            return false;
+                        }
+
+                        if (cbTipoVisionD == "Lejos" && ((decimal)examenConv.DPDL == 0m || examenConv.DPDC >= examenConv.DPDL))
+                        {
+                            mostrarError("Este examen debe poseer DNP Lejos válida para el tipo de visión. Modifíquelo, Agregue o Seleccione otro.\nNota: Asegúrese que la DNP Cerca sea menor que DNP Lejos");
+                            return false;
+                        }
+
+                        if ((cbTipoVisionD != cbTipoVisionI) &&
+                            (cbTipoVisionI != "Balance" && cbTipoVisionD != "Balance") &&
+                            (!string.IsNullOrEmpty(cbTipoVisionI)))
+                        {
+                            mostrarError("Debe colocar tipos de visión válido.\nNota: La combicación posible es el mismo tipo o Balance");
+                            return false;
+                        }
+                    }
+                    else if (cbOjo.Text == "Izquierdo")
+                    {
+                        if (cbTipoVisionD == "Cerca" && ((decimal)examenConv.DPIC == 0m || examenConv.DPIC >= examenConv.DPIL))
+                        {
+                            mostrarError("Este examen debe poseer DNP Cerca válida para el tipo de visión. Modifíquelo, Agregue o Seleccione otro.\nNota: Asegúrese que la DNP Cerca sea menor que DNP Lejos");
+                            return false;
+                        }
+
+                        if (cbTipoVisionD == "Lejos" && ((decimal)examenConv.DPIL == 0m || examenConv.DPIC >= examenConv.DPIL))
+                        {
+                            mostrarError("Este examen debe poseer DNP Lejos válida para el tipo de visión. Modifíquelo, Agregue o Seleccione otro.\nNota: Asegúrese que la DNP Cerca sea menor que DNP Lejos");
+                            return false;
+                        }
+
+                        if ((cbTipoVisionD != cbTipoVisionI) &&
+                            (cbTipoVisionD != "Balance" && cbTipoVisionI != "Balance") &&
+                            (!string.IsNullOrEmpty(cbTipoVisionD)))
+                        {
+                            mostrarError("Debe colocar tipos de visión válido.\nNota: La combicación posible es el mismo tipo o Balance");
+                            return false;
+                        }
+                    }
+                }
+
+                // Validación de esferas con distintos signos (advertencia)
+                if ((examen.ESFD < 0m && examen.ESFI > 0m) ||
+                    (examen.ESFI < 0m && examen.ESFD > 0m))
+                {
+                    var result = MessageBox.Show("Está colocando Esferas diferentes. ¿Desea continuar?",
+                                               "Advertencia",
+                                               MessageBoxButtons.YesNo,
+                                               MessageBoxIcon.Question,
+                                               MessageBoxDefaultButton.Button2);
+                    if (result == DialogResult.No)
+                        return false;
+                }
+
+                // Validación de segunda refracción
+                if ((examen.ESFD2 < 0m && examen.ESFI2 > 0m) ||
+                    (examen.ESFI2 < 0m && examen.ESFD2 > 0m))
+                {
+                    var result = MessageBox.Show("Está colocando Esferas diferentes para la segunda refracción. ¿Desea continuar?",
+                                               "Advertencia",
+                                               MessageBoxButtons.YesNo,
+                                               MessageBoxIcon.Question,
+                                               MessageBoxDefaultButton.Button2);
+                    if (result == DialogResult.No)
+                        return false;
+                }
+
+                // Validación de rango de adición
+                if ((examen.ADDI != 0m) && (examen.ADDD < 0.75m || examen.ADDI > 3.5m))
+                {
+                    mostrarError($"Valor inválido para la adición, rango entre {0.75} y {3.5}. Modifíquelo, Agregue o Seleccione otro.");
+                    return false;
+                }
+
+                // Validación de prismas (decimales permitidos)
+                if ((CalcularResto((decimal)examenConv.PRISMAD) > 0m) || (CalcularResto((decimal)examenConv.PRISMAI) > 0m))
+                {
+                    mostrarError("Valor inválido para prisma, rango decimal permitido: 00, 25, 50, 75");
+                    return false;
+                }
+
+                // Validación de prisma y base prisma
+                if (((decimal)examenConv.PRISMAD == 0m && !String.IsNullOrEmpty(examenConv.PBASED)) ||
+                    ((decimal)examenConv.PRISMAI == 0m && !String.IsNullOrEmpty(examenConv.PBASEI)) ||
+                    !(String.IsNullOrEmpty(examenConv.PBASED) && (decimal)examenConv.PRISMAD == 0m) ||
+                    !(String.IsNullOrEmpty(examenConv.PBASEI) && (decimal)examenConv.PRISMAI == 0m))
+                {
+                    mostrarError("Este examen debe poseer valor en Prisma si existe valor para la Base Prisma y viceversa. Modifíquelo, Agregue o Seleccione otro.");
+                    return false;
+                }
+
+                // Validación de balance en ambos ojos
+                if (cbTipoVisionD == "Balance" && cbTipoVisionI == "Balance")
+                {
+                    mostrarError("No se puede colocar Balance en los dos ojos, Modifíquelo para continuar");
+                    return false;
+                }
+
+                // Validación que el ojo de tipo balance tenga la misma formula
+                if ((cbTipoVisionD== "Balance" || cbTipoVisionI== "Balance") &&
+                    ((examen.ESFI != examen.ESFD) || (examen.CILI != examen.CILD) ||
+                     (examen.EJEI != examen.EJED) || (examen.ADDI != examen.ADDD) ||
+                     (examenConv.DPIC != examenConv.DPDC) || (examenConv.DPIL != examenConv.DPDL) ||
+                     (examenConv.ALTI != examenConv.ALTD) || (examenConv.AVI != examenConv.AVD) ||
+                     (examenConv.PRISMAI != examenConv.PRISMAD) || (examenConv.PBASEI != examenConv.PBASED)))
+                {
+                    mostrarError("Este exámen debe contener los mismos datos para el tipo de visión Balance. Modifíquelo, Agregue o Seleccione otro.");
+                    return false;
+                }
+
+                // Validación de alturas diferentes (advertencia)
+                if ((cbOjo.Text == "Ambos") && (txtAltD.Text != txtAltI.Text))
+                {
+                    var result = MessageBox.Show("Está colocando alturas diferentes. ¿Desea continuar?",
+                                               "Advertencia",
+                                               MessageBoxButtons.YesNo,
+                                               MessageBoxIcon.Question,
+                                               MessageBoxDefaultButton.Button2);
+                    if (result == DialogResult.No)
+                        return false;
+                }
+            }
+
+            // Validación final de visiones
+            if (cbOjo.Text == "Ambos")
+            {
+                if (cbTipoVisionD == "Balance" && cbTipoVisionI == "Balance")
+                {
+                    mostrarError("No se puede colocar Balance en los dos ojos, Modifíquelo para continuar");
+                    return false;
+                }
+
+                if ((cbTipoVisionD != cbTipoVisionI) &&
+                    (cbTipoVisionI!= "Balance" && cbTipoVisionD!= "Balance") &&
+                    (!string.IsNullOrEmpty(cbTipoVisionI)))
+                {
+                    mostrarError("Debe colocar tipos de visión válido.\nNota: La combicación posible es el mismo tipo o Balance");
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private decimal CalcularResto(decimal? valor)
+        {
+            return valor.HasValue ? valor.Value % 1 : 0;
+        }
     }
 }

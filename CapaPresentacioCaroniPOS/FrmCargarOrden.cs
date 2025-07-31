@@ -3254,6 +3254,28 @@ namespace CapaVisual_Login
 
            
         }
+        public (string visionIzquierda, string visionDerecha) ObtenerTiposVision()
+        {
+            string tipoVision = Cbx_Tap2_Ojo.Text.ToString(); // ComboBox principal
+            string visionIzq = cbVisionIzquierda.Text.ToString();  // ComboBox visión izquierda
+            string visionDer = cbVisionDerecha.Text.ToString();   // ComboBox visión derecha
+
+            // Aplicar reglas de negocio
+            switch (tipoVision)
+            {
+                case "Izquierdo":
+                    return (visionIzq, ""); // Solo visión izquierda, derecha vacía
+
+                case "Derecho":
+                    return ("", visionDer); // Solo visión derecha, izquierda vacía
+
+                case "Ambos":
+                    return (visionIzq, visionDer); // Ambas visiones con sus valores
+
+                default:
+                    return ("", ""); // Caso no especificado
+            }
+        }
 
         private async void Btn_Tap3_Procesar_Click(object sender, EventArgs e)
         {
@@ -3452,6 +3474,16 @@ namespace CapaVisual_Login
                 LLenar_TbTrabajo();
                 AsignarParametrosFaltantes(nuevoTrabajo,"", "0", txtHorizontal.Text.Replace(',', '.'), txtVertical.Text.Replace(',', '.'), txtMaxima.Text.Replace(',', '.'), txtPuente.Text.Replace(',', '.'), Cbx_Pnl2_Laboratorio.SelectedValue.ToString(), Cbx_Pnl2_Servicio.SelectedValue?.ToString(), Hora_Ofrecido, "T", Fecha_Ofreci, DateTime.Today, Cbx_Pnl2_Trbajo.SelectedValue.ToString(), Cbx_Pnl2_Trbajo.Text);
                 _L_Trabajo.AgregarTrabajo(nuevoTrabajo);
+
+                // Validar Tipo de Ojo Y Tipo de Vision 
+                LLenarEntidadExamenFitcon();
+                List<TB_FICCONV> nuevoFiccont2 = _D_Articulo.ObtenerRx(Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), codSucursal, Convert.ToInt32( Txt_Tap2_Examen.Text));
+                bool Respuesta2 = _Asignar_Rx.ValidarExamenOptico(mostrarError, _TRABAJO, nuevoExamen, nuevoFiccont2, ObtenerTiposVision().visionDerecha, ObtenerTiposVision().visionIzquierda, Cbx_Tap2_Ojo, Cbx_Pnl2_Trbajo,
+                Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Txt_Tap2_Examen.Text, Txt_Pnl2_Cedula.Text.Substring(0, 1), codSucursal, txtAltD, txtAltI);
+                if (!Respuesta2)
+                { 
+                return; // Salir 
+                }
 
                 bool Respuesta = _Asignar_Rx.Verificar_Cristales_Parametros_Diametros(nuevoTrabajo, Dgv_Tap3_Articulo, Cbx_Pnl2_Trbajo.SelectedValue.ToString(), codSucursal, Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Txt_Tap2_Examen.Text, LbResultado2, LbResultados, dgvRangoCrt);
                 if (!ApruebaAORangoCRT && !Respuesta && _Asignar_Rx.stringBuilder.Length > 0)
@@ -12920,6 +12952,160 @@ namespace CapaVisual_Login
             pnlOjo.Visible = false;
             LcAmbosCant1 = true;
             CargarArticulos_Girdvew();
+        }
+
+        private void LLenarEntidadExamenFitcon()
+        {//mcll
+
+            nuevoFicconv = new TB_FICCONVCTE();
+            nuevoExamen = new TB_EXAMENCTE();
+
+
+                nuevoExamen.NUM_Examen = Convert.ToInt16( Txt_Tap2_Examen.Text);
+                // Recopilar los datos de los controles del formulario
+                nuevoFicconv.COD_Sucursal = codigoSucursal;
+                nuevoFicconv.CTE_CedIden = Txt_Tap1_Cedula.Text.Trim();
+                nuevoFicconv.CTE_Nacio = Cbx_Tap1_Nacionalidad.Text.Trim(); // Ajusta según cómo manejas la nacionalidad
+
+                // Recopilar los datos de los controles del formulario
+                nuevoTrabajo.TCEDIDEN = Txt_Tap1_Cedula.Text.Trim();
+                nuevoTrabajo.TNACIO = Cbx_Tap1_Nacionalidad.Text.Trim(); // Ajusta según cómo manejas la nacionalidad
+
+                nuevoExamen.CTE_CedIden = Txt_Tap1_Cedula.Text.Trim();
+                nuevoExamen.CTE_Nacio = Cbx_Tap1_Nacionalidad.Text.Trim(); // Ajusta según cómo manejas la nacionalidad
+
+                nuevoExamen.FEC_Examen = Dtp_Tap2_FecExam.Value;
+
+                // Datos de Dgv_Pnl2_medoftal           
+                if (Dgv_Pnl2_conv.Rows.Count > 0)
+                {
+
+
+                    nuevoExamen.ESFD = Dgv_Pnl2_conv.Rows[0].Cells["Esfera"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[0].Cells["Esfera"].Value) : 0;
+                    nuevoExamen.ESFI = Dgv_Pnl2_conv.Rows[1].Cells["Esfera"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[1].Cells["Esfera"].Value) : 0;
+
+
+                    nuevoExamen.CILD = Dgv_Pnl2_conv.Rows[0].Cells["Cilindro"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[0].Cells["Cilindro"].Value) : 0;
+                    nuevoExamen.CILI = Dgv_Pnl2_conv.Rows[1].Cells["Cilindro"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[1].Cells["Cilindro"].Value) : 0;
+
+                    nuevoExamen.EJED = Dgv_Pnl2_conv.Rows[0].Cells["Eje"]?.Value != null ? Convert.ToInt32(Dgv_Pnl2_conv.Rows[0].Cells["Eje"].Value) : 0;
+                    nuevoExamen.EJEI = Dgv_Pnl2_conv.Rows[1].Cells["Eje"]?.Value != null ? Convert.ToInt32(Dgv_Pnl2_conv.Rows[1].Cells["Eje"].Value) : 0;
+
+                    nuevoExamen.ADDD = Dgv_Pnl2_conv.Rows[0].Cells["Adicion"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[0].Cells["Adicion"].Value) : 0;
+                    nuevoExamen.ADDI = Dgv_Pnl2_conv.Rows[1].Cells["Adicion"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[1].Cells["Adicion"].Value) : 0;
+
+                    nuevoFicconv.PRISMAD = Dgv_Pnl2_conv.Rows[0].Cells["Prisma1"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[0].Cells["Prisma1"].Value) : 0;
+                    nuevoFicconv.PRISMAI = Dgv_Pnl2_conv.Rows[1].Cells["Prisma1"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[1].Cells["Prisma1"].Value) : 0;
+
+
+                    //nuevoExamen.CILD2 = Dgv_Pnl2_conv.Rows[1].Cells["Lejos"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[1].Cells["Lejos"].Value) : 0;
+                    //nuevoExamen.CILI2 = Dgv_Pnl2_conv.Rows[1].Cells["Cerca"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[1].Cells["Cerca"].Value) : 0;
+                    //nuevoExamen.OBSERVACIONES = Dgv_Pnl2_conv.Rows[1].Cells["Visual"]?.Value?.ToString();
+                    nuevoExamen.ESFD2 = Dgv_Pnl2_conv.Rows[0].Cells["Prisma1"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[0].Cells["Prisma1"].Value) : 0;
+                    nuevoExamen.ESFI2 = Dgv_Pnl2_conv.Rows[1].Cells["Prisma1"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[1].Cells["Prisma1"].Value) : 0;
+
+
+                    nuevoTrabajo.TALTD = Convert.ToDecimal(txtAltD.Text);
+                    nuevoTrabajo.TALTI = Convert.ToDecimal(txtAltI.Text);
+
+                    //ALTD ALTI    PRISMAD PRISMAI  DPDL	DPDC	DPIL	DPIC
+
+
+
+                    nuevoFicconv.DPDL = Dgv_Pnl2_conv.Rows[0].Cells["Lejos"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[0].Cells["Lejos"].Value) : 0;
+                    nuevoFicconv.DPIL = Dgv_Pnl2_conv.Rows[1].Cells["Lejos"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[1].Cells["Lejos"].Value) : 0;
+
+
+                    nuevoFicconv.DPDC = Dgv_Pnl2_conv.Rows[0].Cells["Cerca"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[0].Cells["Cerca"].Value) : 0;
+                    nuevoFicconv.DPIC = Dgv_Pnl2_conv.Rows[1].Cells["Cerca"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[1].Cells["Cerca"].Value) : 0;
+
+
+
+                    nuevoFicconv.PRISMAD = Dgv_Pnl2_conv.Rows[0].Cells["Prisma1"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[0].Cells["Prisma1"].Value) : 0;
+                    nuevoFicconv.PRISMAI = Dgv_Pnl2_conv.Rows[1].Cells["Prisma1"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[1].Cells["Prisma1"].Value) : 0;
+
+
+                    nuevoFicconv.ALTD = Convert.ToDecimal(txtAltD.Text);
+                    nuevoFicconv.ALTI = Convert.ToDecimal(txtAltI.Text);
+
+                    //nuevoFicconv.PBASED = Dgv_Pnl2_conv.Rows[0].Cells["Grado1"]?.Value.ToString();
+                    nuevoFicconv.PBASED = Dgv_Pnl2_conv.Rows[0].Cells["Grado1"]?.Value?.ToString() == "0" ? "" : Dgv_Pnl2_conv.Rows[0].Cells["Grado1"]?.Value?.ToString();
+                    nuevoFicconv.PBASEI = Dgv_Pnl2_conv.Rows[1].Cells["Grado1"]?.Value?.ToString() == "0" ? "" : Dgv_Pnl2_conv.Rows[1].Cells["Grado1"]?.Value?.ToString();
+
+
+                    nuevoFicconv.AVD = Dgv_Pnl2_conv.Rows[0].Cells["VISUAL"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[0].Cells["VISUAL"].Value) : 0;
+                    nuevoFicconv.AVI = Dgv_Pnl2_conv.Rows[1].Cells["VISUAL"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[1].Cells["VISUAL"].Value) : 0;
+
+
+                    nuevoTrabajo.TTIPOVISIOND = cbVisionDerecha.Text;
+                    nuevoTrabajo.TTIPOVISIONI = cbVisionIzquierda.Text;
+
+
+
+
+
+                }
+
+                nuevoExamen.OBSERVACIONES = txt_Pnl2_observa.Text.Trim();
+                nuevoExamen.CodigoMimesys = txt_Pnl2_conv_mimesys.Text.Trim();
+                nuevoExamen.COD_Sucursal = codigoSucursal;
+                nuevoExamen.USER_CREA = TB_USUARIO.COD_USR;
+                nuevoExamen.USER_MOD = TB_USUARIO.COD_USR;
+                //METOD DE GUARDARR OFT
+                //nuevoFicconv.OFTD = txt_Pnl2_oftd.Text.Trim();
+                //nuevoFicconv.OFTI = txt_Pnl2_ofti.Text.Trim();
+
+                nuevoTrabajo.TSucursal = codigoSucursal;
+                nuevoTrabajo.TTIPOTRABAJO = "002";
+                nuevoTrabajo.USERCREA = TB_USUARIO.COD_USR;
+
+                //nuevoTrabajo.TEXAMEN = this.Txt_Pnl2_Examen.Text;
+                //if (Dgv_Pnl2_medconv.Rows.Count > 0)
+                //{
+
+                //nuevoTrabajo.TDISTANCIAVERTICE = Dgv_Pnl2_medconv.Rows[0].Cells[0]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_medconv.Rows[0].Cells[0].Value) : 0;
+                //nuevoTrabajo.TANGULOPANTOSCOPICO = Dgv_Pnl2_medconv.Rows[0].Cells[1]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_medconv.Rows[0].Cells[1].Value) : 0;
+                //nuevoTrabajo.TANGULOFACIAL = Dgv_Pnl2_medconv.Rows[0].Cells[2]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_medconv.Rows[0].Cells[2].Value) : 0;
+                //nuevoTrabajo.TDISTANCIADELECTURA = Dgv_Pnl2_medconv.Rows[0].Cells[3]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_medconv.Rows[0].Cells[3].Value) : 0;
+
+                nuevoTrabajo.TDISTANCIAVERTICE = Convert.ToDecimal(txtDistVertice.Text);
+                nuevoTrabajo.TANGULOPANTOSCOPICO = Convert.ToDecimal(txtAngPant.Text);
+                nuevoTrabajo.TANGULOFACIAL = Convert.ToDecimal(txtAngFac.Text);
+                nuevoTrabajo.TDISTANCIADELECTURA = Convert.ToDecimal(txtDll.Text);
+
+                //}
+                nuevoTrabajo.TOJO = Cbx_Tap2_Ojo.Text;
+
+                nuevoExamen.TIPOEXAMEN = Cbx_Tap2_Tipo_Examen.Text;
+
+
+                if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01" || Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "02" || Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "09")
+                {
+                    nuevoTrabajo.TipoExamen = Cbx_Tap2_Tipo_Examen.Text;
+                }
+                else
+                {
+                    nuevoTrabajo.TipoExamen = "";
+                }
+                nuevoExamen.TIPO_Optm = Cbx_Tap2_Tipo_Optome.Text;
+
+
+
+                if (string.IsNullOrEmpty(TXT_Tap2_Nombre_Optome.Text))
+                {
+                    nuevoExamen.NOM_Optm = Cbx_Tap2_Nombre_Optome.Text;
+                }
+                else
+                {
+                    nuevoExamen.NOM_Optm = TXT_Tap2_Nombre_Optome.Text;
+                }
+
+
+
+                nuevoFicconv.RETD = string.IsNullOrWhiteSpace(txt_Pnl2_retd.Text) ? null : txt_Pnl2_retd.Text.Trim();
+                nuevoFicconv.RETI = string.IsNullOrWhiteSpace(txt_Pnl2_reti.Text) ? null : txt_Pnl2_reti.Text.Trim();
+             
+
         }
     }
 
