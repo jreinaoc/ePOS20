@@ -201,9 +201,6 @@ C:\Programacion\CaroniPOS1\CapaLogica\obj\Debug\CapaLogica.csproj.CoreCompileInp
 C:\Programacion\CaroniPOS1\CapaLogica\obj\Debug\CapaLogica.csproj.CopyComplete
 C:\Programacion\CaroniPOS1\CapaLogica\obj\Debug\CapaLogica.dll
 C:\Programacion\CaroniPOS1\CapaLogica\obj\Debug\CapaLogica.pdb
-C:\Desarrollo2022\CaroniPOS1\CapaLogica\obj\Debug\CapaLogica.csproj.AssemblyReference.cache
-C:\Desarrollo2022\CaroniPOS1\CapaLogica\obj\Debug\CapaLogica.csproj.ResolveComReference.cache
-C:\Desarrollo2022\CaroniPOS1\CapaLogica\obj\Debug\CapaLogica.csproj.CoreCompileInputs.cache
 C:\Desarrollo2022\CaroniPOS1\CapaLogica\bin\Debug\CapaLogica.dll.config
 C:\Desarrollo2022\CaroniPOS1\CapaLogica\bin\Debug\CapaLogica.dll
 C:\Desarrollo2022\CaroniPOS1\CapaLogica\bin\Debug\CapaLogica.pdb
@@ -299,6 +296,9 @@ C:\Desarrollo2022\CaroniPOS1\CapaLogica\bin\Debug\System.Security.Permissions.xm
 C:\Desarrollo2022\CaroniPOS1\CapaLogica\bin\Debug\System.Security.Principal.Windows.xml
 C:\Desarrollo2022\CaroniPOS1\CapaLogica\bin\Debug\System.Threading.Tasks.Extensions.xml
 C:\Desarrollo2022\CaroniPOS1\CapaLogica\bin\Debug\System.ValueTuple.xml
+C:\Desarrollo2022\CaroniPOS1\CapaLogica\obj\Debug\CapaLogica.csproj.AssemblyReference.cache
+C:\Desarrollo2022\CaroniPOS1\CapaLogica\obj\Debug\CapaLogica.csproj.ResolveComReference.cache
+C:\Desarrollo2022\CaroniPOS1\CapaLogica\obj\Debug\CapaLogica.csproj.CoreCompileInputs.cache
 C:\Desarrollo2022\CaroniPOS1\CapaLogica\obj\Debug\CapaLogica.csproj.CopyComplete
 C:\Desarrollo2022\CaroniPOS1\CapaLogica\obj\Debug\CapaLogica.dll
 C:\Desarrollo2022\CaroniPOS1\CapaLogica\obj\Debug\CapaLogica.pdb
