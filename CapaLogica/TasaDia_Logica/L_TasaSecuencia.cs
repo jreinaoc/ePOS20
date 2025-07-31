@@ -91,7 +91,7 @@ namespace CapaLogica.TasaDia_Logica
                                     // Ahora podemos hacer la comparación
                                     if (Convert.ToDateTime(DateTimeTasa) < fechaConvertida)
                                     {
-                                        mostrarError("No se puede realizar la Activación.");
+                                        mostrarError("Secuencia inválida");
                                     }
                                     else
                                     {
