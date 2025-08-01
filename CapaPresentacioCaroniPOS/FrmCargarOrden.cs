@@ -12039,7 +12039,13 @@ namespace CapaVisual_Login
         {
             if (Formulario_ListaOrdenes)
             {
-                bool Respuesta = _Asignar_Rx.AsignarRx(TB_CAORDSER.Cod_DetVta, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.CTE_Nacio, TB_CAORDSER.CTE_CedIden, Txt_Tap2_Examen.Text, TB_CAORDSER.NumOrdserv, LbResultado2, LbResultados, dgvRangoCrt);
+                if (Cbx_Tap2_Tipo_Examen.Text== "CONTACTO")
+                {
+                    mostrarError("No se puede agregar un examen de contacto a una orden convencional reservada");
+                    return;
+                }
+
+                bool Respuesta = _Asignar_Rx.AsignarRx(TB_CAORDSER.Cod_DetVta, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.CTE_Nacio, TB_CAORDSER.CTE_CedIden, Txt_Tap2_Examen.Text, TB_CAORDSER.NumOrdserv, LbResultado2, LbResultados, dgvRangoCrt, Cbx_Pnl2_Laboratorio.SelectedValue.ToString(), Cbx_Pnl2_Servicio.SelectedValue.ToString());
                 if (!Respuesta && _Asignar_Rx.stringBuilder.Length > 0)
                 {
 
@@ -13384,6 +13390,57 @@ namespace CapaVisual_Login
                 nuevoFicconv.RETI = string.IsNullOrWhiteSpace(txt_Pnl2_reti.Text) ? null : txt_Pnl2_reti.Text.Trim();
              
 
+        }
+
+        private void txt_Pnl2_conv_mimesys_Leave(object sender, EventArgs e)
+        {
+            // 1. Manejo seguro de la conversión del parámetro
+            int longitudRequerida = ObtenerLongitudMimesysSegura();
+
+            // 2. Validación de longitud solo si es un valor positivo
+            if (!string.IsNullOrEmpty(txt_Pnl2_conv_mimesys.Text) && longitudRequerida > 0 && txt_Pnl2_conv_mimesys.Text.Length != longitudRequerida)
+            {
+                MostrarMensajeLongitudIncorrecta(longitudRequerida);
+            }
+        }
+
+        private int ObtenerLongitudMimesysSegura()
+        {
+            try
+            {
+                string valorParametro = _D_DetalleOrden.TB_PARAMETRO("CantDigMimesys");
+
+                // Usar TryParse para conversión segura
+                if (int.TryParse(valorParametro, out int longitud) && longitud > 0)
+                {
+                    return longitud;
+                }
+
+                // Log opcional para valores inválidos
+                _FrmMensajes.avisomensaje($"Valor inválido para CantDigMimesys: {valorParametro}");
+                return 0;
+            }
+            catch (Exception ex)
+            {
+                // Log del error si es necesario
+                _FrmMensajes.avisomensaje($"Error al obtener CantDigMimesys: {ex.Message}");
+                return 0;
+            }
+        }
+
+        private void MostrarMensajeLongitudIncorrecta(int longitudRequerida)
+        {
+            _FrmMensajes.co = 2; // Código de tipo de mensaje
+
+            // Mensaje más completo y profesional
+            string mensaje = $"El código Mimesys debe contener exactamente {longitudRequerida} caracteres" ;
+
+            _FrmMensajes.avisomensaje(mensaje);
+            _FrmMensajes.ShowDialog();
+
+            // Enfocar y seleccionar todo el texto para fácil corrección
+            txt_Pnl2_conv_mimesys.Focus();
+            txt_Pnl2_conv_mimesys.SelectAll();
         }
     }
 
