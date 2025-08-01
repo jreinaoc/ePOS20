@@ -391,7 +391,8 @@ namespace CapaVisual_Login
                     var codigoEmp = filaAsis.Cells["COD_EMPLEADO"].Value?.ToString().Trim();
 
                     //if (string.IsNullOrEmpty(HoraEntrada1) || string.IsNullOrEmpty(HoraSalida1) || string.IsNullOrEmpty(HoraEntrada2) || string.IsNullOrEmpty(HoraSalida2))
-                    if (string.IsNullOrEmpty(HoraEntrada1) || string.IsNullOrEmpty(HoraSalida1) || string.IsNullOrEmpty(HoraEntrada2) || string.IsNullOrEmpty(HoraSalida2))
+                    //Si tengo entrada1 y no tengo salida1
+                    if ((!string.IsNullOrEmpty(HoraEntrada1) && string.IsNullOrEmpty(HoraSalida1)) || (!string.IsNullOrEmpty(HoraEntrada2) && string.IsNullOrEmpty(HoraSalida2)))
                     {
                         _FrmMensajes.co = 2;
                         _FrmMensajes.avisomensaje("Debe marcar asistencia");
@@ -403,22 +404,40 @@ namespace CapaVisual_Login
                     }
                     else
                     {
-                        foreach (DataGridViewRow fila in Dvg_MarcajeAsistenciaPendiente.Rows)
+                        //foreach (DataGridViewRow fila in Dvg_MarcajeAsistenciaPendiente.Rows)
+                        //{
+                        //    // Ignorar fila nueva si está habilitada la opción de agregar
+                        //    if (!fila.IsNewRow)
+                        //    {
+                                string codigoEmpleado = filaAsis.Cells["COD_EMPLEADO"].Value?.ToString() ?? string.Empty;
+                                // DateTime horaSeleccionada = miTimePicker.Value;
+                                // si  tengo salida1
+                                if (!string.IsNullOrEmpty(HoraSalida1))
+                                {
+                                    //string resultado = HoraSalida1.Replace(".", "").Replace("a m", "AM");
+                                    HoraSalida1 = HoraSalida1.Replace(".", "").Replace("a m", "am").Replace("p m", "pm").Replace("\u00A0", ""); // Por si acaso, eliminar cualquier espacio no separable
+                                                                                                                                                // 1) Extrae y convierte el valor de la celda 0 a string
+                                    
+
+                                    _L_CierreCaja.ActualizaAsistencia(diaActivo.ToString("dd/MM/yyyy"), HoraSalida1, codigoEmpleado, codigoEmpleado);
+                                    _D_Anulacion.CaragarAuditor(TB_USUARIO.COD_SUCURSAL, "072", TB_USUARIO.COD_EMPLEADO, "Se asigno la hora de salida " + HoraSalida1 + ", al empleado " + codigoEmp + ", Autoriza: " + GerenteAutoriza);
+
+                                }
+
+                        // si  tengo salida1
+                        if (!string.IsNullOrEmpty(HoraSalida2))
                         {
-                            // Ignorar fila nueva si está habilitada la opción de agregar
-                            if (!fila.IsNewRow)
-                            {
-                               // DateTime horaSeleccionada = miTimePicker.Value;
+                            //string codigoEmpleado = fila.Cells["COD_EMPLEADO"].Value?.ToString() ?? string.Empty;
+                            //string resultado = HoraSalida1.Replace(".", "").Replace("a m", "AM");
+                            HoraSalida2 = HoraSalida2.Replace(".", "").Replace("a m", "am").Replace("p m", "pm").Replace("\u00A0", ""); // Por si acaso, eliminar cualquier espacio no separable
 
-                            
-                                //string resultado = HoraSalida1.Replace(".", "").Replace("a m", "AM");
-                                HoraSalida1 = HoraSalida1.Replace(".", "").Replace("a m", "am").Replace("p m", "pm").Replace("\u00A0", ""); // Por si acaso, eliminar cualquier espacio no separable
+                            _L_CierreCaja.ActualizaAsistencia(diaActivo.ToString("dd/MM/yyyy"), HoraSalida2, codigoEmp, TB_USUARIO.COD_EMPLEADO);
+                            _D_Anulacion.CaragarAuditor(TB_USUARIO.COD_SUCURSAL, "072", TB_USUARIO.COD_EMPLEADO, "Se asigno la hora de salida " + HoraSalida1 + ", al empleado " + codigoEmp + ", Autoriza: " + GerenteAutoriza);
 
-                                _L_CierreCaja.ActualizaAsistencia(diaActivo.ToString("dd/MM/yyyy"), HoraSalida1, codigoEmp, TB_USUARIO.COD_EMPLEADO);
-                                _D_Anulacion.CaragarAuditor(TB_USUARIO.COD_SUCURSAL, "072", TB_USUARIO.COD_EMPLEADO, "Se asigno la hora de salida " + HoraSalida1 + ", al empleado " + codigoEmp  + ", Autoriza: " + GerenteAutoriza);
-
-                            }
                         }
+
+                        //    }
+                        //}
                     }
                 }
             }

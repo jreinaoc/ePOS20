@@ -128,7 +128,7 @@ namespace CapaLogica.TasaDia_Logica
                                                     ResDigitoVerificador = dsDigitoVerificador.Tables[0].Rows[0][0].ToString();
                                                     if (ResDigitoVerificador == "SECUENCIA NO VALIDA")
                                                     {
-                                                        mostrarError("La secuencia no es valida");
+                                                        mostrarError("Secuencia inválida");
                                                         return;
                                                     }
                                                 }
@@ -216,7 +216,8 @@ namespace CapaLogica.TasaDia_Logica
                                                 else
                                                 {
                                                     ProgressBar1.Value = 0;
-                                                    mostrarError("El valor introducido no es correcto. Debe solicitar uno nuevo");
+                                                    //mostrarError("El valor introducido no es correcto. Debe solicitar uno nuevo");
+                                                    mostrarError("Secuencia inválida");
                                                     LblTasaDesenc.Text = "";
                                                     LblFechaDesenc.Text = "";
                                                     LblHoraDesenc.Text = "";
@@ -246,7 +247,8 @@ namespace CapaLogica.TasaDia_Logica
                                 LblTasaDesenc.Text = "";
                                 LblFechaDesenc.Text = "";
                                 LblHoraDesenc.Text = "";
-                                mostrarError("El valor introducido supera el % permitido para actualizar la secuencia");
+                                //mostrarError("El valor introducido supera el % permitido para actualizar la secuencia");
+                                mostrarError("Secuencia inválida");
                             }
                             else
                             {
@@ -266,7 +268,8 @@ namespace CapaLogica.TasaDia_Logica
                     LblTasaDesenc.Text = "";
                     LblFechaDesenc.Text = "";
                     LblHoraDesenc.Text = "";
-                    mostrarError("El valor introducido no es correcto. Debe solicitar uno nuevo");
+                    //mostrarError("El valor introducido no es correcto. Debe solicitar uno nuevo");
+                    mostrarError("Secuencia inválida");
                 }
             }
             catch (Exception ex)
