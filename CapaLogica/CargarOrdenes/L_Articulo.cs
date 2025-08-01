@@ -4347,6 +4347,8 @@ namespace CapaLogica.CargarOrdenes
             }
         }
 
+
+
         public void BucarTipoMotivoGarantia(System.Windows.Forms.ComboBox comboBox)
         {
             DataTable dt = _D_Articulos.BucarMotivoRepoGarantia();

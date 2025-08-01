@@ -2462,7 +2462,29 @@ EXEC pValidoParametrosCRT
             return dts;
         }
 
-        
+
+        public DataSet CristalAltura(string CodCristal, SqlCommand command = null)
+        {
+            if (command == null)
+            {
+                SqlConnection connection = cn.LeerCadena();
+                command = connection.CreateCommand();
+            }
+
+            SqlCommand cmd = command;
+            cmd.Parameters.Clear();
+            cmd.CommandText = "pGetCristalAltura";
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@crt", CodCristal);
+
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet dts = new DataSet();
+            da.Fill(dts);
+            cmd.Parameters.Clear();
+            return dts;
+        }
+
 
         public async Task<bool> AgregaRelacionOsLC(string sucursal, string nroOs, string revision, string codArticuloEpos, string codArticuloLab, int cantidad, string ojo, string usuario, string stock, SqlCommand command = null)
         {

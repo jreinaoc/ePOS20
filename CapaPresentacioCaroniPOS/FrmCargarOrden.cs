@@ -3696,6 +3696,11 @@ namespace CapaVisual_Login
                     _FrmMensajes.ShowDialog();
                     return; // Salir 
                 }
+                // Validacion de Altura y medidas verticales 
+                if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01" && !ValidoAlturaMedidas())
+                {
+                    return; // Salir
+                }
 
                 //Guardar datos en CAORDSERV
                 string codServicio = Cbx_Pnl2_Servicio.SelectedValue?.ToString();
@@ -12034,7 +12039,13 @@ namespace CapaVisual_Login
         {
             if (Formulario_ListaOrdenes)
             {
-                bool Respuesta = _Asignar_Rx.AsignarRx(TB_CAORDSER.Cod_DetVta, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.CTE_Nacio, TB_CAORDSER.CTE_CedIden, Txt_Tap2_Examen.Text, TB_CAORDSER.NumOrdserv, LbResultado2, LbResultados, dgvRangoCrt);
+                if (Cbx_Tap2_Tipo_Examen.Text== "CONTACTO")
+                {
+                    mostrarError("No se puede agregar un examen de contacto a una orden convencional reservada");
+                    return;
+                }
+
+                bool Respuesta = _Asignar_Rx.AsignarRx(TB_CAORDSER.Cod_DetVta, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.CTE_Nacio, TB_CAORDSER.CTE_CedIden, Txt_Tap2_Examen.Text, TB_CAORDSER.NumOrdserv, LbResultado2, LbResultados, dgvRangoCrt, Cbx_Pnl2_Laboratorio.SelectedValue.ToString(), Cbx_Pnl2_Servicio.SelectedValue.ToString());
                 if (!Respuesta && _Asignar_Rx.stringBuilder.Length > 0)
                 {
 
@@ -12953,7 +12964,7 @@ namespace CapaVisual_Login
             }
         }
 
-        private bool ValidoAlturaMedidas(ref SqlCommand sqlCom)
+        private bool ValidoAlturaMedidasRevision()
         {
             try
             {
@@ -13035,7 +13046,12 @@ namespace CapaVisual_Login
 
                         if (_FrmClaveAutorizada.DialogResult == DialogResult.OK && _FrmClaveAutorizada.ClaveCorrecta == true)
                         {
+                            resultado = true;
                             _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "058", TB_USUARIO.COD_EMPLEADO, $"OS:  Altura D: {txtAltD.Text} Altura I: {txtAltI.Text} MVertical: {txtVertical.Text}, Autoriza: {TB_USUARIO.COD_EMPLEADO}");
+                        }
+                        else
+                        {
+                            resultado = false;
                         }
 
                     }
@@ -13057,6 +13073,150 @@ namespace CapaVisual_Login
                 return false;
             }
         }
+
+        private bool ValidoAlturaMedidas()
+        {
+            try
+            {
+                bool altura = true;
+                bool resultado = true;
+
+                // Validación de altura - medida vertical de la montura
+                if (Cbx_Tap2_Ojo.Text == "Ambos")
+                {
+                    if (!string.IsNullOrWhiteSpace(txtVertical.Text) &&
+                        !string.IsNullOrWhiteSpace(txtAltD.Text) &&
+                        !string.IsNullOrWhiteSpace(txtAltI.Text))
+                    {
+                        int vertical = Convert.ToInt32(txtVertical.Text);
+                        int altD = Convert.ToInt32(txtAltD.Text);
+                        int altI = Convert.ToInt32(txtAltI.Text);
+
+                        if (Convert.ToInt32(txtAltD.Text) > 0 && (vertical - altD < 8))
+                            altura = false;
+                        else if (Convert.ToInt32(txtAltI.Text) > 0 && (vertical - altI < 8))
+                            altura = false;
+                        else
+                        {
+                            altura = true;
+                            resultado = true;
+                        }
+                    }
+                }
+                else if (Cbx_Tap2_Ojo.Text == "Derecho")
+                {
+                    if (!string.IsNullOrWhiteSpace(txtVertical.Text) &&
+                        !string.IsNullOrWhiteSpace(txtAltD.Text))
+                    {
+                        int vertical = Convert.ToInt32(txtVertical.Text);
+                        int altD = Convert.ToInt32(txtAltD.Text);
+
+                        if (Convert.ToInt32(txtAltD.Text) > 0 && (vertical - altD < 8))
+                            altura = false;
+                        else
+                        {
+                            altura = true;
+                            resultado = true;
+                        }
+                    }
+                }
+                else if (Cbx_Tap2_Ojo.Text == "Izquierdo")
+                {
+                    if (!string.IsNullOrWhiteSpace(txtVertical.Text) &&
+                        !string.IsNullOrWhiteSpace(txtAltI.Text))
+                    {
+                        int vertical = Convert.ToInt32(txtVertical.Text);
+                        int altI = Convert.ToInt32(txtAltI.Text);
+
+                        if (Convert.ToInt32(txtAltI.Text) > 0 && (vertical - altI < 8))
+                            altura = false;
+                        else
+                        {
+                            altura = true;
+                            resultado = true;
+                        }
+                    }
+                }
+                else
+                {
+                    altura = true;
+                    resultado = true;
+                }
+
+                if (!altura)
+                {
+                    _FrmMensajes.co = 3;
+                    _FrmMensajes.avisomensaje("La Medida Vertical de la montura menos la Altura debe ser mayor o igual a 8\n¿Desea generar la venta con clave AUTORIZADA?");
+                    _FrmMensajes.ShowDialog();
+
+                    if (_FrmMensajes.DialogResult == DialogResult.OK)
+                    {
+                        _FrmClaveAutorizada.ShowDialog();
+
+                        if (_FrmClaveAutorizada.DialogResult == DialogResult.OK && _FrmClaveAutorizada.ClaveCorrecta)
+                        {
+                            resultado = true;
+                            _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "058", TB_USUARIO.COD_EMPLEADO,
+                                $"OS:  Altura D: {txtAltD.Text} Altura I: {txtAltI.Text} MVertical: {txtVertical.Text}, Autoriza: {TB_USUARIO.COD_EMPLEADO}");
+                        }
+                        else
+                        {
+                            resultado = false;
+                        }
+                    }
+                    else
+                    {
+                        resultado = false;
+                    }
+                }
+
+                // Validación de cristales que llevan altura
+                if (resultado) // Solo validar cristales si pasó la primera validación
+                {
+                    DataSet dsConsultaCristal;
+
+                    foreach (DataGridViewRow row in Dgv_Tap3_Articulo.Rows)
+                    {
+                        if (row.Cells["CodArticulo"].Value != null && (row.Cells["CodArticulo"].Value.ToString().StartsWith("C")))
+                        {
+                            string ojo = row.Cells["Ojo"].Value.ToString();
+                            string codigo = row.Cells["CodArticulo"].Value.ToString();
+
+                            dsConsultaCristal = _D_Articulo.CristalAltura(codigo);
+                            string requiereAltura = dsConsultaCristal.Tables[0].Rows[0]["Altura"].ToString();
+
+                            if (requiereAltura == "Con Altura")
+                            {
+                                if (ojo == "A" && (string.IsNullOrEmpty(txtAltD.Text) || txtAltD.Text == "0" ||
+                                                  string.IsNullOrEmpty(txtAltI.Text) || txtAltI.Text == "0"))
+                                {
+                                    _FrmMensajes.avisomensaje($"El Cristal {codigo} debe llevar Altura. Repita el proceso y coloque la altura correspondiente");
+                                    return false;
+                                }
+                                else if (ojo == "D" && (string.IsNullOrEmpty(txtAltD.Text) || txtAltD.Text == "0"))
+                                {
+                                    _FrmMensajes.avisomensaje($"El Cristal {codigo} debe llevar Altura. Repita el proceso y coloque la altura correspondiente");
+                                    return false;
+                                }
+                                else if (ojo == "I" && (string.IsNullOrEmpty(txtAltI.Text) || txtAltI.Text == "0"))
+                                {
+                                    _FrmMensajes.avisomensaje($"El Cristal {codigo} debe llevar Altura. Repita el proceso y coloque la altura correspondiente");
+                                    return false;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                return resultado;
+            }
+            catch (Exception ex)
+            {
+                _FrmMensajes.avisomensaje($"Error al validar altura y medidas: {ex.Message}");
+                return false;
+            }
+        }
+
 
         private void panel5_Paint(object sender, PaintEventArgs e)
         {
@@ -13230,6 +13390,57 @@ namespace CapaVisual_Login
                 nuevoFicconv.RETI = string.IsNullOrWhiteSpace(txt_Pnl2_reti.Text) ? null : txt_Pnl2_reti.Text.Trim();
              
 
+        }
+
+        private void txt_Pnl2_conv_mimesys_Leave(object sender, EventArgs e)
+        {
+            // 1. Manejo seguro de la conversión del parámetro
+            int longitudRequerida = ObtenerLongitudMimesysSegura();
+
+            // 2. Validación de longitud solo si es un valor positivo
+            if (!string.IsNullOrEmpty(txt_Pnl2_conv_mimesys.Text) && longitudRequerida > 0 && txt_Pnl2_conv_mimesys.Text.Length != longitudRequerida)
+            {
+                MostrarMensajeLongitudIncorrecta(longitudRequerida);
+            }
+        }
+
+        private int ObtenerLongitudMimesysSegura()
+        {
+            try
+            {
+                string valorParametro = _D_DetalleOrden.TB_PARAMETRO("CantDigMimesys");
+
+                // Usar TryParse para conversión segura
+                if (int.TryParse(valorParametro, out int longitud) && longitud > 0)
+                {
+                    return longitud;
+                }
+
+                // Log opcional para valores inválidos
+                _FrmMensajes.avisomensaje($"Valor inválido para CantDigMimesys: {valorParametro}");
+                return 0;
+            }
+            catch (Exception ex)
+            {
+                // Log del error si es necesario
+                _FrmMensajes.avisomensaje($"Error al obtener CantDigMimesys: {ex.Message}");
+                return 0;
+            }
+        }
+
+        private void MostrarMensajeLongitudIncorrecta(int longitudRequerida)
+        {
+            _FrmMensajes.co = 2; // Código de tipo de mensaje
+
+            // Mensaje más completo y profesional
+            string mensaje = $"El código Mimesys debe contener exactamente {longitudRequerida} caracteres" ;
+
+            _FrmMensajes.avisomensaje(mensaje);
+            _FrmMensajes.ShowDialog();
+
+            // Enfocar y seleccionar todo el texto para fácil corrección
+            txt_Pnl2_conv_mimesys.Focus();
+            txt_Pnl2_conv_mimesys.SelectAll();
         }
     }
 

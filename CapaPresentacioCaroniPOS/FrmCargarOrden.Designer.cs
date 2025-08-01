@@ -1748,6 +1748,7 @@ namespace CapaVisual_Login
             this.txt_Pnl2_conv_mimesys.TabIndex = 330;
             this.txt_Pnl2_conv_mimesys.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txt_Pnl2_conv_mimesys.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_Pnl2_conv_mimesys_KeyPress);
+            this.txt_Pnl2_conv_mimesys.Leave += new System.EventHandler(this.txt_Pnl2_conv_mimesys_Leave);
             // 
             // btn_pln2_reti
             // 
