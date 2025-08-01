@@ -3696,6 +3696,11 @@ namespace CapaVisual_Login
                     _FrmMensajes.ShowDialog();
                     return; // Salir 
                 }
+                // Validacion de Altura y medidas verticales 
+                if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01" && !ValidoAlturaMedidas())
+                {
+                    return; // Salir
+                }
 
                 //Guardar datos en CAORDSERV
                 string codServicio = Cbx_Pnl2_Servicio.SelectedValue?.ToString();
@@ -12953,7 +12958,7 @@ namespace CapaVisual_Login
             }
         }
 
-        private bool ValidoAlturaMedidas(ref SqlCommand sqlCom)
+        private bool ValidoAlturaMedidasRevision()
         {
             try
             {
@@ -13035,7 +13040,12 @@ namespace CapaVisual_Login
 
                         if (_FrmClaveAutorizada.DialogResult == DialogResult.OK && _FrmClaveAutorizada.ClaveCorrecta == true)
                         {
+                            resultado = true;
                             _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "058", TB_USUARIO.COD_EMPLEADO, $"OS:  Altura D: {txtAltD.Text} Altura I: {txtAltI.Text} MVertical: {txtVertical.Text}, Autoriza: {TB_USUARIO.COD_EMPLEADO}");
+                        }
+                        else
+                        {
+                            resultado = false;
                         }
 
                     }
@@ -13057,6 +13067,150 @@ namespace CapaVisual_Login
                 return false;
             }
         }
+
+        private bool ValidoAlturaMedidas()
+        {
+            try
+            {
+                bool altura = true;
+                bool resultado = true;
+
+                // Validación de altura - medida vertical de la montura
+                if (Cbx_Tap2_Ojo.Text == "Ambos")
+                {
+                    if (!string.IsNullOrWhiteSpace(txtVertical.Text) &&
+                        !string.IsNullOrWhiteSpace(txtAltD.Text) &&
+                        !string.IsNullOrWhiteSpace(txtAltI.Text))
+                    {
+                        int vertical = Convert.ToInt32(txtVertical.Text);
+                        int altD = Convert.ToInt32(txtAltD.Text);
+                        int altI = Convert.ToInt32(txtAltI.Text);
+
+                        if (Convert.ToInt32(txtAltD.Text) > 0 && (vertical - altD < 8))
+                            altura = false;
+                        else if (Convert.ToInt32(txtAltI.Text) > 0 && (vertical - altI < 8))
+                            altura = false;
+                        else
+                        {
+                            altura = true;
+                            resultado = true;
+                        }
+                    }
+                }
+                else if (Cbx_Tap2_Ojo.Text == "Derecho")
+                {
+                    if (!string.IsNullOrWhiteSpace(txtVertical.Text) &&
+                        !string.IsNullOrWhiteSpace(txtAltD.Text))
+                    {
+                        int vertical = Convert.ToInt32(txtVertical.Text);
+                        int altD = Convert.ToInt32(txtAltD.Text);
+
+                        if (Convert.ToInt32(txtAltD.Text) > 0 && (vertical - altD < 8))
+                            altura = false;
+                        else
+                        {
+                            altura = true;
+                            resultado = true;
+                        }
+                    }
+                }
+                else if (Cbx_Tap2_Ojo.Text == "Izquierdo")
+                {
+                    if (!string.IsNullOrWhiteSpace(txtVertical.Text) &&
+                        !string.IsNullOrWhiteSpace(txtAltI.Text))
+                    {
+                        int vertical = Convert.ToInt32(txtVertical.Text);
+                        int altI = Convert.ToInt32(txtAltI.Text);
+
+                        if (Convert.ToInt32(txtAltI.Text) > 0 && (vertical - altI < 8))
+                            altura = false;
+                        else
+                        {
+                            altura = true;
+                            resultado = true;
+                        }
+                    }
+                }
+                else
+                {
+                    altura = true;
+                    resultado = true;
+                }
+
+                if (!altura)
+                {
+                    _FrmMensajes.co = 3;
+                    _FrmMensajes.avisomensaje("La Medida Vertical de la montura menos la Altura debe ser mayor o igual a 8\n¿Desea generar la venta con clave AUTORIZADA?");
+                    _FrmMensajes.ShowDialog();
+
+                    if (_FrmMensajes.DialogResult == DialogResult.OK)
+                    {
+                        _FrmClaveAutorizada.ShowDialog();
+
+                        if (_FrmClaveAutorizada.DialogResult == DialogResult.OK && _FrmClaveAutorizada.ClaveCorrecta)
+                        {
+                            resultado = true;
+                            _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "058", TB_USUARIO.COD_EMPLEADO,
+                                $"OS:  Altura D: {txtAltD.Text} Altura I: {txtAltI.Text} MVertical: {txtVertical.Text}, Autoriza: {TB_USUARIO.COD_EMPLEADO}");
+                        }
+                        else
+                        {
+                            resultado = false;
+                        }
+                    }
+                    else
+                    {
+                        resultado = false;
+                    }
+                }
+
+                // Validación de cristales que llevan altura
+                if (resultado) // Solo validar cristales si pasó la primera validación
+                {
+                    DataSet dsConsultaCristal;
+
+                    foreach (DataGridViewRow row in Dgv_Tap3_Articulo.Rows)
+                    {
+                        if (row.Cells["CodArticulo"].Value != null && (row.Cells["CodArticulo"].Value.ToString().StartsWith("C")))
+                        {
+                            string ojo = row.Cells["Ojo"].Value.ToString();
+                            string codigo = row.Cells["CodArticulo"].Value.ToString();
+
+                            dsConsultaCristal = _D_Articulo.CristalAltura(codigo);
+                            string requiereAltura = dsConsultaCristal.Tables[0].Rows[0]["Altura"].ToString();
+
+                            if (requiereAltura == "Con Altura")
+                            {
+                                if (ojo == "A" && (string.IsNullOrEmpty(txtAltD.Text) || txtAltD.Text == "0" ||
+                                                  string.IsNullOrEmpty(txtAltI.Text) || txtAltI.Text == "0"))
+                                {
+                                    _FrmMensajes.avisomensaje($"El Cristal {codigo} debe llevar Altura. Repita el proceso y coloque la altura correspondiente");
+                                    return false;
+                                }
+                                else if (ojo == "D" && (string.IsNullOrEmpty(txtAltD.Text) || txtAltD.Text == "0"))
+                                {
+                                    _FrmMensajes.avisomensaje($"El Cristal {codigo} debe llevar Altura. Repita el proceso y coloque la altura correspondiente");
+                                    return false;
+                                }
+                                else if (ojo == "I" && (string.IsNullOrEmpty(txtAltI.Text) || txtAltI.Text == "0"))
+                                {
+                                    _FrmMensajes.avisomensaje($"El Cristal {codigo} debe llevar Altura. Repita el proceso y coloque la altura correspondiente");
+                                    return false;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                return resultado;
+            }
+            catch (Exception ex)
+            {
+                _FrmMensajes.avisomensaje($"Error al validar altura y medidas: {ex.Message}");
+                return false;
+            }
+        }
+
 
         private void panel5_Paint(object sender, PaintEventArgs e)
         {
