@@ -75,9 +75,9 @@ namespace CapaVisual_Login
 
             if (Nuevo_Parametro)
             {
-                if (!string.IsNullOrEmpty(Id_Rol))
+                if (!string.IsNullOrEmpty(Parametro_Nuevo))
                 {
-                    CbxSelecGerentTiend.DataSource = _D_ClaveAutorizada.ObtengoGerentesClaveAutorizadaIII(Id_Rol);
+                    CbxSelecGerentTiend.DataSource = _D_ClaveAutorizada.ObtengoGerentesClaveAutorizadaII(Parametro_Nuevo);
                     if (CbxSelecGerentTiend.Items.Count > 0)
                     {
                         CbxSelecGerentTiend.SelectedIndex = 0;
