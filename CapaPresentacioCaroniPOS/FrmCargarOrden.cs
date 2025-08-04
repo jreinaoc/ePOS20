@@ -9216,9 +9216,11 @@ namespace CapaVisual_Login
             if (string.IsNullOrEmpty(Txt_Tap1_Nombre.Text.Trim()))
             {
 
-                Pnl_2_Msj.Visible = true;
-                txt_pl2_msj.Text = "El campo de nombre no puede estar vacío";
-                //pb_pl2_mj.Visible = true;
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("Registre el nombre y apellido del cliente para continuar");
+                _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                _FrmMensajes.ShowDialog();
 
                 Txt_Tap1_Nombre.Focus();
                 return false;
@@ -9237,10 +9239,12 @@ namespace CapaVisual_Login
             }
             else
             {
-                // La fecha de nacimiento no es válida (es hoy o en el futuro)
-                Pnl_2_Msj.Visible = true;
-                txt_pl2_msj.Text = "La fecha de nacimiento no puede ser igual o posterior al día actual. Por favor, selecciona una fecha válida";
-                //pb_pl2_mj.Visible = true;
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("Seleccione la fecha de nacimiento del cliente");
+                _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                _FrmMensajes.ShowDialog();
+
 
                 Dtp_Tap1_Nacimiento.Focus(); // Opcional: enfocar el control DateTimePicker para que el usuario lo corrija
                 return false; // Sale del método porque no se ha seleccionado ninguno.
@@ -9252,9 +9256,12 @@ namespace CapaVisual_Login
             {
 
 
-                Pnl_2_Msj.Visible = true;
-                txt_pl2_msj.Text = "Debe seleccionar un sexo";
-                //pb_pl2_mj.Visible = true;
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("Seleccione el género del cliente");
+                _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                _FrmMensajes.ShowDialog();
+
 
                 // Aquí podrías decidir qué RadioButton enfocar. Por ejemplo, enfocar el primero:
                 Rd_Tap1_SexoF.Focus();
@@ -9268,9 +9275,11 @@ namespace CapaVisual_Login
             // Validación de Estado
             if (Cbx_Tap1_Estado.SelectedIndex == -1) // Mejor usar SelectedIndex para ComboBox
             {
-                Pnl_2_Msj.Visible = true;
-                txt_pl2_msj.Text = "Seleccione un estado para continuar";
-                //pb_pl2_mj.Visible = true;
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("Seleccione un estado para continuar");
+                _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                _FrmMensajes.ShowDialog();
 
                 Cbx_Tap1_Estado.Focus();
                 return false;
@@ -9280,9 +9289,12 @@ namespace CapaVisual_Login
             if (Cbx_Tap1_Ciudad.SelectedIndex == -1) // Mejor usar SelectedIndex para ComboBox
             {
 
-                Pnl_2_Msj.Visible = true;
-                txt_pl2_msj.Text = "Seleccione una ciudad para continuar";
-                //pb_pl2_mj.Visible = true;
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("Seleccione una ciudad para continuar");
+                _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                _FrmMensajes.ShowDialog(); 
+               
 
                 Cbx_Tap1_Ciudad.Focus();
                 return false;
@@ -9294,9 +9306,11 @@ namespace CapaVisual_Login
             // Check if both Local and Celular ComboBoxes are empty
             if (Cbx_Tap1_TLF_Local.SelectedIndex == -1 && Cbx_Tap1_TLF_Celular.SelectedIndex == -1)
             {
-                Pnl_2_Msj.Visible = true;
-                txt_pl2_msj.Text = "Debe registrar un número telefónico para continuar"; // More general message
-                //pb_pl2_mj.Visible = true;
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("Registre un número telefónico para continuar");
+                _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                _FrmMensajes.ShowDialog();
 
                 // Decide which ComboBox to focus on. You might prioritize Local, or the first one.
                 Cbx_Tap1_TLF_Local.Focus();
@@ -9312,9 +9326,11 @@ namespace CapaVisual_Login
             {
 
 
-                Pnl_2_Msj.Visible = true;
-                txt_pl2_msj.Text = "El campo de Email no puede estar vacío";
-                //pb_pl2_mj.Visible = true;
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("Registre el email del cliente para continuar");
+                _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                _FrmMensajes.ShowDialog();
 
 
                 Txt_Tap1_TLF_Local.Focus();
@@ -10426,9 +10442,14 @@ namespace CapaVisual_Login
             if (Cbx_Tap2_Tipo_Optome.SelectedItem == null || string.IsNullOrEmpty(Cbx_Tap2_Tipo_Optome.Text))
             {
 
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("Seleccione un optometrista");
+                _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                _FrmMensajes.ShowDialog();
 
-                Pnl_2_Msj.Visible = true;
-                txt_pl2_msj.Text = "Seleccione un optometrista";
+                //Pnl_2_Msj.Visible = true;
+                //txt_pl2_msj.Text = "";
                 //pb_pl2_mj.Visible = true;
                 todosValidos = false;
                 Cbx_Tap2_Tipo_Optome.Focus();

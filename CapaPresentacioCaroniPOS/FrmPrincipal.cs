@@ -784,17 +784,19 @@ namespace CapaVisual_Login
                     _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
                     _FrmMensajes.ShowDialog();
                     return;
-                }   
+                }
+
+                if (!ValidarConfirmacionDivisas())
+                {
+                    return;
+                }
+                if (!ValidarRecepTrnSol())
+                {
+                    return;
+                }
             }
 
-            if (!ValidarConfirmacionDivisas())
-            {
-                return;
-            }
-            if (!ValidarRecepTrnSol())
-            {
-                return;
-            }
+            
 
             string StatusTasa = "";
             string StatusSec = "";
@@ -1133,7 +1135,12 @@ namespace CapaVisual_Login
                         }
 
                     }
-                    return true;
+                    else
+                    {
+                        return false;
+                    }
+
+                    //return true;
                     //if (opcion == DialogResult.Yes)
                     //{
                     //    using (var claveAuto = new FrmClaveDesbloqueo())
