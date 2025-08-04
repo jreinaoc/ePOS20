@@ -61,6 +61,10 @@ namespace CapaVisual_Login
         private L_CierreCaja _L_CierreCaja = new L_CierreCaja();
         private D_ListaOrdenes _D_ListaOrdenes = new D_ListaOrdenes();
         private D_TasaSecuencia _D_TasaSecuencia = new D_TasaSecuencia();
+        string Sucursal;
+
+        private FrmClaveGerente _FrmClaveGerente = new FrmClaveGerente();
+
         public void addformulario(Form F)
         {
             F.TopLevel = false;
@@ -189,8 +193,14 @@ namespace CapaVisual_Login
                 //_FrmMensajes.ShowDialog();
                 return;
             }
-
-
+            if (!ValidarConfirmacionDivisas())
+            {
+                return;
+            }
+            if (!ValidarRecepTrnSol())
+            {
+                return;
+            }
             string bloqFacturacion = _D_DetalleOrden.TB_PARAMETRO("FactEliminada");
 
             if (bloqFacturacion == "0")
@@ -217,6 +227,8 @@ namespace CapaVisual_Login
 
         private void FrmPrincipal_Load_1(object sender, EventArgs e)
         {
+            Sucursal = _D_DetalleOrden.TB_PARAMETRO("SucursalId");
+
             BtnInicio.PerformClick();
             string dia = (DateTime.UtcNow.ToShortDateString());
             string DiaActivo = _D_Inicio.DiaActivo().ToShortDateString();
@@ -775,6 +787,14 @@ namespace CapaVisual_Login
                 }   
             }
 
+            if (!ValidarConfirmacionDivisas())
+            {
+                return;
+            }
+            if (!ValidarRecepTrnSol())
+            {
+                return;
+            }
 
             string StatusTasa = "";
             string StatusSec = "";
@@ -1033,5 +1053,151 @@ namespace CapaVisual_Login
 
             frmReportes.ReportesCierreCaja(false);
         }
+
+        // Variables de clase / ámbito
+        //private bool ArchPend;
+        //private DateTime glbFechaActiva;
+        //private string glbSucursalActual;
+        //private ICommand Command;   // Ajusta al tipo real de tu Command
+        //private IManBD ManBD;       // Ajusta a tu tipo de acceso a datos
+
+        public bool  ValidarConfirmacionDivisas()
+        {
+            // 1) Declaraciones iniciales
+            double total = 0;
+            string fechaMax = string.Empty;
+            //DateTime currentDate = glbFechaActiva;
+
+            // 2) Formatear fechas
+            //string formattedDate = _D_DetalleOrden.TB_PARAMETRO("fechaultconfFac");
+            // formattedDate2 = _D_DetalleOrden.TB_PARAMETRO("fechaultconfFac").AddDays(1).ToString("yyyy/MM/dd");
+
+            DateTime currentDate = _D_Inicio.DiaActivo();
+            //string formattedDate = currentDate.ToString("yyyyMMdd");
+            string formattedDate = _D_DetalleOrden.TB_PARAMETRO("fechaultconfFac");
+            string formattedDate2 = "";
+
+            if (DateTime.TryParse(formattedDate, out DateTime fecha3))
+            {
+                formattedDate2 = fecha3.AddDays(1).ToString("yyyyMMdd");
+            }
+
+            string formattedDateFin = currentDate.AddDays(-1).ToString("yyyy/MM/dd");
+
+            // 3) Llamar al SP para obtener el monto confirmado
+            const string FACT = "FACT";
+            //DataSet ds = ManBD.EjecutaStoreProcedure(
+            //    "pGetRepRelacMonedaEx_MontoConfirma",
+            //    $"{formattedDate2}','{formattedDateFin}','{glbSucursalActual}','{FACT}",
+            //    Command
+            //);
+            // Sucursal = _D_DetalleOrden.TB_PARAMETRO("SucursalId");
+            DataTable ds = _L_CierreCaja.RelacionMonedaEx(formattedDate2, formattedDateFin, Sucursal, FACT);
+
+            // 4) Extraer el valor de Abo_Monto
+            if ( ds.Rows.Count > 0)
+            {
+                var obj = ds.Rows[0]["Abo_Monto"];
+                total = (obj == DBNull.Value) ? 0 : Convert.ToDouble(obj);
+            }
+
+            // 5) Si hay monto por confirmar, validar tiempo y monto
+            if (total != 0)
+            {
+                fechaMax = _D_DetalleOrden.TB_PARAMETRO("fechaultconfFac");//  ValorParametro("fechaultconfFac", Command).ToString();
+                int diaParametro = Convert.ToInt32(_D_DetalleOrden.TB_PARAMETRO("Cnf_Dv_Tiempo"));  //Convert.ToInt32(ValorParametro("Cnf_Dv_Tiempo", Command));
+                DateTime fechaParametro = currentDate.AddDays(-diaParametro);
+                DateTime fechaConfirmacionDivisas = Convert.ToDateTime(fechaMax);
+
+                // Si la fecha límite ya pasó o el monto supera el umbral
+                bool montoExcede = Convert.ToDouble(_D_DetalleOrden.TB_PARAMETRO("Cnf_Dv_Monto")) < total;
+                bool fechaExpirada = fechaParametro.CompareTo(fechaConfirmacionDivisas) > 0;
+
+                if (montoExcede || fechaExpirada)
+                {
+                    _FrmMensajes.co = 3;
+                    _FrmMensajes.avisomensaje("Debe realizar la Confirmación de Divisas ¿Desea desbloquear el sistema?");
+                    _FrmMensajes.ShowDialog();
+
+                    if (_FrmMensajes.DialogResult == DialogResult.OK)
+                    {
+                        _FrmClaveGerente.ShowDialog();
+                        if (_FrmClaveGerente.ClaveCorrecta == true)
+                        {
+                            return true;
+                            //_D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "058", TB_USUARIO.COD_EMPLEADO, $"OS:  Altura D: {txtAltD.Text} Altura I: {txtAltI.Text} MVertical: {txtVertical.Text}, Autoriza: {TB_USUARIO.COD_EMPLEADO}");
+                        }
+                        else
+                        {
+                            return false;
+                        }
+
+                    }
+                    return true;
+                    //if (opcion == DialogResult.Yes)
+                    //{
+                    //    using (var claveAuto = new FrmClaveDesbloqueo())
+                    //    {
+                    //        claveAuto.ShowDialog();
+                    //        ArchPend = !claveAuto.Autorizadoo;
+                    //    }
+                    //}
+                    //else
+                    //{
+                    //    ArchPend = true;
+                    //}
+                }
+            }
+            return true;
+        }
+
+        public bool ValidarRecepTrnSol()
+        {
+           DataTable ds = _L_CierreCaja.FechasTrnSol(Sucursal);
+
+            DateTime Fecha_Bloqueo_Transferencias_Monturas = Convert.ToDateTime(ds.Rows[0]["Fecha_Tr_Montura"]);
+            DateTime Fecha_Bloqueo_Transferencias_Lc = Convert.ToDateTime(ds.Rows[0]["Fecha_Tr_Lc"]);
+            DateTime Fecha_Bloqueo_Solicitud_M = Convert.ToDateTime(ds.Rows[0]["Fecha_Soli_M"]);
+            DateTime Fecha_Bloqueo_Solicitud_LC = Convert.ToDateTime(ds.Rows[0]["Fecha_Soli_Lc"]);
+
+            // 2) Parámetros de bloqueo
+            int parametroBloqueoTransferenciasMonturas = Convert.ToInt32(_D_DetalleOrden.TB_PARAMETRO("BloqueoTransMLS"));
+            int parametroBloqueoTransferenciasLc = Convert.ToInt32(_D_DetalleOrden.TB_PARAMETRO("BloqueoTransLC"));
+            int parametroBloqueoSolicitudM = Convert.ToInt32(_D_DetalleOrden.TB_PARAMETRO("BloqueoSolicMLS"));
+            int parametroBloqueoSolicitudLc = Convert.ToInt32(_D_DetalleOrden.TB_PARAMETRO("BloqueoSolicLC"));
+
+            DateTime glbFechaActiva = _D_Inicio.DiaActivo();
+
+            int comparisonResult2 = glbFechaActiva.AddDays(-parametroBloqueoTransferenciasMonturas).CompareTo(Fecha_Bloqueo_Transferencias_Monturas);
+            int comparisonResult3 = glbFechaActiva.AddDays(-parametroBloqueoTransferenciasLc).CompareTo(Fecha_Bloqueo_Transferencias_Lc);
+            int comparisonResult4 = glbFechaActiva.AddDays(-parametroBloqueoSolicitudM).CompareTo(Fecha_Bloqueo_Solicitud_M);
+            int comparisonResult5 = glbFechaActiva.AddDays(-parametroBloqueoSolicitudLc).CompareTo(Fecha_Bloqueo_Solicitud_LC);
+
+            // 4) Validar bloqueo y mostrar diálogo
+            if (comparisonResult2 > 0   || comparisonResult3 > 0     || comparisonResult4 > 0       || comparisonResult5 > 0)
+            {
+                _FrmMensajes.co = 3;
+                _FrmMensajes.avisomensaje("Bloqueado por no recibir transferencias o solicitudes ¿Desea desbloquear el sistema?");
+                _FrmMensajes.ShowDialog();
+
+                _FrmClaveAutorizada.ShowDialog();
+
+                if (_FrmClaveAutorizada.DialogResult == DialogResult.OK && _FrmClaveAutorizada.ClaveCorrecta == true)
+                {
+                    _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "088", TB_USUARIO.COD_EMPLEADO, $"Autorizacion por Transferencias o Solicitudes Autorizado por:  {TB_USUARIO.COD_EMPLEADO}");
+
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+
+                
+            }
+
+            return true;
+        }
+
     }
 }

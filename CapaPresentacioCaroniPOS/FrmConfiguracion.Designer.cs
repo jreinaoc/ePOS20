@@ -137,7 +137,7 @@ namespace CapaVisual_Login
             this.LblHasta.AutoSize = true;
             this.LblHasta.BackColor = System.Drawing.Color.Transparent;
             this.LblHasta.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LblHasta.Location = new System.Drawing.Point(838, 36);
+            this.LblHasta.Location = new System.Drawing.Point(908, 36);
             this.LblHasta.Name = "LblHasta";
             this.LblHasta.Size = new System.Drawing.Size(56, 21);
             this.LblHasta.TabIndex = 51;
@@ -149,7 +149,7 @@ namespace CapaVisual_Login
             this.Lbldesde.AutoSize = true;
             this.Lbldesde.BackColor = System.Drawing.Color.Transparent;
             this.Lbldesde.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Lbldesde.Location = new System.Drawing.Point(639, 36);
+            this.Lbldesde.Location = new System.Drawing.Point(709, 36);
             this.Lbldesde.Name = "Lbldesde";
             this.Lbldesde.Size = new System.Drawing.Size(59, 21);
             this.Lbldesde.TabIndex = 50;
@@ -160,7 +160,7 @@ namespace CapaVisual_Login
             this.DtpHasta.CalendarFont = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.DtpHasta.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.DtpHasta.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.DtpHasta.Location = new System.Drawing.Point(842, 60);
+            this.DtpHasta.Location = new System.Drawing.Point(912, 60);
             this.DtpHasta.Name = "DtpHasta";
             this.DtpHasta.Size = new System.Drawing.Size(125, 27);
             this.DtpHasta.TabIndex = 49;
@@ -170,7 +170,7 @@ namespace CapaVisual_Login
             this.DtpDesde.CalendarFont = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.DtpDesde.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.DtpDesde.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.DtpDesde.Location = new System.Drawing.Point(643, 60);
+            this.DtpDesde.Location = new System.Drawing.Point(713, 60);
             this.DtpDesde.Name = "DtpDesde";
             this.DtpDesde.Size = new System.Drawing.Size(128, 27);
             this.DtpDesde.TabIndex = 48;
@@ -179,16 +179,16 @@ namespace CapaVisual_Login
             // 
             this.CbxColaborador.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.CbxColaborador.FormattingEnabled = true;
-            this.CbxColaborador.Location = new System.Drawing.Point(795, 120);
+            this.CbxColaborador.Location = new System.Drawing.Point(695, 120);
             this.CbxColaborador.Name = "CbxColaborador";
-            this.CbxColaborador.Size = new System.Drawing.Size(222, 29);
+            this.CbxColaborador.Size = new System.Drawing.Size(358, 29);
             this.CbxColaborador.TabIndex = 6;
             // 
             // RbColaborador
             // 
             this.RbColaborador.AutoSize = true;
             this.RbColaborador.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RbColaborador.Location = new System.Drawing.Point(643, 120);
+            this.RbColaborador.Location = new System.Drawing.Point(565, 120);
             this.RbColaborador.Name = "RbColaborador";
             this.RbColaborador.Size = new System.Drawing.Size(132, 25);
             this.RbColaborador.TabIndex = 5;
@@ -200,7 +200,7 @@ namespace CapaVisual_Login
             // 
             this.RbTienda.AutoSize = true;
             this.RbTienda.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RbTienda.Location = new System.Drawing.Point(375, 120);
+            this.RbTienda.Location = new System.Drawing.Point(351, 120);
             this.RbTienda.Name = "RbTienda";
             this.RbTienda.Size = new System.Drawing.Size(81, 25);
             this.RbTienda.TabIndex = 4;

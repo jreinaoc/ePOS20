@@ -927,9 +927,76 @@ namespace CapaDatos.CierreCaja_Datos
             System.IO.File.AppendAllText(ruta, entrada + Environment.NewLine);
         }
 
-        
+        public DataTable RelacionMonedaEx(string fechaIni, string fechaFin, string codsuc, string docum, SqlCommand command = null)
+        {
+            try
+            {
+                if (command == null)
+                {
+                    SqlConnection connection = cn.LeerCadena();
+                    command = connection.CreateCommand();
+                }
+                SqlCommand cmd = command;
+                cmd.Parameters.Clear();
 
-       
+                cmd.CommandText = "pGetRepRelacMonedaEx_MontoConfirma";
+                cmd.CommandType = CommandType.StoredProcedure;
+               
+                cmd.Parameters.AddWithValue("@FechaIni", fechaIni);
+                cmd.Parameters.AddWithValue("@FechaFin", fechaFin);
+                cmd.Parameters.AddWithValue("@Sucursal", codsuc);
+                cmd.Parameters.AddWithValue("@Docum", docum);
+
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                cmd.Parameters.Clear();
+                return dt;
+
+            }
+            catch (Exception ex)
+            {
+                string Error = string.Format("Error: {0}", ex.Message);
+                EscribirLog(ex.Message.ToString());
+                return null;
+            }
+        }
+
+        public DataTable FechasTrnSol(string codsuc, SqlCommand command = null)
+        {
+            try
+            {
+                if (command == null)
+                {
+                    SqlConnection connection = cn.LeerCadena();
+                    command = connection.CreateCommand();
+                }
+                SqlCommand cmd = command;
+                cmd.Parameters.Clear();
+
+                cmd.CommandText = "SP_CPOS_GetFechasTrnSol";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@CODSUC", codsuc);
+
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                cmd.Parameters.Clear();
+                return dt;
+
+            }
+            catch (Exception ex)
+            {
+                string Error = string.Format("Error: {0}", ex.Message);
+                EscribirLog(ex.Message.ToString());
+                return null;
+            }
+        }
+
+
+
+
 
     }
 }

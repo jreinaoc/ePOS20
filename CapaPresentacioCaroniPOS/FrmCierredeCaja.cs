@@ -84,7 +84,7 @@ namespace CapaVisual_Login
                 if (txtCierreHora.Text.Length < cantCaracteres)
                 {
                     _FrmMensajes.co = 2;
-                    _FrmMensajes.avisomensaje("La observación debe tener al menos " + cantCaracteres + " caracteres obligatoriamente");
+                    _FrmMensajes.avisomensaje("La observación ingresada debe tener un mínimo de " + cantCaracteres + " caracteres");
                     _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
                     _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
                     _FrmMensajes.ShowDialog();
@@ -1789,6 +1789,7 @@ namespace CapaVisual_Login
 
         private void btnCancelar_Click(object sender, EventArgs e)
         {
+            tcCierreCaja.SelectedIndex = 0;
             this.Hide();
         }
 

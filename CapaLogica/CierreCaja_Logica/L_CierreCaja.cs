@@ -675,7 +675,41 @@ namespace CapaLogica.CierreCaja_Logica
             return dtExiste;
         }
 
+        public DataTable RelacionMonedaEx(string fechaIni, string fechaFin, string codsuc, string docum)
+        {
+            try
+            {
+                DataTable dt = _D_CierreCaja.RelacionMonedaEx(fechaIni, fechaFin, codsuc, docum);
 
+                
+                    return dt;
+                
+            }
+            catch (Exception ex)
+            {
+                // Código para manejar el error
+                EscribirLog(ex.Message.ToString());
+                return null;
+            }
+        }
+
+        public DataTable FechasTrnSol(string codsuc)
+        {
+            try
+            {
+                DataTable dt = _D_CierreCaja.FechasTrnSol(codsuc);
+
+
+                return dt;
+
+            }
+            catch (Exception ex)
+            {
+                // Código para manejar el error
+                EscribirLog(ex.Message.ToString());
+                return null;
+            }
+        }
 
     }
 }
