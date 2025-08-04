@@ -1123,7 +1123,10 @@ namespace CapaVisual_Login
 
                     if (_FrmMensajes.DialogResult == DialogResult.OK)
                     {
+                        _FrmClaveGerente.Nuevo_Parametro = true;
+                        _FrmClaveGerente.Parametro_Nuevo = _D_DetalleOrden.TB_PARAMETRO("UsClavDesbq");
                         _FrmClaveGerente.ShowDialog();
+                        
                         if (_FrmClaveGerente.ClaveCorrecta == true)
                         {
                             return true;

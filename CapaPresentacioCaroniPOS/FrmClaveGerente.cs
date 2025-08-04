@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using CapaLogica.Colores_Logica;
 using System.Windows.Forms;
 using CapaDatos.Inicio_Datos;
+using CapaDatos.CveAutorizada_Datos;
 
 namespace CapaVisual_Login
 {
@@ -26,6 +27,11 @@ namespace CapaVisual_Login
         L_ClaveGerente _L_ClaveGerente = new L_ClaveGerente();
         FrmMensajes _FrmMensajes = new FrmMensajes();
         D_Inicio _D_Inicio = new D_Inicio();
+        D_ClaveAutorizada _D_ClaveAutorizada = new D_ClaveAutorizada();
+        public bool Nuevo_Parametro { get; set; }
+        public string Parametro_Nuevo { get; set; }
+
+        public string Id_Rol { get; set; } 
 
         public string orden;
         public bool ClaveCorrecta;
@@ -42,15 +48,16 @@ namespace CapaVisual_Login
         }
 
         private void FrmClaveGerente_Load(object sender, EventArgs e)
-
         {
             ClaveCorrecta = false;
             Limpiar();
-            CbxSelecGerentTiend.DataSource = _L_ClaveGerente.TraerGerentes(_D_Inicio.Sucursal(), (LbIdRol.Text == "" ? (string)"003" : Convert.ToString(LbIdRol.Text)));
-            CbxSelecGerentTiend.DisplayMember = "Gerente";
-            CbxSelecGerentTiend.ValueMember = "CodigoEmpleado";
+            CargarDatosComboBox();
+            AplicarFormatoVisual();
 
+        }
 
+        private void AplicarFormatoVisual()
+        {
             if (L_Colores.Oscuro == true)
             {
 
@@ -61,8 +68,36 @@ namespace CapaVisual_Login
                 FormatoClar();
             }
 
+        }
 
+        private void CargarDatosComboBox()
+        {
 
+            if (Nuevo_Parametro)
+            {
+                if (!string.IsNullOrEmpty(Id_Rol))
+                {
+                    CbxSelecGerentTiend.DataSource = _D_ClaveAutorizada.ObtengoGerentesClaveAutorizadaIII(Id_Rol);
+                    if (CbxSelecGerentTiend.Items.Count > 0)
+                    {
+                        CbxSelecGerentTiend.SelectedIndex = 0;
+                        CbxSelecGerentTiend.DisplayMember = "NOMBRE";
+                        CbxSelecGerentTiend.ValueMember = "COD_USR";
+                    }
+                }
+                else
+                {
+                    CbxSelecGerentTiend.DataSource = _L_ClaveGerente.TraerGerentes(_D_Inicio.Sucursal(), (LbIdRol.Text == "" ? (string)"003" : Convert.ToString(LbIdRol.Text)));
+                    CbxSelecGerentTiend.DisplayMember = "Gerente";
+                    CbxSelecGerentTiend.ValueMember = "CodigoEmpleado";
+                }
+            }
+            else
+            {
+                CbxSelecGerentTiend.DataSource = _L_ClaveGerente.TraerGerentes(_D_Inicio.Sucursal(), (LbIdRol.Text == "" ? (string)"003" : Convert.ToString(LbIdRol.Text)));
+                CbxSelecGerentTiend.DisplayMember = "Gerente";
+                CbxSelecGerentTiend.ValueMember = "CodigoEmpleado";
+            } 
         }
 
         private void BtnCancelar_Click(object sender, EventArgs e)
