@@ -2243,7 +2243,7 @@ namespace CapaVisual_Login
                     _L_Articulo.FormatearCampo7Digitos(Txt_Tap3_Articulo_Codigo);
 
                     // Buscar el articulo 
-                    _L_Articulo.FiltrarArticulos_Tap3(Txt_Tap3_Articulo_Codigo.Text, listaArticulos, listaTemporal, Txt_Tap3_Articulo_Codigo, Txt_Tap3_Articulo_Descripcion, Txt_Tap3_Articulo_Precio, Txt_Tap3_Articulo_Cantidad);
+                    _L_Articulo.FiltrarArticulos_Tap3(Txt_Tap3_Articulo_Codigo.Text, listaArticulos, listaTemporal, Txt_Tap3_Articulo_Codigo, Txt_Tap3_Articulo_Descripcion, Txt_Tap3_Articulo_Precio, Txt_Tap3_Articulo_Cantidad, Cbx_Tap2_Ojo.Text);
 
                     //if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "09")
                     //{
@@ -3510,7 +3510,7 @@ namespace CapaVisual_Login
                     return;
                 }
 
-                if ((Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01" || Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "08" || Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "04") && !Posee_Montura && !Montura_Propia)
+                if ((Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01" || Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "08" ) && !Posee_Montura && !Montura_Propia)
                 {
                     _FrmMensajes.co = 2;
                     _FrmMensajes.avisomensaje("No se encontró ningún código de Montura válido");

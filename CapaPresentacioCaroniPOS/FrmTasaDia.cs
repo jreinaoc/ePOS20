@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -345,12 +346,23 @@ namespace CapaVisual_Login
         {
             var Resultado = Autoriz_GteReg_Activar();
             _L_TasaSecuencia.RegistarSecuencia(Txt_Pnl3_Secuencia, LblTasaDesenc, LblFechaDesenc, LblHoraDesenc, PrBarPnl3, Resultado, mostrarPregunta, mostrarError, Btn_Pnl3_Activar);
+            if(!string.IsNullOrEmpty( LblFechaDesenc.Text))
+            {
+                DateTime fecha;
+
+                if (DateTime.TryParseExact(LblFechaDesenc.Text, "ddMMyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out fecha))
+                {
+                    Txt_Pnl3_Frcha.Text = fecha.ToString("dd/MM/yyyy");
+                    Txt_Pnl3_Frcha.TextAlign = HorizontalAlignment.Center; // Centrar el texto
+                }
+            }
         }
 
         private void Btn_Pnl2_Regi_Click(object sender, EventArgs e)
         {
             var resultado= Autoriz_GteReg(Txt_Pnl2_Dolar1, Txt_Pnl2_Euro1);
             _L_TasaSecuencia.RegistarTasa(Txt_Pnl2_Dolar1, Txt_Pnl2_Euro1, Txt_Pnl1_Dolar1, Txt_Pnl1_Euro1, Txt_Pnl1_DolarFecha, Txt_Pnl1_EuroFecha, lbRegD, lbRegE, ref resultado.Item1, ref resultado.Item2, mostrarPregunta, mostrarError);
+            _L_TasaSecuencia.Ultima_Tasa_Dia(Txt_Pnl1_Dolar1, Txt_Pnl1_Euro1, Txt_Pnl1_DolarFecha, Txt_Pnl1_EuroFecha, lbRegD, lbRegE);
         }
 
         private void FrmTasaDia_Load(object sender, EventArgs e)

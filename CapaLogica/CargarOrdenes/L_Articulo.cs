@@ -212,7 +212,7 @@ namespace CapaLogica.CargarOrdenes
             // Actualizar la fuente de datos del DataGridView con los resultados filtrados
             Dgv_Pnl3_ClienteAfiliado.DataSource = datosFiltrados;
         }
-        public void FiltrarArticulos_Tap3(string filtro, List<TB_ARTICULO> listaArticulos, List<TB_ARTICULO> listaTemporal, System.Windows.Forms.TextBox Codigo, System.Windows.Forms.TextBox Descripcion, System.Windows.Forms.TextBox Precio, System.Windows.Forms.TextBox Cantidad)
+        public void FiltrarArticulos_Tap3(string filtro, List<TB_ARTICULO> listaArticulos, List<TB_ARTICULO> listaTemporal, System.Windows.Forms.TextBox Codigo, System.Windows.Forms.TextBox Descripcion, System.Windows.Forms.TextBox Precio, System.Windows.Forms.TextBox Cantidad, string Ojo)
         {
             // Verificar si el filtro está vacío
             if (string.IsNullOrWhiteSpace(filtro))
@@ -242,6 +242,35 @@ namespace CapaLogica.CargarOrdenes
                     Descripcion.Text = articulo.DESART;
                     Precio.Text = articulo.ART_PVP.ToString("F2"); // Formato de 2 decimales
                     Cantidad.Text = string.Empty; // Limpiar el campo de cantidad
+                   
+                    bool EsAR = false;
+                    DataSet dsServAR = _D_Articulos.ServiciosAR_btnProcesar(articulo.CodArticulo, false, null);
+                    //Si es un AR (validar con tabla 1 del dataset)
+                    foreach (DataRow filaAR in dsServAR.Tables[1].Rows)
+                    {
+                        string codAR = filaAR["CodServicio"].ToString();
+                        if (articulo.CodArticulo == codAR)
+                        {
+                            EsAR = true;
+                            break;
+                        }
+                    }
+
+                    if (Codigo.Text.StartsWith("W") || Codigo.Text.StartsWith("C") || EsAR)
+                    {
+                        if (Ojo == "Ambos")
+                        {
+                            Cantidad.Text = "2";
+                        }
+                        else
+                        {
+                            Cantidad.Text = "1";
+                        }
+                    }
+                    else
+                    {
+                        Cantidad.Text = "1";
+                    }
 
                     // Establecer el foco en el TextBox de cantidad
                     Cantidad.Focus();
