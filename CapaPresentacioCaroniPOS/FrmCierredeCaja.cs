@@ -1561,7 +1561,7 @@ namespace CapaVisual_Login
                         return;
                     }
 
-                    if (!_L_CierreCaja.DesbloqueSistema("PEND", sucursal))
+                    if (!_L_CierreCaja.DesbloqueSistema("1", sucursal))
                     {
                         dtLogCierre.Rows.Add("Error Actualizando parametros", "❌ Fallido");
                         dgvLogCierre.DataSource = dtLogCierre;

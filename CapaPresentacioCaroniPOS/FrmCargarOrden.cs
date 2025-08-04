@@ -2009,6 +2009,14 @@ namespace CapaVisual_Login
                 //txtDll.Text = "0,00";
                 //txt_Pnl2_conv_mimesys.Text = "";
 
+                Cbx_Pnl2_Laboratorio.Visible = false;
+                Lbl_Pnl2_Laboratorio.Visible = false;
+                Cbx_Pnl2_Servicio.Visible = false;
+                Lbl_Pnl2_Servicio.Visible = false;
+                Lbl_Pnl2_Fecha_Ofre.Visible = false;
+                Txt_Pnl2_Fecha_Ofre.Visible = false;
+
+
                 ojoLenteContacto = "";
                 pnlOjo.Visible = false;
                 LcAmbosCant1 = false;
@@ -13463,6 +13471,44 @@ namespace CapaVisual_Login
             txt_Pnl2_conv_mimesys.Focus();
             txt_Pnl2_conv_mimesys.SelectAll();
         }
+
+        private void txtHorizontal_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                txtVertical.Focus();
+               
+            }
+        }
+
+        private void txtVertical_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                txtMaxima.Focus();
+
+            }
+        }
+
+        private void txtMaxima_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                txtPuente.Focus();
+
+            }
+        }
+
+        //private void txtPuente_KeyDown(object sender, KeyEventArgs e)
+        //{
+        //    if (e.KeyCode == Keys.Enter)
+        //    {
+        //        txtVertical.Focus();
+
+        //    }
+        //}
+
+
     }
 
 }

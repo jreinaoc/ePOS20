@@ -3024,6 +3024,7 @@ namespace CapaVisual_Login
             this.txtMaxima.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtMaxima.Click += new System.EventHandler(this.txtMaxima_Click);
             this.txtMaxima.Validated += new System.EventHandler(this.txtMaxima_Validated);
+            this.txtMaxima.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtMaxima_KeyDown);
             // 
             // txtVertical
             // 
@@ -3035,6 +3036,8 @@ namespace CapaVisual_Login
             this.txtVertical.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtVertical.Click += new System.EventHandler(this.txtVertical_Click);
             this.txtVertical.Validated += new System.EventHandler(this.txtVertical_Validated);
+            this.txtVertical.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtVertical_KeyDown);
+
             // 
             // txtHorizontal
             // 
@@ -3046,6 +3049,7 @@ namespace CapaVisual_Login
             this.txtHorizontal.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtHorizontal.Click += new System.EventHandler(this.txtHorizontal_Click);
             this.txtHorizontal.Validated += new System.EventHandler(this.txtHorizontal_Validated);
+            this.txtHorizontal.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtHorizontal_KeyDown);
             // 
             // Lbl_Tap3_
             // 

@@ -559,16 +559,8 @@ namespace CapaLogica.CargarOrdenes
             {
                 if (!string.IsNullOrWhiteSpace(colorLC))
                 {
-                    if (column.Name != "CodArticulo" &&
-                       column.Name != "DESART" &&
-                       column.Name != "ART_EXIST" &&
-                       column.Name != "ART_PVP" &&
-                       column.Name != "PORCTDESCUENTO" &&
-                       column.Name != "Total" &&
-                       column.Name != "Impuesto" &&
-                       column.Name != "Ojo" &&
-                       column.Name != "Eliminar" &&
-                       column.Name != "ColorLC" &&
+                    if (column.Name != "CodArticulo" && column.Name != "DESART" &&  column.Name != "ART_EXIST" &&  column.Name != "ART_PVP" &&  column.Name != "PORCTDESCUENTO" &&
+                       column.Name != "Total" &&   column.Name != "Impuesto" &&   column.Name != "Ojo" &&     column.Name != "Eliminar" &&  column.Name != "ColorLC" &&
                        column.Name != "codLab")
                     {
                         column.Visible = false;
@@ -576,15 +568,8 @@ namespace CapaLogica.CargarOrdenes
                 }
                 else
                 { 
-                    if (column.Name != "CodArticulo" &&
-                        column.Name != "DESART" &&
-                        column.Name != "ART_EXIST" &&
-                        column.Name != "ART_PVP" &&
-                        column.Name != "PORCTDESCUENTO" &&
-                        column.Name != "Total" &&
-                        column.Name != "Impuesto" &&
-                        column.Name != "Ojo" &&
-                        column.Name != "Eliminar")
+                    if (column.Name != "CodArticulo" &&  column.Name != "DESART" && column.Name != "ART_EXIST" &&  column.Name != "ART_PVP" && column.Name != "PORCTDESCUENTO" &&
+                        column.Name != "Total" &&  column.Name != "Impuesto" &&  column.Name != "Ojo" && column.Name != "Eliminar")
                     {
                         column.Visible = false;
                     }
