@@ -291,15 +291,19 @@ namespace CapaLogica.CargarOrdenes
                 string codigoLab = row.Cells[1].Value?.ToString(); 
                 string ojo = row.Cells["ojo"].Value.ToString();
                 
-                
-                 trabajoActualizado = await articulos.AgregaRelacionOsLC(sucursal, nroOs, revision, codArticulo, codigoLab, cantidad, ojo, usuario, stock, command);
-
-                if (!trabajoActualizado)
+                if (codArticulo.StartsWith("W"))
                 {
-                    return false;
-                    MessageBox.Show($"Error guardando el detalle la relacion de os LC {fila + 1}. No se pudo continuar.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    break;
+                    trabajoActualizado = await articulos.AgregaRelacionOsLC(sucursal, nroOs, revision, codArticulo, codigoLab, cantidad, ojo, usuario, stock, command);
+                   
+                    if (!trabajoActualizado)
+                    {
+                        return false;
+                        MessageBox.Show($"Error guardando el detalle la relacion de os LC {fila + 1}. No se pudo continuar.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        break;
+                    }
                 }
+
+               
             }
 
 

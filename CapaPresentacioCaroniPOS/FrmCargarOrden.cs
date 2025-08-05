@@ -1739,7 +1739,7 @@ namespace CapaVisual_Login
                 //_L_Articulo.AgregarFila(Dgv_Tap3_Articulo, articulo.CodArticulo, articulo.DESART, cantidad, (decimal) precio, (decimal)articulo.PORCTDESCUENTO, (decimal) total, impuesto, _Trabajo.T_OJO);
                 _L_Articulo.AgregarFila(Dgv_Tap3_Articulo,
                     articulo.CodArticulo,
-                    Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "02"? codLab: "",
+                    Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "02" && articulo.CodArticulo.StartsWith("W")? codLab : "",
                     Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "02" ? generico : "",
                     CodColorLC,articulo.DESART, cantidad, (decimal)precio, EmpresaAfiliada != "" && PorcDctoEmpresaAfiliada > 0 ? PorcDctoEmpresaAfiliada : (decimal)articulo.PORCTDESCUENTO, (decimal)total, impuesto, ojo, (decimal) articulo.COSTOPROME);
 
@@ -9210,10 +9210,12 @@ namespace CapaVisual_Login
             // Validación de Cédula
             if (string.IsNullOrEmpty(Txt_Tap1_Cedula.Text.Trim()))
             {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("Registre el número de cédula del cliente para continuar");
+                _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                _FrmMensajes.ShowDialog();
 
-                Pnl_2_Msj.Visible = true;
-                txt_pl2_msj.Text = "Llene el campo cédula para continuar";
-                //pb_pl2_mj.Visible = true;
 
                 //MessageBox.Show("El campo de Cédula no puede estar vacío.", "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
                 Txt_Tap1_Cedula.Focus();
@@ -10482,10 +10484,12 @@ namespace CapaVisual_Login
             // Validar Cbx_Tap2_Tipo_Optome
             if (Cbx_Tap2_Tipo_Optome.SelectedItem == null || string.IsNullOrEmpty(Cbx_Tap2_Tipo_Optome.Text))
             {
-                Pnl_2_Msj.Visible = true;
-                txt_pl2_msj.Text = "Seleccione un optometrista";
-                Pnl_2_Msj.BringToFront();
-                //pb_pl2_mj.Visible = true;
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("Seleccione un optometrista");
+                _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                _FrmMensajes.ShowDialog();
+
 
                 todosValidos = false;
                 Cbx_Tap2_Tipo_Optome.Focus();
@@ -10524,9 +10528,12 @@ namespace CapaVisual_Login
             if (Cbx_Tap2_Tipo_Examen.SelectedItem == null || string.IsNullOrEmpty(Cbx_Tap2_Tipo_Examen.Text))
             {
 
-                Pnl_2_Msj.Visible = true;
-                txt_pl2_msj.Text = "Seleccione un tipo de examen";
-                //pb_pl2_mj.Visible = true;
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("Seleccione un tipo de examen");
+                _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                _FrmMensajes.ShowDialog();
+
 
                 todosValidos = false;
                 Cbx_Tap2_Tipo_Examen.Focus();

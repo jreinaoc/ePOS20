@@ -476,9 +476,23 @@ namespace CapaLogica.CargarOrdenes
                 Dgv_Tap3_Articulo.Columns["CostoProme"].HeaderText = "CostoProme";
                 Dgv_Tap3_Articulo.Columns["Eliminar"].HeaderText = "";
 
-                //Ancho de columna
+            //Ancho de columna
 
-            if (!string.IsNullOrWhiteSpace(colorLC))
+            bool EsLC = false; 
+            foreach (DataGridViewRow row in Dgv_Tap3_Articulo.Rows)
+            {
+                if (row.Cells["CodArticulo"].Value.ToString().StartsWith("W"))
+                {
+                    EsLC = true;
+                    break;
+                }
+                else
+                {
+                    EsLC = false;
+                }
+            }
+
+            if (EsLC || colorLC != "")
             {
                 Dgv_Tap3_Articulo.Columns["CodArticulo"].Width = 70;
                 Dgv_Tap3_Articulo.Columns["codLab"].Width = 70;
@@ -557,7 +571,7 @@ namespace CapaLogica.CargarOrdenes
 
             foreach (DataGridViewColumn column in Dgv_Tap3_Articulo.Columns)
             {
-                if (!string.IsNullOrWhiteSpace(colorLC))
+                if (EsLC || colorLC != "")
                 {
                     if (column.Name != "CodArticulo" && column.Name != "DESART" &&  column.Name != "ART_EXIST" &&  column.Name != "ART_PVP" &&  column.Name != "PORCTDESCUENTO" &&
                        column.Name != "Total" &&   column.Name != "Impuesto" &&   column.Name != "Ojo" &&     column.Name != "Eliminar" &&  column.Name != "ColorLC" &&
