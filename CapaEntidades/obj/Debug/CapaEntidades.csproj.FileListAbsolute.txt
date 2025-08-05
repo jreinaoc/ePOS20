@@ -65,7 +65,6 @@ C:\Desarrollo2022\CaroniPOS1\CapaEntidades\bin\Debug\System.Numerics.Vectors.xml
 C:\Desarrollo2022\CaroniPOS1\CapaEntidades\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
 C:\Desarrollo2022\CaroniPOS1\CapaEntidades\bin\Debug\System.Threading.Tasks.Extensions.xml
 C:\Desarrollo2022\CaroniPOS1\CapaEntidades\bin\Debug\System.ValueTuple.xml
-C:\Desarrollo2022\CaroniPOS1\CapaEntidades\obj\Debug\CapaEntidades.csproj.AssemblyReference.cache
 C:\Desarrollo2022\CaroniPOS1\CapaEntidades\obj\Debug\CapaEntidades.csproj.CoreCompileInputs.cache
 C:\Desarrollo2022\CaroniPOS1\CapaEntidades\obj\Debug\CapaEntidades.csproj.CopyComplete
 C:\Desarrollo2022\CaroniPOS1\CapaEntidades\obj\Debug\CapaEntidades.dll
