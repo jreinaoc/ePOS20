@@ -13514,14 +13514,15 @@ namespace CapaVisual_Login
             }
         }
 
-        //private void txtPuente_KeyDown(object sender, KeyEventArgs e)
-        //{
-        //    if (e.KeyCode == Keys.Enter)
-        //    {
-        //        txtVertical.Focus();
+        private void txtPuente_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                txtHorizontal.Focus();
 
-        //    }
-        //}
+            }
+        }
+
 
 
     }
