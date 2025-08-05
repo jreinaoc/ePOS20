@@ -124,7 +124,7 @@ namespace CapaVisual_Login
         // Variables para guardar los datos recibidos del delegado Lentes de Contacto 
         string codLab = "";
         string generico = "";
-
+        private BindingSource bindingSource = new BindingSource();
         // Lista temporal para relizar el filtrado 
         private List<TB_ARTICULO> listaTemporal = new List<TB_ARTICULO>();
         private List<TB_TRABAJO> _TRABAJO = new List<TB_TRABAJO>();
@@ -1233,6 +1233,8 @@ namespace CapaVisual_Login
 
         private void Dgv_Pnl3_Articulo_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            try 
+            { 
             // Verificar que la fila seleccionada no sea una fila nueva
 
             if (e.RowIndex >= 0 && !Dgv_Pnl3_Articulo.Rows[e.RowIndex].IsNewRow)
@@ -1347,6 +1349,11 @@ namespace CapaVisual_Login
                 }
 
 
+            }
+        }
+              catch (Exception ex)
+            {
+                string Error = string.Format("Error: {0}", ex.Message);
             }
         }
 
@@ -8381,6 +8388,8 @@ namespace CapaVisual_Login
 
         private void txtClienteBuscar_KeyDown(object sender, KeyEventArgs e)
         {
+            try 
+            { 
             // Verifica si la tecla presionada es la tecla Enter
             if (e.KeyCode == Keys.Enter)
             {
@@ -8400,6 +8409,11 @@ namespace CapaVisual_Login
                     // Mensaje de depuración si DgvClientes no se encuentra (solo para desarrollo)
                     Console.WriteLine("Error: El control DgvClientes no se encontró o no está inicializado.");
                 }
+            }
+            }
+            catch (Exception ex)
+            {
+                string Error = string.Format("Error: {0}", ex.Message);
             }
         }
 
@@ -8545,6 +8559,8 @@ namespace CapaVisual_Login
 
         private void textBox1_KeyDown(object sender, KeyEventArgs e)
         {
+            try { 
+
             // Verifica si la tecla presionada es la tecla Enter
             if (e.KeyCode == Keys.Enter)
             {
@@ -8565,95 +8581,80 @@ namespace CapaVisual_Login
                     Console.WriteLine("Error: El control DgvClientes no se encontró o no está inicializado.");
                 }
             }
+            }
+            catch (Exception ex)
+            {
+                string Error = string.Format("Error: {0}", ex.Message);
+            }
         }
 
         private void CargarDatosDeClientes(string filtro, RadioButton buscarPorCedula, RadioButton buscarPorNombre)
         {
-
-            txtClienteBuscar.Focus();
-            _L_Cliente.CargarClientes(DgvClientes, listaDeClientes, filtro, buscarPorCedula, buscarPorNombre);
-
-
-
-            if (_L_Cliente.stringBuilder.Length > 0)
+            try
             {
-                MessageBox.Show(_L_Cliente.stringBuilder.ToString());
-            }
-            else
-            {
-                DgvClientes.DataSource = listaDeClientes; // Asignar aquí en la UI
-                listaTemporalClientes = new List<TB_CTEPPAL>(listaDeClientes); // Inicializar la lista temporal
+                txtClienteBuscar.Focus();
 
+                // 1. Cargar datos en una lista temporal
+                var listaTemporal = new List<TB_CTEPPAL>();
+                _L_Cliente.CargarClientes(DgvClientes, listaTemporal, filtro, buscarPorCedula, buscarPorNombre);
 
-                // Ocultar todas las columnas inicialmente
-                foreach (DataGridViewColumn columna in DgvClientes.Columns)
+                if (_L_Cliente.stringBuilder.Length > 0)
                 {
-                    columna.Visible = false;
+                    MessageBox.Show(_L_Cliente.stringBuilder.ToString());
+                    return;
                 }
 
-                // Hacer visibles las columnas con índice 0 y 1 (si existen)
-                if (DgvClientes.Columns.Count > 2)
-                {
-                    DgvClientes.Columns[2].Visible = true;
+                // 2. Actualizar la lista principal y el BindingSource
+                listaDeClientes = listaTemporal;
+                bindingSource.DataSource = new List<TB_CTEPPAL>(listaDeClientes); // Copia para seguridad
+                DgvClientes.DataSource = bindingSource;
 
-                }
+                // 6. Configuración de columnas optimizada
+                ConfigurarColumnasDataGridView();
 
-                if (DgvClientes.Columns.Count > 3)
-                {
-                    DgvClientes.Columns[3].Visible = true;
-                }
-
-
-
+                // 7. Configuración final del DataGridView
                 DgvClientes.AllowUserToAddRows = false;
                 DgvClientes.AllowUserToDeleteRows = false;
-                DgvClientes.ColumnHeadersVisible = true;
-                DgvClientes.RowHeadersVisible = false;
-                DgvClientes.AllowUserToResizeColumns = false;
-                DgvClientes.AllowUserToResizeRows = false;
-
-                // Establecer el DataGridView como de solo lectura
                 DgvClientes.ReadOnly = true;
+                DgvClientes.RowHeadersVisible = false;
+                DgvClientes.Refresh();
 
-                // Establecer los encabezados de las columnas
-
-                if (DgvClientes.ColumnCount > 3)
-                {
-                    DgvClientes.Columns[2].HeaderText = "Cédula";
-                    // Centra el texto del encabezado.
-                    // Esto se hace accediendo al estilo de celda por defecto de la celda del encabezado.
-                    DgvClientes.Columns[2].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                }
-                if (DgvClientes.ColumnCount > 4)
-                {
-                    DgvClientes.Columns[3].HeaderText = "Nombre";
-                    // Centra el texto del encabezado.
-                    // Esto se hace accediendo al estilo de celda por defecto de la celda del encabezado.
-                    DgvClientes.Columns[3].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                }
-
-                //// Quitar la línea vertical entre la columna 0 y la 1
-                //if (DgvClientes.ColumnCount > 1)
-                //{
-                //    foreach (DataGridViewRow row in DgvClientes.Rows)
-                //    {
-                //        row.Cells[0].Style.Border.Right = DataGridViewCellBorderStyles.None;
-                //    }
-                //    // Corrección para acceder a las celdas del encabezado
-                //    if (DgvClientes.ColumnHeadersHeightSizeMode != DataGridViewColumnHeadersHeightSizeMode.DisableResizing && DgvClientes.ColumnHeaders != null && DgvClientes.ColumnHeaders.Cells.Count > 1)
-                //    {
-                //        DgvClientes.ColumnHeaders.Cells[0].Style.Border.Right = DataGridViewCellBorderStyles.None;
-                //    }
-                //}
-
-
-                DgvClientes.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-                DgvClientes.Columns[2].Width = 100;
-                DgvClientes.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-                DgvClientes.Columns[3].Width = 300;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error: {ex.Message}");
             }
         }
 
+        private void ConfigurarColumnasDataGridView()
+        {
+            // Ocultar todas las columnas primero
+            foreach (DataGridViewColumn columna in DgvClientes.Columns)
+            {
+                columna.Visible = false;
+            }
+
+            // Mostrar solo las columnas necesarias con configuración específica
+            if (DgvClientes.Columns.Count > 2)
+            {
+                var columnaCedula = DgvClientes.Columns[2];
+                columnaCedula.Visible = true;
+                columnaCedula.HeaderText = "Cédula";
+                columnaCedula.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                columnaCedula.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                columnaCedula.Width = 100;
+            }
+
+            if (DgvClientes.Columns.Count > 3)
+            {
+                var columnaNombre = DgvClientes.Columns[3];
+                columnaNombre.Visible = true;
+                columnaNombre.HeaderText = "Nombre";
+                columnaNombre.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                columnaNombre.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                columnaNombre.Width = 300;
+            }
+        }
 
         private void guardacliente()
         {
@@ -9527,6 +9528,8 @@ namespace CapaVisual_Login
 
         private void DgvClientes_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
+            try
+            { 
             //private void DgvClientes_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
             //{
             // Verificar que el doble clic no sea en el encabezado de la columna
@@ -9562,7 +9565,12 @@ namespace CapaVisual_Login
                     }
                 }
             }
-            //}
+
+            }
+            catch (Exception ex)
+            {
+                string Error = string.Format("Error: {0}", ex.Message);
+            }
         }
 
         private (int años, int meses) CalcularEdadCompleta(DateTime fechaNacimiento)
