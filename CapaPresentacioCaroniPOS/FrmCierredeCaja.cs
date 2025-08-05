@@ -745,6 +745,8 @@ namespace CapaVisual_Login
             {
                 case "PuntodeVenta":
 
+                   
+
                     // Asignar ancho personalizado a cada columna
                     Dvg_CierrePuntoVenta.Columns["CodPunto"].Width = 0;
                     Dvg_CierrePuntoVenta.Columns["CodPunto"].Visible = false;
@@ -757,6 +759,10 @@ namespace CapaVisual_Login
 
                    
                     Dvg_CierrePuntoVenta.Columns["Banco"].ReadOnly = true;
+
+                    //Dvg_CierrePuntoVenta.DefaultCellStyle.Font = new Font("Century Gothic", 20);
+                    Dvg_CierrePuntoVenta.ColumnHeadersDefaultCellStyle.Font = new Font("Century Gothic", 9);
+                    Dvg_CierrePuntoVenta.DefaultCellStyle.Font = new Font("Century Gothic", 9);
                     break;
 
                 case "Consignacion":
@@ -778,8 +784,11 @@ namespace CapaVisual_Login
                     Dvg_ConsignacionDeOS.Columns["Orden"].HeaderText = "Orden";
                     Dvg_ConsignacionDeOS.Columns["Lab"].HeaderText = "Laboratorio";
                     Dvg_ConsignacionDeOS.Columns["Servicio"].HeaderText = "Servicio";
-                    Dvg_ConsignacionDeOS.Columns["CodVendedor"].HeaderText = "Cod. Vendedor";
+                    Dvg_ConsignacionDeOS.Columns["CodVendedor"].HeaderText = "Código";
                     Dvg_ConsignacionDeOS.Columns["Vendedor"].HeaderText = "Vendedor";
+
+                    Dvg_ConsignacionDeOS.ColumnHeadersDefaultCellStyle.Font = new Font("Century Gothic", 9);
+                    Dvg_ConsignacionDeOS.DefaultCellStyle.Font = new Font("Century Gothic", 9);
 
                     break;
 
@@ -794,9 +803,9 @@ namespace CapaVisual_Login
 
                     dgvCierredecaja.Columns["TipoTotal"].ReadOnly = true;
 
-                    dgvCierredecaja.DefaultCellStyle.Font = new Font("Century Gothic", 10);
+                    dgvCierredecaja.DefaultCellStyle.Font = new Font("Century Gothic", 9);
                     // Change the font for the COLUMN HEADERS
-                    dgvCierredecaja.ColumnHeadersDefaultCellStyle.Font = new Font("Century Gothic", 10);
+                    dgvCierredecaja.ColumnHeadersDefaultCellStyle.Font = new Font("Century Gothic", 9);
                     dgvCierredecaja.RowTemplate.Height = 30; // Puedes ajustar el número a tu gusto
                     dgvCierredecaja.ColumnHeadersVisible = false;
                     dgvCierredecaja.CellBorderStyle = DataGridViewCellBorderStyle.Single;
@@ -811,10 +820,13 @@ namespace CapaVisual_Login
                     // Asignar ancho personalizado a cada columna
                     dgvLogCierre.Columns["Descripcion"].Width = 245;
                     dgvLogCierre.Columns["Resultado"].Width = 177;
-                    dgvLogCierre.ColumnHeadersDefaultCellStyle.Font = new Font("Century Gothic", 10);
-                    dgvLogCierre.DefaultCellStyle.Font = new Font("Century Gothic", 10);
+                    dgvLogCierre.ColumnHeadersDefaultCellStyle.Font = new Font("Century Gothic", 9);
+                    dgvLogCierre.DefaultCellStyle.Font = new Font("Century Gothic", 9);
 
                     dgvLogCierre.Columns["Descripcion"].HeaderText = "Descripción";
+
+                    dgvLogCierre.Columns["Descripcion"].ReadOnly = true;
+                    dgvLogCierre.Columns["Resultado"].ReadOnly = true;
 
                     dgvLogCierre.ClearSelection();
                     dgvLogCierre.CurrentCell = null;
@@ -893,6 +905,9 @@ namespace CapaVisual_Login
 
                     Dvg_OSconPagoMovil.Columns["CodBancoEmisor"].Visible = false;
                     Dvg_OSconPagoMovil.Columns["CodigoBancoEmisor"].Visible = false;
+                    Dvg_OSconPagoMovil.ColumnHeadersDefaultCellStyle.Font = new Font("Century Gothic", 9);
+                    Dvg_OSconPagoMovil.DefaultCellStyle.Font = new Font("Century Gothic", 9);
+
 
                     break;
 
@@ -1054,7 +1069,9 @@ namespace CapaVisual_Login
                         }
                     }
 
-                    
+                    Dvg_MarcajeAsistenciaPendiente.ColumnHeadersDefaultCellStyle.Font = new Font("Century Gothic", 9);
+                    Dvg_MarcajeAsistenciaPendiente.DefaultCellStyle.Font = new Font("Century Gothic", 9);
+
 
                     break;
 
@@ -1065,7 +1082,7 @@ namespace CapaVisual_Login
                     Dgv_Usuarios.Columns["Nombre"].Width = 320;
                     Dgv_Usuarios.Columns["COD_EMPLEADO"].HeaderText  = "Código";
                     Dgv_Usuarios.Columns["COD_EMPLEADO"].Width = 75;
-                    Dgv_Usuarios.ColumnHeadersDefaultCellStyle.Font = new Font("Century Gothic", 10);
+                    Dgv_Usuarios.ColumnHeadersDefaultCellStyle.Font = new Font("Century Gothic", 9);
                     Dgv_Usuarios.DefaultCellStyle.Font = new Font("Century Gothic", 9);
 
 
@@ -2145,7 +2162,7 @@ namespace CapaVisual_Login
                                 _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
                                 _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
                                 _FrmMensajes.ShowDialog();
-                                return false;
+                                return true;
 
                                 //MessageBox.Show(TB_USUARIO.USER_NOMBRE + "en los próximos {minutosRestantes} min\ncomienza su tiempo de descanso obligatorio",
                                 //    "Tome sus medidas preventivas...", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
