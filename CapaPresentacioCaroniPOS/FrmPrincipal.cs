@@ -1190,6 +1190,8 @@ namespace CapaVisual_Login
                 _FrmMensajes.avisomensaje("Bloqueado por no recibir transferencias o solicitudes ¿Desea desbloquear el sistema?");
                 _FrmMensajes.ShowDialog();
 
+                _FrmClaveAutorizada.Nuevo_Parametro = true;
+                _FrmClaveAutorizada.Parametro_Nuevo = _D_DetalleOrden.TB_PARAMETRO("Codigo_nomina");
                 _FrmClaveAutorizada.ShowDialog();
 
                 if (_FrmClaveAutorizada.DialogResult == DialogResult.OK && _FrmClaveAutorizada.ClaveCorrecta == true)
