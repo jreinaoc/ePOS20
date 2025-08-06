@@ -223,6 +223,12 @@
     <Compile Include="FrmPagoMovil.Designer.cs">
       <DependentUpon>FrmPagoMovil.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmPromoCasada.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmPromoCasada.Designer.cs">
+      <DependentUpon>FrmPromoCasada.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmPrueba.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -454,6 +460,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FrmPrincipal.resx">
       <DependentUpon>FrmPrincipal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmPromoCasada.resx">
+      <DependentUpon>FrmPromoCasada.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmPrueba.resx">
       <DependentUpon>FrmPrueba.cs</DependentUpon>

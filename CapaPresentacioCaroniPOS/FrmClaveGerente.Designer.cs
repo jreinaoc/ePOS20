@@ -76,9 +76,9 @@ namespace CapaVisual_Login
             this.CbxSelecGerentTiend.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.CbxSelecGerentTiend.ForeColor = System.Drawing.SystemColors.ScrollBar;
             this.CbxSelecGerentTiend.FormattingEnabled = true;
-            this.CbxSelecGerentTiend.Location = new System.Drawing.Point(156, 127);
+            this.CbxSelecGerentTiend.Location = new System.Drawing.Point(73, 127);
             this.CbxSelecGerentTiend.Name = "CbxSelecGerentTiend";
-            this.CbxSelecGerentTiend.Size = new System.Drawing.Size(261, 29);
+            this.CbxSelecGerentTiend.Size = new System.Drawing.Size(406, 29);
             this.CbxSelecGerentTiend.TabIndex = 8;
             // 
             // LblSelecGerente

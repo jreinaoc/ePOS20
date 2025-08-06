@@ -31,6 +31,8 @@ namespace CapaVisual_Login
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmPrincipal));
             this.GbxMenuPrincipal = new System.Windows.Forms.GroupBox();
+            this.pictureBox5 = new System.Windows.Forms.PictureBox();
+            this.btnPromoCasada = new System.Windows.Forms.Button();
             this.pnlUtilitarios = new System.Windows.Forms.Panel();
             this.btnReimpresion = new System.Windows.Forms.Button();
             this.btnCierredeCaja = new System.Windows.Forms.Button();
@@ -72,6 +74,7 @@ namespace CapaVisual_Login
             this.BtnMinimizar = new System.Windows.Forms.Button();
             this.PnlListadoOrdenes = new System.Windows.Forms.Panel();
             this.GbxMenuPrincipal.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             this.pnlUtilitarios.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -96,6 +99,8 @@ namespace CapaVisual_Login
             // 
             this.GbxMenuPrincipal.BackColor = System.Drawing.Color.White;
             this.GbxMenuPrincipal.Controls.Add(this.pnlUtilitarios);
+            this.GbxMenuPrincipal.Controls.Add(this.pictureBox5);
+            this.GbxMenuPrincipal.Controls.Add(this.btnPromoCasada);
             this.GbxMenuPrincipal.Controls.Add(this.button1);
             this.GbxMenuPrincipal.Controls.Add(this.btn_FrmCierreDeCaja);
             this.GbxMenuPrincipal.Controls.Add(this.pictureBox4);
@@ -135,6 +140,37 @@ namespace CapaVisual_Login
             this.GbxMenuPrincipal.TabIndex = 12;
             this.GbxMenuPrincipal.TabStop = false;
             this.GbxMenuPrincipal.Enter += new System.EventHandler(this.GbxMenuPrincipal_Enter);
+            // 
+            // pictureBox5
+            // 
+            this.pictureBox5.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox5.Image")));
+            this.pictureBox5.Location = new System.Drawing.Point(16, 337);
+            this.pictureBox5.Name = "pictureBox5";
+            this.pictureBox5.Size = new System.Drawing.Size(15, 20);
+            this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBox5.TabIndex = 38;
+            this.pictureBox5.TabStop = false;
+            this.pictureBox5.Visible = false;
+            // 
+            // btnPromoCasada
+            // 
+            this.btnPromoCasada.BackColor = System.Drawing.Color.Transparent;
+            this.btnPromoCasada.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnPromoCasada.FlatAppearance.BorderSize = 0;
+            this.btnPromoCasada.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(4)))), ((int)(((byte)(185)))), ((int)(((byte)(166)))));
+            this.btnPromoCasada.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(4)))), ((int)(((byte)(185)))), ((int)(((byte)(166)))));
+            this.btnPromoCasada.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnPromoCasada.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPromoCasada.ForeColor = System.Drawing.Color.Black;
+            this.btnPromoCasada.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.btnPromoCasada.Location = new System.Drawing.Point(43, 333);
+            this.btnPromoCasada.Name = "btnPromoCasada";
+            this.btnPromoCasada.Size = new System.Drawing.Size(168, 34);
+            this.btnPromoCasada.TabIndex = 37;
+            this.btnPromoCasada.Text = "Ordenes Casadas";
+            this.btnPromoCasada.TextAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.btnPromoCasada.UseVisualStyleBackColor = false;
+            this.btnPromoCasada.Click += new System.EventHandler(this.btnPromoCasada_Click);
             // 
             // pnlUtilitarios
             // 
@@ -695,6 +731,7 @@ namespace CapaVisual_Login
             this.PnlListadoOrdenes.Name = "PnlListadoOrdenes";
             this.PnlListadoOrdenes.Size = new System.Drawing.Size(1139, 638);
             this.PnlListadoOrdenes.TabIndex = 15;
+            this.PnlListadoOrdenes.Paint += new System.Windows.Forms.PaintEventHandler(this.PnlListadoOrdenes_Paint);
             // 
             // FrmPrincipal
             // 
@@ -716,6 +753,7 @@ namespace CapaVisual_Login
             this.Load += new System.EventHandler(this.FrmPrincipal_Load_1);
             this.GbxMenuPrincipal.ResumeLayout(false);
             this.GbxMenuPrincipal.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
             this.pnlUtilitarios.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
@@ -781,5 +819,7 @@ namespace CapaVisual_Login
         private System.Windows.Forms.Panel PnlListadoOrdenes;
         private System.Windows.Forms.Button btn_FrmCierreDeCaja;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.PictureBox pictureBox5;
+        internal System.Windows.Forms.Button btnPromoCasada;
     }
 }

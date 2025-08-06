@@ -50,6 +50,7 @@ namespace CapaVisual_Login
         FrmTasaDia _FrmTasaDia = new FrmTasaDia();
         FrmPrueba _frmPrueba = new FrmPrueba();
         FrmReimpresionDocumentos _FrmReimpresionDocumentos = new FrmReimpresionDocumentos();
+        FrmPromoCasada _FrmPromoCasada = new FrmPromoCasada();
 
         private D_DetalleOrden _D_DetalleOrden = new D_DetalleOrden();
         public bool osc;
@@ -1212,5 +1213,17 @@ namespace CapaVisual_Login
             return true;
         }
 
+        private void btnPromoCasada_Click(object sender, EventArgs e)
+        {
+            PnlListadoOrdenes.Controls.Clear();
+            //_FrmCierreDeCaja.CargarInicio();
+            addformulario(_FrmPromoCasada);
+            Focus();
+        }
+
+        private void PnlListadoOrdenes_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }
