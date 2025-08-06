@@ -132,7 +132,7 @@ namespace CapaVisual_Login
         List<TB_EMPAFI> listaTemporalClienteAfiliados = new List<TB_EMPAFI>();
         List<FechaHoraOfrecida> _FechaHoraOfrecida = new List<FechaHoraOfrecida>();
         private string mensaje = "";
-
+        private bool validandoCambioTab = false; // Variable de control
         /*MEIFER*/
         string ValidarPanel;
         int TopeExamen;
@@ -2352,15 +2352,32 @@ namespace CapaVisual_Login
 
         private void btnDetalleOrden_CheckedChanged(object sender, EventArgs e)
         {
-            if (tabControl.SelectedIndex == 0)
+            if (validandoCambioTab) return;
+
+            try
             {
-                //Guardo Cliente y voy a carga
-                Btn_Tap1_Guardar.PerformClick();
-                btnCargarOrden.Focus();
-                tabControl.SelectedIndex = 2;
-                
-                return;
-            }
+                validandoCambioTab = true;
+
+                if (tabControl.SelectedIndex == 0)
+                {
+                    Btn_Tap1_Guardar.PerformClick();
+
+                    // Validación de campos obligatorios
+                    if (Cbx_Tap1_TLF_Local.SelectedIndex == -1 && Cbx_Tap1_TLF_Celular.SelectedIndex == -1)
+                    {
+                      
+                        // Mantenerse en el Tab 0
+                        tabControl.SelectedIndex = 0;
+                        btnPrincipal.Focus();
+                        btnCargarOrden.Enabled = true;
+                    }
+                    else
+                    {
+                        // Cambiar al Tab 2 solo si pasa validación
+                        tabControl.SelectedIndex = 2;
+                        btnCargarOrden.Focus();
+                    }
+                }
 
             if (tabControl.SelectedIndex == 1)
             {
@@ -2376,14 +2393,18 @@ namespace CapaVisual_Login
 
             if (tabControl.SelectedIndex == 2)
             {
-                btnExamen.Focus();
-                tabControl.SelectedIndex = 1;
+                //btnExamen.Focus();
+                //tabControl.SelectedIndex = 1;
                
                 return;
+            }
+
 
             }
-            
-
+            finally
+            {
+                validandoCambioTab = false;
+            }
         }
 
         private void Dgv_Tap3_Articulo_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
@@ -13523,8 +13544,22 @@ namespace CapaVisual_Login
             }
         }
 
+        private void tabControl_Selecting(object sender, TabControlCancelEventArgs e)
+        {
+            if (validandoCambioTab) return;
 
-
+            // Si intentan cambiar manualmente al Tab 2 sin validar
+            if (e.TabPageIndex == 2 && !ValidarDatosTab1())
+            {
+                e.Cancel = true;
+                tabControl.SelectedIndex = 0;
+            }
+        }
+        private bool ValidarDatosTab1()
+        {
+            // Misma lógica de validación que antes
+            return !(Cbx_Tap1_TLF_Local.SelectedIndex == -1 && Cbx_Tap1_TLF_Celular.SelectedIndex == -1);
+        }
     }
 
 }
