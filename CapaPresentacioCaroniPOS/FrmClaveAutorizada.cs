@@ -141,6 +141,10 @@ namespace CapaVisual_Login
                 {
                     CbxSelecGerent.DataSource = _D_ClaveAutorizada.ObtengoGerentesClaveAutorizadaII(Parametro_Nuevo);
                 }
+                else if (!string.IsNullOrEmpty(Id_Rol))
+                {
+                    CbxSelecGerent.DataSource = _D_ClaveAutorizada.ObtengoGerentesClaveAutorizadaIII(Id_Rol);
+                }
                 else
                 {
                     CbxSelecGerent.DataSource = _D_ClaveAutorizada.ClaveAutorizadaII(_D_DetalleOrden.TB_PARAMETRO("Codigo_nomina"));

@@ -3656,6 +3656,21 @@ namespace CapaVisual_Login
                         pnlRangoCrt.Show();
                         pnlRangoCrt.Location = new Point(200, 150);
                         FormatoTablaRango();
+
+                        //Titilo Diametro
+                        lblTituloDiam.Location = new Point(19, 160);
+
+                        //Titulo Derecho Izquierdo
+                        label19.Location = new Point(161, 160); //D
+                        label23.Location = new Point(212, 160); //I
+
+                        //Valores Derecho Izquierdo
+                        lblDiametroD.Location = new Point(165, 180); //D
+                        lblDiametroI.Location = new Point(212, 180); //I
+
+                        // Mensaje de clave Autorizada 
+                        lblClaveAut.Location = new Point(10, 235);
+
                         return;
 
                     }
@@ -3672,6 +3687,21 @@ namespace CapaVisual_Login
                         pnlRangoCrt.Show();
                         pnlRangoCrt.Location = new Point(200, 150);
                         FormatoDataGridRangosCristales();
+                        
+                        //Titilo Diametro
+                        lblTituloDiam.Location = new Point(19, 194);
+
+                        //Titulo Derecho Izquierdo
+                        label19.Location = new Point(161, 194); //D
+                        label23.Location = new Point(212, 194); //I
+
+                        //Valores Derecho Izquierdo
+                        lblDiametroD.Location = new Point(165, 214); //D
+                        lblDiametroI.Location = new Point(212, 214); //I
+
+                        // Mensaje de clave Autorizada 
+                        lblClaveAut.Location = new Point(10, 269);
+
                         return;
                     }
                     else
@@ -12128,6 +12158,21 @@ namespace CapaVisual_Login
                         pnlRangoCrt.Show();
                         pnlRangoCrt.Location = new Point(200, 150);
                         FormatoTablaRango();
+
+                        //Titilo Diametro
+                        lblTituloDiam.Location = new Point(19, 160);
+
+                        //Titulo Derecho Izquierdo
+                        label19.Location = new Point(161, 160); //D
+                        label23.Location = new Point(212, 160); //I
+
+                        //Valores Derecho Izquierdo
+                        lblDiametroD.Location = new Point(165, 180); //D
+                        lblDiametroI.Location = new Point(212, 180); //I
+
+                        // Mensaje de clave Autorizada 
+                        lblClaveAut.Location = new Point(10, 235);
+
                         return;
 
                     }
@@ -12144,6 +12189,21 @@ namespace CapaVisual_Login
                         pnlRangoCrt.Show();
                         pnlRangoCrt.Location = new Point(200, 150);
                         FormatoDataGridRangosCristales();
+
+                        //Titilo Diametro
+                        lblTituloDiam.Location = new Point(19, 194);
+
+                        //Titulo Derecho Izquierdo
+                        label19.Location = new Point(161, 194); //D
+                        label23.Location = new Point(212, 194); //I
+
+                        //Valores Derecho Izquierdo
+                        lblDiametroD.Location = new Point(165, 214); //D
+                        lblDiametroI.Location = new Point(212, 214); //I
+
+                        // Mensaje de clave Autorizada 
+                        lblClaveAut.Location = new Point(10, 269);
+
                         return;
                     }
                     else
@@ -13153,9 +13213,9 @@ namespace CapaVisual_Login
                         !string.IsNullOrWhiteSpace(txtAltD.Text) &&
                         !string.IsNullOrWhiteSpace(txtAltI.Text))
                     {
-                        int vertical = Convert.ToInt32(txtVertical.Text);
-                        int altD = Convert.ToInt32(txtAltD.Text);
-                        int altI = Convert.ToInt32(txtAltI.Text);
+                        double vertical = Convert.ToDouble(txtVertical.Text);
+                        double altD = Convert.ToDouble(txtAltD.Text);
+                        double altI = Convert.ToDouble(txtAltI.Text);
 
                         if (Convert.ToInt32(txtAltD.Text) > 0 && (vertical - altD < 8))
                             altura = false;
@@ -13560,6 +13620,8 @@ namespace CapaVisual_Login
             // Misma lógica de validación que antes
             return !(Cbx_Tap1_TLF_Local.SelectedIndex == -1 && Cbx_Tap1_TLF_Celular.SelectedIndex == -1);
         }
+
+
     }
 
 }
