@@ -6389,7 +6389,7 @@ namespace CapaVisual_Login
             adicionColumn.DataPropertyName = "Adicion";
             adicionColumn.HeaderText = "ADD";
             adicionColumn.DecimalPlaces = 2;
-            adicionColumn.Minimum = 0.75M;
+            adicionColumn.Minimum = 0M;
             adicionColumn.Maximum = +3.50M;
             adicionColumn.Width = 60;
             adicionColumn.Increment = 1M;
@@ -6414,7 +6414,7 @@ namespace CapaVisual_Login
             DiametroColumn.DataPropertyName = "Diametro";
             DiametroColumn.HeaderText = "Diámetro ";
             DiametroColumn.DecimalPlaces = 2;
-            DiametroColumn.Minimum = 8.5M; //Pase de 0 a 8.5 
+            DiametroColumn.Minimum = 0M; //Pase de 0 a 8.5 
             DiametroColumn.Maximum = 14.5M;
             //DiametroColumn.Increment = 0.50M; 12/07/2025
             DiametroColumn.Increment = 1M;
@@ -13619,6 +13619,32 @@ namespace CapaVisual_Login
         {
             // Misma lógica de validación que antes
             return !(Cbx_Tap1_TLF_Local.SelectedIndex == -1 && Cbx_Tap1_TLF_Celular.SelectedIndex == -1);
+        }
+
+        private void Dgv_Pnl2_cont_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            if (Dgv_Pnl2_cont.Columns[e.ColumnIndex].Name == "Diametro")
+            //return;
+            {
+
+                var cell = Dgv_Pnl2_cont.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                if (!decimal.TryParse(cell.Value?.ToString(), out decimal val) ||
+                    (val != 0M && (val < 8.5M || val > 14.5M)))
+                {
+                    cell.Value = 0;
+                }
+            }
+
+            if (Dgv_Pnl2_cont.Columns[e.ColumnIndex].Name == "Adicion")
+            //return;
+            {
+                var celladd = Dgv_Pnl2_cont.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                if (!decimal.TryParse(celladd.Value?.ToString(), out decimal valadd) ||
+                    (valadd < 0.75M || valadd > 3.50M))
+                {
+                    celladd.Value = 0;
+                }
+            }
         }
 
 
