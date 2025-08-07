@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using CapaDatos.ListaOrdenes_Datos;
 using CapaDatos.Inicio_Datos;
+using CapaEntidades;
 
 
 
@@ -29,13 +30,18 @@ namespace CapaVisual_Login
             DateTime currentDate = _D_Inicio.DiaActivo();
             string formattedDate = currentDate.ToString("yyyyMMdd");
 
-            DataSet Ordenesrango = _D_ListaOrdenes.CargarOrdPorRango(formattedDate, formattedDate, "002", "", 1, 12);
+            DataSet Ordenesrango = _D_ListaOrdenes.CargarOrdenesPromo(TB_USUARIO.COD_USR, formattedDate);
 
             // DataSet Ordenesrango = _D_ListaOrdenes.CargarOrdPorRango(DateTime.Now.ToString("dd/MM/yyyy"), DateTime.Now.ToString("dd/MM/yyyy"), "004", "", 1, 12);
             if (Ordenesrango.Tables[0].Rows.Count > 0)
             {
                 Dgv_ListOsCasadas.DataSource  = Ordenesrango;
             }
+        }
+
+        private void Btn_Tap1_Guardar_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

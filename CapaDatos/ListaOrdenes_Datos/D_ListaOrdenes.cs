@@ -276,5 +276,28 @@ namespace CapaDatos.ListaOrdenes_Datos
 
         }
 
+        public DataSet CargarOrdenesPromo(string usuario, string diaActivo)
+        {
+            try
+            {
+                SqlCommand cmd = new SqlCommand("pGetOSPromo", cn.LeerCadena());
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@USER", usuario);
+                cmd.Parameters.AddWithValue("@DIAACTIVO", diaActivo);
+
+                DataSet dts = new DataSet();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dts);
+                return (dts);
+            }
+
+            catch (Exception ex)
+            {
+                return null;
+                //MessageBox.Show(string.Format("Error: {0}", ex.Message), "Error inesperado");
+            }
+
+        }
+
     }
 }
