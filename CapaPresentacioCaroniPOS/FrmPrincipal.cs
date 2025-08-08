@@ -66,28 +66,34 @@ namespace CapaVisual_Login
 
         private FrmClaveGerente _FrmClaveGerente = new FrmClaveGerente();
 
-        public void addformulario(Form F)
+        public void addformulario(Form formulario)
         {
-            F.TopLevel = false;
-            this.PnlListadoOrdenes.Controls.Add(F);
-            F.Show();
-            F.BringToFront();
-            return;
+            if (formulario == null) throw new ArgumentNullException(nameof(formulario));
 
+            formulario.TopLevel = false;
+            formulario.FormBorderStyle = FormBorderStyle.None;
+            formulario.Dock = DockStyle.Fill;
+
+            PnlListadoOrdenes.Controls.Clear();
+            PnlListadoOrdenes.Controls.Add(formulario);
+            formulario.Show();
+            formulario.BringToFront();
         }
 
-        public void addformularioCargaOrdenes(Form F)
+        public void addformularioCargaOrdenes(Form formulario)
         {
-            F.TopLevel = false;
+            if (formulario == null) throw new ArgumentNullException(nameof(formulario));
 
-            // Establecer la ubicación y el tamaño del formulario
-            F.Location = new Point(50, 50); // Coordenadas
-            F.Size = new Size(1472, 1168); // Tamaño
+            formulario.TopLevel = false;
+            formulario.FormBorderStyle = FormBorderStyle.None;
+            formulario.Dock = DockStyle.None;
+            formulario.Location = new Point(50, 50); // Coordenadas
+            formulario.Size = new Size(1472, 1168); // Tamaño
 
-            // Agregar el formulario al panel y mostrarlo
-            this.PnlListadoOrdenes.Controls.Add(F);
-            F.Show();
-            F.BringToFront();
+            PnlListadoOrdenes.Controls.Clear();
+            PnlListadoOrdenes.Controls.Add(formulario);
+            formulario.Show();
+            formulario.BringToFront();
         }
 
         private void BtnInicio_Click_1(object sender, EventArgs e)
@@ -1215,10 +1221,38 @@ namespace CapaVisual_Login
 
         private void btnPromoCasada_Click(object sender, EventArgs e)
         {
+            //// Limpiar controles existentes
+            //foreach (Control control in PnlListadoOrdenes.Controls)
+            //{
+            //    if (control is Form form)
+            //    {
+            //        form.Close();
+            //        form.Dispose();
+            //    }
+            //}
+
+            // Limpiar solo instancias de FrmPromoCasada
+            foreach (Control control in PnlListadoOrdenes.Controls.OfType<FrmPromoCasada>().ToList())
+            {
+                var form = (FrmPromoCasada)control;
+                form.Close();
+                form.Dispose();
+                PnlListadoOrdenes.Controls.Remove(form);
+            }
+
             PnlListadoOrdenes.Controls.Clear();
-            //_FrmCierreDeCaja.CargarInicio();
-            addformulario(_FrmPromoCasada);
-            Focus();
+
+            // Crear nueva instancia
+            var nuevoForm = new FrmPromoCasada()
+            {
+                TopLevel = false,
+                FormBorderStyle = FormBorderStyle.None,
+                Dock = DockStyle.Fill
+            };
+
+            PnlListadoOrdenes.Controls.Add(nuevoForm);
+            nuevoForm.Show();
+            nuevoForm.Focus();
         }
 
         private void PnlListadoOrdenes_Paint(object sender, PaintEventArgs e)

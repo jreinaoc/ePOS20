@@ -55,14 +55,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CapaDatos.dll" size="245760">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CapaDatos.dll" size="247296">
       <assemblyIdentity name="CapaDatos" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>uQ98pbUtzn4vEDZ+be7m7I+QIlJJ9xojDT2fGQb86Rk=</dsig:DigestValue>
+        <dsig:DigestValue>2V2tk82k0ErB1TYLOvDqyoOnBa6bpBSvwQZ1iOk5H9g=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -74,7 +74,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>awOlvjUB9q/DDhOS2v7TYQ1+vJT2NAvgcAxyA7M+wVs=</dsig:DigestValue>
+        <dsig:DigestValue>m6t7pM4qYMgGd39eulucWC81R+dr6PrA9dLv/pBKT2Y=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -86,7 +86,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>KbK0iexmMNDTqhTCJOuJwl1cG2R/zAtqgxhQx+4Doz0=</dsig:DigestValue>
+        <dsig:DigestValue>RzZRz9rk+fIMvELWXLYBSHQMwrpNirFEEIrpXFgJLgk=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -199,14 +199,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ePOS.exe" size="3031552">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ePOS.exe" size="3045376">
       <assemblyIdentity name="ePOS" version="1.0.2.4" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>4LjuSbFGWUGpL04i7psgCMQICwutsYB1sjTam51AMTc=</dsig:DigestValue>
+        <dsig:DigestValue>NK+shxsPUenqj3Frx+2x8jNOz7aADEU+st3+25Qx1PA=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
