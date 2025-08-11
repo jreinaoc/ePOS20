@@ -140,4 +140,3 @@ C:\Desarrollo2022\CaroniPOS1\CapaEntidades\obj\Debug\CapaEntidades.csproj.CoreCo
 C:\Desarrollo2022\CaroniPOS1\CapaEntidades\obj\Debug\CapaEntidades.csproj.CopyComplete
 C:\Desarrollo2022\CaroniPOS1\CapaEntidades\obj\Debug\CapaEntidades.dll
 C:\Desarrollo2022\CaroniPOS1\CapaEntidades\obj\Debug\CapaEntidades.pdb
-C:\Desarrollo2022\CaroniPOS1\CapaEntidades\obj\Debug\CapaEntidades.csproj.AssemblyReference.cache

@@ -974,7 +974,7 @@ namespace CapaVisual_Login
                     string condicion = "(TB_CAORDSER.Cod_DetVta <>'08') AND (TB_CAORDSER.Cod_Sucursal='122') AND (TB_CAORDSER.Cod_Venta <>'001') AND (TB_CAORDSER.OrSer_Status <>'004') AND (TB_CAORDSER.OrSer_Status <>'003') AND (TB_CAORDSER.OrSer_Status <>'006') AND (TB_CAORDSER.Fec_Envio IS NULL) AND (TB_CAORDSER.Fec_Recibido IS NULL) AND (TB_CAORDSER.Fec_Entrega IS NULL) AND (TB_SUCURSALLABORATORIOSERVICIO.Envio_Digital = '1') AND (TB_CAORDSER.Anulado='0') ORDER BY TB_CAORDSER.NumOrdserv";
                     string bandera = "ENVOS";
 
-                    if (!_L_CierreCaja.ORDSERVCRITERIOSVARIOS(bandera, condicion))
+                    if (_L_CierreCaja.ORDSERVCRITERIOSVARIOS(bandera, condicion))
                     {
                         _FrmMensajes.co = 2;
                         _FrmMensajes.avisomensaje("Realice todos los envios digitales antes de realizar el cierre definitivo");
