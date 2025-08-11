@@ -12199,7 +12199,7 @@ namespace CapaVisual_Login
                     return;
                 }
 
-                bool Respuesta = _Asignar_Rx.AsignarRx(TB_CAORDSER.Cod_DetVta, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.CTE_Nacio, TB_CAORDSER.CTE_CedIden, Txt_Tap2_Examen.Text, TB_CAORDSER.NumOrdserv, LbResultado2, LbResultados, dgvRangoCrt, Cbx_Pnl2_Laboratorio.SelectedValue.ToString(), Cbx_Pnl2_Servicio.SelectedValue.ToString());
+                bool Respuesta = _Asignar_Rx.AsignarRx(TB_CAORDSER.Cod_DetVta, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.CTE_Nacio, TB_CAORDSER.CTE_CedIden, Txt_Tap2_Examen.Text, TB_CAORDSER.NumOrdserv, LbResultado2, LbResultados, dgvRangoCrt, TB_CAORDSER.Cod_Laboratorio, TB_CAORDSER.Cod_Servicio);
                 if (!Respuesta && _Asignar_Rx.stringBuilder.Length > 0)
                 {
 
