@@ -7679,7 +7679,7 @@ namespace CapaVisual_Login
 
                 tamañoExamenGridConv();
                 AsignarCeroSiVacioDgv_Pnl2_conv();
-                if (Formulario_ListaOrdenes && Dgv_Pnl2_conv != null && Dgv_Pnl2_conv.Rows.Count > 0 || Dgv_Pnl2_cont != null && Dgv_Pnl2_cont.Rows.Count > 0)
+                if (Formulario_ListaOrdenes == true && (Dgv_Pnl2_conv != null && Dgv_Pnl2_conv.Rows.Count > 0 || Dgv_Pnl2_cont != null && Dgv_Pnl2_cont.Rows.Count > 0))
                 {
                     btnCargarOrden.Enabled = false;
                 }
@@ -7930,7 +7930,7 @@ namespace CapaVisual_Login
 
 
                 // Habilitar la pestaña de Carga ordenes 
-                if (Formulario_ListaOrdenes && Dgv_Pnl2_conv != null && Dgv_Pnl2_conv.Rows.Count > 0 || Dgv_Pnl2_cont != null && Dgv_Pnl2_cont.Rows.Count > 0)
+                if (Formulario_ListaOrdenes && (Dgv_Pnl2_conv != null && Dgv_Pnl2_conv.Rows.Count > 0 || Dgv_Pnl2_cont != null && Dgv_Pnl2_cont.Rows.Count > 0))
                 {
                     btnCargarOrden.Enabled = false;
                 }
