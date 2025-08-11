@@ -52,6 +52,7 @@ namespace CapaVisual_Login
             this.Cbx_Promo.Name = "Cbx_Promo";
             this.Cbx_Promo.Size = new System.Drawing.Size(253, 24);
             this.Cbx_Promo.TabIndex = 315;
+            this.Cbx_Promo.Visible = false;
             this.Cbx_Promo.SelectedValueChanged += new System.EventHandler(this.Cbx_Promociones_SelectedValueChanged_1);
             // 
             // Lbl_Tap1_DatosPersonal
@@ -155,6 +156,7 @@ namespace CapaVisual_Login
             this.Lbl_Promociones.Size = new System.Drawing.Size(76, 16);
             this.Lbl_Promociones.TabIndex = 313;
             this.Lbl_Promociones.Text = "Promoción";
+            this.Lbl_Promociones.Visible = false;
             // 
             // FrmPromoCasada
             // 

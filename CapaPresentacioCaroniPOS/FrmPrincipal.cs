@@ -855,15 +855,15 @@ namespace CapaVisual_Login
                     _FrmMensajes.ShowDialog();
                     return;
                 }
-              if (!_L_CierreCaja.ObtieneAsistenciaPendiente(formattedDate, TB_USUARIO.COD_USR))
-                {
-                    _FrmMensajes.co = 2;
-                    _FrmMensajes.avisomensaje("Debe marcar asistencia para el día activo");
-                    _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
-                    _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
-                    _FrmMensajes.ShowDialog();
-                    return;
-                }
+              //if (!_L_CierreCaja.ObtieneAsistenciaPendiente(formattedDate, TB_USUARIO.COD_USR))
+              //  {
+              //      _FrmMensajes.co = 2;
+              //      _FrmMensajes.avisomensaje("Debe marcar asistencia para el día activo");
+              //      _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+              //      _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+              //      _FrmMensajes.ShowDialog();
+              //      return;
+              //  }
             }
 
             PnlListadoOrdenes.Controls.Clear();
@@ -929,8 +929,8 @@ namespace CapaVisual_Login
             DateTime currentDate = _D_Inicio.DiaActivo();
             string formattedDate = currentDate.ToString("yyyyMMdd");
 
-            if (TB_USUARIO.COD_EMPLEADO != "99999")
-            {
+            //if (TB_USUARIO.COD_EMPLEADO != "99999")
+            //{
                 //Si no tiene asistencia marcada
             //    if (!_L_CierreCaja.ObtieneAsistenciaPendiente(formattedDate, TB_USUARIO.COD_USR))
             //{
@@ -994,20 +994,21 @@ namespace CapaVisual_Login
 
             if (_D_DetalleOrden.TB_PARAMETRO("VerificaEnvioCi") == "1")
             {
-                string condicion = "(TB_CAORDSER.Cod_DetVta <> '08') AND (TB_CAORDSER.Cod_Sucursal='" + sucursal + "') AND (TB_CAORDSER.Cod_Venta <> '001') AND (TB_CAORDSER.OrSer_Status <> '004') AND (TB_CAORDSER.OrSer_Status <> '003') AND (TB_CAORDSER.OrSer_Status <> '006') AND (TB_CAORDSER.Fec_Envio IS NULL) AND (TB_CAORDSER.Fec_Recibido IS NULL) AND (TB_CAORDSER.Fec_Entrega IS NULL) AND (TB_SUCURSALLABORATORIOSERVICIO.Envio_Digital = '1') AND (TB_CAORDSER.Anulado='0') ORDER BY TB_CAORDSER.NumOrdserv";
+                    //string condicion = "(TB_CAORDSER.Cod_DetVta <>''08'') AND (TB_CAORDSER.Cod_Sucursal=''" + sucursal + "'') AND (TB_CAORDSER.Cod_Venta <> ''001'') AND (TB_CAORDSER.OrSer_Status <> ''004'') AND (TB_CAORDSER.OrSer_Status <> ''003'') AND (TB_CAORDSER.OrSer_Status <> ''006'') AND (TB_CAORDSER.Fec_Envio IS NULL)  AND (TB_CAORDSER.Fec_Recibido IS NULL) AND (TB_CAORDSER.Fec_Entrega IS NULL) AND (TB_SUCURSALLABORATORIOSERVICIO.Envio_Digital = ''1'') AND (TB_CAORDSER.Anulado=''0'') ORDER BY TB_CAORDSER.NumOrdserv";
+                    string condicion = "(TB_CAORDSER.Cod_DetVta <>'08') AND (TB_CAORDSER.Cod_Sucursal='122') AND (TB_CAORDSER.Cod_Venta <>'001') AND (TB_CAORDSER.OrSer_Status <>'004') AND (TB_CAORDSER.OrSer_Status <>'003') AND (TB_CAORDSER.OrSer_Status <>'006') AND (TB_CAORDSER.Fec_Envio IS NULL) AND (TB_CAORDSER.Fec_Recibido IS NULL) AND (TB_CAORDSER.Fec_Entrega IS NULL) AND (TB_SUCURSALLABORATORIOSERVICIO.Envio_Digital = '1') AND (TB_CAORDSER.Anulado='0') ORDER BY TB_CAORDSER.NumOrdserv";
+                    string bandera = "ENVOS";
 
-                string bandera = "ENVOS";
-
-                _L_CierreCaja.ORDSERVCRITERIOSVARIOS("","");
-
-                _FrmMensajes.co = 2;
-                _FrmMensajes.avisomensaje("Realice todos los envios digitales antes de realizar el cierre definitivo");
-                _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
-                _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
-                _FrmMensajes.ShowDialog();
-                return;
-            }
-            }
+                    if (_L_CierreCaja.ORDSERVCRITERIOSVARIOS(bandera, condicion))
+                    {
+                        _FrmMensajes.co = 2;
+                        _FrmMensajes.avisomensaje("Realice todos los envios digitales antes de realizar el cierre definitivo");
+                        _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                        _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                        _FrmMensajes.ShowDialog();
+                        return;
+                    }
+                }
+            //}
             PnlListadoOrdenes.Controls.Clear();
             _FrmCierreDeCaja.CargarInicio();
             addformulario(_FrmCierreDeCaja);
