@@ -607,6 +607,7 @@ namespace CapaVisual_Login
         {
             FechaInicioCierre = DateTime.Now;
             btnCancelar.Enabled = true;
+            string sucursal = _D_DetalleOrden.TB_PARAMETRO("sucursalId");
             if (!_L_CierreCaja.CierreFueradeHorario(sucursal, DateTime.Now, DateTime.Now) && txtCierreHora.Text == "")
             {
                 txtCierreHora.Enabled = true;
