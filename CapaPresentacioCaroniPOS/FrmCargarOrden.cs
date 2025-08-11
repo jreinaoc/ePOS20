@@ -462,7 +462,7 @@ namespace CapaVisual_Login
                     this.Pnl_3_Coloración.Enabled = false;
                     this.Pnl_3_Promociones.Visible = false;
                     this.Pnl_3_Promociones.Enabled = false;
-                    this.pnl_MonturaPropia.Enabled = false;
+                    //this.pnl_MonturaPropia.Enabled = false;
                     this.pnl_MonturaPropia.Visible = false;
                     this.Pnl_3_Lista_ClienteAfiliado.Visible = false;
                     this.Pnl_3_Lista_ClienteAfiliado.Enabled = false;
@@ -9006,6 +9006,7 @@ namespace CapaVisual_Login
                 if (int.TryParse(dtCliente.Rows[0]["NumExamen"].ToString(), out int topeExamenInt))
                 {
                     TopeExamen = topeExamenInt;
+                    
                     btnExamen.Enabled = true;
                     // Ahora la variable TopeExamen (que debe ser de tipo int)
                     // contiene el valor entero extraído de la DataTable.
@@ -10382,8 +10383,8 @@ namespace CapaVisual_Login
                     nuevoFiccont.EJED = Dgv_Pnl2_cont.Rows[0].Cells["Eje"]?.Value != null ? Convert.ToInt32(Dgv_Pnl2_cont.Rows[0].Cells["Eje"].Value) : 0;
                     nuevoFiccont.ADDD = Dgv_Pnl2_cont.Rows[0].Cells["Adicion"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_cont.Rows[0].Cells["Adicion"].Value) : 0;
 
-                    nuevoFiccont.CBD = Dgv_Pnl2_cont.Rows[1].Cells["C_BASE"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_cont.Rows[1].Cells["C_BASE"].Value) : 0;
-                    nuevoFiccont.DIAMD = Dgv_Pnl2_cont.Rows[1].Cells["Diametro"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_cont.Rows[1].Cells["Diametro"].Value) : 0;
+                    nuevoFiccont.CBD = Dgv_Pnl2_cont.Rows[0].Cells["C_BASE"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_cont.Rows[0].Cells["C_BASE"].Value) : 0;
+                    nuevoFiccont.DIAMD = Dgv_Pnl2_cont.Rows[0].Cells["Diametro"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_cont.Rows[0].Cells["Diametro"].Value) : 0;
 
 
 
