@@ -462,7 +462,7 @@ namespace CapaVisual_Login
                     this.Pnl_3_Coloración.Enabled = false;
                     this.Pnl_3_Promociones.Visible = false;
                     this.Pnl_3_Promociones.Enabled = false;
-                    this.pnl_MonturaPropia.Enabled = false;
+                    //this.pnl_MonturaPropia.Enabled = false;
                     this.pnl_MonturaPropia.Visible = false;
                     this.Pnl_3_Lista_ClienteAfiliado.Visible = false;
                     this.Pnl_3_Lista_ClienteAfiliado.Enabled = false;
