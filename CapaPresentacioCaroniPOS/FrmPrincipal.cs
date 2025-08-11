@@ -66,35 +66,59 @@ namespace CapaVisual_Login
 
         private FrmClaveGerente _FrmClaveGerente = new FrmClaveGerente();
 
-        public void addformulario(Form formulario)
+        //public void addformulario(Form formulario)
+        //{
+        //    if (formulario == null) throw new ArgumentNullException(nameof(formulario));
+
+        //    formulario.TopLevel = false;
+        //    formulario.FormBorderStyle = FormBorderStyle.None;
+        //    formulario.Dock = DockStyle.Fill;
+
+        //    PnlListadoOrdenes.Controls.Clear();
+        //    PnlListadoOrdenes.Controls.Add(formulario);
+        //    formulario.Show();
+        //    formulario.BringToFront();
+        //}
+
+        public void addformulario(Form F)
         {
-            if (formulario == null) throw new ArgumentNullException(nameof(formulario));
+            F.TopLevel = false;
+            this.PnlListadoOrdenes.Controls.Add(F);
+            F.Show();
+            F.BringToFront();
+            return;
 
-            formulario.TopLevel = false;
-            formulario.FormBorderStyle = FormBorderStyle.None;
-            formulario.Dock = DockStyle.Fill;
-
-            PnlListadoOrdenes.Controls.Clear();
-            PnlListadoOrdenes.Controls.Add(formulario);
-            formulario.Show();
-            formulario.BringToFront();
         }
 
-        public void addformularioCargaOrdenes(Form formulario)
+        public void addformularioCargaOrdenes(Form F)
         {
-            if (formulario == null) throw new ArgumentNullException(nameof(formulario));
+            F.TopLevel = false;
 
-            formulario.TopLevel = false;
-            formulario.FormBorderStyle = FormBorderStyle.None;
-            formulario.Dock = DockStyle.None;
-            formulario.Location = new Point(50, 50); // Coordenadas
-            formulario.Size = new Size(1472, 1168); // Tamaño
+            // Establecer la ubicación y el tamaño del formulario
+            F.Location = new Point(50, 50); // Coordenadas
+            F.Size = new Size(1472, 1168); // Tamaño
 
-            PnlListadoOrdenes.Controls.Clear();
-            PnlListadoOrdenes.Controls.Add(formulario);
-            formulario.Show();
-            formulario.BringToFront();
+            // Agregar el formulario al panel y mostrarlo
+            this.PnlListadoOrdenes.Controls.Add(F);
+            F.Show();
+            F.BringToFront();
         }
+
+        //public void addformularioCargaOrdenes(Form formulario)
+        //{
+        //    if (formulario == null) throw new ArgumentNullException(nameof(formulario));
+
+        //    formulario.TopLevel = false;
+        //    formulario.FormBorderStyle = FormBorderStyle.None;
+        //    formulario.Dock = DockStyle.None;
+        //    formulario.Location = new Point(50, 50); // Coordenadas
+        //    formulario.Size = new Size(1472, 1168); // Tamaño
+
+        //    PnlListadoOrdenes.Controls.Clear();
+        //    PnlListadoOrdenes.Controls.Add(formulario);
+        //    formulario.Show();
+        //    formulario.BringToFront();
+        //}
 
         private void BtnInicio_Click_1(object sender, EventArgs e)
         {

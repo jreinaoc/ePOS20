@@ -1543,7 +1543,6 @@ namespace CapaVisual_Login
                         _FrmCargarOrden.Formulario_ListaOrdenes = true;
                         _FrmCargarOrden.tabControl.SelectedIndex = 1;
                         _FrmCargarOrden.btnPrincipal.Enabled = false;
-                        _FrmCargarOrden.btnCargarOrden.Enabled = false;
                         _FrmCargarOrden.btnExamen.Enabled = false;
                         _FrmCargarOrden.AsignarRx_JuegoPantalla();
                         Paginado_Habilitar(false);
