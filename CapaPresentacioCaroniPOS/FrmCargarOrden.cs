@@ -13596,8 +13596,26 @@ namespace CapaVisual_Login
             // 1. Manejo seguro de la conversión del parámetro
             int longitudRequerida = ObtenerLongitudMimesysSegura();
 
+            string cedula = Txt_Tap1_Cedula.Text;
+            string nacionalidad = Cbx_Tap1_Nacionalidad.SelectedItem?.ToString();
+            int idExamen;
+
+            if (!int.TryParse(Txt_Tap2_Examen.Text, out idExamen))
+            {
+                return;
+            }
+
+            // Obtener los datos del examen usando el método que creaste
+            D_Examen dExamen = new D_Examen();
+            // ***CORRECCIÓN:***
+            // Convierte idExamen a string antes de pasarlo al método.
+            TB_EXAMENCTE examen = dExamen.ObtenerExamenPorNumeroYNacionalidadCedula(idExamen, nacionalidad, cedula);
+            string COdigoMimesisBaseDatos = "0";
+            if (examen != null)
+                COdigoMimesisBaseDatos = examen.CodigoMimesys != null ? examen.CodigoMimesys : string.Empty;
+
             // 2. Validación de longitud solo si es un valor positivo
-            if (!string.IsNullOrEmpty(txt_Pnl2_conv_mimesys.Text) && longitudRequerida > 0 && txt_Pnl2_conv_mimesys.Text.Length != longitudRequerida)
+            if (COdigoMimesisBaseDatos != txt_Pnl2_conv_mimesys.Text && !string.IsNullOrEmpty(txt_Pnl2_conv_mimesys.Text) && longitudRequerida > 0 && txt_Pnl2_conv_mimesys.Text.Length != longitudRequerida)
             {
                 MostrarMensajeLongitudIncorrecta(longitudRequerida);
             }
