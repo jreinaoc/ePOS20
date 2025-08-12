@@ -1767,7 +1767,8 @@ namespace CapaLogica.DetalleOrden_Logica
             double DIAMI = 0.00;//Izquierdo
 
             //--Color
-            string COLOR = "";
+            string COLORD = "";
+            string COLORI = "";
 
             //Observa
             string Observa = "";
@@ -1795,8 +1796,14 @@ namespace CapaLogica.DetalleOrden_Logica
                     DIAMD = row["DIAMD"] == DBNull.Value ? (Double)0.00 : Convert.ToDouble(row["DIAMD"].ToString());
                     DIAMI = row["DIAMI"] == DBNull.Value ? (Double)0.00 : Convert.ToDouble(row["DIAMI"].ToString());
 
-
-                    COLOR = row["COLOR"].ToString();
+                    if (row["Ojo"].ToString() == "D")
+                    {
+                        COLORD = row["COLOR"].ToString();
+                    }
+                    else
+                    {
+                        COLORI = row["COLOR"].ToString();
+                    }
 
 
                     //Observacion 
@@ -1823,9 +1830,9 @@ namespace CapaLogica.DetalleOrden_Logica
 
             //-----------------------------Formula-------------------------------
             //Derecho 
-            Examen_Orden_Convencional.Tables[6].Rows.Add("OD", String.Format(CultureInfo.InvariantCulture, "{0:0.00}", CBD).Replace(".", ","), String.Format(CultureInfo.InvariantCulture, "{0:0.00}", DIAMD).Replace(".", ","), String.Format(CultureInfo.InvariantCulture, "{0:0.00}", ESFD).Replace(".", ","), String.Format(CultureInfo.InvariantCulture, "{0:0.00}", CILD).Replace(".", ","), EJED.ToString().Replace(".", ","), String.Format(CultureInfo.InvariantCulture, "{0:0.00}", ADDD).Replace(".", ","), COLOR);
+            Examen_Orden_Convencional.Tables[6].Rows.Add("OD", String.Format(CultureInfo.InvariantCulture, "{0:0.00}", CBD).Replace(".", ","), String.Format(CultureInfo.InvariantCulture, "{0:0.00}", DIAMD).Replace(".", ","), String.Format(CultureInfo.InvariantCulture, "{0:0.00}", ESFD).Replace(".", ","), String.Format(CultureInfo.InvariantCulture, "{0:0.00}", CILD).Replace(".", ","), EJED.ToString().Replace(".", ","), String.Format(CultureInfo.InvariantCulture, "{0:0.00}", ADDD).Replace(".", ","), COLORD);
             //Izquierdo 
-            Examen_Orden_Convencional.Tables[6].Rows.Add("OI", String.Format(CultureInfo.InvariantCulture, "{0:0.00}", CBI).Replace(".", ","), String.Format(CultureInfo.InvariantCulture, "{0:0.00}", DIAMI).Replace(".", ","), String.Format(CultureInfo.InvariantCulture, "{0:0.00}", ESFI).Replace(".", ","), String.Format(CultureInfo.InvariantCulture, "{0:0.00}", CILI).Replace(".", ","), EJEI.ToString().Replace(".", ","), String.Format(CultureInfo.InvariantCulture, "{0:0.00}", ADDI).Replace(".", ","), "");
+            Examen_Orden_Convencional.Tables[6].Rows.Add("OI", String.Format(CultureInfo.InvariantCulture, "{0:0.00}", CBI).Replace(".", ","), String.Format(CultureInfo.InvariantCulture, "{0:0.00}", DIAMI).Replace(".", ","), String.Format(CultureInfo.InvariantCulture, "{0:0.00}", ESFI).Replace(".", ","), String.Format(CultureInfo.InvariantCulture, "{0:0.00}", CILI).Replace(".", ","), EJEI.ToString().Replace(".", ","), String.Format(CultureInfo.InvariantCulture, "{0:0.00}", ADDI).Replace(".", ","), COLORI);
             //----------------------------Observacion--------------------------- 
             Examen_Orden_Convencional.Tables[5].Rows.Add(Observa);
         }

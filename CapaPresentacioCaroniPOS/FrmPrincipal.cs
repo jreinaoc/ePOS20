@@ -214,24 +214,19 @@ namespace CapaVisual_Login
             DateTime currentDate = _D_Inicio.DiaActivo();
             string formattedDate = currentDate.ToString("yyyyMMdd");
 
-            //if (_L_CierreCaja.ObtieneAsistenciaPendiente(formattedDate, TB_USUARIO.COD_USR))
-            if (!_FrmCierreDeCaja.BuscoAsistencia(TB_USUARIO.COD_USR))
-            {
-                //_FrmMensajes.co = 2;
-                //_FrmMensajes.avisomensaje("Debe marcar asistencia para el día activo");
-                //_FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
-                //_FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
-                //_FrmMensajes.ShowDialog();
-                return;
-            }
-            if (!ValidarConfirmacionDivisas())
-            {
-                return;
-            }
-            if (!ValidarRecepTrnSol())
-            {
-                return;
-            }
+            
+            //if (!_FrmCierreDeCaja.BuscoAsistencia(TB_USUARIO.COD_USR))
+            //{
+            //    return;
+            //}
+            //if (!ValidarConfirmacionDivisas())
+            //{
+            //    return;
+            //}
+            //if (!ValidarRecepTrnSol())
+            //{
+            //    return;
+            //}
             string bloqFacturacion = _D_DetalleOrden.TB_PARAMETRO("FactEliminada");
 
             if (bloqFacturacion == "0")
@@ -805,27 +800,27 @@ namespace CapaVisual_Login
             DateTime currentDate = _D_Inicio.DiaActivo();
             string formattedDate = currentDate.ToString("yyyyMMdd");
 
-            if (TB_USUARIO.COD_EMPLEADO != "99999")
-            {
-                if (!_L_CierreCaja.ObtieneAsistenciaPendiente(formattedDate, TB_USUARIO.COD_USR))
-                {
-                    _FrmMensajes.co = 2;
-                    _FrmMensajes.avisomensaje("Debe marcar asistencia para el día activo");
-                    _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
-                    _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
-                    _FrmMensajes.ShowDialog();
-                    return;
-                }
+            //if (TB_USUARIO.COD_EMPLEADO != "99999")
+            //{
+            //    if (!_L_CierreCaja.ObtieneAsistenciaPendiente(formattedDate, TB_USUARIO.COD_USR))
+            //    {
+            //        _FrmMensajes.co = 2;
+            //        _FrmMensajes.avisomensaje("Debe marcar asistencia para el día activo");
+            //        _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+            //        _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+            //        _FrmMensajes.ShowDialog();
+            //        return;
+            //    }
 
-                if (!ValidarConfirmacionDivisas())
-                {
-                    return;
-                }
-                if (!ValidarRecepTrnSol())
-                {
-                    return;
-                }
-            }
+            //    if (!ValidarConfirmacionDivisas())
+            //    {
+            //        return;
+            //    }
+            //    if (!ValidarRecepTrnSol())
+            //    {
+            //        return;
+            //    }
+            //}
 
             
 
@@ -1223,22 +1218,23 @@ namespace CapaVisual_Login
                 _FrmMensajes.avisomensaje("Bloqueado por no recibir transferencias o solicitudes ¿Desea desbloquear el sistema?");
                 _FrmMensajes.ShowDialog();
 
-                _FrmClaveAutorizada.Nuevo_Parametro = true;
-                _FrmClaveAutorizada.Parametro_Nuevo = _D_DetalleOrden.TB_PARAMETRO("Codigo_nomina");
-                _FrmClaveAutorizada.ShowDialog();
-
-                if (_FrmClaveAutorizada.DialogResult == DialogResult.OK && _FrmClaveAutorizada.ClaveCorrecta == true)
+                if (_FrmMensajes.DialogResult == DialogResult.OK)
                 {
-                    _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "088", TB_USUARIO.COD_EMPLEADO, $"Autorizacion por Transferencias o Solicitudes Autorizado por:  {TB_USUARIO.COD_EMPLEADO}");
+                    _FrmClaveAutorizada.Nuevo_Parametro = true;
+                    _FrmClaveAutorizada.Parametro_Nuevo = _D_DetalleOrden.TB_PARAMETRO("Codigo_nomina");
+                    _FrmClaveAutorizada.ShowDialog();
 
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                    if (_FrmClaveAutorizada.DialogResult == DialogResult.OK && _FrmClaveAutorizada.ClaveCorrecta == true)
+                    {
+                        _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "088", TB_USUARIO.COD_EMPLEADO, $"Autorizacion por Transferencias o Solicitudes Autorizado por:  {TB_USUARIO.COD_EMPLEADO}");
 
-                
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
             }
 
             return true;

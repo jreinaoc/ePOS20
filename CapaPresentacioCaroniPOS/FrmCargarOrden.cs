@@ -5042,54 +5042,54 @@ namespace CapaVisual_Login
         private void Cbx_Pnl2_Servicio_SelectedIndexChanged(object sender, EventArgs e)
         {
             // Validar si el usuario seleccionó algo
-            if (tabControl.SelectedIndex == 2)
-            {
-                if (Cbx_Pnl2_Servicio.Items.Count > 0 && !string.IsNullOrEmpty(Cbx_Pnl2_Servicio.Text))
-                {
-                    if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01")
-                    {
-                        if (_L_Articulo.Disponible_Servicio_3Horas(Cbx_Pnl2_Servicio.Text, Cbx_Pnl2_Laboratorio.Text))
-                        {
-                            List<TB_SERVICIOSLABDTO> TB_SERVICIOSLABD = new List<TB_SERVICIOSLABDTO>();
-                            TB_SERVICIOSLABD = _D_Articulo.ServiciosLaboratorio(Cbx_Pnl2_Servicio.SelectedValue.ToString());
-                            if (TB_SERVICIOSLABD != null && TB_SERVICIOSLABD.Count > 0)
-                            {
-                                TB_SERVICIOSLABDTO _SERVICIOSLABDTO = TB_SERVICIOSLABD.First();
-                                Codigo_Servicio_Agregar = _SERVICIOSLABDTO.CodArticulo;
+            //if (tabControl.SelectedIndex == 2)
+            //{
+            //    if (Cbx_Pnl2_Servicio.Items.Count > 0 && !string.IsNullOrEmpty(Cbx_Pnl2_Servicio.Text))
+            //    {
+            //        if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01")
+            //        {
+            //            if (_L_Articulo.Disponible_Servicio_3Horas(Cbx_Pnl2_Servicio.Text, Cbx_Pnl2_Laboratorio.Text))
+            //            {
+            //                List<TB_SERVICIOSLABDTO> TB_SERVICIOSLABD = new List<TB_SERVICIOSLABDTO>();
+            //                TB_SERVICIOSLABD = _D_Articulo.ServiciosLaboratorio(Cbx_Pnl2_Servicio.SelectedValue.ToString());
+            //                if (TB_SERVICIOSLABD != null && TB_SERVICIOSLABD.Count > 0)
+            //                {
+            //                    TB_SERVICIOSLABDTO _SERVICIOSLABDTO = TB_SERVICIOSLABD.First();
+            //                    Codigo_Servicio_Agregar = _SERVICIOSLABDTO.CodArticulo;
 
-                                try
-                                {
-                                    _FechaHoraOfrecida = _L_Articulo.ObtenerFechaHoraOfrecida(Cbx_Pnl2_Servicio.SelectedValue.ToString(), Cbx_Pnl2_Trbajo.SelectedValue.ToString());
-                                    if (_FechaHoraOfrecida != null && _FechaHoraOfrecida.Count > 0)
-                                    {
-                                        FechaHoraOfrecida resultado = _FechaHoraOfrecida.First();
-                                        Txt_Pnl2_Fecha_Ofre.Text = $"{resultado.FechaOfrecida:dd/MM/yyyy}";
-                                    }
-                                }
-                                catch (Exception ex)
-                                {
-                                    _FrmMensajes.co = 2;
-                                    _FrmMensajes.avisomensaje(string.Format("Error: {0}", ex.Message) + ", Error inesperado");
-                                    _FrmMensajes.ShowDialog();
-                                }
-                            }
-                            else
-                            {
-                                Codigo_Servicio_Agregar = "";
-                            }
-                        }
-                        else
-                        {
-                            _FrmMensajes.co = 2;
-                            _FrmMensajes.avisomensaje("El servicio no está disponible en este horario");
-                            _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
-                            _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
-                            _FrmMensajes.ShowDialog();
-                            //Codigo_Servicio_Agregar = "";
-                        }
-                    }
-                }
-            }
+            //                    try
+            //                    {
+            //                        _FechaHoraOfrecida = _L_Articulo.ObtenerFechaHoraOfrecida(Cbx_Pnl2_Servicio.SelectedValue.ToString(), Cbx_Pnl2_Trbajo.SelectedValue.ToString());
+            //                        if (_FechaHoraOfrecida != null && _FechaHoraOfrecida.Count > 0)
+            //                        {
+            //                            FechaHoraOfrecida resultado = _FechaHoraOfrecida.First();
+            //                            Txt_Pnl2_Fecha_Ofre.Text = $"{resultado.FechaOfrecida:dd/MM/yyyy}";
+            //                        }
+            //                    }
+            //                    catch (Exception ex)
+            //                    {
+            //                        _FrmMensajes.co = 2;
+            //                        _FrmMensajes.avisomensaje(string.Format("Error: {0}", ex.Message) + ", Error inesperado");
+            //                        _FrmMensajes.ShowDialog();
+            //                    }
+            //                }
+            //                else
+            //                {
+            //                    Codigo_Servicio_Agregar = "";
+            //                }
+            //            }
+            //            else
+            //            {
+            //                _FrmMensajes.co = 2;
+            //                _FrmMensajes.avisomensaje("El servicio no está disponible en este horario");
+            //                _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+            //                _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+            //                _FrmMensajes.ShowDialog();
+            //                //Codigo_Servicio_Agregar = "";
+            //            }
+            //        }
+            //    }
+            //}
 
             if (servicioSeleccionado)
                 Cbx_Pnl2_Laboratorio.Enabled = false;
