@@ -150,6 +150,7 @@ namespace CapaLogica.CargarOrdenes
         {
             try
             {
+                bool DetalleOrdenServicio = false;
                 bool resultado = true;
                 //string ojo = _L_Articulo.CalcularOjoDesdeGrid(dgvArticulos);
                 bool productosRepetidos = false;
@@ -159,6 +160,7 @@ namespace CapaLogica.CargarOrdenes
                 var glbCodDetVta = Cbx_Pnl2_Trbajo.SelectedValue.ToString();
                 var glbManejaExisLC = _D_DetalleOrden.TB_PARAMETRO("LCManejaExist");
                 bool empresaAfiliada = EmpresaAfiliada;
+                bool prodRepetidoGuardado = false;
 
                 // Detectar productos repetidos (si maneja existencias LC y venta de tipo 02)
                 if (glbManejaExisLC == "1" && glbCodDetVta == "02")
@@ -188,22 +190,33 @@ namespace CapaLogica.CargarOrdenes
                     if (productosRepetidos && codArticulo == codigoProductoRepetido)
                         cantidadFinal = cantidadTotalRepetida;
 
-                    bool DetalleOrdenServicio = await _L_Articulo.GuardarDescripcionDetalleOrdenServicioAsync(
-                        numeroOrden,
-                        numeroRevision,
-                        codigoVenta,
-                        codArticulo,
-                        cantidadFinal,
-                        ojo,
-                        precio,
-                        impuesto,
-                        porcentajeDescuento,
-                        precioViejo,
-                        codPromo,
-                        costoPromedio,
-                        sucursal,
-                        command
-                    );
+                   
+
+                    if (glbManejaExisLC == "1" && glbCodDetVta == "02")
+                    {
+                        if (codigoProductoRepetido == codArticulo)
+                        {
+                            if (prodRepetidoGuardado == false)
+                            {
+                                DetalleOrdenServicio = await _L_Articulo.GuardarDescripcionDetalleOrdenServicioAsync(numeroOrden, numeroRevision, codigoVenta,
+                                codArticulo,  cantidadFinal,  "A", precio, impuesto, porcentajeDescuento,precioViejo,codPromo, costoPromedio, sucursal, command);
+                                if (DetalleOrdenServicio)
+                                {
+                                    prodRepetidoGuardado = true;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            DetalleOrdenServicio = await _L_Articulo.GuardarDescripcionDetalleOrdenServicioAsync(numeroOrden, numeroRevision, codigoVenta,
+                           codArticulo, cantidadFinal, ojo, precio, impuesto, porcentajeDescuento, precioViejo, codPromo, costoPromedio, sucursal, command);
+                        }
+                    }
+                    else
+                    {
+                        DetalleOrdenServicio = await _L_Articulo.GuardarDescripcionDetalleOrdenServicioAsync(numeroOrden, numeroRevision, codigoVenta,
+                       codArticulo, cantidadFinal, ojo, precio, impuesto, porcentajeDescuento, precioViejo, codPromo, costoPromedio, sucursal, command);
+                    }
 
                     if (!DetalleOrdenServicio)
                     {
