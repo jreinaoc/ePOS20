@@ -3640,7 +3640,7 @@ namespace CapaVisual_Login
                 // Validar Tipo de Ojo Y Tipo de Vision 
                 LLenarEntidadExamenFitcon();
                 List<TB_FICCONV> nuevoFiccont2 = _D_Articulo.ObtenerRx(Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), codSucursal, Convert.ToInt32( Txt_Tap2_Examen.Text));
-                bool Respuesta2 = _Asignar_Rx.ValidarExamenOptico(mostrarError, _TRABAJO, nuevoExamen, nuevoFiccont2, ObtenerTiposVision().visionDerecha, ObtenerTiposVision().visionIzquierda, Cbx_Tap2_Ojo, Cbx_Pnl2_Trbajo,
+                bool Respuesta2 = _Asignar_Rx.ValidarExamenOptico(mostrarError, mostrarPregunta, _TRABAJO, nuevoExamen, nuevoFiccont2, ObtenerTiposVision().visionDerecha, ObtenerTiposVision().visionIzquierda, Cbx_Tap2_Ojo, Cbx_Pnl2_Trbajo,
                 Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Txt_Tap2_Examen.Text, Txt_Pnl2_Cedula.Text.Substring(0, 1), codSucursal, txtAltD, txtAltI);
                 if (!Respuesta2)
                 { 
