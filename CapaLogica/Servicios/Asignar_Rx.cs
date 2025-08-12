@@ -95,7 +95,7 @@ namespace CapaLogica.Servicios
         trabajo.T_HORAOFRECIDO,                               // @HOFRE
         trabajo.T_FECHAOFRECIDO,                              // @FOFRE
         trabajo.Cod_DetVta,                                   // @CODDETV
-        trabajo.TipoExamen,                                   // @TEXAM
+        "CONVENCIONAL",                                   // @TEXAM
         trabajo.USER_CREA,                                    // @USER
         trabajo.T_SUCURSAL                                    // @SUC
     );
