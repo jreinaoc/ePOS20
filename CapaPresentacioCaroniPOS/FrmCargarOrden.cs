@@ -1857,7 +1857,7 @@ namespace CapaVisual_Login
                 this.Txt_Pnl2_Examen.Enabled = true; 
                 Cbx_Pnl2_Servicio.Enabled = true;
                 laboratorioSeleccionado = false;
-
+                Txt_Pnl2_Fecha_Ofre.Text = "";
                 txtHorizontal.Text = "";
                 txtVertical.Text = "";
                 txtMaxima.Text = "";
@@ -2363,7 +2363,7 @@ namespace CapaVisual_Login
                     Btn_Tap1_Guardar.PerformClick();
 
                     // Validación de campos obligatorios
-                    if (Cbx_Tap1_TLF_Local.SelectedIndex == -1 && Cbx_Tap1_TLF_Celular.SelectedIndex == -1)
+                    if (Cbx_Tap1_TLF_Local.SelectedIndex == -1 && Cbx_Tap1_TLF_Celular.SelectedIndex == -1 || string.IsNullOrEmpty(Txt_Tap1_Email.Text.Trim()))
                     {
                       
                         // Mantenerse en el Tab 0
@@ -2454,6 +2454,15 @@ namespace CapaVisual_Login
 
                 }
 
+                if (Dgv_Tap3_Articulo.Rows[numFilas].Cells["CodArticulo"].Value != null &&
+                    Dgv_Tap3_Articulo.Rows[numFilas].Cells["CodArticulo"].Value.ToString().StartsWith("W"))
+                {
+                    if (!string.IsNullOrEmpty(Codigo_Servicio_Agregar))
+                    {
+                        _L_Articulo.CargarServicioExpress(Dgv_Tap3_Articulo, Codigo_Servicio_Agregar);
+
+                    }
+                }
                 if (Dgv_Tap3_Articulo.Rows[numFilas].Cells["CodArticulo"].Value != null &&
                     (Dgv_Tap3_Articulo.Rows[numFilas].Cells["CodArticulo"].Value.ToString().StartsWith("M") ||
                      Dgv_Tap3_Articulo.Rows[numFilas].Cells["CodArticulo"].Value.ToString().StartsWith("L")))
@@ -5138,7 +5147,7 @@ namespace CapaVisual_Login
         {
             try
             {
-               if ((Cod_Vta== "01" || Cod_Vta == "08") && Cod_Serv == "017")
+               if ((Cod_Vta== "01" || Cod_Vta == "08" || Cod_Vta == "02") && Cod_Serv == "017")
                {
                     _FechaHoraOfrecida = _L_Articulo.ActualizarFechaOfre(Dgv_Tap3_Articulo, Montura_Propia.ToString(), Cbx_Pnl2_Laboratorio.Text== "QUORUM"? "1" :"0" , CodColorLC=="" ? "0" : "1");
                     if (_FechaHoraOfrecida != null && _FechaHoraOfrecida.Count > 0)
@@ -12141,7 +12150,7 @@ namespace CapaVisual_Login
             {
                 if (Cbx_Pnl2_Servicio.Items.Count > 0 && !string.IsNullOrEmpty(Cbx_Pnl2_Servicio.Text))
                 {
-                    if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01")
+                    if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01" || Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "02")
                     {
                         if (_L_Articulo.Disponible_Servicio_3Horas(Cbx_Pnl2_Servicio.Text, Cbx_Pnl2_Laboratorio.Text))
                         {
@@ -12152,6 +12161,10 @@ namespace CapaVisual_Login
                                 TB_SERVICIOSLABDTO _SERVICIOSLABDTO = TB_SERVICIOSLABD.First();
                                 Codigo_Servicio_Agregar = _SERVICIOSLABDTO.CodArticulo;
 
+                                string Cod_Vta = Cbx_Pnl2_Trbajo.SelectedValue.ToString();
+                                string Cod_Serv = Cbx_Pnl2_Servicio.SelectedValue?.ToString();
+                                if ((Cod_Vta == "01" || Cod_Vta == "08" || Cod_Vta == "02") && Cod_Serv != "017")
+                                {
                                 try
                                 {
                                     _FechaHoraOfrecida = _L_Articulo.ObtenerFechaHoraOfrecida(Cbx_Pnl2_Servicio.SelectedValue.ToString(), Cbx_Pnl2_Trbajo.SelectedValue.ToString());
@@ -12167,7 +12180,9 @@ namespace CapaVisual_Login
                                     _FrmMensajes.avisomensaje(string.Format("Error: {0}", ex.Message) + ", Error inesperado");
                                     _FrmMensajes.ShowDialog();
                                 }
-                            }
+
+                               }
+                        }
                             else
                             {
                                 Codigo_Servicio_Agregar = "";
@@ -13677,7 +13692,7 @@ namespace CapaVisual_Login
         private bool ValidarDatosTab1()
         {
             // Misma lógica de validación que antes
-            return !(Cbx_Tap1_TLF_Local.SelectedIndex == -1 && Cbx_Tap1_TLF_Celular.SelectedIndex == -1);
+            return !(Cbx_Tap1_TLF_Local.SelectedIndex == -1 && Cbx_Tap1_TLF_Celular.SelectedIndex == -1 || string.IsNullOrEmpty(Txt_Tap1_Email.Text.Trim()));
         }
 
         private void Dgv_Pnl2_cont_CellEndEdit(object sender, DataGridViewCellEventArgs e)
