@@ -59,6 +59,7 @@ namespace CapaVisual_Login
                 // Llenar el dataset del reporte de orden
                 DataTable dtOrden = GetSubreportData(TxtOrden.Text);
                 rdlcOrden.DataSources.Add(new ReportDataSource("DsRepOrden", dtOrden));
+                
 
                 // Mostrar el reporte de orden en el ReportViewer
                 MostrarReporteEnReportViewer(rdlcOrden);

@@ -395,6 +395,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DsRepOrden.xsd</DependentUpon>
     </Compile>
+    <Compile Include="Reportes\DsRepProSinPago.cs">
+      <DependentUpon>DsRepProSinPago.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Reportes\DsRepProSinPago.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

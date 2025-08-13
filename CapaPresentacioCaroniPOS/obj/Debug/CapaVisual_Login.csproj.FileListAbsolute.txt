@@ -538,3 +538,4 @@ C:\Desarrollo2022\CaroniPOS1\CapaPresentacioCaroniPOS\obj\Debug\CapaVisual_Login
 C:\Desarrollo2022\CaroniPOS1\CapaPresentacioCaroniPOS\obj\Debug\ePOS.exe
 C:\Desarrollo2022\CaroniPOS1\CapaPresentacioCaroniPOS\obj\Debug\ePOS.pdb
 C:\Desarrollo2022\CaroniPOS1\CapaPresentacioCaroniPOS\obj\Debug\CapaVisual_Login.FrmPromoCasada.resources
+C:\Users\pasantedesarrollo\source\repos\EPOS20\CapaPresentacioCaroniPOS\obj\Debug\CapaVisual_Login.FrmPromoCasada.resources
