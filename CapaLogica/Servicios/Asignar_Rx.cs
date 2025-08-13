@@ -367,7 +367,7 @@ namespace CapaLogica.Servicios
                 DataSet dsConsultaCristal = _D_Articulo.MostrarParametrosCrtGrid(CristalD, CristalI, command);
                 dgvRangoCrt.DataSource = dsConsultaCristal.Tables[0];
                 stringBuilder.Clear();
-                stringBuilder.Append("El Cristal no se adapta a estos parámetros");
+                stringBuilder.Append("El cristal no se adapta a estos parámetros");
             }
 
             return VerificoParametrosCristales;

@@ -3683,7 +3683,7 @@ namespace CapaVisual_Login
                         return;
 
                     }
-                    else if (_Asignar_Rx.stringBuilder.ToString() == "El Cristal no se adapta a estos parámetros")
+                    else if (_Asignar_Rx.stringBuilder.ToString() == "El cristal no se adapta a estos parámetros")
                     {
                         lblDiametroD.Visible = false;
                         lblDiametroI.Visible = false;
@@ -12250,7 +12250,7 @@ namespace CapaVisual_Login
                         return;
 
                     }
-                    else if (_Asignar_Rx.stringBuilder.ToString() == "El Cristal no se adapta a estos parámetros")
+                    else if (_Asignar_Rx.stringBuilder.ToString() == "El cristal no se adapta a estos parámetros")
                     {
                         lblDiametroD.Visible = false;
                         lblDiametroI.Visible = false;
@@ -12828,6 +12828,7 @@ namespace CapaVisual_Login
                     e.Handled = true;
                 }
             }
+
         }
 
         private void txtDistVertice_Leave(object sender, EventArgs e)
@@ -13739,7 +13740,42 @@ namespace CapaVisual_Login
             }
         }
 
+        private void txtDistVertice_KeyDown(object sender, KeyEventArgs e)
+        {
 
+            if (e.KeyCode == Keys.Enter)
+            {
+                txtAngPant.Focus();
+
+            }
+        }
+
+        private void txtDll_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                txtDistVertice.Focus();
+
+            }
+        }
+
+        private void txtAngPant_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                txtAngFac.Focus();
+
+            }
+        }
+
+        private void txtAngFac_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                txtDll.Focus();
+
+            }
+        }
     }
 
 }
