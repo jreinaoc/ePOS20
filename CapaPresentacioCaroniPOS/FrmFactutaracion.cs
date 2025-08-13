@@ -8164,29 +8164,28 @@ namespace CapaVisual_Login
                 }
 
                 //Recorrer el combobox  Nacionalidad 
-                for (int i = 0; i <= CbxNacionalidadPagoMovil.Items.Count; i++)
+                // Recorrer el ComboBox Nacionalidad para encontrar coincidencia con la cédula
+                if (!string.IsNullOrEmpty(txtCedula.Text))
                 {
-                    if(txtCedula.Text.Length >= 7)
-                        if (txtCedula.Text.Substring(0, txtCedula.Text.Length - 8) != CbxNacionalidadPagoMovil.Text)
-                            CbxNacionalidadPagoMovil.SelectedIndex = i;
-                        else
-                            break;
-                    else if (txtCedula.Text.Length == 10)
-                        if (txtCedula.Text.Substring(0, txtCedula.Text.Length - 9) != CbxNacionalidadPagoMovil.Text)
-                        CbxNacionalidadPagoMovil.SelectedIndex = i;
-                    else
-                            break;
-                    else
-                   if (txtCedula.Text.Substring(0, txtCedula.Text.Length - 10) != CbxNacionalidadPagoMovil.Text)
-                            CbxNacionalidadPagoMovil.SelectedIndex = i;
-                        else
-                            break;
+                    char inicialCedula = txtCedula.Text.Trim().ToUpper()[0]; // Obtener primer carácter de la cédula
 
+                    for (int i = 0; i < CbxNacionalidadPagoMovil.Items.Count; i++)
+                    {
+                        // Obtener el texto del ítem actual (ej: "Venezolano" o "Extranjero")
+                        string textoItem = CbxNacionalidadPagoMovil.GetItemText(CbxNacionalidadPagoMovil.Items[i]);
+
+                        if (!string.IsNullOrEmpty(textoItem) &&
+                            textoItem.Trim().ToUpper()[0] == inicialCedula)
+                        {
+                            CbxNacionalidadPagoMovil.SelectedIndex = i;
+                            break; // Salir del bucle al encontrar la primera coincidencia
+                        }
+                    }
                 }
 
-               
 
-   
+
+
             }
             catch (Exception ex)
             {
@@ -8806,7 +8805,6 @@ namespace CapaVisual_Login
         {
 
         }
-
 
         //Para Probar los reportes
 

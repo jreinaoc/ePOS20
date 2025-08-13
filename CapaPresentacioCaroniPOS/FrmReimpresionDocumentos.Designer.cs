@@ -45,6 +45,7 @@ namespace CapaVisual_Login
             this.lbl_TipoDocumento = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.gexMensajesDANA = new System.Windows.Forms.DataGridView();
+            this.BtnCancelar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.gexMensajesDANA)).BeginInit();
             this.SuspendLayout();
             // 
@@ -63,7 +64,7 @@ namespace CapaVisual_Login
             this.DtReinHasta.CustomFormat = "dd/MM/yyyy";
             this.DtReinHasta.Font = new System.Drawing.Font("Century Gothic", 12F);
             this.DtReinHasta.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.DtReinHasta.Location = new System.Drawing.Point(478, 178);
+            this.DtReinHasta.Location = new System.Drawing.Point(584, 196);
             this.DtReinHasta.Name = "DtReinHasta";
             this.DtReinHasta.Size = new System.Drawing.Size(127, 27);
             this.DtReinHasta.TabIndex = 43;
@@ -73,7 +74,7 @@ namespace CapaVisual_Login
             this.DtReinDesde.CustomFormat = "dd/MM/yyyy";
             this.DtReinDesde.Font = new System.Drawing.Font("Century Gothic", 12F);
             this.DtReinDesde.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.DtReinDesde.Location = new System.Drawing.Point(337, 179);
+            this.DtReinDesde.Location = new System.Drawing.Point(443, 197);
             this.DtReinDesde.Name = "DtReinDesde";
             this.DtReinDesde.Size = new System.Drawing.Size(127, 27);
             this.DtReinDesde.TabIndex = 42;
@@ -84,9 +85,9 @@ namespace CapaVisual_Login
             this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button5.Font = new System.Drawing.Font("Century Gothic", 12F);
             this.button5.ForeColor = System.Drawing.Color.White;
-            this.button5.Location = new System.Drawing.Point(337, 374);
+            this.button5.Location = new System.Drawing.Point(385, 505);
             this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(101, 32);
+            this.button5.Size = new System.Drawing.Size(98, 34);
             this.button5.TabIndex = 41;
             this.button5.Text = "Imprimir";
             this.button5.UseVisualStyleBackColor = false;
@@ -98,7 +99,7 @@ namespace CapaVisual_Login
             this.button6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button6.Font = new System.Drawing.Font("Century Gothic", 12F);
             this.button6.ForeColor = System.Drawing.Color.White;
-            this.button6.Location = new System.Drawing.Point(625, 176);
+            this.button6.Location = new System.Drawing.Point(731, 194);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(96, 34);
             this.button6.TabIndex = 40;
@@ -112,7 +113,7 @@ namespace CapaVisual_Login
             this.btn_pg5_reporteX.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_pg5_reporteX.Font = new System.Drawing.Font("Century Gothic", 12F);
             this.btn_pg5_reporteX.ForeColor = System.Drawing.Color.White;
-            this.btn_pg5_reporteX.Location = new System.Drawing.Point(727, 176);
+            this.btn_pg5_reporteX.Location = new System.Drawing.Point(500, 505);
             this.btn_pg5_reporteX.Name = "btn_pg5_reporteX";
             this.btn_pg5_reporteX.Size = new System.Drawing.Size(98, 34);
             this.btn_pg5_reporteX.TabIndex = 39;
@@ -126,9 +127,9 @@ namespace CapaVisual_Login
             this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button4.Font = new System.Drawing.Font("Century Gothic", 12F);
             this.button4.ForeColor = System.Drawing.Color.White;
-            this.button4.Location = new System.Drawing.Point(831, 177);
+            this.button4.Location = new System.Drawing.Point(613, 505);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(100, 34);
+            this.button4.Size = new System.Drawing.Size(98, 34);
             this.button4.TabIndex = 38;
             this.button4.Text = "Reporte Z";
             this.button4.UseVisualStyleBackColor = false;
@@ -138,7 +139,7 @@ namespace CapaVisual_Login
             // 
             this.lbl_hasta.AutoSize = true;
             this.lbl_hasta.Font = new System.Drawing.Font("Century Gothic", 12F);
-            this.lbl_hasta.Location = new System.Drawing.Point(475, 150);
+            this.lbl_hasta.Location = new System.Drawing.Point(581, 168);
             this.lbl_hasta.Name = "lbl_hasta";
             this.lbl_hasta.Size = new System.Drawing.Size(56, 21);
             this.lbl_hasta.TabIndex = 37;
@@ -148,7 +149,7 @@ namespace CapaVisual_Login
             // 
             this.lbl_desde.AutoSize = true;
             this.lbl_desde.Font = new System.Drawing.Font("Century Gothic", 12F);
-            this.lbl_desde.Location = new System.Drawing.Point(333, 150);
+            this.lbl_desde.Location = new System.Drawing.Point(439, 168);
             this.lbl_desde.Name = "lbl_desde";
             this.lbl_desde.Size = new System.Drawing.Size(59, 21);
             this.lbl_desde.TabIndex = 36;
@@ -158,7 +159,7 @@ namespace CapaVisual_Login
             // 
             this.CbTipoDocumento.Font = new System.Drawing.Font("Century Gothic", 12F);
             this.CbTipoDocumento.FormattingEnabled = true;
-            this.CbTipoDocumento.Location = new System.Drawing.Point(168, 181);
+            this.CbTipoDocumento.Location = new System.Drawing.Point(274, 199);
             this.CbTipoDocumento.Name = "CbTipoDocumento";
             this.CbTipoDocumento.Size = new System.Drawing.Size(160, 29);
             this.CbTipoDocumento.TabIndex = 35;
@@ -167,7 +168,7 @@ namespace CapaVisual_Login
             // 
             this.lbl_TipoDocumento.AutoSize = true;
             this.lbl_TipoDocumento.Font = new System.Drawing.Font("Century Gothic", 12F);
-            this.lbl_TipoDocumento.Location = new System.Drawing.Point(164, 150);
+            this.lbl_TipoDocumento.Location = new System.Drawing.Point(270, 168);
             this.lbl_TipoDocumento.Name = "lbl_TipoDocumento";
             this.lbl_TipoDocumento.Size = new System.Drawing.Size(164, 21);
             this.lbl_TipoDocumento.TabIndex = 34;
@@ -210,7 +211,7 @@ namespace CapaVisual_Login
             this.gexMensajesDANA.DefaultCellStyle = dataGridViewCellStyle2;
             this.gexMensajesDANA.EnableHeadersVisualStyles = false;
             this.gexMensajesDANA.GridColor = System.Drawing.SystemColors.ControlLightLight;
-            this.gexMensajesDANA.Location = new System.Drawing.Point(168, 216);
+            this.gexMensajesDANA.Location = new System.Drawing.Point(274, 234);
             this.gexMensajesDANA.Name = "gexMensajesDANA";
             this.gexMensajesDANA.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -224,8 +225,23 @@ namespace CapaVisual_Login
             this.gexMensajesDANA.RowHeadersVisible = false;
             this.gexMensajesDANA.RowHeadersWidth = 51;
             this.gexMensajesDANA.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.gexMensajesDANA.Size = new System.Drawing.Size(270, 152);
+            this.gexMensajesDANA.Size = new System.Drawing.Size(437, 254);
             this.gexMensajesDANA.TabIndex = 55;
+            // 
+            // BtnCancelar
+            // 
+            this.BtnCancelar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(44)))), ((int)(((byte)(59)))));
+            this.BtnCancelar.FlatAppearance.BorderSize = 0;
+            this.BtnCancelar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtnCancelar.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnCancelar.ForeColor = System.Drawing.Color.White;
+            this.BtnCancelar.Location = new System.Drawing.Point(980, 642);
+            this.BtnCancelar.Name = "BtnCancelar";
+            this.BtnCancelar.Size = new System.Drawing.Size(98, 34);
+            this.BtnCancelar.TabIndex = 56;
+            this.BtnCancelar.Text = "Cancelar";
+            this.BtnCancelar.UseVisualStyleBackColor = false;
+            this.BtnCancelar.Click += new System.EventHandler(this.BtnCancelar_Click);
             // 
             // FrmReimpresionDocumentos
             // 
@@ -233,6 +249,7 @@ namespace CapaVisual_Login
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1157, 710);
+            this.Controls.Add(this.BtnCancelar);
             this.Controls.Add(this.gexMensajesDANA);
             this.Controls.Add(this.lbl_Utiliarios);
             this.Controls.Add(this.DtReinHasta);
@@ -273,5 +290,6 @@ namespace CapaVisual_Login
         private System.Windows.Forms.Label lbl_TipoDocumento;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.DataGridView gexMensajesDANA;
+        private System.Windows.Forms.Button BtnCancelar;
     }
 }
