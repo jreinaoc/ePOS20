@@ -420,6 +420,9 @@ namespace CapaVisual_Login
             }
         }
 
-
+        private void BtnCancelar_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+        }
     }
 }

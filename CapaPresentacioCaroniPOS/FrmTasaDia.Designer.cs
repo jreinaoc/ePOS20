@@ -68,6 +68,7 @@ namespace CapaVisual_Login
             this.Txt_Pnl3_Frcha = new System.Windows.Forms.TextBox();
             this.Btn_Pnl3_Activar = new System.Windows.Forms.Button();
             this.Lbl_Pnl3_SubTitulo1 = new System.Windows.Forms.Label();
+            this.BtnCancelar = new System.Windows.Forms.Button();
             this.Pnl1.SuspendLayout();
             this.Pnl2.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -495,12 +496,28 @@ namespace CapaVisual_Login
             this.Lbl_Pnl3_SubTitulo1.Text = "Registro Secuencia";
             this.Lbl_Pnl3_SubTitulo1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // BtnCancelar
+            // 
+            this.BtnCancelar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(44)))), ((int)(((byte)(59)))));
+            this.BtnCancelar.FlatAppearance.BorderSize = 0;
+            this.BtnCancelar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtnCancelar.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnCancelar.ForeColor = System.Drawing.Color.White;
+            this.BtnCancelar.Location = new System.Drawing.Point(1028, 703);
+            this.BtnCancelar.Name = "BtnCancelar";
+            this.BtnCancelar.Size = new System.Drawing.Size(98, 34);
+            this.BtnCancelar.TabIndex = 308;
+            this.BtnCancelar.Text = "Cancelar";
+            this.BtnCancelar.UseVisualStyleBackColor = false;
+            this.BtnCancelar.Click += new System.EventHandler(this.BtnCancelar_Click);
+            // 
             // FrmTasaDia
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1173, 749);
+            this.Controls.Add(this.BtnCancelar);
             this.Controls.Add(this.Pnl3);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.Pnl2);
@@ -569,5 +586,6 @@ namespace CapaVisual_Login
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Button BtnCancelar;
     }
 }

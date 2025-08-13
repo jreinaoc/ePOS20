@@ -199,14 +199,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ePOS.exe" size="3045888">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ePOS.exe" size="3048960">
       <assemblyIdentity name="ePOS" version="1.0.2.4" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>gH89hKFR06KRe+OJx2B9Nlcwx1keB9+LFzDwQPK7tac=</dsig:DigestValue>
+        <dsig:DigestValue>pLITbksb10SVhmOef9oKKV0J+YRDn7Qt3JrRV5FyivI=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -1305,7 +1305,7 @@
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>9DXqQepeuEcfO/6OxeI+Ta4Apj1jM2L01qYFS35EWLs=</dsig:DigestValue>
+      <dsig:DigestValue>7+EFmjco0yE4Dd2/dlpRk088W7GokLia+9JygFBVz0c=</dsig:DigestValue>
     </hash>
   </file>
   <file name="icono-puntoDeVenta.ico" size="205662">

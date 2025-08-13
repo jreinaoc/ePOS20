@@ -70,8 +70,8 @@ namespace CapaVisual_Login
                 resp = objVmax.AbrirPuerto(Convert.ToString(glbPuertoCOM));
                 resp = objVmax.ObtenerReporteInformativo();
                 string SerialImpresora = objVmax.RetornoMI.sSerial;
+                //SerialImpresora = "TIU2206171";
                 resp = objVmax.CerrarPuerto();
-                //SerialImpresora = "TIX2490085";
                 string TipoDocumento = "";
 
                     // Asume que el ComboBox tiene los textos: "Factura", "Nota de credito", "Reporte Z"
@@ -210,6 +210,15 @@ namespace CapaVisual_Login
                 cols["Fecha"].Width = 120;
                 cols["Fecha"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
                 cols["Fecha"].ReadOnly = true;
+            }
+
+            if (cols.Contains("SerialImpresora"))
+            {
+                cols["SerialImpresora"].HeaderText = "Serial Impresora";
+                cols["SerialImpresora"].Visible = true;
+                cols["SerialImpresora"].Width = 155;
+                cols["SerialImpresora"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                cols["SerialImpresora"].ReadOnly = true;
             }
 
             gexMensajesDANA.BackgroundColor = Color.Honeydew;
@@ -625,6 +634,11 @@ namespace CapaVisual_Login
                 button5.Enabled = true;
                 this.Cursor = Cursors.Default;
             }
+        }
+
+        private void BtnCancelar_Click(object sender, EventArgs e)
+        {
+            this.Hide();
         }
     }
  }
