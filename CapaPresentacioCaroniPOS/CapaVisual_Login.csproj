@@ -657,6 +657,8 @@
     <Folder Include="SqlServerTypes\" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="bin\Debug\Codigo QR.ico" />
+    <None Include="bin\Debug\Codigo QR Claro.ico" />
     <Content Include="icono-puntoDeVenta.ico" />
     <None Include="Reportes\DSRepVuelto.xsc">
       <DependentUpon>DSRepVuelto.xsd</DependentUpon>

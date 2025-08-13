@@ -911,12 +911,12 @@ namespace CapaVisual_Login
                 AbrirForm(_FrmFacturacion);
                 Paginado_Habilitar(false);
                 // _FrmFacturacion.LimpiarGrid();
-                if (DgvListadoOrdenes.CurrentRow.Cells["Estatus"].Value.ToString() == "Abonada  ")
+                if (DgvListadoOrdenes.CurrentRow.Cells["Estatus"].Value.ToString().Trim() == "Abonada")
                 {
                     // Recalcular la orden
                     string rep = _D_DetalleOrden.RecalculaOSDivisa(DgvListadoOrdenes.CurrentRow.Cells["Cod_Sucursal"].Value.ToString(), DgvListadoOrdenes.CurrentRow.Cells["NumOrdserv"].Value.ToString(), "0");
                 }
-                else if (DgvListadoOrdenes.CurrentRow.Cells["Estatus"].Value.ToString() == "Por pagar")
+                else if (DgvListadoOrdenes.CurrentRow.Cells["Estatus"].Value.ToString().Trim() == "Por pagar")
                 {
                     //por el mometo se comenta , esto soluciona el problema de la inconcistencia en el total de la factura 
                     //_D_DetalleOrden.RecalculaOPorpagar(DgvListadoOrdenes.CurrentRow.Cells["Cod_Sucursal"].Value.ToString(), DgvListadoOrdenes.CurrentRow.Cells["NumOrdserv"].Value.ToString(), "0");
@@ -939,7 +939,7 @@ namespace CapaVisual_Login
             if (DgvListadoOrdenes.Columns[e.ColumnIndex].Name == "Btn2") // PARA ANULAR
             {
                 // Para anular una orden abonada 
-                if (DgvListadoOrdenes.CurrentRow.Cells["Estatus"].Value.ToString().Trim() == "Abonada  ")
+                if (DgvListadoOrdenes.CurrentRow.Cells["Estatus"].Value.ToString().Trim() == "Abonada")
                 {
                     // Con la siguiente funcion se cargan los datos en la entidad tbCaordser
                     _FrmFacturacion.CargarDatosOrden(DgvListadoOrdenes.CurrentRow.Cells["NumOrdserv"].Value.ToString(), DgvListadoOrdenes.CurrentRow.Cells["Nombre"].Value.ToString(), DgvListadoOrdenes.CurrentRow.Cells["Revision"].Value.ToString());
@@ -1008,6 +1008,7 @@ namespace CapaVisual_Login
                         _FrmMensajes.co = 3;
                         _FrmMensajes.avisomensaje("¿ Desea generar una Nota de Crédito ? ");
                         _FrmMensajes.ShowDialog();
+
 
                         //Preguta
                         if (_FrmMensajes.DialogResult == DialogResult.OK)
@@ -1425,7 +1426,7 @@ namespace CapaVisual_Login
             { //Se cargan los datos de la orden 
                 string concat = DgvListadoOrdenes.CurrentRow.Cells["Cod_Sucursal"].Value.ToString() + DgvListadoOrdenes.CurrentRow.Cells["NumOrdserv"].Value.ToString() + "0";
                 // Se valida si la orden es abonada para que pueda imprimir o mostrar el reporte 
-                if (DgvListadoOrdenes.CurrentRow.Cells["Estatus"].Value.ToString() == "Abonada  ")
+                if (DgvListadoOrdenes.CurrentRow.Cells["Estatus"].Value.ToString().Trim() == "Abonada")
                 {
                     _FrmMostrarReporte.setParametros(concat);
                     _FrmMostrarReporte.ConfigRep();
@@ -1543,7 +1544,6 @@ namespace CapaVisual_Login
                         _FrmCargarOrden.Formulario_ListaOrdenes = true;
                         _FrmCargarOrden.tabControl.SelectedIndex = 1;
                         _FrmCargarOrden.btnPrincipal.Enabled = false;
-                        _FrmCargarOrden.btnCargarOrden.Enabled = false;
                         _FrmCargarOrden.btnExamen.Enabled = false;
                         _FrmCargarOrden.AsignarRx_JuegoPantalla();
                         Paginado_Habilitar(false);

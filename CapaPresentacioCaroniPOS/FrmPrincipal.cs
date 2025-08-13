@@ -66,6 +66,20 @@ namespace CapaVisual_Login
 
         private FrmClaveGerente _FrmClaveGerente = new FrmClaveGerente();
 
+        //public void addformulario(Form formulario)
+        //{
+        //    if (formulario == null) throw new ArgumentNullException(nameof(formulario));
+
+        //    formulario.TopLevel = false;
+        //    formulario.FormBorderStyle = FormBorderStyle.None;
+        //    formulario.Dock = DockStyle.Fill;
+
+        //    PnlListadoOrdenes.Controls.Clear();
+        //    PnlListadoOrdenes.Controls.Add(formulario);
+        //    formulario.Show();
+        //    formulario.BringToFront();
+        //}
+
         public void addformulario(Form F)
         {
             F.TopLevel = false;
@@ -89,6 +103,22 @@ namespace CapaVisual_Login
             F.Show();
             F.BringToFront();
         }
+
+        //public void addformularioCargaOrdenes(Form formulario)
+        //{
+        //    if (formulario == null) throw new ArgumentNullException(nameof(formulario));
+
+        //    formulario.TopLevel = false;
+        //    formulario.FormBorderStyle = FormBorderStyle.None;
+        //    formulario.Dock = DockStyle.None;
+        //    formulario.Location = new Point(50, 50); // Coordenadas
+        //    formulario.Size = new Size(1472, 1168); // Tamaño
+
+        //    PnlListadoOrdenes.Controls.Clear();
+        //    PnlListadoOrdenes.Controls.Add(formulario);
+        //    formulario.Show();
+        //    formulario.BringToFront();
+        //}
 
         private void BtnInicio_Click_1(object sender, EventArgs e)
         {
@@ -184,24 +214,19 @@ namespace CapaVisual_Login
             DateTime currentDate = _D_Inicio.DiaActivo();
             string formattedDate = currentDate.ToString("yyyyMMdd");
 
-            //if (_L_CierreCaja.ObtieneAsistenciaPendiente(formattedDate, TB_USUARIO.COD_USR))
-            if (!_FrmCierreDeCaja.BuscoAsistencia(TB_USUARIO.COD_USR))
-            {
-                //_FrmMensajes.co = 2;
-                //_FrmMensajes.avisomensaje("Debe marcar asistencia para el día activo");
-                //_FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
-                //_FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
-                //_FrmMensajes.ShowDialog();
-                return;
-            }
-            if (!ValidarConfirmacionDivisas())
-            {
-                return;
-            }
-            if (!ValidarRecepTrnSol())
-            {
-                return;
-            }
+            
+            //if (!_FrmCierreDeCaja.BuscoAsistencia(TB_USUARIO.COD_USR))
+            //{
+            //    return;
+            //}
+            //if (!ValidarConfirmacionDivisas())
+            //{
+            //    return;
+            //}
+            //if (!ValidarRecepTrnSol())
+            //{
+            //    return;
+            //}
             string bloqFacturacion = _D_DetalleOrden.TB_PARAMETRO("FactEliminada");
 
             if (bloqFacturacion == "0")
@@ -678,15 +703,15 @@ namespace CapaVisual_Login
             DateTime currentDate = _D_Inicio.DiaActivo();
             string formattedDate = currentDate.ToString("yyyyMMdd");
 
-            if (!_L_CierreCaja.ObtieneAsistenciaPendiente(formattedDate, TB_USUARIO.COD_USR))
-            {
-                _FrmMensajes.co = 2;
-                _FrmMensajes.avisomensaje("Debe marcar asistencia para el día activo");
-                _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
-                _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
-                _FrmMensajes.ShowDialog();
-                return;
-            }
+            //if (!_L_CierreCaja.ObtieneAsistenciaPendiente(formattedDate, TB_USUARIO.COD_USR))
+            //{
+            //    _FrmMensajes.co = 2;
+            //    _FrmMensajes.avisomensaje("Debe marcar asistencia para el día activo");
+            //    _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+            //    _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+            //    _FrmMensajes.ShowDialog();
+            //    return;
+            //}
 
             PnlListadoOrdenes.Controls.Clear();
             addformulario(_FrmPagoMovil);
@@ -703,15 +728,15 @@ namespace CapaVisual_Login
             DateTime currentDate = _D_Inicio.DiaActivo();
             string formattedDate = currentDate.ToString("yyyyMMdd");
 
-            if (!_L_CierreCaja.ObtieneAsistenciaPendiente(formattedDate, TB_USUARIO.COD_USR))
-            {
-                _FrmMensajes.co = 2;
-                _FrmMensajes.avisomensaje("Debe marcar asistencia para el día activo");
-                _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
-                _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
-                _FrmMensajes.ShowDialog();
-                return;
-            }
+            //if (!_L_CierreCaja.ObtieneAsistenciaPendiente(formattedDate, TB_USUARIO.COD_USR))
+            //{
+            //    _FrmMensajes.co = 2;
+            //    _FrmMensajes.avisomensaje("Debe marcar asistencia para el día activo");
+            //    _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+            //    _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+            //    _FrmMensajes.ShowDialog();
+            //    return;
+            //}
 
             if (this.BackColor == col2)
             {
@@ -775,27 +800,27 @@ namespace CapaVisual_Login
             DateTime currentDate = _D_Inicio.DiaActivo();
             string formattedDate = currentDate.ToString("yyyyMMdd");
 
-            if (TB_USUARIO.COD_EMPLEADO != "99999")
-            {
-                if (!_L_CierreCaja.ObtieneAsistenciaPendiente(formattedDate, TB_USUARIO.COD_USR))
-                {
-                    _FrmMensajes.co = 2;
-                    _FrmMensajes.avisomensaje("Debe marcar asistencia para el día activo");
-                    _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
-                    _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
-                    _FrmMensajes.ShowDialog();
-                    return;
-                }
+            //if (TB_USUARIO.COD_EMPLEADO != "99999")
+            //{
+            //    if (!_L_CierreCaja.ObtieneAsistenciaPendiente(formattedDate, TB_USUARIO.COD_USR))
+            //    {
+            //        _FrmMensajes.co = 2;
+            //        _FrmMensajes.avisomensaje("Debe marcar asistencia para el día activo");
+            //        _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+            //        _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+            //        _FrmMensajes.ShowDialog();
+            //        return;
+            //    }
 
-                if (!ValidarConfirmacionDivisas())
-                {
-                    return;
-                }
-                if (!ValidarRecepTrnSol())
-                {
-                    return;
-                }
-            }
+            //    if (!ValidarConfirmacionDivisas())
+            //    {
+            //        return;
+            //    }
+            //    if (!ValidarRecepTrnSol())
+            //    {
+            //        return;
+            //    }
+            //}
 
             
 
@@ -825,15 +850,15 @@ namespace CapaVisual_Login
                     _FrmMensajes.ShowDialog();
                     return;
                 }
-              if (!_L_CierreCaja.ObtieneAsistenciaPendiente(formattedDate, TB_USUARIO.COD_USR))
-                {
-                    _FrmMensajes.co = 2;
-                    _FrmMensajes.avisomensaje("Debe marcar asistencia para el día activo");
-                    _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
-                    _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
-                    _FrmMensajes.ShowDialog();
-                    return;
-                }
+              //if (!_L_CierreCaja.ObtieneAsistenciaPendiente(formattedDate, TB_USUARIO.COD_USR))
+              //  {
+              //      _FrmMensajes.co = 2;
+              //      _FrmMensajes.avisomensaje("Debe marcar asistencia para el día activo");
+              //      _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+              //      _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+              //      _FrmMensajes.ShowDialog();
+              //      return;
+              //  }
             }
 
             PnlListadoOrdenes.Controls.Clear();
@@ -876,6 +901,9 @@ namespace CapaVisual_Login
             btnconfiguracion.Top += desplazamiento;
             PicBoxConfigClaro.Top += desplazamiento;
 
+            btnPromoCasada.Top += desplazamiento;
+            pictureBox5.Top += desplazamiento;
+
             menuUtilitariosExpandido = true;
         }
 
@@ -891,6 +919,9 @@ namespace CapaVisual_Login
             btnconfiguracion.Top -= desplazamiento;
             PicBoxConfigClaro.Top -= desplazamiento;
 
+            btnPromoCasada.Top -= desplazamiento;
+            pictureBox5.Top -= desplazamiento;
+
             menuUtilitariosExpandido = false;
         }
 
@@ -899,8 +930,8 @@ namespace CapaVisual_Login
             DateTime currentDate = _D_Inicio.DiaActivo();
             string formattedDate = currentDate.ToString("yyyyMMdd");
 
-            if (TB_USUARIO.COD_EMPLEADO != "99999")
-            {
+            //if (TB_USUARIO.COD_EMPLEADO != "99999")
+            //{
                 //Si no tiene asistencia marcada
             //    if (!_L_CierreCaja.ObtieneAsistenciaPendiente(formattedDate, TB_USUARIO.COD_USR))
             //{
@@ -964,20 +995,21 @@ namespace CapaVisual_Login
 
             if (_D_DetalleOrden.TB_PARAMETRO("VerificaEnvioCi") == "1")
             {
-                string condicion = "(TB_CAORDSER.Cod_DetVta <> '08') AND (TB_CAORDSER.Cod_Sucursal='" + sucursal + "') AND (TB_CAORDSER.Cod_Venta <> '001') AND (TB_CAORDSER.OrSer_Status <> '004') AND (TB_CAORDSER.OrSer_Status <> '003') AND (TB_CAORDSER.OrSer_Status <> '006') AND (TB_CAORDSER.Fec_Envio IS NULL) AND (TB_CAORDSER.Fec_Recibido IS NULL) AND (TB_CAORDSER.Fec_Entrega IS NULL) AND (TB_SUCURSALLABORATORIOSERVICIO.Envio_Digital = '1') AND (TB_CAORDSER.Anulado='0') ORDER BY TB_CAORDSER.NumOrdserv";
+                    //string condicion = "(TB_CAORDSER.Cod_DetVta <>''08'') AND (TB_CAORDSER.Cod_Sucursal=''" + sucursal + "'') AND (TB_CAORDSER.Cod_Venta <> ''001'') AND (TB_CAORDSER.OrSer_Status <> ''004'') AND (TB_CAORDSER.OrSer_Status <> ''003'') AND (TB_CAORDSER.OrSer_Status <> ''006'') AND (TB_CAORDSER.Fec_Envio IS NULL)  AND (TB_CAORDSER.Fec_Recibido IS NULL) AND (TB_CAORDSER.Fec_Entrega IS NULL) AND (TB_SUCURSALLABORATORIOSERVICIO.Envio_Digital = ''1'') AND (TB_CAORDSER.Anulado=''0'') ORDER BY TB_CAORDSER.NumOrdserv";
+                    string condicion = "(TB_CAORDSER.Cod_DetVta <>'08') AND (TB_CAORDSER.Cod_Sucursal='122') AND (TB_CAORDSER.Cod_Venta <>'001') AND (TB_CAORDSER.OrSer_Status <>'004') AND (TB_CAORDSER.OrSer_Status <>'003') AND (TB_CAORDSER.OrSer_Status <>'006') AND (TB_CAORDSER.Fec_Envio IS NULL) AND (TB_CAORDSER.Fec_Recibido IS NULL) AND (TB_CAORDSER.Fec_Entrega IS NULL) AND (TB_SUCURSALLABORATORIOSERVICIO.Envio_Digital = '1') AND (TB_CAORDSER.Anulado='0') ORDER BY TB_CAORDSER.NumOrdserv";
+                    string bandera = "ENVOS";
 
-                string bandera = "ENVOS";
-
-                _L_CierreCaja.ORDSERVCRITERIOSVARIOS("","");
-
-                _FrmMensajes.co = 2;
-                _FrmMensajes.avisomensaje("Realice todos los envios digitales antes de realizar el cierre definitivo");
-                _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
-                _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
-                _FrmMensajes.ShowDialog();
-                return;
-            }
-            }
+                    if (_L_CierreCaja.ORDSERVCRITERIOSVARIOS(bandera, condicion))
+                    {
+                        _FrmMensajes.co = 2;
+                        _FrmMensajes.avisomensaje("Realice todos los envios digitales antes de realizar el cierre definitivo");
+                        _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                        _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                        _FrmMensajes.ShowDialog();
+                        return;
+                    }
+                }
+            //}
             PnlListadoOrdenes.Controls.Clear();
             _FrmCierreDeCaja.CargarInicio();
             addformulario(_FrmCierreDeCaja);
@@ -1192,22 +1224,23 @@ namespace CapaVisual_Login
                 _FrmMensajes.avisomensaje("Bloqueado por no recibir transferencias o solicitudes ¿Desea desbloquear el sistema?");
                 _FrmMensajes.ShowDialog();
 
-                _FrmClaveAutorizada.Nuevo_Parametro = true;
-                _FrmClaveAutorizada.Parametro_Nuevo = _D_DetalleOrden.TB_PARAMETRO("Codigo_nomina");
-                _FrmClaveAutorizada.ShowDialog();
-
-                if (_FrmClaveAutorizada.DialogResult == DialogResult.OK && _FrmClaveAutorizada.ClaveCorrecta == true)
+                if (_FrmMensajes.DialogResult == DialogResult.OK)
                 {
-                    _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "088", TB_USUARIO.COD_EMPLEADO, $"Autorizacion por Transferencias o Solicitudes Autorizado por:  {TB_USUARIO.COD_EMPLEADO}");
+                    _FrmClaveAutorizada.Nuevo_Parametro = true;
+                    _FrmClaveAutorizada.Parametro_Nuevo = _D_DetalleOrden.TB_PARAMETRO("Codigo_nomina");
+                    _FrmClaveAutorizada.ShowDialog();
 
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                    if (_FrmClaveAutorizada.DialogResult == DialogResult.OK && _FrmClaveAutorizada.ClaveCorrecta == true)
+                    {
+                        _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "088", TB_USUARIO.COD_EMPLEADO, $"Autorizacion por Transferencias o Solicitudes Autorizado por:  {TB_USUARIO.COD_EMPLEADO}");
 
-                
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
             }
 
             return true;
@@ -1215,13 +1248,46 @@ namespace CapaVisual_Login
 
         private void btnPromoCasada_Click(object sender, EventArgs e)
         {
+            //// Limpiar controles existentes
+            //foreach (Control control in PnlListadoOrdenes.Controls)
+            //{
+            //    if (control is Form form)
+            //    {
+            //        form.Close();
+            //        form.Dispose();
+            //    }
+            //}
+
+            // Limpiar solo instancias de FrmPromoCasada
+            foreach (Control control in PnlListadoOrdenes.Controls.OfType<FrmPromoCasada>().ToList())
+            {
+                var form = (FrmPromoCasada)control;
+                form.Close();
+                form.Dispose();
+                PnlListadoOrdenes.Controls.Remove(form);
+            }
+
             PnlListadoOrdenes.Controls.Clear();
-            //_FrmCierreDeCaja.CargarInicio();
-            addformulario(_FrmPromoCasada);
-            Focus();
+
+            // Crear nueva instancia
+            var nuevoForm = new FrmPromoCasada()
+            {
+                TopLevel = false,
+                FormBorderStyle = FormBorderStyle.None,
+                Dock = DockStyle.Fill
+            };
+
+            PnlListadoOrdenes.Controls.Add(nuevoForm);
+            nuevoForm.Show();
+            nuevoForm.Focus();
         }
 
         private void PnlListadoOrdenes_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void pnlUtilitarios_Paint(object sender, PaintEventArgs e)
         {
 
         }

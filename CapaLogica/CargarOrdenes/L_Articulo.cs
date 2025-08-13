@@ -3625,21 +3625,21 @@ namespace CapaLogica.CargarOrdenes
                 string horaOfrecida = string.Empty;
 
                 // Lógica para HorasServicio SERVICIO EXPRESS
-                if (servicio == "018"  && (GlbCodDetVta == "01" || GlbCodDetVta == "08"))
+                if (servicio == "018"  && (GlbCodDetVta == "01" || GlbCodDetVta == "02" || GlbCodDetVta == "08"))
                 {
                     FechaHoraOfrecida resultado = Calculo_Servicio_3Horas(_D_Inicio.DiaActivo());
                     return new List<FechaHoraOfrecida> { resultado };
                 }
 
                 // Lógica para HorasServicio SERVICIO ENTREGA 3 HORAS
-                else if (servicio == "004" && (GlbCodDetVta == "01" || GlbCodDetVta == "08"))
+                else if (servicio == "004" && (GlbCodDetVta == "01" || GlbCodDetVta == "02" || GlbCodDetVta == "08"))
                 {
                     FechaHoraOfrecida resultado = Calculo_Servicio_12Horas(_D_Inicio.DiaActivo());
                     return new List<FechaHoraOfrecida> { resultado };
                 }
 
                 // Lógica para HorasServicio SERVICIO ENTREGA 3 HORAS
-                else if (servicio == "017" && (GlbCodDetVta == "01" || GlbCodDetVta == "08"))
+                else if (servicio == "017" && (GlbCodDetVta == "01" || GlbCodDetVta == "02" || GlbCodDetVta == "08"))
                 {
                     // Retornar el resultado como una lista
                     return new List<FechaHoraOfrecida>
@@ -3870,7 +3870,10 @@ namespace CapaLogica.CargarOrdenes
                     else if (codigo.StartsWith("M") || codigo.StartsWith("L"))
                         MONTURA = codigo;
                     else if (codigo.StartsWith("W"))
+                    {
                         LC = codigo;
+                        Laboratorio = row.Cells["codLab"].Value.ToString();
+                    }
                     else if (codigo.StartsWith("S"))
                         if (dsServAR.Tables.Count > 1)
                         {

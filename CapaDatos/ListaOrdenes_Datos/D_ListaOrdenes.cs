@@ -276,15 +276,58 @@ namespace CapaDatos.ListaOrdenes_Datos
 
         }
 
-        public DataSet CargarOrdenesPromo(string usuario, string diaActivo)
+
+        public DataSet CargarOrdenesPromo(string CodUsuario, string diaActivo, string CodPromo= "", SqlCommand command = null)
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("pGetOSPromo", cn.LeerCadena());
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@USER", usuario);
-                cmd.Parameters.AddWithValue("@DIAACTIVO", diaActivo);
 
+                if (command == null)
+                {
+                    SqlConnection connection = cn.LeerCadena();
+                    command = connection.CreateCommand();
+                }
+
+                SqlCommand cmd = command;
+                cmd.Parameters.Clear();
+
+                cmd.CommandText = "pGetOSPromo";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@USER", CodUsuario);
+                cmd.Parameters.AddWithValue("@DIAACTIVO", diaActivo);
+                cmd.Parameters.AddWithValue("@CodigoPromo", CodPromo);
+                DataSet dts = new DataSet();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dts);
+                return (dts);
+
+            }
+
+            catch (Exception ex)
+            {
+                return null;
+                //MessageBox.Show(string.Format("Error: {0}", ex.Message), "Error inesperado");
+            }
+
+        }
+
+        public DataSet CargarInformacionPromoCasadas(string diaActivo, SqlCommand command = null)
+        {
+            try
+            {
+
+                if (command == null)
+                {
+                    SqlConnection connection = cn.LeerCadena();
+                    command = connection.CreateCommand();
+                }
+
+                SqlCommand cmd = command;
+                cmd.Parameters.Clear();
+
+                cmd.CommandText = "SP_CPOS_Obtener_Informacion_Promos_Casadas";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@DIAACTIVO", diaActivo);
                 DataSet dts = new DataSet();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(dts);
@@ -298,6 +341,56 @@ namespace CapaDatos.ListaOrdenes_Datos
             }
 
         }
+
+        public DataSet EjecutaStoreProcedure(string nombreProcedimiento, string parametrosOrdenes, SqlCommand command = null)
+        {
+
+            try
+            {
+                if (command == null)
+                {
+                    SqlConnection connection = cn.LeerCadena();
+                    command = connection.CreateCommand();
+                }
+                SqlCommand cmd = command;
+                cmd.Parameters.Clear();
+
+                // Configurar el comando para el stored procedure
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = nombreProcedimiento;
+                cmd.Parameters.Clear();
+
+                // Agregar parámetros según el formato que esperas
+                string[] ordenes = parametrosOrdenes.Split(new string[] { "', '" }, StringSplitOptions.RemoveEmptyEntries);
+
+                for (int i = 0; i < ordenes.Length; i++)
+                {
+                    string paramName = $"@OS{i + 1}";
+                    cmd.Parameters.Add(CrearParametro(command, paramName, DbType.String, ordenes[i]));
+                }
+
+                DataSet dts = new DataSet();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dts);
+                return (dts);
+
+            }
+            catch (Exception ex)
+            {
+                return null;
+                //MessageBox.Show(string.Format("Error: {0}", ex.Message), "Error inesperado");
+            }
+        }
+
+        private IDbDataParameter CrearParametro(IDbCommand command, string nombre, DbType tipo, object valor)
+        {
+            var parametro = command.CreateParameter();
+            parametro.ParameterName = nombre;
+            parametro.DbType = tipo;
+            parametro.Value = valor ?? DBNull.Value;
+            return parametro;
+        }
+
 
     }
 }

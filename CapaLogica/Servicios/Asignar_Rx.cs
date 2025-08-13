@@ -95,7 +95,7 @@ namespace CapaLogica.Servicios
         trabajo.T_HORAOFRECIDO,                               // @HOFRE
         trabajo.T_FECHAOFRECIDO,                              // @FOFRE
         trabajo.Cod_DetVta,                                   // @CODDETV
-        trabajo.TipoExamen,                                   // @TEXAM
+        "CONVENCIONAL",                                   // @TEXAM
         trabajo.USER_CREA,                                    // @USER
         trabajo.T_SUCURSAL                                    // @SUC
     );
@@ -367,7 +367,7 @@ namespace CapaLogica.Servicios
                 DataSet dsConsultaCristal = _D_Articulo.MostrarParametrosCrtGrid(CristalD, CristalI, command);
                 dgvRangoCrt.DataSource = dsConsultaCristal.Tables[0];
                 stringBuilder.Clear();
-                stringBuilder.Append("El Cristal no se adapta a estos parámetros");
+                stringBuilder.Append("El cristal no se adapta a estos parámetros");
             }
 
             return VerificoParametrosCristales;
@@ -532,6 +532,7 @@ namespace CapaLogica.Servicios
 
         public bool ValidarExamenOptico(
            Action<string> mostrarError,
+           Func<string, string, DialogResult> mostrarPregunta,
            List<TB_TRABAJO> trabajos,
            TB_EXAMENCTE examen,
            List<TB_FICCONV> examenConv2,
@@ -681,11 +682,8 @@ namespace CapaLogica.Servicios
                 if ((examen.ESFD < 0m && examen.ESFI > 0m) ||
                     (examen.ESFI < 0m && examen.ESFD > 0m))
                 {
-                    var result = MessageBox.Show("Está colocando Esferas diferentes. ¿Desea continuar?",
-                                               "Advertencia",
-                                               MessageBoxButtons.YesNo,
-                                               MessageBoxIcon.Question,
-                                               MessageBoxDefaultButton.Button2);
+                    var result = mostrarPregunta("Está colocando Esferas diferentes. ¿Desea continuar?",
+                                               "Advertencia");
                     if (result == DialogResult.No)
                         return false;
                 }
@@ -694,11 +692,8 @@ namespace CapaLogica.Servicios
                 if ((examen.ESFD2 < 0m && examen.ESFI2 > 0m) ||
                     (examen.ESFI2 < 0m && examen.ESFD2 > 0m))
                 {
-                    var result = MessageBox.Show("Está colocando Esferas diferentes para la segunda refracción. ¿Desea continuar?",
-                                               "Advertencia",
-                                               MessageBoxButtons.YesNo,
-                                               MessageBoxIcon.Question,
-                                               MessageBoxDefaultButton.Button2);
+                    var result = mostrarPregunta("Está colocando Esferas diferentes para la segunda refracción. ¿Desea continuar?",
+                                               "Advertencia");
                     if (result == DialogResult.No)
                         return false;
                 }
@@ -749,11 +744,9 @@ namespace CapaLogica.Servicios
                 // Validación de alturas diferentes (advertencia)
                 if ((cbOjo.Text == "Ambos") && (txtAltD.Text != txtAltI.Text))
                 {
-                    var result = MessageBox.Show("Está colocando alturas diferentes. ¿Desea continuar?",
-                                               "Advertencia",
-                                               MessageBoxButtons.YesNo,
-                                               MessageBoxIcon.Question,
-                                               MessageBoxDefaultButton.Button2);
+                    var result = mostrarPregunta("Está colocando alturas diferentes. ¿Desea continuar?",
+                                               "Advertencia");
+
                     if (result == DialogResult.No)
                         return false;
                 }
