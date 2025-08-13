@@ -151,6 +151,7 @@ namespace CapaVisual_Login
             this.pnlUtilitarios.Size = new System.Drawing.Size(207, 108);
             this.pnlUtilitarios.TabIndex = 0;
             this.pnlUtilitarios.Visible = false;
+            this.pnlUtilitarios.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlUtilitarios_Paint);
             // 
             // btnReimpresion
             // 
@@ -216,7 +217,7 @@ namespace CapaVisual_Login
             // pictureBox5
             // 
             this.pictureBox5.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox5.Image")));
-            this.pictureBox5.Location = new System.Drawing.Point(14, 334);
+            this.pictureBox5.Location = new System.Drawing.Point(14, 289);
             this.pictureBox5.Name = "pictureBox5";
             this.pictureBox5.Size = new System.Drawing.Size(18, 23);
             this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -226,7 +227,6 @@ namespace CapaVisual_Login
             // btnPromoCasada
             // 
             this.btnPromoCasada.BackColor = System.Drawing.Color.Transparent;
-            this.btnPromoCasada.Enabled = false;
             this.btnPromoCasada.FlatAppearance.BorderColor = System.Drawing.Color.White;
             this.btnPromoCasada.FlatAppearance.BorderSize = 0;
             this.btnPromoCasada.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(4)))), ((int)(((byte)(185)))), ((int)(((byte)(166)))));
@@ -235,7 +235,7 @@ namespace CapaVisual_Login
             this.btnPromoCasada.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnPromoCasada.ForeColor = System.Drawing.Color.Black;
             this.btnPromoCasada.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.btnPromoCasada.Location = new System.Drawing.Point(43, 333);
+            this.btnPromoCasada.Location = new System.Drawing.Point(43, 289);
             this.btnPromoCasada.Name = "btnPromoCasada";
             this.btnPromoCasada.Size = new System.Drawing.Size(168, 34);
             this.btnPromoCasada.TabIndex = 37;
@@ -246,7 +246,7 @@ namespace CapaVisual_Login
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(9, 366);
+            this.button1.Location = new System.Drawing.Point(6, 435);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 36;
@@ -492,7 +492,7 @@ namespace CapaVisual_Login
             // PicBoxConfigClaro
             // 
             this.PicBoxConfigClaro.Image = ((System.Drawing.Image)(resources.GetObject("PicBoxConfigClaro.Image")));
-            this.PicBoxConfigClaro.Location = new System.Drawing.Point(9, 293);
+            this.PicBoxConfigClaro.Location = new System.Drawing.Point(9, 327);
             this.PicBoxConfigClaro.Name = "PicBoxConfigClaro";
             this.PicBoxConfigClaro.Size = new System.Drawing.Size(28, 31);
             this.PicBoxConfigClaro.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -520,7 +520,7 @@ namespace CapaVisual_Login
             this.btnconfiguracion.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnconfiguracion.ForeColor = System.Drawing.Color.Black;
             this.btnconfiguracion.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.btnconfiguracion.Location = new System.Drawing.Point(43, 293);
+            this.btnconfiguracion.Location = new System.Drawing.Point(43, 326);
             this.btnconfiguracion.Name = "btnconfiguracion";
             this.btnconfiguracion.Size = new System.Drawing.Size(168, 34);
             this.btnconfiguracion.TabIndex = 12;
@@ -659,7 +659,7 @@ namespace CapaVisual_Login
             // PicBoxConfigOsc
             // 
             this.PicBoxConfigOsc.Image = ((System.Drawing.Image)(resources.GetObject("PicBoxConfigOsc.Image")));
-            this.PicBoxConfigOsc.Location = new System.Drawing.Point(9, 293);
+            this.PicBoxConfigOsc.Location = new System.Drawing.Point(9, 326);
             this.PicBoxConfigOsc.Name = "PicBoxConfigOsc";
             this.PicBoxConfigOsc.Size = new System.Drawing.Size(28, 31);
             this.PicBoxConfigOsc.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;

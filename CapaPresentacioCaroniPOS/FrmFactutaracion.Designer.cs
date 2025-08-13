@@ -264,6 +264,7 @@ namespace CapaVisual_Login
             this.label77 = new System.Windows.Forms.Label();
             this.lbPromocion = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnQR = new System.Windows.Forms.RadioButton();
             this.btnPrincipal = new System.Windows.Forms.RadioButton();
             this.btnDetalleOrden = new System.Windows.Forms.RadioButton();
             this.btnExamen = new System.Windows.Forms.RadioButton();
@@ -3206,6 +3207,7 @@ namespace CapaVisual_Login
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.btnQR);
             this.panel1.Controls.Add(this.btnPrincipal);
             this.panel1.Controls.Add(this.btnDetalleOrden);
             this.panel1.Controls.Add(this.btnExamen);
@@ -3213,6 +3215,20 @@ namespace CapaVisual_Login
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1070, 34);
             this.panel1.TabIndex = 99;
+            // 
+            // btnQR
+            // 
+            this.btnQR.Appearance = System.Windows.Forms.Appearance.Button;
+            this.btnQR.FlatAppearance.BorderSize = 0;
+            this.btnQR.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnQR.Image = global::CapaVisual_Login.Properties.Resources.Codigo_QR_Claro;
+            this.btnQR.Location = new System.Drawing.Point(146, 2);
+            this.btnQR.Margin = new System.Windows.Forms.Padding(0);
+            this.btnQR.Name = "btnQR";
+            this.btnQR.Size = new System.Drawing.Size(40, 30);
+            this.btnQR.TabIndex = 20;
+            this.btnQR.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.btnQR.UseVisualStyleBackColor = true;
             // 
             // btnPrincipal
             // 
@@ -3561,5 +3577,6 @@ namespace CapaVisual_Login
         private System.Windows.Forms.Label label73;
         private System.Windows.Forms.TextBox txtTotalRef;
         private System.Windows.Forms.Label label74;
+        private System.Windows.Forms.RadioButton btnQR;
     }
 }
