@@ -7429,9 +7429,54 @@ namespace CapaVisual_Login
                     dt.Rows[0]["Cerca"] = con.DPDC.HasValue ? con.DPDC.Value : 0M;
                     dt.Rows[1]["Cerca"] = con.DPIC.HasValue ? con.DPIC.Value : 0M;
 
+                    switch (con.PBASED)
+                    {
+                        case "Arr":
+                            dt.Rows[0]["Grado1"] = 90;
+                            break;
 
-                    dt.Rows[0]["Grado1"] = string.IsNullOrWhiteSpace(con.PBASED) ? "0" : con.PBASED;
-                    dt.Rows[1]["Grado1"] = string.IsNullOrWhiteSpace(con.PBASEI) ? "0" : con.PBASEI;
+                        case "Abj":
+                            dt.Rows[0]["Grado1"] = 270;
+                            break;
+
+                        case "Nas":
+                            dt.Rows[0]["Grado1"] = 360;
+                            break;
+
+                        case "Tem":
+                            dt.Rows[0]["Grado1"] = 180;
+                            break;
+
+                        default:
+                            dt.Rows[0]["Grado1"] = 0;
+                            break;
+                    }
+
+                    switch (con.PBASEI)
+                    {
+                        case "Arr":
+                            dt.Rows[1]["Grado1"] = 90;
+                            break;
+
+                        case "Abj":
+                            dt.Rows[1]["Grado1"] = 270;
+                            break;
+
+                        case "Nas":
+                            dt.Rows[1]["Grado1"] = 360;
+                            break;
+
+                        case "Tem":
+                            dt.Rows[1]["Grado1"] = 180;
+                            break;
+
+                        default:
+                            dt.Rows[1]["Grado1"] = 0;
+                            break;
+                    }
+
+                    //dt.Rows[0]["Grado1"] = string.IsNullOrWhiteSpace(con.PBASED) ? "0" : con.PBASED;
+                    //dt.Rows[1]["Grado1"] = string.IsNullOrWhiteSpace(con.PBASEI) ? "0" : con.PBASEI;
 
                     dt.Rows[0]["Prisma1"] = con.PRISMAD;
                     dt.Rows[1]["Prisma1"] = con.PRISMAI;
@@ -10276,9 +10321,54 @@ namespace CapaVisual_Login
                     nuevoFicconv.ALTD = Convert.ToDecimal(txtAltD.Text);
                     nuevoFicconv.ALTI = Convert.ToDecimal(txtAltI.Text);
 
-                    //nuevoFicconv.PBASED = Dgv_Pnl2_conv.Rows[0].Cells["Grado1"]?.Value.ToString();
-                    nuevoFicconv.PBASED = Dgv_Pnl2_conv.Rows[0].Cells["Grado1"]?.Value?.ToString() == "0" ? "" : Dgv_Pnl2_conv.Rows[0].Cells["Grado1"]?.Value?.ToString();
-                    nuevoFicconv.PBASEI = Dgv_Pnl2_conv.Rows[1].Cells["Grado1"]?.Value?.ToString() == "0" ? "" : Dgv_Pnl2_conv.Rows[1].Cells["Grado1"]?.Value?.ToString();
+                    switch (Dgv_Pnl2_conv.Rows[0].Cells["Grado1"]?.Value?.ToString())
+                    {
+                        case "90":
+                            nuevoFicconv.PBASED = "Arr";
+                            break;
+
+                        case "270":
+                            nuevoFicconv.PBASED = "Abj";
+                            break;
+
+                        case "360":
+                            nuevoFicconv.PBASED = "Nas";
+                            break;
+
+                        case "180":
+                            nuevoFicconv.PBASED = "Tem";
+                            break;
+
+                        default:
+                            nuevoFicconv.PBASED = "";
+                            break;
+                    }
+
+                    switch (Dgv_Pnl2_conv.Rows[1].Cells["Grado1"]?.Value?.ToString())
+                    {
+                        case "90":
+                            nuevoFicconv.PBASEI = "Arr";
+                            break;
+
+                        case "270":
+                            nuevoFicconv.PBASEI = "Abj";
+                            break;
+
+                        case "360":
+                            nuevoFicconv.PBASEI = "Nas";
+                            break;
+
+                        case "180":
+                            nuevoFicconv.PBASEI = "Tem";
+                            break;
+
+                        default:
+                            nuevoFicconv.PBASEI = "";
+                            break;
+                    }
+
+                    //nuevoFicconv.PBASED = Dgv_Pnl2_conv.Rows[0].Cells["Grado1"]?.Value?.ToString() == "0" ? "" : Dgv_Pnl2_conv.Rows[0].Cells["Grado1"]?.Value?.ToString();
+                    //nuevoFicconv.PBASEI = Dgv_Pnl2_conv.Rows[1].Cells["Grado1"]?.Value?.ToString() == "0" ? "" : Dgv_Pnl2_conv.Rows[1].Cells["Grado1"]?.Value?.ToString();
 
 
                     nuevoFicconv.AVD = Dgv_Pnl2_conv.Rows[0].Cells["VISUAL"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[0].Cells["VISUAL"].Value) : 0;
