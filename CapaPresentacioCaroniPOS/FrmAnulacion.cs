@@ -652,6 +652,7 @@ namespace CapaVisual_Login
                             }
                             if (resp == 0)
                             {
+                                resp = objVmax.SubtotalT_sinRetorno(Convert.ToString(TB_FACTURAS.Fact_IGTF).Replace(".", ","));
                                 resp = objVmax.Subtotal();
                                 resp = objVmax.TextoNoFiscal("Monto Disponible:  " + Monto.ToString());
                                 objVmax.ObtenerReporteInformativo();

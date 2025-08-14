@@ -941,6 +941,28 @@ public void MovimientoInventario(string CodArticulo, string TipoDoc, string Docu
 
         }
 
+        public DataSet IGTF_NotaCreditoFiscal(string NumeroOrdenServicio, SqlCommand command = null)
+        {
+            if (command == null)
+            {
+                SqlConnection connection = cn.LeerCadena();
+                command = connection.CreateCommand();
+            }
+            SqlCommand cmd = command;
+            cmd.CommandText = "SP_IGTF_Factura";
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@Cod_Sucursal", NumeroOrdenServicio);
+            cmd.Parameters.AddWithValue("@NumOrden", NumeroOrdenServicio);
+            cmd.Parameters.AddWithValue("@NumOrden", NumeroOrdenServicio);
+            DataSet dts = new DataSet();
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            da.Fill(dts);
+            cmd.Parameters.Clear();
+            return dts;
+
+
+        }
+
         public void ObtenerFactura(string NumeroOrden)
         {
             try
