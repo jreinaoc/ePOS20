@@ -443,6 +443,112 @@ namespace CapaVisual_Login.Reportes {
             
             private global::System.Data.DataColumn columnRepGarantia;
             
+            private global::System.Data.DataColumn columnESFD1;
+            
+            private global::System.Data.DataColumn columnESFI1;
+            
+            private global::System.Data.DataColumn columnCILD1;
+            
+            private global::System.Data.DataColumn columnCILI1;
+            
+            private global::System.Data.DataColumn columnEJED1;
+            
+            private global::System.Data.DataColumn columnEJEI1;
+            
+            private global::System.Data.DataColumn columnADDD1;
+            
+            private global::System.Data.DataColumn columnADDI1;
+            
+            private global::System.Data.DataColumn columnESFD_LC1;
+            
+            private global::System.Data.DataColumn columnESFI_LC1;
+            
+            private global::System.Data.DataColumn columnCILD_LC1;
+            
+            private global::System.Data.DataColumn columnCILI_LC1;
+            
+            private global::System.Data.DataColumn columnEJED_LC1;
+            
+            private global::System.Data.DataColumn columnEJEI_LC1;
+            
+            private global::System.Data.DataColumn columnADDD_LC1;
+            
+            private global::System.Data.DataColumn columnADDI_LC1;
+            
+            private global::System.Data.DataColumn columnCBD1;
+            
+            private global::System.Data.DataColumn columnCBI1;
+            
+            private global::System.Data.DataColumn columnDIAMD1;
+            
+            private global::System.Data.DataColumn columnDIAMI1;
+            
+            private global::System.Data.DataColumn columnAVD1;
+            
+            private global::System.Data.DataColumn columnAVI1;
+            
+            private global::System.Data.DataColumn columnPRD;
+            
+            private global::System.Data.DataColumn columnBASED;
+            
+            private global::System.Data.DataColumn columnPRI;
+            
+            private global::System.Data.DataColumn columnBASEI;
+            
+            private global::System.Data.DataColumn columnDPDL1;
+            
+            private global::System.Data.DataColumn columnDPDC1;
+            
+            private global::System.Data.DataColumn columnDPIL1;
+            
+            private global::System.Data.DataColumn columnDPIC1;
+            
+            private global::System.Data.DataColumn columnBROLDCV1;
+            
+            private global::System.Data.DataColumn columnBROLICV1;
+            
+            private global::System.Data.DataColumn columnBROCDCV1;
+            
+            private global::System.Data.DataColumn columnBROCICV1;
+            
+            private global::System.Data.DataColumn columnBROMDCV1;
+            
+            private global::System.Data.DataColumn columnBROMICV1;
+            
+            private global::System.Data.DataColumn columnESFD21;
+            
+            private global::System.Data.DataColumn columnESFI21;
+            
+            private global::System.Data.DataColumn columnCILD21;
+            
+            private global::System.Data.DataColumn columnCILI21;
+            
+            private global::System.Data.DataColumn columnEJED21;
+            
+            private global::System.Data.DataColumn columnEJEI21;
+            
+            private global::System.Data.DataColumn columnT_HORIZONTAL1;
+            
+            private global::System.Data.DataColumn columnT_VERTICAL1;
+            
+            private global::System.Data.DataColumn columnT_MAXIMA1;
+            
+            private global::System.Data.DataColumn columnT_PUENTE1;
+            
+            private global::System.Data.DataColumn columnT_DISTANCIADELECTURA1;
+            
+            private global::System.Data.DataColumn columnT_DISTANCIAVERTICE1;
+            
+            private global::System.Data.DataColumn columnT_ANGULOPANTOSCOPICO1;
+            
+            private global::System.Data.DataColumn columnT_ANGULOFACIAL1;
+            
+            private global::System.Data.DataColumn columnT_ALTD1;
+            
+            private global::System.Data.DataColumn columnT_ALTI1;
+            
+            private global::System.Data.DataColumn columnNumExame1;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public SP_CPOS_REP_ORDENDataTable() {
@@ -1134,6 +1240,430 @@ namespace CapaVisual_Login.Reportes {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn ESFD1Column {
+                get {
+                    return this.columnESFD1;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn ESFI1Column {
+                get {
+                    return this.columnESFI1;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn CILD1Column {
+                get {
+                    return this.columnCILD1;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn CILI1Column {
+                get {
+                    return this.columnCILI1;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn EJED1Column {
+                get {
+                    return this.columnEJED1;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn EJEI1Column {
+                get {
+                    return this.columnEJEI1;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn ADDD1Column {
+                get {
+                    return this.columnADDD1;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn ADDI1Column {
+                get {
+                    return this.columnADDI1;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn ESFD_LC1Column {
+                get {
+                    return this.columnESFD_LC1;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn ESFI_LC1Column {
+                get {
+                    return this.columnESFI_LC1;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn CILD_LC1Column {
+                get {
+                    return this.columnCILD_LC1;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn CILI_LC1Column {
+                get {
+                    return this.columnCILI_LC1;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn EJED_LC1Column {
+                get {
+                    return this.columnEJED_LC1;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn EJEI_LC1Column {
+                get {
+                    return this.columnEJEI_LC1;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn ADDD_LC1Column {
+                get {
+                    return this.columnADDD_LC1;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn ADDI_LC1Column {
+                get {
+                    return this.columnADDI_LC1;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn CBD1Column {
+                get {
+                    return this.columnCBD1;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn CBI1Column {
+                get {
+                    return this.columnCBI1;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn DIAMD1Column {
+                get {
+                    return this.columnDIAMD1;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn DIAMI1Column {
+                get {
+                    return this.columnDIAMI1;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn AVD1Column {
+                get {
+                    return this.columnAVD1;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn AVI1Column {
+                get {
+                    return this.columnAVI1;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn PRDColumn {
+                get {
+                    return this.columnPRD;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn BASEDColumn {
+                get {
+                    return this.columnBASED;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn PRIColumn {
+                get {
+                    return this.columnPRI;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn BASEIColumn {
+                get {
+                    return this.columnBASEI;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn DPDL1Column {
+                get {
+                    return this.columnDPDL1;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn DPDC1Column {
+                get {
+                    return this.columnDPDC1;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn DPIL1Column {
+                get {
+                    return this.columnDPIL1;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn DPIC1Column {
+                get {
+                    return this.columnDPIC1;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn BROLDCV1Column {
+                get {
+                    return this.columnBROLDCV1;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn BROLICV1Column {
+                get {
+                    return this.columnBROLICV1;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn BROCDCV1Column {
+                get {
+                    return this.columnBROCDCV1;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn BROCICV1Column {
+                get {
+                    return this.columnBROCICV1;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn BROMDCV1Column {
+                get {
+                    return this.columnBROMDCV1;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn BROMICV1Column {
+                get {
+                    return this.columnBROMICV1;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn ESFD21Column {
+                get {
+                    return this.columnESFD21;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn ESFI21Column {
+                get {
+                    return this.columnESFI21;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn CILD21Column {
+                get {
+                    return this.columnCILD21;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn CILI21Column {
+                get {
+                    return this.columnCILI21;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn EJED21Column {
+                get {
+                    return this.columnEJED21;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn EJEI21Column {
+                get {
+                    return this.columnEJEI21;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn T_HORIZONTAL1Column {
+                get {
+                    return this.columnT_HORIZONTAL1;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn T_VERTICAL1Column {
+                get {
+                    return this.columnT_VERTICAL1;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn T_MAXIMA1Column {
+                get {
+                    return this.columnT_MAXIMA1;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn T_PUENTE1Column {
+                get {
+                    return this.columnT_PUENTE1;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn T_DISTANCIADELECTURA1Column {
+                get {
+                    return this.columnT_DISTANCIADELECTURA1;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn T_DISTANCIAVERTICE1Column {
+                get {
+                    return this.columnT_DISTANCIAVERTICE1;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn T_ANGULOPANTOSCOPICO1Column {
+                get {
+                    return this.columnT_ANGULOPANTOSCOPICO1;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn T_ANGULOFACIAL1Column {
+                get {
+                    return this.columnT_ANGULOFACIAL1;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn T_ALTD1Column {
+                get {
+                    return this.columnT_ALTD1;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn T_ALTI1Column {
+                get {
+                    return this.columnT_ALTI1;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn NumExame1Column {
+                get {
+                    return this.columnNumExame1;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -1251,7 +1781,60 @@ namespace CapaVisual_Login.Reportes {
                         string Observacion, 
                         string NumExame, 
                         string TipoTrabajo, 
-                        string RepGarantia) {
+                        string RepGarantia, 
+                        string ESFD1, 
+                        string ESFI1, 
+                        string CILD1, 
+                        string CILI1, 
+                        string EJED1, 
+                        string EJEI1, 
+                        string ADDD1, 
+                        string ADDI1, 
+                        string ESFD_LC1, 
+                        string ESFI_LC1, 
+                        string CILD_LC1, 
+                        string CILI_LC1, 
+                        string EJED_LC1, 
+                        string EJEI_LC1, 
+                        string ADDD_LC1, 
+                        string ADDI_LC1, 
+                        string CBD1, 
+                        string CBI1, 
+                        string DIAMD1, 
+                        string DIAMI1, 
+                        string AVD1, 
+                        string AVI1, 
+                        string PRD, 
+                        string BASED, 
+                        string PRI, 
+                        string BASEI, 
+                        string DPDL1, 
+                        string DPDC1, 
+                        string DPIL1, 
+                        string DPIC1, 
+                        string BROLDCV1, 
+                        string BROLICV1, 
+                        string BROCDCV1, 
+                        string BROCICV1, 
+                        string BROMDCV1, 
+                        string BROMICV1, 
+                        string ESFD21, 
+                        string ESFI21, 
+                        string CILD21, 
+                        string CILI21, 
+                        string EJED21, 
+                        string EJEI21, 
+                        string T_HORIZONTAL1, 
+                        string T_VERTICAL1, 
+                        string T_MAXIMA1, 
+                        string T_PUENTE1, 
+                        string T_DISTANCIADELECTURA1, 
+                        string T_DISTANCIAVERTICE1, 
+                        string T_ANGULOPANTOSCOPICO1, 
+                        string T_ANGULOFACIAL1, 
+                        string T_ALTD1, 
+                        string T_ALTI1, 
+                        int NumExame1) {
                 SP_CPOS_REP_ORDENRow rowSP_CPOS_REP_ORDENRow = ((SP_CPOS_REP_ORDENRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         Orden,
@@ -1335,7 +1918,60 @@ namespace CapaVisual_Login.Reportes {
                         Observacion,
                         NumExame,
                         TipoTrabajo,
-                        RepGarantia};
+                        RepGarantia,
+                        ESFD1,
+                        ESFI1,
+                        CILD1,
+                        CILI1,
+                        EJED1,
+                        EJEI1,
+                        ADDD1,
+                        ADDI1,
+                        ESFD_LC1,
+                        ESFI_LC1,
+                        CILD_LC1,
+                        CILI_LC1,
+                        EJED_LC1,
+                        EJEI_LC1,
+                        ADDD_LC1,
+                        ADDI_LC1,
+                        CBD1,
+                        CBI1,
+                        DIAMD1,
+                        DIAMI1,
+                        AVD1,
+                        AVI1,
+                        PRD,
+                        BASED,
+                        PRI,
+                        BASEI,
+                        DPDL1,
+                        DPDC1,
+                        DPIL1,
+                        DPIC1,
+                        BROLDCV1,
+                        BROLICV1,
+                        BROCDCV1,
+                        BROCICV1,
+                        BROMDCV1,
+                        BROMICV1,
+                        ESFD21,
+                        ESFI21,
+                        CILD21,
+                        CILI21,
+                        EJED21,
+                        EJEI21,
+                        T_HORIZONTAL1,
+                        T_VERTICAL1,
+                        T_MAXIMA1,
+                        T_PUENTE1,
+                        T_DISTANCIADELECTURA1,
+                        T_DISTANCIAVERTICE1,
+                        T_ANGULOPANTOSCOPICO1,
+                        T_ANGULOFACIAL1,
+                        T_ALTD1,
+                        T_ALTI1,
+                        NumExame1};
                 rowSP_CPOS_REP_ORDENRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowSP_CPOS_REP_ORDENRow);
                 return rowSP_CPOS_REP_ORDENRow;
@@ -1440,6 +2076,59 @@ namespace CapaVisual_Login.Reportes {
                 this.columnNumExame = base.Columns["NumExame"];
                 this.columnTipoTrabajo = base.Columns["TipoTrabajo"];
                 this.columnRepGarantia = base.Columns["RepGarantia"];
+                this.columnESFD1 = base.Columns["ESFD1"];
+                this.columnESFI1 = base.Columns["ESFI1"];
+                this.columnCILD1 = base.Columns["CILD1"];
+                this.columnCILI1 = base.Columns["CILI1"];
+                this.columnEJED1 = base.Columns["EJED1"];
+                this.columnEJEI1 = base.Columns["EJEI1"];
+                this.columnADDD1 = base.Columns["ADDD1"];
+                this.columnADDI1 = base.Columns["ADDI1"];
+                this.columnESFD_LC1 = base.Columns["ESFD_LC1"];
+                this.columnESFI_LC1 = base.Columns["ESFI_LC1"];
+                this.columnCILD_LC1 = base.Columns["CILD_LC1"];
+                this.columnCILI_LC1 = base.Columns["CILI_LC1"];
+                this.columnEJED_LC1 = base.Columns["EJED_LC1"];
+                this.columnEJEI_LC1 = base.Columns["EJEI_LC1"];
+                this.columnADDD_LC1 = base.Columns["ADDD_LC1"];
+                this.columnADDI_LC1 = base.Columns["ADDI_LC1"];
+                this.columnCBD1 = base.Columns["CBD1"];
+                this.columnCBI1 = base.Columns["CBI1"];
+                this.columnDIAMD1 = base.Columns["DIAMD1"];
+                this.columnDIAMI1 = base.Columns["DIAMI1"];
+                this.columnAVD1 = base.Columns["AVD1"];
+                this.columnAVI1 = base.Columns["AVI1"];
+                this.columnPRD = base.Columns["PRD"];
+                this.columnBASED = base.Columns["BASED"];
+                this.columnPRI = base.Columns["PRI"];
+                this.columnBASEI = base.Columns["BASEI"];
+                this.columnDPDL1 = base.Columns["DPDL1"];
+                this.columnDPDC1 = base.Columns["DPDC1"];
+                this.columnDPIL1 = base.Columns["DPIL1"];
+                this.columnDPIC1 = base.Columns["DPIC1"];
+                this.columnBROLDCV1 = base.Columns["BROLDCV1"];
+                this.columnBROLICV1 = base.Columns["BROLICV1"];
+                this.columnBROCDCV1 = base.Columns["BROCDCV1"];
+                this.columnBROCICV1 = base.Columns["BROCICV1"];
+                this.columnBROMDCV1 = base.Columns["BROMDCV1"];
+                this.columnBROMICV1 = base.Columns["BROMICV1"];
+                this.columnESFD21 = base.Columns["ESFD21"];
+                this.columnESFI21 = base.Columns["ESFI21"];
+                this.columnCILD21 = base.Columns["CILD21"];
+                this.columnCILI21 = base.Columns["CILI21"];
+                this.columnEJED21 = base.Columns["EJED21"];
+                this.columnEJEI21 = base.Columns["EJEI21"];
+                this.columnT_HORIZONTAL1 = base.Columns["T_HORIZONTAL1"];
+                this.columnT_VERTICAL1 = base.Columns["T_VERTICAL1"];
+                this.columnT_MAXIMA1 = base.Columns["T_MAXIMA1"];
+                this.columnT_PUENTE1 = base.Columns["T_PUENTE1"];
+                this.columnT_DISTANCIADELECTURA1 = base.Columns["T_DISTANCIADELECTURA1"];
+                this.columnT_DISTANCIAVERTICE1 = base.Columns["T_DISTANCIAVERTICE1"];
+                this.columnT_ANGULOPANTOSCOPICO1 = base.Columns["T_ANGULOPANTOSCOPICO1"];
+                this.columnT_ANGULOFACIAL1 = base.Columns["T_ANGULOFACIAL1"];
+                this.columnT_ALTD1 = base.Columns["T_ALTD1"];
+                this.columnT_ALTI1 = base.Columns["T_ALTI1"];
+                this.columnNumExame1 = base.Columns["NumExame1"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1609,6 +2298,112 @@ namespace CapaVisual_Login.Reportes {
                 base.Columns.Add(this.columnTipoTrabajo);
                 this.columnRepGarantia = new global::System.Data.DataColumn("RepGarantia", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnRepGarantia);
+                this.columnESFD1 = new global::System.Data.DataColumn("ESFD1", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnESFD1);
+                this.columnESFI1 = new global::System.Data.DataColumn("ESFI1", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnESFI1);
+                this.columnCILD1 = new global::System.Data.DataColumn("CILD1", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnCILD1);
+                this.columnCILI1 = new global::System.Data.DataColumn("CILI1", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnCILI1);
+                this.columnEJED1 = new global::System.Data.DataColumn("EJED1", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnEJED1);
+                this.columnEJEI1 = new global::System.Data.DataColumn("EJEI1", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnEJEI1);
+                this.columnADDD1 = new global::System.Data.DataColumn("ADDD1", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnADDD1);
+                this.columnADDI1 = new global::System.Data.DataColumn("ADDI1", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnADDI1);
+                this.columnESFD_LC1 = new global::System.Data.DataColumn("ESFD_LC1", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnESFD_LC1);
+                this.columnESFI_LC1 = new global::System.Data.DataColumn("ESFI_LC1", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnESFI_LC1);
+                this.columnCILD_LC1 = new global::System.Data.DataColumn("CILD_LC1", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnCILD_LC1);
+                this.columnCILI_LC1 = new global::System.Data.DataColumn("CILI_LC1", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnCILI_LC1);
+                this.columnEJED_LC1 = new global::System.Data.DataColumn("EJED_LC1", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnEJED_LC1);
+                this.columnEJEI_LC1 = new global::System.Data.DataColumn("EJEI_LC1", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnEJEI_LC1);
+                this.columnADDD_LC1 = new global::System.Data.DataColumn("ADDD_LC1", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnADDD_LC1);
+                this.columnADDI_LC1 = new global::System.Data.DataColumn("ADDI_LC1", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnADDI_LC1);
+                this.columnCBD1 = new global::System.Data.DataColumn("CBD1", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnCBD1);
+                this.columnCBI1 = new global::System.Data.DataColumn("CBI1", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnCBI1);
+                this.columnDIAMD1 = new global::System.Data.DataColumn("DIAMD1", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDIAMD1);
+                this.columnDIAMI1 = new global::System.Data.DataColumn("DIAMI1", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDIAMI1);
+                this.columnAVD1 = new global::System.Data.DataColumn("AVD1", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnAVD1);
+                this.columnAVI1 = new global::System.Data.DataColumn("AVI1", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnAVI1);
+                this.columnPRD = new global::System.Data.DataColumn("PRD", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPRD);
+                this.columnBASED = new global::System.Data.DataColumn("BASED", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnBASED);
+                this.columnPRI = new global::System.Data.DataColumn("PRI", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPRI);
+                this.columnBASEI = new global::System.Data.DataColumn("BASEI", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnBASEI);
+                this.columnDPDL1 = new global::System.Data.DataColumn("DPDL1", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDPDL1);
+                this.columnDPDC1 = new global::System.Data.DataColumn("DPDC1", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDPDC1);
+                this.columnDPIL1 = new global::System.Data.DataColumn("DPIL1", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDPIL1);
+                this.columnDPIC1 = new global::System.Data.DataColumn("DPIC1", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDPIC1);
+                this.columnBROLDCV1 = new global::System.Data.DataColumn("BROLDCV1", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnBROLDCV1);
+                this.columnBROLICV1 = new global::System.Data.DataColumn("BROLICV1", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnBROLICV1);
+                this.columnBROCDCV1 = new global::System.Data.DataColumn("BROCDCV1", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnBROCDCV1);
+                this.columnBROCICV1 = new global::System.Data.DataColumn("BROCICV1", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnBROCICV1);
+                this.columnBROMDCV1 = new global::System.Data.DataColumn("BROMDCV1", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnBROMDCV1);
+                this.columnBROMICV1 = new global::System.Data.DataColumn("BROMICV1", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnBROMICV1);
+                this.columnESFD21 = new global::System.Data.DataColumn("ESFD21", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnESFD21);
+                this.columnESFI21 = new global::System.Data.DataColumn("ESFI21", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnESFI21);
+                this.columnCILD21 = new global::System.Data.DataColumn("CILD21", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnCILD21);
+                this.columnCILI21 = new global::System.Data.DataColumn("CILI21", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnCILI21);
+                this.columnEJED21 = new global::System.Data.DataColumn("EJED21", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnEJED21);
+                this.columnEJEI21 = new global::System.Data.DataColumn("EJEI21", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnEJEI21);
+                this.columnT_HORIZONTAL1 = new global::System.Data.DataColumn("T_HORIZONTAL1", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnT_HORIZONTAL1);
+                this.columnT_VERTICAL1 = new global::System.Data.DataColumn("T_VERTICAL1", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnT_VERTICAL1);
+                this.columnT_MAXIMA1 = new global::System.Data.DataColumn("T_MAXIMA1", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnT_MAXIMA1);
+                this.columnT_PUENTE1 = new global::System.Data.DataColumn("T_PUENTE1", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnT_PUENTE1);
+                this.columnT_DISTANCIADELECTURA1 = new global::System.Data.DataColumn("T_DISTANCIADELECTURA1", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnT_DISTANCIADELECTURA1);
+                this.columnT_DISTANCIAVERTICE1 = new global::System.Data.DataColumn("T_DISTANCIAVERTICE1", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnT_DISTANCIAVERTICE1);
+                this.columnT_ANGULOPANTOSCOPICO1 = new global::System.Data.DataColumn("T_ANGULOPANTOSCOPICO1", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnT_ANGULOPANTOSCOPICO1);
+                this.columnT_ANGULOFACIAL1 = new global::System.Data.DataColumn("T_ANGULOFACIAL1", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnT_ANGULOFACIAL1);
+                this.columnT_ALTD1 = new global::System.Data.DataColumn("T_ALTD1", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnT_ALTD1);
+                this.columnT_ALTI1 = new global::System.Data.DataColumn("T_ALTI1", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnT_ALTI1);
+                this.columnNumExame1 = new global::System.Data.DataColumn("NumExame1", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnNumExame1);
                 this.columnOrden.ReadOnly = true;
                 this.columnOrden.MaxLength = 18;
                 this.columnCedula.ReadOnly = true;
@@ -1664,6 +2459,159 @@ namespace CapaVisual_Login.Reportes {
                 this.columnCOLOR.MaxLength = 10;
                 this.columnCompania.MaxLength = 75;
                 this.columnRifCompania.MaxLength = 25;
+                this.columnESFD1.ReadOnly = true;
+                this.columnESFD1.Caption = "ESFD";
+                this.columnESFD1.MaxLength = 30;
+                this.columnESFI1.ReadOnly = true;
+                this.columnESFI1.Caption = "ESFI";
+                this.columnESFI1.MaxLength = 30;
+                this.columnCILD1.ReadOnly = true;
+                this.columnCILD1.Caption = "CILD";
+                this.columnCILD1.MaxLength = 30;
+                this.columnCILI1.ReadOnly = true;
+                this.columnCILI1.Caption = "CILI";
+                this.columnCILI1.MaxLength = 30;
+                this.columnEJED1.ReadOnly = true;
+                this.columnEJED1.Caption = "EJED";
+                this.columnEJED1.MaxLength = 30;
+                this.columnEJEI1.ReadOnly = true;
+                this.columnEJEI1.Caption = "EJEI";
+                this.columnEJEI1.MaxLength = 30;
+                this.columnADDD1.ReadOnly = true;
+                this.columnADDD1.Caption = "ADDD";
+                this.columnADDD1.MaxLength = 30;
+                this.columnADDI1.ReadOnly = true;
+                this.columnADDI1.Caption = "ADDI";
+                this.columnADDI1.MaxLength = 30;
+                this.columnESFD_LC1.ReadOnly = true;
+                this.columnESFD_LC1.Caption = "ESFD_LC";
+                this.columnESFD_LC1.MaxLength = 30;
+                this.columnESFI_LC1.ReadOnly = true;
+                this.columnESFI_LC1.Caption = "ESFI_LC";
+                this.columnESFI_LC1.MaxLength = 30;
+                this.columnCILD_LC1.ReadOnly = true;
+                this.columnCILD_LC1.Caption = "CILD_LC";
+                this.columnCILD_LC1.MaxLength = 30;
+                this.columnCILI_LC1.ReadOnly = true;
+                this.columnCILI_LC1.Caption = "CILI_LC";
+                this.columnCILI_LC1.MaxLength = 30;
+                this.columnEJED_LC1.ReadOnly = true;
+                this.columnEJED_LC1.Caption = "EJED_LC";
+                this.columnEJED_LC1.MaxLength = 30;
+                this.columnEJEI_LC1.ReadOnly = true;
+                this.columnEJEI_LC1.Caption = "EJEI_LC";
+                this.columnEJEI_LC1.MaxLength = 30;
+                this.columnADDD_LC1.ReadOnly = true;
+                this.columnADDD_LC1.Caption = "ADDD_LC";
+                this.columnADDD_LC1.MaxLength = 30;
+                this.columnADDI_LC1.ReadOnly = true;
+                this.columnADDI_LC1.Caption = "ADDI_LC";
+                this.columnADDI_LC1.MaxLength = 30;
+                this.columnCBD1.ReadOnly = true;
+                this.columnCBD1.Caption = "CBD";
+                this.columnCBD1.MaxLength = 30;
+                this.columnCBI1.ReadOnly = true;
+                this.columnCBI1.Caption = "CBI";
+                this.columnCBI1.MaxLength = 30;
+                this.columnDIAMD1.ReadOnly = true;
+                this.columnDIAMD1.Caption = "DIAMD";
+                this.columnDIAMD1.MaxLength = 30;
+                this.columnDIAMI1.ReadOnly = true;
+                this.columnDIAMI1.Caption = "DIAMI";
+                this.columnDIAMI1.MaxLength = 30;
+                this.columnAVD1.ReadOnly = true;
+                this.columnAVD1.Caption = "AVD";
+                this.columnAVD1.MaxLength = 30;
+                this.columnAVI1.ReadOnly = true;
+                this.columnAVI1.Caption = "AVI";
+                this.columnAVI1.MaxLength = 30;
+                this.columnPRD.ReadOnly = true;
+                this.columnPRD.MaxLength = 8000;
+                this.columnBASED.ReadOnly = true;
+                this.columnBASED.MaxLength = 3;
+                this.columnPRI.ReadOnly = true;
+                this.columnPRI.MaxLength = 8000;
+                this.columnBASEI.ReadOnly = true;
+                this.columnBASEI.MaxLength = 3;
+                this.columnDPDL1.ReadOnly = true;
+                this.columnDPDL1.Caption = "DPDL";
+                this.columnDPDL1.MaxLength = 30;
+                this.columnDPDC1.ReadOnly = true;
+                this.columnDPDC1.Caption = "DPDC";
+                this.columnDPDC1.MaxLength = 30;
+                this.columnDPIL1.ReadOnly = true;
+                this.columnDPIL1.Caption = "DPIL";
+                this.columnDPIL1.MaxLength = 30;
+                this.columnDPIC1.ReadOnly = true;
+                this.columnDPIC1.Caption = "DPIC";
+                this.columnDPIC1.MaxLength = 30;
+                this.columnBROLDCV1.ReadOnly = true;
+                this.columnBROLDCV1.Caption = "BROLDCV";
+                this.columnBROLDCV1.MaxLength = 30;
+                this.columnBROLICV1.ReadOnly = true;
+                this.columnBROLICV1.Caption = "BROLICV";
+                this.columnBROLICV1.MaxLength = 30;
+                this.columnBROCDCV1.ReadOnly = true;
+                this.columnBROCDCV1.Caption = "BROCDCV";
+                this.columnBROCDCV1.MaxLength = 30;
+                this.columnBROCICV1.ReadOnly = true;
+                this.columnBROCICV1.Caption = "BROCICV";
+                this.columnBROCICV1.MaxLength = 30;
+                this.columnBROMDCV1.ReadOnly = true;
+                this.columnBROMDCV1.Caption = "BROMDCV";
+                this.columnBROMDCV1.MaxLength = 30;
+                this.columnBROMICV1.ReadOnly = true;
+                this.columnBROMICV1.Caption = "BROMICV";
+                this.columnBROMICV1.MaxLength = 30;
+                this.columnESFD21.ReadOnly = true;
+                this.columnESFD21.Caption = "ESFD2";
+                this.columnESFD21.MaxLength = 30;
+                this.columnESFI21.ReadOnly = true;
+                this.columnESFI21.Caption = "ESFI2";
+                this.columnESFI21.MaxLength = 30;
+                this.columnCILD21.ReadOnly = true;
+                this.columnCILD21.Caption = "CILD2";
+                this.columnCILD21.MaxLength = 30;
+                this.columnCILI21.ReadOnly = true;
+                this.columnCILI21.Caption = "CILI2";
+                this.columnCILI21.MaxLength = 30;
+                this.columnEJED21.ReadOnly = true;
+                this.columnEJED21.Caption = "EJED2";
+                this.columnEJED21.MaxLength = 30;
+                this.columnEJEI21.ReadOnly = true;
+                this.columnEJEI21.Caption = "EJEI2";
+                this.columnEJEI21.MaxLength = 30;
+                this.columnT_HORIZONTAL1.ReadOnly = true;
+                this.columnT_HORIZONTAL1.Caption = "T_HORIZONTAL";
+                this.columnT_HORIZONTAL1.MaxLength = 8000;
+                this.columnT_VERTICAL1.ReadOnly = true;
+                this.columnT_VERTICAL1.Caption = "T_VERTICAL";
+                this.columnT_VERTICAL1.MaxLength = 8000;
+                this.columnT_MAXIMA1.ReadOnly = true;
+                this.columnT_MAXIMA1.Caption = "T_MAXIMA";
+                this.columnT_MAXIMA1.MaxLength = 8000;
+                this.columnT_PUENTE1.ReadOnly = true;
+                this.columnT_PUENTE1.Caption = "T_PUENTE";
+                this.columnT_PUENTE1.MaxLength = 8000;
+                this.columnT_DISTANCIADELECTURA1.ReadOnly = true;
+                this.columnT_DISTANCIADELECTURA1.Caption = "T_DISTANCIADELECTURA";
+                this.columnT_DISTANCIADELECTURA1.MaxLength = 8000;
+                this.columnT_DISTANCIAVERTICE1.ReadOnly = true;
+                this.columnT_DISTANCIAVERTICE1.Caption = "T_DISTANCIAVERTICE";
+                this.columnT_DISTANCIAVERTICE1.MaxLength = 8000;
+                this.columnT_ANGULOPANTOSCOPICO1.ReadOnly = true;
+                this.columnT_ANGULOPANTOSCOPICO1.Caption = "T_ANGULOPANTOSCOPICO";
+                this.columnT_ANGULOPANTOSCOPICO1.MaxLength = 8000;
+                this.columnT_ANGULOFACIAL1.ReadOnly = true;
+                this.columnT_ANGULOFACIAL1.Caption = "T_ANGULOFACIAL";
+                this.columnT_ANGULOFACIAL1.MaxLength = 8000;
+                this.columnT_ALTD1.ReadOnly = true;
+                this.columnT_ALTD1.Caption = "T_ALTD";
+                this.columnT_ALTD1.MaxLength = 8000;
+                this.columnT_ALTI1.ReadOnly = true;
+                this.columnT_ALTI1.Caption = "T_ALTI";
+                this.columnT_ALTI1.MaxLength = 8000;
+                this.columnNumExame1.Caption = "NumExame";
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -3128,6 +4076,859 @@ namespace CapaVisual_Login.Reportes {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string ESFD1 {
+                get {
+                    try {
+                        return ((string)(this[this.tableSP_CPOS_REP_ORDEN.ESFD1Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'ESFD1\' de la tabla \'SP_CPOS_REP_ORDEN\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSP_CPOS_REP_ORDEN.ESFD1Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string ESFI1 {
+                get {
+                    try {
+                        return ((string)(this[this.tableSP_CPOS_REP_ORDEN.ESFI1Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'ESFI1\' de la tabla \'SP_CPOS_REP_ORDEN\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSP_CPOS_REP_ORDEN.ESFI1Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string CILD1 {
+                get {
+                    try {
+                        return ((string)(this[this.tableSP_CPOS_REP_ORDEN.CILD1Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'CILD1\' de la tabla \'SP_CPOS_REP_ORDEN\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSP_CPOS_REP_ORDEN.CILD1Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string CILI1 {
+                get {
+                    try {
+                        return ((string)(this[this.tableSP_CPOS_REP_ORDEN.CILI1Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'CILI1\' de la tabla \'SP_CPOS_REP_ORDEN\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSP_CPOS_REP_ORDEN.CILI1Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string EJED1 {
+                get {
+                    try {
+                        return ((string)(this[this.tableSP_CPOS_REP_ORDEN.EJED1Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'EJED1\' de la tabla \'SP_CPOS_REP_ORDEN\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSP_CPOS_REP_ORDEN.EJED1Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string EJEI1 {
+                get {
+                    try {
+                        return ((string)(this[this.tableSP_CPOS_REP_ORDEN.EJEI1Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'EJEI1\' de la tabla \'SP_CPOS_REP_ORDEN\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSP_CPOS_REP_ORDEN.EJEI1Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string ADDD1 {
+                get {
+                    try {
+                        return ((string)(this[this.tableSP_CPOS_REP_ORDEN.ADDD1Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'ADDD1\' de la tabla \'SP_CPOS_REP_ORDEN\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSP_CPOS_REP_ORDEN.ADDD1Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string ADDI1 {
+                get {
+                    try {
+                        return ((string)(this[this.tableSP_CPOS_REP_ORDEN.ADDI1Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'ADDI1\' de la tabla \'SP_CPOS_REP_ORDEN\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSP_CPOS_REP_ORDEN.ADDI1Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string ESFD_LC1 {
+                get {
+                    try {
+                        return ((string)(this[this.tableSP_CPOS_REP_ORDEN.ESFD_LC1Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'ESFD_LC1\' de la tabla \'SP_CPOS_REP_ORDEN\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSP_CPOS_REP_ORDEN.ESFD_LC1Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string ESFI_LC1 {
+                get {
+                    try {
+                        return ((string)(this[this.tableSP_CPOS_REP_ORDEN.ESFI_LC1Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'ESFI_LC1\' de la tabla \'SP_CPOS_REP_ORDEN\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSP_CPOS_REP_ORDEN.ESFI_LC1Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string CILD_LC1 {
+                get {
+                    try {
+                        return ((string)(this[this.tableSP_CPOS_REP_ORDEN.CILD_LC1Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'CILD_LC1\' de la tabla \'SP_CPOS_REP_ORDEN\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSP_CPOS_REP_ORDEN.CILD_LC1Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string CILI_LC1 {
+                get {
+                    try {
+                        return ((string)(this[this.tableSP_CPOS_REP_ORDEN.CILI_LC1Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'CILI_LC1\' de la tabla \'SP_CPOS_REP_ORDEN\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSP_CPOS_REP_ORDEN.CILI_LC1Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string EJED_LC1 {
+                get {
+                    try {
+                        return ((string)(this[this.tableSP_CPOS_REP_ORDEN.EJED_LC1Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'EJED_LC1\' de la tabla \'SP_CPOS_REP_ORDEN\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSP_CPOS_REP_ORDEN.EJED_LC1Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string EJEI_LC1 {
+                get {
+                    try {
+                        return ((string)(this[this.tableSP_CPOS_REP_ORDEN.EJEI_LC1Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'EJEI_LC1\' de la tabla \'SP_CPOS_REP_ORDEN\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSP_CPOS_REP_ORDEN.EJEI_LC1Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string ADDD_LC1 {
+                get {
+                    try {
+                        return ((string)(this[this.tableSP_CPOS_REP_ORDEN.ADDD_LC1Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'ADDD_LC1\' de la tabla \'SP_CPOS_REP_ORDEN\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSP_CPOS_REP_ORDEN.ADDD_LC1Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string ADDI_LC1 {
+                get {
+                    try {
+                        return ((string)(this[this.tableSP_CPOS_REP_ORDEN.ADDI_LC1Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'ADDI_LC1\' de la tabla \'SP_CPOS_REP_ORDEN\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSP_CPOS_REP_ORDEN.ADDI_LC1Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string CBD1 {
+                get {
+                    try {
+                        return ((string)(this[this.tableSP_CPOS_REP_ORDEN.CBD1Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'CBD1\' de la tabla \'SP_CPOS_REP_ORDEN\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSP_CPOS_REP_ORDEN.CBD1Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string CBI1 {
+                get {
+                    try {
+                        return ((string)(this[this.tableSP_CPOS_REP_ORDEN.CBI1Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'CBI1\' de la tabla \'SP_CPOS_REP_ORDEN\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSP_CPOS_REP_ORDEN.CBI1Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string DIAMD1 {
+                get {
+                    try {
+                        return ((string)(this[this.tableSP_CPOS_REP_ORDEN.DIAMD1Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'DIAMD1\' de la tabla \'SP_CPOS_REP_ORDEN\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSP_CPOS_REP_ORDEN.DIAMD1Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string DIAMI1 {
+                get {
+                    try {
+                        return ((string)(this[this.tableSP_CPOS_REP_ORDEN.DIAMI1Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'DIAMI1\' de la tabla \'SP_CPOS_REP_ORDEN\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSP_CPOS_REP_ORDEN.DIAMI1Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string AVD1 {
+                get {
+                    try {
+                        return ((string)(this[this.tableSP_CPOS_REP_ORDEN.AVD1Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'AVD1\' de la tabla \'SP_CPOS_REP_ORDEN\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSP_CPOS_REP_ORDEN.AVD1Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string AVI1 {
+                get {
+                    try {
+                        return ((string)(this[this.tableSP_CPOS_REP_ORDEN.AVI1Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'AVI1\' de la tabla \'SP_CPOS_REP_ORDEN\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSP_CPOS_REP_ORDEN.AVI1Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string PRD {
+                get {
+                    try {
+                        return ((string)(this[this.tableSP_CPOS_REP_ORDEN.PRDColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'PRD\' de la tabla \'SP_CPOS_REP_ORDEN\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSP_CPOS_REP_ORDEN.PRDColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string BASED {
+                get {
+                    try {
+                        return ((string)(this[this.tableSP_CPOS_REP_ORDEN.BASEDColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'BASED\' de la tabla \'SP_CPOS_REP_ORDEN\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSP_CPOS_REP_ORDEN.BASEDColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string PRI {
+                get {
+                    try {
+                        return ((string)(this[this.tableSP_CPOS_REP_ORDEN.PRIColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'PRI\' de la tabla \'SP_CPOS_REP_ORDEN\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSP_CPOS_REP_ORDEN.PRIColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string BASEI {
+                get {
+                    try {
+                        return ((string)(this[this.tableSP_CPOS_REP_ORDEN.BASEIColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'BASEI\' de la tabla \'SP_CPOS_REP_ORDEN\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSP_CPOS_REP_ORDEN.BASEIColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string DPDL1 {
+                get {
+                    try {
+                        return ((string)(this[this.tableSP_CPOS_REP_ORDEN.DPDL1Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'DPDL1\' de la tabla \'SP_CPOS_REP_ORDEN\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSP_CPOS_REP_ORDEN.DPDL1Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string DPDC1 {
+                get {
+                    try {
+                        return ((string)(this[this.tableSP_CPOS_REP_ORDEN.DPDC1Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'DPDC1\' de la tabla \'SP_CPOS_REP_ORDEN\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSP_CPOS_REP_ORDEN.DPDC1Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string DPIL1 {
+                get {
+                    try {
+                        return ((string)(this[this.tableSP_CPOS_REP_ORDEN.DPIL1Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'DPIL1\' de la tabla \'SP_CPOS_REP_ORDEN\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSP_CPOS_REP_ORDEN.DPIL1Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string DPIC1 {
+                get {
+                    try {
+                        return ((string)(this[this.tableSP_CPOS_REP_ORDEN.DPIC1Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'DPIC1\' de la tabla \'SP_CPOS_REP_ORDEN\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSP_CPOS_REP_ORDEN.DPIC1Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string BROLDCV1 {
+                get {
+                    try {
+                        return ((string)(this[this.tableSP_CPOS_REP_ORDEN.BROLDCV1Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'BROLDCV1\' de la tabla \'SP_CPOS_REP_ORDEN\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSP_CPOS_REP_ORDEN.BROLDCV1Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string BROLICV1 {
+                get {
+                    try {
+                        return ((string)(this[this.tableSP_CPOS_REP_ORDEN.BROLICV1Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'BROLICV1\' de la tabla \'SP_CPOS_REP_ORDEN\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSP_CPOS_REP_ORDEN.BROLICV1Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string BROCDCV1 {
+                get {
+                    try {
+                        return ((string)(this[this.tableSP_CPOS_REP_ORDEN.BROCDCV1Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'BROCDCV1\' de la tabla \'SP_CPOS_REP_ORDEN\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSP_CPOS_REP_ORDEN.BROCDCV1Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string BROCICV1 {
+                get {
+                    try {
+                        return ((string)(this[this.tableSP_CPOS_REP_ORDEN.BROCICV1Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'BROCICV1\' de la tabla \'SP_CPOS_REP_ORDEN\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSP_CPOS_REP_ORDEN.BROCICV1Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string BROMDCV1 {
+                get {
+                    try {
+                        return ((string)(this[this.tableSP_CPOS_REP_ORDEN.BROMDCV1Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'BROMDCV1\' de la tabla \'SP_CPOS_REP_ORDEN\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSP_CPOS_REP_ORDEN.BROMDCV1Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string BROMICV1 {
+                get {
+                    try {
+                        return ((string)(this[this.tableSP_CPOS_REP_ORDEN.BROMICV1Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'BROMICV1\' de la tabla \'SP_CPOS_REP_ORDEN\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSP_CPOS_REP_ORDEN.BROMICV1Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string ESFD21 {
+                get {
+                    try {
+                        return ((string)(this[this.tableSP_CPOS_REP_ORDEN.ESFD21Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'ESFD21\' de la tabla \'SP_CPOS_REP_ORDEN\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSP_CPOS_REP_ORDEN.ESFD21Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string ESFI21 {
+                get {
+                    try {
+                        return ((string)(this[this.tableSP_CPOS_REP_ORDEN.ESFI21Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'ESFI21\' de la tabla \'SP_CPOS_REP_ORDEN\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSP_CPOS_REP_ORDEN.ESFI21Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string CILD21 {
+                get {
+                    try {
+                        return ((string)(this[this.tableSP_CPOS_REP_ORDEN.CILD21Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'CILD21\' de la tabla \'SP_CPOS_REP_ORDEN\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSP_CPOS_REP_ORDEN.CILD21Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string CILI21 {
+                get {
+                    try {
+                        return ((string)(this[this.tableSP_CPOS_REP_ORDEN.CILI21Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'CILI21\' de la tabla \'SP_CPOS_REP_ORDEN\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSP_CPOS_REP_ORDEN.CILI21Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string EJED21 {
+                get {
+                    try {
+                        return ((string)(this[this.tableSP_CPOS_REP_ORDEN.EJED21Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'EJED21\' de la tabla \'SP_CPOS_REP_ORDEN\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSP_CPOS_REP_ORDEN.EJED21Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string EJEI21 {
+                get {
+                    try {
+                        return ((string)(this[this.tableSP_CPOS_REP_ORDEN.EJEI21Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'EJEI21\' de la tabla \'SP_CPOS_REP_ORDEN\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSP_CPOS_REP_ORDEN.EJEI21Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string T_HORIZONTAL1 {
+                get {
+                    try {
+                        return ((string)(this[this.tableSP_CPOS_REP_ORDEN.T_HORIZONTAL1Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'T_HORIZONTAL1\' de la tabla \'SP_CPOS_REP_ORDEN\' es DBNull." +
+                                "", e);
+                    }
+                }
+                set {
+                    this[this.tableSP_CPOS_REP_ORDEN.T_HORIZONTAL1Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string T_VERTICAL1 {
+                get {
+                    try {
+                        return ((string)(this[this.tableSP_CPOS_REP_ORDEN.T_VERTICAL1Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'T_VERTICAL1\' de la tabla \'SP_CPOS_REP_ORDEN\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSP_CPOS_REP_ORDEN.T_VERTICAL1Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string T_MAXIMA1 {
+                get {
+                    try {
+                        return ((string)(this[this.tableSP_CPOS_REP_ORDEN.T_MAXIMA1Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'T_MAXIMA1\' de la tabla \'SP_CPOS_REP_ORDEN\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSP_CPOS_REP_ORDEN.T_MAXIMA1Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string T_PUENTE1 {
+                get {
+                    try {
+                        return ((string)(this[this.tableSP_CPOS_REP_ORDEN.T_PUENTE1Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'T_PUENTE1\' de la tabla \'SP_CPOS_REP_ORDEN\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSP_CPOS_REP_ORDEN.T_PUENTE1Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string T_DISTANCIADELECTURA1 {
+                get {
+                    try {
+                        return ((string)(this[this.tableSP_CPOS_REP_ORDEN.T_DISTANCIADELECTURA1Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'T_DISTANCIADELECTURA1\' de la tabla \'SP_CPOS_REP_ORDEN\' es" +
+                                " DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSP_CPOS_REP_ORDEN.T_DISTANCIADELECTURA1Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string T_DISTANCIAVERTICE1 {
+                get {
+                    try {
+                        return ((string)(this[this.tableSP_CPOS_REP_ORDEN.T_DISTANCIAVERTICE1Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'T_DISTANCIAVERTICE1\' de la tabla \'SP_CPOS_REP_ORDEN\' es D" +
+                                "BNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSP_CPOS_REP_ORDEN.T_DISTANCIAVERTICE1Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string T_ANGULOPANTOSCOPICO1 {
+                get {
+                    try {
+                        return ((string)(this[this.tableSP_CPOS_REP_ORDEN.T_ANGULOPANTOSCOPICO1Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'T_ANGULOPANTOSCOPICO1\' de la tabla \'SP_CPOS_REP_ORDEN\' es" +
+                                " DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSP_CPOS_REP_ORDEN.T_ANGULOPANTOSCOPICO1Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string T_ANGULOFACIAL1 {
+                get {
+                    try {
+                        return ((string)(this[this.tableSP_CPOS_REP_ORDEN.T_ANGULOFACIAL1Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'T_ANGULOFACIAL1\' de la tabla \'SP_CPOS_REP_ORDEN\' es DBNul" +
+                                "l.", e);
+                    }
+                }
+                set {
+                    this[this.tableSP_CPOS_REP_ORDEN.T_ANGULOFACIAL1Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string T_ALTD1 {
+                get {
+                    try {
+                        return ((string)(this[this.tableSP_CPOS_REP_ORDEN.T_ALTD1Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'T_ALTD1\' de la tabla \'SP_CPOS_REP_ORDEN\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSP_CPOS_REP_ORDEN.T_ALTD1Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string T_ALTI1 {
+                get {
+                    try {
+                        return ((string)(this[this.tableSP_CPOS_REP_ORDEN.T_ALTI1Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'T_ALTI1\' de la tabla \'SP_CPOS_REP_ORDEN\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSP_CPOS_REP_ORDEN.T_ALTI1Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public int NumExame1 {
+                get {
+                    try {
+                        return ((int)(this[this.tableSP_CPOS_REP_ORDEN.NumExame1Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'NumExame1\' de la tabla \'SP_CPOS_REP_ORDEN\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSP_CPOS_REP_ORDEN.NumExame1Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsOrdenNull() {
                 return this.IsNull(this.tableSP_CPOS_REP_ORDEN.OrdenColumn);
             }
@@ -4109,6 +5910,642 @@ namespace CapaVisual_Login.Reportes {
             public void SetRepGarantiaNull() {
                 this[this.tableSP_CPOS_REP_ORDEN.RepGarantiaColumn] = global::System.Convert.DBNull;
             }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsESFD1Null() {
+                return this.IsNull(this.tableSP_CPOS_REP_ORDEN.ESFD1Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetESFD1Null() {
+                this[this.tableSP_CPOS_REP_ORDEN.ESFD1Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsESFI1Null() {
+                return this.IsNull(this.tableSP_CPOS_REP_ORDEN.ESFI1Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetESFI1Null() {
+                this[this.tableSP_CPOS_REP_ORDEN.ESFI1Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsCILD1Null() {
+                return this.IsNull(this.tableSP_CPOS_REP_ORDEN.CILD1Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetCILD1Null() {
+                this[this.tableSP_CPOS_REP_ORDEN.CILD1Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsCILI1Null() {
+                return this.IsNull(this.tableSP_CPOS_REP_ORDEN.CILI1Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetCILI1Null() {
+                this[this.tableSP_CPOS_REP_ORDEN.CILI1Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsEJED1Null() {
+                return this.IsNull(this.tableSP_CPOS_REP_ORDEN.EJED1Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetEJED1Null() {
+                this[this.tableSP_CPOS_REP_ORDEN.EJED1Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsEJEI1Null() {
+                return this.IsNull(this.tableSP_CPOS_REP_ORDEN.EJEI1Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetEJEI1Null() {
+                this[this.tableSP_CPOS_REP_ORDEN.EJEI1Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsADDD1Null() {
+                return this.IsNull(this.tableSP_CPOS_REP_ORDEN.ADDD1Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetADDD1Null() {
+                this[this.tableSP_CPOS_REP_ORDEN.ADDD1Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsADDI1Null() {
+                return this.IsNull(this.tableSP_CPOS_REP_ORDEN.ADDI1Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetADDI1Null() {
+                this[this.tableSP_CPOS_REP_ORDEN.ADDI1Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsESFD_LC1Null() {
+                return this.IsNull(this.tableSP_CPOS_REP_ORDEN.ESFD_LC1Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetESFD_LC1Null() {
+                this[this.tableSP_CPOS_REP_ORDEN.ESFD_LC1Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsESFI_LC1Null() {
+                return this.IsNull(this.tableSP_CPOS_REP_ORDEN.ESFI_LC1Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetESFI_LC1Null() {
+                this[this.tableSP_CPOS_REP_ORDEN.ESFI_LC1Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsCILD_LC1Null() {
+                return this.IsNull(this.tableSP_CPOS_REP_ORDEN.CILD_LC1Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetCILD_LC1Null() {
+                this[this.tableSP_CPOS_REP_ORDEN.CILD_LC1Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsCILI_LC1Null() {
+                return this.IsNull(this.tableSP_CPOS_REP_ORDEN.CILI_LC1Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetCILI_LC1Null() {
+                this[this.tableSP_CPOS_REP_ORDEN.CILI_LC1Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsEJED_LC1Null() {
+                return this.IsNull(this.tableSP_CPOS_REP_ORDEN.EJED_LC1Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetEJED_LC1Null() {
+                this[this.tableSP_CPOS_REP_ORDEN.EJED_LC1Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsEJEI_LC1Null() {
+                return this.IsNull(this.tableSP_CPOS_REP_ORDEN.EJEI_LC1Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetEJEI_LC1Null() {
+                this[this.tableSP_CPOS_REP_ORDEN.EJEI_LC1Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsADDD_LC1Null() {
+                return this.IsNull(this.tableSP_CPOS_REP_ORDEN.ADDD_LC1Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetADDD_LC1Null() {
+                this[this.tableSP_CPOS_REP_ORDEN.ADDD_LC1Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsADDI_LC1Null() {
+                return this.IsNull(this.tableSP_CPOS_REP_ORDEN.ADDI_LC1Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetADDI_LC1Null() {
+                this[this.tableSP_CPOS_REP_ORDEN.ADDI_LC1Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsCBD1Null() {
+                return this.IsNull(this.tableSP_CPOS_REP_ORDEN.CBD1Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetCBD1Null() {
+                this[this.tableSP_CPOS_REP_ORDEN.CBD1Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsCBI1Null() {
+                return this.IsNull(this.tableSP_CPOS_REP_ORDEN.CBI1Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetCBI1Null() {
+                this[this.tableSP_CPOS_REP_ORDEN.CBI1Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsDIAMD1Null() {
+                return this.IsNull(this.tableSP_CPOS_REP_ORDEN.DIAMD1Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetDIAMD1Null() {
+                this[this.tableSP_CPOS_REP_ORDEN.DIAMD1Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsDIAMI1Null() {
+                return this.IsNull(this.tableSP_CPOS_REP_ORDEN.DIAMI1Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetDIAMI1Null() {
+                this[this.tableSP_CPOS_REP_ORDEN.DIAMI1Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsAVD1Null() {
+                return this.IsNull(this.tableSP_CPOS_REP_ORDEN.AVD1Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetAVD1Null() {
+                this[this.tableSP_CPOS_REP_ORDEN.AVD1Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsAVI1Null() {
+                return this.IsNull(this.tableSP_CPOS_REP_ORDEN.AVI1Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetAVI1Null() {
+                this[this.tableSP_CPOS_REP_ORDEN.AVI1Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsPRDNull() {
+                return this.IsNull(this.tableSP_CPOS_REP_ORDEN.PRDColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetPRDNull() {
+                this[this.tableSP_CPOS_REP_ORDEN.PRDColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsBASEDNull() {
+                return this.IsNull(this.tableSP_CPOS_REP_ORDEN.BASEDColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetBASEDNull() {
+                this[this.tableSP_CPOS_REP_ORDEN.BASEDColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsPRINull() {
+                return this.IsNull(this.tableSP_CPOS_REP_ORDEN.PRIColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetPRINull() {
+                this[this.tableSP_CPOS_REP_ORDEN.PRIColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsBASEINull() {
+                return this.IsNull(this.tableSP_CPOS_REP_ORDEN.BASEIColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetBASEINull() {
+                this[this.tableSP_CPOS_REP_ORDEN.BASEIColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsDPDL1Null() {
+                return this.IsNull(this.tableSP_CPOS_REP_ORDEN.DPDL1Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetDPDL1Null() {
+                this[this.tableSP_CPOS_REP_ORDEN.DPDL1Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsDPDC1Null() {
+                return this.IsNull(this.tableSP_CPOS_REP_ORDEN.DPDC1Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetDPDC1Null() {
+                this[this.tableSP_CPOS_REP_ORDEN.DPDC1Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsDPIL1Null() {
+                return this.IsNull(this.tableSP_CPOS_REP_ORDEN.DPIL1Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetDPIL1Null() {
+                this[this.tableSP_CPOS_REP_ORDEN.DPIL1Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsDPIC1Null() {
+                return this.IsNull(this.tableSP_CPOS_REP_ORDEN.DPIC1Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetDPIC1Null() {
+                this[this.tableSP_CPOS_REP_ORDEN.DPIC1Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsBROLDCV1Null() {
+                return this.IsNull(this.tableSP_CPOS_REP_ORDEN.BROLDCV1Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetBROLDCV1Null() {
+                this[this.tableSP_CPOS_REP_ORDEN.BROLDCV1Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsBROLICV1Null() {
+                return this.IsNull(this.tableSP_CPOS_REP_ORDEN.BROLICV1Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetBROLICV1Null() {
+                this[this.tableSP_CPOS_REP_ORDEN.BROLICV1Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsBROCDCV1Null() {
+                return this.IsNull(this.tableSP_CPOS_REP_ORDEN.BROCDCV1Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetBROCDCV1Null() {
+                this[this.tableSP_CPOS_REP_ORDEN.BROCDCV1Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsBROCICV1Null() {
+                return this.IsNull(this.tableSP_CPOS_REP_ORDEN.BROCICV1Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetBROCICV1Null() {
+                this[this.tableSP_CPOS_REP_ORDEN.BROCICV1Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsBROMDCV1Null() {
+                return this.IsNull(this.tableSP_CPOS_REP_ORDEN.BROMDCV1Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetBROMDCV1Null() {
+                this[this.tableSP_CPOS_REP_ORDEN.BROMDCV1Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsBROMICV1Null() {
+                return this.IsNull(this.tableSP_CPOS_REP_ORDEN.BROMICV1Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetBROMICV1Null() {
+                this[this.tableSP_CPOS_REP_ORDEN.BROMICV1Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsESFD21Null() {
+                return this.IsNull(this.tableSP_CPOS_REP_ORDEN.ESFD21Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetESFD21Null() {
+                this[this.tableSP_CPOS_REP_ORDEN.ESFD21Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsESFI21Null() {
+                return this.IsNull(this.tableSP_CPOS_REP_ORDEN.ESFI21Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetESFI21Null() {
+                this[this.tableSP_CPOS_REP_ORDEN.ESFI21Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsCILD21Null() {
+                return this.IsNull(this.tableSP_CPOS_REP_ORDEN.CILD21Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetCILD21Null() {
+                this[this.tableSP_CPOS_REP_ORDEN.CILD21Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsCILI21Null() {
+                return this.IsNull(this.tableSP_CPOS_REP_ORDEN.CILI21Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetCILI21Null() {
+                this[this.tableSP_CPOS_REP_ORDEN.CILI21Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsEJED21Null() {
+                return this.IsNull(this.tableSP_CPOS_REP_ORDEN.EJED21Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetEJED21Null() {
+                this[this.tableSP_CPOS_REP_ORDEN.EJED21Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsEJEI21Null() {
+                return this.IsNull(this.tableSP_CPOS_REP_ORDEN.EJEI21Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetEJEI21Null() {
+                this[this.tableSP_CPOS_REP_ORDEN.EJEI21Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsT_HORIZONTAL1Null() {
+                return this.IsNull(this.tableSP_CPOS_REP_ORDEN.T_HORIZONTAL1Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetT_HORIZONTAL1Null() {
+                this[this.tableSP_CPOS_REP_ORDEN.T_HORIZONTAL1Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsT_VERTICAL1Null() {
+                return this.IsNull(this.tableSP_CPOS_REP_ORDEN.T_VERTICAL1Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetT_VERTICAL1Null() {
+                this[this.tableSP_CPOS_REP_ORDEN.T_VERTICAL1Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsT_MAXIMA1Null() {
+                return this.IsNull(this.tableSP_CPOS_REP_ORDEN.T_MAXIMA1Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetT_MAXIMA1Null() {
+                this[this.tableSP_CPOS_REP_ORDEN.T_MAXIMA1Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsT_PUENTE1Null() {
+                return this.IsNull(this.tableSP_CPOS_REP_ORDEN.T_PUENTE1Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetT_PUENTE1Null() {
+                this[this.tableSP_CPOS_REP_ORDEN.T_PUENTE1Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsT_DISTANCIADELECTURA1Null() {
+                return this.IsNull(this.tableSP_CPOS_REP_ORDEN.T_DISTANCIADELECTURA1Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetT_DISTANCIADELECTURA1Null() {
+                this[this.tableSP_CPOS_REP_ORDEN.T_DISTANCIADELECTURA1Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsT_DISTANCIAVERTICE1Null() {
+                return this.IsNull(this.tableSP_CPOS_REP_ORDEN.T_DISTANCIAVERTICE1Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetT_DISTANCIAVERTICE1Null() {
+                this[this.tableSP_CPOS_REP_ORDEN.T_DISTANCIAVERTICE1Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsT_ANGULOPANTOSCOPICO1Null() {
+                return this.IsNull(this.tableSP_CPOS_REP_ORDEN.T_ANGULOPANTOSCOPICO1Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetT_ANGULOPANTOSCOPICO1Null() {
+                this[this.tableSP_CPOS_REP_ORDEN.T_ANGULOPANTOSCOPICO1Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsT_ANGULOFACIAL1Null() {
+                return this.IsNull(this.tableSP_CPOS_REP_ORDEN.T_ANGULOFACIAL1Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetT_ANGULOFACIAL1Null() {
+                this[this.tableSP_CPOS_REP_ORDEN.T_ANGULOFACIAL1Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsT_ALTD1Null() {
+                return this.IsNull(this.tableSP_CPOS_REP_ORDEN.T_ALTD1Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetT_ALTD1Null() {
+                this[this.tableSP_CPOS_REP_ORDEN.T_ALTD1Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsT_ALTI1Null() {
+                return this.IsNull(this.tableSP_CPOS_REP_ORDEN.T_ALTI1Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetT_ALTI1Null() {
+                this[this.tableSP_CPOS_REP_ORDEN.T_ALTI1Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsNumExame1Null() {
+                return this.IsNull(this.tableSP_CPOS_REP_ORDEN.NumExame1Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetNumExame1Null() {
+                this[this.tableSP_CPOS_REP_ORDEN.NumExame1Column] = global::System.Convert.DBNull;
+            }
         }
         
         /// <summary>
@@ -4285,50 +6722,9 @@ namespace CapaVisual_Login.Reportes.DsRepOrdenTableAdapters {
             tableMapping.ColumnMappings.Add("Total", "Total");
             tableMapping.ColumnMappings.Add("Saldo", "Saldo");
             tableMapping.ColumnMappings.Add("Ordser_Ojo", "Ordser_Ojo");
-            tableMapping.ColumnMappings.Add("ESFD", "ESFD");
-            tableMapping.ColumnMappings.Add("ESFI", "ESFI");
-            tableMapping.ColumnMappings.Add("CILD", "CILD");
-            tableMapping.ColumnMappings.Add("CILI", "CILI");
-            tableMapping.ColumnMappings.Add("EJED", "EJED");
-            tableMapping.ColumnMappings.Add("EJEI", "EJEI");
-            tableMapping.ColumnMappings.Add("ADDD", "ADDD");
-            tableMapping.ColumnMappings.Add("ADDI", "ADDI");
-            tableMapping.ColumnMappings.Add("ESFD_LC", "ESFD_LC");
-            tableMapping.ColumnMappings.Add("ESFI_LC", "ESFI_LC");
-            tableMapping.ColumnMappings.Add("CILD_LC", "CILD_LC");
             tableMapping.ColumnMappings.Add("CILI_LD", "CILI_LD");
-            tableMapping.ColumnMappings.Add("EJED_LC", "EJED_LC");
-            tableMapping.ColumnMappings.Add("EJEI_LC", "EJEI_LC");
-            tableMapping.ColumnMappings.Add("ADDD_LC", "ADDD_LC");
-            tableMapping.ColumnMappings.Add("ADDI_LC", "ADDI_LC");
-            tableMapping.ColumnMappings.Add("DPDL", "DPDL");
-            tableMapping.ColumnMappings.Add("DPDC", "DPDC");
-            tableMapping.ColumnMappings.Add("DPIL", "DPIL");
-            tableMapping.ColumnMappings.Add("DPIC", "DPIC");
-            tableMapping.ColumnMappings.Add("BROLDCV", "BROLDCV");
-            tableMapping.ColumnMappings.Add("BROLICV", "BROLICV");
-            tableMapping.ColumnMappings.Add("BROCDCV", "BROCDCV");
-            tableMapping.ColumnMappings.Add("BROCICV", "BROCICV");
-            tableMapping.ColumnMappings.Add("BROMDCV", "BROMDCV");
-            tableMapping.ColumnMappings.Add("BROMICV", "BROMICV");
-            tableMapping.ColumnMappings.Add("ESFD2", "ESFD2");
-            tableMapping.ColumnMappings.Add("ESFI2", "ESFI2");
-            tableMapping.ColumnMappings.Add("CILD2", "CILD2");
-            tableMapping.ColumnMappings.Add("CILI2", "CILI2");
-            tableMapping.ColumnMappings.Add("EJED2", "EJED2");
-            tableMapping.ColumnMappings.Add("EJEI2", "EJEI2");
             tableMapping.ColumnMappings.Add("T_TIPOVISIOND", "T_TIPOVISIOND");
             tableMapping.ColumnMappings.Add("T_TIPOVISIONI", "T_TIPOVISIONI");
-            tableMapping.ColumnMappings.Add("T_HORIZONTAL", "T_HORIZONTAL");
-            tableMapping.ColumnMappings.Add("T_VERTICAL", "T_VERTICAL");
-            tableMapping.ColumnMappings.Add("T_MAXIMA", "T_MAXIMA");
-            tableMapping.ColumnMappings.Add("T_PUENTE", "T_PUENTE");
-            tableMapping.ColumnMappings.Add("T_DISTANCIADELECTURA", "T_DISTANCIADELECTURA");
-            tableMapping.ColumnMappings.Add("T_DISTANCIAVERTICE", "T_DISTANCIAVERTICE");
-            tableMapping.ColumnMappings.Add("T_ANGULOPANTOSCOPICO", "T_ANGULOPANTOSCOPICO");
-            tableMapping.ColumnMappings.Add("T_ANGULOFACIAL", "T_ANGULOFACIAL");
-            tableMapping.ColumnMappings.Add("T_ALTD", "T_ALTD");
-            tableMapping.ColumnMappings.Add("T_ALTI", "T_ALTI");
             tableMapping.ColumnMappings.Add("CodigoMimesys", "CodigoMimesys");
             tableMapping.ColumnMappings.Add("TIPOEXAMEN", "TIPOEXAMEN");
             tableMapping.ColumnMappings.Add("Laboratorio", "Laboratorio");
@@ -4337,16 +6733,66 @@ namespace CapaVisual_Login.Reportes.DsRepOrdenTableAdapters {
             tableMapping.ColumnMappings.Add("OrSer_Saldo_Mon", "OrSer_Saldo_Mon");
             tableMapping.ColumnMappings.Add("Bolsa", "Bolsa");
             tableMapping.ColumnMappings.Add("Almacen", "Almacen");
-            tableMapping.ColumnMappings.Add("CILI_LC", "CILI_LC");
-            tableMapping.ColumnMappings.Add("CBD", "CBD");
-            tableMapping.ColumnMappings.Add("CBI", "CBI");
-            tableMapping.ColumnMappings.Add("DIAMD", "DIAMD");
-            tableMapping.ColumnMappings.Add("DIAMI", "DIAMI");
-            tableMapping.ColumnMappings.Add("AVD", "AVD");
-            tableMapping.ColumnMappings.Add("AVI", "AVI");
             tableMapping.ColumnMappings.Add("COLOR", "COLOR");
             tableMapping.ColumnMappings.Add("Compania", "Compania");
             tableMapping.ColumnMappings.Add("RifCompania", "RifCompania");
+            tableMapping.ColumnMappings.Add("ESFD", "ESFD1");
+            tableMapping.ColumnMappings.Add("ESFI", "ESFI1");
+            tableMapping.ColumnMappings.Add("CILD", "CILD1");
+            tableMapping.ColumnMappings.Add("CILI", "CILI1");
+            tableMapping.ColumnMappings.Add("EJED", "EJED1");
+            tableMapping.ColumnMappings.Add("EJEI", "EJEI1");
+            tableMapping.ColumnMappings.Add("ADDD", "ADDD1");
+            tableMapping.ColumnMappings.Add("ADDI", "ADDI1");
+            tableMapping.ColumnMappings.Add("ESFD_LC", "ESFD_LC1");
+            tableMapping.ColumnMappings.Add("ESFI_LC", "ESFI_LC1");
+            tableMapping.ColumnMappings.Add("CILD_LC", "CILD_LC1");
+            tableMapping.ColumnMappings.Add("CILI_LC", "CILI_LC1");
+            tableMapping.ColumnMappings.Add("EJED_LC", "EJED_LC1");
+            tableMapping.ColumnMappings.Add("EJEI_LC", "EJEI_LC1");
+            tableMapping.ColumnMappings.Add("ADDD_LC", "ADDD_LC1");
+            tableMapping.ColumnMappings.Add("ADDI_LC", "ADDI_LC1");
+            tableMapping.ColumnMappings.Add("CBD", "CBD1");
+            tableMapping.ColumnMappings.Add("CBI", "CBI1");
+            tableMapping.ColumnMappings.Add("DIAMD", "DIAMD1");
+            tableMapping.ColumnMappings.Add("DIAMI", "DIAMI1");
+            tableMapping.ColumnMappings.Add("AVD", "AVD1");
+            tableMapping.ColumnMappings.Add("AVI", "AVI1");
+            tableMapping.ColumnMappings.Add("PRD", "PRD");
+            tableMapping.ColumnMappings.Add("BASED", "BASED");
+            tableMapping.ColumnMappings.Add("PRI", "PRI");
+            tableMapping.ColumnMappings.Add("BASEI", "BASEI");
+            tableMapping.ColumnMappings.Add("DPDL", "DPDL1");
+            tableMapping.ColumnMappings.Add("DPDC", "DPDC1");
+            tableMapping.ColumnMappings.Add("DPIL", "DPIL1");
+            tableMapping.ColumnMappings.Add("DPIC", "DPIC1");
+            tableMapping.ColumnMappings.Add("BROLDCV", "BROLDCV1");
+            tableMapping.ColumnMappings.Add("BROLICV", "BROLICV1");
+            tableMapping.ColumnMappings.Add("BROCDCV", "BROCDCV1");
+            tableMapping.ColumnMappings.Add("BROCICV", "BROCICV1");
+            tableMapping.ColumnMappings.Add("BROMDCV", "BROMDCV1");
+            tableMapping.ColumnMappings.Add("BROMICV", "BROMICV1");
+            tableMapping.ColumnMappings.Add("ESFD2", "ESFD21");
+            tableMapping.ColumnMappings.Add("ESFI2", "ESFI21");
+            tableMapping.ColumnMappings.Add("CILD2", "CILD21");
+            tableMapping.ColumnMappings.Add("CILI2", "CILI21");
+            tableMapping.ColumnMappings.Add("EJED2", "EJED21");
+            tableMapping.ColumnMappings.Add("EJEI2", "EJEI21");
+            tableMapping.ColumnMappings.Add("T_HORIZONTAL", "T_HORIZONTAL1");
+            tableMapping.ColumnMappings.Add("T_VERTICAL", "T_VERTICAL1");
+            tableMapping.ColumnMappings.Add("T_MAXIMA", "T_MAXIMA1");
+            tableMapping.ColumnMappings.Add("T_PUENTE", "T_PUENTE1");
+            tableMapping.ColumnMappings.Add("T_DISTANCIADELECTURA", "T_DISTANCIADELECTURA1");
+            tableMapping.ColumnMappings.Add("T_DISTANCIAVERTICE", "T_DISTANCIAVERTICE1");
+            tableMapping.ColumnMappings.Add("T_ANGULOPANTOSCOPICO", "T_ANGULOPANTOSCOPICO1");
+            tableMapping.ColumnMappings.Add("T_ANGULOFACIAL", "T_ANGULOFACIAL1");
+            tableMapping.ColumnMappings.Add("T_ALTD", "T_ALTD1");
+            tableMapping.ColumnMappings.Add("T_ALTI", "T_ALTI1");
+            tableMapping.ColumnMappings.Add("Garantia", "Garantia");
+            tableMapping.ColumnMappings.Add("Observacion", "Observacion");
+            tableMapping.ColumnMappings.Add("NumExame", "NumExame1");
+            tableMapping.ColumnMappings.Add("TipoTrabajo", "TipoTrabajo");
+            tableMapping.ColumnMappings.Add("RepGarantia", "RepGarantia");
             this._adapter.TableMappings.Add(tableMapping);
         }
         
@@ -4354,7 +6800,7 @@ namespace CapaVisual_Login.Reportes.DsRepOrdenTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         private void InitConnection() {
             this._connection = new global::System.Data.SqlClient.SqlConnection();
-            this._connection.ConnectionString = global::CapaVisual_Login.Properties.Settings.Default.BD_107_Epos2ConnectionString;
+            this._connection.ConnectionString = global::CapaVisual_Login.Properties.Settings.Default.BD122JRConnectionString;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]

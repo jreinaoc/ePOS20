@@ -2,16 +2,17 @@
 <xs:schema id="DsRepOrden" targetNamespace="http://tempuri.org/DsRepOrden.xsd" xmlns:mstns="http://tempuri.org/DsRepOrden.xsd" xmlns="http://tempuri.org/DsRepOrden.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
   <xs:annotation>
     <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
-      <DataSource DefaultConnectionIndex="2" FunctionsComponentName="QueriesTableAdapter" GeneratorFunctionsComponentClassName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" UserFunctionsComponentName="QueriesTableAdapter" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="3" FunctionsComponentName="QueriesTableAdapter" GeneratorFunctionsComponentClassName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" UserFunctionsComponentName="QueriesTableAdapter" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
         <Connections>
           <Connection AppSettingsObjectName="Settings" AppSettingsPropertyName="BD013ConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="BD013ConnectionString (Settings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.CapaVisual_Login.Properties.Settings.GlobalReference.Default.BD013ConnectionString" Provider="System.Data.SqlClient" />
           <Connection AppSettingsObjectName="Settings" AppSettingsPropertyName="BD_151_2024ConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="BD_151_2024ConnectionString (Settings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.CapaVisual_Login.Properties.Settings.GlobalReference.Default.BD_151_2024ConnectionString" Provider="System.Data.SqlClient" />
           <Connection AppSettingsObjectName="Settings" AppSettingsPropertyName="BD_107_Epos2ConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="BD_107_Epos2ConnectionString (Settings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.CapaVisual_Login.Properties.Settings.GlobalReference.Default.BD_107_Epos2ConnectionString" Provider="System.Data.SqlClient" />
+          <Connection AppSettingsObjectName="Settings" AppSettingsPropertyName="BD122JRConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="BD122JRConnectionString (Settings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.CapaVisual_Login.Properties.Settings.GlobalReference.Default.BD122JRConnectionString" Provider="System.Data.SqlClient" />
         </Connections>
         <Tables>
           <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="SP_CPOS_REP_ORDENTableAdapter" GeneratorDataComponentClassName="SP_CPOS_REP_ORDENTableAdapter" Name="SP_CPOS_REP_ORDEN" UserDataComponentName="SP_CPOS_REP_ORDENTableAdapter">
             <MainSource>
-              <DbSource ConnectionRef="BD_107_Epos2ConnectionString (Settings)" DbObjectName="BD_107_Epos2.dbo.SP_CPOS_REP_ORDEN" DbObjectType="StoredProcedure" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+              <DbSource ConnectionRef="BD122JRConnectionString (Settings)" DbObjectName="BD122JR.dbo.SP_CPOS_REP_ORDEN" DbObjectType="StoredProcedure" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
                 <SelectCommand>
                   <DbCommand CommandType="StoredProcedure" ModifiedByUser="false">
                     <CommandText>dbo.SP_CPOS_REP_ORDEN</CommandText>
@@ -39,50 +40,9 @@
               <Mapping SourceColumn="Total" DataSetColumn="Total" />
               <Mapping SourceColumn="Saldo" DataSetColumn="Saldo" />
               <Mapping SourceColumn="Ordser_Ojo" DataSetColumn="Ordser_Ojo" />
-              <Mapping SourceColumn="ESFD" DataSetColumn="ESFD" />
-              <Mapping SourceColumn="ESFI" DataSetColumn="ESFI" />
-              <Mapping SourceColumn="CILD" DataSetColumn="CILD" />
-              <Mapping SourceColumn="CILI" DataSetColumn="CILI" />
-              <Mapping SourceColumn="EJED" DataSetColumn="EJED" />
-              <Mapping SourceColumn="EJEI" DataSetColumn="EJEI" />
-              <Mapping SourceColumn="ADDD" DataSetColumn="ADDD" />
-              <Mapping SourceColumn="ADDI" DataSetColumn="ADDI" />
-              <Mapping SourceColumn="ESFD_LC" DataSetColumn="ESFD_LC" />
-              <Mapping SourceColumn="ESFI_LC" DataSetColumn="ESFI_LC" />
-              <Mapping SourceColumn="CILD_LC" DataSetColumn="CILD_LC" />
               <Mapping SourceColumn="CILI_LD" DataSetColumn="CILI_LD" />
-              <Mapping SourceColumn="EJED_LC" DataSetColumn="EJED_LC" />
-              <Mapping SourceColumn="EJEI_LC" DataSetColumn="EJEI_LC" />
-              <Mapping SourceColumn="ADDD_LC" DataSetColumn="ADDD_LC" />
-              <Mapping SourceColumn="ADDI_LC" DataSetColumn="ADDI_LC" />
-              <Mapping SourceColumn="DPDL" DataSetColumn="DPDL" />
-              <Mapping SourceColumn="DPDC" DataSetColumn="DPDC" />
-              <Mapping SourceColumn="DPIL" DataSetColumn="DPIL" />
-              <Mapping SourceColumn="DPIC" DataSetColumn="DPIC" />
-              <Mapping SourceColumn="BROLDCV" DataSetColumn="BROLDCV" />
-              <Mapping SourceColumn="BROLICV" DataSetColumn="BROLICV" />
-              <Mapping SourceColumn="BROCDCV" DataSetColumn="BROCDCV" />
-              <Mapping SourceColumn="BROCICV" DataSetColumn="BROCICV" />
-              <Mapping SourceColumn="BROMDCV" DataSetColumn="BROMDCV" />
-              <Mapping SourceColumn="BROMICV" DataSetColumn="BROMICV" />
-              <Mapping SourceColumn="ESFD2" DataSetColumn="ESFD2" />
-              <Mapping SourceColumn="ESFI2" DataSetColumn="ESFI2" />
-              <Mapping SourceColumn="CILD2" DataSetColumn="CILD2" />
-              <Mapping SourceColumn="CILI2" DataSetColumn="CILI2" />
-              <Mapping SourceColumn="EJED2" DataSetColumn="EJED2" />
-              <Mapping SourceColumn="EJEI2" DataSetColumn="EJEI2" />
               <Mapping SourceColumn="T_TIPOVISIOND" DataSetColumn="T_TIPOVISIOND" />
               <Mapping SourceColumn="T_TIPOVISIONI" DataSetColumn="T_TIPOVISIONI" />
-              <Mapping SourceColumn="T_HORIZONTAL" DataSetColumn="T_HORIZONTAL" />
-              <Mapping SourceColumn="T_VERTICAL" DataSetColumn="T_VERTICAL" />
-              <Mapping SourceColumn="T_MAXIMA" DataSetColumn="T_MAXIMA" />
-              <Mapping SourceColumn="T_PUENTE" DataSetColumn="T_PUENTE" />
-              <Mapping SourceColumn="T_DISTANCIADELECTURA" DataSetColumn="T_DISTANCIADELECTURA" />
-              <Mapping SourceColumn="T_DISTANCIAVERTICE" DataSetColumn="T_DISTANCIAVERTICE" />
-              <Mapping SourceColumn="T_ANGULOPANTOSCOPICO" DataSetColumn="T_ANGULOPANTOSCOPICO" />
-              <Mapping SourceColumn="T_ANGULOFACIAL" DataSetColumn="T_ANGULOFACIAL" />
-              <Mapping SourceColumn="T_ALTD" DataSetColumn="T_ALTD" />
-              <Mapping SourceColumn="T_ALTI" DataSetColumn="T_ALTI" />
               <Mapping SourceColumn="CodigoMimesys" DataSetColumn="CodigoMimesys" />
               <Mapping SourceColumn="TIPOEXAMEN" DataSetColumn="TIPOEXAMEN" />
               <Mapping SourceColumn="Laboratorio" DataSetColumn="Laboratorio" />
@@ -91,16 +51,66 @@
               <Mapping SourceColumn="OrSer_Saldo_Mon" DataSetColumn="OrSer_Saldo_Mon" />
               <Mapping SourceColumn="Bolsa" DataSetColumn="Bolsa" />
               <Mapping SourceColumn="Almacen" DataSetColumn="Almacen" />
-              <Mapping SourceColumn="CILI_LC" DataSetColumn="CILI_LC" />
-              <Mapping SourceColumn="CBD" DataSetColumn="CBD" />
-              <Mapping SourceColumn="CBI" DataSetColumn="CBI" />
-              <Mapping SourceColumn="DIAMD" DataSetColumn="DIAMD" />
-              <Mapping SourceColumn="DIAMI" DataSetColumn="DIAMI" />
-              <Mapping SourceColumn="AVD" DataSetColumn="AVD" />
-              <Mapping SourceColumn="AVI" DataSetColumn="AVI" />
               <Mapping SourceColumn="COLOR" DataSetColumn="COLOR" />
               <Mapping SourceColumn="Compania" DataSetColumn="Compania" />
               <Mapping SourceColumn="RifCompania" DataSetColumn="RifCompania" />
+              <Mapping SourceColumn="ESFD" DataSetColumn="ESFD1" />
+              <Mapping SourceColumn="ESFI" DataSetColumn="ESFI1" />
+              <Mapping SourceColumn="CILD" DataSetColumn="CILD1" />
+              <Mapping SourceColumn="CILI" DataSetColumn="CILI1" />
+              <Mapping SourceColumn="EJED" DataSetColumn="EJED1" />
+              <Mapping SourceColumn="EJEI" DataSetColumn="EJEI1" />
+              <Mapping SourceColumn="ADDD" DataSetColumn="ADDD1" />
+              <Mapping SourceColumn="ADDI" DataSetColumn="ADDI1" />
+              <Mapping SourceColumn="ESFD_LC" DataSetColumn="ESFD_LC1" />
+              <Mapping SourceColumn="ESFI_LC" DataSetColumn="ESFI_LC1" />
+              <Mapping SourceColumn="CILD_LC" DataSetColumn="CILD_LC1" />
+              <Mapping SourceColumn="CILI_LC" DataSetColumn="CILI_LC1" />
+              <Mapping SourceColumn="EJED_LC" DataSetColumn="EJED_LC1" />
+              <Mapping SourceColumn="EJEI_LC" DataSetColumn="EJEI_LC1" />
+              <Mapping SourceColumn="ADDD_LC" DataSetColumn="ADDD_LC1" />
+              <Mapping SourceColumn="ADDI_LC" DataSetColumn="ADDI_LC1" />
+              <Mapping SourceColumn="CBD" DataSetColumn="CBD1" />
+              <Mapping SourceColumn="CBI" DataSetColumn="CBI1" />
+              <Mapping SourceColumn="DIAMD" DataSetColumn="DIAMD1" />
+              <Mapping SourceColumn="DIAMI" DataSetColumn="DIAMI1" />
+              <Mapping SourceColumn="AVD" DataSetColumn="AVD1" />
+              <Mapping SourceColumn="AVI" DataSetColumn="AVI1" />
+              <Mapping SourceColumn="PRD" DataSetColumn="PRD" />
+              <Mapping SourceColumn="BASED" DataSetColumn="BASED" />
+              <Mapping SourceColumn="PRI" DataSetColumn="PRI" />
+              <Mapping SourceColumn="BASEI" DataSetColumn="BASEI" />
+              <Mapping SourceColumn="DPDL" DataSetColumn="DPDL1" />
+              <Mapping SourceColumn="DPDC" DataSetColumn="DPDC1" />
+              <Mapping SourceColumn="DPIL" DataSetColumn="DPIL1" />
+              <Mapping SourceColumn="DPIC" DataSetColumn="DPIC1" />
+              <Mapping SourceColumn="BROLDCV" DataSetColumn="BROLDCV1" />
+              <Mapping SourceColumn="BROLICV" DataSetColumn="BROLICV1" />
+              <Mapping SourceColumn="BROCDCV" DataSetColumn="BROCDCV1" />
+              <Mapping SourceColumn="BROCICV" DataSetColumn="BROCICV1" />
+              <Mapping SourceColumn="BROMDCV" DataSetColumn="BROMDCV1" />
+              <Mapping SourceColumn="BROMICV" DataSetColumn="BROMICV1" />
+              <Mapping SourceColumn="ESFD2" DataSetColumn="ESFD21" />
+              <Mapping SourceColumn="ESFI2" DataSetColumn="ESFI21" />
+              <Mapping SourceColumn="CILD2" DataSetColumn="CILD21" />
+              <Mapping SourceColumn="CILI2" DataSetColumn="CILI21" />
+              <Mapping SourceColumn="EJED2" DataSetColumn="EJED21" />
+              <Mapping SourceColumn="EJEI2" DataSetColumn="EJEI21" />
+              <Mapping SourceColumn="T_HORIZONTAL" DataSetColumn="T_HORIZONTAL1" />
+              <Mapping SourceColumn="T_VERTICAL" DataSetColumn="T_VERTICAL1" />
+              <Mapping SourceColumn="T_MAXIMA" DataSetColumn="T_MAXIMA1" />
+              <Mapping SourceColumn="T_PUENTE" DataSetColumn="T_PUENTE1" />
+              <Mapping SourceColumn="T_DISTANCIADELECTURA" DataSetColumn="T_DISTANCIADELECTURA1" />
+              <Mapping SourceColumn="T_DISTANCIAVERTICE" DataSetColumn="T_DISTANCIAVERTICE1" />
+              <Mapping SourceColumn="T_ANGULOPANTOSCOPICO" DataSetColumn="T_ANGULOPANTOSCOPICO1" />
+              <Mapping SourceColumn="T_ANGULOFACIAL" DataSetColumn="T_ANGULOFACIAL1" />
+              <Mapping SourceColumn="T_ALTD" DataSetColumn="T_ALTD1" />
+              <Mapping SourceColumn="T_ALTI" DataSetColumn="T_ALTI1" />
+              <Mapping SourceColumn="Garantia" DataSetColumn="Garantia" />
+              <Mapping SourceColumn="Observacion" DataSetColumn="Observacion" />
+              <Mapping SourceColumn="NumExame" DataSetColumn="NumExame1" />
+              <Mapping SourceColumn="TipoTrabajo" DataSetColumn="TipoTrabajo" />
+              <Mapping SourceColumn="RepGarantia" DataSetColumn="RepGarantia" />
             </Mappings>
             <Sources />
           </TableAdapter>
@@ -112,7 +122,7 @@
   <xs:element name="DsRepOrden" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="DsRepOrden" msprop:Generator_UserDSName="DsRepOrden">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element name="SP_CPOS_REP_ORDEN" msprop:Generator_TableClassName="SP_CPOS_REP_ORDENDataTable" msprop:Generator_TableVarName="tableSP_CPOS_REP_ORDEN" msprop:Generator_TablePropName="SP_CPOS_REP_ORDEN" msprop:Generator_RowDeletingName="SP_CPOS_REP_ORDENRowDeleting" msprop:Generator_RowChangingName="SP_CPOS_REP_ORDENRowChanging" msprop:Generator_RowEvHandlerName="SP_CPOS_REP_ORDENRowChangeEventHandler" msprop:Generator_RowDeletedName="SP_CPOS_REP_ORDENRowDeleted" msprop:Generator_UserTableName="SP_CPOS_REP_ORDEN" msprop:Generator_RowChangedName="SP_CPOS_REP_ORDENRowChanged" msprop:Generator_RowEvArgName="SP_CPOS_REP_ORDENRowChangeEvent" msprop:Generator_RowClassName="SP_CPOS_REP_ORDENRow">
+        <xs:element name="SP_CPOS_REP_ORDEN" msprop:Generator_TableClassName="SP_CPOS_REP_ORDENDataTable" msprop:Generator_TableVarName="tableSP_CPOS_REP_ORDEN" msprop:Generator_RowChangedName="SP_CPOS_REP_ORDENRowChanged" msprop:Generator_TablePropName="SP_CPOS_REP_ORDEN" msprop:Generator_RowDeletingName="SP_CPOS_REP_ORDENRowDeleting" msprop:Generator_RowChangingName="SP_CPOS_REP_ORDENRowChanging" msprop:Generator_RowEvHandlerName="SP_CPOS_REP_ORDENRowChangeEventHandler" msprop:Generator_RowDeletedName="SP_CPOS_REP_ORDENRowDeleted" msprop:Generator_RowClassName="SP_CPOS_REP_ORDENRow" msprop:Generator_UserTableName="SP_CPOS_REP_ORDEN" msprop:Generator_RowEvArgName="SP_CPOS_REP_ORDENRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="Orden" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnOrden" msprop:Generator_ColumnPropNameInRow="Orden" msprop:Generator_ColumnPropNameInTable="OrdenColumn" msprop:Generator_UserColumnName="Orden" minOccurs="0">
@@ -353,6 +363,371 @@
               <xs:element name="NumExame" msprop:Generator_ColumnVarNameInTable="columnNumExame" msprop:Generator_ColumnPropNameInRow="NumExame" msprop:Generator_ColumnPropNameInTable="NumExameColumn" msprop:Generator_UserColumnName="NumExame" type="xs:string" minOccurs="0" />
               <xs:element name="TipoTrabajo" msprop:Generator_ColumnVarNameInTable="columnTipoTrabajo" msprop:Generator_ColumnPropNameInRow="TipoTrabajo" msprop:Generator_ColumnPropNameInTable="TipoTrabajoColumn" msprop:Generator_UserColumnName="TipoTrabajo" type="xs:string" minOccurs="0" />
               <xs:element name="RepGarantia" msprop:Generator_ColumnVarNameInTable="columnRepGarantia" msprop:Generator_ColumnPropNameInRow="RepGarantia" msprop:Generator_ColumnPropNameInTable="RepGarantiaColumn" msprop:Generator_UserColumnName="RepGarantia" type="xs:string" minOccurs="0" />
+              <xs:element name="ESFD1" msdata:ReadOnly="true" msdata:Caption="ESFD" msprop:Generator_ColumnVarNameInTable="columnESFD1" msprop:Generator_ColumnPropNameInRow="ESFD1" msprop:Generator_ColumnPropNameInTable="ESFD1Column" msprop:Generator_UserColumnName="ESFD1" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="ESFI1" msdata:ReadOnly="true" msdata:Caption="ESFI" msprop:Generator_ColumnVarNameInTable="columnESFI1" msprop:Generator_ColumnPropNameInRow="ESFI1" msprop:Generator_ColumnPropNameInTable="ESFI1Column" msprop:Generator_UserColumnName="ESFI1" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="CILD1" msdata:ReadOnly="true" msdata:Caption="CILD" msprop:Generator_ColumnVarNameInTable="columnCILD1" msprop:Generator_ColumnPropNameInRow="CILD1" msprop:Generator_ColumnPropNameInTable="CILD1Column" msprop:Generator_UserColumnName="CILD1" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="CILI1" msdata:ReadOnly="true" msdata:Caption="CILI" msprop:Generator_ColumnVarNameInTable="columnCILI1" msprop:Generator_ColumnPropNameInRow="CILI1" msprop:Generator_ColumnPropNameInTable="CILI1Column" msprop:Generator_UserColumnName="CILI1" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="EJED1" msdata:ReadOnly="true" msdata:Caption="EJED" msprop:Generator_ColumnVarNameInTable="columnEJED1" msprop:Generator_ColumnPropNameInRow="EJED1" msprop:Generator_ColumnPropNameInTable="EJED1Column" msprop:Generator_UserColumnName="EJED1" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="EJEI1" msdata:ReadOnly="true" msdata:Caption="EJEI" msprop:Generator_ColumnVarNameInTable="columnEJEI1" msprop:Generator_ColumnPropNameInRow="EJEI1" msprop:Generator_ColumnPropNameInTable="EJEI1Column" msprop:Generator_UserColumnName="EJEI1" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="ADDD1" msdata:ReadOnly="true" msdata:Caption="ADDD" msprop:Generator_ColumnVarNameInTable="columnADDD1" msprop:Generator_ColumnPropNameInRow="ADDD1" msprop:Generator_ColumnPropNameInTable="ADDD1Column" msprop:Generator_UserColumnName="ADDD1" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="ADDI1" msdata:ReadOnly="true" msdata:Caption="ADDI" msprop:Generator_ColumnVarNameInTable="columnADDI1" msprop:Generator_ColumnPropNameInRow="ADDI1" msprop:Generator_ColumnPropNameInTable="ADDI1Column" msprop:Generator_UserColumnName="ADDI1" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="ESFD_LC1" msdata:ReadOnly="true" msdata:Caption="ESFD_LC" msprop:Generator_ColumnVarNameInTable="columnESFD_LC1" msprop:Generator_ColumnPropNameInRow="ESFD_LC1" msprop:Generator_ColumnPropNameInTable="ESFD_LC1Column" msprop:Generator_UserColumnName="ESFD_LC1" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="ESFI_LC1" msdata:ReadOnly="true" msdata:Caption="ESFI_LC" msprop:Generator_ColumnVarNameInTable="columnESFI_LC1" msprop:Generator_ColumnPropNameInRow="ESFI_LC1" msprop:Generator_ColumnPropNameInTable="ESFI_LC1Column" msprop:Generator_UserColumnName="ESFI_LC1" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="CILD_LC1" msdata:ReadOnly="true" msdata:Caption="CILD_LC" msprop:Generator_ColumnVarNameInTable="columnCILD_LC1" msprop:Generator_ColumnPropNameInRow="CILD_LC1" msprop:Generator_ColumnPropNameInTable="CILD_LC1Column" msprop:Generator_UserColumnName="CILD_LC1" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="CILI_LC1" msdata:ReadOnly="true" msdata:Caption="CILI_LC" msprop:Generator_ColumnVarNameInTable="columnCILI_LC1" msprop:Generator_ColumnPropNameInRow="CILI_LC1" msprop:Generator_ColumnPropNameInTable="CILI_LC1Column" msprop:Generator_UserColumnName="CILI_LC1" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="EJED_LC1" msdata:ReadOnly="true" msdata:Caption="EJED_LC" msprop:Generator_ColumnVarNameInTable="columnEJED_LC1" msprop:Generator_ColumnPropNameInRow="EJED_LC1" msprop:Generator_ColumnPropNameInTable="EJED_LC1Column" msprop:Generator_UserColumnName="EJED_LC1" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="EJEI_LC1" msdata:ReadOnly="true" msdata:Caption="EJEI_LC" msprop:Generator_ColumnVarNameInTable="columnEJEI_LC1" msprop:Generator_ColumnPropNameInRow="EJEI_LC1" msprop:Generator_ColumnPropNameInTable="EJEI_LC1Column" msprop:Generator_UserColumnName="EJEI_LC1" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="ADDD_LC1" msdata:ReadOnly="true" msdata:Caption="ADDD_LC" msprop:Generator_ColumnVarNameInTable="columnADDD_LC1" msprop:Generator_ColumnPropNameInRow="ADDD_LC1" msprop:Generator_ColumnPropNameInTable="ADDD_LC1Column" msprop:Generator_UserColumnName="ADDD_LC1" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="ADDI_LC1" msdata:ReadOnly="true" msdata:Caption="ADDI_LC" msprop:Generator_ColumnVarNameInTable="columnADDI_LC1" msprop:Generator_ColumnPropNameInRow="ADDI_LC1" msprop:Generator_ColumnPropNameInTable="ADDI_LC1Column" msprop:Generator_UserColumnName="ADDI_LC1" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="CBD1" msdata:ReadOnly="true" msdata:Caption="CBD" msprop:Generator_ColumnVarNameInTable="columnCBD1" msprop:Generator_ColumnPropNameInRow="CBD1" msprop:Generator_ColumnPropNameInTable="CBD1Column" msprop:Generator_UserColumnName="CBD1" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="CBI1" msdata:ReadOnly="true" msdata:Caption="CBI" msprop:Generator_ColumnVarNameInTable="columnCBI1" msprop:Generator_ColumnPropNameInRow="CBI1" msprop:Generator_ColumnPropNameInTable="CBI1Column" msprop:Generator_UserColumnName="CBI1" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="DIAMD1" msdata:ReadOnly="true" msdata:Caption="DIAMD" msprop:Generator_ColumnVarNameInTable="columnDIAMD1" msprop:Generator_ColumnPropNameInRow="DIAMD1" msprop:Generator_ColumnPropNameInTable="DIAMD1Column" msprop:Generator_UserColumnName="DIAMD1" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="DIAMI1" msdata:ReadOnly="true" msdata:Caption="DIAMI" msprop:Generator_ColumnVarNameInTable="columnDIAMI1" msprop:Generator_ColumnPropNameInRow="DIAMI1" msprop:Generator_ColumnPropNameInTable="DIAMI1Column" msprop:Generator_UserColumnName="DIAMI1" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="AVD1" msdata:ReadOnly="true" msdata:Caption="AVD" msprop:Generator_ColumnVarNameInTable="columnAVD1" msprop:Generator_ColumnPropNameInRow="AVD1" msprop:Generator_ColumnPropNameInTable="AVD1Column" msprop:Generator_UserColumnName="AVD1" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="AVI1" msdata:ReadOnly="true" msdata:Caption="AVI" msprop:Generator_ColumnVarNameInTable="columnAVI1" msprop:Generator_ColumnPropNameInRow="AVI1" msprop:Generator_ColumnPropNameInTable="AVI1Column" msprop:Generator_UserColumnName="AVI1" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PRD" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnPRD" msprop:Generator_ColumnPropNameInRow="PRD" msprop:Generator_ColumnPropNameInTable="PRDColumn" msprop:Generator_UserColumnName="PRD" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="8000" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="BASED" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnBASED" msprop:Generator_ColumnPropNameInRow="BASED" msprop:Generator_ColumnPropNameInTable="BASEDColumn" msprop:Generator_UserColumnName="BASED" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="3" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PRI" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnPRI" msprop:Generator_ColumnPropNameInRow="PRI" msprop:Generator_ColumnPropNameInTable="PRIColumn" msprop:Generator_UserColumnName="PRI" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="8000" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="BASEI" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnBASEI" msprop:Generator_ColumnPropNameInRow="BASEI" msprop:Generator_ColumnPropNameInTable="BASEIColumn" msprop:Generator_UserColumnName="BASEI" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="3" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="DPDL1" msdata:ReadOnly="true" msdata:Caption="DPDL" msprop:Generator_ColumnVarNameInTable="columnDPDL1" msprop:Generator_ColumnPropNameInRow="DPDL1" msprop:Generator_ColumnPropNameInTable="DPDL1Column" msprop:Generator_UserColumnName="DPDL1" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="DPDC1" msdata:ReadOnly="true" msdata:Caption="DPDC" msprop:Generator_ColumnVarNameInTable="columnDPDC1" msprop:Generator_ColumnPropNameInRow="DPDC1" msprop:Generator_ColumnPropNameInTable="DPDC1Column" msprop:Generator_UserColumnName="DPDC1" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="DPIL1" msdata:ReadOnly="true" msdata:Caption="DPIL" msprop:Generator_ColumnVarNameInTable="columnDPIL1" msprop:Generator_ColumnPropNameInRow="DPIL1" msprop:Generator_ColumnPropNameInTable="DPIL1Column" msprop:Generator_UserColumnName="DPIL1" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="DPIC1" msdata:ReadOnly="true" msdata:Caption="DPIC" msprop:Generator_ColumnVarNameInTable="columnDPIC1" msprop:Generator_ColumnPropNameInRow="DPIC1" msprop:Generator_ColumnPropNameInTable="DPIC1Column" msprop:Generator_UserColumnName="DPIC1" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="BROLDCV1" msdata:ReadOnly="true" msdata:Caption="BROLDCV" msprop:Generator_ColumnVarNameInTable="columnBROLDCV1" msprop:Generator_ColumnPropNameInRow="BROLDCV1" msprop:Generator_ColumnPropNameInTable="BROLDCV1Column" msprop:Generator_UserColumnName="BROLDCV1" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="BROLICV1" msdata:ReadOnly="true" msdata:Caption="BROLICV" msprop:Generator_ColumnVarNameInTable="columnBROLICV1" msprop:Generator_ColumnPropNameInRow="BROLICV1" msprop:Generator_ColumnPropNameInTable="BROLICV1Column" msprop:Generator_UserColumnName="BROLICV1" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="BROCDCV1" msdata:ReadOnly="true" msdata:Caption="BROCDCV" msprop:Generator_ColumnVarNameInTable="columnBROCDCV1" msprop:Generator_ColumnPropNameInRow="BROCDCV1" msprop:Generator_ColumnPropNameInTable="BROCDCV1Column" msprop:Generator_UserColumnName="BROCDCV1" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="BROCICV1" msdata:ReadOnly="true" msdata:Caption="BROCICV" msprop:Generator_ColumnVarNameInTable="columnBROCICV1" msprop:Generator_ColumnPropNameInRow="BROCICV1" msprop:Generator_ColumnPropNameInTable="BROCICV1Column" msprop:Generator_UserColumnName="BROCICV1" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="BROMDCV1" msdata:ReadOnly="true" msdata:Caption="BROMDCV" msprop:Generator_ColumnVarNameInTable="columnBROMDCV1" msprop:Generator_ColumnPropNameInRow="BROMDCV1" msprop:Generator_ColumnPropNameInTable="BROMDCV1Column" msprop:Generator_UserColumnName="BROMDCV1" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="BROMICV1" msdata:ReadOnly="true" msdata:Caption="BROMICV" msprop:Generator_ColumnVarNameInTable="columnBROMICV1" msprop:Generator_ColumnPropNameInRow="BROMICV1" msprop:Generator_ColumnPropNameInTable="BROMICV1Column" msprop:Generator_UserColumnName="BROMICV1" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="ESFD21" msdata:ReadOnly="true" msdata:Caption="ESFD2" msprop:Generator_ColumnVarNameInTable="columnESFD21" msprop:Generator_ColumnPropNameInRow="ESFD21" msprop:Generator_ColumnPropNameInTable="ESFD21Column" msprop:Generator_UserColumnName="ESFD21" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="ESFI21" msdata:ReadOnly="true" msdata:Caption="ESFI2" msprop:Generator_ColumnVarNameInTable="columnESFI21" msprop:Generator_ColumnPropNameInRow="ESFI21" msprop:Generator_ColumnPropNameInTable="ESFI21Column" msprop:Generator_UserColumnName="ESFI21" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="CILD21" msdata:ReadOnly="true" msdata:Caption="CILD2" msprop:Generator_ColumnVarNameInTable="columnCILD21" msprop:Generator_ColumnPropNameInRow="CILD21" msprop:Generator_ColumnPropNameInTable="CILD21Column" msprop:Generator_UserColumnName="CILD21" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="CILI21" msdata:ReadOnly="true" msdata:Caption="CILI2" msprop:Generator_ColumnVarNameInTable="columnCILI21" msprop:Generator_ColumnPropNameInRow="CILI21" msprop:Generator_ColumnPropNameInTable="CILI21Column" msprop:Generator_UserColumnName="CILI21" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="EJED21" msdata:ReadOnly="true" msdata:Caption="EJED2" msprop:Generator_ColumnVarNameInTable="columnEJED21" msprop:Generator_ColumnPropNameInRow="EJED21" msprop:Generator_ColumnPropNameInTable="EJED21Column" msprop:Generator_UserColumnName="EJED21" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="EJEI21" msdata:ReadOnly="true" msdata:Caption="EJEI2" msprop:Generator_ColumnVarNameInTable="columnEJEI21" msprop:Generator_ColumnPropNameInRow="EJEI21" msprop:Generator_ColumnPropNameInTable="EJEI21Column" msprop:Generator_UserColumnName="EJEI21" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="T_HORIZONTAL1" msdata:ReadOnly="true" msdata:Caption="T_HORIZONTAL" msprop:Generator_ColumnVarNameInTable="columnT_HORIZONTAL1" msprop:Generator_ColumnPropNameInRow="T_HORIZONTAL1" msprop:Generator_ColumnPropNameInTable="T_HORIZONTAL1Column" msprop:Generator_UserColumnName="T_HORIZONTAL1" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="8000" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="T_VERTICAL1" msdata:ReadOnly="true" msdata:Caption="T_VERTICAL" msprop:Generator_ColumnVarNameInTable="columnT_VERTICAL1" msprop:Generator_ColumnPropNameInRow="T_VERTICAL1" msprop:Generator_ColumnPropNameInTable="T_VERTICAL1Column" msprop:Generator_UserColumnName="T_VERTICAL1" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="8000" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="T_MAXIMA1" msdata:ReadOnly="true" msdata:Caption="T_MAXIMA" msprop:Generator_ColumnVarNameInTable="columnT_MAXIMA1" msprop:Generator_ColumnPropNameInRow="T_MAXIMA1" msprop:Generator_ColumnPropNameInTable="T_MAXIMA1Column" msprop:Generator_UserColumnName="T_MAXIMA1" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="8000" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="T_PUENTE1" msdata:ReadOnly="true" msdata:Caption="T_PUENTE" msprop:Generator_ColumnVarNameInTable="columnT_PUENTE1" msprop:Generator_ColumnPropNameInRow="T_PUENTE1" msprop:Generator_ColumnPropNameInTable="T_PUENTE1Column" msprop:Generator_UserColumnName="T_PUENTE1" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="8000" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="T_DISTANCIADELECTURA1" msdata:ReadOnly="true" msdata:Caption="T_DISTANCIADELECTURA" msprop:Generator_ColumnVarNameInTable="columnT_DISTANCIADELECTURA1" msprop:Generator_ColumnPropNameInRow="T_DISTANCIADELECTURA1" msprop:Generator_ColumnPropNameInTable="T_DISTANCIADELECTURA1Column" msprop:Generator_UserColumnName="T_DISTANCIADELECTURA1" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="8000" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="T_DISTANCIAVERTICE1" msdata:ReadOnly="true" msdata:Caption="T_DISTANCIAVERTICE" msprop:Generator_ColumnVarNameInTable="columnT_DISTANCIAVERTICE1" msprop:Generator_ColumnPropNameInRow="T_DISTANCIAVERTICE1" msprop:Generator_ColumnPropNameInTable="T_DISTANCIAVERTICE1Column" msprop:Generator_UserColumnName="T_DISTANCIAVERTICE1" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="8000" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="T_ANGULOPANTOSCOPICO1" msdata:ReadOnly="true" msdata:Caption="T_ANGULOPANTOSCOPICO" msprop:Generator_ColumnVarNameInTable="columnT_ANGULOPANTOSCOPICO1" msprop:Generator_ColumnPropNameInRow="T_ANGULOPANTOSCOPICO1" msprop:Generator_ColumnPropNameInTable="T_ANGULOPANTOSCOPICO1Column" msprop:Generator_UserColumnName="T_ANGULOPANTOSCOPICO1" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="8000" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="T_ANGULOFACIAL1" msdata:ReadOnly="true" msdata:Caption="T_ANGULOFACIAL" msprop:Generator_ColumnVarNameInTable="columnT_ANGULOFACIAL1" msprop:Generator_ColumnPropNameInRow="T_ANGULOFACIAL1" msprop:Generator_ColumnPropNameInTable="T_ANGULOFACIAL1Column" msprop:Generator_UserColumnName="T_ANGULOFACIAL1" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="8000" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="T_ALTD1" msdata:ReadOnly="true" msdata:Caption="T_ALTD" msprop:Generator_ColumnVarNameInTable="columnT_ALTD1" msprop:Generator_ColumnPropNameInRow="T_ALTD1" msprop:Generator_ColumnPropNameInTable="T_ALTD1Column" msprop:Generator_UserColumnName="T_ALTD1" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="8000" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="T_ALTI1" msdata:ReadOnly="true" msdata:Caption="T_ALTI" msprop:Generator_ColumnVarNameInTable="columnT_ALTI1" msprop:Generator_ColumnPropNameInRow="T_ALTI1" msprop:Generator_ColumnPropNameInTable="T_ALTI1Column" msprop:Generator_UserColumnName="T_ALTI1" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="8000" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="NumExame1" msdata:Caption="NumExame" msprop:Generator_ColumnVarNameInTable="columnNumExame1" msprop:Generator_ColumnPropNameInRow="NumExame1" msprop:Generator_ColumnPropNameInTable="NumExame1Column" msprop:Generator_UserColumnName="NumExame1" type="xs:int" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
