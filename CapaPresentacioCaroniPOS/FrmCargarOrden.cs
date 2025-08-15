@@ -10324,19 +10324,19 @@ namespace CapaVisual_Login
                     switch (Dgv_Pnl2_conv.Rows[0].Cells["Grado1"]?.Value?.ToString())
                     {
                         case "90":
-                            nuevoFicconv.PBASED = "Arr";
+                            nuevoFicconv.PBASED = "90"; // Arr
                             break;
 
                         case "270":
-                            nuevoFicconv.PBASED = "Abj";
+                            nuevoFicconv.PBASED = "270"; // Abj
                             break;
 
                         case "360":
-                            nuevoFicconv.PBASED = "Nas";
+                            nuevoFicconv.PBASED = "360"; // Nas
                             break;
 
                         case "180":
-                            nuevoFicconv.PBASED = "Tem";
+                            nuevoFicconv.PBASED = "180"; // Tem
                             break;
 
                         default:
@@ -10347,19 +10347,19 @@ namespace CapaVisual_Login
                     switch (Dgv_Pnl2_conv.Rows[1].Cells["Grado1"]?.Value?.ToString())
                     {
                         case "90":
-                            nuevoFicconv.PBASEI = "Arr";
+                            nuevoFicconv.PBASEI = "90";
                             break;
 
                         case "270":
-                            nuevoFicconv.PBASEI = "Abj";
+                            nuevoFicconv.PBASEI = "270";
                             break;
 
                         case "360":
-                            nuevoFicconv.PBASEI = "Nas";
+                            nuevoFicconv.PBASEI = "360";
                             break;
 
                         case "180":
-                            nuevoFicconv.PBASEI = "Tem";
+                            nuevoFicconv.PBASEI = "180";
                             break;
 
                         default:

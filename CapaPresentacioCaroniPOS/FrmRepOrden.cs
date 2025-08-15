@@ -34,8 +34,15 @@ namespace CapaVisual_Login
             //this.sP_CPOS_REP_ORDENTableAdapter.Fill(this.dsRepOrden.SP_CPOS_REP_ORDEN, TxtOrden.Text);
             //this.reportViewer1.LocalReport.DataSources.Add(new ReportDataSource("DsRepOrden", sPCPOSREPORDENBindingSource));
             //this.reportViewer1.RefreshReport();
+            InicializarFormulario();
+
+            
 
 
+        }
+
+        public void InicializarFormulario()
+        {
             //Imprimir el reporte de contacto si MostrarContacto es true
             if (Contacto && !Convencional)
             {
@@ -59,14 +66,12 @@ namespace CapaVisual_Login
                 // Llenar el dataset del reporte de orden
                 DataTable dtOrden = GetSubreportData(TxtOrden.Text);
                 rdlcOrden.DataSources.Add(new ReportDataSource("DsRepOrden", dtOrden));
-                
+
 
                 // Mostrar el reporte de orden en el ReportViewer
                 MostrarReporteEnReportViewer(rdlcOrden);
 
             }
-
-
         }
 
         private void MostrarReporteEnReportViewer(LocalReport report)
