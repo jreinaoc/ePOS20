@@ -1909,6 +1909,8 @@ namespace CapaVisual_Login
                 ojoLenteContacto = "";
                 pnlOjo.Visible = false;
                 LcAmbosCant1 = false;
+
+                BotonesColor(true,"todos");
             }
 
             catch (Exception ex)
@@ -3058,6 +3060,7 @@ namespace CapaVisual_Login
                         _L_Articulo.ActualizarTotales(Dgv_Tap3_Articulo, Dgv_Tap3_Totales);
                         // Cierro el panel, limpio controles y Retorno a la pantalla primcipal 
                         CerrarPanelDescuento();
+                        BotonesColor(false, "Descuento");
 
                     }
                     else
@@ -4349,6 +4352,8 @@ namespace CapaVisual_Login
                     _L_Articulo.CargarServicioMonturaPropia(Dgv_Tap3_Articulo, TipoMonturaPropia == "Completa");
 
                 }
+
+                BotonesColor(false, "Montura Propia");
             }
 
         }
@@ -4395,6 +4400,8 @@ namespace CapaVisual_Login
         {
             Cristal_Propio = true;
             HabilitacionControl("CabezeraPrincipal");
+            // Modo oscuro
+            BotonesColor(false, "Cristal Propio");
 
         }
 
@@ -4517,6 +4524,7 @@ namespace CapaVisual_Login
                 // Obtener el valor de la celda "Cod_Coloracion"
                 Codigo_Promocion = filaSeleccionada.Cells["COD_Prom"].Value.ToString();
                 Lbl_Tap3_Articulo1.Text= "Ingresar Articulo "+ " Promo: "+ filaSeleccionada.Cells["Prom_DESCRIP"].Value.ToString();
+                BotonesColor(false, "Promocion");
                 CerrarPanelPromocion();
             }
             else
@@ -4558,6 +4566,9 @@ namespace CapaVisual_Login
 
                     // Establecer el foco en el TextBox de cantidad
                     //Txt_Tap3_Articulo_Cantidad.Focus();
+
+                    // Modo oscuro
+                    BotonesColor(false, "Cliente Afiliado");
                 }
             }
         }
@@ -4566,6 +4577,8 @@ namespace CapaVisual_Login
         {
             Garantia = true;
             HabilitacionControl("CabezeraPrincipal");
+            // Modo oscuro
+            BotonesColor(false, "Garantia");
         }
 
         private bool AplicoGarantia(string CI, string nacio, string OS, string Suc, string exam)
@@ -13865,6 +13878,164 @@ namespace CapaVisual_Login
                 txtDll.Focus();
 
             }
+        }
+
+        public void BotonesColor(bool modoClaro, string boton)
+        {
+            if (modoClaro)
+            {
+                switch (boton.ToLower()) // Convertir a minúsculas para comparación insensible a mayúsculas
+                {
+                    case "garantia":
+                        AplicarColorBoton(true, Btn_Tap3_Garantia, "Garantia");
+                        break;
+
+                    case "descuento":
+                        AplicarColorBoton(true, Btn_Tap3_Descuento, "Descuento");
+                        break;
+
+                    case "promocion":
+                        AplicarColorBoton(true, Btn_Tap3_Promocion, "Promocion");
+                        break;
+
+                    case "monturapropia":
+                    case "montura propia":
+                        AplicarColorBoton(true, Btn_Tap3_MonturaPropia, "Montura Propia");
+                        break;
+
+                    case "cristalpropio":
+                    case "cristal propio":
+                        AplicarColorBoton(true, Btn_Tap3_CristalPropio, "Cristal Propio");
+                        break;
+
+                    case "clienteafiliado":
+                    case "cliente afiliado":
+                        AplicarColorBoton(true, Btn_Tap3_ClienteAfiliado, "Cliente Afiliado");
+                        break;
+
+                    case "todos":
+                        // Aplicar a todos los botones
+                        AplicarColorBoton(true, Btn_Tap3_Garantia, "Garantia");
+                        AplicarColorBoton(true, Btn_Tap3_Descuento, "Descuento");
+                        AplicarColorBoton(true, Btn_Tap3_Promocion, "Promocion");
+                        AplicarColorBoton(true, Btn_Tap3_MonturaPropia, "Montura Propia");
+                        AplicarColorBoton(true, Btn_Tap3_CristalPropio, "Cristal Propio");
+                        AplicarColorBoton(true, Btn_Tap3_ClienteAfiliado, "Cliente Afiliado");
+                        break;
+
+                    default:
+                        Console.WriteLine($"Nombre de botón no reconocido: {boton}");
+                        break;
+                }
+            }
+            else // Modo oscuro
+            {
+                switch (boton.ToLower())
+                {
+                    case "garantia":
+                        AplicarColorBoton(false, Btn_Tap3_Garantia, "Garantia");
+                        break;
+
+                    case "descuento":
+                        AplicarColorBoton(false, Btn_Tap3_Descuento, "Descuento");
+                        break;
+
+                    case "promocion":
+                        AplicarColorBoton(false, Btn_Tap3_Promocion, "Promocion");
+                        break;
+
+                    case "monturapropia":
+                    case "montura propia":
+                        AplicarColorBoton(false, Btn_Tap3_MonturaPropia, "Montura Propia");
+                        break;
+
+                    case "cristalpropio":
+                    case "cristal propio":
+                        AplicarColorBoton(false, Btn_Tap3_CristalPropio, "Cristal Propio");
+                        break;
+
+                    case "clienteafiliado":
+                    case "cliente afiliado":
+                        AplicarColorBoton(false, Btn_Tap3_ClienteAfiliado, "Cliente Afiliado");
+                        break;
+
+                    case "todos":
+                        // Aplicar a todos los botones
+                        AplicarColorBoton(false, Btn_Tap3_Garantia, "Garantia");
+                        AplicarColorBoton(false, Btn_Tap3_Descuento, "Descuento");
+                        AplicarColorBoton(false, Btn_Tap3_Promocion, "Promocion");
+                        AplicarColorBoton(false, Btn_Tap3_MonturaPropia, "Montura Propia");
+                        AplicarColorBoton(false, Btn_Tap3_CristalPropio, "Cristal Propio");
+                        AplicarColorBoton(false, Btn_Tap3_ClienteAfiliado, "Cliente Afiliado");
+                        break;
+
+                    default:
+                        Console.WriteLine($"Nombre de botón no reconocido: {boton}");
+                        break;
+                }
+            }
+        }
+
+        public void AplicarColorBoton(bool modoClaro, System.Windows.Forms.Button boton, string nombreBoton)
+        {
+            if (boton == null || string.IsNullOrEmpty(nombreBoton))
+            {
+                return;
+            }
+
+            // Diccionario de colores para modo CLARO (hexadecimal)
+            var coloresClaro = new Dictionary<string, Color>(StringComparer.OrdinalIgnoreCase) // Ignora mayúsculas
+    {
+        { "Descuento", Color.FromArgb(0xEE, 0x94, 0x88) },
+        { "Promocion", Color.FromArgb(0xFF, 0xD9, 0x66) },
+        { "Montura Propia", Color.FromArgb(0x78, 0xAD, 0xDD) },
+        { "Cristal Propio", Color.FromArgb(0xBE, 0xE3, 0x96) },
+        { "Cliente Afiliado", Color.FromArgb(0xF4, 0xB1, 0x83) },
+        { "Garantia", Color.FromArgb(0xF4, 0x83, 0xA7) }
+    };
+
+            // Diccionario de colores para modo OSCURO
+            var coloresOscuro = new Dictionary<string, Color>(StringComparer.OrdinalIgnoreCase)
+    {
+        { "Descuento", Color.OrangeRed },
+        { "Cambio de Precio", Color.FromArgb(65, 42, 156) },
+        { "Promocion", Color.FromArgb(239, 184, 16) },
+        { "Montura Propia", Color.FromArgb(21, 118, 187) },
+        { "Cristal Propio", Color.FromArgb(92, 203, 95) },
+        { "Cliente Afiliado", Color.FromArgb(255, 128, 0) },
+        { "Garantia", Color.DeepPink }
+    };
+
+            var colores = modoClaro ? coloresClaro : coloresOscuro;
+
+            if (colores.TryGetValue(nombreBoton, out Color color))
+            {
+                boton.BackColor = color;
+                boton.ForeColor = color.GetBrightness() > 0.5 ? Color.Black : Color.White;
+                boton.UseVisualStyleBackColor = false; // Importante para que se vea el color
+                boton.Refresh();
+            }
+            else
+            {
+                // Manejo de error o color por defecto
+                boton.BackColor = SystemColors.Control;
+                boton.ForeColor = SystemColors.ControlText;
+            }
+        }
+
+        private void Pnl_3_Garantia_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void pnl_MonturaPropia_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void Pnl_3_Descuento_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 

@@ -358,6 +358,23 @@ namespace CapaDatos.DetalleOrden_Datos
             return dts;
         }
 
+        public DataSet PagosConIGTF_NotaCredito(string SucursalActual, string NroOrdenServicio, string Revision, SqlCommand command)
+        {
+            SqlCommand cmd = command;
+            cmd.CommandText = "SP_CPOS_pGetPagosConIGTF_NotaCredito";
+            //SqlCommand cmd = new SqlCommand("SP_CPOS_pGetPagosConIGTF", cn.LeerCadena());
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@CodSuc", SucursalActual);
+            cmd.Parameters.AddWithValue("@NumordServ", NroOrdenServicio);
+            cmd.Parameters.AddWithValue("@Revision", Revision);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet dts = new DataSet();
+            da.Fill(dts);
+            cmd.Parameters.Clear();
+            return dts;
+        }
+
+
         //Solo para hacer la validacion de factura manual. 
         public DataSet PagosConIGTFVal(string SucursalActual, string NroOrdenServicio, SqlCommand command = null)
         {
@@ -931,6 +948,28 @@ public void MovimientoInventario(string CodArticulo, string TipoDoc, string Docu
             SqlCommand cmd = command;
             cmd.CommandText ="SP_DESCUENTOSFACTURAFISCAL";
             cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@NumOrden", NumeroOrdenServicio);
+            DataSet dts = new DataSet();
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            da.Fill(dts);
+            cmd.Parameters.Clear();
+            return dts;
+
+
+        }
+
+        public DataSet IGTF_NotaCreditoFiscal(string NumeroOrdenServicio, SqlCommand command = null)
+        {
+            if (command == null)
+            {
+                SqlConnection connection = cn.LeerCadena();
+                command = connection.CreateCommand();
+            }
+            SqlCommand cmd = command;
+            cmd.CommandText = "SP_IGTF_Factura";
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@Cod_Sucursal", NumeroOrdenServicio);
+            cmd.Parameters.AddWithValue("@NumOrden", NumeroOrdenServicio);
             cmd.Parameters.AddWithValue("@NumOrden", NumeroOrdenServicio);
             DataSet dts = new DataSet();
             SqlDataAdapter da = new SqlDataAdapter(cmd);
