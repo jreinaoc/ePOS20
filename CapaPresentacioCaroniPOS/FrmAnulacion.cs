@@ -591,7 +591,7 @@ namespace CapaVisual_Login
                         //resp = objVmax.AbrirCF("Jesus Antonio Pabon Mavare", "J309860895", "2", "000000262", "TIU2202214", "26032022", "1055", 40);
                         resp = objVmax.AbrirCF(PrimerNombre + " " + PrimerApellido, Convert.ToString(TB_FACTURAS.CTE_NacioPAG) + "" + Convert.ToString(TB_FACTURAS.CTE_CedIdenPAG), "2", Convert.ToString(TB_FACTURAS.Fact_Num), Convert.ToString(TB_FACTURAS.Fact_SerialImpresora), Convert.ToDateTime(TB_FACTURAS.Fact_FecCrea).ToString("dd/MM/yyyy"), FechaOperacion.ToString("HH:mm"), 40);
 
-                    if (resp != 0)
+                        if (resp != 0)
                         {
                             StatusNoataCredito = false;
                             objVmax.Cancelar();
@@ -603,10 +603,10 @@ namespace CapaVisual_Login
                             return StatusNoataCredito;
                         }
 
-                        NumeroNCFiscal = (Convert.ToInt32(objVmax.RetornoMF.uiTotalNCDiarias) + 1).ToString();
+                     NumeroNCFiscal = (Convert.ToInt32(objVmax.RetornoMF.uiTotalNCDiarias) + 1).ToString();
 
-                        if (resp == 0)
-                        {
+                    if (resp == 0)
+                    {
 
                             DataSet dsArti = _D_DetalleOrden.DetalleNotaCreditoFiscal(NumeroFactura, SerialImpresora,command);
                         string desart;
@@ -652,8 +652,22 @@ namespace CapaVisual_Login
                             }
                             if (resp == 0)
                             {
-                                resp = objVmax.SubtotalT_sinRetorno(Convert.ToString(TB_FACTURAS.Fact_IGTF).Replace(".", ","));
+                            DataSet DtIGTF = _D_DetalleOrden.PagosConIGTF_NotaCredito(TB_FACTURAS.Cod_Sucursal, TB_FACTURAS.NumOrdServ, TB_FACTURAS.Revision, command);
+                            Double subtotal = 0.00;
+                            Double subtotalIgtf = 0.00;
+
+                            // ******ENVIO EL SUBTOTAL DE LA FACTURA**************
+                                foreach (DataRow drIgtf in DtIGTF.Tables[0].Rows)
+                                {
+                                    subtotal = subtotal + Convert.ToDouble(drIgtf["Abo_Monto"].ToString()) / 100;
+                                    subtotalIgtf = subtotalIgtf + Convert.ToDouble(drIgtf["IGTFCALC1"].ToString());
+                                }
+                                // Verifico si la orden tiene Igtf 1
+                                if (Convert.ToBoolean(DtIGTF.Tables[0].Rows[0]["ActivaIGTF"].ToString()) == true & DtIGTF.Tables[0].Rows[0]["Abo_Monto"].ToString() != "0")
+                                    resp = objVmax.SubtotalT_sinRetorno(Convert.ToString(subtotal * 100).Replace(".", ","));
+                                else
                                 resp = objVmax.Subtotal();
+                               // *****Texto no fiscal *****
                                 resp = objVmax.TextoNoFiscal("Monto Disponible:  " + Monto.ToString());
                                 objVmax.ObtenerReporteInformativo();
                                 SerialImpresoraNC = objVmax.RetornoMI.sSerial;
@@ -661,13 +675,11 @@ namespace CapaVisual_Login
                                 resp = objVmax.Cerrar();
                                 resp = objVmax.CerrarPuerto();
 
-                            }
-
 
                         }
-
-                        if (resp == 0)
-                        {
+                    }
+                    if (resp == 0)
+                    {
                             NumeroNCFiscal = objVmax.RetornoAbrirFactura.uiNumeroFactura.ToString();
 
                         switch (NumeroNCFiscal.Length)
@@ -756,10 +768,7 @@ namespace CapaVisual_Login
                         }
                     }
 
-                       
-
-
-                    }
+                }
                 objVmax.Cancelar();
                 objVmax.Cerrar();
                 objVmax.CerrarPuerto();
@@ -769,7 +778,6 @@ namespace CapaVisual_Login
                 return false;
 
             }
-
             catch (Exception ex)
             {
                 _FrmMensajes.co = 2;

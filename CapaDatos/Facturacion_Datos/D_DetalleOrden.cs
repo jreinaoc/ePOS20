@@ -358,6 +358,23 @@ namespace CapaDatos.DetalleOrden_Datos
             return dts;
         }
 
+        public DataSet PagosConIGTF_NotaCredito(string SucursalActual, string NroOrdenServicio, string Revision, SqlCommand command)
+        {
+            SqlCommand cmd = command;
+            cmd.CommandText = "SP_CPOS_pGetPagosConIGTF_NotaCredito";
+            //SqlCommand cmd = new SqlCommand("SP_CPOS_pGetPagosConIGTF", cn.LeerCadena());
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@CodSuc", SucursalActual);
+            cmd.Parameters.AddWithValue("@NumordServ", NroOrdenServicio);
+            cmd.Parameters.AddWithValue("@Revision", Revision);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet dts = new DataSet();
+            da.Fill(dts);
+            cmd.Parameters.Clear();
+            return dts;
+        }
+
+
         //Solo para hacer la validacion de factura manual. 
         public DataSet PagosConIGTFVal(string SucursalActual, string NroOrdenServicio, SqlCommand command = null)
         {

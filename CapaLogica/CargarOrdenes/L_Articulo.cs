@@ -1067,7 +1067,7 @@ namespace CapaLogica.CargarOrdenes
             {
                 // Verificar que la fila no sea nueva
                 if (row.IsNewRow) continue;
-
+                string Aritculo = row.Cells["CodArticulo"].Value.ToString();
                 // Subtotal: Cantidad * Precio
                 if (row.Cells["ART_EXIST"].Value != null && row.Cells["ART_PVP"].Value != null)
                 {

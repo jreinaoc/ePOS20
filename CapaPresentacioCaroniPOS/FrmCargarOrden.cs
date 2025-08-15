@@ -3060,6 +3060,7 @@ namespace CapaVisual_Login
                         _L_Articulo.ActualizarTotales(Dgv_Tap3_Articulo, Dgv_Tap3_Totales);
                         // Cierro el panel, limpio controles y Retorno a la pantalla primcipal 
                         CerrarPanelDescuento();
+                        BotonesColor(false, "Descuento");
 
                     }
                     else
@@ -4351,6 +4352,8 @@ namespace CapaVisual_Login
                     _L_Articulo.CargarServicioMonturaPropia(Dgv_Tap3_Articulo, TipoMonturaPropia == "Completa");
 
                 }
+
+                BotonesColor(false, "Montura Propia");
             }
 
         }
@@ -4397,6 +4400,8 @@ namespace CapaVisual_Login
         {
             Cristal_Propio = true;
             HabilitacionControl("CabezeraPrincipal");
+            // Modo oscuro
+            BotonesColor(false, "Cristal Propio");
 
         }
 
@@ -4519,6 +4524,7 @@ namespace CapaVisual_Login
                 // Obtener el valor de la celda "Cod_Coloracion"
                 Codigo_Promocion = filaSeleccionada.Cells["COD_Prom"].Value.ToString();
                 Lbl_Tap3_Articulo1.Text= "Ingresar Articulo "+ " Promo: "+ filaSeleccionada.Cells["Prom_DESCRIP"].Value.ToString();
+                BotonesColor(false, "Promocion");
                 CerrarPanelPromocion();
             }
             else
@@ -4560,6 +4566,9 @@ namespace CapaVisual_Login
 
                     // Establecer el foco en el TextBox de cantidad
                     //Txt_Tap3_Articulo_Cantidad.Focus();
+
+                    // Modo oscuro
+                    BotonesColor(false, "Cliente Afiliado");
                 }
             }
         }
@@ -14013,7 +14022,21 @@ namespace CapaVisual_Login
                 boton.ForeColor = SystemColors.ControlText;
             }
         }
-      
+
+        private void Pnl_3_Garantia_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void pnl_MonturaPropia_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void Pnl_3_Descuento_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 
 }
