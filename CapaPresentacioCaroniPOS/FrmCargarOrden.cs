@@ -14004,7 +14004,7 @@ namespace CapaVisual_Login
         { "Promocion", Color.FromArgb(0xFF, 0xD9, 0x66) },
         { "Montura Propia", Color.FromArgb(0x78, 0xAD, 0xDD) },
         { "Cristal Propio", Color.FromArgb(0xBE, 0xE3, 0x96) },
-        { "Cliente Afiliado", Color.FromArgb(0xB2, 0xB9, 0xFF) },
+        { "Cliente Afiliado",  Color.FromArgb(244, 177, 131) },
         { "Cambio Precio", Color.FromArgb(178, 185, 255) },
         { "Garantia", Color.FromArgb(0xF4, 0x83, 0xA7) }
     };
@@ -14027,7 +14027,7 @@ namespace CapaVisual_Login
             {
                 boton.BackColor = color;
                 // fore color es para cambiar el color de las letras
-                boton.ForeColor = Color.White;
+                boton.ForeColor = Color.FromArgb(40, 40, 40);
                 boton.UseVisualStyleBackColor = false; // Importante para que se vea el color
                 boton.Refresh();
             }
@@ -14038,6 +14038,8 @@ namespace CapaVisual_Login
                 //boton.ForeColor = SystemColors.ControlText;
             }
         }
+
+
     }
 
 }
