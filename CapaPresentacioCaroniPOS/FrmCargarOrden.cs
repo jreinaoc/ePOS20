@@ -2881,6 +2881,8 @@ namespace CapaVisual_Login
                         {
                             _L_Articulo.ActualizarCelda(Dgv_Tap3_Articulo, filaSeleccionada, "ART_PVP", Txt_Pnl3_CambioPrecioNuevo.Text);
                             CerrarPanelCambioPrecio();
+                            BotonesColor(false, "Cambio Precio");
+
                         }
 
                     }
@@ -2889,6 +2891,7 @@ namespace CapaVisual_Login
                 {
                     _L_Articulo.ActualizarCelda(Dgv_Tap3_Articulo, filaSeleccionada, "ART_PVP", Txt_Pnl3_CambioPrecioNuevo.Text);
                     CerrarPanelCambioPrecio();
+                    BotonesColor(false, "Cambio Precio");
                 }
 
                 _L_Articulo.ActualizarTotales(Dgv_Tap3_Articulo, Dgv_Tap3_Totales);
@@ -13913,6 +13916,11 @@ namespace CapaVisual_Login
                         AplicarColorBoton(true, Btn_Tap3_ClienteAfiliado, "Cliente Afiliado");
                         break;
 
+                    case "cambioprecio":
+                    case "cambio precio":
+                        AplicarColorBoton(true, Btn_Tap3_CambioPrecio, "Cambio Precio");
+                        break;
+
                     case "todos":
                         // Aplicar a todos los botones
                         AplicarColorBoton(true, Btn_Tap3_Garantia, "Garantia");
@@ -13921,6 +13929,7 @@ namespace CapaVisual_Login
                         AplicarColorBoton(true, Btn_Tap3_MonturaPropia, "Montura Propia");
                         AplicarColorBoton(true, Btn_Tap3_CristalPropio, "Cristal Propio");
                         AplicarColorBoton(true, Btn_Tap3_ClienteAfiliado, "Cliente Afiliado");
+                        AplicarColorBoton(true, Btn_Tap3_CambioPrecio, "Cambio Precio");
                         break;
 
                     default:
@@ -13959,6 +13968,11 @@ namespace CapaVisual_Login
                         AplicarColorBoton(false, Btn_Tap3_ClienteAfiliado, "Cliente Afiliado");
                         break;
 
+                    case "cambioprecio":
+                    case "cambio precio":
+                        AplicarColorBoton(false, Btn_Tap3_CambioPrecio, "Cambio Precio");
+                        break;
+
                     case "todos":
                         // Aplicar a todos los botones
                         AplicarColorBoton(false, Btn_Tap3_Garantia, "Garantia");
@@ -13990,7 +14004,8 @@ namespace CapaVisual_Login
         { "Promocion", Color.FromArgb(0xFF, 0xD9, 0x66) },
         { "Montura Propia", Color.FromArgb(0x78, 0xAD, 0xDD) },
         { "Cristal Propio", Color.FromArgb(0xBE, 0xE3, 0x96) },
-        { "Cliente Afiliado", Color.FromArgb(0xF4, 0xB1, 0x83) },
+        { "Cliente Afiliado", Color.FromArgb(0xB2, 0xB9, 0xFF) },
+        { "Cambio Precio", Color.FromArgb(178, 185, 255) },
         { "Garantia", Color.FromArgb(0xF4, 0x83, 0xA7) }
     };
 
@@ -13998,7 +14013,7 @@ namespace CapaVisual_Login
             var coloresOscuro = new Dictionary<string, Color>(StringComparer.OrdinalIgnoreCase)
     {
         { "Descuento", Color.OrangeRed },
-        { "Cambio de Precio", Color.FromArgb(65, 42, 156) },
+        { "Cambio Precio", Color.FromArgb(65, 42, 156) },
         { "Promocion", Color.FromArgb(239, 184, 16) },
         { "Montura Propia", Color.FromArgb(21, 118, 187) },
         { "Cristal Propio", Color.FromArgb(92, 203, 95) },
@@ -14011,7 +14026,8 @@ namespace CapaVisual_Login
             if (colores.TryGetValue(nombreBoton, out Color color))
             {
                 boton.BackColor = color;
-                boton.ForeColor = color.GetBrightness() > 0.5 ? Color.Black : Color.White;
+                // fore color es para cambiar el color de las letras
+                boton.ForeColor = Color.White;
                 boton.UseVisualStyleBackColor = false; // Importante para que se vea el color
                 boton.Refresh();
             }
@@ -14019,23 +14035,8 @@ namespace CapaVisual_Login
             {
                 // Manejo de error o color por defecto
                 boton.BackColor = SystemColors.Control;
-                boton.ForeColor = SystemColors.ControlText;
+                //boton.ForeColor = SystemColors.ControlText;
             }
-        }
-
-        private void Pnl_3_Garantia_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void pnl_MonturaPropia_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void Pnl_3_Descuento_Paint(object sender, PaintEventArgs e)
-        {
-
         }
     }
 
