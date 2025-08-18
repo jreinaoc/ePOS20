@@ -5872,6 +5872,7 @@ namespace CapaVisual_Login
             DgvAbonos.ColumnHeadersDefaultCellStyle.BackColor = col3;
             DgvAbonos.ColumnHeadersDefaultCellStyle.ForeColor = Color.FromArgb(30, 30, 30, 30);
             DgvAbonos.DefaultCellStyle.ForeColor = Color.Black;
+            DgvFormula.ColumnHeadersDefaultCellStyle.BackColor = col1;
 
             DgvNotas.BackgroundColor = col1;
             DgvNotas.DefaultCellStyle.BackColor = col1;
