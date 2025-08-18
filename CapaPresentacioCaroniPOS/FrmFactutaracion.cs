@@ -6760,8 +6760,8 @@ namespace CapaVisual_Login
                     }
                     else
                     {
-                        _FrmRepOrden.ShowDialog();
-
+                        //_FrmRepOrden.ShowDialog();
+                        _FrmRepOrden.InicializarFormulario();
                     }
 
 
@@ -6778,8 +6778,8 @@ namespace CapaVisual_Login
                     }
                     else
                     {
-                        _FrmRepOrden.ShowDialog();
-
+                        //_FrmRepOrden.ShowDialog();
+                        _FrmRepOrden.InicializarFormulario();
                     }
 
                 }

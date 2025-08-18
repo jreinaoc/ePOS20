@@ -273,6 +273,10 @@ namespace CapaVisual_Login
             {
                 btnPagoMovil.Visible = false;
                 pictBoxPagoMovil.Visible = false;
+                
+                //Solo Para homologar
+                //btnPagoMovil.Visible = true;
+                //pictBoxPagoMovil.Visible = true;
             }
 
         }
