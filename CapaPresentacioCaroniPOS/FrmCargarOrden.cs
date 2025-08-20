@@ -13998,7 +13998,7 @@ namespace CapaVisual_Login
             }
 
             // Diccionario de colores para modo CLARO (hexadecimal)
-            var coloresClaro = new Dictionary<string, Color>(StringComparer.OrdinalIgnoreCase) // Ignora mayúsculas
+            var coloresOscuro = new Dictionary<string, Color>(StringComparer.OrdinalIgnoreCase) // Ignora mayúsculas
     {
         { "Descuento", Color.FromArgb(0xEE, 0x94, 0x88) },
         { "Promocion", Color.FromArgb(0xFF, 0xD9, 0x66) },
@@ -14010,7 +14010,7 @@ namespace CapaVisual_Login
     };
 
             // Diccionario de colores para modo OSCURO
-            var coloresOscuro = new Dictionary<string, Color>(StringComparer.OrdinalIgnoreCase)
+            var coloresClaro = new Dictionary<string, Color>(StringComparer.OrdinalIgnoreCase)
     {
         { "Descuento", Color.OrangeRed },
         { "Cambio Precio", Color.FromArgb(65, 42, 156) },
