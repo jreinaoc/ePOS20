@@ -1006,7 +1006,7 @@ namespace CapaVisual_Login
                     if (TB_FACTURAS.Fact_Num != "" & TB_FACTURAS.Fact_Num != null)
                     {
                         _FrmMensajes.co = 3;
-                        _FrmMensajes.avisomensaje("¿ Desea generar una Nota de Crédito ? ");
+                        _FrmMensajes.avisomensaje("¿Desea generar una Nota de Crédito? ");
                         _FrmMensajes.ShowDialog();
 
 
@@ -1162,7 +1162,7 @@ namespace CapaVisual_Login
                     _FrmFacturacion.CargarDatosOrden(DgvListadoOrdenes.CurrentRow.Cells["NumOrdserv"].Value.ToString(), DgvListadoOrdenes.CurrentRow.Cells["Nombre"].Value.ToString(), DgvListadoOrdenes.CurrentRow.Cells["Revision"].Value.ToString());
 
                     // Se pregunta si esta seguro de anular 
-                    string mensaje = "¿ Esta seguro de anular esta orden ? ";
+                    string mensaje = "¿Esta seguro de anular esta orden? ";
                     _FrmMensajes.co = 3;
                     _FrmMensajes.avisomensaje(mensaje);
                     _FrmMensajes.ShowDialog();
