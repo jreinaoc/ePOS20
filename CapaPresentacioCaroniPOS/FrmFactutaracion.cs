@@ -2154,7 +2154,7 @@ namespace CapaVisual_Login
             TxtAbonoRef.Text = string.Format("{0:#,0.00}", Convert.ToDecimal(TxtAbonoRef.Text));
             TxtIgtfOrd.Text = string.Format("{0:#,0.00}", Convert.ToDecimal(TxtIgtfOrd.Text));
 
-            if (TxtStatus.Text == "Facturada" || TxtStatus.Text == "Anulada")
+            if (TxtStatus.Text == "Facturada" || TxtStatus.Text == "Anulada" || TxtStatus.Text == "Reversada")
             {
                 double IgtfAbonado_2 = Convert.ToDouble(TxtIgtfOrd.Text.Replace(".", "")) + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos).Replace(".", ""));
                 string saldo_bolivares_2 = Convert.ToString(Math.Round((double)(Convert.ToDouble(TxtSaldoOrd.Text.Replace(".", ""))), 2));
