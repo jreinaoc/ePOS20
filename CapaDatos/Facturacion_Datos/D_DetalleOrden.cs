@@ -233,7 +233,7 @@ namespace CapaDatos.DetalleOrden_Datos
         public DataTable ExistenNotas(string cedulaCliente)
         {
 
-            SqlCommand cmd = new SqlCommand("SELECT NRONOTA,Fact_Num,Motivo, SaldoNota from  TB_NOTASCREDITODEBITO where CTE_CedIden= @cedulaCliente and Anulado= 0 ", cn.LeerCadena());
+            SqlCommand cmd = new SqlCommand("SELECT NRONOTA,Fact_Num,Motivo, SaldoNota from  TB_NOTASCREDITODEBITO where CTE_CedIden= @cedulaCliente and Anulado= 0 and SaldoNota > 0 ", cn.LeerCadena());
             cmd.CommandType = CommandType.Text;
             cmd.Parameters.AddWithValue("@cedulaCliente", cedulaCliente);
 
@@ -2267,6 +2267,19 @@ public void MovimientoInventario(string CodArticulo, string TipoDoc, string Docu
 
         }
 
+        public string TB_TB_ACTSECDIA()
+        {
+            SqlCommand cmd = new SqlCommand("SELECT top (1) FecCreacion from  TB_ACTSECDIA ORDER BY ID_ACTSECDIA DESC ", cn.LeerCadena());
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandTimeout = 120;
+            DataTable dt = new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            da.Fill(dt);
+            cmd.Parameters.Clear();
+            string Valor = dt.Rows[0]["FecCreacion"].ToString();
+            return Valor;
+
+        }
 
         public string RegistarAuditorAbono(string CodSucursal, SqlCommand command)
         {

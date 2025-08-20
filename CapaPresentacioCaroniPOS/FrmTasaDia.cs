@@ -349,8 +349,9 @@ namespace CapaVisual_Login
             if(!string.IsNullOrEmpty( LblFechaDesenc.Text))
             {
                 DateTime fecha;
-
-                if (DateTime.TryParseExact(LblFechaDesenc.Text, "ddMMyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out fecha))
+                string Fecha_Activacion = _D_DetalleOrden.TB_TB_ACTSECDIA();
+                //Txt_Pnl3_Frcha.Text = Convert.ToDateTime(Fecha_Activacion).ToString("dd/MM/yyyy");
+                if (DateTime.TryParseExact(Fecha_Activacion.Substring(0, 10), "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out fecha))
                 {
                     Txt_Pnl3_Frcha.Text = fecha.ToString("dd/MM/yyyy");
                     Txt_Pnl3_Frcha.TextAlign = HorizontalAlignment.Center; // Centrar el texto
