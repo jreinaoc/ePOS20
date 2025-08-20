@@ -477,7 +477,7 @@ namespace CapaLogica.CargarOrdenes
                 Dgv_Tap3_Articulo.Columns["Eliminar"].HeaderText = "";
 
             //Ancho de columna
-
+            bool disableColorLCandColorLC = false;
             bool EsLC = false; 
             foreach (DataGridViewRow row in Dgv_Tap3_Articulo.Rows)
             {
@@ -509,6 +509,7 @@ namespace CapaLogica.CargarOrdenes
                 // columnas opcionales
                 Dgv_Tap3_Articulo.Columns["ArtPadre"].Width = 80;
                 Dgv_Tap3_Articulo.Columns["Agregado"].Width = 40;
+                disableColorLCandColorLC = true;
             }
             else
             {
@@ -525,6 +526,7 @@ namespace CapaLogica.CargarOrdenes
                 // columnas opcionales
                 Dgv_Tap3_Articulo.Columns["ArtPadre"].Width = 80;
                 Dgv_Tap3_Articulo.Columns["Agregado"].Width = 40;
+                
 
             }
 
@@ -578,6 +580,15 @@ namespace CapaLogica.CargarOrdenes
                        column.Name != "codLab")
                     {
                         column.Visible = false;
+                    }
+                    else if (column.Index == 1 && disableColorLCandColorLC)
+                    {
+                        column.Visible = true;
+                    }
+                    else if (column.Index == 3 && disableColorLCandColorLC)
+                    {
+                        column.Visible = true;
+                        disableColorLCandColorLC = false;
                     }
                 }
                 else
