@@ -130,7 +130,8 @@ namespace CapaLogica.CargarOrdenes
                     Exonerada = false,
                     MonturaEnQuorum = monturaEnQuorum,
                     Cod_Coloracion = !string.IsNullOrEmpty(codColoracion) ? codColoracion : null,
-                    Codmotivodes = !string.IsNullOrEmpty(Codmotivodess) ? Codmotivodess : null // Asignar solo si no está vacío
+                    Codmotivodes = !string.IsNullOrEmpty(Codmotivodess) ? Codmotivodess : null, // Asignar solo si no está vacío
+                    OrSer_Saldo_Mon= _servicioValidaciones.ObtenerValorDesdeGrid_Totales(dgvTotales, "Ref")
                 };
 
                 //string numeroOrden = await GuardarOrdenServicioAsync(datosOrden, command);

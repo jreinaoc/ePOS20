@@ -1435,6 +1435,8 @@ EXEC pValidoParametrosCRT
                 cmd.Parameters.AddWithValue("@MonturaEnQuorum", datos.MonturaEnQuorum);
                 cmd.Parameters.AddWithValue("@Cod_Coloracion", (object)datos.Cod_Coloracion ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@Codmotivodes", (object)datos.Codmotivodes ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@OrSer_Saldo_Mon", datos.OrSer_Saldo_Mon);
+                
 
                 //cmd.ExecuteNonQuery();
 

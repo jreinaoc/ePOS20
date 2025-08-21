@@ -49,5 +49,7 @@ namespace CapaEntidades
         public bool MonturaEnQuorum { get; set; }
         public string Cod_Coloracion { get; set; }
         public string  Codmotivodes { get; set; }
-}
+        public decimal OrSer_Saldo_Mon { get; set; }
+
+    }
 }
