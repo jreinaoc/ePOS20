@@ -91,10 +91,9 @@ namespace CapaVisual_Login
             this.Btnlupa.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(4)))), ((int)(((byte)(185)))), ((int)(((byte)(166)))));
             this.Btnlupa.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Btnlupa.ForeColor = System.Drawing.Color.Transparent;
-            this.Btnlupa.Location = new System.Drawing.Point(1085, 121);
-            this.Btnlupa.Margin = new System.Windows.Forms.Padding(4);
+            this.Btnlupa.Location = new System.Drawing.Point(814, 98);
             this.Btnlupa.Name = "Btnlupa";
-            this.Btnlupa.Size = new System.Drawing.Size(67, 37);
+            this.Btnlupa.Size = new System.Drawing.Size(50, 30);
             this.Btnlupa.TabIndex = 16;
             this.Btnlupa.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.Btnlupa.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
@@ -106,10 +105,9 @@ namespace CapaVisual_Login
             this.CbxUltimosTesD.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.CbxUltimosTesD.ForeColor = System.Drawing.Color.Black;
             this.CbxUltimosTesD.FormattingEnabled = true;
-            this.CbxUltimosTesD.Location = new System.Drawing.Point(25, 118);
-            this.CbxUltimosTesD.Margin = new System.Windows.Forms.Padding(4);
+            this.CbxUltimosTesD.Location = new System.Drawing.Point(19, 96);
             this.CbxUltimosTesD.Name = "CbxUltimosTesD";
-            this.CbxUltimosTesD.Size = new System.Drawing.Size(388, 31);
+            this.CbxUltimosTesD.Size = new System.Drawing.Size(292, 29);
             this.CbxUltimosTesD.TabIndex = 12;
             this.CbxUltimosTesD.Text = "Ultimos Treinta días";
             this.CbxUltimosTesD.SelectionChangeCommitted += new System.EventHandler(this.CbxUltimosTesD_SelectionChangeCommitted);
@@ -120,10 +118,9 @@ namespace CapaVisual_Login
             this.LblListadoOrdenes.AutoSize = true;
             this.LblListadoOrdenes.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LblListadoOrdenes.ForeColor = System.Drawing.Color.Black;
-            this.LblListadoOrdenes.Location = new System.Drawing.Point(16, 26);
-            this.LblListadoOrdenes.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.LblListadoOrdenes.Location = new System.Drawing.Point(12, 21);
             this.LblListadoOrdenes.Name = "LblListadoOrdenes";
-            this.LblListadoOrdenes.Size = new System.Drawing.Size(238, 28);
+            this.LblListadoOrdenes.Size = new System.Drawing.Size(188, 23);
             this.LblListadoOrdenes.TabIndex = 11;
             this.LblListadoOrdenes.Text = "Listado de Ordenes";
             // 
@@ -131,11 +128,10 @@ namespace CapaVisual_Login
             // 
             this.txtNumeroOrden.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtNumeroOrden.ForeColor = System.Drawing.Color.Black;
-            this.txtNumeroOrden.Location = new System.Drawing.Point(665, 121);
-            this.txtNumeroOrden.Margin = new System.Windows.Forms.Padding(4);
+            this.txtNumeroOrden.Location = new System.Drawing.Point(499, 98);
             this.txtNumeroOrden.MaxLength = 7;
             this.txtNumeroOrden.Name = "txtNumeroOrden";
-            this.txtNumeroOrden.Size = new System.Drawing.Size(173, 32);
+            this.txtNumeroOrden.Size = new System.Drawing.Size(131, 27);
             this.txtNumeroOrden.TabIndex = 15;
             this.txtNumeroOrden.Enter += new System.EventHandler(this.txtNumeroOrden_Enter);
             this.txtNumeroOrden.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNumeroOrden_KeyPress);
@@ -146,10 +142,9 @@ namespace CapaVisual_Login
             this.CbxEstatus.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.CbxEstatus.ForeColor = System.Drawing.Color.Black;
             this.CbxEstatus.FormattingEnabled = true;
-            this.CbxEstatus.Location = new System.Drawing.Point(429, 118);
-            this.CbxEstatus.Margin = new System.Windows.Forms.Padding(4);
+            this.CbxEstatus.Location = new System.Drawing.Point(322, 96);
             this.CbxEstatus.Name = "CbxEstatus";
-            this.CbxEstatus.Size = new System.Drawing.Size(215, 31);
+            this.CbxEstatus.Size = new System.Drawing.Size(162, 29);
             this.CbxEstatus.TabIndex = 13;
             this.CbxEstatus.Text = "Estatus";
             this.CbxEstatus.SelectionChangeCommitted += new System.EventHandler(this.CbxEstatus_SelectionChangeCommitted);
@@ -158,10 +153,9 @@ namespace CapaVisual_Login
             // PnlLSecundario
             // 
             this.PnlLSecundario.BackColor = System.Drawing.Color.Transparent;
-            this.PnlLSecundario.Location = new System.Drawing.Point(323, 871);
-            this.PnlLSecundario.Margin = new System.Windows.Forms.Padding(4);
+            this.PnlLSecundario.Location = new System.Drawing.Point(242, 708);
             this.PnlLSecundario.Name = "PnlLSecundario";
-            this.PnlLSecundario.Size = new System.Drawing.Size(662, 551);
+            this.PnlLSecundario.Size = new System.Drawing.Size(496, 448);
             this.PnlLSecundario.TabIndex = 30;
             // 
             // BtnCancelar
@@ -171,10 +165,9 @@ namespace CapaVisual_Login
             this.BtnCancelar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnCancelar.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnCancelar.ForeColor = System.Drawing.SystemColors.Window;
-            this.BtnCancelar.Location = new System.Drawing.Point(1225, 357);
-            this.BtnCancelar.Margin = new System.Windows.Forms.Padding(4);
+            this.BtnCancelar.Location = new System.Drawing.Point(919, 290);
             this.BtnCancelar.Name = "BtnCancelar";
-            this.BtnCancelar.Size = new System.Drawing.Size(140, 37);
+            this.BtnCancelar.Size = new System.Drawing.Size(105, 30);
             this.BtnCancelar.TabIndex = 43;
             this.BtnCancelar.Text = "Cancelar";
             this.BtnCancelar.UseVisualStyleBackColor = false;
@@ -184,20 +177,18 @@ namespace CapaVisual_Login
             // 
             this.DtpDesde.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.DtpDesde.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.DtpDesde.Location = new System.Drawing.Point(27, 210);
-            this.DtpDesde.Margin = new System.Windows.Forms.Padding(4);
+            this.DtpDesde.Location = new System.Drawing.Point(20, 171);
             this.DtpDesde.Name = "DtpDesde";
-            this.DtpDesde.Size = new System.Drawing.Size(189, 32);
+            this.DtpDesde.Size = new System.Drawing.Size(143, 27);
             this.DtpDesde.TabIndex = 44;
             // 
             // DtpHasta
             // 
             this.DtpHasta.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.DtpHasta.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.DtpHasta.Location = new System.Drawing.Point(349, 210);
-            this.DtpHasta.Margin = new System.Windows.Forms.Padding(4);
+            this.DtpHasta.Location = new System.Drawing.Point(262, 171);
             this.DtpHasta.Name = "DtpHasta";
-            this.DtpHasta.Size = new System.Drawing.Size(176, 32);
+            this.DtpHasta.Size = new System.Drawing.Size(133, 27);
             this.DtpHasta.TabIndex = 45;
             // 
             // Lbldesde
@@ -205,10 +196,9 @@ namespace CapaVisual_Login
             this.Lbldesde.AutoSize = true;
             this.Lbldesde.BackColor = System.Drawing.Color.Transparent;
             this.Lbldesde.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Lbldesde.Location = new System.Drawing.Point(21, 177);
-            this.Lbldesde.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.Lbldesde.Location = new System.Drawing.Point(16, 144);
             this.Lbldesde.Name = "Lbldesde";
-            this.Lbldesde.Size = new System.Drawing.Size(72, 23);
+            this.Lbldesde.Size = new System.Drawing.Size(57, 19);
             this.Lbldesde.TabIndex = 46;
             this.Lbldesde.Text = "Desde";
             this.Lbldesde.Click += new System.EventHandler(this.Lbldesde_Click);
@@ -218,10 +208,9 @@ namespace CapaVisual_Login
             this.LblHasta.AutoSize = true;
             this.LblHasta.BackColor = System.Drawing.Color.Transparent;
             this.LblHasta.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LblHasta.Location = new System.Drawing.Point(345, 177);
-            this.LblHasta.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.LblHasta.Location = new System.Drawing.Point(259, 144);
             this.LblHasta.Name = "LblHasta";
-            this.LblHasta.Size = new System.Drawing.Size(65, 23);
+            this.LblHasta.Size = new System.Drawing.Size(52, 19);
             this.LblHasta.TabIndex = 47;
             this.LblHasta.Text = "Hasta";
             // 
@@ -231,10 +220,9 @@ namespace CapaVisual_Login
             this.LblOpciones.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(2)))), ((int)(((byte)(185)))), ((int)(((byte)(171)))));
             this.LblOpciones.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LblOpciones.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
-            this.LblOpciones.Location = new System.Drawing.Point(1257, 290);
-            this.LblOpciones.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.LblOpciones.Location = new System.Drawing.Point(943, 236);
             this.LblOpciones.Name = "LblOpciones";
-            this.LblOpciones.Size = new System.Drawing.Size(105, 23);
+            this.LblOpciones.Size = new System.Drawing.Size(83, 19);
             this.LblOpciones.TabIndex = 48;
             this.LblOpciones.Text = "Opciones";
             // 
@@ -251,10 +239,9 @@ namespace CapaVisual_Login
             this.PnlNotaCreditoManual.Controls.Add(this.label1);
             this.PnlNotaCreditoManual.Controls.Add(this.label35);
             this.PnlNotaCreditoManual.Controls.Add(this.LblNCManual);
-            this.PnlNotaCreditoManual.Location = new System.Drawing.Point(383, 282);
-            this.PnlNotaCreditoManual.Margin = new System.Windows.Forms.Padding(4);
+            this.PnlNotaCreditoManual.Location = new System.Drawing.Point(287, 229);
             this.PnlNotaCreditoManual.Name = "PnlNotaCreditoManual";
-            this.PnlNotaCreditoManual.Size = new System.Drawing.Size(707, 279);
+            this.PnlNotaCreditoManual.Size = new System.Drawing.Size(531, 227);
             this.PnlNotaCreditoManual.TabIndex = 49;
             this.PnlNotaCreditoManual.Visible = false;
             // 
@@ -262,11 +249,10 @@ namespace CapaVisual_Login
             // 
             this.TxtNumeroCorrelativo.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TxtNumeroCorrelativo.ForeColor = System.Drawing.Color.Black;
-            this.TxtNumeroCorrelativo.Location = new System.Drawing.Point(403, 124);
-            this.TxtNumeroCorrelativo.Margin = new System.Windows.Forms.Padding(4);
+            this.TxtNumeroCorrelativo.Location = new System.Drawing.Point(302, 101);
             this.TxtNumeroCorrelativo.Mask = "00-00000000";
             this.TxtNumeroCorrelativo.Name = "TxtNumeroCorrelativo";
-            this.TxtNumeroCorrelativo.Size = new System.Drawing.Size(280, 32);
+            this.TxtNumeroCorrelativo.Size = new System.Drawing.Size(211, 27);
             this.TxtNumeroCorrelativo.TabIndex = 110;
             this.TxtNumeroCorrelativo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -274,20 +260,18 @@ namespace CapaVisual_Login
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(29, 129);
-            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label6.Location = new System.Drawing.Point(22, 105);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(200, 23);
+            this.label6.Size = new System.Drawing.Size(158, 19);
             this.label6.TabIndex = 107;
             this.label6.Text = "Número de control:";
             // 
             // label7
             // 
             this.label7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(135)))), ((int)(((byte)(129)))));
-            this.label7.Location = new System.Drawing.Point(401, 123);
-            this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label7.Location = new System.Drawing.Point(301, 100);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(284, 36);
+            this.label7.Size = new System.Drawing.Size(213, 29);
             this.label7.TabIndex = 109;
             // 
             // button1
@@ -297,10 +281,9 @@ namespace CapaVisual_Login
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(228, 207);
-            this.button1.Margin = new System.Windows.Forms.Padding(4);
+            this.button1.Location = new System.Drawing.Point(171, 168);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(116, 34);
+            this.button1.Size = new System.Drawing.Size(87, 28);
             this.button1.TabIndex = 106;
             this.button1.Text = "Cancelar";
             this.button1.UseVisualStyleBackColor = false;
@@ -313,10 +296,9 @@ namespace CapaVisual_Login
             this.BtnGuardar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnGuardar.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnGuardar.ForeColor = System.Drawing.Color.White;
-            this.BtnGuardar.Location = new System.Drawing.Point(391, 207);
-            this.BtnGuardar.Margin = new System.Windows.Forms.Padding(4);
+            this.BtnGuardar.Location = new System.Drawing.Point(293, 168);
             this.BtnGuardar.Name = "BtnGuardar";
-            this.BtnGuardar.Size = new System.Drawing.Size(107, 34);
+            this.BtnGuardar.Size = new System.Drawing.Size(80, 28);
             this.BtnGuardar.TabIndex = 108;
             this.BtnGuardar.Text = "Guardar";
             this.BtnGuardar.UseVisualStyleBackColor = false;
@@ -325,31 +307,29 @@ namespace CapaVisual_Login
             // TxtNumeroNC
             // 
             this.TxtNumeroNC.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TxtNumeroNC.Location = new System.Drawing.Point(403, 78);
-            this.TxtNumeroNC.Margin = new System.Windows.Forms.Padding(4);
+            this.TxtNumeroNC.Location = new System.Drawing.Point(302, 63);
             this.TxtNumeroNC.MaxLength = 7;
             this.TxtNumeroNC.Name = "TxtNumeroNC";
-            this.TxtNumeroNC.Size = new System.Drawing.Size(280, 32);
+            this.TxtNumeroNC.Size = new System.Drawing.Size(211, 27);
             this.TxtNumeroNC.TabIndex = 100;
+            this.TxtNumeroNC.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(29, 82);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Location = new System.Drawing.Point(22, 67);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(289, 23);
+            this.label1.Size = new System.Drawing.Size(227, 19);
             this.label1.TabIndex = 99;
             this.label1.Text = "Número de Nota de Crédito:";
             // 
             // label35
             // 
             this.label35.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(135)))), ((int)(((byte)(129)))));
-            this.label35.Location = new System.Drawing.Point(401, 76);
-            this.label35.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label35.Location = new System.Drawing.Point(301, 62);
             this.label35.Name = "label35";
-            this.label35.Size = new System.Drawing.Size(284, 36);
+            this.label35.Size = new System.Drawing.Size(213, 29);
             this.label35.TabIndex = 103;
             // 
             // LblNCManual
@@ -358,9 +338,8 @@ namespace CapaVisual_Login
             this.LblNCManual.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LblNCManual.ForeColor = System.Drawing.Color.White;
             this.LblNCManual.Location = new System.Drawing.Point(0, 0);
-            this.LblNCManual.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LblNCManual.Name = "LblNCManual";
-            this.LblNCManual.Size = new System.Drawing.Size(707, 46);
+            this.LblNCManual.Size = new System.Drawing.Size(530, 37);
             this.LblNCManual.TabIndex = 25;
             this.LblNCManual.Text = "Nota de Crédito Manual";
             this.LblNCManual.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -393,8 +372,7 @@ namespace CapaVisual_Login
             this.DgvListadoOrdenes.DefaultCellStyle = dataGridViewCellStyle2;
             this.DgvListadoOrdenes.EnableHeadersVisualStyles = false;
             this.DgvListadoOrdenes.GridColor = System.Drawing.Color.Indigo;
-            this.DgvListadoOrdenes.Location = new System.Drawing.Point(16, 260);
-            this.DgvListadoOrdenes.Margin = new System.Windows.Forms.Padding(4);
+            this.DgvListadoOrdenes.Location = new System.Drawing.Point(12, 211);
             this.DgvListadoOrdenes.Name = "DgvListadoOrdenes";
             this.DgvListadoOrdenes.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
@@ -407,7 +385,7 @@ namespace CapaVisual_Login
             this.DgvListadoOrdenes.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.DgvListadoOrdenes.RowHeadersVisible = false;
             this.DgvListadoOrdenes.RowHeadersWidth = 51;
-            this.DgvListadoOrdenes.Size = new System.Drawing.Size(1376, 528);
+            this.DgvListadoOrdenes.Size = new System.Drawing.Size(1032, 429);
             this.DgvListadoOrdenes.TabIndex = 14;
             this.DgvListadoOrdenes.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvListadoOrdenes_CellContentClick);
             this.DgvListadoOrdenes.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.DgvListadoOrdenes_CellFormatting);
@@ -417,11 +395,10 @@ namespace CapaVisual_Login
             // 
             this.TxtCedula.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TxtCedula.ForeColor = System.Drawing.Color.Black;
-            this.TxtCedula.Location = new System.Drawing.Point(863, 121);
-            this.TxtCedula.Margin = new System.Windows.Forms.Padding(4);
+            this.TxtCedula.Location = new System.Drawing.Point(647, 98);
             this.TxtCedula.MaxLength = 10;
             this.TxtCedula.Name = "TxtCedula";
-            this.TxtCedula.Size = new System.Drawing.Size(207, 32);
+            this.TxtCedula.Size = new System.Drawing.Size(156, 27);
             this.TxtCedula.TabIndex = 50;
             this.TxtCedula.Enter += new System.EventHandler(this.TxtCedula_Enter);
             this.TxtCedula.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtCedula_KeyPress);
@@ -443,10 +420,9 @@ namespace CapaVisual_Login
             this.PnlComprobanteRetencion.Controls.Add(this.label4);
             this.PnlComprobanteRetencion.Controls.Add(this.label5);
             this.PnlComprobanteRetencion.Controls.Add(this.label8);
-            this.PnlComprobanteRetencion.Location = new System.Drawing.Point(576, 210);
-            this.PnlComprobanteRetencion.Margin = new System.Windows.Forms.Padding(4);
+            this.PnlComprobanteRetencion.Location = new System.Drawing.Point(432, 171);
             this.PnlComprobanteRetencion.Name = "PnlComprobanteRetencion";
-            this.PnlComprobanteRetencion.Size = new System.Drawing.Size(529, 331);
+            this.PnlComprobanteRetencion.Size = new System.Drawing.Size(397, 269);
             this.PnlComprobanteRetencion.TabIndex = 51;
             this.PnlComprobanteRetencion.Visible = false;
             // 
@@ -455,51 +431,46 @@ namespace CapaVisual_Login
             this.TxtRetencionFactura.BackColor = System.Drawing.SystemColors.ScrollBar;
             this.TxtRetencionFactura.Enabled = false;
             this.TxtRetencionFactura.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TxtRetencionFactura.Location = new System.Drawing.Point(288, 183);
-            this.TxtRetencionFactura.Margin = new System.Windows.Forms.Padding(4);
+            this.TxtRetencionFactura.Location = new System.Drawing.Point(216, 149);
             this.TxtRetencionFactura.MaxLength = 15;
             this.TxtRetencionFactura.Name = "TxtRetencionFactura";
-            this.TxtRetencionFactura.Size = new System.Drawing.Size(201, 32);
+            this.TxtRetencionFactura.Size = new System.Drawing.Size(152, 27);
             this.TxtRetencionFactura.TabIndex = 114;
             this.TxtRetencionFactura.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label10
             // 
             this.label10.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(135)))), ((int)(((byte)(129)))));
-            this.label10.Location = new System.Drawing.Point(287, 182);
-            this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label10.Location = new System.Drawing.Point(215, 148);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(205, 36);
+            this.label10.Size = new System.Drawing.Size(154, 29);
             this.label10.TabIndex = 115;
             // 
             // TxtRetencionISRL
             // 
             this.TxtRetencionISRL.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TxtRetencionISRL.Location = new System.Drawing.Point(288, 134);
-            this.TxtRetencionISRL.Margin = new System.Windows.Forms.Padding(4);
+            this.TxtRetencionISRL.Location = new System.Drawing.Point(216, 109);
             this.TxtRetencionISRL.MaxLength = 15;
             this.TxtRetencionISRL.Name = "TxtRetencionISRL";
-            this.TxtRetencionISRL.Size = new System.Drawing.Size(201, 32);
+            this.TxtRetencionISRL.Size = new System.Drawing.Size(152, 27);
             this.TxtRetencionISRL.TabIndex = 112;
             this.TxtRetencionISRL.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtRetencionISRL_KeyPress);
             // 
             // label3
             // 
             this.label3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(135)))), ((int)(((byte)(129)))));
-            this.label3.Location = new System.Drawing.Point(287, 133);
-            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label3.Location = new System.Drawing.Point(215, 108);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(205, 36);
+            this.label3.Size = new System.Drawing.Size(154, 29);
             this.label3.TabIndex = 113;
             // 
             // label9
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(29, 193);
-            this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label9.Location = new System.Drawing.Point(22, 157);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(83, 23);
+            this.label9.Size = new System.Drawing.Size(68, 19);
             this.label9.TabIndex = 111;
             this.label9.Text = "Factura";
             // 
@@ -507,10 +478,9 @@ namespace CapaVisual_Login
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(28, 145);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Location = new System.Drawing.Point(21, 118);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(152, 23);
+            this.label2.Size = new System.Drawing.Size(118, 19);
             this.label2.TabIndex = 107;
             this.label2.Text = "Retención ISRL";
             // 
@@ -521,10 +491,9 @@ namespace CapaVisual_Login
             this.BtnCancelarRetencion.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnCancelarRetencion.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnCancelarRetencion.ForeColor = System.Drawing.Color.White;
-            this.BtnCancelarRetencion.Location = new System.Drawing.Point(139, 267);
-            this.BtnCancelarRetencion.Margin = new System.Windows.Forms.Padding(4);
+            this.BtnCancelarRetencion.Location = new System.Drawing.Point(104, 217);
             this.BtnCancelarRetencion.Name = "BtnCancelarRetencion";
-            this.BtnCancelarRetencion.Size = new System.Drawing.Size(116, 34);
+            this.BtnCancelarRetencion.Size = new System.Drawing.Size(87, 28);
             this.BtnCancelarRetencion.TabIndex = 106;
             this.BtnCancelarRetencion.Text = "Cancelar";
             this.BtnCancelarRetencion.UseVisualStyleBackColor = false;
@@ -537,10 +506,9 @@ namespace CapaVisual_Login
             this.BtnGuardarRetencion.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnGuardarRetencion.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnGuardarRetencion.ForeColor = System.Drawing.Color.White;
-            this.BtnGuardarRetencion.Location = new System.Drawing.Point(301, 267);
-            this.BtnGuardarRetencion.Margin = new System.Windows.Forms.Padding(4);
+            this.BtnGuardarRetencion.Location = new System.Drawing.Point(226, 217);
             this.BtnGuardarRetencion.Name = "BtnGuardarRetencion";
-            this.BtnGuardarRetencion.Size = new System.Drawing.Size(107, 34);
+            this.BtnGuardarRetencion.Size = new System.Drawing.Size(80, 28);
             this.BtnGuardarRetencion.TabIndex = 108;
             this.BtnGuardarRetencion.Text = "Guardar";
             this.BtnGuardarRetencion.UseVisualStyleBackColor = false;
@@ -549,11 +517,10 @@ namespace CapaVisual_Login
             // TxtRetencionIVA
             // 
             this.TxtRetencionIVA.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TxtRetencionIVA.Location = new System.Drawing.Point(288, 82);
-            this.TxtRetencionIVA.Margin = new System.Windows.Forms.Padding(4);
+            this.TxtRetencionIVA.Location = new System.Drawing.Point(216, 67);
             this.TxtRetencionIVA.MaxLength = 15;
             this.TxtRetencionIVA.Name = "TxtRetencionIVA";
-            this.TxtRetencionIVA.Size = new System.Drawing.Size(201, 32);
+            this.TxtRetencionIVA.Size = new System.Drawing.Size(152, 27);
             this.TxtRetencionIVA.TabIndex = 100;
             this.TxtRetencionIVA.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtRetencionIVA_KeyPress);
             // 
@@ -561,20 +528,18 @@ namespace CapaVisual_Login
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(29, 94);
-            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label4.Location = new System.Drawing.Point(22, 76);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(150, 23);
+            this.label4.Size = new System.Drawing.Size(117, 19);
             this.label4.TabIndex = 99;
             this.label4.Text = "Retención IVA";
             // 
             // label5
             // 
             this.label5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(135)))), ((int)(((byte)(129)))));
-            this.label5.Location = new System.Drawing.Point(287, 81);
-            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label5.Location = new System.Drawing.Point(215, 66);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(205, 36);
+            this.label5.Size = new System.Drawing.Size(154, 29);
             this.label5.TabIndex = 103;
             // 
             // label8
@@ -583,9 +548,8 @@ namespace CapaVisual_Login
             this.label8.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.ForeColor = System.Drawing.Color.White;
             this.label8.Location = new System.Drawing.Point(0, 0);
-            this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(549, 46);
+            this.label8.Size = new System.Drawing.Size(412, 37);
             this.label8.TabIndex = 25;
             this.label8.Text = "Comprobante de Retención";
             this.label8.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -594,9 +558,10 @@ namespace CapaVisual_Login
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(606, 792);
+            this.label11.Location = new System.Drawing.Point(454, 644);
+            this.label11.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(55, 17);
+            this.label11.Size = new System.Drawing.Size(45, 15);
             this.label11.TabIndex = 52;
             this.label11.Text = "Página";
             this.label11.Visible = false;
@@ -605,9 +570,10 @@ namespace CapaVisual_Login
             // 
             this.cbPagina_Ini.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbPagina_Ini.FormattingEnabled = true;
-            this.cbPagina_Ini.Location = new System.Drawing.Point(669, 789);
+            this.cbPagina_Ini.Location = new System.Drawing.Point(502, 641);
+            this.cbPagina_Ini.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.cbPagina_Ini.Name = "cbPagina_Ini";
-            this.cbPagina_Ini.Size = new System.Drawing.Size(56, 25);
+            this.cbPagina_Ini.Size = new System.Drawing.Size(43, 23);
             this.cbPagina_Ini.TabIndex = 53;
             this.cbPagina_Ini.Visible = false;
             this.cbPagina_Ini.SelectedIndexChanged += new System.EventHandler(this.cbPagina_Ini_SelectedIndexChanged);
@@ -617,9 +583,10 @@ namespace CapaVisual_Login
             // 
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(729, 792);
+            this.label12.Location = new System.Drawing.Point(547, 644);
+            this.label12.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(26, 17);
+            this.label12.Size = new System.Drawing.Size(21, 15);
             this.label12.TabIndex = 54;
             this.label12.Text = "de";
             this.label12.Visible = false;
@@ -628,20 +595,21 @@ namespace CapaVisual_Login
             // 
             this.txtPagina_Fin.Enabled = false;
             this.txtPagina_Fin.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPagina_Fin.Location = new System.Drawing.Point(759, 788);
+            this.txtPagina_Fin.Location = new System.Drawing.Point(569, 640);
+            this.txtPagina_Fin.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtPagina_Fin.Name = "txtPagina_Fin";
-            this.txtPagina_Fin.Size = new System.Drawing.Size(49, 26);
+            this.txtPagina_Fin.Size = new System.Drawing.Size(38, 22);
             this.txtPagina_Fin.TabIndex = 55;
             this.txtPagina_Fin.WordWrap = false;
             // 
             // FrmListaOrdenes
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(1585, 970);
+            this.ClientSize = new System.Drawing.Size(1040, 640);
             this.Controls.Add(this.txtPagina_Fin);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.cbPagina_Ini);
@@ -663,7 +631,6 @@ namespace CapaVisual_Login
             this.Controls.Add(this.txtNumeroOrden);
             this.Controls.Add(this.DgvListadoOrdenes);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FrmListaOrdenes";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "ListaOrdenes";

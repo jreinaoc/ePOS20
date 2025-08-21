@@ -1919,8 +1919,9 @@ namespace CapaVisual_Login
 
                 if (_FrmAnulacion.ResultadoNCManual == "SATISFACTORIO")
                 {
-                    TxtNumeroNC.Text = "";
-                    TxtNumeroCorrelativo.Text = "";
+                    LimpiarTxt();
+                    //TxtNumeroNC.Text = "";
+                    //TxtNumeroCorrelativo.Text = "";
                     PnlNotaCreditoManual.Visible = false;
                     Btnlupa.PerformClick();
 
