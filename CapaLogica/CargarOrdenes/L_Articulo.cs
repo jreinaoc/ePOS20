@@ -3636,9 +3636,13 @@ namespace CapaLogica.CargarOrdenes
                 string horaOfrecida = string.Empty;
 
                 // Lógica para HorasServicio SERVICIO EXPRESS
-                if (servicio == "018"  && (GlbCodDetVta == "01" || GlbCodDetVta == "02" || GlbCodDetVta == "08"))
+                if ((servicio == "018" || servicio == "005") && (GlbCodDetVta == "01" || GlbCodDetVta == "02" || GlbCodDetVta == "08"))
                 {
-                    FechaHoraOfrecida resultado = Calculo_Servicio_3Horas(_D_Inicio.DiaActivo());
+                    FechaHoraOfrecida resultado = null;
+                    if (servicio == "018")
+                     resultado = Calculo_Servicio_3Horas(_D_Inicio.DiaActivo());
+                    if(servicio == "005")
+                    resultado = Calculo_Servicio_3Horas(DateTime.Now.Date);
                     return new List<FechaHoraOfrecida> { resultado };
                 }
 

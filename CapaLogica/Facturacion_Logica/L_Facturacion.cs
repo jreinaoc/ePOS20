@@ -1772,6 +1772,7 @@ namespace CapaLogica.DetalleOrden_Logica
 
             //Observa
             string Observa = "";
+            string Ojos = "";
 
             if (DtsExamen.Tables[0].Rows.Count > 0)
             {
@@ -1808,6 +1809,7 @@ namespace CapaLogica.DetalleOrden_Logica
 
                     //Observacion 
                     Observa = row["OBSERVACIONES"].ToString();
+                    Ojos = row["Ojo"].ToString();
                 }
 
                 if (CILD > 0.00)
@@ -1830,9 +1832,9 @@ namespace CapaLogica.DetalleOrden_Logica
 
             //-----------------------------Formula-------------------------------
             //Derecho 
-            Examen_Orden_Convencional.Tables[6].Rows.Add("OD", String.Format(CultureInfo.InvariantCulture, "{0:0.00}", CBD).Replace(".", ","), String.Format(CultureInfo.InvariantCulture, "{0:0.00}", DIAMD).Replace(".", ","), String.Format(CultureInfo.InvariantCulture, "{0:0.00}", ESFD).Replace(".", ","), String.Format(CultureInfo.InvariantCulture, "{0:0.00}", CILD).Replace(".", ","), EJED.ToString().Replace(".", ","), String.Format(CultureInfo.InvariantCulture, "{0:0.00}", ADDD).Replace(".", ","), COLORD);
+            Examen_Orden_Convencional.Tables[6].Rows.Add("OD", String.Format(CultureInfo.InvariantCulture, "{0:0.00}", CBD).Replace(".", ","), String.Format(CultureInfo.InvariantCulture, "{0:0.00}", DIAMD).Replace(".", ","), String.Format(CultureInfo.InvariantCulture, "{0:0.00}", ESFD).Replace(".", ","), String.Format(CultureInfo.InvariantCulture, "{0:0.00}", CILD).Replace(".", ","), EJED.ToString().Replace(".", ","), String.Format(CultureInfo.InvariantCulture, "{0:0.00}", ADDD).Replace(".", ","), string.IsNullOrEmpty(COLORD) && Ojos== "A" ? COLORI : COLORD);
             //Izquierdo 
-            Examen_Orden_Convencional.Tables[6].Rows.Add("OI", String.Format(CultureInfo.InvariantCulture, "{0:0.00}", CBI).Replace(".", ","), String.Format(CultureInfo.InvariantCulture, "{0:0.00}", DIAMI).Replace(".", ","), String.Format(CultureInfo.InvariantCulture, "{0:0.00}", ESFI).Replace(".", ","), String.Format(CultureInfo.InvariantCulture, "{0:0.00}", CILI).Replace(".", ","), EJEI.ToString().Replace(".", ","), String.Format(CultureInfo.InvariantCulture, "{0:0.00}", ADDI).Replace(".", ","), COLORI);
+            Examen_Orden_Convencional.Tables[6].Rows.Add("OI", String.Format(CultureInfo.InvariantCulture, "{0:0.00}", CBI).Replace(".", ","), String.Format(CultureInfo.InvariantCulture, "{0:0.00}", DIAMI).Replace(".", ","), String.Format(CultureInfo.InvariantCulture, "{0:0.00}", ESFI).Replace(".", ","), String.Format(CultureInfo.InvariantCulture, "{0:0.00}", CILI).Replace(".", ","), EJEI.ToString().Replace(".", ","), String.Format(CultureInfo.InvariantCulture, "{0:0.00}", ADDI).Replace(".", ","), string.IsNullOrEmpty(COLORI) && Ojos == "A" ? COLORD : COLORI);
             //----------------------------Observacion--------------------------- 
             Examen_Orden_Convencional.Tables[5].Rows.Add(Observa);
         }
@@ -2074,7 +2076,7 @@ namespace CapaLogica.DetalleOrden_Logica
                 foreach (DataRow row in DtsDetalle_Orden_consulta.Tables[1].Rows)
                 {
 
-                    DtsDetalle_Orden.Tables[0].Rows.Add(row["CodArticulo"].ToString(), row["Cod_Laboratorio"].ToString(), row["DESART"].ToString(), Convert.ToInt32(row["Ordserv_Cant"].ToString()), string.Format("{0:#,0.00}", row["Ordserv_Precio"] == DBNull.Value ? (Decimal)0.00 : Convert.ToDecimal(row["Ordserv_Precio"])), Convert.ToDouble(String.Format(CultureInfo.InvariantCulture, "{0:0.00}", row["Ordserv_PorcDto"].ToString())), string.Format("{0:#,0.00}", row["Ordserv_Neto"] == DBNull.Value ? (Decimal)0.00 : Convert.ToDecimal(row["Ordserv_Neto"])), Convert.ToInt32(row["Ordserv_PorcImp"]), row["Ordser_Ojo"].ToString());
+                    DtsDetalle_Orden.Tables[0].Rows.Add(row["CodArticulo"].ToString(), row["Cod_Laboratorio"].ToString(), row["DESART"].ToString(), Convert.ToInt32(string.IsNullOrEmpty(row["Ordserv_Cant"].ToString())? "1": row["Ordserv_Cant"].ToString()), string.Format("{0:#,0.00}", row["Ordserv_Precio"] == DBNull.Value ? (Decimal)0.00 : Convert.ToDecimal(row["Ordserv_Precio"])), Convert.ToDouble(String.Format(CultureInfo.InvariantCulture, "{0:0.00}", row["Ordserv_PorcDto"].ToString())), string.Format("{0:#,0.00}", row["Ordserv_Neto"] == DBNull.Value ? (Decimal)0.00 : Convert.ToDecimal(row["Ordserv_Neto"])), Convert.ToInt32(row["Ordserv_PorcImp"]), row["Ordser_Ojo"].ToString());
 
                 }
 
