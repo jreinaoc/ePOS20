@@ -16,14 +16,19 @@ namespace CapaDatos.Conexion
 
         public SqlConnection LeerCadena()
         {
-            SqlConnection cn = new SqlConnection(ConfigurationManager.ConnectionStrings["Epos"].ConnectionString);
+            // Obtener la cadena original desde el archivo de configuración
+            string originalConnectionString = ConfigurationManager.ConnectionStrings["Epos"].ConnectionString;
+
+            // Construir la cadena con ApplicationName
+            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder(originalConnectionString);
+            builder.ApplicationName = "APP_EPOS_2_0"; // Nombre personalizado
+
+            SqlConnection cn = new SqlConnection(builder.ConnectionString);
+
             if (cn.State == ConnectionState.Open)
             {
                 cn.Close();
-
-
             }
-
             else
             {
                 cn.Open();
@@ -35,6 +40,13 @@ namespace CapaDatos.Conexion
 
         public static SqlConnection LeerCadenaStatica()
         {
+            // Obtener la cadena original desde el archivo de configuración
+            string originalConnectionString = ConfigurationManager.ConnectionStrings["Epos"].ConnectionString;
+
+            // Construir la cadena con ApplicationName
+            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder(originalConnectionString);
+            builder.ApplicationName = "APP_EPOS_2_0"; // Nombre personalizado
+
             SqlConnection cn = new SqlConnection(ConfigurationManager.ConnectionStrings["Epos"].ConnectionString);
             if (cn.State == ConnectionState.Open)
             {
