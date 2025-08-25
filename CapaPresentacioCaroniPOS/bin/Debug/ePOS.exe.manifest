@@ -62,7 +62,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>ybqYrRVCKP6JXuP+0RovLR5zNbYhk67Y4Mia9ZQJFWo=</dsig:DigestValue>
+        <dsig:DigestValue>U7ozy09EPsZqpxBkxhqNAlTPduTmejdGdilc2h4KcyI=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -79,14 +79,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CapaLogica.dll" size="335872">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CapaLogica.dll" size="336896">
       <assemblyIdentity name="CapaLogica" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>YERd5LrTGwyWqRUQunEtLfVSzwBkRO1eEigiqxt1t/s=</dsig:DigestValue>
+        <dsig:DigestValue>/TMv2GFvEcYTewUr7FpxjiLtVIki41gdEFg5E002tKY=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -206,7 +206,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>D2ToflUxRv6jp2/eJnCnrL/wORxFnitAne6yYeCOmnc=</dsig:DigestValue>
+        <dsig:DigestValue>3IN31Ij1VmnixdkzgenLnfDl1q+kxeu6C7dk8nY25XI=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

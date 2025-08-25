@@ -549,7 +549,7 @@ namespace CapaLogica.Servicios
         {
             // Validación inicial de tipo de venta
             var tipoVenta = trabajos.FirstOrDefault()?.TipoExamen ?? "";
-            if (tipoVenta == "CONVENCIONAL" && cbTipoVta.SelectedValue?.ToString() != "08")
+            if (cbTipoVta.Text.ToString().ToLower() == "trabajo convencional" && cbTipoVta.SelectedValue?.ToString() != "08")
             {
                 if (string.IsNullOrEmpty(numExam))
                 {

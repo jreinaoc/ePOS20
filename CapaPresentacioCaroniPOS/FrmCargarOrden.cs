@@ -2881,7 +2881,7 @@ namespace CapaVisual_Login
                         {
                             _L_Articulo.ActualizarCelda(Dgv_Tap3_Articulo, filaSeleccionada, "ART_PVP", Txt_Pnl3_CambioPrecioNuevo.Text);
                             CerrarPanelCambioPrecio();
-                            BotonesColor(false, "Cambio Precio");
+                            //BotonesColor(false, "Cambio Precio");
 
                         }
 
@@ -2891,7 +2891,7 @@ namespace CapaVisual_Login
                 {
                     _L_Articulo.ActualizarCelda(Dgv_Tap3_Articulo, filaSeleccionada, "ART_PVP", Txt_Pnl3_CambioPrecioNuevo.Text);
                     CerrarPanelCambioPrecio();
-                    BotonesColor(false, "Cambio Precio");
+                    //BotonesColor(false, "Cambio Precio");
                 }
 
                 _L_Articulo.ActualizarTotales(Dgv_Tap3_Articulo, Dgv_Tap3_Totales);
@@ -3063,7 +3063,7 @@ namespace CapaVisual_Login
                         _L_Articulo.ActualizarTotales(Dgv_Tap3_Articulo, Dgv_Tap3_Totales);
                         // Cierro el panel, limpio controles y Retorno a la pantalla primcipal 
                         CerrarPanelDescuento();
-                        BotonesColor(false, "Descuento");
+                        //BotonesColor(false, "Descuento");
 
                     }
                     else
@@ -3311,12 +3311,15 @@ namespace CapaVisual_Login
             {
                 Btn_Tap3_Descuento.Enabled = true; // Habilitar el TextBox o botón descuento
                 Btn_Tap3_CambioPrecio.Enabled = true; // Habilitar el TextBox o botón cambioPrecio
-
+                BotonesColor(true, "cambioprecio");
+                BotonesColor(true, "descuento");
             }
             else
             {
                 Btn_Tap3_Descuento.Enabled = false; // Deshabilitar el TextBox o botón
                 Btn_Tap3_CambioPrecio.Enabled = false;
+                BotonesColor(false, "cambioprecio");
+                BotonesColor(false, "descuento");
             }
 
             //// Promociones
@@ -3831,7 +3834,7 @@ namespace CapaVisual_Login
                         Cbx_Pnl2_Trbajo.SelectedValue.ToString(),
                         TB_USUARIO.COD_USR,
                         Montura_Propia,
-                        Promocion_Aplicada,
+                        _L_Articulo.ValidarAplica(Dgv_Tap3_Articulo, glbCodDetVta , EmpresaAfiliada == "" ? false : true, Promocion_Aplicada , Montura_Propia, Cristal_Propio),
                         Cristal_Propio,
                         monturaEstaEnQuorum,
                         Garantia,
@@ -13924,12 +13927,12 @@ namespace CapaVisual_Login
                     case "todos":
                         // Aplicar a todos los botones
                         AplicarColorBoton(true, Btn_Tap3_Garantia, "Garantia");
-                        AplicarColorBoton(true, Btn_Tap3_Descuento, "Descuento");
+                        AplicarColorBoton(false, Btn_Tap3_CambioPrecio, "Cambio Precio");
+                        AplicarColorBoton(false, Btn_Tap3_Descuento, "Descuento");
                         AplicarColorBoton(true, Btn_Tap3_Promocion, "Promocion");
                         AplicarColorBoton(true, Btn_Tap3_MonturaPropia, "Montura Propia");
                         AplicarColorBoton(true, Btn_Tap3_CristalPropio, "Cristal Propio");
                         AplicarColorBoton(true, Btn_Tap3_ClienteAfiliado, "Cliente Afiliado");
-                        AplicarColorBoton(true, Btn_Tap3_CambioPrecio, "Cambio Precio");
                         break;
 
                     default:
@@ -13976,6 +13979,7 @@ namespace CapaVisual_Login
                     case "todos":
                         // Aplicar a todos los botones
                         AplicarColorBoton(false, Btn_Tap3_Garantia, "Garantia");
+                        AplicarColorBoton(false, Btn_Tap3_CambioPrecio, "Cambio Precio");
                         AplicarColorBoton(false, Btn_Tap3_Descuento, "Descuento");
                         AplicarColorBoton(false, Btn_Tap3_Promocion, "Promocion");
                         AplicarColorBoton(false, Btn_Tap3_MonturaPropia, "Montura Propia");

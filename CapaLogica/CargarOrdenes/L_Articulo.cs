@@ -4806,6 +4806,8 @@ namespace CapaLogica.CargarOrdenes
             return false;
         }
 
+
+
         public bool VerificoCantidadCristales(string OjoSelecionado, System.Windows.Forms.DataGridView Dgv_Tap3_Articulo, Action<string> mostrarError)
         {
             try
@@ -4890,6 +4892,54 @@ namespace CapaLogica.CargarOrdenes
                 //    "Por favor comunicarse con el Dpto de Sistemas y reportar el siguiente error: ",
                 //    ex.Message, CapaNegocio.MensajesGenerales.TiposIconos.IconoError, glbUsuarioActual);
                 //MensajeError.ShowDialog();
+                return false;
+            }
+        }
+
+        public bool ValidarAplica(DataGridView Dgv_Tap3_Articulo, string Cod_Vta, bool ClienteAfiliado, bool AplicaPromocion, bool MonturaPropia, bool CristalPropio)
+        {
+            try
+            {
+             
+                bool Aplica= false;
+
+            if (AplicaPromocion== false && ClienteAfiliado== false && MonturaPropia== false && CristalPropio== false)
+            { 
+                if ((Cod_Vta == "05" || Cod_Vta == "02"))
+                {
+                    Aplica = false;
+                }
+                else
+                {
+                    foreach (DataGridViewRow row in Dgv_Tap3_Articulo.Rows)
+                    {
+                        if (row.Cells["CodArticulo"].Value != null && ((row.Cells["CodArticulo"].Value.ToString().StartsWith("M")) || (row.Cells["CodArticulo"].Value.ToString().StartsWith("L"))))
+                        {
+                            string CodArticulo = row.Cells["CodArticulo"].Value.ToString();
+                            DataTable dt = _D_Articulos.ObtenerCODrango(CodArticulo);
+                            if (dt.Rows!= null && dt.Rows.Count >  0 && dt.Rows[0]["CODrango"].ToString()!= "A" && dt.Rows[0]["CODrango"].ToString() != "B" && dt.Rows[0]["CODrango"].ToString() != "C")
+                            {
+                                    return true;
+                            }
+                            else
+                            {
+                             Aplica = false;
+                            }
+                        }
+                    }
+                }
+                
+            }
+            else
+            {
+            Aplica = false;
+            }  
+                return Aplica;
+            }
+            catch (Exception ex)
+            {
+                //// Manejar cualquier excepción
+                //throw new Exception("Error al verificar y corregir los totales: " + ex.Message, ex);
                 return false;
             }
         }
