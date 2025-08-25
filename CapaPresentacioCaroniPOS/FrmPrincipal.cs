@@ -1069,6 +1069,8 @@ namespace CapaVisual_Login
                     }
                 }
             //}
+
+            _FrmCierreDeCaja.CancelarSolicitado(() => BtnInicio.PerformClick());
             PnlListadoOrdenes.Controls.Clear();
             _FrmCierreDeCaja.CargarInicio();
             addformulario(_FrmCierreDeCaja);

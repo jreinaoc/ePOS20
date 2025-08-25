@@ -46,6 +46,13 @@ namespace CapaVisual_Login
         //private FrmPrincipal _frmPrincipal;
 
 
+        private Action _onCancelarSolicitado;
+
+        public void CancelarSolicitado(Action Cancelar)
+        {
+            _onCancelarSolicitado = Cancelar;
+        }
+
         public FrmCierredeCaja()
         {
             InitializeComponent();
@@ -259,6 +266,12 @@ namespace CapaVisual_Login
             label15.BackColor = col3;
             label15.ForeColor = col5;
             panel3.BackColor = col1;
+
+            //Quita Bordes
+            QuitarBorde1.BackColor = col1;
+            QuitarBorde2.BackColor = col1;
+            QuitarBorde3.BackColor = col1;
+            QuitarBorde4.BackColor = col1;
         }
 
         public void FormatoOsc(System.Drawing.Color col1, System.Drawing.Color col3, System.Drawing.Color col5, System.Drawing.Color col6)
@@ -335,6 +348,12 @@ namespace CapaVisual_Login
             label15.BackColor = col6;
             label15.ForeColor = col1;
             panel3.BackColor = ColorTranslator.FromHtml("#257b78");
+
+            //Quita Bordes
+            QuitarBorde1.BackColor = col3;
+            QuitarBorde2.BackColor = col3;
+            QuitarBorde3.BackColor = col3;
+            QuitarBorde4.BackColor = col3;
         }
 
         private void btn_Siguiente_pg2_Click(object sender, EventArgs e)
@@ -460,8 +479,15 @@ namespace CapaVisual_Login
                 this.Dvg_CierrePuntoVenta.EditingControlShowing += Dvg_CierrePuntoVenta_EditingControlShowing;
                 this.dgvCierredecaja.EditingControlShowing += dgvCierredecaja_EditingControlShowing;
 
+                
                 tcCierreCaja.ItemSize = new Size(0, 1);
                 tcCierreCaja.SizeMode = TabSizeMode.Fixed;
+                
+                QuitarBorde1.BringToFront();
+                QuitarBorde2.BringToFront();
+                QuitarBorde3.BringToFront();
+                QuitarBorde4.BringToFront();
+
 
                 var labelVertical = new VerticalLabel
                 {
@@ -1807,8 +1833,9 @@ namespace CapaVisual_Login
 
         private void btnCancelar_Click(object sender, EventArgs e)
         {
-            tcCierreCaja.SelectedIndex = 0;
-            this.Hide();
+            _onCancelarSolicitado?.Invoke();
+            //tcCierreCaja.SelectedIndex = 0;
+            //this.Hide();
         }
 
         private void panel5_Paint(object sender, PaintEventArgs e)
