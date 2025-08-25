@@ -149,6 +149,8 @@ namespace CapaVisual_Login
                 btnPagoMovil.BackColor = Color.White;
                 btnListaFactura.BackColor = Color.White;
                 btnCargarOrdenes.BackColor = Color.White;
+                btnUtilitarios.BackColor = Color.White;
+                btnPromoCasada.BackColor = Color.White;
             }
 
 
@@ -177,7 +179,8 @@ namespace CapaVisual_Login
                 _FrmInicio.Actualizar_UltimaVenta_VentasDia();
             }
 
-
+            if (menuUtilitariosExpandido)
+                ContraerMenuUtilitarios();
 
         }
 
@@ -209,6 +212,8 @@ namespace CapaVisual_Login
                 btnPagoMovil.BackColor = Color.White;
                 btnListaFactura.BackColor = Color.White;
                 btnCargarOrdenes.BackColor = Color.White;
+                btnUtilitarios.BackColor = Color.White;
+                btnPromoCasada.BackColor = Color.White;
             }
 
             DateTime currentDate = _D_Inicio.DiaActivo();
@@ -249,6 +254,9 @@ namespace CapaVisual_Login
                 _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
                 _FrmMensajes.ShowDialog();
             }
+
+            if (menuUtilitariosExpandido)
+                ContraerMenuUtilitarios();
         }
 
         private void FrmPrincipal_Load_1(object sender, EventArgs e)
@@ -505,12 +513,13 @@ namespace CapaVisual_Login
                 btnPagoMovil.BackColor = Color.White;
                 btnListaFactura.BackColor = Color.White;
                 btnCargarOrdenes.BackColor = Color.White;
+                btnUtilitarios.BackColor = Color.White;
+                btnPromoCasada.BackColor = Color.White;
             }
 
 
-
-
-
+            if (menuUtilitariosExpandido)
+                ContraerMenuUtilitarios();
 
 
             PnlListadoOrdenes.Controls.Clear();
@@ -624,6 +633,8 @@ namespace CapaVisual_Login
                 btnPagoMovil.BackColor = Color.White;
                 btnListaFactura.BackColor = Color.White;
                 btnCargarOrdenes.BackColor = Color.White;
+                btnUtilitarios.BackColor = Color.White;
+                btnPromoCasada.BackColor = Color.White;
             }
 
             // _FrmClienteEspera.ShowDialog();
@@ -646,6 +657,8 @@ namespace CapaVisual_Login
 
             }
 
+            if (menuUtilitariosExpandido)
+                ContraerMenuUtilitarios();
 
 
         }
@@ -702,6 +715,8 @@ namespace CapaVisual_Login
                 BtnListadoOrdenes.BackColor = Color.White;
                 btnListaFactura.BackColor = Color.White;
                 btnCargarOrdenes.BackColor = Color.White;
+                btnUtilitarios.BackColor = Color.White;
+                btnPromoCasada.BackColor = Color.White;
             }
 
             DateTime currentDate = _D_Inicio.DiaActivo();
@@ -716,6 +731,9 @@ namespace CapaVisual_Login
             //    _FrmMensajes.ShowDialog();
             //    return;
             //}
+
+            if (menuUtilitariosExpandido)
+                ContraerMenuUtilitarios();
 
             PnlListadoOrdenes.Controls.Clear();
             addformulario(_FrmPagoMovil);
@@ -762,7 +780,12 @@ namespace CapaVisual_Login
                 BtnListadoOrdenes.BackColor = Color.White;
                 btnPagoMovil.BackColor = Color.White;
                 btnCargarOrdenes.BackColor = Color.White;
+                btnUtilitarios.BackColor = Color.White;
+                btnPromoCasada.BackColor = Color.White;
             }
+
+            if (menuUtilitariosExpandido)
+                ContraerMenuUtilitarios();
 
             PnlListadoOrdenes.Controls.Clear();
             addformulario(_FrmListaFactura);
@@ -798,6 +821,8 @@ namespace CapaVisual_Login
                 btnClienteEspera.BackColor = Color.White;
                 btnPagoMovil.BackColor = Color.White;
                 btnListaFactura.BackColor = Color.White;
+                btnUtilitarios.BackColor = Color.White;
+                btnPromoCasada.BackColor = Color.White;
             }
 
            
@@ -876,7 +901,8 @@ namespace CapaVisual_Login
             // Cargar usando la función que limpia y configura el panel
             //CerrarYRecargarFormulario(nuevoFormulario);
 
-
+            if (menuUtilitariosExpandido)
+                ContraerMenuUtilitarios();
 
         }
 
@@ -887,10 +913,39 @@ namespace CapaVisual_Login
 
         private void btnUtilitarios_Click(object sender, EventArgs e)
         {
+
+
             if (menuUtilitariosExpandido)
                 ContraerMenuUtilitarios();
             else
                 ExpandirMenuUtilitarios();
+
+            System.Drawing.Color col2 = System.Drawing.ColorTranslator.FromHtml("#257b78");
+            System.Drawing.Color col4 = System.Drawing.ColorTranslator.FromHtml("#2f6b64");
+            System.Drawing.Color col3 = System.Drawing.ColorTranslator.FromHtml(" #07a79b");
+
+            if (this.BackColor == col2)
+            {
+                BtnInicio.BackColor = Color.FromArgb(4, 185, 166);
+                btnconfiguracion.BackColor = col2;
+                BtnListadoOrdenes.BackColor = col2;
+                btnClienteEspera.BackColor = col2;
+                btnPagoMovil.BackColor = col2;
+                btnListaFactura.BackColor = col2;
+                btnCargarOrdenes.BackColor = col2;
+            }
+            else
+            {
+                BtnInicio.BackColor = Color.White;
+                btnconfiguracion.BackColor = Color.White;
+                BtnListadoOrdenes.BackColor = Color.White;
+                btnClienteEspera.BackColor = Color.White;
+                btnPagoMovil.BackColor = Color.White;
+                btnListaFactura.BackColor = Color.White;
+                btnCargarOrdenes.BackColor = Color.White;
+                btnPromoCasada.BackColor = Color.White;
+                btnUtilitarios.BackColor = Color.FromArgb(4, 185, 166);
+            }
         }
 
         private void ExpandirMenuUtilitarios()
@@ -1263,6 +1318,35 @@ namespace CapaVisual_Login
             //}
 
             // Limpiar solo instancias de FrmPromoCasada
+
+            System.Drawing.Color col2 = System.Drawing.ColorTranslator.FromHtml("#257b78");
+            System.Drawing.Color col4 = System.Drawing.ColorTranslator.FromHtml("#2f6b64");
+            System.Drawing.Color col3 = System.Drawing.ColorTranslator.FromHtml(" #07a79b");
+
+            if (this.BackColor == col2)
+            {
+                BtnInicio.BackColor = Color.FromArgb(4, 185, 166);
+                btnconfiguracion.BackColor = col2;
+                BtnListadoOrdenes.BackColor = col2;
+                btnClienteEspera.BackColor = col2;
+                btnPagoMovil.BackColor = col2;
+                btnListaFactura.BackColor = col2;
+                btnCargarOrdenes.BackColor = col2;
+            }
+            else
+            {
+                BtnInicio.BackColor = Color.White;
+                btnconfiguracion.BackColor = Color.White;
+                BtnListadoOrdenes.BackColor = Color.White;
+                btnClienteEspera.BackColor = Color.White;
+                btnPagoMovil.BackColor = Color.White;
+                btnListaFactura.BackColor = Color.White;
+                btnCargarOrdenes.BackColor = Color.White;
+                btnUtilitarios.BackColor = Color.White;
+                btnPromoCasada.BackColor = Color.FromArgb(4, 185, 166);
+            }
+
+
             foreach (Control control in PnlListadoOrdenes.Controls.OfType<FrmPromoCasada>().ToList())
             {
                 var form = (FrmPromoCasada)control;
@@ -1280,6 +1364,9 @@ namespace CapaVisual_Login
                 FormBorderStyle = FormBorderStyle.None,
                 Dock = DockStyle.Fill
             };
+
+            if (menuUtilitariosExpandido)
+                ContraerMenuUtilitarios();
 
             PnlListadoOrdenes.Controls.Add(nuevoForm);
             nuevoForm.Show();
