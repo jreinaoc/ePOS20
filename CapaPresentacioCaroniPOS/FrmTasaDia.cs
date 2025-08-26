@@ -19,6 +19,13 @@ namespace CapaVisual_Login
 {
     public partial class FrmTasaDia : Form
     {
+
+        private Action _onCancelarSolicitado;
+
+        public void CancelarSolicitado(Action Cancelar)
+        {
+            _onCancelarSolicitado = Cancelar;
+        }
         public FrmTasaDia()
         {
             InitializeComponent();
@@ -423,7 +430,8 @@ namespace CapaVisual_Login
 
         private void BtnCancelar_Click(object sender, EventArgs e)
         {
-            this.Hide();
+            _onCancelarSolicitado.Invoke();
+            //this.Hide();
         }
     }
 }

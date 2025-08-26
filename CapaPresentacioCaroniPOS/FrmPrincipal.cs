@@ -1093,6 +1093,7 @@ namespace CapaVisual_Login
             Focus();
             if (menuUtilitariosExpandido)
                 ContraerMenuUtilitarios();
+            _FrmTasaDia.CancelarSolicitado(() => BtnInicio.PerformClick());
         }
 
         private void button1_Click_6(object sender, EventArgs e)
@@ -1138,6 +1139,8 @@ namespace CapaVisual_Login
             PnlListadoOrdenes.Controls.Clear();
             addformulario(_FrmReimpresionDocumentos);
             Focus();
+            _FrmReimpresionDocumentos.CancelarSolicitado(() => BtnInicio.PerformClick());
+
             if (menuUtilitariosExpandido)
                 ContraerMenuUtilitarios();
         }

@@ -19,6 +19,13 @@ namespace CapaVisual_Login
 {
     public partial class FrmReimpresionDocumentos : Form
     {
+
+        private Action _onCancelarSolicitado;
+
+        public void CancelarSolicitado(Action Cancelar)
+        {
+            _onCancelarSolicitado = Cancelar;
+        }
         public FrmReimpresionDocumentos()
         {
             InitializeComponent();
@@ -638,7 +645,8 @@ namespace CapaVisual_Login
 
         private void BtnCancelar_Click(object sender, EventArgs e)
         {
-            this.Hide();
+            //this.Hide();
+            _onCancelarSolicitado?.Invoke();
         }
     }
  }
