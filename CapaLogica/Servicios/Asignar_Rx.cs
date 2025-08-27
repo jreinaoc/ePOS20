@@ -706,7 +706,7 @@ namespace CapaLogica.Servicios
                 }
 
                 // Validación de prismas (decimales permitidos)
-                if ((CalcularResto((decimal)examenConv.PRISMAD) > 0m) || (CalcularResto((decimal)examenConv.PRISMAI) > 0m))
+                if ((Resto((decimal)examenConv.PRISMAD) > 0m) || (Resto((decimal)examenConv.PRISMAI) > 0m))
                 {
                     mostrarError("Valor inválido para prisma, rango decimal permitido: 00, 25, 50, 75");
                     return false;
@@ -715,8 +715,8 @@ namespace CapaLogica.Servicios
                 // Validación de prisma y base prisma
                 if (((decimal)examenConv.PRISMAD == 0m && !String.IsNullOrEmpty(examenConv.PBASED)) ||
                     ((decimal)examenConv.PRISMAI == 0m && !String.IsNullOrEmpty(examenConv.PBASEI)) ||
-                    !(String.IsNullOrEmpty(examenConv.PBASED) && (decimal)examenConv.PRISMAD == 0m) ||
-                    !(String.IsNullOrEmpty(examenConv.PBASEI) && (decimal)examenConv.PRISMAI == 0m))
+                    (String.IsNullOrEmpty(examenConv.PBASED) && (decimal)examenConv.PRISMAD != 0m) ||
+                    (String.IsNullOrEmpty(examenConv.PBASEI) && (decimal)examenConv.PRISMAI != 0m))
                 {
                     mostrarError("Este examen debe poseer valor en Prisma si existe valor para la Base Prisma y viceversa. Modifíquelo, Agregue o Seleccione otro.");
                     return false;
@@ -777,5 +777,7 @@ namespace CapaLogica.Servicios
         {
             return valor.HasValue ? valor.Value % 1 : 0;
         }
+
+        public decimal Resto(decimal Valor1) => Valor1 % 0.25m;
     }
 }
