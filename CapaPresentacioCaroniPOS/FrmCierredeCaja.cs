@@ -194,6 +194,13 @@ namespace CapaVisual_Login
 
         }
 
+        public void RetornarInicio()
+        {
+            tcCierreCaja.SelectedIndex = 0;
+            lblPaso.Text = "Confirmación";
+            lbPaso.Text = "Paso 1";
+        }
+
         public void FormatoClaro(System.Drawing.Color col1, System.Drawing.Color col3, System.Drawing.Color col5)
         {
             //col1 es blanco, col3 es Silken Jade, col5 es Noble Black
@@ -1124,6 +1131,13 @@ namespace CapaVisual_Login
         
 
         private void btn_Cancelar_pg2_Click(object sender, EventArgs e)
+        {
+            tcCierreCaja.SelectedIndex = 0;
+            lblPaso.Text = "Confirmación";
+            lbPaso.Text = "Paso 1";
+        }
+
+        public void RegresarInicio()
         {
             tcCierreCaja.SelectedIndex = 0;
             lblPaso.Text = "Confirmación";

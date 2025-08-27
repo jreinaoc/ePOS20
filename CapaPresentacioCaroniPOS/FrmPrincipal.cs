@@ -1073,6 +1073,7 @@ namespace CapaVisual_Login
             _FrmCierreDeCaja.CancelarSolicitado(() => BtnInicio.PerformClick());
             PnlListadoOrdenes.Controls.Clear();
             _FrmCierreDeCaja.CargarInicio();
+            _FrmCierreDeCaja.RegresarInicio();
             addformulario(_FrmCierreDeCaja);
             Focus();
 

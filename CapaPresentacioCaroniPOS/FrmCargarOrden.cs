@@ -1909,8 +1909,9 @@ namespace CapaVisual_Login
                 ojoLenteContacto = "";
                 pnlOjo.Visible = false;
                 LcAmbosCant1 = false;
-
                 BotonesColor(true,"todos");
+                if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "09")
+                    Btn_Tap3_Garantia.Enabled = true;
             }
 
             catch (Exception ex)
@@ -3348,7 +3349,7 @@ namespace CapaVisual_Login
             }
             else
             {
-                Btn_Tap3_Garantia.Enabled = true;
+                Btn_Tap3_Garantia.Enabled = Garantia ? false : true;
                 Btn_Tap3_CristalPropio.Enabled = true;
             }
 
@@ -4585,6 +4586,7 @@ namespace CapaVisual_Login
             HabilitacionControl("CabezeraPrincipal");
             // Modo oscuro
             BotonesColor(false, "Garantia");
+            Btn_Tap3_Garantia.Enabled = false;
         }
 
         private bool AplicoGarantia(string CI, string nacio, string OS, string Suc, string exam)
