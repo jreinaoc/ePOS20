@@ -722,15 +722,15 @@ namespace CapaVisual_Login
             DateTime currentDate = _D_Inicio.DiaActivo();
             string formattedDate = currentDate.ToString("yyyyMMdd");
 
-            //if (!_L_CierreCaja.ObtieneAsistenciaPendiente(formattedDate, TB_USUARIO.COD_USR))
-            //{
-            //    _FrmMensajes.co = 2;
-            //    _FrmMensajes.avisomensaje("Debe marcar asistencia para el día activo");
-            //    _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
-            //    _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
-            //    _FrmMensajes.ShowDialog();
-            //    return;
-            //}
+            if (!_L_CierreCaja.ObtieneAsistenciaPendiente(formattedDate, TB_USUARIO.COD_USR))
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("Debe marcar asistencia para el día activo");
+                _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                _FrmMensajes.ShowDialog();
+                return;
+            }
 
             if (menuUtilitariosExpandido)
                 ContraerMenuUtilitarios();
@@ -750,15 +750,15 @@ namespace CapaVisual_Login
             DateTime currentDate = _D_Inicio.DiaActivo();
             string formattedDate = currentDate.ToString("yyyyMMdd");
 
-            //if (!_L_CierreCaja.ObtieneAsistenciaPendiente(formattedDate, TB_USUARIO.COD_USR))
-            //{
-            //    _FrmMensajes.co = 2;
-            //    _FrmMensajes.avisomensaje("Debe marcar asistencia para el día activo");
-            //    _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
-            //    _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
-            //    _FrmMensajes.ShowDialog();
-            //    return;
-            //}
+            if (!_L_CierreCaja.ObtieneAsistenciaPendiente(formattedDate, TB_USUARIO.COD_USR))
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("Debe marcar asistencia para el día activo");
+                _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                _FrmMensajes.ShowDialog();
+                return;
+            }
 
             if (this.BackColor == col2)
             {
@@ -829,29 +829,29 @@ namespace CapaVisual_Login
             DateTime currentDate = _D_Inicio.DiaActivo();
             string formattedDate = currentDate.ToString("yyyyMMdd");
 
-            //if (TB_USUARIO.COD_EMPLEADO != "99999")
-            //{
-            //    if (!_L_CierreCaja.ObtieneAsistenciaPendiente(formattedDate, TB_USUARIO.COD_USR))
-            //    {
-            //        _FrmMensajes.co = 2;
-            //        _FrmMensajes.avisomensaje("Debe marcar asistencia para el día activo");
-            //        _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
-            //        _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
-            //        _FrmMensajes.ShowDialog();
-            //        return;
-            //    }
+            if (TB_USUARIO.COD_EMPLEADO != "99999")
+            {
+                if (!_L_CierreCaja.ObtieneAsistenciaPendiente(formattedDate, TB_USUARIO.COD_USR))
+                {
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje("Debe marcar asistencia para el día activo");
+                    _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                    _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                    _FrmMensajes.ShowDialog();
+                    return;
+                }
 
-            //    if (!ValidarConfirmacionDivisas())
-            //    {
-            //        return;
-            //    }
-            //    if (!ValidarRecepTrnSol())
-            //    {
-            //        return;
-            //    }
-            //}
+                if (!ValidarConfirmacionDivisas())
+                {
+                    return;
+                }
+                if (!ValidarRecepTrnSol())
+                {
+                    return;
+                }
+            }
 
-            
+
 
             string StatusTasa = "";
             string StatusSec = "";
@@ -879,15 +879,16 @@ namespace CapaVisual_Login
                     _FrmMensajes.ShowDialog();
                     return;
                 }
-              //if (!_L_CierreCaja.ObtieneAsistenciaPendiente(formattedDate, TB_USUARIO.COD_USR))
-              //  {
-              //      _FrmMensajes.co = 2;
-              //      _FrmMensajes.avisomensaje("Debe marcar asistencia para el día activo");
-              //      _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
-              //      _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
-              //      _FrmMensajes.ShowDialog();
-              //      return;
-              //  }
+
+                if (!_L_CierreCaja.ObtieneAsistenciaPendiente(formattedDate, TB_USUARIO.COD_USR))
+                {
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje("Debe marcar asistencia para el día activo");
+                    _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                    _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                    _FrmMensajes.ShowDialog();
+                    return;
+                }
             }
 
             PnlListadoOrdenes.Controls.Clear();
@@ -989,20 +990,20 @@ namespace CapaVisual_Login
             DateTime currentDate = _D_Inicio.DiaActivo();
             string formattedDate = currentDate.ToString("yyyyMMdd");
 
-            //if (TB_USUARIO.COD_EMPLEADO != "99999")
-            //{
+            if (TB_USUARIO.COD_EMPLEADO != "99999")
+            {
                 //Si no tiene asistencia marcada
-            //    if (!_L_CierreCaja.ObtieneAsistenciaPendiente(formattedDate, TB_USUARIO.COD_USR))
-            //{
-            //    _FrmMensajes.co = 2;
-            //    _FrmMensajes.avisomensaje("Debe marcar asistencia para el día activo");
-            //    _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
-            //    _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
-            //    _FrmMensajes.ShowDialog();
-            //    return;
-            //}
-
-            if (menuUtilitariosExpandido)
+                if (!_L_CierreCaja.ObtieneAsistenciaPendiente(formattedDate, TB_USUARIO.COD_USR))
+                {
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje("Debe marcar asistencia para el día activo");
+                    _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                    _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                    _FrmMensajes.ShowDialog();
+                    return;
+                }
+            }
+                if (menuUtilitariosExpandido)
                 ContraerMenuUtilitarios();
 
             string DiaActual = (DateTime.Now.ToString("dd/MM/yyyy"));
