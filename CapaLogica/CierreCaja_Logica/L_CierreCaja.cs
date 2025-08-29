@@ -631,6 +631,188 @@ namespace CapaLogica.CierreCaja_Logica
             System.IO.File.AppendAllText(ruta, entrada + Environment.NewLine);
         }
 
+        public bool BuscoAsistencia(string fecha, Func<string, string, DialogResult> mostrarPregunta, Action<string> mostrarError, SqlCommand sqlCom = null)
+        {
+            try
+            {
+                bool OkAsis = false;
+
+                // EH: 24/05/2021 Actualizar lista de asistencia del marca huella
+                string IActivarAsisDia = _D_DetalleOrden.TB_PARAMETRO("ActivarAsisDia"); // eh: 25/05/2021
+                if (IActivarAsisDia == "0")
+                {
+                    // Definir que hacer aqui
+                    //DataSet dsInsertDetalle = ManBD.EjecutaStoreProcedure("SP_INSERTATB_ASISTENCIA", glbSucursalActual, Command);
+                }
+
+
+                if (TB_USUARIO.Id_Rol != "000" && TB_USUARIO.Id_Rol != "013" && TB_USUARIO.Id_Rol != "017") // And GlbBloqUsuarioSistemas = True)
+                {
+                    // No es Propietario
+                    DataSet ds = _D_CierreCaja.ObtieneAsistenciaPendiente(fecha, TB_USUARIO.COD_USR);
+
+                    // Verifico que haya marcado asistencia el día de hoy
+                  if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                  {
+                    if (string.IsNullOrEmpty(ds.Tables[0].Rows[0]["CodEmpleado"].ToString())) 
+                        {
+                        if (IActivarAsisDia == "1") // EPOS
+                        {
+                                // Mientras se desarrolla el formulario de Asistencia
+                                mostrarError("No ha marcado asistencia para la entrada del turno");
+
+                                // ***************esto es para levantar el formulario de Asistencia***********************
+
+                                //DialogResult x = mostrarPregunta("No ha marcado asistencia para el día de hoy, desea hacerlo ahora?", "Falta la Asistencia");
+                                //if (x == DialogResult.OK)
+                                //{
+                                //    Asist.ShowDialog();
+                                //    if (Asist.SeMarcoAsistencia == true)
+                                //    {
+                                //        // Vuelvo a llamar a esta misma funcion pra verificar si se marco o no la hora
+                                //        OkAsis = BuscoAsistencia(Codigo, ref sqlCom);
+                                //    }
+                                //}
+                                //else
+                                //{
+                                //    OkAsis = false;
+                                //}
+                            }
+                        else // BIOADMIN
+                        {
+                            mostrarError("No ha marcado asistencia para el día de hoy");
+                        }
+                    }
+                    else
+                    {
+                        if (string.IsNullOrEmpty(ds.Tables[0].Rows[0]["HoraDeSalidaPrimerTurno"].ToString().Trim()))
+                        {
+                            OkAsis = true;
+                        }
+                        else
+                        {
+                            if (!string.IsNullOrEmpty(ds.Tables[0].Rows[0]["HoraDeEntradaSegundoTurno"].ToString().Trim()) && string.IsNullOrEmpty(ds.Tables[0].Rows[0]["HoraDeSalidaSegundoTurno"].ToString().Trim()))
+                            {
+                                OkAsis = true;
+                            }
+                            else
+                            {
+                                if (!string.IsNullOrEmpty(ds.Tables[0].Rows[0]["HoraDeEntradaTercerTurno"].ToString().Trim()) && string.IsNullOrEmpty(ds.Tables[0].Rows[0]["HoraDeSalidaTercerTurno"].ToString().Trim()))
+                                {
+                                    OkAsis = true;
+                                }
+                                else
+                                {
+                                    if (IActivarAsisDia == "1") // EPOS
+                                    {
+                                            // Mientras se desarrolla el formulario de Asistencia
+                                            mostrarError("No ha marcado asistencia para la entrada del turno");
+
+                                            // ***************esto es para levantar el formulario de Asistencia***********************
+
+                                            //DialogResult x = mostrarPregunta("No ha marcado asistencia para la entrada del turno, desea hacerlo ahora?", "Falta la hora de entrada");
+                                            //if (x == DialogResult.OK)
+                                            //{
+                                            //    Asist.ShowDialog();
+                                            //    if (Asist.SeMarcoAsistencia == true)
+                                            //    {
+                                            //        // Vuelvo a llamar a esta misma funcion pra verificar si se marco o no la hora
+                                            //        OkAsis = BuscoAsistencia(Codigo, ref sqlCom);
+                                            //    }
+                                            //}
+                                            //else
+                                            //{
+                                            //    OkAsis = false;
+                                            //}
+                                        }
+                                    else // BIOADMIN
+                                    {
+                                        mostrarError("No ha marcado asistencia para la entrada del turno");
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                        mostrarError("No ha marcado asistencia para el día de hoy");
+                        return OkAsis;
+                }
+                // Despues de verificar la asistencia verifico el horario de descanso
+                if (OkAsis == true)
+                    {
+                        if (VerificarTiempoMaxTrabajo(ds,mostrarError, sqlCom) == true)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    // Si es Propietario
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                mostrarError($"Error en la función BuscaoAsistencia : {ex.Message}");
+                return false;
+            }
+        }
+
+        public bool VerificarTiempoMaxTrabajo(DataSet dtAsis, Action<string> mostrarError, SqlCommand sqlCom)
+        {
+                if (TB_USUARIO.Id_Rol != "013")
+                {
+                    // Verifico el primer turno
+                    if (string.IsNullOrWhiteSpace(dtAsis.Tables[0].Rows[0]["HoraDeSalidaPrimerTurno"]?.ToString()))
+                    {
+                        DateTime entradaPrimerTurno = Convert.ToDateTime(dtAsis.Tables[0].Rows[0]["HoraDeEntradaPrimerTurno"]?.ToString());
+                        int tiempoMax = Convert.ToInt32(_D_DetalleOrden.TB_PARAMETRO("TiempMaxTraba"));
+                        double horasTrabajadas = DateTime.Now.Subtract(entradaPrimerTurno).TotalHours;
+
+                        if (horasTrabajadas < tiempoMax)
+                        {
+                            double avisoHoras = DateTime.Now.Subtract(entradaPrimerTurno.AddMinutes(-30)).TotalHours;
+                            if (avisoHoras >= tiempoMax)
+                            {
+                                //var Usus = new CapaNegocio.Usuario();
+                                //Usus.ObtenerUsuarioCodigo(CodigoUsuario, sqlCom);
+                                int minutosRestantes = 30 - DateTime.Now.Subtract(entradaPrimerTurno.AddMinutes(-30)).Minutes;
+
+                                mostrarError(TB_USUARIO.USER_NOMBRE + " iniciará su período de descanso obligatorio en los próximos " + minutosRestantes + " minutos");
+                                return true;
+                            }
+
+                            return true;
+                        }
+                        else
+                        {
+                            mostrarError("Han transcurrido más de " + tiempoMax + " horas desde su última marca de asistencia, registre su salida");
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                }
+                else
+                {
+                    return true;
+                }
+            
+        }
+
         public bool ObtieneAsistenciaPendiente(string fecha, string usuario)
         {
             DataSet ds = _D_CierreCaja.ObtieneAsistenciaPendiente(fecha, usuario);

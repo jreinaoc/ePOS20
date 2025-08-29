@@ -5,13 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data;
 using System.Data.SqlClient;
+using CapaDatos.DetalleOrden_Datos;
 
 namespace CapaDatos.CierreCaja_Datos
 {
     public class D_CierreCaja
     {
         Conexion.Conexion cn = new Conexion.Conexion();
-
+        private D_DetalleOrden _D_DetalleOrden = new D_DetalleOrden();
         public DataTable ChequeaFacturasdelDia(string fecha, string usuario, SqlCommand command = null)
         {
             try
@@ -904,6 +905,7 @@ namespace CapaDatos.CierreCaja_Datos
 
                 cmd.Parameters.AddWithValue("@FECHA", fecha);
                 cmd.Parameters.AddWithValue("@CODUSER", codUsuario);
+                cmd.Parameters.AddWithValue("@CodSucursal", _D_DetalleOrden.TB_PARAMETRO("SucursalId"));
 
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 DataSet dts = new DataSet();

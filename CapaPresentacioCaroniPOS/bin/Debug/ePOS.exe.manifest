@@ -55,14 +55,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CapaDatos.dll" size="248320">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CapaDatos.dll" size="248832">
       <assemblyIdentity name="CapaDatos" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>U7ozy09EPsZqpxBkxhqNAlTPduTmejdGdilc2h4KcyI=</dsig:DigestValue>
+        <dsig:DigestValue>+h8tXK1pE/kRtJ2LrQlnIS6vVtKb7NzdGV3R5bd37X0=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -79,14 +79,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CapaLogica.dll" size="336896">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CapaLogica.dll" size="338944">
       <assemblyIdentity name="CapaLogica" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>IbgYy0aLevw9XoF94ouePi/Xh8sEn03eIzLMIUSOmVo=</dsig:DigestValue>
+        <dsig:DigestValue>ot1GHnfz1IcQ8zdQEQu1VVfWd1OjYEDOdCx4CXWmAo8=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -206,7 +206,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>UM7/mwlzS7VmHgOVlx8llqAmKwcXPdPvJRuPvKFMytw=</dsig:DigestValue>
+        <dsig:DigestValue>KniNFDk7LRWtoQia2gy4EVNKwUxYcHomQI4xLScTwaI=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

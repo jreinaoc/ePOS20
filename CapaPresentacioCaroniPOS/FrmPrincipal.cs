@@ -690,6 +690,16 @@ namespace CapaVisual_Login
            
         }
 
+        private DialogResult mostrarPregunta(string mensaje, string titulo)
+        {
+            return FrmMensajes.MostrarPregunta(mensaje, titulo);
+        }
+
+        private void mostrarError(string mensaje)
+        {
+            FrmMensajes.MostrarError(mensaje);
+        }
+
         private void btnPagoMovil_Click(object sender, EventArgs e)
         {
             pnlUtilitarios.Visible = false; 
@@ -828,34 +838,8 @@ namespace CapaVisual_Login
            
             DateTime currentDate = _D_Inicio.DiaActivo();
             string formattedDate = currentDate.ToString("yyyyMMdd");
-
-            if (TB_USUARIO.COD_EMPLEADO != "99999")
-            {
-                if (!_L_CierreCaja.ObtieneAsistenciaPendiente(formattedDate, TB_USUARIO.COD_USR))
-                {
-                    _FrmMensajes.co = 2;
-                    _FrmMensajes.avisomensaje("Debe marcar asistencia para el día activo");
-                    _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
-                    _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
-                    _FrmMensajes.ShowDialog();
-                    return;
-                }
-
-                if (!ValidarConfirmacionDivisas())
-                {
-                    return;
-                }
-                if (!ValidarRecepTrnSol())
-                {
-                    return;
-                }
-            }
-
-
-
             string StatusTasa = "";
             string StatusSec = "";
-
             DataSet dsConsTasa = _D_TasaSecuencia.TasaDia(_D_DetalleOrden.TB_PARAMETRO("SucursalId"), _D_Inicio.DiaActivo().ToString("yyyy/MM/dd"));
 
             for (int x = 0; x < dsConsTasa.Tables[0].Rows.Count; x++)
@@ -867,6 +851,8 @@ namespace CapaVisual_Login
             {
                 StatusSec = "SI";
             }
+
+
             if (TB_USUARIO.COD_EMPLEADO != "99999")
             {
 
@@ -879,14 +865,35 @@ namespace CapaVisual_Login
                     _FrmMensajes.ShowDialog();
                     return;
                 }
-
-                if (!_L_CierreCaja.ObtieneAsistenciaPendiente(formattedDate, TB_USUARIO.COD_USR))
+                else if (DateTime.Now.Date >= currentDate.Date)
                 {
                     _FrmMensajes.co = 2;
-                    _FrmMensajes.avisomensaje("Debe marcar asistencia para el día activo");
-                    _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
-                    _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                    _FrmMensajes.avisomensaje("Debe cerrar caja del día anterior para continuar");
                     _FrmMensajes.ShowDialog();
+                    return;
+                }
+
+                //**** Se creo una nueva Funcion para validar la Asistencia 
+                if (!_L_CierreCaja.BuscoAsistencia(DateTime.Now.ToString("yyyyMMdd"), mostrarPregunta,mostrarError))
+                    return;
+
+                //**********Funcion Vieja validar Asistencia ********************************************
+                //if (!_L_CierreCaja.ObtieneAsistenciaPendiente(formattedDate, TB_USUARIO.COD_USR))
+                //{
+                //    _FrmMensajes.co = 2;
+                //    _FrmMensajes.avisomensaje("Debe marcar asistencia para el día activo");
+                //    _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                //    _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                //    _FrmMensajes.ShowDialog();
+                //    return;
+                //}
+
+                if (!ValidarConfirmacionDivisas())
+                {
+                    return;
+                }
+                if (!ValidarRecepTrnSol())
+                {
                     return;
                 }
             }
@@ -1306,6 +1313,10 @@ namespace CapaVisual_Login
                     {
                         return false;
                     }
+                }
+                else
+                {
+                    return false;
                 }
             }
 
