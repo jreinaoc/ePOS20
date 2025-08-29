@@ -9,34 +9,34 @@
               <Width>2.58206cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.99832cm</Width>
+              <Width>1.70728cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.59632cm</Width>
+              <Width>1.68485cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.81427cm</Width>
+              <Width>1.47031cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.2851cm</Width>
+              <Width>1.57614cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.49388cm</Width>
+              <Width>1.22707cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.59839cm</Width>
+              <Width>1.27168cm</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>1.42934cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.48115cm</Width>
+              <Width>1.41908cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.47683cm</Width>
+              <Width>1.39746cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.47683cm</Width>
+              <Width>2.46721cm</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -1930,7 +1930,7 @@
         <Top>4.01849cm</Top>
         <Left>1.03249cm</Left>
         <Height>2.46203cm</Height>
-        <Width>18.23249cm</Width>
+        <Width>18.23248cm</Width>
         <Style>
           <Border>
             <Style>None</Style>
@@ -3030,7 +3030,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Garantia</rd:DefaultName>
-        <Top>3.20349cm</Top>
+        <Top>3.05713cm</Top>
         <Left>12.17483cm</Left>
         <Height>0.55042cm</Height>
         <Width>6.39933cm</Width>
@@ -3263,7 +3263,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Almacen</rd:DefaultName>
-        <Top>0.25668cm</Top>
+        <Top>0.11032cm</Top>
         <Left>12.14308cm</Left>
         <Height>0.5cm</Height>
         <Width>6.39933cm</Width>
@@ -3302,7 +3302,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox167</rd:DefaultName>
-        <Top>1.03525cm</Top>
+        <Top>0.88889cm</Top>
         <Left>12.17483cm</Left>
         <Height>0.5cm</Height>
         <Width>6.39933cm</Width>
@@ -3340,7 +3340,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox169</rd:DefaultName>
-        <Top>1.36525cm</Top>
+        <Top>1.21889cm</Top>
         <Left>12.17483cm</Left>
         <Height>0.5cm</Height>
         <Width>6.39933cm</Width>
@@ -3379,7 +3379,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox172</rd:DefaultName>
-        <Top>2.08525cm</Top>
+        <Top>1.93889cm</Top>
         <Left>12.17483cm</Left>
         <Height>0.5cm</Height>
         <Width>6.39933cm</Width>
@@ -3417,7 +3417,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox169</rd:DefaultName>
-        <Top>1.71525cm</Top>
+        <Top>1.56889cm</Top>
         <Left>12.17483cm</Left>
         <Height>0.5cm</Height>
         <Width>6.39933cm</Width>
@@ -3456,7 +3456,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox12</rd:DefaultName>
-        <Top>0.54108cm</Top>
+        <Top>0.39472cm</Top>
         <Left>12.17483cm</Left>
         <Height>0.60778cm</Height>
         <Width>6.39933cm</Width>
@@ -3491,7 +3491,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>TipoTrabajo</rd:DefaultName>
-        <Top>2.85525cm</Top>
+        <Top>2.70889cm</Top>
         <Left>12.17483cm</Left>
         <Height>0.56696cm</Height>
         <Width>6.39933cm</Width>
@@ -3530,7 +3530,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox172</rd:DefaultName>
-        <Top>2.47525cm</Top>
+        <Top>2.32889cm</Top>
         <Left>12.17483cm</Left>
         <Height>0.5cm</Height>
         <Width>6.39933cm</Width>
@@ -3565,7 +3565,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>RepGarantia</rd:DefaultName>
-        <Top>3.20349cm</Top>
+        <Top>3.05713cm</Top>
         <Left>10.04037cm</Left>
         <Height>0.55042cm</Height>
         <Width>8.53379cm</Width>
