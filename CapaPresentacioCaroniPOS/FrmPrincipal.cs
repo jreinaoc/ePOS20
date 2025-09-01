@@ -865,7 +865,7 @@ namespace CapaVisual_Login
                     _FrmMensajes.ShowDialog();
                     return;
                 }
-                else if (DateTime.Now.Date >= currentDate.Date)
+                else if (DateTime.Now.Date > currentDate.Date)
                 {
                     _FrmMensajes.co = 2;
                     _FrmMensajes.avisomensaje("Debe cerrar caja del día anterior para continuar");
