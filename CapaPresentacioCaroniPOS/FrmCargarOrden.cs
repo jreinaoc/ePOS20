@@ -1841,9 +1841,8 @@ namespace CapaVisual_Login
                 EmpresaAfiliada = "";
                 PorcDctoEmpresaAfiliada = 0;
                 Txt_Tap3_Articulo_Codigo.Text = "Código"; // Restaurar el texto sugerido
-                // Cargar los valores
-                ValidarRegistrosYHabilitar_Botones();
                 Garantia = false;
+                ValidarRegistrosYHabilitar_Botones();
                 CodColorLC = "";
                 Codigo_Servicio_Agregar = "";
                 txtObservacion.Text = "";
