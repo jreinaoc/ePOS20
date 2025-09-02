@@ -298,6 +298,7 @@ namespace CapaVisual_Login
             this.Txt_Pnl2_Euro1.TabIndex = 131;
             this.Txt_Pnl2_Euro1.Text = "0,000000";
             this.Txt_Pnl2_Euro1.Click += new System.EventHandler(this.Txt_Pnl2_Euro1_Click);
+            this.Txt_Pnl2_Euro1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Txt_Pnl2_Euro1_KeyDown);
             this.Txt_Pnl2_Euro1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Txt_Pnl2_Euro1_KeyPress);
             this.Txt_Pnl2_Euro1.LostFocus += new System.EventHandler(this.Txt_Pnl2_Euro1_LostFocus);
             // 
@@ -329,6 +330,7 @@ namespace CapaVisual_Login
             this.Txt_Pnl2_Dolar1.TabIndex = 126;
             this.Txt_Pnl2_Dolar1.Text = "0,000000";
             this.Txt_Pnl2_Dolar1.Click += new System.EventHandler(this.Txt_Pnl2_Dolar1_Click);
+            this.Txt_Pnl2_Dolar1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Txt_Pnl2_Dolar1_KeyDown);
             this.Txt_Pnl2_Dolar1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Txt_Pnl2_Dolar1_KeyPress);
             this.Txt_Pnl2_Dolar1.LostFocus += new System.EventHandler(this.Txt_Pnl2_Dolar1_LostFocus);
             // 
