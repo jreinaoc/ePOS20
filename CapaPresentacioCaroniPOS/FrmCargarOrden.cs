@@ -7145,6 +7145,14 @@ namespace CapaVisual_Login
             Dgv_Pnl2_conv.RowHeadersVisible = false;
             Dgv_Pnl2_conv.AllowUserToResizeColumns = false;
             Dgv_Pnl2_conv.AllowUserToResizeRows = false;
+            // === Altura fija de fila para que no se corte la "q" ===
+            Dgv_Pnl2_conv.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+            Dgv_Pnl2_conv.RowTemplate.Height = TextRenderer.MeasureText("Izquierdo", Dgv_Pnl2_conv.DefaultCellStyle.Font).Height + 5;
+
+            foreach (DataGridViewRow row in Dgv_Pnl2_conv.Rows)
+            {
+                row.Height = Dgv_Pnl2_conv.RowTemplate.Height;
+            }
 
             Dgv_Pnl2_conv.Columns[0].ReadOnly = true; // Hace que la columna no sea editable
 
@@ -8424,6 +8432,14 @@ namespace CapaVisual_Login
             Dgv_Pnl2_cont.AllowUserToResizeRows = false;
 
             Dgv_Pnl2_cont.Columns[0].ReadOnly = true; // Hace que la columna no sea editable
+            Dgv_Pnl2_cont.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+            Dgv_Pnl2_cont.RowTemplate.Height = TextRenderer.MeasureText("Izquierdo", Dgv_Pnl2_conv.DefaultCellStyle.Font).Height + 6;
+
+            foreach (DataGridViewRow row in Dgv_Pnl2_conv.Rows)
+            {
+                row.Height = Dgv_Pnl2_conv.RowTemplate.Height;
+            }
+
 
             //if (Dgv_Pnl2_cont.Columns.Contains("Agudeza"))
             //{
