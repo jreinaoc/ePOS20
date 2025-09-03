@@ -12865,6 +12865,15 @@ namespace CapaVisual_Login
             }
         }
 
+        private void txtAltI_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                txtAltD.Focus();
+            }
+        }
+
+
         private void txtAltI_KeyPress(object sender, KeyPressEventArgs e)
         {
             TextBox txt = sender as TextBox;
@@ -12894,6 +12903,13 @@ namespace CapaVisual_Login
                 {
                     e.Handled = true;
                 }
+            }
+        }
+        private void txtAltD_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                txtAltI.Focus();
             }
         }
         private void txtAltD_KeyPress(object sender, KeyPressEventArgs e)

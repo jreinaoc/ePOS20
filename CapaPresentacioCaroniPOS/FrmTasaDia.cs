@@ -214,6 +214,14 @@ namespace CapaVisual_Login
 
         }
 
+        private void Txt_Pnl2_Dolar1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                Txt_Pnl2_Euro1.Focus();
+            }
+        }
+
         private void Txt_Pnl2_Dolar1_KeyPress(object sender, KeyPressEventArgs e)
         {
 
@@ -279,6 +287,14 @@ namespace CapaVisual_Login
                     //UPDATE: colocamos el cursor al final del texto
                     Txt_Pnl2_Dolar1.SelectionStart = Txt_Pnl2_Dolar1.Text.Length;
                 }
+            }
+        }
+
+        private void Txt_Pnl2_Euro1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                Txt_Pnl2_Dolar1.Focus();
             }
         }
 
