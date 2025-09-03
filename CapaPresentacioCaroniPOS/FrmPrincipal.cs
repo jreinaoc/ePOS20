@@ -1012,6 +1012,7 @@ namespace CapaVisual_Login
             //        return;
             //    }
             //}
+
            if (menuUtilitariosExpandido)
            ContraerMenuUtilitarios();
 
