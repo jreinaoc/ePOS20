@@ -997,19 +997,21 @@ namespace CapaVisual_Login
             DateTime currentDate = _D_Inicio.DiaActivo();
             string formattedDate = currentDate.ToString("yyyyMMdd");
 
-            if (TB_USUARIO.COD_EMPLEADO != "99999")
-            {
-                //Si no tiene asistencia marcada
-                if (!_L_CierreCaja.ObtieneAsistenciaPendiente(formattedDate, TB_USUARIO.COD_USR))
-                {
-                    _FrmMensajes.co = 2;
-                    _FrmMensajes.avisomensaje("Debe marcar asistencia para el día activo");
-                    _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
-                    _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
-                    _FrmMensajes.ShowDialog();
-                    return;
-                }
-            }
+            //if (TB_USUARIO.COD_EMPLEADO != "99999")
+            //{
+            //    //Si no tiene asistencia marcada
+            //    DataTable dsC = _L_CierreCaja.VerificaAsistenciaPendiente(formattedDate, "PEND");
+            //    if (dsC.Rows.Count > 0)
+            //    //if (!_L_CierreCaja.ObtieneAsistenciaPendiente(formattedDate, TB_USUARIO.COD_USR))
+            //    {
+            //        _FrmMensajes.co = 2;
+            //        _FrmMensajes.avisomensaje("Debe marcar asistencia para el día activo");
+            //        _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+            //        _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+            //        _FrmMensajes.ShowDialog();
+            //        return;
+            //    }
+            //}
                 if (menuUtilitariosExpandido)
                 ContraerMenuUtilitarios();
 
