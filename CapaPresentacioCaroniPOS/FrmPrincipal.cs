@@ -1012,8 +1012,8 @@ namespace CapaVisual_Login
             //        return;
             //    }
             //}
-                if (menuUtilitariosExpandido)
-                ContraerMenuUtilitarios();
+           if (menuUtilitariosExpandido)
+           ContraerMenuUtilitarios();
 
             string DiaActual = (DateTime.Now.ToString("dd/MM/yyyy"));
             string DiaActivo = _D_Inicio.DiaActivo().ToShortDateString();
