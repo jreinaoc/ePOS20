@@ -16,6 +16,7 @@ using System.Globalization;
 using System.Reflection;
 using System.Data.SqlClient;
 using CapaDatos.Conexion;
+using System.Text.RegularExpressions;
 
 namespace CapaVisual_Login
 {
@@ -440,12 +441,18 @@ namespace CapaVisual_Login
                                 // si  tengo salida1
                                 if (!string.IsNullOrEmpty(HoraSalida1))
                                 {
-                                    //string resultado = HoraSalida1.Replace(".", "").Replace("a m", "AM");
-                                    HoraSalida1 = HoraSalida1.Replace(".", "").Replace("a m", "am").Replace("p m", "pm").Replace("\u00A0", ""); // Por si acaso, eliminar cualquier espacio no separable
-                                                                                                                                                // 1) Extrae y convierte el valor de la celda 0 a string
-                                    
+                            // 1. Reemplazar cualquier tipo de espacio entre "p." y "m." (incluyendo NO-BREAK SPACE)
+                            HoraSalida1 = Regex.Replace(HoraSalida1, @"p\.\s*m\.", "pm", RegexOptions.IgnoreCase);
 
-                                    _L_CierreCaja.ActualizaAsistencia(diaActivo.ToString("dd/MM/yyyy"), HoraSalida1, codigoEmpleado, codigoEmpleado);
+                            // 2. Reemplazar cualquier tipo de espacio entre "a." y "m." (por si hay AM)
+                            HoraSalida1 = Regex.Replace(HoraSalida1, @"a\.\s*m\.", "am", RegexOptions.IgnoreCase);
+
+                            // 3. Eliminar espacios adicionales antes del AM/PM
+                            HoraSalida1 = HoraSalida1.Trim();
+
+
+
+                            _L_CierreCaja.ActualizaAsistencia(diaActivo.ToString("dd/MM/yyyy"), HoraSalida1, codigoEmpleado, codigoEmpleado);
                                     _D_Anulacion.CaragarAuditor(TB_USUARIO.COD_SUCURSAL, "072", TB_USUARIO.COD_EMPLEADO, "Se asigno la hora de salida " + HoraSalida1 + ", al empleado " + codigoEmp + ", Autoriza: " + GerenteAutoriza);
 
                                 }
@@ -453,9 +460,15 @@ namespace CapaVisual_Login
                         // si  tengo salida1
                         if (!string.IsNullOrEmpty(HoraSalida2))
                         {
-                            //string codigoEmpleado = fila.Cells["COD_EMPLEADO"].Value?.ToString() ?? string.Empty;
-                            //string resultado = HoraSalida1.Replace(".", "").Replace("a m", "AM");
-                            HoraSalida2 = HoraSalida2.Replace(".", "").Replace("a m", "am").Replace("p m", "pm").Replace("\u00A0", ""); // Por si acaso, eliminar cualquier espacio no separable
+                            // 1. Reemplazar cualquier tipo de espacio entre "p." y "m." (incluyendo NO-BREAK SPACE)
+                            HoraSalida1 = Regex.Replace(HoraSalida1, @"p\.\s*m\.", "pm", RegexOptions.IgnoreCase);
+
+                            // 2. Reemplazar cualquier tipo de espacio entre "a." y "m." (por si hay AM)
+                            HoraSalida1 = Regex.Replace(HoraSalida1, @"a\.\s*m\.", "am", RegexOptions.IgnoreCase);
+
+                            // 3. Eliminar espacios adicionales antes del AM/PM
+                            HoraSalida1 = HoraSalida1.Trim();
+
 
                             _L_CierreCaja.ActualizaAsistencia(diaActivo.ToString("dd/MM/yyyy"), HoraSalida2, codigoEmp, TB_USUARIO.COD_EMPLEADO);
                             _D_Anulacion.CaragarAuditor(TB_USUARIO.COD_SUCURSAL, "072", TB_USUARIO.COD_EMPLEADO, "Se asigno la hora de salida " + HoraSalida1 + ", al empleado " + codigoEmp + ", Autoriza: " + GerenteAutoriza);
