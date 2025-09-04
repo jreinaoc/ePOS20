@@ -746,7 +746,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!BASED.Value</Value>
+                              <Value>=IIf(IsNothing(Fields!BASED.Value) OR Fields!BASED.Value = "", "0°", Fields!BASED.Value + "°")</Value>
                               <Style>
                                 <FontFamily>Calibri</FontFamily>
                               </Style>
@@ -1477,7 +1477,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!BASEI.Value</Value>
+                              <Value>=IIf(IsNothing(Fields!BASEI.Value) OR Fields!BASEI.Value = "", "0°", Fields!BASEI.Value + "°")</Value>
                               <Style>
                                 <FontFamily>Calibri</FontFamily>
                               </Style>
