@@ -99,6 +99,7 @@ public DataTable TraerOrdenDet(string NumOrden , SqlCommand command = null)  // 
             cmd.CommandText ="SP_CPOS_GET_ARTICULO";
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@CodArticulo", CodArticulo);
+            cmd.Parameters.AddWithValue("@TipoTrabajo", "");
 
             DataTable dt = new DataTable();
             SqlDataAdapter da = new SqlDataAdapter(cmd);
