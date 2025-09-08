@@ -450,7 +450,7 @@ namespace CapaVisual_Login
 
                         if (rept == "SATISFACTORIO")
                         {
-                            rept = _D_DetalleOrden.RegistrarNCFISCAL(SucursalActual, NroNotaCredito, "005", TB_FACTURAS.Fact_Num, TB_FACTURAS.Fact_SerialImpresora,fecha_dia_activo, TB_FACTURAS.Fact_SerialImpresora, "", TB_FACTURAS.CTE_NacioPAG, TB_FACTURAS.CTE_CedIdenPAG, TxtObservaciones.Text.ToUpper(), Convert.ToDouble(TB_FACTURAS.Fact_MontoGravable), Convert.ToDouble(TB_FACTURAS.Fact_Total), TB_USUARIO.COD_USR, "", Convert.ToDouble(TB_FACTURAS.Fact_IGTF), Convert.ToDouble(TB_FACTURAS.Fact_AlicuotaIGTF), Convert.ToDouble(TB_FACTURAS.Fact_MontoExento), true, ManualNroNotaCreditonNunControl, command);
+                            rept = _D_DetalleOrden.RegistrarNCFISCAL(SucursalActual, NroNotaCredito, "005", TB_FACTURAS.Fact_Num, TB_FACTURAS.Fact_SerialImpresora,fecha_dia_activo, TB_FACTURAS.Fact_SerialImpresora, "", TB_FACTURAS.CTE_NacioPAG, TB_FACTURAS.CTE_CedIdenPAG, TxtObservaciones.Text.ToUpper(), Convert.ToDouble(TB_FACTURAS.Fact_MontoGravable), Convert.ToDouble(TB_FACTURAS.Fact_Total), TB_USUARIO.COD_USR, "", Convert.ToDouble(TB_FACTURAS.Fact_IGTF), Convert.ToDouble(TB_FACTURAS.Fact_AlicuotaIGTF), Convert.ToDouble(TB_FACTURAS.Fact_MontoExento), CbxSelectMotivo.SelectedValue.ToString(), true, ManualNroNotaCreditonNunControl, command);
 
                             if (rept == "SATISFACTORIO")
                             {
@@ -519,7 +519,7 @@ namespace CapaVisual_Login
         }
 
 
-        public bool ImprimirNCFiscal_Local(string SucursalActual, string NumeroFactura, string SerialImpresora, double Monto, string DiaActivo ,SqlCommand command, SqlTransaction transaction)
+        public bool ImprimirNCFiscal_Local(string SucursalActual, string NumeroFactura, string SerialImpresora, double Monto, string DiaActivo, string CodMotivoAnulacion, SqlCommand command, SqlTransaction transaction)
         {
             VmaxComVe.VmaxComClass objVmax = new VmaxComVe.VmaxComClass();
             uint resp = 0;
@@ -739,7 +739,7 @@ namespace CapaVisual_Login
                         // Verificar si se emitió el ticket
                         if (UltimoNumeroCancelado11 != NumeroNCFiscal & UltimoNumeroCancelado12 != NumeroNCFiscal)
                         {
-                            string Transaccionn = _D_DetalleOrden.RegistrarNCFISCAL(SucursalActual, NumeroNCFiscal, "005", TB_FACTURAS.Fact_Num, SerialImpresora, DiaActivo, SerialImpresoraNC, "", TB_FACTURAS.CTE_NacioPAG, TB_FACTURAS.CTE_CedIdenPAG, TxtObservaciones.Text.ToUpper(), Convert.ToDouble(TB_FACTURAS.Fact_MontoGravable), Convert.ToDouble(TB_FACTURAS.Fact_Total), TB_USUARIO.COD_USR, "", Convert.ToDouble(TB_FACTURAS.Fact_IGTF), Convert.ToDouble(TB_FACTURAS.Fact_AlicuotaIGTF), Convert.ToDouble(TB_FACTURAS.Fact_MontoExento), false, "", command);
+                            string Transaccionn = _D_DetalleOrden.RegistrarNCFISCAL(SucursalActual, NumeroNCFiscal, "005", TB_FACTURAS.Fact_Num, SerialImpresora, DiaActivo, SerialImpresoraNC, "", TB_FACTURAS.CTE_NacioPAG, TB_FACTURAS.CTE_CedIdenPAG, TxtObservaciones.Text.ToUpper(), Convert.ToDouble(TB_FACTURAS.Fact_MontoGravable), Convert.ToDouble(TB_FACTURAS.Fact_Total), TB_USUARIO.COD_USR, "", Convert.ToDouble(TB_FACTURAS.Fact_IGTF), Convert.ToDouble(TB_FACTURAS.Fact_AlicuotaIGTF), Convert.ToDouble(TB_FACTURAS.Fact_MontoExento), CodMotivoAnulacion, false, "" , command);
 
                             if (Transaccionn == "SATISFACTORIO")
                             {
@@ -974,7 +974,7 @@ namespace CapaVisual_Login
                 }
                 if (rept == "SATISFACTORIO")
                 {
-                    bool Impresion = ImprimirNCFiscal_Local(TB_FACTURAS.Cod_Sucursal, TB_FACTURAS.Fact_Num, TB_FACTURAS.Fact_SerialImpresora, Convert.ToDouble(TB_FACTURAS.Fact_Total), DiaActivo, command, transaction);
+                    bool Impresion = ImprimirNCFiscal_Local(TB_FACTURAS.Cod_Sucursal, TB_FACTURAS.Fact_Num, TB_FACTURAS.Fact_SerialImpresora, Convert.ToDouble(TB_FACTURAS.Fact_Total), DiaActivo, CbxSelectMotivo.SelectedValue.ToString(), command, transaction);
 
                     if (Impresion == false)
                     {
@@ -1107,13 +1107,15 @@ namespace CapaVisual_Login
                 string DiaActivo = _D_Inicio.DiaActivo().ToString("yyyyMMdd");
 
                 //Verificar si los pagos son del dia activo 
-                bool TienePagosDia = _L_Anulacion.ValidarPagosDia(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, DiaActivo);
+                bool TienePagosDia = _L_Anulacion.ValidarPagosDia(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, DiaActivo, command);
 
                 if (_L_Anulacion.stringBuilder.ToString().Length > 2)
                 {
                     _FrmMensajes.co = 2;
                     _FrmMensajes.avisomensaje(_L_Anulacion.stringBuilder.ToString());
                     _FrmMensajes.ShowDialog();
+                    Limpiarcbx();
+                    transaction.Rollback();
                     return;
                 }
 
@@ -1122,6 +1124,9 @@ namespace CapaVisual_Login
                     _FrmMensajes.co = 1;
                     _FrmMensajes.avisomensaje("No es posible ejecutar este proceso si hay pagos en el día");
                     _FrmMensajes.ShowDialog();
+                    Limpiarcbx();
+                    transaction.Rollback();
+                    return;
                 }
 
                CodMoti = CbxSelectMotivo.SelectedValue.ToString();
@@ -1130,7 +1135,7 @@ namespace CapaVisual_Login
                 if (rept == "SATISFACTORIO")
                     rept = MovInventario(command);
                 if (rept == "SATISFACTORIO" && Total_Pagos > 0) // si el total de pagos es mayor a 0 generamos nota de Devolucion 
-                    rept = _L_Anulacion.EnviarDatoaNotaDev(observaciones, command); // Genera la nota de devolucion 
+                    rept = _L_Anulacion.EnviarDatoaNotaDev(observaciones, CbxSelectMotivo.SelectedValue.ToString(), command); // Genera la nota de devolucion 
                 if (rept == "SATISFACTORIO")
                 {
                     rept = _L_Anulacion.EnviarGarantia();

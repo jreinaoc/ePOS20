@@ -613,14 +613,46 @@
           <PaddingBottom>2pt</PaddingBottom>
         </Style>
       </Textbox>
+      <Textbox Name="Textbox17">
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>*Sin derecho a crédito fiscal*</Value>
+                <Style>
+                  <FontFamily>Calibri</FontFamily>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox12</rd:DefaultName>
+        <Top>4.63009cm</Top>
+        <Left>0.97895cm</Left>
+        <Height>0.60037cm</Height>
+        <Width>4.71368cm</Width>
+        <ZIndex>14</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
     </ReportItems>
-    <Height>1.94444in</Height>
+    <Height>2.16319in</Height>
     <Style />
   </Body>
   <Width>7.39175in</Width>
   <Page>
     <PageHeader>
-      <Height>1.83884cm</Height>
+      <Height>2.15635cm</Height>
       <PrintOnFirstPage>true</PrintOnFirstPage>
       <PrintOnLastPage>true</PrintOnLastPage>
       <ReportItems>
@@ -642,6 +674,7 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox6</rd:DefaultName>
+          <Top>0.3175cm</Top>
           <Left>0.98777cm</Left>
           <Height>0.53364cm</Height>
           <Width>2.12959cm</Width>
@@ -673,7 +706,7 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox6</rd:DefaultName>
-          <Top>0.31755cm</Top>
+          <Top>0.63505cm</Top>
           <Left>0.97895cm</Left>
           <Height>0.56472cm</Height>
           <Width>0.83313cm</Width>
@@ -706,7 +739,7 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox6</rd:DefaultName>
-          <Top>0.77639cm</Top>
+          <Top>1.09389cm</Top>
           <Left>0.97895cm</Left>
           <Height>0.56472cm</Height>
           <Width>1.86501cm</Width>
@@ -739,7 +772,7 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox6</rd:DefaultName>
-          <Top>1.20006cm</Top>
+          <Top>1.51756cm</Top>
           <Left>0.98777cm</Left>
           <Height>0.58587cm</Height>
           <Width>4.44028cm</Width>
@@ -773,7 +806,7 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox11</rd:DefaultName>
-          <Top>1.20006cm</Top>
+          <Top>1.51756cm</Top>
           <Left>5.49861cm</Left>
           <Height>0.58587cm</Height>
           <Width>6.21268cm</Width>
@@ -806,7 +839,7 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Sucursal</rd:DefaultName>
-          <Top>0.74111cm</Top>
+          <Top>1.05861cm</Top>
           <Left>2.87924cm</Left>
           <Height>0.6cm</Height>
           <Width>8.85851cm</Width>
@@ -838,6 +871,7 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Compania</rd:DefaultName>
+          <Top>0.3175cm</Top>
           <Left>2.87924cm</Left>
           <Height>0.53364cm</Height>
           <Width>8.70889cm</Width>
@@ -869,7 +903,7 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>RifCompania</rd:DefaultName>
-          <Top>0.31755cm</Top>
+          <Top>0.63505cm</Top>
           <Left>1.81208cm</Left>
           <Height>0.56472cm</Height>
           <Width>9.77605cm</Width>
@@ -884,7 +918,8 @@
             <PaddingBottom>2pt</PaddingBottom>
           </Style>
         </Textbox>
-        <Textbox Name="Textbox17">
+        <Textbox Name="Textbox1">
+          <CanGrow>true</CanGrow>
           <KeepTogether>true</KeepTogether>
           <Paragraphs>
             <Paragraph>
@@ -893,19 +928,7 @@
                   <Value>Documento no fiscal</Value>
                   <Style>
                     <FontFamily>Calibri</FontFamily>
-                    <FontSize>12pt</FontSize>
-                    <FontWeight>Bold</FontWeight>
-                  </Style>
-                </TextRun>
-              </TextRuns>
-              <Style />
-            </Paragraph>
-            <Paragraph>
-              <TextRuns>
-                <TextRun>
-                  <Value>Sin derecho a crédito fiscal</Value>
-                  <Style>
-                    <FontFamily>Calibri</FontFamily>
+                    <FontSize>14pt</FontSize>
                     <FontWeight>Bold</FontWeight>
                   </Style>
                 </TextRun>
@@ -913,11 +936,11 @@
               <Style />
             </Paragraph>
           </Paragraphs>
-          <rd:DefaultName>Textbox12</rd:DefaultName>
-          <Top>0.31497cm</Top>
-          <Left>12.97446cm</Left>
-          <Height>1.20891cm</Height>
-          <Width>4.25612cm</Width>
+          <rd:DefaultName>Textbox1</rd:DefaultName>
+          <Top>0.31755cm</Top>
+          <Left>13.96683cm</Left>
+          <Height>1.02356cm</Height>
+          <Width>4.48437cm</Width>
           <ZIndex>8</ZIndex>
           <Style>
             <Border>

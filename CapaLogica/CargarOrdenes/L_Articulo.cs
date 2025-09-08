@@ -2908,7 +2908,7 @@ namespace CapaLogica.CargarOrdenes
             // Verificar si la promoción aplica
             if (resultado.Tables.Count > 0 && resultado.Tables[0].Rows.Count > 0)
             {
-                if (resultado.Tables[0].Rows[0]["Resultado"].ToString() == "APLICA")
+                if (resultado.Tables[0].Rows[0]["Resultado"].ToString() == "APLICA" || resultado.Tables[0].Rows[0]["Resultado"].ToString() == "CASADA")
                 {
                     PromoAplica= AplicarPromocionesEnGrid(listaArticulos, DgvArticulo, resultado, glbTipoTrabajo, TipoExamen);
                 }

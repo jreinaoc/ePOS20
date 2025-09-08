@@ -134,7 +134,7 @@ public DataTable TraerOrdenDet(string NumOrden , SqlCommand command = null)  // 
 
 
 
-        public string CargarNotaDevolucion(string CodSucursal, string CodDoc, string NumeroOrden, string Revision, string NroControl, string CteNacionalidad, string CteCedula, string Motivo, string MontoNota, string MontoAplicado, bool Reintegro, bool Anulado, string UserCrea, string UserMod, SqlCommand command = null)
+        public string CargarNotaDevolucion(string CodSucursal, string CodDoc, string NumeroOrden, string Revision, string NroControl, string CteNacionalidad, string CteCedula, string Motivo, string MontoNota, string MontoAplicado, bool Reintegro, bool Anulado, string UserCrea, string UserMod, string CodMotivoAnulacion, SqlCommand command = null)
         {
             try
             {
@@ -161,7 +161,8 @@ public DataTable TraerOrdenDet(string NumOrden , SqlCommand command = null)  // 
             cmd.Parameters.AddWithValue("@Anulado", Anulado);
             cmd.Parameters.AddWithValue("@UserCrea", UserCrea);
             cmd.Parameters.AddWithValue("@User_Mod", UserMod);
-            DataTable dt = new DataTable();
+            cmd.Parameters.AddWithValue("@CodMotivoAnulacion", CodMotivoAnulacion.Trim());
+                DataTable dt = new DataTable();
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             da.Fill(dt);
             cmd.Parameters.Clear();

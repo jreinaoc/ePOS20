@@ -388,7 +388,7 @@ namespace CapaLogica.Impresora_Fiscal
         }
 
 
-        public bool ImprimirNCFiscal(string SucursalActual, string NumeroFactura, string SerialImpresora, double Monto, string Motivo)
+        public bool ImprimirNCFiscal(string SucursalActual, string NumeroFactura, string SerialImpresora, double Monto, string Motivo, string CodigoMotivoAnulacion)
         {
             VmaxComVe.VmaxComClass objVmax = new VmaxComVe.VmaxComClass();
             stringBuilder.Clear();
@@ -581,7 +581,7 @@ namespace CapaLogica.Impresora_Fiscal
                                         break;
                                     }
                             }
-                            string Transaccion = _D_DetalleOrden.RegistrarNCFISCAL(SucursalActual, NumeroNCFiscal, "005", TB_FACTURAS.Fact_Num, SerialImpresora, _D_Inicio.DiaActivo().ToString("yyyy/MM/dd"), SerialImpresoraNC, "", TB_FACTURAS.CTE_NacioPAG, TB_FACTURAS.CTE_CedIdenPAG, Motivo.ToUpper(), Convert.ToDouble(TB_FACTURAS.Fact_MontoGravable), Convert.ToDouble(TB_FACTURAS.Fact_Total), TB_USUARIO.COD_USR, "", Convert.ToDouble(TB_FACTURAS.Fact_IGTF), Convert.ToDouble(TB_FACTURAS.Fact_AlicuotaIGTF), Convert.ToDouble(TB_FACTURAS.Fact_MontoExento));
+                            string Transaccion = _D_DetalleOrden.RegistrarNCFISCAL(SucursalActual, NumeroNCFiscal, "005", TB_FACTURAS.Fact_Num, SerialImpresora, _D_Inicio.DiaActivo().ToString("yyyy/MM/dd"), SerialImpresoraNC, "", TB_FACTURAS.CTE_NacioPAG, TB_FACTURAS.CTE_CedIdenPAG, Motivo.ToUpper(), Convert.ToDouble(TB_FACTURAS.Fact_MontoGravable), Convert.ToDouble(TB_FACTURAS.Fact_Total), TB_USUARIO.COD_USR, "", Convert.ToDouble(TB_FACTURAS.Fact_IGTF), Convert.ToDouble(TB_FACTURAS.Fact_AlicuotaIGTF), Convert.ToDouble(TB_FACTURAS.Fact_MontoExento), CodigoMotivoAnulacion);
 
                             if (Transaccion == "SATISFACTORIO")
                             {

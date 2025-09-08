@@ -266,14 +266,14 @@ namespace CapaLogica.Anulacion_Logica
         }
 
 
-        public string EnviarDatoaNotaDev(string observaciones, SqlCommand command = null)
+        public string EnviarDatoaNotaDev(string observaciones,string CodMotivoAnulacion, SqlCommand command = null)
         {
             if (TB_CAORDSER.OrSer_Status == "005")
             {
                 string rept = "";
                 string Monto = TB_CAORDSER.VtaTotal.ToString();
                 Monto = Monto.Replace(",", ".");
-                rept =  _D_Anulacion.CargarNotaDevolucion(TB_CAORDSER.Cod_Sucursal, "003", TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision, "null", TB_CAORDSER.CTE_Nacio, TB_CAORDSER.CTE_CedIden, observaciones, Monto, Monto, false, false, TB_USUARIO.COD_USR, TB_USUARIO.COD_USR, command);
+                rept =  _D_Anulacion.CargarNotaDevolucion(TB_CAORDSER.Cod_Sucursal, "003", TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision, "null", TB_CAORDSER.CTE_Nacio, TB_CAORDSER.CTE_CedIden, observaciones, Monto, Monto, false, false, TB_USUARIO.COD_USR, TB_USUARIO.COD_USR, CodMotivoAnulacion, command);
                 if (rept == "SATISFACTORIO")
                 rept = _D_Anulacion.ObtenerNroNota(TB_CAORDSER.NumOrdserv, TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.Revision, command);
                 NroNota = _D_Anulacion.NroNota;

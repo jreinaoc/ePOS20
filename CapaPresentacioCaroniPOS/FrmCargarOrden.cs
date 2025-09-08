@@ -3851,6 +3851,7 @@ namespace CapaVisual_Login
                         Hora_Ofrecido,
                         EmpresaAfiliada == "" ? false :true,
                         FechaActiva,
+                        Codigo_Promocion,
                         command
                     );
 

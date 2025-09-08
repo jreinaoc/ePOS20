@@ -86,6 +86,7 @@ namespace CapaLogica.CargarOrdenes
     string Hor_ofrecido,
     bool ventaAfil,
     DateTime FechaActiva,
+    string CodPromocion,
     SqlCommand command)
         {
             try
@@ -112,7 +113,7 @@ namespace CapaLogica.CargarOrdenes
                     VtaDescuento = _servicioValidaciones.ObtenerValorDesdeGrid_Totales(dgvTotales, "Descuento"),
                     VtaTotal = _servicioValidaciones.ObtenerValorDesdeGrid_Totales(dgvTotales, "Total"),
                     OrSer_Finan = false,
-                    OrSer_Status = "004",
+                    OrSer_Status = _D_DetalleOrden.CambiarSatusOrdenCasada(CodPromocion, command),
                     OrSer_Observ = observacion,
                     User_Crea = usuarioActual,
                     Fecha = FechaActiva,

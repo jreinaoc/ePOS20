@@ -276,6 +276,7 @@ namespace CapaDatos.ListaOrdenes_Datos
 
         }
 
+      
 
         public DataSet CargarOrdenesPromo(string CodUsuario, string diaActivo, string CodPromo= "", SqlCommand command = null)
         {

@@ -1049,7 +1049,7 @@ public void MovimientoInventario(string CodArticulo, string TipoDoc, string Docu
         }
 
         public string RegistrarNCFISCAL(string Cod_Sucursal, string NumeroNCFiscal, string Tipo, string Factura, string Fact_SerialImpresora, string Fecha, string NC_SerialImpresora,
-        string Control, string NacionalidadCliente, string CedulaCliente, string Motivo, double Monto, double MontoActual, string Usuario, string TipoNC, double MontoIGTF, double AlicuotaIGTF, double MontoExento , bool NCManual= false, string NC_NumCtrol = "", SqlCommand command = null)
+        string Control, string NacionalidadCliente, string CedulaCliente, string Motivo, double Monto, double MontoActual, string Usuario, string TipoNC, double MontoIGTF, double AlicuotaIGTF, double MontoExento , string CodMotivoAnulacion, bool NCManual= false, string NC_NumCtrol = "", SqlCommand command = null)
         {
             try
             {
@@ -1081,6 +1081,7 @@ public void MovimientoInventario(string CodArticulo, string TipoDoc, string Docu
                 cmd.Parameters.AddWithValue("@MontoExento", MontoExento);
                 cmd.Parameters.AddWithValue("@NCManual", NCManual);
                 cmd.Parameters.AddWithValue("@NC_NumCtrol", NC_NumCtrol);
+                cmd.Parameters.AddWithValue("@CodMotivoAnulacion", CodMotivoAnulacion.Trim());
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(dt);
@@ -2313,6 +2314,36 @@ public void MovimientoInventario(string CodArticulo, string TipoDoc, string Docu
             }
 
 
+        }
+
+        public string CambiarSatusOrdenCasada(string CodPromocion, SqlCommand command = null)
+        {
+            try
+            {
+                if (command == null)
+                {
+                    SqlConnection connection = cn.LeerCadena();
+                    command = connection.CreateCommand();
+                }
+
+                SqlCommand cmd = command;
+                cmd.Parameters.Clear();
+
+                cmd.CommandText = "SP_CPOS_CambiarSatusOrdenCasada";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@CodPromocion", CodPromocion);
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                string Valor = dt.Rows[0]["Status"].ToString();
+                return Valor;
+            }
+
+            catch (Exception ex)
+            {
+                string Error = string.Format("Error: {0}", ex.Message);
+                return null;
+            }
         }
 
     }

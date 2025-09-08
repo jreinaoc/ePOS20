@@ -1573,7 +1573,7 @@
                         <Value>Documento no fiscal</Value>
                         <Style>
                           <FontFamily>Calibri</FontFamily>
-                          <FontSize>12pt</FontSize>
+                          <FontSize>14pt</FontSize>
                           <FontWeight>Bold</FontWeight>
                         </Style>
                       </TextRun>
@@ -1583,7 +1583,7 @@
                   <Paragraph>
                     <TextRuns>
                       <TextRun>
-                        <Value>Sin derecho a crédito fiscal</Value>
+                        <Value />
                         <Style>
                           <FontFamily>Calibri</FontFamily>
                           <FontWeight>Bold</FontWeight>
@@ -1595,10 +1595,43 @@
                 </Paragraphs>
                 <rd:DefaultName>Textbox12</rd:DefaultName>
                 <Top>1.06341cm</Top>
-                <Left>14.171cm</Left>
-                <Height>1.20891cm</Height>
-                <Width>4.25612cm</Width>
+                <Left>13.97405cm</Left>
+                <Height>0.82716cm</Height>
+                <Width>4.5207cm</Width>
                 <ZIndex>18</ZIndex>
+                <Style>
+                  <Border>
+                    <Style>None</Style>
+                  </Border>
+                  <PaddingLeft>2pt</PaddingLeft>
+                  <PaddingRight>2pt</PaddingRight>
+                  <PaddingTop>2pt</PaddingTop>
+                  <PaddingBottom>2pt</PaddingBottom>
+                </Style>
+              </Textbox>
+              <Textbox Name="Textbox1">
+                <CanGrow>true</CanGrow>
+                <KeepTogether>true</KeepTogether>
+                <Paragraphs>
+                  <Paragraph>
+                    <TextRuns>
+                      <TextRun>
+                        <Value>*Sin derecho a crédito fiscal*</Value>
+                        <Style>
+                          <FontFamily>Calibri</FontFamily>
+                          <FontWeight>Bold</FontWeight>
+                        </Style>
+                      </TextRun>
+                    </TextRuns>
+                    <Style />
+                  </Paragraph>
+                </Paragraphs>
+                <rd:DefaultName>Textbox1</rd:DefaultName>
+                <Top>8.15445cm</Top>
+                <Left>2.24371cm</Left>
+                <Height>0.6cm</Height>
+                <Width>4.62549cm</Width>
+                <ZIndex>19</ZIndex>
                 <Style>
                   <Border>
                     <Style>None</Style>
@@ -1612,7 +1645,7 @@
             </ReportItems>
             <KeepTogether>true</KeepTogether>
             <Height>11.35969cm</Height>
-            <Width>21.32543cm</Width>
+            <Width>21.32545cm</Width>
             <Style>
               <Border>
                 <Style>None</Style>
