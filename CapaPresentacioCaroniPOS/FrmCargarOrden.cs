@@ -2423,10 +2423,11 @@ namespace CapaVisual_Login
                 {
                     int FilaCRT = numFilas;
                     //Verifico Prisma 
+                    if(Cbx_Pnl2_Trbajo.SelectedValue.ToString() !="08")
                     _L_Articulo.CargarServicioOPrima(PorcDctoEmpresaAfiliada,Dgv_Tap3_Articulo, "Prisma", Convert.ToInt32(Txt_Pnl2_Examen.Text), Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Dgv_Tap3_Articulo.Rows[numFilas].Cells["Ojo"].Value.ToString());
                     //_L_Articulo.CargarServicioOPrima(Dgv_Tap3_Articulo, "", Convert.ToInt32(Txt_Pnl2_Examen.Text), Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Dgv_Tap3_Articulo.Rows[numFilas].Cells["Ojo"].Value.ToString());
 
-                    if (Convert.ToInt32(Dgv_Tap3_Articulo.Rows[numFilas].Cells["ART_EXIST"].Value) == 2)
+                    if (Convert.ToInt32(Dgv_Tap3_Articulo.Rows[numFilas].Cells["ART_EXIST"].Value) == 2 && Cbx_Pnl2_Trbajo.SelectedValue.ToString() != "08")
                     {
                         //Verifico Diotria
                         _L_Articulo.EvaluoServicioAgregado(PorcDctoEmpresaAfiliada,Dgv_Tap3_Articulo, numFilas, "D", Convert.ToInt32(Txt_Pnl2_Examen.Text), Cbx_Pnl2_Trbajo.SelectedValue.ToString(), Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2));
@@ -2436,7 +2437,8 @@ namespace CapaVisual_Login
                     else
                     {
                         //Verifico Diotria
-                        _L_Articulo.EvaluoServicioAgregado(PorcDctoEmpresaAfiliada,Dgv_Tap3_Articulo, numFilas, Dgv_Tap3_Articulo.Rows[numFilas].Cells["Ojo"].Value.ToString(), Convert.ToInt32(Txt_Pnl2_Examen.Text), Cbx_Pnl2_Trbajo.SelectedValue.ToString(), Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2));
+                        if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() != "08")
+                            _L_Articulo.EvaluoServicioAgregado(PorcDctoEmpresaAfiliada,Dgv_Tap3_Articulo, numFilas, Dgv_Tap3_Articulo.Rows[numFilas].Cells["Ojo"].Value.ToString(), Convert.ToInt32(Txt_Pnl2_Examen.Text), Cbx_Pnl2_Trbajo.SelectedValue.ToString(), Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2));
                     }
 
                     //Nota se Movio al panel de montura propia en el boton aceptar
@@ -3456,16 +3458,8 @@ namespace CapaVisual_Login
         {
             try
             {
-                //if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01")
-                //{
-                //    if ((Convert.ToInt32(txtAltD.Text) < 10 || Convert.ToInt32(txtAltD.Text) > 35) || Convert.ToInt32(txtAltI.Text) < 10 || Convert.ToInt32(txtAltI.Text) > 35)
-                //    {
-                //        _FrmMensajes.co = 2;
-                //        _FrmMensajes.avisomensaje("Valor inválido, rango entre 10 y 35");
-                //        _FrmMensajes.ShowDialog();
-                //        return;
-                //    }
-                //}
+                // Bloqueo el boton de cancelar al inicio y luego lo desbloquo al final de la funcion
+                Btn_Tap3_Procesar.Enabled = false;
 
                 if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "09")
                 {
@@ -3947,6 +3941,11 @@ namespace CapaVisual_Login
             {
                 mostrarError("Error al procesar el Guardado de Orden: " + ex.Message);
                 //Btn_Tap3_Procesar.Enabled = true;
+            }
+
+            finally
+            {
+                Btn_Tap3_Procesar.Enabled = true;
             }
 
         }

@@ -3281,7 +3281,7 @@ namespace CapaLogica.CargarOrdenes
                 // Si es una reposición de garantía, solo mostrar laboratorio Quorum
                 if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "09")
                 {
-                    if (_D_DetalleOrden.TB_PARAMETRO("LabQuorum") == "1")
+                    if (_D_DetalleOrden.TB_PARAMETROSPGE("LabQuorum") == "1")
                     {
                         foreach (DataRow dr in dsLaboratorio.Tables[0].Rows)
                         {
@@ -3318,6 +3318,17 @@ namespace CapaLogica.CargarOrdenes
                     else
                     {
                         foreach (DataRow dr in dsLaboratorio.Tables[0].Rows)
+                        {
+                            DataRow fila = dt.NewRow();
+                            dt.Rows.Add(dr[0].ToString(), dr[1].ToString());
+                        }
+                    }
+                }
+                else if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "02")
+                {
+                    foreach (DataRow dr in dsLaboratorio.Tables[0].Rows)
+                    {
+                        if (dr["CODIGO_LAB"].ToString() == "QUO")
                         {
                             DataRow fila = dt.NewRow();
                             dt.Rows.Add(dr[0].ToString(), dr[1].ToString());
@@ -3636,13 +3647,15 @@ namespace CapaLogica.CargarOrdenes
                 string horaOfrecida = string.Empty;
 
                 // Lógica para HorasServicio SERVICIO EXPRESS
-                if ((servicio == "018" || servicio == "005") && (GlbCodDetVta == "01" || GlbCodDetVta == "02" || GlbCodDetVta == "08"))
+                if ((servicio == "018" || servicio == "005" || servicio == "019") && (GlbCodDetVta == "01" || GlbCodDetVta == "02" || GlbCodDetVta == "08"))
                 {
                     FechaHoraOfrecida resultado = null;
                     if (servicio == "018")
                      resultado = Calculo_Servicio_3Horas(_D_Inicio.DiaActivo());
                     if(servicio == "005")
                     resultado = Calculo_Servicio_3Horas(DateTime.Now.Date);
+                    if (servicio== "019")
+                    resultado = Calculo_Servicio_1Horas(DateTime.Now.Date);
                     return new List<FechaHoraOfrecida> { resultado };
                 }
 
@@ -3703,7 +3716,7 @@ namespace CapaLogica.CargarOrdenes
                     }
                 }
                 // Lógica para HorasServicio > 12 y Servicio no es '004' ni '018'
-                else if (horasServicio > 12 && servicio != "004" && servicio != "018")
+                else if (horasServicio > 12 && servicio != "004" && servicio != "018" && servicio != "019")
                 {
                     int diasAddEntrega = int.Parse(_D_DetalleOrden.TB_PARAMETRO("DiasAddEntrega"));
                     string horaMaxVentaServ =  _D_DetalleOrden.TB_PARAMETRO("HoraMaxVtaServ");
@@ -3731,7 +3744,7 @@ namespace CapaLogica.CargarOrdenes
                     }
                 }
                 // Lógica adicional para otros casos
-                if (servicio != "004" && servicio != "018")
+                if (servicio != "004" && servicio != "018" && servicio != "019")
                 {
                     //fechaOfrecida = _D_Inicio.DiaActivo().AddDays(5); /*DateTime.Now.AddDays(5);*/
                     fechaOfrecida = DateTime.Now.AddDays(5);
@@ -3798,6 +3811,53 @@ namespace CapaLogica.CargarOrdenes
             {
                 FechaOfrecida = fechaOfrecida,
                 HoraOfrecida = horaMas3.ToString("HH:mm:ss tt")
+            };
+        }
+
+        public FechaHoraOfrecida Calculo_Servicio_1Horas(DateTime glbFechaActiva)
+        {
+            // Variables iniciales
+            DateTime fechaOfrecida = glbFechaActiva;
+            DateTime horaActual = DateTime.Now;
+            DateTime horaMas1 = horaActual.AddHours(1);
+
+            // Consulta para obtener la hora de apertura y cierre de la sucursal
+            DataSet dsSucursal = _D_Articulos.TB_SUCURSALES(_D_Inicio.Sucursal());
+
+            if (dsSucursal.Tables[0].Rows.Count > 0)
+            {
+                DateTime horaApertura = Convert.ToDateTime(dsSucursal.Tables[0].Rows[0]["HorEntLAV"]);
+                DateTime horaCierre = Convert.ToDateTime(dsSucursal.Tables[0].Rows[0]["HorSalLAV"]);
+
+                // Si la hora con 3 horas añadidas excede la hora de cierre de la sucursal
+                if (horaMas1 > horaCierre)
+                {
+                    TimeSpan horasRestantesHoy = horaCierre.Subtract(horaActual);
+                    double horasPendientes = horasRestantesHoy.TotalHours > 0 ? 1 - horasRestantesHoy.TotalHours : 1;
+
+                    // Calcular cuántos días se deben sumar
+                    int diasAdicionales = (int)Math.Ceiling(horasPendientes / horaCierre.Subtract(horaApertura).TotalHours);
+
+                    // Establecer la nueva fecha para el día siguiente y sumar las horas restantes desde la apertura
+                    horaMas1 = horaApertura.AddHours(horasPendientes);
+
+                    // Calcular la fecha ofrecida basada en días laborales
+                    DateTime currentDate = glbFechaActiva.AddDays(diasAdicionales);
+                    string formattedDate = currentDate.ToString("yyyy/MM/dd");
+
+                    DataSet ds = _D_Articulos.tMASTER_diasHorario(formattedDate);
+                    if (ds.Tables[0].Rows.Count > 0)
+                    {
+                        fechaOfrecida = Convert.ToDateTime(ds.Tables[0].Rows[0]["fecha"].ToString());
+                    }
+                }
+            }
+
+            // Retornar la fecha y hora calculada
+            return new FechaHoraOfrecida
+            {
+                FechaOfrecida = fechaOfrecida,
+                HoraOfrecida = horaMas1.ToString("HH:mm:ss tt")
             };
         }
 

@@ -657,10 +657,10 @@ namespace CapaLogica.CierreCaja_Logica
                     if (string.IsNullOrEmpty(ds.Tables[0].Rows[0]["CodEmpleado"].ToString())) 
                         {
                         if (IActivarAsisDia == "1") // EPOS
-                        {
-                                // Mientras se desarrolla el formulario de Asistencia
+                        { 
+                                      // ********** Antigua ****************************************
                                 mostrarError("No ha marcado asistencia para la entrada del turno");
-
+                                  
                                 // ***************esto es para levantar el formulario de Asistencia***********************
 
                                 //DialogResult x = mostrarPregunta("No ha marcado asistencia para el día de hoy, desea hacerlo ahora?", "Falta la Asistencia");
