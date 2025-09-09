@@ -12810,7 +12810,7 @@ namespace CapaVisual_Login
             {
                 if (decimal.TryParse(txtAltD.Text, out decimal valor))
             {
-                if (valor < 10 || valor > 35)
+                if (valor != 0 && (valor < 10 || valor > 35))
                 {
                     _FrmMensajes.co = 2;
                     _FrmMensajes.avisomensaje("Valor inválido, rango entre 10 y 35");
@@ -12850,7 +12850,7 @@ namespace CapaVisual_Login
                 // Validar rango con coma como separador decimal
                 if (decimal.TryParse(texto, System.Globalization.NumberStyles.Number, cultura, out decimal valor))
                 {
-                    if (valor < 10 || valor > 35)
+                    if (valor!= 0 && ( valor < 10 || valor > 35))
                     {
                         _FrmMensajes.co = 2;
                         _FrmMensajes.avisomensaje("Valor fuera del rango permitido 10 a 35");
