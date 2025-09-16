@@ -138,10 +138,10 @@ namespace CapaVisual_Login
                             var valorLote = fila.Cells["Nro. Lote"].Value?.ToString().Trim();
                             if (valorLote != "")
                             {
-                                decimal.TryParse(fila.Cells[3].Value?.ToString().Trim(), out decimal totalCredito);
-                            decimal.TryParse(fila.Cells[4].Value?.ToString().Trim(), out decimal totalAmex);
-                            decimal.TryParse(fila.Cells[5].Value?.ToString().Trim(), out decimal totalDebito);
-                            decimal.TryParse(fila.Cells[6].Value?.ToString().Trim(), out decimal totalOtros);
+                            decimal.TryParse(fila.Cells[3].Value?.ToString().Trim().Replace(".",""), out decimal totalCredito);
+                            decimal.TryParse(fila.Cells[4].Value?.ToString().Trim().Replace(".", ""), out decimal totalAmex);
+                            decimal.TryParse(fila.Cells[5].Value?.ToString().Trim().Replace(".", ""), out decimal totalDebito);
+                            decimal.TryParse(fila.Cells[6].Value?.ToString().Trim().Replace(".", ""), out decimal totalOtros);
 
                            
                             if (!_L_CierreCaja.AgregaPuntosdeVenta(fila.Cells[0].Value?.ToString().Trim(), diaActivo, fila.Cells[2].Value?.ToString().Trim(), totalCredito, totalAmex, totalDebito, totalOtros))
@@ -1915,13 +1915,19 @@ namespace CapaVisual_Login
 
         private void Dvg_CierrePuntoVenta_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
+            if (Dvg_CierrePuntoVenta.CurrentCell == null)
+                return;
+
+            int columnIndex = Dvg_CierrePuntoVenta.CurrentCell.ColumnIndex;
+            var tb = e.Control as TextBox;
+
+            if (tb == null)
+                return;
+
             // Comprueba si la celda que se edita es de la columna "Referencia"
-            if (Dvg_CierrePuntoVenta.CurrentCell.ColumnIndex == Dvg_CierrePuntoVenta.Columns["Nro. Lote"].Index)
+            if (columnIndex == Dvg_CierrePuntoVenta.Columns["Nro. Lote"].Index)
             {
-                // Es un TextBox por defecto en DataGridViewTextBoxColumn
-                var tb = e.Control as TextBox;
-                if (tb != null)
-                {
+               
                     // Quita cualquier handler previo para no enganchar varios
                     tb.KeyPress -= NroLoteColumn_KeyPress;
 
@@ -1930,48 +1936,26 @@ namespace CapaVisual_Login
 
                     // Engancha el KeyPress para filtrar sólo dígitos
                     tb.KeyPress += NroLoteColumn_KeyPress;
-                }
+
+                // Para otras columnas, remover los eventos que no deben tener
+                tb.KeyPress -= TotalCredito_KeyPress;
+                tb.Leave -= TotalCredito_Leave;
             }
 
-            if (Dvg_CierrePuntoVenta.CurrentCell != null &&  (Dvg_CierrePuntoVenta.CurrentCell.ColumnIndex == Dvg_CierrePuntoVenta.Columns["Total T. Crédito"].Index ) 
+            else if (Dvg_CierrePuntoVenta.CurrentCell != null &&  (columnIndex == Dvg_CierrePuntoVenta.Columns["Total T. Crédito"].Index ) 
                 || Dvg_CierrePuntoVenta.CurrentCell.ColumnIndex == Dvg_CierrePuntoVenta.Columns["Total T. Amex"].Index
                 || Dvg_CierrePuntoVenta.CurrentCell.ColumnIndex == Dvg_CierrePuntoVenta.Columns["Total T. Débito"].Index
                 || Dvg_CierrePuntoVenta.CurrentCell.ColumnIndex == Dvg_CierrePuntoVenta.Columns["Total T. Otros"].Index)
             {
-                TextBox tb = e.Control as TextBox;
-                if (tb != null)
-                {
                     tb.KeyPress -= TotalCredito_KeyPress;
                     tb.KeyPress += TotalCredito_KeyPress;
+                    tb.Leave -= TotalCredito_Leave;
+                    tb.Leave += TotalCredito_Leave;
                     tb.MaxLength = 10; // Opcional: límite de caracteres
-                }
+                
             }
 
-            //if (Dvg_CierrePuntoVenta.CurrentCell != null && Dvg_CierrePuntoVenta.CurrentCell.ColumnIndex == Dvg_CierrePuntoVenta.Columns["Total T. Amex"].Index)
-            //{
-            //    TextBox tb = e.Control as TextBox;
-            //    if (tb != null)
-            //    {
-            //        tb.KeyPress -= TotalCredito_KeyPress;
-            //        tb.KeyPress += TotalCredito_KeyPress;
-            //        tb.MaxLength = 10; // Opcional: límite de caracteres
-            //    }
-            //}
 
-            else
-            {
-                TextBox tb = e.Control as TextBox;
-                if (tb != null)
-                {
-                    tb.KeyPress -= TotalCredito_KeyPress;
-                }
-            }
-
-            //Dvg_CierrePuntoVenta.Columns["Total T. Crédito"].Width = 120;
-            //Dvg_CierrePuntoVenta.Columns["Total T. Amex"].Width = 120;
-            //Dvg_CierrePuntoVenta.Columns["Total T. Débito"].Width = 120;
-            //Dvg_CierrePuntoVenta.Columns["Total T. Otros"].Width = 100;
-           
         }
         private void TotalCredito_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -1985,14 +1969,39 @@ namespace CapaVisual_Login
             if (char.IsDigit(e.KeyChar))
                 return;
 
-            // Permitir una sola coma
-            if (e.KeyChar == ',' && !tb.Text.Contains(","))
+            // Permitir solo una coma
+            if (e.KeyChar == ',' || (int)e.KeyChar == 44)
+            {
+                e.Handled = tb.Text.Contains(","); // Si ya hay coma, rechazar
                 return;
+            }
+
+            // Permitir punto decimal (opcional, dependiendo de tu región)
+            if (e.KeyChar == '.')
+            {
+                // Convertir punto a coma si prefieres comas decimales
+                e.KeyChar = ',';
+                e.Handled = tb.Text.Contains(","); // Si ya hay coma, rechazar
+                return;
+            }
 
             // Bloquear cualquier otro carácter
             e.Handled = true;
-        }
 
+
+        }
+        private void TotalCredito_Leave(object sender, EventArgs e)
+        {
+            TextBox tb = sender as TextBox;
+            if (tb != null && !string.IsNullOrEmpty(tb.Text))
+            {
+                    string cleanText = tb.Text.Replace(".", "");
+                    if (decimal.TryParse(cleanText, out decimal value))
+                    {
+                        tb.Text = string.Format("{0:#,0.00}", value);
+                    }
+            }
+        }
 
         private void NroLoteColumn_KeyPress(object sender, KeyPressEventArgs e)
         {

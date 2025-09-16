@@ -2834,14 +2834,22 @@ namespace CapaLogica.CargarOrdenes
             string glbTipoTrabajo= respuesta.Rows[0]["CodVenta"].ToString();
 
             // Determinar el tipo de examen según glbTipoTrabajo
-                if (glbTipoTrabajo == "002")
+                if (glbTipoTrabajo == "002" && Cod_DetVta!= "02")
                 {
                 TipoExamen = "CONVENCIONAL";
                 }
-            else if (glbTipoTrabajo == "001")
-            {
+                else if (glbTipoTrabajo == "002" && Cod_DetVta == "02")
+                {
+                    TipoExamen = "CONTACTO";
+                }
+                else if (glbTipoTrabajo == "001")
+                {
                 TipoExamen = "DIRECTA";
-            }
+                }
+                else if (glbTipoTrabajo == "003" && Cod_DetVta == "05")
+                {
+                 TipoExamen = "REPARACION";
+                }
 
             // Recorrer las filas del DataGridView
             foreach (DataGridViewRow row in DgvArticulo.Rows)
@@ -2862,7 +2870,11 @@ namespace CapaLogica.CargarOrdenes
                         CRT = true;
                         Cristal = codigo;
                     }
-                    // Verificar si es Servicio
+                    else if (codigo.StartsWith("W"))
+                    {
+                         LC= codigo;
+                    }
+                        // Verificar si es Servicio
                     else if (codigo.StartsWith("S"))
                     {
                         string Serv = codigo;
