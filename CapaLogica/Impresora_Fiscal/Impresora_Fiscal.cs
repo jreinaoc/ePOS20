@@ -23,6 +23,18 @@ namespace CapaLogica.Impresora_Fiscal
         //private FrmMensajes _FrmMensajes = new FrmMensajes();
         D_Anulacion _D_Anulacion = new D_Anulacion();
 
+        // Clases de apoyo
+        public class EstadoImpresora
+        {
+            public bool Online { get; set; }
+            public bool TapaAbierta { get; set; }
+            public bool TemperaturaAlta { get; set; }
+            public bool ErrorNoRecuperable { get; set; }
+            public bool ErrorCortadora { get; set; }
+            public bool BufferOverflow { get; set; }
+            public bool TienePapel { get; set; }
+        }
+
         public void IniciarImpresora(int Opcion)
         {
             string puerto = "COM1";
@@ -667,6 +679,43 @@ namespace CapaLogica.Impresora_Fiscal
             }
         }
 
+        public EstadoImpresora ObtenerEstadoCompleto()
+        {
+            VmaxComVe.VmaxComClass _printer = new VmaxComVe.VmaxComClass();
+
+            var estado = new EstadoImpresora();
+
+            // Estado general
+            uint estadoGeneral = _printer.ObtenerEstado();
+
+            // Estado mecánico
+            uint estadoMecanico = _printer.ObtenerEstadoImpresora();
+
+            // Interpretar todos los estados
+            estado.Online = (estadoMecanico & (1 << 0)) == 0;
+            estado.TapaAbierta = (estadoMecanico & (1 << 1)) != 0;
+            estado.TemperaturaAlta = (estadoMecanico & (1 << 2)) != 0;
+            estado.ErrorNoRecuperable = (estadoMecanico & (1 << 3)) != 0;
+            estado.ErrorCortadora = (estadoMecanico & (1 << 4)) != 0;
+            estado.BufferOverflow = (estadoMecanico & (1 << 5)) != 0;
+            estado.TienePapel = InterpretarEstadoPapel(estadoMecanico);
+
+            return estado;
+        }
+
+        private static bool InterpretarEstadoPapel(uint estado)
+        {
+            // Bits 6-10: 0 = CON PAPEL, 1 = SIN PAPEL
+            bool sinPapelBit6 = (estado & (1 << 6)) != 0;
+            bool sinPapelBit7 = (estado & (1 << 7)) != 0;
+            bool sinPapelBit8 = (estado & (1 << 8)) != 0;
+            bool sinPapelBit9 = (estado & (1 << 9)) != 0;
+            bool sinPapelBit10 = (estado & (1 << 10)) != 0;
+
+            // Si alguno de los bits 6-10 está en 1, NO hay papel
+            return !(sinPapelBit6 || sinPapelBit7 || sinPapelBit8 || sinPapelBit9 || sinPapelBit10);
+        }
+
         public bool VerficarConexionImpresoraFiscalSinCerrar()
         {
             //VmaxComVe.VmaxComClass objVmax = new VmaxComVe.VmaxComClass();
@@ -680,9 +729,10 @@ namespace CapaLogica.Impresora_Fiscal
             {
                 VmaxComVe.VmaxComClass objVmax = new VmaxComVe.VmaxComClass();
                 uint ret = 0;
-
+                uint Prueba = 0;
                 ret = objVmax.AbrirPuerto(Convert.ToString(glbPuertoCOM));
-                ret = objVmax.ObtenerEstadoImpresora();
+                ret = objVmax.ObtenerEstadoImpresora() ;
+                ObtenerEstadoCompleto();
 
                 if (ret != 16 && ret != 0)
                 {

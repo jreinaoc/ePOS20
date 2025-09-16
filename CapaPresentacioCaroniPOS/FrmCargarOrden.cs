@@ -461,7 +461,7 @@ namespace CapaVisual_Login
                     this.Pnl_3_Coloración.Visible = false;
                     this.Pnl_3_Coloración.Enabled = false;
                     this.Pnl_3_Promociones.Visible = false;
-                    this.Pnl_3_Promociones.Enabled = false;
+                    //this.Pnl_3_Promociones.Enabled = false;
                     //this.pnl_MonturaPropia.Enabled = false;
                     this.pnl_MonturaPropia.Visible = false;
                     this.Pnl_3_Lista_ClienteAfiliado.Visible = false;
@@ -697,7 +697,7 @@ namespace CapaVisual_Login
 
                     // Controles del Panel Promocion
                     this.Dgv_Pnl3_Promociones.Enabled = false;
-                    this.Btn_Tap3_Cancelar_Promo.Enabled = false;
+                    //this.Btn_Tap3_Cancelar_Promo.Enabled = false;
                     this.Btn_Tap3_Aceptar_Promo.Enabled = false;
 
                     //Panel Cambio Precio
@@ -4030,8 +4030,8 @@ namespace CapaVisual_Login
             nuevoTrabajo.TNACIO = Cbx_Tap1_Nacionalidad.Text.Trim(); // Ajusta según cómo manejas la nacionalidad
             nuevoTrabajo.TALTD = Convert.ToDecimal(txtAltD.Text);
             nuevoTrabajo.TALTI = Convert.ToDecimal(txtAltI.Text);
-            nuevoTrabajo.TTIPOVISIOND = cbVisionDerecha.Text;//Dgv_Pnl2_conv.Rows[0].Cells["VISION"]?.Value?.ToString() ?? " ";
-            nuevoTrabajo.TTIPOVISIONI = cbVisionIzquierda.Text;
+            nuevoTrabajo.TTIPOVISIOND = cbVisionDerecha.Enabled ? cbVisionDerecha.Text : ""; //Dgv_Pnl2_conv.Rows[0].Cells["VISION"]?.Value?.ToString() ?? " ";
+            nuevoTrabajo.TTIPOVISIONI = cbVisionIzquierda.Enabled ? cbVisionIzquierda.Text : "";
             nuevoTrabajo.TSucursal = codigoSucursal;
             nuevoTrabajo.TTIPOTRABAJO = "002";
             nuevoTrabajo.USERCREA = TB_USUARIO.COD_USR;
@@ -10415,8 +10415,8 @@ namespace CapaVisual_Login
                     nuevoFicconv.AVI = Dgv_Pnl2_conv.Rows[1].Cells["VISUAL"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[1].Cells["VISUAL"].Value) : 0;
 
 
-                    nuevoTrabajo.TTIPOVISIOND = cbVisionDerecha.Text;
-                    nuevoTrabajo.TTIPOVISIONI = cbVisionIzquierda.Text;
+                    nuevoTrabajo.TTIPOVISIOND = cbVisionDerecha.Enabled ? cbVisionDerecha.Text : "";  
+                    nuevoTrabajo.TTIPOVISIONI = cbVisionIzquierda.Enabled ? cbVisionIzquierda.Text : "";  
 
 
 
@@ -10913,7 +10913,7 @@ namespace CapaVisual_Login
             //nuevoTrabajo.TEXAMEN = Txt_Tap2_Examen.Text;
             LLenar_TbTrabajo();
             _L_Trabajo.AgregarTrabajo(nuevoTrabajo);
-
+            
         }
 
         private bool ValidarCont_AllOrNoneZero()
@@ -13667,8 +13667,8 @@ namespace CapaVisual_Login
                     nuevoFicconv.AVI = Dgv_Pnl2_conv.Rows[1].Cells["VISUAL"]?.Value != null ? Convert.ToDecimal(Dgv_Pnl2_conv.Rows[1].Cells["VISUAL"].Value) : 0;
 
 
-                    nuevoTrabajo.TTIPOVISIOND = cbVisionDerecha.Text;
-                    nuevoTrabajo.TTIPOVISIONI = cbVisionIzquierda.Text;
+                    nuevoTrabajo.TTIPOVISIOND = cbVisionDerecha.Enabled ? cbVisionDerecha.Text : "";  
+                    nuevoTrabajo.TTIPOVISIONI = cbVisionIzquierda.Enabled ? cbVisionIzquierda.Text : "";  
 
 
 

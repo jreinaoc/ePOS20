@@ -4347,6 +4347,9 @@ namespace CapaVisual_Login
                                 _FrmMensajes.ShowDialog();
                                 btnCancelar1.PerformClick();
                                 _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, "No hay conexión con la impresora fiscal");
+                                objVmax.Cancelar();
+                                objVmax.Cerrar();
+                                objVmax.CerrarPuerto();
                                 return "Error";
                             }
                             else
