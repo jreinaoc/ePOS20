@@ -56,8 +56,10 @@ namespace CapaVisual_Login
             string Descripcion = "";
             string RifCompania = "";
             DateTime DiaActivo = _D_Inicio.DiaActivo().AddDays(-1);
+            DiaActivo = dateTimePicker1.Value;
             string NombreSucursal = "";
             bool imprimir = false;
+            imprimir = true;
 
             if (Datos.Tables[0].Rows.Count > 0)
             {
@@ -115,7 +117,7 @@ namespace CapaVisual_Login
             var parametros = new Dictionary<string, string>
                     {
                       { "Compania", Descripcion },
-                      { "Fecha",DiaActivo.ToString("dd/MM/yyyy")},
+                      { "Fecha",DiaActivo.Date.ToString("dd/MM/yyyy")},
                       { "Sucursal", Sucursal },
                       { "RifCompania",RifCompania },
                       { "NombreSucursal", NombreSucursal },
@@ -124,10 +126,10 @@ namespace CapaVisual_Login
 
             var dataSources = new Dictionary<string, DataTable>
                     {
-    { "DS_TB_CAJA", ObtenerDatosParaCierreCaja1(conexion, DiaActivo , Sucursal)},         // Nombre debe coincidir con el del reporte (.rdlc)
-    { "DS_TB_SUCURSALES", ObtenerDatosParaCierreCaja2(conexion, DiaActivo ,Sucursal)},
-    { "DS_VW_CierreCaja", ObtenerDatosParaCierreCaja3(conexion, DiaActivo , Sucursal)},
-    { "DS_TB_USUARIO", ObtenerDatosParaCierreCaja4(conexion, DiaActivo , Sucursal)}
+    { "DS_TB_CAJA", ObtenerDatosParaCierreCaja1(conexion, DiaActivo.Date , Sucursal)},         // Nombre debe coincidir con el del reporte (.rdlc)
+    { "DS_TB_SUCURSALES", ObtenerDatosParaCierreCaja2(conexion, DiaActivo.Date ,Sucursal)},
+    { "DS_VW_CierreCaja", ObtenerDatosParaCierreCaja3(conexion, DiaActivo.Date , Sucursal)},
+    { "DS_TB_USUARIO", ObtenerDatosParaCierreCaja4(conexion, DiaActivo.Date , Sucursal)}
                     };
 
             // Supón que tienes estos datos:
