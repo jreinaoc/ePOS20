@@ -56,10 +56,8 @@ namespace CapaVisual_Login
             string Descripcion = "";
             string RifCompania = "";
             DateTime DiaActivo = _D_Inicio.DiaActivo().AddDays(-1);
-            DiaActivo = dateTimePicker1.Value;
             string NombreSucursal = "";
             bool imprimir = false;
-            imprimir = true;
 
             if (Datos.Tables[0].Rows.Count > 0)
             {
