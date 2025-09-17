@@ -115,7 +115,8 @@ namespace CapaLogica.CargarOrdenes
         public string ValidarExtenciaCristal(DataGridView Dgv_Tap3_Articulo, string Cod_Vta)
         {
             try
-            { if(Dgv_Tap3_Articulo.Rows.Count> 0 && (Cod_Vta== "01"|| Cod_Vta == "09"))
+            { 
+              if(Dgv_Tap3_Articulo.Rows.Count> 0 && (Cod_Vta== "01"|| Cod_Vta == "09" || Cod_Vta == "08"))
               {
                 foreach (DataGridViewRow row in Dgv_Tap3_Articulo.Rows)
                 {
