@@ -491,6 +491,12 @@ namespace CapaVisual_Login
         {
             try
             {
+                // Configurar propiedades del DataGridView
+                Dvg_CierrePuntoVenta.EditMode = DataGridViewEditMode.EditOnEnter;
+                Dvg_CierrePuntoVenta.SelectionMode = DataGridViewSelectionMode.CellSelect;
+                Dvg_CierrePuntoVenta.StandardTab = false;
+
+
                 this.txtFiltroVendedor.TextChanged += new System.EventHandler(this.txtFiltroVendedor_TextChanged);
                 this.Dvg_MarcajeAsistenciaPendiente.CellClick += Dgv_MarcajeAsistenciaPendiente_CellClick;
                 this.Dvg_ConsignacionDeOS.CellClick += Dvg_ConsignacionDeOS_CellClick;
@@ -1912,6 +1918,67 @@ namespace CapaVisual_Login
                 e.Handled = true;
         }
 
+        private void Dvg_CierrePuntoVenta_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                // Simplemente finaliza la edición, el evento Leave se disparará automáticamente
+                Dvg_CierrePuntoVenta.EndEdit();
+                e.Handled = true;
+            }
+        }
+
+        private void FormatTextBoxValue(TextBox tb)
+        {
+            if (string.IsNullOrWhiteSpace(tb.Text))
+            {
+                tb.Text = "0,00";
+            }
+            else
+            {
+                string cleanText = tb.Text.Replace(".", "").Replace(",", ".");
+                if (decimal.TryParse(cleanText, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal value))
+                {
+                    tb.Text = value.ToString("N2");
+                }
+                else
+                {
+                    tb.Text = "0,00";
+                }
+            }
+
+            // Actualizar el valor en el DataGridView
+            if (Dvg_CierrePuntoVenta.CurrentCell != null)
+            {
+                Dvg_CierrePuntoVenta.CurrentCell.Value = tb.Text;
+            }
+        }
+
+        private bool IsValidDecimal(string text)
+        {
+            if (string.IsNullOrWhiteSpace(text))
+                return true;
+
+            string cleanText = text.Replace(".", "").Replace(",", ".");
+            return decimal.TryParse(cleanText, NumberStyles.Any, CultureInfo.InvariantCulture, out _);
+        }
+
+        private void TotalCredito_Validating(object sender, CancelEventArgs e)
+        {
+            TextBox tb = sender as TextBox;
+            if (tb != null)
+            {
+                // Formatear el valor cuando pierde el foco
+                FormatTextBoxValue(tb);
+
+                // Aquí puedes agregar validación adicional
+                if (!IsValidDecimal(tb.Text))
+                {
+                    e.Cancel = true; // Impide que pierda el foco si es inválido
+                }
+            }
+        }
+
 
         private void Dvg_CierrePuntoVenta_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
@@ -1939,7 +2006,9 @@ namespace CapaVisual_Login
 
                 // Para otras columnas, remover los eventos que no deben tener
                 tb.KeyPress -= TotalCredito_KeyPress;
+                tb.KeyDown -= TotalCredito_KeyDown;
                 tb.Leave -= TotalCredito_Leave;
+                tb.Validating -= TotalCredito_Validating;
             }
 
             else if (Dvg_CierrePuntoVenta.CurrentCell != null &&  (columnIndex == Dvg_CierrePuntoVenta.Columns["Total T. Crédito"].Index ) 
@@ -1949,10 +2018,22 @@ namespace CapaVisual_Login
             {
                     tb.KeyPress -= TotalCredito_KeyPress;
                     tb.KeyPress += TotalCredito_KeyPress;
-                    tb.Leave -= TotalCredito_Leave;
+                    tb.KeyDown -= TotalCredito_KeyDown;
+                    tb.KeyDown += TotalCredito_KeyDown;
+                tb.Validating -= TotalCredito_Validating;
+                tb.Validating += TotalCredito_Validating;
+                tb.Leave -= TotalCredito_Leave;
                     tb.Leave += TotalCredito_Leave;
                     tb.MaxLength = 10; // Opcional: límite de caracteres
                 
+            }
+            else
+            {
+                // Remover eventos de otras columnas para evitar conflictos
+                tb.KeyPress -= TotalCredito_KeyPress;
+                tb.KeyDown -= TotalCredito_KeyDown;
+                tb.Leave -= TotalCredito_Leave;
+                tb.Validating -= TotalCredito_Validating;
             }
 
 
@@ -1990,6 +2071,75 @@ namespace CapaVisual_Login
 
 
         }
+
+        private void TotalCredito_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.Handled = true;
+                e.SuppressKeyPress = true; // Esto es importante para evitar el sonido del sistema
+
+                TextBox tb = sender as TextBox;
+                var currentCell = Dvg_CierrePuntoVenta.CurrentCell;
+
+                // Validar que estamos en una columna de totales
+                if (currentCell != null &&
+                    (currentCell.ColumnIndex == Dvg_CierrePuntoVenta.Columns["Total T. Crédito"].Index ||
+                     currentCell.ColumnIndex == Dvg_CierrePuntoVenta.Columns["Total T. Amex"].Index ||
+                     currentCell.ColumnIndex == Dvg_CierrePuntoVenta.Columns["Total T. Débito"].Index ||
+                     currentCell.ColumnIndex == Dvg_CierrePuntoVenta.Columns["Total T. Otros"].Index))
+                {
+                    // Formatear el número
+                    if (tb != null)
+                    {
+                        string cleanText = tb.Text.Replace(".", "").Replace(",", ".");
+                        if (decimal.TryParse(cleanText, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal value))
+                        {
+                            tb.Text = value.ToString("N2", CultureInfo.CurrentCulture);
+                        }
+                        else
+                        {
+                            tb.Text = "0,00";
+                        }
+                    }
+
+                    // Finalizar la edición y mover a la siguiente celda
+                    Dvg_CierrePuntoVenta.EndEdit();
+                    MoveToNextCell();
+                }
+            }
+        }
+
+        // Método para mover a la siguiente celda
+        private void MoveToNextCell()
+        {
+            if (Dvg_CierrePuntoVenta.CurrentCell != null)
+            {
+                int nextColumn = Dvg_CierrePuntoVenta.CurrentCell.ColumnIndex + 1;
+                int currentRow = Dvg_CierrePuntoVenta.CurrentCell.RowIndex;
+
+                if (nextColumn >= Dvg_CierrePuntoVenta.ColumnCount)
+                {
+                    nextColumn = 0;
+                    currentRow++;
+
+                    // Si es la última fila, agregar nueva fila
+                    if (currentRow >= Dvg_CierrePuntoVenta.RowCount)
+                    {
+                        Dvg_CierrePuntoVenta.Rows.Add();
+                    }
+                }
+
+                Dvg_CierrePuntoVenta.CurrentCell = Dvg_CierrePuntoVenta[nextColumn, currentRow];
+
+                // Iniciar edición en la nueva celda
+                if (!Dvg_CierrePuntoVenta.CurrentCell.ReadOnly)
+                {
+                    Dvg_CierrePuntoVenta.BeginEdit(true);
+                }
+            }
+        }
+
         private void TotalCredito_Leave(object sender, EventArgs e)
         {
             TextBox tb = sender as TextBox;
@@ -2268,5 +2418,6 @@ namespace CapaVisual_Login
                 return false;
             }
         }
+
     }
 }
