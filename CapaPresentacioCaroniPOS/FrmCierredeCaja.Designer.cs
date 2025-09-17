@@ -1456,7 +1456,6 @@ namespace CapaVisual_Login
             this.Dvg_CierrePuntoVenta.Size = new System.Drawing.Size(704, 124);
             this.Dvg_CierrePuntoVenta.TabIndex = 309;
             this.Dvg_CierrePuntoVenta.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Dvg_CierrePuntoVenta_KeyDown);
-            this.Dvg_CierrePuntoVenta.StandardTab = false; // Importante
             // 
             // txtCierreHora
             // 
@@ -1554,6 +1553,7 @@ namespace CapaVisual_Login
             this.tcCierreCaja.SelectedIndex = 0;
             this.tcCierreCaja.Size = new System.Drawing.Size(1097, 702);
             this.tcCierreCaja.TabIndex = 0;
+            this.tcCierreCaja.SelectedIndexChanged += new System.EventHandler(this.tcCierreCaja_SelectedIndexChanged);
             // 
             // lbPaso
             // 
