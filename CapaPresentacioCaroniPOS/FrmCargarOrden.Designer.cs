@@ -1806,7 +1806,6 @@ namespace CapaVisual_Login
             this.txtAngPant.Name = "txtAngPant";
             this.txtAngPant.Size = new System.Drawing.Size(114, 23);
             this.txtAngPant.TabIndex = 342;
-            this.txtAngPant.Text = "0";
             this.txtAngPant.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtAngPant.TextChanged += new System.EventHandler(this.txtAngPant_TextChanged);
             this.txtAngPant.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtAngPant_KeyDown);
@@ -1820,7 +1819,6 @@ namespace CapaVisual_Login
             this.txtAngFac.Name = "txtAngFac";
             this.txtAngFac.Size = new System.Drawing.Size(114, 23);
             this.txtAngFac.TabIndex = 343;
-            this.txtAngFac.Text = "0,00";
             this.txtAngFac.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtAngFac.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtAngFac_KeyDown);
             this.txtAngFac.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtAngFac_KeyPress);
@@ -1833,7 +1831,6 @@ namespace CapaVisual_Login
             this.txtDll.Name = "txtDll";
             this.txtDll.Size = new System.Drawing.Size(114, 23);
             this.txtDll.TabIndex = 344;
-            this.txtDll.Text = "0,00";
             this.txtDll.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtDll.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtDll_KeyDown);
             this.txtDll.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDll_KeyPress);
@@ -2230,7 +2227,6 @@ namespace CapaVisual_Login
             this.txtDistVertice.Name = "txtDistVertice";
             this.txtDistVertice.Size = new System.Drawing.Size(114, 23);
             this.txtDistVertice.TabIndex = 337;
-            this.txtDistVertice.Text = "0,00";
             this.txtDistVertice.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtDistVertice.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtDistVertice_KeyDown);
             this.txtDistVertice.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDistVertice_KeyPress);

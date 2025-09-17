@@ -26,7 +26,7 @@ namespace CapaLogica.Servicios
         public string diamDgl = "";
         public string diamIgl = "";
 
-        public bool AsignarRx(string GlbCodDetVta, string OSaModificar, string sucursal, string nacio, string cediden, string Examen, string Numero_Orden, System.Windows.Forms.ListView LbResultado2, System.Windows.Forms.ListView LbResultados, System.Windows.Forms.DataGridView dgvRangoCrt, string Laboratorio, string Servicio)
+        public bool AsignarRx(string GlbCodDetVta, string OSaModificar, string sucursal, string nacio, string cediden, string Examen, string Numero_Orden, System.Windows.Forms.ListView LbResultado2, System.Windows.Forms.ListView LbResultados, System.Windows.Forms.DataGridView dgvRangoCrt, string Laboratorio, string Servicio, string medDisV, string medAngF, string medAngP)
         {
             stringBuilder.Clear();
             Conexion cn = new Conexion();
@@ -61,7 +61,7 @@ namespace CapaLogica.Servicios
                     string cristalD = dsOS.Tables[0].Rows[0]["CRISTALD"].ToString();
                     string cristalI = dsOS.Tables[0].Rows[0]["CRISTALI"].ToString();
                     // solo se verifica si CodVenta = 01  VerificoParametrosCristales
-                    if (!VerificoParametrosCristales(_TRABAJO, nacio, cediden, Examen, cristalD, cristalI, color == "0" ? "NO" : "SI", LbResultado2, LbResultados, dgvRangoCrt, Laboratorio, Servicio, command))
+                    if (!VerificoParametrosCristales(_TRABAJO, nacio, cediden, Examen, cristalD, cristalI, color == "0" ? "NO" : "SI", LbResultado2, LbResultados, dgvRangoCrt, medDisV,  medAngF, medAngP, Laboratorio, Servicio, command))
                     {
                         command.Transaction.Rollback();
                         return false;
@@ -244,7 +244,7 @@ namespace CapaLogica.Servicios
         }
 
         public bool VerificoParametrosCristales(List<TB_TRABAJO> Trabajo, string nacionalidad, string cedula, string Examen, string CristalD, string CristalI, string Color,
-            System.Windows.Forms.ListView LbResultado2, System.Windows.Forms.ListView LbResultados, System.Windows.Forms.DataGridView dgvRangoCrt, string Laboratorio= null , string Servicio= null, SqlCommand command = null)
+            System.Windows.Forms.ListView LbResultado2, System.Windows.Forms.ListView LbResultados, System.Windows.Forms.DataGridView dgvRangoCrt, string medDisV, string medAngF, string medAngP, string Laboratorio= null , string Servicio= null, SqlCommand command = null)
         {
             bool AceptaCristalD = false;
             bool AceptaCristalI = false;
@@ -281,8 +281,8 @@ namespace CapaLogica.Servicios
 
                 if (ojo == "A")
                 {
-                dsParamCRT = _D_Articulo.MostrarRangosCrtGrid(nacionalidad, cedula, Examen, CristalD, "D", _Trabajo.T_TIPOVISIOND, Convert.ToDecimal(_Trabajo.T_ALTD), 0, Convert.ToDecimal(_Trabajo.T_DISTANCIAVERTICE), Convert.ToDecimal(_Trabajo.T_ANGULOFACIAL), Convert.ToDecimal(_Trabajo.T_ANGULOPANTOSCOPICO), Color, Servicio, Laboratorio, Convert.ToString(_Trabajo.T_DISTANCIAVERTICE), Convert.ToString(_Trabajo.T_ANGULOFACIAL), Convert.ToString(_Trabajo.T_ANGULOPANTOSCOPICO), Convert.ToString(_Trabajo.T_DISTANCIADELECTURA), command);
-                dsParamCRT2 = _D_Articulo.MostrarRangosCrtGrid(nacionalidad, cedula, Examen, CristalI, "I", _Trabajo.T_TIPOVISIONI, Convert.ToDecimal(_Trabajo.T_ALTI), 0, Convert.ToDecimal(_Trabajo.T_DISTANCIAVERTICE), Convert.ToDecimal(_Trabajo.T_ANGULOFACIAL), Convert.ToDecimal(_Trabajo.T_ANGULOPANTOSCOPICO), Color, Servicio, Laboratorio, Convert.ToString(_Trabajo.T_DISTANCIAVERTICE), Convert.ToString(_Trabajo.T_ANGULOFACIAL), Convert.ToString(_Trabajo.T_ANGULOPANTOSCOPICO), Convert.ToString(_Trabajo.T_DISTANCIADELECTURA), command);
+                dsParamCRT = _D_Articulo.MostrarRangosCrtGrid(nacionalidad, cedula, Examen, CristalD, "D", _Trabajo.T_TIPOVISIOND, Convert.ToDecimal(_Trabajo.T_ALTD), 0, Convert.ToDecimal(_Trabajo.T_DISTANCIAVERTICE), Convert.ToDecimal(_Trabajo.T_ANGULOFACIAL), Convert.ToDecimal(_Trabajo.T_ANGULOPANTOSCOPICO), Color, Servicio, Laboratorio, medDisV,  medAngF, medAngP, Convert.ToString(_Trabajo.T_DISTANCIADELECTURA), command);
+                dsParamCRT2 = _D_Articulo.MostrarRangosCrtGrid(nacionalidad, cedula, Examen, CristalI, "I", _Trabajo.T_TIPOVISIONI, Convert.ToDecimal(_Trabajo.T_ALTI), 0, Convert.ToDecimal(_Trabajo.T_DISTANCIAVERTICE), Convert.ToDecimal(_Trabajo.T_ANGULOFACIAL), Convert.ToDecimal(_Trabajo.T_ANGULOPANTOSCOPICO), Color, Servicio, Laboratorio, medDisV, medAngF, medAngP, Convert.ToString(_Trabajo.T_DISTANCIADELECTURA), command);
 
                 // Validación de parámetros
 
@@ -320,7 +320,7 @@ namespace CapaLogica.Servicios
             }
             else if (ojo == "D")
             {
-                dsParamCRT = _D_Articulo.MostrarRangosCrtGrid(nacionalidad, cedula, Examen, CristalD, "D", _Trabajo.T_TIPOVISIOND, Convert.ToDecimal(_Trabajo.T_ALTD), 0, Convert.ToDecimal(_Trabajo.T_DISTANCIAVERTICE), Convert.ToDecimal(_Trabajo.T_ANGULOFACIAL), Convert.ToDecimal(_Trabajo.T_ANGULOPANTOSCOPICO), "", Servicio, Laboratorio, Convert.ToString(_Trabajo.T_DISTANCIAVERTICE), Convert.ToString(_Trabajo.T_ANGULOFACIAL), Convert.ToString(_Trabajo.T_ANGULOPANTOSCOPICO), Convert.ToString(_Trabajo.T_DISTANCIADELECTURA), command);
+                dsParamCRT = _D_Articulo.MostrarRangosCrtGrid(nacionalidad, cedula, Examen, CristalD, "D", _Trabajo.T_TIPOVISIOND, Convert.ToDecimal(_Trabajo.T_ALTD), 0, Convert.ToDecimal(_Trabajo.T_DISTANCIAVERTICE), Convert.ToDecimal(_Trabajo.T_ANGULOFACIAL), Convert.ToDecimal(_Trabajo.T_ANGULOPANTOSCOPICO), "", Servicio, Laboratorio, medDisV, medAngF, medAngP, Convert.ToString(_Trabajo.T_DISTANCIADELECTURA), command);
 
                 AceptaCristalD = Enumerable.Range(1, 16).All(x => dsParamCRT.Tables[2].Rows[0][x].ToString() == "1");
                 AceptaCristalI = AceptaCristalD;
@@ -338,7 +338,7 @@ namespace CapaLogica.Servicios
             }
             else if (ojo == "I")
             {
-                dsParamCRT2 = _D_Articulo.MostrarRangosCrtGrid(nacionalidad, cedula, Examen, CristalI, "I", _Trabajo.T_TIPOVISIONI, Convert.ToDecimal(_Trabajo.T_ALTI), 0, Convert.ToDecimal(_Trabajo.T_DISTANCIAVERTICE), Convert.ToDecimal(_Trabajo.T_ANGULOFACIAL), Convert.ToDecimal(_Trabajo.T_ANGULOPANTOSCOPICO), "", Servicio, Laboratorio, Convert.ToString(_Trabajo.T_DISTANCIAVERTICE), Convert.ToString(_Trabajo.T_ANGULOFACIAL), Convert.ToString(_Trabajo.T_ANGULOPANTOSCOPICO), Convert.ToString(_Trabajo.T_DISTANCIADELECTURA), command);
+                dsParamCRT2 = _D_Articulo.MostrarRangosCrtGrid(nacionalidad, cedula, Examen, CristalI, "I", _Trabajo.T_TIPOVISIONI, Convert.ToDecimal(_Trabajo.T_ALTI), 0, Convert.ToDecimal(_Trabajo.T_DISTANCIAVERTICE), Convert.ToDecimal(_Trabajo.T_ANGULOFACIAL), Convert.ToDecimal(_Trabajo.T_ANGULOPANTOSCOPICO), "", Servicio, Laboratorio, medDisV, medAngF, medAngP, Convert.ToString(_Trabajo.T_DISTANCIADELECTURA), command);
 
                 AceptaCristalI = Enumerable.Range(1, 16).All(x => dsParamCRT2.Tables[2].Rows[0][x].ToString() == "1");
                 AceptaCristalD = AceptaCristalI;
@@ -429,7 +429,7 @@ namespace CapaLogica.Servicios
             return (fechaOfre, horaOfre);
         }
 
-        public bool Verificar_Cristales_Parametros_Diametros(TB_TRABAJOCTE TRABAJO, DataGridView Dgv_Tap3_Articulo, string GlbCodDetVta, string sucursal, string nacio, string cediden, string Examen, System.Windows.Forms.ListView LbResultado2, System.Windows.Forms.ListView LbResultados, System.Windows.Forms.DataGridView dgvRangoCrt)
+        public bool Verificar_Cristales_Parametros_Diametros(TB_TRABAJOCTE TRABAJO, DataGridView Dgv_Tap3_Articulo, string GlbCodDetVta, string sucursal, string nacio, string cediden, string Examen, System.Windows.Forms.ListView LbResultado2, System.Windows.Forms.ListView LbResultados, System.Windows.Forms.DataGridView dgvRangoCrt, string medDisV, string medAngF, string medAngP)
         {
             stringBuilder.Clear();
 
@@ -471,7 +471,7 @@ namespace CapaLogica.Servicios
                 }
             }
                 // solo se verifica si CodVenta = 01 o 09  VerificoParametrosCristales
-            if ((GlbCodDetVta == "01" || GlbCodDetVta == "09") && !VerificoParametrosCristales(_TRABAJO, nacio, cediden, Examen, CristalD, CristalI, Color, LbResultado2, LbResultados, dgvRangoCrt))
+            if ((GlbCodDetVta == "01" || GlbCodDetVta == "09") && !VerificoParametrosCristales(_TRABAJO, nacio, cediden, Examen, CristalD, CristalI, Color, LbResultado2, LbResultados, dgvRangoCrt, medDisV,  medAngF, medAngP))
             {
                 return false;
             }

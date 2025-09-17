@@ -988,9 +988,9 @@ EXEC pValidoParametrosCRT
             cmd.Parameters.AddWithValue("@COLOR", Color);
             cmd.Parameters.AddWithValue("@TIEMPOENTREGA", glbServicio);
             cmd.Parameters.AddWithValue("@MONTAJE", lab);
-            cmd.Parameters.AddWithValue("@MEDDIST", "TRUE");
-            cmd.Parameters.AddWithValue("@MEDANGF", "TRUE");
-            cmd.Parameters.AddWithValue("@MEDANGP", "TRUE");
+            cmd.Parameters.AddWithValue("@MEDDIST", medDisV);
+            cmd.Parameters.AddWithValue("@MEDANGF", medAngF);
+            cmd.Parameters.AddWithValue("@MEDANGP", medAngP);
             cmd.Parameters.AddWithValue("@MEDDDL", DDL);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataSet dts = new DataSet();
