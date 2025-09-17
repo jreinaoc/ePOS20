@@ -12153,6 +12153,11 @@ namespace CapaVisual_Login
             mantenervacio = false;
             Btn_Tap2_Derecha_Click(this.Btn_Tap2_Derecha, EventArgs.Empty);
 
+            txtDistVertice.Text = "";
+            txtAngFac.Text = "";
+            txtAngPant.Text = "";
+            txtDll.Text = "";
+            txt_Pnl2_conv_mimesys.Text = "";
 
             //    Txt_Tap2_Examen.Text = TopeExamen.ToString();
 
@@ -12949,8 +12954,15 @@ namespace CapaVisual_Login
         {
             TextBox txt = sender as TextBox;
 
-            // Permitir solo números, coma y teclas de control (como retroceso)
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != ',')
+            // Permitir teclas de control (BACKSPACE, DELETE, etc.) siempre
+            if (char.IsControl(e.KeyChar))
+            {
+                e.Handled = false;
+                return;
+            }
+
+            // Permitir solo números y coma
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != ',')
             {
                 e.Handled = true;
                 return;
@@ -12964,17 +12976,22 @@ namespace CapaVisual_Login
             }
 
             // Verificar si ya hay coma y limitar los decimales a dos
-            if (txt.Text.Contains(","))
+            // PERO solo si no es una tecla de borrado
+            if (txt.Text.Contains(",") && !char.IsControl(e.KeyChar))
             {
                 int indexComa = txt.Text.IndexOf(",");
                 string decimales = txt.Text.Substring(indexComa + 1);
+                int cursorPos = txt.SelectionStart;
 
-                // Si hay 2 decimales y el cursor está después de la coma
-                if (txt.SelectionStart > indexComa && decimales.Length >= 2)
+                // Si el cursor está después de la coma y ya hay 2 decimales
+                if (cursorPos > indexComa && decimales.Length >= 2)
                 {
                     e.Handled = true;
+                    return;
                 }
             }
+
+            e.Handled = false;
 
         }
 
@@ -12990,16 +13007,16 @@ namespace CapaVisual_Login
 
                 // Expresión regular para máximo 2 decimales
                 // Ejemplo válido: 12,34 — Ejemplo inválido: 12,345
-                var regex = new System.Text.RegularExpressions.Regex(@"^\d{1,3}(,\d{1,2})?$");
+                var regex = new System.Text.RegularExpressions.Regex(@"^\d{1,8}(,\d{1,2})?$");
 
-                if (!regex.IsMatch(texto))
-                {
-                //_FrmMensajes.co = 2;
-                //_FrmMensajes.avisomensaje("Ingrese un número válido con hasta 2 decimales");
-                //_FrmMensajes.ShowDialog();
-                txtDistVertice.Text = "0,00";
-                    return;
-                }
+                //if (!regex.IsMatch(texto))
+                //{
+                ////_FrmMensajes.co = 2;
+                ////_FrmMensajes.avisomensaje("Ingrese un número válido con hasta 2 decimales");
+                ////_FrmMensajes.ShowDialog();
+                //txtDistVertice.Text = "0,00";
+                //    return;
+                //}
 
                 // Validar rango con coma como separador decimal
                 if (decimal.TryParse(texto, System.Globalization.NumberStyles.Number, cultura, out decimal valor))
@@ -13009,12 +13026,16 @@ namespace CapaVisual_Login
                         _FrmMensajes.co = 2;
                         _FrmMensajes.avisomensaje("Valor fuera del rango permitido 0 a 30");
                         _FrmMensajes.ShowDialog();
-                    txtDistVertice.Text = "0,00";
+                         txtDistVertice.Text = "";
                     }
+                     else
+                     {
+                      txtDistVertice.Text = valor.ToString();
+                     }
                 }
                 else
                 {
-                txtDistVertice.Text = "0,00";
+                txtDistVertice.Text = "";
                 }
             
         }
@@ -13023,11 +13044,17 @@ namespace CapaVisual_Login
         private void txtAngFac_KeyPress(object sender, KeyPressEventArgs e)
         {
 
-
             TextBox txt = sender as TextBox;
 
-            // Permitir solo números, coma y teclas de control (como retroceso)
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != ',')
+            // Permitir teclas de control (BACKSPACE, DELETE, etc.) siempre
+            if (char.IsControl(e.KeyChar))
+            {
+                e.Handled = false;
+                return;
+            }
+
+            // Permitir solo números y coma
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != ',')
             {
                 e.Handled = true;
                 return;
@@ -13041,17 +13068,23 @@ namespace CapaVisual_Login
             }
 
             // Verificar si ya hay coma y limitar los decimales a dos
-            if (txt.Text.Contains(","))
+            // PERO solo si no es una tecla de borrado
+            if (txt.Text.Contains(",") && !char.IsControl(e.KeyChar))
             {
                 int indexComa = txt.Text.IndexOf(",");
                 string decimales = txt.Text.Substring(indexComa + 1);
+                int cursorPos = txt.SelectionStart;
 
-                // Si hay 2 decimales y el cursor está después de la coma
-                if (txt.SelectionStart > indexComa && decimales.Length >= 2)
+                // Si el cursor está después de la coma y ya hay 2 decimales
+                if (cursorPos > indexComa && decimales.Length >= 2)
                 {
                     e.Handled = true;
+                    return;
                 }
             }
+
+            e.Handled = false;
+
         }
 
         private void txtAngFac_Leave(object sender, EventArgs e)
@@ -13069,14 +13102,14 @@ namespace CapaVisual_Login
             // Ejemplo válido: 12,34 — Ejemplo inválido: 12,345
             var regex = new System.Text.RegularExpressions.Regex(@"^\d{1,3}(,\d{1,2})?$");
 
-            if (!regex.IsMatch(texto))
-            {
-                //_FrmMensajes.co = 2;
-                //_FrmMensajes.avisomensaje("Ingrese un número válido con hasta 2 decimales");
-                //_FrmMensajes.ShowDialog();
-                txtAngFac.Text = "0,00";
-                return;
-            }
+            //if (!regex.IsMatch(texto))
+            //{
+            //    //_FrmMensajes.co = 2;
+            //    //_FrmMensajes.avisomensaje("Ingrese un número válido con hasta 2 decimales");
+            //    //_FrmMensajes.ShowDialog();
+            //    txtAngFac.Text = "0,00";
+            //    return;
+            //}
 
             // Validar rango con coma como separador decimal
             if (decimal.TryParse(texto, System.Globalization.NumberStyles.Number, cultura, out decimal valor))
@@ -13086,12 +13119,16 @@ namespace CapaVisual_Login
                     _FrmMensajes.co = 2;
                     _FrmMensajes.avisomensaje("Valor fuera del rango permitido -5 a 25");
                     _FrmMensajes.ShowDialog();
-                    txtAngFac.Text = "0,00";
+                    txtAngFac.Text = "";
+                }
+                else
+                {
+                    txtAngFac.Text = valor.ToString();
                 }
             }
             else
             {
-                txtAngFac.Text = "0,00";
+                txtAngFac.Text = "";
             }
 
         }
@@ -13100,8 +13137,15 @@ namespace CapaVisual_Login
         {
             TextBox txt = sender as TextBox;
 
-            // Permitir solo números, coma y teclas de control (como retroceso)
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != ',')
+            // Permitir teclas de control (BACKSPACE, DELETE, etc.) siempre
+            if (char.IsControl(e.KeyChar))
+            {
+                e.Handled = false;
+                return;
+            }
+
+            // Permitir solo números y coma
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != ',')
             {
                 e.Handled = true;
                 return;
@@ -13115,17 +13159,23 @@ namespace CapaVisual_Login
             }
 
             // Verificar si ya hay coma y limitar los decimales a dos
-            if (txt.Text.Contains(","))
+            // PERO solo si no es una tecla de borrado
+            if (txt.Text.Contains(",") && !char.IsControl(e.KeyChar))
             {
                 int indexComa = txt.Text.IndexOf(",");
                 string decimales = txt.Text.Substring(indexComa + 1);
+                int cursorPos = txt.SelectionStart;
 
-                // Si hay 2 decimales y el cursor está después de la coma
-                if (txt.SelectionStart > indexComa && decimales.Length >= 2)
+                // Si el cursor está después de la coma y ya hay 2 decimales
+                if (cursorPos > indexComa && decimales.Length >= 2)
                 {
                     e.Handled = true;
+                    return;
                 }
             }
+
+            e.Handled = false;
+
         }
         private void txtDll_Leave(object sender, EventArgs e)
         {
@@ -13142,14 +13192,14 @@ namespace CapaVisual_Login
             // Ejemplo válido: 12,34 — Ejemplo inválido: 12,345
             var regex = new System.Text.RegularExpressions.Regex(@"^\d{1,3}(,\d{1,2})?$");
 
-            if (!regex.IsMatch(texto))
-            {
-                //_FrmMensajes.co = 2;
-                //_FrmMensajes.avisomensaje("Ingrese un número válido con hasta 2 decimales");
-                //_FrmMensajes.ShowDialog();
-                txtDll.Text = "0,00";
-                return;
-            }
+            //if (!regex.IsMatch(texto))
+            //{
+            //    //_FrmMensajes.co = 2;
+            //    //_FrmMensajes.avisomensaje("Ingrese un número válido con hasta 2 decimales");
+            //    //_FrmMensajes.ShowDialog();
+            //    txtDll.Text = "0,00";
+            //    return;
+            //}
 
             // Validar rango con coma como separador decimal
             if (double.TryParse(texto, System.Globalization.NumberStyles.Number, cultura, out double valor))
@@ -13159,12 +13209,16 @@ namespace CapaVisual_Login
                     _FrmMensajes.co = 2;
                     _FrmMensajes.avisomensaje("Valor fuera del rango permitido 0,25 a 0,50");
                     _FrmMensajes.ShowDialog();
-                    txtDll.Text = "0,00";
+                    txtDll.Text = "";
+                }
+                else
+                {
+                    txtDll.Text = valor.ToString();
                 }
             }
             else
             {
-                txtDll.Text = "0,00";
+                txtDll.Text = "";
             }
 
         }
@@ -13194,14 +13248,14 @@ namespace CapaVisual_Login
             // Ejemplo válido: 12,34 — Ejemplo inválido: 12,345
             var regex = new System.Text.RegularExpressions.Regex(@"^\d{1,3}(,\d{1,2})?$");
 
-            if (!regex.IsMatch(texto))
-            {
-                //_FrmMensajes.co = 2;
-                //_FrmMensajes.avisomensaje("Ingrese un número válido con hasta 2 decimales");
-                //_FrmMensajes.ShowDialog();
-                txtAngPant.Text = "0";
-                return;
-            }
+            //if (!regex.IsMatch(texto))
+            //{
+            //    //_FrmMensajes.co = 2;
+            //    //_FrmMensajes.avisomensaje("Ingrese un número válido con hasta 2 decimales");
+            //    //_FrmMensajes.ShowDialog();
+            //    txtAngPant.Text = "0";
+            //    return;
+            //}
 
             // Validar rango con coma como separador decimal
             if (decimal.TryParse(texto, System.Globalization.NumberStyles.Number, cultura, out decimal valor))
@@ -13211,12 +13265,16 @@ namespace CapaVisual_Login
                     _FrmMensajes.co = 2;
                     _FrmMensajes.avisomensaje("Valor fuera del rango permitido -5 a 30");
                     _FrmMensajes.ShowDialog();
-                    txtAngPant.Text = "0";
+                    txtAngPant.Text = "";
+                }
+                else
+                {
+                    txtAngPant.Text = valor.ToString();
                 }
             }
             else
             {
-                txtAngPant.Text = "0";
+                txtAngPant.Text = "";
             }
 
         }
