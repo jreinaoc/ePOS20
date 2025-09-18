@@ -456,7 +456,7 @@ namespace CapaVisual_Login
                     this.Pnl_3_Lista_Articulo.Visible = false;
                     this.Pnl_3_CambioPrecio.Enabled = false;
                     this.Pnl_3_CambioPrecio.Visible = false;
-                    this.Pnl_3_Descuento.Enabled = false;
+                    //this.Pnl_3_Descuento.Enabled = false;
                     this.Pnl_3_Descuento.Visible = false;
                     this.Pnl_3_Coloración.Visible = false;
                     this.Pnl_3_Coloración.Enabled = false;
