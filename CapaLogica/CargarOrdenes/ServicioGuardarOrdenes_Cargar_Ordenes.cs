@@ -99,7 +99,7 @@ namespace CapaLogica.CargarOrdenes
                     Cod_Venta = codTrabajo,
                     CTE_Nacio = letraInicial,
                     CTE_CedIden = numeroCedula,
-                    NumExamen = numExamen, //dgvArticulos.Rows[0].Cells["NumExamen"].Value?.ToString() ?? "0", // puedes adaptarlo
+                    NumExamen = codd_Venta != "04" ? numExamen : "0", //dgvArticulos.Rows[0].Cells["NumExamen"].Value?.ToString() ?? "0", // puedes adaptarlo
                     COD_EMPLEADO = codEmpleado,
                     Cod_Laboratorio = codLaboratorio,
                     Cod_Servicio = codServicio,

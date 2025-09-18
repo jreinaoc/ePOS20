@@ -1553,7 +1553,7 @@ namespace CapaVisual_Login
             this.tcCierreCaja.SelectedIndex = 0;
             this.tcCierreCaja.Size = new System.Drawing.Size(1097, 702);
             this.tcCierreCaja.TabIndex = 0;
-            this.tcCierreCaja.SelectedIndexChanged += new System.EventHandler(this.tcCierreCaja_SelectedIndexChanged);
+            //this.tcCierreCaja.SelectedIndexChanged += new System.EventHandler(this.tcCierreCaja_SelectedIndexChanged);
             // 
             // lbPaso
             // 
