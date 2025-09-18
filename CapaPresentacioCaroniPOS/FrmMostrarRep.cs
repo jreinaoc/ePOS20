@@ -45,7 +45,8 @@ namespace CapaVisual_Login
                 if (_imprimir)
                 {
                     Impresor imp = new Impresor();
-                    imp.Imprime(rdlc);                    
+                    //imp.Imprime(rdlc);    
+                    imp.Imprime_NumeroCopias(rdlc, 1);
                     this.Close();
                 }
             }

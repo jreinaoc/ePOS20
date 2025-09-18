@@ -51,11 +51,12 @@ namespace CapaVisual_Login
 
         public void ReportesCierreCaja(bool cierreEnCero)
         {
-            string Sucursal = _D_DetalleOrden.TB_PARAMETRO("SucursalId");
+             string Sucursal = _D_DetalleOrden.TB_PARAMETRO("SucursalId");
             DataSet Datos = _D_Login.SucursalCompania(Sucursal);
             string Descripcion = "";
             string RifCompania = "";
             DateTime DiaActivo = _D_Inicio.DiaActivo().AddDays(-1);
+            DiaActivo = dateTimePicker1.Value.Date;
             string NombreSucursal = "";
             bool imprimir;
             if (_D_DetalleOrden.ParametroImpresion() == "1")
@@ -85,9 +86,9 @@ namespace CapaVisual_Login
             }
             else
             {
-                ReporteCierreCaja(imprimir, RifCompania, Descripcion, NombreSucursal, Sucursal, DiaActivo);
-                ReporteTranferencia(imprimir, RifCompania, Descripcion, NombreSucursal, Sucursal, DiaActivo);
-                ReporteVuelto(imprimir, RifCompania, Descripcion, NombreSucursal, Sucursal, DiaActivo);
+                ReporteCierreCaja(imprimir, RifCompania, Descripcion, NombreSucursal, Sucursal, DiaActivo.Date);
+                ReporteTranferencia(imprimir, RifCompania, Descripcion, NombreSucursal, Sucursal, DiaActivo.Date);
+                ReporteVuelto(imprimir, RifCompania, Descripcion, NombreSucursal, Sucursal, DiaActivo.Date);
             }
 
         }
