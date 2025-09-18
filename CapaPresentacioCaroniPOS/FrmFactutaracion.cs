@@ -8138,11 +8138,19 @@ namespace CapaVisual_Login
 
 
                 TxtCedulaPagoMovil.Text = txtCedula.Text.Substring(2, txtCedula.Text.Length - 2);
-                TxtCedularPagoMovil.Text = _L_Facturacion.TlfCliente.Substring(7, _L_Facturacion.TlfCliente.Length - 7);
+                if  (_L_Facturacion.TlfCliente != "")
+                {
+                    TxtCedularPagoMovil.Text = _L_Facturacion.TlfCliente.Substring(7, _L_Facturacion.TlfCliente.Length - 7);
+                }
                 TxtMontoPagoMovil.Text = TxtVuelto.Text;
                 CbxNacionalidadPagoMovil.Enabled = true;
                 CbxCelularPagoMovil.Enabled = true;
-                String d = _L_Facturacion.TlfCliente.Substring(0, _L_Facturacion.TlfCliente.Length - 11);
+                String d = "";
+                if (_L_Facturacion.TlfCliente != "")
+                {
+                    d = _L_Facturacion.TlfCliente.Substring(0, _L_Facturacion.TlfCliente.Length - 11);
+                }
+               
 
                 //Recorrer el combobox  Prefijos
                 for (int i = 0; i <= CbxCelularPagoMovil.Items.Count; i++)
@@ -8187,7 +8195,7 @@ namespace CapaVisual_Login
                     }
                 }
 
-
+                CbxNacionalidadPagoMovil.Text = txtCedula.Text.Substring(1,1);
 
 
             }

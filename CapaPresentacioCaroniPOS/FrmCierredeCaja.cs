@@ -545,7 +545,7 @@ namespace CapaVisual_Login
                 labelVerticalPagos.ForeColor = Color.White;
                 tabPage4.Controls.Add(labelVerticalPagos);
 
-                CargarDatos();
+               
 
 
             }
@@ -681,15 +681,6 @@ namespace CapaVisual_Login
             sucursal = _D_DetalleOrden.TB_PARAMETRO("sucursalId");
             diaActivo = _D_Inicio.DiaActivo();
 
-            if (!_L_CierreCaja.CierreFueradeHorario(sucursal, DateTime.Now, DateTime.Now) && txtCierreHora.Text == "")
-            {
-                txtCierreHora.Enabled = true;
-            }
-            else
-            {
-                txtCierreHora.Enabled = false;
-            }
-
             dtLogCierre.Clear();
             dgvLogCierre.Refresh();
 
@@ -708,13 +699,21 @@ namespace CapaVisual_Login
             dtPtoVenta.Clear();
             Dvg_CierrePuntoVenta.Refresh();
 
-            
-
-            txtCierreHora.Text = "";
             txtBox_observaciones_pg4.Text = "";
 
             //PUNTOS DE VENTA
             //Consulto si existen cerrados
+            if (!_L_CierreCaja.CierreFueradeHorario(sucursal, DateTime.Now, DateTime.Now) && txtCierreHora.Text == "")
+            {
+                txtCierreHora.Enabled = true;
+            }
+            else
+            {
+                txtCierreHora.Enabled = false;
+            }
+
+            txtCierreHora.Text = "";
+
 
             DataTable dtPuntosCerrados = _L_CierreCaja.CierrePuntodeVenta(sucursal, "", "", diaActivo);
 
@@ -754,7 +753,11 @@ namespace CapaVisual_Login
 
 
             //OS CON PAGOMOVIL
-             dtPagoMovil = _L_CierreCaja.ObtineneCambioCierre(diaActivo, sucursal);
+            dtPagoMovil = new DataTable();
+            dtPagoMovil = _L_CierreCaja.ObtineneCambioCierre(diaActivo, sucursal);
+            Dvg_OSconPagoMovil.DataSource = null; // Desenlaza cualquier fuente
+            Dvg_OSconPagoMovil.Rows.Clear();      // Borra filas
+            Dvg_OSconPagoMovil.Columns.Clear();   // Borra columnas
 
             // Asignar al DataGridView
             Dvg_OSconPagoMovil.DataSource = dtPagoMovil;
@@ -2419,5 +2422,116 @@ namespace CapaVisual_Login
             }
         }
 
+        //private void tcCierreCaja_SelectedIndexChanged(object sender, EventArgs e)
+        //{
+        //    if (tcCierreCaja.SelectedIndex == 0)
+        //    {
+        //        FechaInicioCierre = DateTime.Now;
+        //        lblPaso.Text = "Confirmación";
+        //        lbPaso.Text = "Paso 1";
+        //        btnFinalizar.Text = "Finalizar";
+        //        btnCancelar.Enabled = true;
+
+        //        sucursal = _D_DetalleOrden.TB_PARAMETRO("sucursalId");
+        //        diaActivo = _D_Inicio.DiaActivo();
+
+        //        dtLogCierre.Clear();
+        //        dgvLogCierre.Refresh();
+
+        //        dtCierreCaja.Clear();
+        //        dgvCierredecaja.Refresh();
+
+        //        dtPagoMovil.Clear();
+        //        Dvg_OSconPagoMovil.Refresh();
+
+        //        dtAsistenciaPendiente.Clear();
+        //        Dvg_MarcajeAsistenciaPendiente.Refresh();
+
+        //        dtConsignacion.Clear();
+        //        Dvg_ConsignacionDeOS.Refresh();
+
+        //        dtPtoVenta.Clear();
+        //        Dvg_CierrePuntoVenta.Refresh();
+
+        //        txtBox_observaciones_pg4.Text = "";
+
+        //        //PUNTOS DE VENTA
+        //        DataTable dtPuntosCerrados = _L_CierreCaja.CierrePuntodeVenta(sucursal, "", "", diaActivo);
+
+        //        //Si no se han cerrado lleno datos en 0f
+        //        if (dtPuntosCerrados.Rows.Count == 0)
+        //        {
+        //            DataTable dt = _L_CierreCaja.ObtienePuntosdeVenta("", diaActivo);
+
+        //            CrearTabla("PuntodeVenta");
+
+        //            foreach (DataRow fila in dt.Rows)
+        //            {
+        //                dtPtoVenta.Rows.Add(fila["CodPunto"], fila["Descripcion"], "", "0,00", "0,00", "0,00", "0,00");
+        //            }
+
+
+        //            // Asignar al DataGridView
+        //            Dvg_CierrePuntoVenta.DataSource = dtPtoVenta;
+
+        //            FormatoTabla("PuntodeVenta");
+        //        }
+        //        else
+        //        {
+        //            CrearTabla("PuntodeVenta");
+
+        //            foreach (DataRow fila in dtPuntosCerrados.Rows)
+        //            {
+        //                dtPtoVenta.Rows.Add(fila[0], fila[1], fila[2], fila[3], fila[4], fila[5], fila[6]);
+        //            }
+
+
+        //            // Asignar al DataGridView
+        //            Dvg_CierrePuntoVenta.DataSource = dtPtoVenta;
+
+        //            FormatoTabla("PuntodeVenta");
+        //        }
+
+
+        //        //OS CON PAGOMOVIL
+        //        dtPagoMovil = _L_CierreCaja.ObtineneCambioCierre(diaActivo, sucursal);
+
+        //        // Asignar al DataGridView
+        //        Dvg_OSconPagoMovil.DataSource = dtPagoMovil;
+
+        //        FormatoTabla("PagoMovil");
+
+        //        DataTable dtBancos = _L_CierreCaja.ObtieneBancosPagoMovil(sucursal);
+
+        //        //ASISTENCIA PENDIENTE
+        //        //DataTable dtAsistenciaPendiente = _L_CierreCaja.VerificaAsistenciaPendiente(diaActivo.ToString("yyyyMMdd"), "PEND");
+
+        //        //// Asignar al DataGridView
+        //        //Dvg_MarcajeAsistenciaPendiente.DataSource = dtAsistenciaPendiente;
+
+        //        //FormatoTabla("Asistencia");
+
+        //        Dvg_MarcajeAsistenciaPendiente.EditMode = DataGridViewEditMode.EditProgrammatically;
+
+        //        //CONSIGNACION
+        //        dtConsignacion = _L_CierreCaja.ConsultaOsDia(diaActivo, sucursal);
+
+        //        // Asignar al DataGridView
+        //        Dvg_ConsignacionDeOS.DataSource = dtConsignacion;
+
+        //        FormatoTabla("Consignacion");
+
+        //        //CIERRE DE CAJA
+        //        CrearTabla("CierredeCaja");
+
+        //        dtCierreCaja = _L_CierreCaja.ObtienePagosCierreCaja(sucursal);
+
+
+        //        // Asignar al DataGridView
+        //        dgvCierredecaja.DataSource = dtCierreCaja;
+
+        //        FormatoTabla("CierredeCaja");
+        //    }
+        //}
     }
 }

@@ -4035,7 +4035,7 @@ namespace CapaVisual_Login
             nuevoTrabajo.TSucursal = codigoSucursal;
             nuevoTrabajo.TTIPOTRABAJO = "002";
             nuevoTrabajo.USERCREA = TB_USUARIO.COD_USR;
-            nuevoTrabajo.TEXAMEN = Txt_Tap2_Examen.Text;
+            nuevoTrabajo.TEXAMEN = Cbx_Pnl2_Trbajo.SelectedValue.ToString() != "04" ? Txt_Tap2_Examen.Text : "0";
             nuevoTrabajo.TALTD = Convert.ToDecimal(txtAltD.Text);
             nuevoTrabajo.TALTI = Convert.ToDecimal(txtAltI.Text);
 

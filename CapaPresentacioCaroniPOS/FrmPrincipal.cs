@@ -1086,6 +1086,7 @@ namespace CapaVisual_Login
             _FrmCierreDeCaja.CargarInicio();
             _FrmCierreDeCaja.RegresarInicio();
             addformulario(_FrmCierreDeCaja);
+            _FrmCierreDeCaja.CargarDatos();
             Focus();
 
         }
