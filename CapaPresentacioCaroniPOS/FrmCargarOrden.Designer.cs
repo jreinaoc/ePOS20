@@ -3967,7 +3967,7 @@ namespace CapaVisual_Login
             this.Txt_Pnl3_ObservacionDesc.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Txt_Pnl3_ObservacionDesc.ForeColor = System.Drawing.Color.Black;
             this.Txt_Pnl3_ObservacionDesc.Location = new System.Drawing.Point(25, 134);
-            this.Txt_Pnl3_ObservacionDesc.MaxLength = 50;
+            this.Txt_Pnl3_ObservacionDesc.MaxLength = 200;
             this.Txt_Pnl3_ObservacionDesc.Multiline = true;
             this.Txt_Pnl3_ObservacionDesc.Name = "Txt_Pnl3_ObservacionDesc";
             this.Txt_Pnl3_ObservacionDesc.Size = new System.Drawing.Size(417, 46);
