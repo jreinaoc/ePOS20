@@ -4009,7 +4009,7 @@ namespace CapaLogica.CargarOrdenes
                     new FechaHoraOfrecida
                     {
                     FechaOfrecida = fechaOfrecida,
-                    HoraOfrecida = Hora_ofrecida.ToString("HH:mm:ss tt")
+                    HoraOfrecida = Hora_ofrecida.ToString("hh:mm:ss tt")
                     }
                 };
             }

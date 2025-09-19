@@ -897,7 +897,7 @@ namespace CapaVisual_Login
 
             var HostEnvioMail = _D_DetalleOrden.TB_PARAMETRO("HostEnvioMail");
             //string strComand = ruta + Orig + ";" + DestinatariosP + ";" + DestinatariosC + ";" + Asunto + ";" + User + ";" + pass + ";" + CuerpoMensaje + ";" + adj + ";" + HostEnvioMail + ";1";
-            string strComand = ";" + Orig + ";" + DestinatariosP + ";" + DestinatariosC + ";" + Asunto + ";" + User + ";" + pass + ";" + CuerpoMensaje + ";" + adj + ";" + "CARONI" + ";1";
+            string strComand = ";" + Orig + ";" + DestinatariosP + ";" + DestinatariosC + ";" + Asunto + ";" + User + ";" + pass + ";" + CuerpoMensaje + ";" + adj + ";" + HostEnvioMail + ";1";
             //Ejecutar app externa con parametros
             Process.Start(urlApp, strComand);
             //FuncionDelay();
