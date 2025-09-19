@@ -593,8 +593,29 @@ namespace CapaVisual_Login
                         TxtCedula.Enabled = true;
                         txtNumeroOrden.Enabled = true;
                         CbxEstatus.Enabled = true;
+                        int Dias = 0;
+                        switch (CbxUltimosTesD.SelectedIndex)
+                        {
+                            case 0: // Último día
+                                Dias=0;
+                                break;
+                            case 1: // Última semana
+                                Dias=1;
+                                break;
+                            case 2: // Últimos 15 días
+                                Dias = 7;
+                                break;
+                            case 3: // Último mes
+                                Dias = 15;
+                                break;
+                            case 4: // Último mes
+                                Dias = 30;
+                                break;
+                        }
 
-                        DataSet Dts = _ListaOrdenes.TraerOrdenes(CbxUltimosTesD, CbxEstatus, NumOrden, NumCedula);
+                        DtpDesde.Value = DateTime.Now.AddDays(-Dias);
+                        DtpHasta.Value = DateTime.Now;
+                        DataSet Dts = _ListaOrdenes.TraerOrdporRango(DtpDesde, DtpHasta, CbxEstatus, NumCedula);
                         if (Dts != null)
                         {
                             DgvListadoOrdenes.DataSource = Dts.Tables[0];
@@ -618,6 +639,32 @@ namespace CapaVisual_Login
                             LblOpciones.Visible = false;
 
                         }
+
+
+                        //DataSet Dts = _ListaOrdenes.TraerOrdenes(CbxUltimosTesD, CbxEstatus, NumOrden, NumCedula);
+                        //if (Dts != null)
+                        //{
+                        //    DgvListadoOrdenes.DataSource = Dts.Tables[0];
+                        //    Paginado(Dts);
+                        //    Paginado_Habilitar(true);
+                        //}
+                        //else
+                        //{
+                        //    Paginado_Habilitar(false);
+                        //}
+
+                        //if (DgvListadoOrdenes.Rows.Count > 0)
+                        //{
+                        //    DgvListadoOrdenes.Visible = true;
+                        //    CrearObjetos();
+                        //    ColorearStatus();
+                        //}
+                        //else
+                        //{
+                        //    DgvListadoOrdenes.Visible = false;
+                        //    LblOpciones.Visible = false;
+
+                        //}
 
 
                     }

@@ -9,7 +9,7 @@ namespace CapaEntidades
     public static class VariablesGlobales
     {
         public static string UsuarioAutorizado_FrmClaveAutorizada { get; set; }
-
+        public static string CodigoUsuarioAutorizado_FrmClaveAutorizada { get; set;}
         public static string UsuarioAutorizado_FrmClaveGerente { get; set; }
 
 

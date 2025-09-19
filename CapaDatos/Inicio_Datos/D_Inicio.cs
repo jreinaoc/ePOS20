@@ -484,6 +484,7 @@ namespace CapaDatos.Inicio_Datos
 
         public string Sucursal()
         {
+
             SqlDataAdapter da = new SqlDataAdapter("select Valor from TB_PARAMETRO where Parametro= 'Sucursal'", cn.LeerCadena());
             da.SelectCommand.CommandType = CommandType.Text;
             DataTable dt = new DataTable();

@@ -1937,12 +1937,11 @@ namespace CapaLogica.CargarOrdenes
 
         }
 
-        public bool ServicioColoracion(DataGridView Dgv_Tap3_Articulo, DataGridView Dvg_Coloracion, System.Windows.Forms.RadioButton Rd_FullColor)
+        public bool ServicioColoracion(DataGridView Dgv_Tap3_Articulo, DataGridView Dvg_Coloracion, bool colorDegra)
         {
             try
             {
                 string cristalColor = string.Empty;
-                bool colorDegra = Rd_FullColor.Checked ? false : true;
 
                 // Obtener el código del cristal
                 foreach (DataGridViewRow row in Dgv_Tap3_Articulo.Rows)
@@ -5016,6 +5015,34 @@ namespace CapaLogica.CargarOrdenes
                 return false;
             }
         }
+
+        public string GuardoDescuento_TB_Log(System.Windows.Forms.DataGridView Dgv_Tap3_Totales, System.Windows.Forms.DataGridView Dgv_Tap3_Articulo, string sucursal, string COD_Aprueba , string NumOrden, string DescripcionLog, Action<string> mostrarError, SqlCommand command)
+        {
+            try
+            {
+                string Valor = "";
+                // Verificar cantidad de cristales
+                foreach (DataGridViewRow row in Dgv_Tap3_Articulo.Rows)
+                {
+                    string codigo = row.Cells["CodArticulo"].Value?.ToString() ?? "";
+                    string Porct_Dto = row.Cells["PORCTDESCUENTO"].Value?.ToString() ?? "";
+                    if (!string.IsNullOrEmpty(Porct_Dto) && decimal.TryParse(Porct_Dto, out decimal porcentaje2) && porcentaje2 > 0)
+                    {
+                        string Monto_Descuento = ((porcentaje2 * Convert.ToDecimal(Dgv_Tap3_Totales.Rows[4].Cells["Valor"].Value.ToString())) / 100).ToString();
+                        Valor = _D_Articulos.Guardar_TB_log(sucursal, TB_USUARIO.COD_USR, COD_Aprueba, NumOrden, Monto_Descuento, Porct_Dto, codigo, DescripcionLog, command);
+                        return Valor;
+                    }
+                }
+
+                return Valor;
+            }
+            catch (Exception ex)
+            {
+                mostrarError($"Error agregando descuento: {ex.Message}");
+                return "error";
+            }
+        }
+
     }
 }
 
