@@ -4318,6 +4318,15 @@ namespace CapaLogica.CargarOrdenes
                     else
                     {
                         lcConExist = true;
+                        //PQC
+                        if (TxtOjo == "Ambos")
+                        {
+                            existencia = 2;
+                        }
+                        else
+                        {
+                            existencia = 1;
+                        }
                         if (existencia < cant)
                         {
                             stringBuilder.AppendLine(
