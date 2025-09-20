@@ -4319,7 +4319,16 @@ namespace CapaLogica.CargarOrdenes
                     else
                     {
                         lcConExist = true;
-                        if (existencia < cant)
+                        //PQC
+                        if (TxtOjo == "Ambos")
+                        {
+                            existencia = 2;
+                        }
+                        else
+                        {
+                            existencia = 1;
+                        }
+                        if (existencia < cant) //existencia es la cant que se esta vendiento y cantidad la existencia en la tabla
                         {
                             stringBuilder.AppendLine(
                                 "Este artículo no tiene existencia");
