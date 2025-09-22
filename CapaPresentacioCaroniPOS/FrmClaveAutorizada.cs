@@ -108,11 +108,13 @@ namespace CapaVisual_Login
             {
                 ClaveCorrecta = true;
                 VariablesGlobales.UsuarioAutorizado_FrmClaveAutorizada = gerente;
+                VariablesGlobales.CodigoUsuarioAutorizado_FrmClaveAutorizada = CbxSelecGerent.SelectedValue.ToString();
             }
             else
             {
                 ClaveCorrecta = false;
                 VariablesGlobales.UsuarioAutorizado_FrmClaveAutorizada = "";
+                VariablesGlobales.CodigoUsuarioAutorizado_FrmClaveAutorizada = "";
                 MostrarMensajeError("La clave ingresada es invalida");
             }
 

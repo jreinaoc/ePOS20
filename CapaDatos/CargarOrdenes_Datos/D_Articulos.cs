@@ -2552,6 +2552,55 @@ EXEC pValidoParametrosCRT
                 return null;
             }
         }
+
+        public string Guardar_TB_log(string CodSucursal,string UsuarioSolicita, string COD_Aprueba, string NumOrden, string Descuento, string PorcentajeDesc,
+    string CodArticulo, string DescripcionLog, SqlCommand command = null)
+        {
+            try
+            {
+                if (command == null)
+                {
+                    using (SqlConnection connection = cn.LeerCadena())
+                    {
+                        connection.Open();
+                        command = connection.CreateCommand();
+                    }
+                }
+
+                SqlCommand cmd = command;
+                cmd.Parameters.Clear();
+
+                cmd.CommandText = "CPOS_Insertar_TB_LOG"; // Nombre del stored procedure
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                // Agregar parámetros según el stored procedure
+                cmd.Parameters.AddWithValue("@Cod_Sucursal", CodSucursal); // Asumiendo que Origen es la sucursal
+                cmd.Parameters.AddWithValue("@COD_Solicita", UsuarioSolicita);
+                cmd.Parameters.AddWithValue("@COD_Aprueba", COD_Aprueba); // Asumiendo que Accion es quien aprueba
+                cmd.Parameters.AddWithValue("@NumOrdserv", NumOrden); // Opcional - ajustar según necesidad
+                cmd.Parameters.AddWithValue("@Revision", "0"); // Opcional
+                cmd.Parameters.AddWithValue("@Descuento", string.IsNullOrEmpty(Descuento) ? DBNull.Value : (object)Convert.ToDecimal(Descuento));
+                cmd.Parameters.AddWithValue("@Porct_Dto", string.IsNullOrEmpty(PorcentajeDesc) ? DBNull.Value : (object)Convert.ToDecimal(PorcentajeDesc));
+                cmd.Parameters.AddWithValue("@Cod_Articulo", string.IsNullOrEmpty(CodArticulo) ? DBNull.Value : (object)CodArticulo);
+                cmd.Parameters.AddWithValue("@Descripcion", string.IsNullOrEmpty(DescripcionLog) ? DBNull.Value : (object)DescripcionLog);
+                cmd.Parameters.AddWithValue("@USER_Crea", UsuarioSolicita);
+
+                // Ejecutar y obtener el ID generado
+                object result = cmd.ExecuteScalar();
+
+                cmd.Parameters.Clear();
+
+                return result?.ToString() ?? "0"; // Retornar el ID generado o "0" si falla
+
+            }
+            catch (Exception ex)
+            {
+                string Error = string.Format("Error: {0}", ex.Message);
+                return "";
+            }
+
+
+        }
     }
 
 }

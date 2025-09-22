@@ -80,7 +80,7 @@ namespace CapaVisual_Login
             this.KeyPreview = true;
         }
 
-
+        private string COD_Aprueba_Desc = "";
         // Declarar la lista para almacenar los resultados
         private FrmRepOrden _FrmRepOrden = new FrmRepOrden();
         List<TB_ARTICULO> listaArticulos = new List<TB_ARTICULO>();
@@ -459,7 +459,7 @@ namespace CapaVisual_Login
                     //this.Pnl_3_Descuento.Enabled = false;
                     this.Pnl_3_Descuento.Visible = false;
                     this.Pnl_3_Coloración.Visible = false;
-                    this.Pnl_3_Coloración.Enabled = false;
+                    //this.Pnl_3_Coloración.Enabled = false;
                     this.Pnl_3_Promociones.Visible = false;
                     //this.Pnl_3_Promociones.Enabled = false;
                     //this.pnl_MonturaPropia.Enabled = false;
@@ -693,7 +693,7 @@ namespace CapaVisual_Login
                     this.Rd_Pnl3_Degradado.Enabled = false;
                     this.Dgv_Pnl3_Coloracion.Enabled = false;
                     this.Btn_Tap3_Cancelar_Coloracion.Enabled = false;
-                    this.Btn_Tap3_Aceptar_Coloracion.Enabled = false;
+                    //this.Btn_Tap3_Aceptar_Coloracion.Enabled = false;
 
                     // Controles del Panel Promocion
                     this.Dgv_Pnl3_Promociones.Enabled = false;
@@ -1831,6 +1831,11 @@ namespace CapaVisual_Login
                     Dgv_Tap3_Articulo.Columns.Remove(dataGridViewColumn2);
                 }
 
+                // Descuento
+
+                COD_Aprueba_Desc = "";
+                Tipo_Descuento = "";
+
                 // Limpiar Variables Coloracion y Promociones, montura propia , cristal propio y empresa afiliada 
                 Codigo_Coloracion = "";
                 Codigo_Promocion = "";
@@ -2484,7 +2489,7 @@ namespace CapaVisual_Login
             if (string.IsNullOrEmpty(Codigo_Coloracion))
             {
                 //Validar si agregaron coloracion y el grid tiene un crsital 
-                if (_L_Articulo.ServicioColoracion(Dgv_Tap3_Articulo, Dgv_Pnl3_Coloracion, Rd_Pnl3_FullColor))
+                if (_L_Articulo.ServicioColoracion(Dgv_Tap3_Articulo, Dgv_Pnl3_Coloracion, Rd_Pnl3_FullColor.Checked))
                 {
 
                     //Abro el panel de coloracion 
@@ -2695,11 +2700,13 @@ namespace CapaVisual_Login
 
                 if (Full_Color)
                 {
+                    _L_Articulo.ServicioColoracion(Dgv_Tap3_Articulo, Dgv_Pnl3_Coloracion, Rd_Pnl3_FullColor.Checked);
                     Dgv_Pnl3_Coloracion.Columns["Desc_Color"].Visible = true;
                     Dgv_Pnl3_Coloracion.Columns["Porc_Material"].Visible = false;
                 }
                 else
                 {
+                    _L_Articulo.ServicioColoracion(Dgv_Tap3_Articulo, Dgv_Pnl3_Coloracion, Rd_Pnl3_FullColor.Checked);
                     Dgv_Pnl3_Coloracion.Columns["Desc_Color"].Visible = false;
                     Dgv_Pnl3_Coloracion.Columns["Porc_Material"].Visible = true;
 
@@ -3036,6 +3043,7 @@ namespace CapaVisual_Login
                             if (_FrmClaveAutorizada.DialogResult == DialogResult.OK && _FrmClaveAutorizada.ClaveCorrecta == true)
                             {
                                  Codmotivodes = Cbx_Pnl3_MotivoDesc.SelectedValue.ToString();
+                                COD_Aprueba_Desc = VariablesGlobales.CodigoUsuarioAutorizado_FrmClaveAutorizada;
                                 _L_Articulo.ActualizarTodasCelda(Dgv_Tap3_Articulo, "PORCTDESCUENTO", Txt_Pnl3_PorcDescuento.Text);
 
                             }
@@ -3060,7 +3068,9 @@ namespace CapaVisual_Login
                             if (_FrmClaveAutorizada.DialogResult == DialogResult.OK && _FrmClaveAutorizada.ClaveCorrecta == true)
                             {
                                 Codmotivodes = Cbx_Pnl3_MotivoDesc.SelectedValue.ToString();
+                                COD_Aprueba_Desc = VariablesGlobales.CodigoUsuarioAutorizado_FrmClaveAutorizada;
                                 _L_Articulo.ActualizarCelda(Dgv_Tap3_Articulo, Dgv_Tap3_Articulo.CurrentRow.Index, "PORCTDESCUENTO", Txt_Pnl3_PorcDescuento.Text);
+
 
                             }
                         }
@@ -3876,6 +3886,13 @@ namespace CapaVisual_Login
                     if (!guardoDetalle)
                     {
                         //throw new Exception("Error guardando el Detalle de la Orden. El proceso no puede continuar");
+                        transaction.Rollback();
+                        return;
+                    }
+
+                    // Guardo Log
+                    if(_L_Articulo.GuardoDescuento_TB_Log(Dgv_Tap3_Totales,Dgv_Tap3_Articulo, codSucursal, COD_Aprueba_Desc, numeroOrden, Tipo_Descuento + " " + Txt_Pnl3_ObservacionDesc.Text,mostrarError, command)== "error")
+                    {
                         transaction.Rollback();
                         return;
                     }

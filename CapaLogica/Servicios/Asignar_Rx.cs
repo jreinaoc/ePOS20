@@ -589,7 +589,7 @@ namespace CapaLogica.Servicios
                         ((examen.ADDI == 0m) && (cbOjo.Text == "Ambos" || cbOjo.Text == "Izquierdo"))) &&
                         (examen.ESFD2 == 0m && examen.ESFI2 == 0m))
                     {
-                        mostrarError("Este exámen debe poseer adición por usar cristal bifocal o progresivo. Modifíquelo, Agregue o Seleccione otro.");
+                        mostrarError("El exámen requiere adición para usar cristal bifocal o progresivo Modifique el examen");
                         return false;
                     }
 
