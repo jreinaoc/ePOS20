@@ -9524,6 +9524,35 @@ namespace CapaVisual_Login
             return true; // Si todas las validaciones pasan, devuelve true
         }
 
+        private List<int> ObtenerExamenesDelCliente()
+        {
+            List<int> examenes = new List<int>();
+
+            // Aquí debes consultar tu base de datos o fuente de datos
+            // Ejemplo con DataTable (adapta según tu estructura)
+            try
+            {
+
+                DataTable dtExamenes = _L_Cliente.ObtenerExamenes(Txt_Tap1_Cedula.Text, Cbx_Tap1_Nacionalidad.SelectedItem?.ToString()); // Usa la instancia _L_Cliente 
+
+                foreach (DataRow row in dtExamenes.Rows)
+                {
+                    if (row["NUM_Examen"] != DBNull.Value &&
+                        int.TryParse(row["NUM_Examen"].ToString(), out int numExamen))
+                    {
+                        examenes.Add(numExamen);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Manejar error
+                MessageBox.Show("Error al obtener examenes: " + ex.Message);
+            }
+
+            return examenes.OrderBy(x => x).ToList();
+        }
+
         public void Btn_Tap2_Derecha_Click(object sender, EventArgs e)
         {
             CancelarPorCambioExamen();
@@ -9534,23 +9563,62 @@ namespace CapaVisual_Login
             }
 
 
+            //if (int.TryParse(Txt_Tap2_Examen.Text, out int valorActual))
+            //{
+            //    if (valorActual > 0 && valorActual < TopeExamen)
+            //    {
+            //        Txt_Tap2_Examen.Text = (valorActual + 1).ToString();
+            //    }
+            //    else
+            //    {
+
+            //        Txt_Tap2_Examen.Text = TopeExamen.ToString(); // Opcional: Restablecer el valor al máximo
+            //    }
+            //}
+            //else
+            //{
+            //    Txt_Tap2_Examen.Text = "1"; // Opcional: Restablecer a un valor predeterminado (por ejemplo, el mínimo si aplica)
+            //}
+
             if (int.TryParse(Txt_Tap2_Examen.Text, out int valorActual))
             {
-                if (valorActual > 0 && valorActual < TopeExamen)
+                List<int> examenesExistentes = ObtenerExamenesDelCliente();
+
+                if (examenesExistentes.Count > 0)
                 {
-                    Txt_Tap2_Examen.Text = (valorActual + 1).ToString();
+                    // Ordenar los examenes
+                    examenesExistentes.Sort();
+
+                    // Encontrar la posición del valor actual
+                    int indiceActual = examenesExistentes.IndexOf(valorActual);
+
+                    if (indiceActual >= 0 && indiceActual < examenesExistentes.Count - 1)
+                    {
+                        // Ir al siguiente examen existente
+                        Txt_Tap2_Examen.Text = examenesExistentes[indiceActual + 1].ToString();
+                    }
+                    else if (indiceActual == examenesExistentes.Count - 1)
+                    {
+                        // Ya está en el último examen, puedes mantenerlo o ir al primero
+                        Txt_Tap2_Examen.Text = examenesExistentes[0].ToString(); // Opción: ciclar al primero
+                                                                                 // O mantener el último: Txt_Tap2_Examen.Text = valorActual.ToString();
+                    }
+                    else
+                    {
+                        // El valor actual no existe en la lista, ir al primero
+                        Txt_Tap2_Examen.Text = examenesExistentes[0].ToString();
+                    }
                 }
                 else
                 {
-
-                    Txt_Tap2_Examen.Text = TopeExamen.ToString(); // Opcional: Restablecer el valor al máximo
+                    Txt_Tap2_Examen.Text = "1";
                 }
             }
             else
             {
-                Txt_Tap2_Examen.Text = "1"; // Opcional: Restablecer a un valor predeterminado (por ejemplo, el mínimo si aplica)
+                Txt_Tap2_Examen.Text = "1";
             }
-           
+
             CargarExamenConv();
             CargarExamenCont();
             //CargarDgvPnl2MedConv();
@@ -10244,24 +10312,62 @@ namespace CapaVisual_Login
 
 
 
+            //if (int.TryParse(Txt_Tap2_Examen.Text, out int valorActual))
+            //{
+            //    if (valorActual > 1)
+            //    {
+            //        Txt_Tap2_Examen.Text = (valorActual - 1).ToString();
+            //    }
+            //    else
+            //    {
+
+            //        Txt_Tap2_Examen.Text = "1"; // Opcional: Restablecer el valor al mínimo
+            //    }
+            //}
+            //else
+            //{
+            //    // Manejar el caso en que el texto no es un número válido.
+
+
+            //    Txt_Tap2_Examen.Text = "1"; // Opcional: Restablecer a un valor predeterminado
+            //}
+
             if (int.TryParse(Txt_Tap2_Examen.Text, out int valorActual))
             {
-                if (valorActual > 1)
+                List<int> examenesExistentes = ObtenerExamenesDelCliente();
+
+                if (examenesExistentes.Count > 0)
                 {
-                    Txt_Tap2_Examen.Text = (valorActual - 1).ToString();
+                    // Ordenar los examenes
+                    examenesExistentes.Sort();
+
+                    // Encontrar la posición del valor actual
+                    int indiceActual = examenesExistentes.IndexOf(valorActual);
+
+                    if (indiceActual > 0 )
+                    {
+                        // Ir al siguiente examen existente
+                        Txt_Tap2_Examen.Text = examenesExistentes[indiceActual - 1].ToString();
+                    }
+                    else if (indiceActual == 0 )
+                    {
+                        // Ya está en el primer examen, ir al último (ciclo)
+                        Txt_Tap2_Examen.Text = examenesExistentes[examenesExistentes.Count - 1].ToString();
+                    }
+                    else
+                    {
+                        // El valor actual no existe en la lista, ir al primero
+                        Txt_Tap2_Examen.Text = examenesExistentes[examenesExistentes.Count - 1].ToString();
+                    }
                 }
                 else
                 {
-
-                    Txt_Tap2_Examen.Text = "1"; // Opcional: Restablecer el valor al mínimo
+                    Txt_Tap2_Examen.Text = "1";
                 }
             }
             else
             {
-                // Manejar el caso en que el texto no es un número válido.
-
-
-                Txt_Tap2_Examen.Text = "1"; // Opcional: Restablecer a un valor predeterminado
+                Txt_Tap2_Examen.Text = "1";
             }
 
             CargarExamenConv();

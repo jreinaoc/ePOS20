@@ -233,6 +233,17 @@ namespace CapaLogica.CargarClientes_Logica
             return cliente;
         }
 
+        public DataTable ObtenerExamenes(string cedula, string nacio)
+        {
+            stringBuilder.Clear();
+            DataTable cliente = _D_Cliente.ObtenerExamenes(cedula, nacio); // Corregido a _D_Cliente
+            if (cliente == null)
+            {
+                stringBuilder.AppendLine(_D_Cliente.stringBuilder.ToString()); // Corregido a _D_Cliente
+            }
+            return cliente;
+        }
+
         public List<TB_MAESEDO> ObtenerEstados()
         {
             stringBuilder.Clear();

@@ -613,7 +613,40 @@ namespace CapaDatos.CargarClientes_Datos
             }
         }
 
+        public DataTable ObtenerExamenes(string cedula, string nacio)
+        {
+            stringBuilder.Clear();
+            SqlConnection conexion = null;
+            SqlCommand comando = null;
+            SqlDataReader reader = null;
 
+            try
+            {
+                conexion = cn.LeerCadena();
+                if (conexion.State != ConnectionState.Open)
+                {
+                    conexion.Open();
+                }
+                string consulta = "SELECT  CTE_Nacio, CTE_CedIden, NUM_Examen FROM  TB_Examen WHERE CTE_CedIden = @cedula AND CTE_Nacio = @nacio ORDER BY NUM_Examen ";
+                comando = new SqlCommand(consulta, conexion);
+                comando.Parameters.AddWithValue("@cedula", cedula);
+                comando.Parameters.AddWithValue("@nacio", nacio);
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(comando);
+                da.Fill(dt);
+                return dt;
+            }
+            catch (SqlException ex)
+            {
+                stringBuilder.AppendLine(string.Format("Error al obtener examenes de cliente: {0}", ex.Message));
+                return null; // O lanza una excepción específica
+            }
+            finally
+            {
+                if (reader != null && !reader.IsClosed) reader.Close();
+                if (conexion != null && conexion.State == ConnectionState.Open) conexion.Close();
+            }
+        }
 
     }
 }
