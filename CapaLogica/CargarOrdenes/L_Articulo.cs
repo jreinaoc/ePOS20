@@ -4384,7 +4384,7 @@ namespace CapaLogica.CargarOrdenes
                         {
                             existencia = 1;
                         }
-                        if (existencia < cant)
+                        if (existencia < cant) //existencia es la cant que se esta vendiento y cantidad la existencia en la tabla
                         {
                             stringBuilder.AppendLine(
                                 "Este artículo no tiene existencia");
