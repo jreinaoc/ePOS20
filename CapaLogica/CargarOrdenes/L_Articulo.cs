@@ -2784,8 +2784,9 @@ namespace CapaLogica.CargarOrdenes
 
         public Dictionary<string, string> CrearParametrosPromociones(string parametro01 = null, string parametro02 = null, string parametro03 = null,
     string parametro04 = null, string parametro05 = null, string parametro06 = null, string parametro07 = null, string parametro08 = null, string parametro09 = null,
-    string parametro10 = null, string parametro11 = null, string parametro12 = null, string parametro13 = null, string parametro14 = null, string parametro15 = null, 
-    string parametro16 = null, string parametro17 = null, string parametro18 = null, string parametro19 = null, string parametro20 = null)
+    string parametro10 = null)
+    //        , string parametro11 = null, string parametro12 = null, string parametro13 = null, string parametro14 = null, string parametro15 = null,
+    //string parametro16 = null, string parametro17 = null, string parametro18 = null, string parametro19 = null, string parametro20 = null)
         {
              return new Dictionary<string, string>
              {
@@ -2798,17 +2799,17 @@ namespace CapaLogica.CargarOrdenes
                     { "@PARAMETRO07", parametro07 },
                     { "@PARAMETRO08", parametro08 },
                     { "@PARAMETRO09", parametro09 },
-                    { "@PARAMETRO10", parametro10 },
-                    { "@PARAMETRO11", parametro11 },
-                    { "@PARAMETRO12", parametro12 },
-                    { "@PARAMETRO13", parametro13 },
-                    { "@PARAMETRO14", parametro14 },
-                    { "@PARAMETRO15", parametro15 },
-                    { "@PARAMETRO16", parametro16 },
-                    { "@PARAMETRO17", parametro17 },
-                    { "@PARAMETRO18", parametro18 },
-                    { "@PARAMETRO19", parametro19 },
-                    { "@PARAMETRO20", parametro20 }
+                    { "@PARAMETRO10", parametro10 }
+                    //,{ "@PARAMETRO11", parametro11 },
+                    //{ "@PARAMETRO12", parametro12 },
+                    //{ "@PARAMETRO13", parametro13 },
+                    //{ "@PARAMETRO14", parametro14 },
+                    //{ "@PARAMETRO15", parametro15 },
+                    //{ "@PARAMETRO16", parametro16 },
+                    //{ "@PARAMETRO17", parametro17 },
+                    //{ "@PARAMETRO18", parametro18 },
+                    //{ "@PARAMETRO19", parametro19 },
+                    //{ "@PARAMETRO20", parametro20 }
              };
         }
 
@@ -2828,8 +2829,10 @@ namespace CapaLogica.CargarOrdenes
             bool PromoAplica = false;
             bool promoAplicaAR = false;
             bool PromoARObligatorio = false;
+            // Dictionary para nuevas variables dinámicas
+             Dictionary<string, string> nuevasVariables = new Dictionary<string, string>();
 
-            DataTable respuesta = _D_Articulos.BucarTipoVenta(Cod_DetVta);
+             DataTable respuesta = _D_Articulos.BucarTipoVenta(Cod_DetVta);
 
             string glbTipoTrabajo= respuesta.Rows[0]["CodVenta"].ToString();
 
@@ -2897,6 +2900,29 @@ namespace CapaLogica.CargarOrdenes
                             }
                         }
                     }
+
+                    else
+                    {
+                            // Consultar en la base de datos el tipo de artículo
+                            DataSet dsTipoArticulo = _D_Articulos.ObtenerTipoArticulo(); // Esta función devuelve la tabla con códigos char(1)
+
+                            if (dsTipoArticulo.Tables.Count > 0)
+                            {
+                                foreach (DataRow dr in dsTipoArticulo.Tables[0].Rows)
+                                {
+                                    string codigoTipo = dr["CodigoTipo"].ToString(); // Suponiendo que la columna se llama "CodigoTipo"
+
+                                    // Verificar si el código del artículo empieza con este tipo
+                                    if (codigo.StartsWith(codigoTipo))
+                                    {
+                                        // Crear variable dinámica basada en el tipo
+                                        string nombreVariable = "Tipo_" + codigoTipo;
+                                        nuevasVariables[nombreVariable] = codigo;
+                                        break; // Salir del loop una vez encontrado el tipo
+                                    }
+                                }
+                            }
+                    }
                 }
             }
 
@@ -2914,8 +2940,39 @@ namespace CapaLogica.CargarOrdenes
                 _D_Inicio.DiaActivo().ToString("yyyy/MM/dd")
             );
 
-            // Llamar a la función AplicarPromociones
-            DataSet resultado = _D_Articulos.AplicarPromociones(CodPromo,parametros);
+             //// Agregar las nuevas variables dinámicas al Dictionary de parámetros
+             //   foreach (var nuevaVariable in nuevasVariables)
+             //   {
+             //       parametros.Add(nuevaVariable.Key, nuevaVariable.Value);
+             //   }
+
+                // Contar cuántos parámetros ya hemos usado
+                int parametrosUsados = 10; // Los 10 parámetros fijos que ya estableciste
+                int ConteoParametros = 10;
+                // Agregar las nuevas variables dinámicas a los parámetros siguientes
+                foreach (var nuevaVariable in nuevasVariables)
+                {
+                    ConteoParametros++;
+
+                    if (ConteoParametros > 20)
+                        break; // No exceder el límite de 20 parámetros
+
+                    string nombreParametro = $"@PARAMETRO{ConteoParametros:D2}";
+                    parametros[nombreParametro] = nuevaVariable.Value;
+                }
+
+                // Completar los parámetros restantes con null si no llegamos a 20
+                for (int i = parametrosUsados +1 ; i <= 20; i++)
+                {
+                    string nombreParametro = $"@PARAMETRO{i:D2}";
+                    if (!parametros.ContainsKey(nombreParametro))
+                    {
+                        parametros[nombreParametro] = null;
+                    }
+                }
+
+                // Llamar a la función AplicarPromociones
+                DataSet resultado = _D_Articulos.AplicarPromociones(CodPromo,parametros);
 
             // Verificar si la promoción aplica
             if (resultado.Tables.Count > 0 && resultado.Tables[0].Rows.Count > 0)

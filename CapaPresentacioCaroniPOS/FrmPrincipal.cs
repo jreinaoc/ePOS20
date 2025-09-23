@@ -853,8 +853,8 @@ namespace CapaVisual_Login
             }
 
 
-            if (TB_USUARIO.COD_EMPLEADO != "99999")
-            {
+            //if (TB_USUARIO.COD_EMPLEADO != "99999")
+            //{
 
                 if (StatusTasa != "SI" || StatusSec != "SI")
                 {
@@ -896,7 +896,7 @@ namespace CapaVisual_Login
                 {
                     return;
                 }
-            }
+            //}
 
             PnlListadoOrdenes.Controls.Clear();
             addformularioCargaOrdenes(_FrmCargarOrden);

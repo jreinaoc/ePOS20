@@ -1514,6 +1514,38 @@ EXEC pValidoParametrosCRT
             return dts;
         }
 
+        public DataSet ObtenerTipoArticulo(SqlCommand command = null)
+        {
+            try
+            {
+                if (command == null)
+                {
+                    SqlConnection connection = cn.LeerCadena();
+                    command = connection.CreateCommand();
+                }
+
+                SqlCommand cmd = command;
+                cmd.Parameters.Clear();
+                cmd.CommandText = "CPOS_ObtenerTipoArticulos";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataSet dts = new DataSet();
+                da.Fill(dts);
+                cmd.Parameters.Clear();
+                return dts;
+
+                //  return listaCodLaboratorio;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al obtener InicalArticulo: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+
+
+        }
+
 
 
         //public List<TB_LABORATORIOSDTO> DatosLaboratorio(SqlCommand command = null)

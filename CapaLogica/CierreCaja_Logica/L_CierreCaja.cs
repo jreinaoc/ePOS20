@@ -646,7 +646,7 @@ namespace CapaLogica.CierreCaja_Logica
                 }
 
 
-                if (TB_USUARIO.Id_Rol != "000" && TB_USUARIO.Id_Rol != "013" && TB_USUARIO.Id_Rol != "017") // And GlbBloqUsuarioSistemas = True)
+                if (TB_USUARIO.Id_Rol != "000" && TB_USUARIO.Id_Rol != "017" && (TB_USUARIO.Id_Rol == "013" && _D_DetalleOrden.TB_PARAMETRO("BloqUsuSistemas") != "1")) // And GlbBloqUsuarioSistemas = True)
                 {
                     // No es Propietario
                     DataSet ds = _D_CierreCaja.ObtieneAsistenciaPendiente(fecha, TB_USUARIO.COD_USR);
