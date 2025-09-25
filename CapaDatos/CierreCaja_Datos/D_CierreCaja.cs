@@ -179,7 +179,7 @@ namespace CapaDatos.CierreCaja_Datos
             }
         }
 
-        public DataTable AgregaPuntosdeVenta( string codBanco,    DateTime fecha,    string nroLote,    decimal manualTarjCredito,    decimal manualTarjCreditoAmex,
+        public DataTable AgregaPuntosdeVenta( string codBanco,  string tipo,  DateTime fecha,    string nroLote,    decimal manualTarjCredito,    decimal manualTarjCreditoAmex,
         decimal manualTarjDebito,    decimal manualTarjOtros,    SqlCommand command = null)
         {
             try
@@ -194,7 +194,8 @@ namespace CapaDatos.CierreCaja_Datos
 
                 cmd.CommandText = "pAddCierrePtoVta";
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@CodBanco", codBanco);
+                cmd.Parameters.AddWithValue("@CodPunto", codBanco);
+                cmd.Parameters.AddWithValue("@Tipo", tipo);
                 cmd.Parameters.AddWithValue("@Fecha", fecha);
                 cmd.Parameters.AddWithValue("@NroLote", nroLote);
                 cmd.Parameters.AddWithValue("@ManualTarjCredito", manualTarjCredito);
