@@ -99,30 +99,88 @@ namespace CapaVisual_Login
                     return;
                 }
             }
-            //Si no se han cerrado 
-            if (Dvg_CierrePuntoVenta.Rows.Count > 0 && dtPuntosCerrados.Rows.Count == 0 )
+
+            bool valido = true;
+            bool todosLotesEnBlanco = false;
+
+            foreach (DataGridViewRow row in Dvg_CierrePuntoVenta.Rows)
             {
-                bool todosLotesEnBlanco = true;
+                if (row.IsNewRow) continue;
 
-                foreach (DataGridViewRow fila in Dvg_CierrePuntoVenta.Rows)
+                // Validar Nro. Lote
+                string nroLote = row.Cells["Nro. Lote"].Value?.ToString().Trim();
+                if (string.IsNullOrEmpty(nroLote) || nroLote == "0")
                 {
-                    // Ignorar fila nueva si está habilitada la opción de agregar
-                    if (!fila.IsNewRow)
-                    {
-                        var valorLote = fila.Cells["Nro. Lote"].Value?.ToString().Trim();
-
-                        if (valorLote != "")
-                        {
-                            todosLotesEnBlanco = false;
-                            break;
-                        }
-                    }
+                    valido = false;
+                    //row.Cells["Nro. Lote"].Style.BackColor = Color.LightCoral;
+                    continue; // ya no hace falta validar totales si falla el lote
                 }
+                //else
+                //{
+                //    row.Cells["Nro. Lote"].Style.BackColor = Color.White;
+                //}
+
+                // Validar que al menos un total sea distinto de 0
+                decimal totalCredito = Convert.ToDecimal(row.Cells["Total T. Crédito"].Value ?? 0);
+                decimal totalAmex = Convert.ToDecimal(row.Cells["Total T. Amex"].Value ?? 0);
+                decimal totalDebito = Convert.ToDecimal(row.Cells["Total T. Débito"].Value ?? 0);
+                decimal totalOtros = Convert.ToDecimal(row.Cells["Total T. Otros"].Value ?? 0);
+
+                if (totalCredito == 0 && totalAmex == 0 && totalDebito == 0 && totalOtros == 0)
+                {
+                    valido = false;
+                    // Marcar todas las celdas de totales en rojo
+                    //row.Cells["Total T. Crédito"].Style.BackColor = Color.LightCoral;
+                    //row.Cells["Total T. Amex"].Style.BackColor = Color.LightCoral;
+                    //row.Cells["Total T. Débito"].Style.BackColor = Color.LightCoral;
+                    //row.Cells["Total T. Otros"].Style.BackColor = Color.LightCoral;
+                }
+                //else
+                //{
+                //    // Restaurar color si son válidos
+                //    row.Cells["Total T. Crédito"].Style.BackColor = Color.White;
+                //    row.Cells["Total T. Amex"].Style.BackColor = Color.White;
+                //    row.Cells["Total T. Débito"].Style.BackColor = Color.White;
+                //    row.Cells["Total T. Otros"].Style.BackColor = Color.White;
+                //}
+            }
+
+            if (!valido)
+            {
+                todosLotesEnBlanco = true;
+                //    MessageBox.Show("Existen filas con Nro. Lote vacío/0 o sin ningún total cargado.");
+            }
+            //else
+            //{
+            //    //MessageBox.Show("Validación correcta. Todos los datos son válidos.");
+            //}
+
+
+
+            //Si no se han cerrado 
+            //if (Dvg_CierrePuntoVenta.Rows.Count > 0 && dtPuntosCerrados.Rows.Count == 0 )
+            //{
+                
+
+                //foreach (DataGridViewRow fila in Dvg_CierrePuntoVenta.Rows)
+                //{
+                //    // Ignorar fila nueva si está habilitada la opción de agregar
+                //    if (!fila.IsNewRow)
+                //    {
+                //        var valorLote = fila.Cells["Nro. Lote"].Value?.ToString().Trim();
+
+                //        if (valorLote != "")
+                //        {
+                //            todosLotesEnBlanco = false;
+                //            break;
+                //        }
+                //    }
+                //}
 
                 if (todosLotesEnBlanco)
                 {
                     _FrmMensajes.co = 2;
-                    _FrmMensajes.avisomensaje("Debe escribir el Nro. de lote");
+                    _FrmMensajes.avisomensaje("Debe llenar todos los puntos de venta");
                     _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
                     _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
                     _FrmMensajes.ShowDialog();
@@ -138,13 +196,13 @@ namespace CapaVisual_Login
                             var valorLote = fila.Cells["Nro. Lote"].Value?.ToString().Trim();
                             if (valorLote != "")
                             {
-                            decimal.TryParse(fila.Cells[3].Value?.ToString().Trim().Replace(".",""), out decimal totalCredito);
-                            decimal.TryParse(fila.Cells[4].Value?.ToString().Trim().Replace(".", ""), out decimal totalAmex);
-                            decimal.TryParse(fila.Cells[5].Value?.ToString().Trim().Replace(".", ""), out decimal totalDebito);
-                            decimal.TryParse(fila.Cells[6].Value?.ToString().Trim().Replace(".", ""), out decimal totalOtros);
+                            decimal.TryParse(fila.Cells[4].Value?.ToString().Trim().Replace(".",""), out decimal totalCredito);
+                            decimal.TryParse(fila.Cells[5].Value?.ToString().Trim().Replace(".", ""), out decimal totalAmex);
+                            decimal.TryParse(fila.Cells[6].Value?.ToString().Trim().Replace(".", ""), out decimal totalDebito);
+                            decimal.TryParse(fila.Cells[7].Value?.ToString().Trim().Replace(".", ""), out decimal totalOtros);
 
                            
-                            if (!_L_CierreCaja.AgregaPuntosdeVenta(fila.Cells[0].Value?.ToString().Trim(), diaActivo, fila.Cells[2].Value?.ToString().Trim(), totalCredito, totalAmex, totalDebito, totalOtros))
+                            if (!_L_CierreCaja.AgregaPuntosdeVenta(fila.Cells[0].Value?.ToString().Trim(), fila.Cells[1].Value?.ToString().Trim(), diaActivo, fila.Cells[3].Value?.ToString().Trim(), totalCredito, totalAmex, totalDebito, totalOtros))
 
                                 {
                                     _FrmMensajes.co = 2;
@@ -167,7 +225,7 @@ namespace CapaVisual_Login
                 //_FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
                 //_FrmMensajes.ShowDialog();
                 //return;
-            }
+            //}
 
             //ASISTENCIA PENDIENTE
             dtAsistenciaPendiente = _L_CierreCaja.VerificaAsistenciaPendiente(diaActivo.ToString("yyyyMMdd"), "PEND");
@@ -610,6 +668,7 @@ namespace CapaVisual_Login
                     if (dtPtoVenta.Columns.Count == 0)
                     {
                         dtPtoVenta.Columns.Add("CodPunto", typeof(string));
+                        dtPtoVenta.Columns.Add("Tipo", typeof(string));
                         dtPtoVenta.Columns.Add("Banco", typeof(string));
                         dtPtoVenta.Columns.Add("Nro. Lote", typeof(string)); // Vacía
                         dtPtoVenta.Columns.Add("Total T. Crédito", typeof(string)); // Vacía
@@ -714,8 +773,14 @@ namespace CapaVisual_Login
 
             txtCierreHora.Text = "";
 
+            DataTable dtPuntosCerrados = new DataTable();
+            dtPuntosCerrados = _L_CierreCaja.CierrePuntodeVenta(sucursal, "", "", diaActivo);
+            Dvg_CierrePuntoVenta.DataSource = null; // Desenlaza cualquier fuente
+            Dvg_CierrePuntoVenta.Rows.Clear();      // Borra filas
+            Dvg_CierrePuntoVenta.Columns.Clear();   // Borra columnas
 
-            DataTable dtPuntosCerrados = _L_CierreCaja.CierrePuntodeVenta(sucursal, "", "", diaActivo);
+
+            //DataTable dtPuntosCerrados = _L_CierreCaja.CierrePuntodeVenta(sucursal, "", "", diaActivo);
 
             //Si no se han cerrado lleno datos en 0
             if (dtPuntosCerrados.Rows.Count == 0)
@@ -726,7 +791,7 @@ namespace CapaVisual_Login
 
                 foreach (DataRow fila in dt.Rows)
                 {
-                    dtPtoVenta.Rows.Add(fila["CodPunto"], fila["Descripcion"], "", "0,00", "0,00", "0,00", "0,00");
+                    dtPtoVenta.Rows.Add(fila["CodPunto"], fila["Tipo"], fila["Banco"], "", "0,00", "0,00", "0,00", "0,00");
                 }
 
 
@@ -741,12 +806,13 @@ namespace CapaVisual_Login
 
                 foreach (DataRow fila in dtPuntosCerrados.Rows)
                 {
-                    dtPtoVenta.Rows.Add(fila[0], fila[1], fila[2], fila[3], fila[4], fila[5], fila[6]);
+                    //dtPtoVenta.Rows.Add(fila["Tipo"], fila[""CodPunto], fila[1], fila[2], fila[3], fila[4], fila[5], fila[6]);
+                    dtPtoVenta.Rows.Add(fila["CodPunto"], fila["Tipo"], fila["Banco"], fila["NroLote"], fila["ManualTarjCredito"], fila["ManualTarjAmex"], fila["ManualTarjDebito"], fila["ManualTarjOtros"]);
                 }
-
+               
 
                 // Asignar al DataGridView
-                Dvg_CierrePuntoVenta.DataSource = dtPtoVenta;
+        Dvg_CierrePuntoVenta.DataSource = dtPtoVenta;
 
                 FormatoTabla("PuntodeVenta");
             }
@@ -806,12 +872,13 @@ namespace CapaVisual_Login
                     // Asignar ancho personalizado a cada columna
                     Dvg_CierrePuntoVenta.Columns["CodPunto"].Width = 0;
                     Dvg_CierrePuntoVenta.Columns["CodPunto"].Visible = false;
+                    Dvg_CierrePuntoVenta.Columns["Tipo"].Width = 50;
                     Dvg_CierrePuntoVenta.Columns["Banco"].Width = 100;
-                    Dvg_CierrePuntoVenta.Columns["Nro. Lote"].Width = 150;
+                    Dvg_CierrePuntoVenta.Columns["Nro. Lote"].Width = 100;
                     Dvg_CierrePuntoVenta.Columns["Total T. Crédito"].Width = 120;
                     Dvg_CierrePuntoVenta.Columns["Total T. Amex"].Width = 120;
                     Dvg_CierrePuntoVenta.Columns["Total T. Débito"].Width = 120;
-                    Dvg_CierrePuntoVenta.Columns["Total T. Otros"].Width = 100;
+                    Dvg_CierrePuntoVenta.Columns["Total T. Otros"].Width = 120;
 
                    
                     Dvg_CierrePuntoVenta.Columns["Banco"].ReadOnly = true;

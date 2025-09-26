@@ -102,12 +102,12 @@ namespace CapaLogica.CierreCaja_Logica
             }
         }
 
-        public bool AgregaPuntosdeVenta( string codBanco, DateTime fecha, string nroLote, decimal manualTarjCredito, decimal manualTarjCreditoAmex,
+        public bool AgregaPuntosdeVenta( string codBanco, string tipo, DateTime fecha, string nroLote, decimal manualTarjCredito, decimal manualTarjCreditoAmex,
     decimal manualTarjDebito, decimal manualTarjOtros)
         {
             try
             {
-                DataTable dt = _D_CierreCaja.AgregaPuntosdeVenta(  codBanco, fecha, nroLote, manualTarjCredito, manualTarjCreditoAmex,
+                DataTable dt = _D_CierreCaja.AgregaPuntosdeVenta(  codBanco, tipo, fecha, nroLote, manualTarjCredito, manualTarjCreditoAmex,
                 manualTarjDebito, manualTarjOtros);
 
                         if (dt.Rows.Count > 0)

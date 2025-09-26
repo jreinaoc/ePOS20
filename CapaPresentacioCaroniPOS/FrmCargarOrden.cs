@@ -2424,7 +2424,7 @@ namespace CapaVisual_Login
             for (int numFilas = e.RowIndex; numFilas < e.RowIndex + e.RowCount; numFilas++)
             {
                 if (Dgv_Tap3_Articulo.Rows[numFilas].Cells["CodArticulo"].Value != null &&
-                    Dgv_Tap3_Articulo.Rows[numFilas].Cells["CodArticulo"].Value.ToString().StartsWith("C"))
+                    Dgv_Tap3_Articulo.Rows[numFilas].Cells["CodArticulo"].Value.ToString().StartsWith("C") || Cristal_Propio)
                 {
                     int FilaCRT = numFilas;
                     //Verifico Prisma 

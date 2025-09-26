@@ -3744,7 +3744,7 @@ namespace CapaLogica.CargarOrdenes
                     new FechaHoraOfrecida
                     {
                         FechaOfrecida = fechaOfrecida,
-                        HoraOfrecida = DateTime.Now.ToString("HH:mm:ss: tt")
+                        HoraOfrecida = DateTime.Now.ToString("hh:mm:ss: tt")
                     }
                     };
                 }
@@ -3879,7 +3879,7 @@ namespace CapaLogica.CargarOrdenes
             return new FechaHoraOfrecida
             {
                 FechaOfrecida = fechaOfrecida,
-                HoraOfrecida = horaMas3.ToString("HH:mm:ss tt")
+                HoraOfrecida = horaMas3.ToString("hh:mm:ss tt")
             };
         }
 
@@ -3926,7 +3926,7 @@ namespace CapaLogica.CargarOrdenes
             return new FechaHoraOfrecida
             {
                 FechaOfrecida = fechaOfrecida,
-                HoraOfrecida = horaMas1.ToString("HH:mm:ss tt")
+                HoraOfrecida = horaMas1.ToString("hh:mm:ss tt")
             };
         }
 
@@ -3951,7 +3951,7 @@ namespace CapaLogica.CargarOrdenes
             return new FechaHoraOfrecida
             {
                 FechaOfrecida = fechaOfrecida,
-                HoraOfrecida = horaActual.ToString("HH:mm:ss tt")
+                HoraOfrecida = horaActual.ToString("hh:mm:ss tt")
             };
         }
 

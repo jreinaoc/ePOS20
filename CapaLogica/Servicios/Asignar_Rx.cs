@@ -413,7 +413,7 @@ namespace CapaLogica.Servicios
                 if (dsFechaOfr.Tables[1].Rows.Count > 0)
                 {
                     fechaOfre = Convert.ToDateTime(dsFechaOfr.Tables[1].Rows[0]["Dias"]);
-                    horaOfre = Convert.ToDateTime(dsFechaOfr.Tables[1].Rows[0]["Hora"]).ToString("HH:mm:ss: tt");
+                    horaOfre = Convert.ToDateTime(dsFechaOfr.Tables[1].Rows[0]["Hora"]).ToString("hh:mm:ss: tt");
                 }
             }
             else
@@ -421,7 +421,7 @@ namespace CapaLogica.Servicios
                 if (Servicio != "004")
                 {
                     fechaOfre = DateTime.Now;
-                    horaOfre = DateTime.Now.ToString("HH:mm:ss");
+                    horaOfre = DateTime.Now.ToString("hh:mm:ss");
                 }
             }
 
