@@ -6415,6 +6415,14 @@ namespace CapaVisual_Login
                 
                 if (TotalAbono == TotalSaldoOrdenConIgtf)
                 {
+                    // Nuevo desarrollo Validaciones por tipo de pago segun la promocion selecionada 
+                    if (rept != "SATISFACTORIO" && (ValidaPagosRequeridos(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision, command).Esatado != "SATISFACTORIO" || ValidaPagosRequeridos(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision, command).Facturar == false ))
+                    {
+                        command.Transaction.Rollback();
+                        return "";
+                    }
+
+
                     // Imprimo La Factura
                     if (rept == "SATISFACTORIO" )
                         if (_L_Facturacion.ValidaFactManual() == false)
@@ -8816,6 +8824,69 @@ namespace CapaVisual_Login
         private void DgvFormula_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
+        }
+
+        private (string Esatado, bool Facturar) ValidaPagosRequeridos (string Cod_Sucursal, string NumOrdserv, string Revision, SqlCommand command)
+        {
+            string Estado = "SATIFACTORIO";
+           
+            try
+            { 
+            bool Factura = true;
+            string CodPromo = "";
+            // Obtengo el Examen asociado a esta orde
+            DataSet DtsDetalle_Orden_consulta = _D_DetalleOrden.OptenerDetalleOrdenCompleto(Cod_Sucursal,NumOrdserv, Revision, command);
+
+            foreach (DataRow row in DtsDetalle_Orden_consulta.Tables[1].Rows)
+            {
+                if (row["COD_Prom"].ToString() != "" && row["COD_Prom"].ToString() != " " && row["COD_Prom"].ToString() != null)
+                {
+                    CodPromo = row["COD_Prom"].ToString();
+                    break;
+                }
+            }
+
+            if (!string.IsNullOrEmpty(CodPromo))
+            {
+                    DataTable dt = _D_DetalleOrden.VerificarCondicionesPago(CodPromo, command);
+
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        if (!string.IsNullOrWhiteSpace(row["TipoPagoRequerido"].ToString()) || !string.IsNullOrWhiteSpace(row["TipoBancoRequerido"].ToString()))
+                        {
+                            // Crear los parámetros para la función Validar Pagos 
+                            Dictionary<string, string> parametros = CrearDictionary(CodPromo, NumOrdserv, Revision);
+                            DataSet resultado = _D_DetalleOrden.AplicarCondicionPromoFactura(parametros, command);
+                            if (resultado.Tables.Count > 0 && resultado.Tables[0].Rows.Count > 0 && resultado.Tables[0].Rows[0]["Resultado"].ToString() == "APLICA" )
+                            {
+                                return (Estado, false);
+                            }
+                        }
+                    }
+                }
+
+            return (Estado, Factura);
+            }
+            catch (Exception ex)
+            {
+                 Estado = string.Format("Error: {0}", ex.Message);
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje(string.Format("Error: {0}", ex.Message) + ", Error inesperado");
+                _FrmMensajes.ShowDialog();
+                return (Estado, false);
+            }
+        }
+
+        public Dictionary<string, string> CrearDictionary(string parametro01, string parametro02, string parametro03, string parametro04 = null, string parametro05 = null) 
+        {
+            return new Dictionary<string, string>
+             {
+                    { "@PARAMETRO01", parametro01 },
+                    { "@PARAMETRO02", parametro02 },
+                    { "@PARAMETRO03", parametro03 },
+                    { "@PARAMETRO04", parametro04 },
+                    { "@PARAMETRO05", parametro05 }
+             };
         }
 
         //Para Probar los reportes

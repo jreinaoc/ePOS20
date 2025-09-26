@@ -1786,12 +1786,19 @@ public void MovimientoInventario(string CodArticulo, string TipoDoc, string Docu
 
         }
 
-        public DataSet OptenerDetalleOrdenCompleto(string COD_SUCURSAL, string NumOrden, string REVISION)
+        public DataSet OptenerDetalleOrdenCompleto(string COD_SUCURSAL, string NumOrden, string REVISION, SqlCommand command)
         {
             try
             {
+                if (command == null)
+                {
+                    SqlConnection connection = cn.LeerCadena();
+                    command = connection.CreateCommand();
+                }
 
-                SqlCommand cmd = new SqlCommand("SP_CPOS_CONSULTA_ORDEN", cn.LeerCadena());
+                SqlCommand cmd = command;
+                cmd.Parameters.Clear();
+                cmd.CommandText = "SP_CPOS_CONSULTA_ORDEN";
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@COD_SUCURSAL", COD_SUCURSAL);
                 cmd.Parameters.AddWithValue("@NumOrden", NumOrden);
@@ -2314,6 +2321,56 @@ public void MovimientoInventario(string CodArticulo, string TipoDoc, string Docu
             }
 
 
+        }
+
+        public DataTable VerificarCondicionesPago(string CodPromo, SqlCommand command)
+        {
+                if (command == null)
+                {
+                    SqlConnection connection = cn.LeerCadena();
+                    command = connection.CreateCommand();
+                }
+
+               SqlCommand cmd = command;
+               cmd.Parameters.Clear();
+               cmd.CommandText = ("Select TipoPagoRequerido, TipoBancoRequerido from TB_PROMOCIONES where COD_Prom = @CodPromo");
+                cmd.Parameters.AddWithValue("@CodPromo", CodPromo);
+                cmd.CommandTimeout = 120;
+                cmd.CommandType = CommandType.Text;
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                return dt;
+
+        }
+
+        public DataSet AplicarCondicionPromoFactura(Dictionary<string, string> parametros = null, SqlCommand command = null)
+        {
+            if (command == null)
+            {
+                SqlConnection connection = cn.LeerCadena();
+                command = connection.CreateCommand();
+            }
+
+            SqlCommand cmd = command;
+            cmd.Parameters.Clear();
+            cmd.CommandText = "pEvaluoCondicionPromoFactura";
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            // Agregar los parámetros opcionales si existen
+            if (parametros != null)
+            {
+                foreach (var parametro in parametros)
+                {
+                    cmd.Parameters.AddWithValue(parametro.Key, parametro.Value ?? (object)DBNull.Value);
+                }
+            }
+
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet dts = new DataSet();
+            da.Fill(dts);
+            cmd.Parameters.Clear();
+            return dts;
         }
 
         public string CambiarSatusOrdenCasada(string CodPromocion, SqlCommand command = null)

@@ -1926,7 +1926,7 @@ namespace CapaLogica.DetalleOrden_Logica
 
 
                 // Obtengo el Examen asociado a esta orde
-                DataSet DtsDetalle_Orden_consulta = _D_DetalleOrden.OptenerDetalleOrdenCompleto(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision);
+                DataSet DtsDetalle_Orden_consulta = _D_DetalleOrden.OptenerDetalleOrdenCompleto(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision,null);
 
 
                 if (DtsDetalle_Orden_consulta != null)
