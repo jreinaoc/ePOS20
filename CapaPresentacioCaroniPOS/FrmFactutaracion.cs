@@ -6415,12 +6415,13 @@ namespace CapaVisual_Login
                 
                 if (TotalAbono == TotalSaldoOrdenConIgtf)
                 {
-                    // Nuevo desarrollo Validaciones por tipo de pago segun la promocion selecionada 
-                    if (rept != "SATISFACTORIO" && (ValidaPagosRequeridos(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision, command).Esatado != "SATISFACTORIO" || ValidaPagosRequeridos(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision, command).Facturar == false ))
-                    {
-                        command.Transaction.Rollback();
-                        return "";
-                    }
+                    //// Nuevo desarrollo Validaciones por tipo de pago segun la promocion selecionada 
+                    //if (rept == "SATISFACTORIO" && ValidaPagosRequeridos(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision, command).Facturar == false)
+                    //{
+                    //    command.Transaction.Rollback();
+                    //    rept = "Abortada";
+                    //    return "";
+                    //}
 
 
                     // Imprimo La Factura
@@ -8857,8 +8858,11 @@ namespace CapaVisual_Login
                             // Crear los parámetros para la función Validar Pagos 
                             Dictionary<string, string> parametros = CrearDictionary(CodPromo, NumOrdserv, Revision);
                             DataSet resultado = _D_DetalleOrden.AplicarCondicionPromoFactura(parametros, command);
-                            if (resultado.Tables.Count > 0 && resultado.Tables[0].Rows.Count > 0 && resultado.Tables[0].Rows[0]["Resultado"].ToString() == "APLICA" )
+                            if (resultado.Tables.Count > 0 && resultado.Tables[0].Rows.Count > 0 && resultado.Tables[0].Rows[0]["Resultado"].ToString() != "APLICA" )
                             {
+                                _FrmMensajes.co = 2;
+                                _FrmMensajes.avisomensaje(resultado.Tables[0].Rows[0]["Resultado"].ToString());
+                                _FrmMensajes.ShowDialog();
                                 return (Estado, false);
                             }
                         }
