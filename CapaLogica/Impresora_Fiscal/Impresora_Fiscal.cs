@@ -9,6 +9,10 @@ using System.Windows.Forms;
 using CapaEntidades;
 //using CapaLogica.Anulacion_Logica;
 using CapaDatos.Anulacion;
+using System.Reflection;
+using System.Text.RegularExpressions;
+using System.Linq;
+using System.IO;
 
 namespace CapaLogica.Impresora_Fiscal
 {
@@ -23,6 +27,8 @@ namespace CapaLogica.Impresora_Fiscal
         //private FrmMensajes _FrmMensajes = new FrmMensajes();
         D_Anulacion _D_Anulacion = new D_Anulacion();
 
+        static readonly Regex Hex4 = new Regex(@"^[0-9A-Fa-f]{4}$", RegexOptions.Compiled);
+
         // Clases de apoyo
         public class EstadoImpresora
         {
@@ -33,6 +39,10 @@ namespace CapaLogica.Impresora_Fiscal
             public bool ErrorCortadora { get; set; }
             public bool BufferOverflow { get; set; }
             public bool TienePapel { get; set; }
+            public bool PocoPapel { get; set; }
+            public bool SinPapel { get; set; }
+            public bool ErrorGeneral { get; set; }
+
         }
 
         public void IniciarImpresora(int Opcion)
@@ -682,25 +692,36 @@ namespace CapaLogica.Impresora_Fiscal
         public EstadoImpresora ObtenerEstadoCompleto()
         {
             VmaxComVe.VmaxComClass _printer = new VmaxComVe.VmaxComClass();
-
             var estado = new EstadoImpresora();
 
-            // Estado general
-            uint estadoGeneral = _printer.ObtenerEstado();
+            try
+            {
+                uint estadoMecanico = _printer.ObtenerEstadoImpresora();
 
-            // Estado mecánico
-            uint estadoMecanico = _printer.ObtenerEstadoImpresora();
+                // Interpretar estados - VERIFICAR ESTAS MÁSCARAS CON EL MANUAL DE LA IMPRESORA
+                estado.Online = (estadoMecanico & 0x01) == 0;        // Bit 0
+                estado.TapaAbierta = (estadoMecanico & 0x02) != 0;   // Bit 1 - CORREGIDO
+                estado.PocoPapel = (estadoMecanico & 0x04) != 0;     // Bit 2
+                estado.SinPapel = (estadoMecanico & 0x08) != 0;      // Bit 3
+                estado.TemperaturaAlta = (estadoMecanico & 0x10) != 0; // Bit 4
+                estado.ErrorGeneral = (estadoMecanico & 0x20) != 0;  // Bit 5
+                estado.ErrorCortadora = (estadoMecanico & 0x40) != 0; // Bit 6
+                estado.BufferOverflow = (estadoMecanico & 0x80) != 0; // Bit 7
 
-            // Interpretar todos los estados
-            estado.Online = (estadoMecanico & (1 << 0)) == 0;
-            estado.TapaAbierta = (estadoMecanico & (1 << 1)) != 0;
-            estado.TemperaturaAlta = (estadoMecanico & (1 << 2)) != 0;
-            estado.ErrorNoRecuperable = (estadoMecanico & (1 << 3)) != 0;
-            estado.ErrorCortadora = (estadoMecanico & (1 << 4)) != 0;
-            estado.BufferOverflow = (estadoMecanico & (1 << 5)) != 0;
-            estado.TienePapel = InterpretarEstadoPapel(estadoMecanico);
+                // Estado del papel basado en múltiples bits
+                estado.TienePapel = !estado.SinPapel;
 
-            return estado;
+                // Para debugging - agrega esto temporalmente
+                Console.WriteLine($"Estado mecánico (hex): 0x{estadoMecanico:X2}");
+                Console.WriteLine($"Estado mecánico (bin): {Convert.ToString(estadoMecanico, 2).PadLeft(8, '0')}");
+                Console.WriteLine($"Tapa abierta: {estado.TapaAbierta}");
+
+                return estado;
+            }
+            finally
+            {
+                _printer.CerrarPuerto();
+            }
         }
 
         private static bool InterpretarEstadoPapel(uint estado)
@@ -714,6 +735,648 @@ namespace CapaLogica.Impresora_Fiscal
 
             // Si alguno de los bits 6-10 está en 1, NO hay papel
             return !(sinPapelBit6 || sinPapelBit7 || sinPapelBit8 || sinPapelBit9 || sinPapelBit10);
+        }
+
+        // Opción 2: recibe la máscara cruda de 16 bits
+        public static (bool SinPapel, bool TapaAbierta) PapelOTapa(ushort mask)
+        {
+            bool tapaAbierta = (mask & (1 << 1)) != 0;
+
+            bool sinPapel =
+                   ((mask & (1 << 6)) != 0)   // Fin de papel
+                || ((mask & (1 << 7)) != 0)   // Ausencia de papel
+                || ((mask & (1 << 8)) != 0)   // TOF sin papel
+                || ((mask & (1 << 9)) != 0)   // COF sin papel
+                || ((mask & (1 << 10)) != 0);  // BOF sin papel
+
+            bool finDePapel = (mask & (1 << 6)) != 0;  // Se consumió el papel
+            bool ausenciaDePapel = (mask & (1 << 7)) != 0;  // No hay papel cargado
+            bool tofSinPapel = (mask & (1 << 8)) != 0;  // Top Of Form sin papel
+            bool cofSinPapel = (mask & (1 << 9)) != 0;  // Center Of Form sin papel
+            bool bofSinPapel = (mask & (1 << 10)) != 0;  // Bottom Of Form sin papel
+
+            return (sinPapel, tapaAbierta);
+        }
+
+        // Devuelve los 4 dígitos HEX del estado del mecanismo de impresión.
+        public static string LeerEstadoHex(VmaxComVe.VmaxComClass vx)
+        {
+            uint rc = vx.ObtenerEstadoImpresora();
+            if (rc != 0) throw new InvalidOperationException($"ObtenerEstadoImpresora() retornó {rc}");
+
+            // Ruta 1: estructura de retorno típica "pRetornoEstadoImpresora.sEstatusMecanismo"
+            var t = vx.GetType();
+            var ret = t.GetProperty("pRetornoEstadoImpresora")?.GetValue(vx);
+            if (ret != null)
+            {
+                var hex = ret.GetType().GetProperty("sEstatusMecanismo")?.GetValue(ret) as string;
+                if (!string.IsNullOrWhiteSpace(hex)) return hex.Trim();
+            }
+
+            // Ruta 2: propiedad plana según versión de la DLL.
+            var hexPlano =
+                  t.GetProperty("sEstatusMecanismoImpresion")?.GetValue(vx) as string
+               ?? t.GetProperty("sEstatusImpresoraHex")?.GetValue(vx) as string;
+            if (!string.IsNullOrWhiteSpace(hexPlano)) return hexPlano.Trim();
+
+            throw new MissingMemberException("No se encontró la propiedad con el estado HEX (4). Verifica el Interop generado.");
+        }
+
+        public static (bool SinPapel, bool TapaAbierta) PapelOTapa2(string estadoHex4)
+        {
+            if (string.IsNullOrWhiteSpace(estadoHex4))
+                throw new ArgumentException("estadoHex4 vacío.", nameof(estadoHex4));
+
+            ushort mask = Convert.ToUInt16(estadoHex4.Trim(), 16);
+            return PapelOTapa(mask);
+        }
+
+        public static string LeerEstadoHexRobusto(VmaxComVe.VmaxComClass vx)
+        {
+            // Debe llamarse después de vx.ObtenerEstadoImpresora()
+            // 1) Buscar en propiedades de nivel 1 del COM
+            var hex = BuscarHexEnObjeto(vx, priorizarPorNombre: true);
+            if (hex != null) return hex;
+
+            // 2) Buscar en objetos de retorno tipo "pRetorno*"
+            foreach (var p in vx.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public))
+            {
+                if (!p.Name.StartsWith("pRetorno", StringComparison.OrdinalIgnoreCase)) continue;
+                var ret = p.GetValue(vx);
+                var h = BuscarHexEnObjeto(ret, priorizarPorNombre: true);
+                if (h != null) return h;
+            }
+
+            // 3) Buscar en campos (algunos interop exponen fields, no properties)
+            foreach (var f in vx.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public))
+            {
+                var h = ConvertirAHex4(f.GetValue(vx), f.Name);
+                if (h != null) return h;
+            }
+
+            throw new MissingMemberException("No se encontró el H(4) del estado del mecanismo en el interop.");
+        }
+
+        static string BuscarHexEnObjeto(object obj, bool priorizarPorNombre)
+        {
+            if (obj == null) return null;
+
+            string candidato = null;
+            foreach (var p in obj.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public))
+            {
+                var val = p.GetValue(obj);
+                var h = ConvertirAHex4(val, p.Name);
+                if (h == null) continue;
+
+                // Nombres prioritarios expandidos
+                if (priorizarPorNombre && EsNombrePrioritario(p.Name))
+                    return h;
+
+                // Reemplazo de: candidato ??= h;
+                if (candidato == null)
+                {
+                    candidato = h;
+                }
+            }
+            return candidato;
+        }
+
+        static bool EsNombrePrioritario(string nombre)
+        {
+            var nombresPrioritarios = new[] {
+        "Estatus", "Status", "Estado", "State",
+        "Mecan", "Mechanism", "Mecanismo",
+        "Hex", "Hexadecimal", "H", "Codigo", "Code"
+    };
+
+            return nombresPrioritarios.Any(n =>
+                nombre.IndexOf(n, StringComparison.OrdinalIgnoreCase) >= 0);
+        }
+
+        //static string ConvertirAHex4(object val, string name)
+        //{
+        //    switch (val)
+        //    {
+        //        case null: return null;
+        //        case string s when Hex4.IsMatch(s.Trim()): return s.Trim().ToUpperInvariant();
+        //        case ushort u: return u.ToString("X4");
+        //        case short si: return unchecked((ushort)si).ToString("X4");
+        //        case int i: return unchecked((ushort)i).ToString("X4");
+        //        case byte[] ba when ba.Length >= 2:
+        //            return $"{ba[0]:X2}{ba[1]:X2}";
+        //        default: return null;
+        //    }
+        //}
+
+        public static void ExplorarObjetoManual(VmaxComVe.VmaxComClass vx)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            sb.AppendLine("=== EXPLORACIÓN MANUAL DEL OBJETO VmaxComClass ===");
+
+            // Explorar propiedades
+            sb.AppendLine("\n--- PROPIEDADES ---");
+            foreach (var prop in vx.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public))
+            {
+                try
+                {
+                    var valor = prop.GetValue(vx);
+                    sb.AppendLine($"Prop: {prop.Name} = {valor} (Tipo: {valor?.GetType().Name ?? "null"})");
+                }
+                catch (Exception ex)
+                {
+                    sb.AppendLine($"Prop: {prop.Name} -> ERROR: {ex.Message}");
+                }
+            }
+
+            // Explorar campos
+            sb.AppendLine("\n--- CAMPOS ---");
+            foreach (var field in vx.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public))
+            {
+                try
+                {
+                    var valor = field.GetValue(vx);
+                    sb.AppendLine($"Field: {field.Name} = {valor} (Tipo: {valor?.GetType().Name ?? "null"})");
+                }
+                catch (Exception ex)
+                {
+                    sb.AppendLine($"Field: {field.Name} -> ERROR: {ex.Message}");
+                }
+            }
+
+            // Explorar métodos
+            sb.AppendLine("\n--- MÉTODOS DISPONIBLES ---");
+            foreach (var method in vx.GetType().GetMethods(BindingFlags.Instance | BindingFlags.Public))
+            {
+                if (method.DeclaringType == vx.GetType()) // Solo métodos de esta clase
+                {
+                    sb.AppendLine($"Method: {method.Name}");
+                }
+            }
+
+            //string archivo = @"C:\Prueba\exploracion.txt";
+            //using (StreamWriter sw = new StreamWriter(archivo))
+            //{
+            //    sw.Write(sb.ToString());
+            //}
+        }
+
+        public static void ExploracionRapidaEstructuras(VmaxComVe.VmaxComClass vx)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("EXPLORACIÓN RÁPIDA DE ESTRUCTURAS - " + DateTime.Now);
+
+            // Explorar específicamente RetornoObtenerEstado
+            try
+            {
+                var retornoEstado = vx.RetornoObtenerEstado;
+                sb.AppendLine("\n=== RetornoObtenerEstado ===");
+                foreach (var prop in retornoEstado.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public))
+                {
+                    var valor = prop.GetValue(retornoEstado);
+                    sb.AppendLine($"{prop.Name} = {valor} (Tipo: {valor?.GetType().Name ?? "null"})");
+
+                    // Verificar si es hexadecimal
+                    var hex = ConvertirAHex4(valor, prop.Name);
+                    if (hex != null)
+                    {
+                        sb.AppendLine($"  → HEX: {hex}");
+                    }
+                }
+
+                foreach (var field in retornoEstado.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public))
+                {
+                    var valor = field.GetValue(retornoEstado);
+                    sb.AppendLine($"{field.Name} = {valor} (Tipo: {valor?.GetType().Name ?? "null"})");
+
+                    var hex = ConvertirAHex4(valor, field.Name);
+                    if (hex != null)
+                    {
+                        sb.AppendLine($"  → HEX: {hex}");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                sb.AppendLine($"ERROR en RetornoObtenerEstado: {ex.Message}");
+            }
+
+            // Explorar específicamente RetornoStatusImpresora
+            try
+            {
+                var retornoStatus = vx.RetornoStatusImpresora;
+                sb.AppendLine("\n=== RetornoStatusImpresora ===");
+                foreach (var prop in retornoStatus.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public))
+                {
+                    var valor = prop.GetValue(retornoStatus);
+                    sb.AppendLine($"{prop.Name} = {valor} (Tipo: {valor?.GetType().Name ?? "null"})");
+
+                    var hex = ConvertirAHex4(valor, prop.Name);
+                    if (hex != null)
+                    {
+                        sb.AppendLine($"  → HEX: {hex}");
+                    }
+                }
+
+                foreach (var field in retornoStatus.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public))
+                {
+                    var valor = field.GetValue(retornoStatus);
+                    sb.AppendLine($"{field.Name} = {valor} (Tipo: {valor?.GetType().Name ?? "null"})");
+
+                    var hex = ConvertirAHex4(valor, field.Name);
+                    if (hex != null)
+                    {
+                        sb.AppendLine($"  → HEX: {hex}");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                sb.AppendLine($"ERROR en RetornoStatusImpresora: {ex.Message}");
+            }
+
+            // Guardar y abrir
+            //string archivo = @"C:\Prueba\exploracion.txt";
+            //using (StreamWriter sw = new StreamWriter(archivo))
+            //{
+            //    sw.Write(sb.ToString());
+            //}
+        }
+
+        public static void ExploracionCompletaEstructuras(VmaxComVe.VmaxComClass vx)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("EXPLORACIÓN COMPLETA DE ESTRUCTURAS - " + DateTime.Now);
+
+            // Explorar RetornoObtenerEstado
+            try
+            {
+                sb.AppendLine("\n" + new string('=', 50));
+                sb.AppendLine("RETORNO OBTENER ESTADO - COMPLETO");
+                sb.AppendLine(new string('=', 50));
+
+                var estado = vx.RetornoObtenerEstado;
+                ExplorarEstructuraCompleta(estado, "RetornoObtenerEstado", sb);
+            }
+            catch (Exception ex)
+            {
+                sb.AppendLine($"ERROR en RetornoObtenerEstado: {ex.Message}");
+                sb.AppendLine($"Stack Trace: {ex.StackTrace}");
+            }
+
+            // Explorar RetornoStatusImpresora
+            try
+            {
+                sb.AppendLine("\n" + new string('=', 50));
+                sb.AppendLine("RETORNO STATUS IMPRESORA - COMPLETO");
+                sb.AppendLine(new string('=', 50));
+
+                var status = vx.RetornoStatusImpresora;
+                ExplorarEstructuraCompleta(status, "RetornoStatusImpresora", sb);
+            }
+            catch (Exception ex)
+            {
+                sb.AppendLine($"ERROR en RetornoStatusImpresora: {ex.Message}");
+            }
+
+            // Guardar en archivo
+            GuardarYMostrarResultado(sb, "vmax_estructuras_completas.txt");
+        }
+
+        static void ExplorarEstructuraCompleta(object structObj, string nombre, StringBuilder sb)
+        {
+            if (structObj == null)
+            {
+                sb.AppendLine($"{nombre} es null");
+                return;
+            }
+
+            sb.AppendLine($"Tipo: {structObj.GetType().FullName}");
+            sb.AppendLine(new string('-', 40));
+
+            int contador = 0;
+
+            // Propiedades PRIMERO
+            var propiedades = structObj.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public);
+            sb.AppendLine($"PROPIEDADES ({propiedades.Length}):");
+
+            foreach (var prop in propiedades)
+            {
+                try
+                {
+                    var valor = prop.GetValue(structObj);
+                    sb.AppendLine($"  [{contador++:00}] {prop.Name} = {ObtenerValorFormateado(valor)}");
+
+                    // Verificar si podría ser hexadecimal
+                    var hex = ConvertirAHex4(valor, prop.Name);
+                    if (hex != null)
+                    {
+                        sb.AppendLine($"        → HEX: {hex} ← POSIBLE CANDIDATO");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    sb.AppendLine($"  [{contador++:00}] {prop.Name} = ERROR: {ex.Message}");
+                }
+            }
+
+            // Campos LUEGO
+            contador = 0;
+            var campos = structObj.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public);
+            sb.AppendLine($"\nCAMPOS ({campos.Length}):");
+
+            foreach (var field in campos)
+            {
+                try
+                {
+                    var valor = field.GetValue(structObj);
+                    sb.AppendLine($"  [{contador++:00}] {field.Name} = {ObtenerValorFormateado(valor)}");
+
+                    var hex = ConvertirAHex4(valor, field.Name);
+                    if (hex != null)
+                    {
+                        sb.AppendLine($"        → HEX: {hex} ← POSIBLE CANDIDATO");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    sb.AppendLine($"  [{contador++:00}] {field.Name} = ERROR: {ex.Message}");
+                }
+            }
+        }
+
+        static string ObtenerValorFormateado(object valor)
+        {
+            if (valor == null) return "null";
+
+            if (valor is byte[] array)
+            {
+                return $"byte[{array.Length}] = {BitConverter.ToString(array).Replace("-", " ")}";
+            }
+
+            return $"{valor} (Tipo: {valor.GetType().Name})";
+        }
+
+        static void GuardarYMostrarResultado(StringBuilder sb, string nombreArchivo)
+        {
+            string carpeta = @"C:\Prueba";
+            Directory.CreateDirectory(carpeta); // Crear si no existe
+            string archivo = Path.Combine(carpeta, "vmax_estructuras.txt");
+            File.WriteAllText(archivo, sb.ToString());
+        }
+
+        public static string LeerEstadoHexRobusto2(VmaxComVe.VmaxComClass vx)
+        {
+            // Versión directa - accede al campo que sabemos que existe
+            try
+            {
+                string estadoHex = vx.RetornoStatusImpresora.sStatus?.Trim();
+
+                if (!string.IsNullOrEmpty(estadoHex))
+                {
+                    // Verificar formato hexadecimal de 4 caracteres
+                    if (System.Text.RegularExpressions.Regex.IsMatch(estadoHex, @"^[0-9A-Fa-f]{4}$"))
+                    {
+                        Console.WriteLine($"✅ Estado hexadecimal encontrado: {estadoHex}");
+                        return estadoHex.ToUpperInvariant();
+                    }
+                    else
+                    {
+                        // Intentar convertir si no está en formato directo
+                        var hex = ConvertirAHex4(estadoHex, "sStatus");
+                        if (hex != null)
+                        {
+                            Console.WriteLine($"✅ Estado hexadecimal convertido: {hex}");
+                            return hex;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"⚠️ Error accediendo a RetornoStatusImpresora.sStatus: {ex.Message}");
+                // Continuar con la búsqueda robusta
+            }
+
+            // Si llegamos aquí, usar la búsqueda robusta original como respaldo
+            Console.WriteLine("🔍 Usando búsqueda robusta como respaldo...");
+
+            // Tu código original de búsqueda robusta aquí
+            try
+            {
+                var hex = BuscarHexEnObjeto(vx, priorizarPorNombre: true);
+                if (hex != null)
+                {
+                    Console.WriteLine($"✅ Estado encontrado en búsqueda robusta: {hex}");
+                    return hex;
+                }
+
+                foreach (var p in vx.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public))
+                {
+                    if (!p.Name.StartsWith("pRetorno", StringComparison.OrdinalIgnoreCase)) continue;
+                    var ret = p.GetValue(vx);
+                    var h = BuscarHexEnObjeto(ret, priorizarPorNombre: true);
+                    if (h != null)
+                    {
+                        Console.WriteLine($"✅ Estado encontrado en {p.Name}: {h}");
+                        return h;
+                    }
+                }
+
+                foreach (var f in vx.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public))
+                {
+                    var h = ConvertirAHex4(f.GetValue(vx), f.Name);
+                    if (h != null)
+                    {
+                        Console.WriteLine($"✅ Estado encontrado en campo {f.Name}: {h}");
+                        return h;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"⚠️ Error en búsqueda robusta: {ex.Message}");
+            }
+
+            throw new MissingMemberException("No se encontró el H(4) del estado del mecanismo en el interop.");
+        }
+
+        private static string ConvertirAHex4(object val, string name)
+        {
+            try
+            {
+                switch (val)
+                {
+                    case null: return null;
+                    case string s when System.Text.RegularExpressions.Regex.IsMatch(s.Trim(), @"^[0-9A-Fa-f]{4}$"):
+                        return s.Trim().ToUpperInvariant();
+                    case ushort u: return u.ToString("X4");
+                    case short si: return ((ushort)si).ToString("X4");
+                    case int i when i >= 0 && i <= 0xFFFF: return ((ushort)i).ToString("X4");
+                    case uint ui when ui <= 0xFFFF: return ((ushort)ui).ToString("X4");
+                    case byte[] ba when ba.Length >= 2:
+                        return $"{ba[0]:X2}{ba[1]:X2}";
+                    case byte b: return b.ToString("X2") + "00";
+                    default:
+                        if (ushort.TryParse(val.ToString(), out ushort result))
+                            return result.ToString("X4");
+                        return null;
+                }
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public static class EstadoImpresoraVmax
+        {
+            // Máscaras de bits según el manual Vmax
+            public const ushort ONLINE = 0x0001;           // Bit 0
+            public const ushort TAPA_ABIERTA = 0x0002;     // Bit 1
+            public const ushort TEMPERATURA_ALTA = 0x0004; // Bit 2
+            public const ushort ERROR_GRAVE = 0x0008;      // Bit 3
+            public const ushort ERROR_CORTADORA = 0x0010;  // Bit 4
+            public const ushort BUFFER_OVERFLOW = 0x0020;  // Bit 5
+            public const ushort SIN_PAPEL_FIN = 0x0040;    // Bit 6
+            public const ushort SIN_PAPEL_AUSENCIA = 0x0080; // Bit 7
+            public const ushort SIN_PAPEL_TOF = 0x0100;    // Bit 8
+            public const ushort SIN_PAPEL_COF = 0x0200;    // Bit 9
+            public const ushort SIN_PAPEL_BOF = 0x0400;    // Bit 10
+
+            /// <summary>
+            /// Verifica si la impresora tiene papel según el estado hexadecimal
+            /// </summary>
+            public static bool TienePapel(string estadoHex)
+            {
+                try
+                {
+                    ushort estado = Convert.ToUInt16(estadoHex, 16);
+
+                    // Según el manual, si CUALQUIERA de estos bits está en 1, significa SIN PAPEL
+                    bool sinPapel = (estado & (SIN_PAPEL_FIN | SIN_PAPEL_AUSENCIA | SIN_PAPEL_TOF | SIN_PAPEL_COF | SIN_PAPEL_BOF)) != 0;
+
+                    return !sinPapel; // Retorna true si TIENE papel
+                }
+                catch
+                {
+                    return false; // En caso de error, asumimos que no hay papel por seguridad
+                }
+            }
+
+            /// <summary>
+            /// Verifica si la tapa está abierta según el estado hexadecimal
+            /// </summary>
+            public static bool TapaAbierta(string estadoHex)
+            {
+                try
+                {
+                    ushort estado = Convert.ToUInt16(estadoHex, 16);
+                    return (estado & TAPA_ABIERTA) != 0;
+                }
+                catch
+                {
+                    return true; // En caso de error, asumimos tapa abierta por seguridad
+                }
+            }
+
+            /// <summary>
+            /// Verifica si la impresora está online/lista
+            /// </summary>
+            public static bool EstaOnline(string estadoHex)
+            {
+                try
+                {
+                    ushort estado = Convert.ToUInt16(estadoHex, 16);
+                    return (estado & ONLINE) != 0;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+
+            /// <summary>
+            /// Verifica si hay errores graves
+            /// </summary>
+            public static bool TieneErroresGraves(string estadoHex)
+            {
+                try
+                {
+                    ushort estado = Convert.ToUInt16(estadoHex, 16);
+                    return (estado & (ERROR_GRAVE | ERROR_CORTADORA | BUFFER_OVERFLOW | TEMPERATURA_ALTA)) != 0;
+                }
+                catch
+                {
+                    return true; // En caso de error, asumimos que hay problemas
+                }
+            }
+
+            /// <summary>
+            /// Análisis completo del estado de la impresora
+            /// </summary>
+            public static void AnalizarEstadoCompleto(string estadoHex)
+            {
+                Console.WriteLine($"🔍 ANÁLISIS ESTADO VMAX: {estadoHex}");
+
+                try
+                {
+                    ushort estado = Convert.ToUInt16(estadoHex, 16);
+                    string binario = Convert.ToString(estado, 2).PadLeft(16, '0');
+
+                    Console.WriteLine($"Binario: {binario}");
+                    Console.WriteLine($"Decimal: {estado}");
+
+                    Console.WriteLine("\n📊 ESTADO ACTUAL:");
+
+                    // Estado principal
+                    if (EstaOnline(estadoHex))
+                        Console.WriteLine("✅ EN LÍNEA - Impresora conectada");
+                    else
+                        Console.WriteLine("❌ FUERA DE LÍNEA - Impresora desconectada");
+
+                    // Tapa
+                    if (TapaAbierta(estadoHex))
+                        Console.WriteLine("❌ TAPA ABIERTA - Cierre la tapa de la impresora");
+                    else
+                        Console.WriteLine("✅ TAPA CERRADA - Correctamente cerrada");
+
+                    // Papel
+                    if (TienePapel(estadoHex))
+                        Console.WriteLine("✅ CON PAPEL - Hay papel disponible");
+                    else
+                        Console.WriteLine("❌ SIN PAPEL - Inserte papel en la impresora");
+
+                    // Errores
+                    if (TieneErroresGraves(estadoHex))
+                    {
+                        Console.WriteLine("🚨 ERRORES DETECTADOS:");
+                        if ((estado & TEMPERATURA_ALTA) != 0) Console.WriteLine("   • Temperatura del cabezal ALTA");
+                        if ((estado & ERROR_GRAVE) != 0) Console.WriteLine("   • Error no recuperable");
+                        if ((estado & ERROR_CORTADORA) != 0) Console.WriteLine("   • Error en cortadora de papel");
+                        if ((estado & BUFFER_OVERFLOW) != 0) Console.WriteLine("   • Buffer overflow");
+                    }
+                    else
+                    {
+                        Console.WriteLine("✅ SIN ERRORES GRAVES");
+                    }
+
+                    Console.WriteLine("\n💡 RECOMENDACIONES:");
+                    if (!TienePapel(estadoHex))
+                        Console.WriteLine("   • Inserte papel en la impresora");
+                    if (TapaAbierta(estadoHex))
+                        Console.WriteLine("   • Cierre la tapa de la impresora");
+                    if (TieneErroresGraves(estadoHex))
+                        Console.WriteLine("   • Reinicie la impresora o contacte soporte");
+                    if (EstaOnline(estadoHex) && !TapaAbierta(estadoHex) && TienePapel(estadoHex) && !TieneErroresGraves(estadoHex))
+                        Console.WriteLine("   • Impresora lista para usar");
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"❌ Error analizando estado: {ex.Message}");
+                }
+            }
         }
 
         public bool VerficarConexionImpresoraFiscalSinCerrar()
@@ -731,9 +1394,44 @@ namespace CapaLogica.Impresora_Fiscal
                 uint ret = 0;
                 uint Prueba = 0;
                 ret = objVmax.AbrirPuerto(Convert.ToString(glbPuertoCOM));
-                ret = objVmax.ObtenerEstadoImpresora() ;
-                ObtenerEstadoCompleto();
+                ret = objVmax.ObtenerEstadoImpresora();
 
+                ////ExplorarObjetoManual(objVmax);
+                ////ExploracionCompletaEstructuras(objVmax);
+
+                //string estadoHex = ret.ToString("X4");
+
+                ////// Análisis completo
+                ////EstadoImpresoraVmax.AnalizarEstadoCompleto(estadoHex);
+
+                ////// Verificaciones rápidas para lógica de programa
+                ////Console.WriteLine("\n✅ VERIFICACIONES RÁPIDAS:");
+
+                //bool tienePapel = EstadoImpresoraVmax.TienePapel(estadoHex);
+                //bool tapaAbierta = EstadoImpresoraVmax.TapaAbierta(estadoHex);
+                //bool estaOnline = EstadoImpresoraVmax.EstaOnline(estadoHex);
+                //bool tieneErrores = EstadoImpresoraVmax.TieneErroresGraves(estadoHex);
+
+                //Console.WriteLine($"Papel: {(tienePapel ? "✅ DISPONIBLE" : "❌ FALTANTE")}");
+                //Console.WriteLine($"Tapa: {(tapaAbierta ? "❌ ABIERTA" : "✅ CERRADA")}");
+                //Console.WriteLine($"Conexión: {(estaOnline ? "✅ EN LÍNEA" : "❌ FUERA DE LÍNEA")}");
+                //Console.WriteLine($"Errores: {(tieneErrores ? "❌ PRESENTES" : "✅ NINGUNO")}");
+
+
+                //ushort mask = Convert.ToUInt16(hex4, 16);
+
+                //// Bits de “sin papel” y “tapa” según tabla del manual
+                //bool tapaAbierta = (mask & (1 << 1)) != 0;
+                //bool sinPapel = ((mask & (1 << 6)) != 0)
+                //             || ((mask & (1 << 7)) != 0)
+                //             || ((mask & (1 << 8)) != 0)
+                //             || ((mask & (1 << 9)) != 0)
+                //             || ((mask & (1 << 10)) != 0);
+
+
+                //var estados = ObtenerEstadoCompleto();
+                //string estadoHex4 = LeerEstadoHex(objVmax);
+                //var (sinPapel, tapaAbierta) = PapelOTapa((ushort)ret);
                 if (ret != 16 && ret != 0)
                 {
                     //resp = objVmax.AbrirCF("", "", "1", "1", "12345", "", "", 40);
@@ -763,6 +1461,7 @@ namespace CapaLogica.Impresora_Fiscal
                 stringBuilder.Append("Por favor comunicarse con el Dpto de sistemas y reportar el siguiente error: " + Environment.NewLine + string.Format("Error: {0}", ex.Message));
                 return false;
             }
+
         }
 
         public string Validar_Cadena(string _cadena)

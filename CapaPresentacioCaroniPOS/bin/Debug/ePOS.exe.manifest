@@ -79,14 +79,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CapaLogica.dll" size="343040">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CapaLogica.dll" size="355840">
       <assemblyIdentity name="CapaLogica" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>A3gkqRb9fzovVpcCmGivwsvMxpgSjz9ddLKgtH45npE=</dsig:DigestValue>
+        <dsig:DigestValue>f5HLgtK9sm4/Tam3DJvQ9i4Kwnhx6ngL/VAJofTsJCY=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -206,7 +206,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>KIw/rjskZWzZoh0/deDdHTuXmFUYNFVnnw/PP4Oh4uU=</dsig:DigestValue>
+        <dsig:DigestValue>3sY1JlVWOHZm8d+MdrUrh/e1SNHKgkbvd42pALOpld8=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

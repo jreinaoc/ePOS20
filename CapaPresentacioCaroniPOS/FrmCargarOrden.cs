@@ -4482,6 +4482,15 @@ namespace CapaVisual_Login
 
             cbVisionDerecha.Text = "Cerca";
             cbVisionIzquierda.Text = "Cerca";
+            /////// ********* Para evitar que el texto de parametros cristales se vea cortado **************////////////////////
+            lblDiametroD.AutoEllipsis = false;
+            lblDiametroD.UseMnemonic = false;
+            lblDiametroI.AutoEllipsis = false;
+            lblDiametroI.UseMnemonic = false;
+            lblDiametroI.AutoSize = true;
+            lblDiametroD.AutoSize = true;
+            lblDiametroD.Refresh();
+            lblDiametroI.Refresh();
 
         }
 

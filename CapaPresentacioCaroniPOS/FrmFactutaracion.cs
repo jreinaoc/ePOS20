@@ -1005,7 +1005,7 @@ namespace CapaVisual_Login
                             return;
                         }
 
-                        if (txtTranferencia.Text.Length >= 4)
+                        if (txtTranferencia.Text.Length >= 6)
                         {
                             _L_Facturacion.GuardarAbonoGrid(2,Dt_Abonos, CbxMetodosPago2.Text, CbxMoneda.Text, CbxBanco.Text, txtMonto2Bs.Text, txtTranferencia.Text, DtpFecha.Value.ToString(), CbxMetodosPago2.SelectedValue.ToString(), CbxBanco.SelectedValue.ToString(), "", TxtVuelto.Text, "", "", txtCVC.Text, txtVence.Text, "", "", CbxPunto_Venta.SelectedValue.ToString());
                             BolivaresConveridos(Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos)), txtMontoBs);
@@ -1022,7 +1022,7 @@ namespace CapaVisual_Login
                         else
                         {
                             _FrmMensajes.co = 2;
-                            _FrmMensajes.avisomensaje("El N° Tarjeta debe ser mayor a 4 digitos, Verifique");
+                            _FrmMensajes.avisomensaje("El N° de tarjeta debe tener 6 o más dígitos para continuar");
                             _FrmMensajes.ShowDialog();
                             return;
                         }
@@ -6415,13 +6415,13 @@ namespace CapaVisual_Login
                 
                 if (TotalAbono == TotalSaldoOrdenConIgtf)
                 {
-                    //// Nuevo desarrollo Validaciones por tipo de pago segun la promocion selecionada 
-                    //if (rept == "SATISFACTORIO" && ValidaPagosRequeridos(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision, command).Facturar == false)
-                    //{
-                    //    command.Transaction.Rollback();
-                    //    rept = "Abortada";
-                    //    return "";
-                    //}
+                    // Nuevo desarrollo Validaciones por tipo de pago segun la promocion selecionada 
+                    if (rept == "SATISFACTORIO" && ValidaPagosRequeridos(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision, command).Facturar == false)
+                    {
+                        command.Transaction.Rollback();
+                        rept = "Abortada";
+                        return "";
+                    }
 
 
                     // Imprimo La Factura

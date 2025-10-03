@@ -533,7 +533,7 @@ namespace CapaLogica.TasaDia_Logica
 
         public (string Asunto, string CuerpoMensaje) FormatoCorreoSecuencia(string codSucursal, string sucursalDescripcion, string tasa, string fechaSecuencia)
         {
-            string asunto = "Sucursal " + codSucursal + " " + sucursalDescripcion + " - Secuencia Activación Diaria";
+            string asunto = "Sucursal " + sucursalDescripcion + " - Secuencia Activación Diaria";
             string cuerpo = "Secuencia Activación Diaria -  Tasa: " + tasa + " Fecha: " + fechaSecuencia;
             return (asunto, cuerpo);
         }

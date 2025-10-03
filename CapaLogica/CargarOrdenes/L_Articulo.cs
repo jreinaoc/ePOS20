@@ -3132,8 +3132,8 @@ namespace CapaLogica.CargarOrdenes
                                     if (codigo == dr["CodServicio"].ToString() && dsLl1so.Tables[0].Columns.Contains("PRECIOAR_DESC") && !string.IsNullOrEmpty(dsLl1so.Tables[0].Rows[0]["PRECIOAR_DESC"].ToString()))
                                     {
                                         row.Cells["TienePromo"].Value = "Si";
-                                        row.Cells["ART_PVP"].Value = (decimal)(dsLl1so.Tables[0].Rows[0]["PRECIOAR_DESC"]);
-                                        row.Cells["Total"].Value = (decimal)((decimal)dsLl1so.Tables[0].Rows[0]["PRECIOAR_DESC"] * Convert.ToDecimal(row.Cells["ART_EXIST"].Value));
+                                        row.Cells["ART_PVP"].Value = (decimal)(Convert.ToDecimal(dsLl1so.Tables[0].Rows[0]["PRECIOAR_DESC"]));
+                                        row.Cells["Total"].Value = (decimal)((decimal)Convert.ToDecimal(dsLl1so.Tables[0].Rows[0]["PRECIOAR_DESC"]) * Convert.ToDecimal(row.Cells["ART_EXIST"].Value));
                                         row.Cells["CodPromo"].Value = dsLl1so.Tables[0].Rows[0]["CODPROM"];
                                         row.Cells["PromoEvaluada"].Value = "Si";
                                     }
