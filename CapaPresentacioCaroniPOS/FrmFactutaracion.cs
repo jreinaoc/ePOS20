@@ -5191,7 +5191,7 @@ namespace CapaVisual_Login
                                 objVmax.CerrarPuerto();
                                 objVmax.Cerrar();
                                 //con datos de tb_abono
-                                if (resp == 0 && UltimoNumeroFacturaCancelado2 != NumeroComprobanteFiscal)
+                                if (resp == 0 && UltimoNumeroFacturaCancelado2 != NumeroComprobanteFiscal || NumeroComprobanteFiscal.Trim() != "0000000")
                                 {
 
 
@@ -5210,6 +5210,7 @@ namespace CapaVisual_Login
                                 else
                                 {
                                     ImprimirFacturaFiscall = false;
+                                    return "Error";
                                 }
                             }
 

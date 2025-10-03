@@ -9404,8 +9404,62 @@ namespace CapaVisual_Login
                 return false;
             }
 
-            // Validación de Nombre
-            if (string.IsNullOrEmpty(Txt_Tap1_Nombre.Text.Trim()))
+            // Validación de Cédula Cliente pagador 
+            if (!string.IsNullOrEmpty(Txt_Tap1_Cedula_Pagador.Text.Trim()))
+            {
+               if (string.IsNullOrEmpty(Cbx_Tap1_Nacionalidad_Pagador.Text.Trim()))
+                {
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje("Debe seleccionar la Nacionalidad del cliente pagador para continuar");
+                    _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                    _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                    _FrmMensajes.ShowDialog();
+                    Cbx_Tap1_Nacionalidad_Pagador.Focus();
+                    return false;
+                }
+
+               else if (string.IsNullOrEmpty(Txt_Tap1_Nombre_Pagador.Text.Trim()))
+               {
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje("Registre el nombre y apellido del cliente pagador para continuar");
+                    _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                    _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                    _FrmMensajes.ShowDialog();
+                    Txt_Tap1_Nombre_Pagador.Focus();
+                    return false;
+                }
+
+            }
+
+            if (!string.IsNullOrEmpty(Txt_Tap1_Nombre_Pagador.Text.Trim()))
+            {
+                if (string.IsNullOrEmpty(Cbx_Tap1_Nacionalidad_Pagador.Text.Trim()))
+                {
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje("Debe seleccionar la Nacionalidad del cliente pagador para continuar");
+                    _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                    _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                    _FrmMensajes.ShowDialog();
+                    Cbx_Tap1_Nacionalidad_Pagador.Focus();
+                    return false;
+                }
+
+                else if (string.IsNullOrEmpty(Txt_Tap1_Cedula_Pagador.Text.Trim()))
+                {
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje("Registre el numero de cedula del cliente pagador para continuar");
+                    _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                    _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                    _FrmMensajes.ShowDialog();
+                    Txt_Tap1_Nombre_Pagador.Focus();
+                    return false;
+                }
+            }
+
+
+
+                // Validación de Nombre
+                if (string.IsNullOrEmpty(Txt_Tap1_Nombre.Text.Trim()))
             {
 
                 _FrmMensajes.co = 2;
@@ -14298,7 +14352,20 @@ namespace CapaVisual_Login
             }
         }
 
+        private void Txt_Tap1_Cedula_Pagador_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (string.IsNullOrEmpty(Cbx_Tap1_Nacionalidad_Pagador.Text.Trim()))
+            {
+                Txt_Tap1_Cedula_Pagador.Clear();
+                Pnl_2_Msj.Visible = true;
+                txt_pl2_msj.Text = "Debe seleccionar la Nacionalidad del cliente pagador antes de ingresar la Cédula";
+                //pb_pl2_mj.Visible = true;
+                Cbx_Tap1_Nacionalidad_Pagador.Focus();
 
+                //Cbx_Tap1_Nacionalidad.Focus();
+                e.Handled = true; // Indica que el evento KeyUp ha sido manejado, evitando acciones adicionales del control
+            }
+        }
     }
 
 }

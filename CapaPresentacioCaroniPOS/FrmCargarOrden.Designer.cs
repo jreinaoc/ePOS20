@@ -1211,6 +1211,7 @@ namespace CapaVisual_Login
             this.Txt_Tap1_Cedula_Pagador.TabIndex = 154;
             this.Txt_Tap1_Cedula_Pagador.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.Txt_Tap1_Cedula_Pagador.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Txt_Tap1_Cedula_Pagador_KeyDown);
+            this.Txt_Tap1_Cedula_Pagador.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Txt_Tap1_Cedula_Pagador_KeyUp);
             this.Txt_Tap1_Cedula_Pagador.MouseLeave += new System.EventHandler(this.Txt_Tap1_Cedula_Pagador_MouseLeave);
             // 
             // Txt_Tap1_Edad
