@@ -467,8 +467,8 @@ namespace CapaVisual_Login
                     this.Pnl_3_Lista_ClienteAfiliado.Visible = false;
                     this.Pnl_3_Lista_ClienteAfiliado.Enabled = false;
                     this.Pnl_3_Garantia.Visible = false;
-                    this.Pnl_3_Garantia.Enabled = false;
-                    this.Pnl_2.Location = new Point(0, 0); // Establecer posición en (0, 0)
+                    //this.Pnl_3_Garantia.Enabled = false;
+                    //this.Pnl_2.Location = new Point(0, 0); // Establecer posición en (0, 0)
 
                     Cbx_Pnl2_Trbajo.Visible = true;
                     Lbl_Pnl2_Trabajo.Visible = true;
@@ -606,7 +606,7 @@ namespace CapaVisual_Login
                     break;
                   
                 case "Garantia":
-                    this.Pnl_3_Garantia.Enabled = true;
+                    //this.Pnl_3_Garantia.Enabled = true;
                     this.Pnl_3_Garantia.Visible = true;
                     this.Pnl_3_Garantia.Location = new Point(20, 30);
                     this.Pnl_3_Garantia.BringToFront();
@@ -621,6 +621,7 @@ namespace CapaVisual_Login
        
         public void HabilitacionControl(string Case)
         {
+            
             switch (Case)
             {
                 case "Habilitar_Lista_Articulo":
@@ -728,7 +729,7 @@ namespace CapaVisual_Login
 
                     // Panel de Arriba
                     //this.Txt_Pnl2_Cedula.Enabled = true;
-                    this.Txt_Pnl2_Examen.Enabled = true;
+                 this.Txt_Pnl2_Examen.Enabled = true;
                     //this.Cbx_Pnl2_Trbajo.Enabled = true;
                     //this.Cbx_Pnl2_Laboratorio.Enabled = true;
                     //this.Cbx_Pnl2_Servicio.Enabled = true;
@@ -3061,8 +3062,8 @@ namespace CapaVisual_Login
                             }
 
                             // Pido Clave Autorizada con unos parametros especificos
-                            _FrmClaveAutorizada.Nuevo_Parametro = true;
-                            _FrmClaveAutorizada.Parametro_Nuevo = _L_Articulo.BuscarCodigoGerenteDescuento(Cbx_Pnl3_MotivoDesc.SelectedValue.ToString());
+                            //_FrmClaveAutorizada.Nuevo_Parametro = true;
+                            //_FrmClaveAutorizada.Parametro_Nuevo = _L_Articulo.BuscarCodigoGerenteDescuento(Cbx_Pnl3_MotivoDesc.SelectedValue.ToString());
                             _FrmClaveAutorizada.ShowDialog();
 
                             if (_FrmClaveAutorizada.DialogResult == DialogResult.OK && _FrmClaveAutorizada.ClaveCorrecta == true)
@@ -5468,6 +5469,7 @@ namespace CapaVisual_Login
 
             _L_Articulo.GarantiaCristales_Selecion(Dgv_Pnl3_Garantia, ref Os_Garantia_Trabajo, ref Numero_Examen_Garantia_Trabajo);
             Txt_Pnl2_Examen.Text = Numero_Examen_Garantia_Trabajo;
+            this.Pnl_3_Garantia.Visible = false;
             VisualizarPanel("MostrarCabezeraSecundaria");
             HabilitacionControl("CabezeraPrincipal");
             Cbx_Pnl2_Laboratorio.Enabled = true;
@@ -7795,6 +7797,7 @@ namespace CapaVisual_Login
                 if (Formulario_ListaOrdenes == true && (Dgv_Pnl2_conv != null && Dgv_Pnl2_conv.Rows.Count > 0 || Dgv_Pnl2_cont != null && Dgv_Pnl2_cont.Rows.Count > 0))
                 {
                     btnCargarOrden.Enabled = false;
+                    MoverControlesAPnl1();
                 }
                 // Habilitar la pestaña de Carga ordenes 
                 else if (Dgv_Pnl2_conv != null && Dgv_Pnl2_conv.Rows.Count > 0 || Dgv_Pnl2_cont != null && Dgv_Pnl2_cont.Rows.Count > 0)
@@ -12536,7 +12539,17 @@ namespace CapaVisual_Login
                     return;
                 }
 
-                bool Respuesta = _Asignar_Rx.AsignarRx(TB_CAORDSER.Cod_DetVta, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.CTE_Nacio, TB_CAORDSER.CTE_CedIden, Txt_Tap2_Examen.Text, TB_CAORDSER.NumOrdserv, LbResultado2, LbResultados, dgvRangoCrt, TB_CAORDSER.Cod_Laboratorio, TB_CAORDSER.Cod_Servicio, ((!string.IsNullOrEmpty(txtDistVertice.Text?.Trim())) ? "TRUE" : "FALSE"), ((!string.IsNullOrEmpty(txtAngPant.Text?.Trim())) ? "TRUE" : "FALSE"), ((!string.IsNullOrEmpty(txtAngFac.Text?.Trim())) ? "TRUE" : "FALSE"));
+                // Crear la lista primero
+                List<(string nombre, string valor)> datosPanel2 = new List<(string nombre, string valor)>
+{
+    ("T_ALTD", txtAltD.Text),
+    ("T_ALTI", txtAltI.Text),
+    ("T_OJO", Cbx_Tap2_Ojo.Text),
+    ("T_TIPOVISIOND", cbVisionDerecha.Enabled ? cbVisionDerecha.Text : ""),
+    ("T_TIPOVISIONI", cbVisionIzquierda.Enabled ? cbVisionIzquierda.Text : "")
+};
+
+                bool Respuesta = _Asignar_Rx.AsignarRx(TB_CAORDSER.Cod_DetVta, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.CTE_Nacio, TB_CAORDSER.CTE_CedIden, Txt_Tap2_Examen.Text, TB_CAORDSER.NumOrdserv, LbResultado2, LbResultados, dgvRangoCrt, TB_CAORDSER.Cod_Laboratorio, TB_CAORDSER.Cod_Servicio, ((!string.IsNullOrEmpty(txtDistVertice.Text?.Trim())) ? "TRUE" : "FALSE"), ((!string.IsNullOrEmpty(txtAngPant.Text?.Trim())) ? "TRUE" : "FALSE"), ((!string.IsNullOrEmpty(txtAngFac.Text?.Trim())) ? "TRUE" : "FALSE"), datosPanel2);
                 if (!Respuesta && _Asignar_Rx.stringBuilder.Length > 0)
                 {
 
@@ -12649,6 +12662,9 @@ namespace CapaVisual_Login
                         }
 
                     }
+
+                    //// poner los controles en su posicion original 
+                    // RegresarControlesAPnl2();
 
                     // Cerrar el contenedor después de procesar exitosamente
                     _onCierreSolicitado?.Invoke(); // 👈 Ejecuta el cierre del padre
@@ -14366,6 +14382,189 @@ namespace CapaVisual_Login
                 e.Handled = true; // Indica que el evento KeyUp ha sido manejado, evitando acciones adicionales del control
             }
         }
+
+        private void MoverControlesAPnl1()
+        {
+            // Crear lista temporal para evitar modificar la colección durante la iteración
+            var controlesAMover = new List<Control>();
+            string[] nombresControles = {
+        "label24", "label26", "label33", "label34", "label35",
+        "Cbx_Tap2_Ojo", "cbVisionDerecha", "cbVisionIzquierda",
+        "txtAltD", "txtAltI"
+    };
+
+            //// Buscar todos los controles primero
+            //foreach (string nombre in nombresControles)
+            //{
+            //    Control control = Pnl_2.Controls[nombre];
+            //    if (control != null)
+            //    {
+            //        controlesAMover.Add(control);
+            //    }
+            //}
+
+            foreach (string nombre in nombresControles)
+            {
+                // Buscar el control en Pnl_2 y sus controles hijos
+                Control[] controlesEncontrados = Pnl_2.Controls.Find(nombre, true);
+
+                if (controlesEncontrados.Length > 0)
+                {
+                    Control control = controlesEncontrados[0];
+
+                    // Convertir la posición relativa a absoluta (coordenadas de pantalla)
+                    Point posicionAbsoluta = Pnl_2.PointToScreen(control.Location);
+
+                    // Convertir la posición absoluta a relativa respecto a Pnl_1
+                    Point posicionRelativaPnl1 = Pnl_1.PointToClient(posicionAbsoluta);
+
+                    Pnl_2.Controls.Remove(control);
+                    Pnl_2.Controls.Add(control);
+                    control.Location = posicionRelativaPnl1; // Usar posición convertida
+                    control.Visible = true;
+                    control.BringToFront();
+                    control.Enabled = true;
+                }
+                else
+                {
+                    // Debug: Ver qué controles no se encuentran
+                    Console.WriteLine($"Control no encontrado: {nombre}");
+                }
+            }
+
+            Pnl_1.Refresh();
+            Pnl_2.Refresh();
+
+
+            List<(string nombre, string valor)> datosTrabajo = _Asignar_Rx.ObtenerDatosTrabajoCompleto( TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.CTE_Nacio, TB_CAORDSER.CTE_CedIden, Txt_Tap2_Examen.Text, TB_CAORDSER.NumOrdserv);
+            _L_Articulo.LlenarComboOjos(Cbx_Tap2_Ojo);
+            LlenarControlesConDatosTrabajo(datosTrabajo);
+
+        }
+        private void SeleccionarOjoEnComboBox(ComboBox comboBox, string valorBD)
+        {
+            if (string.IsNullOrEmpty(valorBD) || comboBox.Items.Count == 0)
+                return;
+
+            // Mapear el valor de la BD a la posición del ComboBox
+            int indice = -1;
+
+            switch (valorBD.ToUpper())
+            {
+                case "AMBOS":
+                    indice = 0; // Primera posición
+                    break;
+                case "DERECHO":
+                    indice = 2; // Segunda posición  
+                    break;
+                case "IZQUIERDO":
+                    indice = 1; // Tercera posición
+                    break;
+            }
+
+            if (indice >= 0 && indice < comboBox.Items.Count)
+            {
+                comboBox.SelectedIndex = indice;
+            }
+            else
+            {
+                comboBox.SelectedIndex = -1;
+            }
+        }
+
+        private void LlenarControlesConDatosTrabajo(List<(string nombre, string valor)> datosTrabajo)
+        {
+            foreach (var dato in datosTrabajo)
+            {
+                switch (dato.nombre)
+                {
+                    case "T_ALTD":
+                        txtAltD.Text = dato.valor;
+                        break;
+
+                    case "T_ALTI":
+                        txtAltI.Text = dato.valor;
+                        break;
+
+                    case "T_OJO":
+                        SeleccionarOjoEnComboBox(Cbx_Tap2_Ojo, dato.valor);
+                        break;
+
+                    case "T_TIPOVISIOND":
+                        SeleccionarEnComboBox(cbVisionDerecha, dato.valor);
+                        break;
+
+                    case "T_TIPOVISIONI":
+                        SeleccionarEnComboBox(cbVisionIzquierda, dato.valor);
+                        break;
+                }
+            }
+        }
+
+        private void SeleccionarEnComboBox(ComboBox comboBox, string valor)
+        {
+            if (string.IsNullOrEmpty(valor) || comboBox.Items.Count == 0)
+                return;
+
+            // Buscar por texto exacto
+            for (int i = 0; i < comboBox.Items.Count; i++)
+            {
+                if (comboBox.Items[i].ToString().Equals(valor, StringComparison.OrdinalIgnoreCase))
+                {
+                    comboBox.SelectedIndex = i;
+                    return;
+                }
+            }
+
+            // Buscar por texto parcial si no se encuentra exacto
+            for (int i = 0; i < comboBox.Items.Count; i++)
+            {
+                if (comboBox.Items[i].ToString().Contains(valor))
+                {
+                    comboBox.SelectedIndex = i;
+                    return;
+                }
+            }
+
+            // Si no se encuentra, dejar vacío
+            comboBox.SelectedIndex = -1;
+        }
+
+
+        //    private void RegresarControlesAPnl2()
+        //    {
+        //        // Crear lista temporal para evitar modificar la colección durante la iteración
+        //        var controlesARegresar = new List<Control>();
+        //        string[] nombresControles = {
+        //    "label24", "label26", "label33", "label34", "label35",
+        //    "Cbx_Tap2_Ojo", "cbVisionDerecha", "cbVisionIzquierda",
+        //    "txtAltD", "txtAltI"
+        //};
+
+        //        // Buscar todos los controles primero
+        //        foreach (string nombre in nombresControles)
+        //        {
+        //            Control control = Pnl_1.Controls[nombre];
+        //            if (control != null)
+        //            {
+        //                controlesARegresar.Add(control);
+        //            }
+        //        }
+
+        //        // Regresar todos los controles manteniendo sus posiciones
+        //        foreach (Control control in controlesARegresar)
+        //        {
+        //            Point posicionActual = control.Location;
+        //            Pnl_1.Controls.Remove(control);
+        //            Pnl_2.Controls.Add(control);
+        //            control.Location = posicionActual;
+        //            control.Visible = true; // Forzar visibilidad
+        //            control.BringToFront(); // Traer al frente
+
+        //            // Opcional: mantener el estado Enabled también
+        //            control.Enabled = true;
+        //        }
+        //    }
     }
 
 }

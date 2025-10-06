@@ -1342,7 +1342,7 @@ namespace CapaVisual_Login
 
                         }
 
-                        if (txtTranferencia.Text.Length >= 12) // Valida que el Numero de TC Sea minimo de 12 digitos
+                        if (txtTranferencia.Text.Length >= 6) // Valida que el Numero de TC Sea minimo de 12 digitos
                         {
                             // Si es de 12 digitos se valida el comienzo de la tarjeta dependiendo del tipo de tarjeta
                             if (_L_Facturacion.ValidoNumeroTarjeta_Credito(txtTranferencia.Text, CbxTarjeta.Text) == true)
