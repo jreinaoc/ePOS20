@@ -15,7 +15,7 @@ using System.Windows.Forms;
 using CapaDatos.Anulacion;
 using CapaDatos.Inicio_Datos;
 using DevComponents.DotNetBar;
-
+using CapaDatos.DetalleOrden_Datos;
 
 namespace CapaVisual_Login
 {
@@ -27,6 +27,7 @@ namespace CapaVisual_Login
         FrmMensajes _FrmMensajes = new FrmMensajes();
         D_Anulacion _D_Anulacion = new D_Anulacion();
         D_Inicio _D_Inicio = new D_Inicio();
+        private D_DetalleOrden _D_DetalleOrden = new D_DetalleOrden();
 
         string user = "";
         string pass = "";
@@ -135,6 +136,22 @@ namespace CapaVisual_Login
                                  }
                                  else if (Respuesta == true)
                                  {
+
+                                //DateTime fechaRespaldo = DateTime.Parse(_D_DetalleOrden.TB_PARAMETRO("FechaRespaldo"));
+                                //int diasBloqueo = int.Parse(_D_DetalleOrden.TB_PARAMETRO("DiasBloqueoResp"));
+
+                                //// Calcular diferencia en días
+                                //int diasDiferencia = (int)(DateTime.Today - fechaRespaldo).TotalDays;
+
+                                //if (diasDiferencia > diasBloqueo)
+                                //{
+                                //    _FrmMensajes.co = 2;
+                                //    _FrmMensajes.avisomensaje("El sistema se encuentra bloqueado por respaldo");
+                                //    _FrmMensajes.ShowDialog();
+                                //    Close();
+                                // }
+
+
                                         intentosFallidos = 0;
                                         this.Visible = false;
                                         _FrmPrincipal.Show();

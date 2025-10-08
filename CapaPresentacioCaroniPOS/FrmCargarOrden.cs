@@ -4946,7 +4946,7 @@ namespace CapaVisual_Login
             {
                 //if (ValidarTipoTrabajoTipoExamen(Cbx_Pnl2_Trbajo.SelectedValue.ToString(), Cbx_Tap2_Tipo_Examen.Text) == true)
                 //{
-                    Cbx_Pnl2_Trbajo.Enabled = false;
+                    //Cbx_Pnl2_Trbajo.Enabled = false;
                     CargarComboLaboratorios();
                     //CargarComboServicioLaboratorios();
                     ValidarTipoVenta(Cbx_Pnl2_Trbajo.Text);
@@ -7797,7 +7797,7 @@ namespace CapaVisual_Login
                 if (Formulario_ListaOrdenes == true && (Dgv_Pnl2_conv != null && Dgv_Pnl2_conv.Rows.Count > 0 || Dgv_Pnl2_cont != null && Dgv_Pnl2_cont.Rows.Count > 0))
                 {
                     btnCargarOrden.Enabled = false;
-                    MoverControlesAPnl1();
+                    //MoverControlesAPnl1();
                 }
                 // Habilitar la pestaña de Carga ordenes 
                 else if (Dgv_Pnl2_conv != null && Dgv_Pnl2_conv.Rows.Count > 0 || Dgv_Pnl2_cont != null && Dgv_Pnl2_cont.Rows.Count > 0)
@@ -9021,10 +9021,11 @@ namespace CapaVisual_Login
 
 
                 // Limpiar los campos del formulario si es necesario
-                guardaclienteP();
+                if (Cbx_Tap1_Nacionalidad_Pagador.Text != "" && Txt_Tap1_Cedula_Pagador.Text != "" && Txt_Tap1_Nombre_Pagador.Text != "")
+                {
+                    guardaclienteP();
+                }
 
-                
-                
                 // LimpiarCampos();
                 // Recargar la lista de clientes si es necesario
                 // CargarClientesEnDataGridView();
@@ -9450,7 +9451,7 @@ namespace CapaVisual_Login
                 else if (string.IsNullOrEmpty(Txt_Tap1_Cedula_Pagador.Text.Trim()))
                 {
                     _FrmMensajes.co = 2;
-                    _FrmMensajes.avisomensaje("Registre el numero de cedula del cliente pagador para continuar");
+                    _FrmMensajes.avisomensaje("Registre el número de cedula del cliente pagador para continuar");
                     _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
                     _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
                     _FrmMensajes.ShowDialog();
@@ -12539,17 +12540,18 @@ namespace CapaVisual_Login
                     return;
                 }
 
-                // Crear la lista primero
-                List<(string nombre, string valor)> datosPanel2 = new List<(string nombre, string valor)>
-{
-    ("T_ALTD", txtAltD.Text),
-    ("T_ALTI", txtAltI.Text),
-    ("T_OJO", Cbx_Tap2_Ojo.Text),
-    ("T_TIPOVISIOND", cbVisionDerecha.Enabled ? cbVisionDerecha.Text : ""),
-    ("T_TIPOVISIONI", cbVisionIzquierda.Enabled ? cbVisionIzquierda.Text : "")
-};
+//                // Crear la lista primero
+//                List<(string nombre, string valor)> datosPanel2 = new List<(string nombre, string valor)>
+//{
+//    ("T_ALTD", txtAltD.Text),
+//    ("T_ALTI", txtAltI.Text),
+//    ("T_OJO", Cbx_Tap2_Ojo.Text),
+//    ("T_TIPOVISIOND", cbVisionDerecha.Enabled ? cbVisionDerecha.Text : ""),
+//    ("T_TIPOVISIONI", cbVisionIzquierda.Enabled ? cbVisionIzquierda.Text : "")
+//};
 
-                bool Respuesta = _Asignar_Rx.AsignarRx(TB_CAORDSER.Cod_DetVta, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.CTE_Nacio, TB_CAORDSER.CTE_CedIden, Txt_Tap2_Examen.Text, TB_CAORDSER.NumOrdserv, LbResultado2, LbResultados, dgvRangoCrt, TB_CAORDSER.Cod_Laboratorio, TB_CAORDSER.Cod_Servicio, ((!string.IsNullOrEmpty(txtDistVertice.Text?.Trim())) ? "TRUE" : "FALSE"), ((!string.IsNullOrEmpty(txtAngPant.Text?.Trim())) ? "TRUE" : "FALSE"), ((!string.IsNullOrEmpty(txtAngFac.Text?.Trim())) ? "TRUE" : "FALSE"), datosPanel2);
+//                bool Respuesta = _Asignar_Rx.AsignarRx(TB_CAORDSER.Cod_DetVta, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.CTE_Nacio, TB_CAORDSER.CTE_CedIden, Txt_Tap2_Examen.Text, TB_CAORDSER.NumOrdserv, LbResultado2, LbResultados, dgvRangoCrt, TB_CAORDSER.Cod_Laboratorio, TB_CAORDSER.Cod_Servicio, ((!string.IsNullOrEmpty(txtDistVertice.Text?.Trim())) ? "TRUE" : "FALSE"), ((!string.IsNullOrEmpty(txtAngPant.Text?.Trim())) ? "TRUE" : "FALSE"), ((!string.IsNullOrEmpty(txtAngFac.Text?.Trim())) ? "TRUE" : "FALSE"), datosPanel2);
+                bool Respuesta = _Asignar_Rx.AsignarRx(TB_CAORDSER.Cod_DetVta, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.CTE_Nacio, TB_CAORDSER.CTE_CedIden, Txt_Tap2_Examen.Text, TB_CAORDSER.NumOrdserv, LbResultado2, LbResultados, dgvRangoCrt, TB_CAORDSER.Cod_Laboratorio, TB_CAORDSER.Cod_Servicio, ((!string.IsNullOrEmpty(txtDistVertice.Text?.Trim())) ? "TRUE" : "FALSE"), ((!string.IsNullOrEmpty(txtAngPant.Text?.Trim())) ? "TRUE" : "FALSE"), ((!string.IsNullOrEmpty(txtAngFac.Text?.Trim())) ? "TRUE" : "FALSE"));
                 if (!Respuesta && _Asignar_Rx.stringBuilder.Length > 0)
                 {
 

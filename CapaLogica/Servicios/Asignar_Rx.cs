@@ -53,8 +53,8 @@ namespace CapaLogica.Servicios
 
             return datosTrabajo;
         }
-
-        public bool AsignarRx(string GlbCodDetVta, string OSaModificar, string sucursal, string nacio, string cediden, string Examen, string Numero_Orden, System.Windows.Forms.ListView LbResultado2, System.Windows.Forms.ListView LbResultados, System.Windows.Forms.DataGridView dgvRangoCrt, string Laboratorio, string Servicio, string medDisV, string medAngF, string medAngP, List<(string nombre, string valor)> DatosPanle2 )
+        public bool AsignarRx(string GlbCodDetVta, string OSaModificar, string sucursal, string nacio, string cediden, string Examen, string Numero_Orden, System.Windows.Forms.ListView LbResultado2, System.Windows.Forms.ListView LbResultados, System.Windows.Forms.DataGridView dgvRangoCrt, string Laboratorio, string Servicio, string medDisV, string medAngF, string medAngP)
+        //public bool AsignarRx(string GlbCodDetVta, string OSaModificar, string sucursal, string nacio, string cediden, string Examen, string Numero_Orden, System.Windows.Forms.ListView LbResultado2, System.Windows.Forms.ListView LbResultados, System.Windows.Forms.DataGridView dgvRangoCrt, string Laboratorio, string Servicio, string medDisV, string medAngF, string medAngP, List<(string nombre, string valor)> DatosPanle2 )
         {
             stringBuilder.Clear();
             Conexion cn = new Conexion();
@@ -90,40 +90,40 @@ namespace CapaLogica.Servicios
                     string cristalI = dsOS.Tables[0].Rows[0]["CRISTALI"].ToString();
                     // solo se verifica si CodVenta = 01  VerificoParametrosCristales
 
-                    var trabajo = _TRABAJO.FirstOrDefault();
+                    
 
-                    // EXTRAER VALORES DE LA LISTA DatosPanle2
-                    string altD = ObtenerValorDeLista(DatosPanle2, "T_ALTD", trabajo.T_ALTD?.ToString());
-                    string altI = ObtenerValorDeLista(DatosPanle2, "T_ALTI", trabajo.T_ALTI?.ToString());
-                    string ojo = ObtenerValorDeLista(DatosPanle2, "T_OJO", trabajo.T_OJO);
-                    string tipoVisionD = ObtenerValorDeLista(DatosPanle2, "T_TIPOVISIOND", trabajo.T_TIPOVISIOND);
-                    string tipoVisionI = ObtenerValorDeLista(DatosPanle2, "T_TIPOVISIONI", trabajo.T_TIPOVISIONI);
+               //     // EXTRAER VALORES DE LA LISTA DatosPanle2
+               //     string altD = ObtenerValorDeLista(DatosPanle2, "T_ALTD", trabajo.T_ALTD?.ToString());
+               //     string altI = ObtenerValorDeLista(DatosPanle2, "T_ALTI", trabajo.T_ALTI?.ToString());
+               //     string ojo = ObtenerValorDeLista(DatosPanle2, "T_OJO", trabajo.T_OJO);
+               //     string tipoVisionD = ObtenerValorDeLista(DatosPanle2, "T_TIPOVISIOND", trabajo.T_TIPOVISIOND);
+               //     string tipoVisionI = ObtenerValorDeLista(DatosPanle2, "T_TIPOVISIONI", trabajo.T_TIPOVISIONI);
 
-                    // Modificar trabajo
-                    DataSet dsModificoTrabajo = _D_Articulo.MODIFICATB_TRABAJO(
-                   trabajo.T_NumOrdserv,
-                   Examen,
-                   (trabajo.T_HORIZONTAL?.ToString().Replace(".", "") ?? "0"),
-                   (trabajo.T_VERTICAL?.ToString().Replace(".", "") ?? "0"),
-                   (trabajo.T_MAXIMA?.ToString().Replace(".", "") ?? "0"),
-                   (trabajo.T_PUENTE?.ToString().Replace(".", "") ?? "0"),
-                   trabajo.T_DISTANCIAVERTICE?.ToString(),
-                   trabajo.T_ANGULOPANTOSCOPICO?.ToString(),
-                   trabajo.T_ANGULOFACIAL?.ToString(),
-                   altD,                    // Usar valor de la lista
-                   altI,                    // Usar valor de la lista
-                   ojo,                     // Usar valor de la lista
-                   tipoVisionD,             // Usar valor de la lista
-                   tipoVisionI,             // Usar valor de la lista
-                   Laboratorio ?? trabajo.T_LABORATORIO,
-                   Servicio ?? trabajo.T_SERVICIO,
-                   trabajo.T_HORAOFRECIDO,
-                   trabajo.T_FECHAOFRECIDO,
-                   trabajo.Cod_DetVta,
-                   "CONVENCIONAL",
-                   trabajo.USER_CREA,
-                   trabajo.T_SUCURSAL
-               );
+               //     // Modificar trabajo
+               //     DataSet dsModificoTrabajo = _D_Articulo.MODIFICATB_TRABAJO(
+               //    trabajo.T_NumOrdserv,
+               //    Examen,
+               //    (trabajo.T_HORIZONTAL?.ToString().Replace(".", "") ?? "0"),
+               //    (trabajo.T_VERTICAL?.ToString().Replace(".", "") ?? "0"),
+               //    (trabajo.T_MAXIMA?.ToString().Replace(".", "") ?? "0"),
+               //    (trabajo.T_PUENTE?.ToString().Replace(".", "") ?? "0"),
+               //    trabajo.T_DISTANCIAVERTICE?.ToString(),
+               //    trabajo.T_ANGULOPANTOSCOPICO?.ToString(),
+               //    trabajo.T_ANGULOFACIAL?.ToString(),
+               //    altD,                    // Usar valor de la lista
+               //    altI,                    // Usar valor de la lista
+               //    ojo,                     // Usar valor de la lista
+               //    tipoVisionD,             // Usar valor de la lista
+               //    tipoVisionI,             // Usar valor de la lista
+               //    Laboratorio ?? trabajo.T_LABORATORIO,
+               //    Servicio ?? trabajo.T_SERVICIO,
+               //    trabajo.T_HORAOFRECIDO,
+               //    trabajo.T_FECHAOFRECIDO,
+               //    trabajo.Cod_DetVta,
+               //    "CONVENCIONAL",
+               //    trabajo.USER_CREA,
+               //    trabajo.T_SUCURSAL
+               //);
 
 
                     if (!VerificoParametrosCristales(_TRABAJO, nacio, cediden, Examen, cristalD, cristalI, color == "0" ? "NO" : "SI", LbResultado2, LbResultados, dgvRangoCrt, medDisV,  medAngF, medAngP, Laboratorio, Servicio, command))
@@ -138,7 +138,32 @@ namespace CapaLogica.Servicios
                         return false;
                     }
 
-        
+                    var trabajo = _TRABAJO.FirstOrDefault();
+                    // Modificar trabajo
+                    DataSet dsModificoTrabajo = _D_Articulo.MODIFICATB_TRABAJO(
+        trabajo.T_NumOrdserv,                                 // @NUMOS
+        Examen,                         // @EXAM
+(trabajo.T_HORIZONTAL?.ToString().Replace(".", "") ?? "0"),
+(trabajo.T_VERTICAL?.ToString().Replace(".", "") ?? "0"),
+(trabajo.T_MAXIMA?.ToString().Replace(".", "") ?? "0"),
+(trabajo.T_PUENTE?.ToString().Replace(".", "") ?? "0"),
+        trabajo.T_DISTANCIAVERTICE?.ToString(),               // @DISVERT
+        trabajo.T_ANGULOPANTOSCOPICO?.ToString(),             // @ANPANT
+        trabajo.T_ANGULOFACIAL?.ToString(),                   // @ANFAC
+        trabajo.T_ALTD?.ToString(),                           // @ALTD
+        trabajo.T_ALTI?.ToString(),                           // @ALTI
+        trabajo.T_OJO,                                        // @OJO
+        trabajo.T_TIPOVISIOND,                                // @TVISD
+        trabajo.T_TIPOVISIONI,                                // @TVISI
+        Laboratorio ?? trabajo.T_LABORATORIO,                                // @LAB
+        Servicio ?? trabajo.T_SERVICIO,                                   // @SERV
+        trabajo.T_HORAOFRECIDO,                               // @HOFRE
+        trabajo.T_FECHAOFRECIDO,                              // @FOFRE
+        trabajo.Cod_DetVta,                                   // @CODDETV
+        "CONVENCIONAL",                                   // @TEXAM
+        trabajo.USER_CREA,                                    // @USER
+        trabajo.T_SUCURSAL                                    // @SUC
+    );
 
                     if (dsModificoTrabajo.Tables[0].Rows[0][0].ToString() == "SATISFACTORIO")
                     {
