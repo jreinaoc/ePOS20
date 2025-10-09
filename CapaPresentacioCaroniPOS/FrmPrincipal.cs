@@ -1404,5 +1404,10 @@ namespace CapaVisual_Login
         {
 
         }
+
+        private void FrmPrincipal_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }

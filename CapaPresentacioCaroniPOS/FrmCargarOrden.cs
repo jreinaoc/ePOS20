@@ -1515,6 +1515,17 @@ namespace CapaVisual_Login
                     return;
             }
 
+
+            //if (Txt_Tap3_Articulo_Codigo.Text.StartsWith("W") && string.IsNullOrEmpty(CodColorLC) && Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "02")
+            //{
+            //    DataSet dsColorLC = _L_Articulo.CargarColoresLC(Dgv_Pnl3_ColoresLC, Txt_Tap3_Articulo_Codigo.Text);
+            //    Dgv_Pnl3_ColoresLC.DataSource = dsColorLC.Tables[0];
+            //    Formato_Dgv_Pnl3_ColoresLC();
+            //    Pnl_3_Lista_ColoresLC.Visible = true;
+            //    Pnl_3_Lista_ColoresLC.Location = new Point(250, 100);
+            //    return;
+            //}
+
             // Verifico Existencia LC
             if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "02" && Txt_Tap3_Articulo_Codigo.Text.StartsWith("W") && !_L_Articulo.BuscoCodigoLabLC(Txt_Tap3_Articulo_Codigo.Text, CodColorLC, Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Convert.ToInt16(Txt_Pnl2_Examen.Text),  Cbx_Tap2_Ojo.Text, ojoLenteContacto, Txt_Tap3_Articulo_Cantidad.Text,
                   // delegado
@@ -1534,7 +1545,9 @@ namespace CapaVisual_Login
                 _FrmMensajes.ShowDialog();
             }
 
-           
+  
+
+
             AgregarArticuloAlGrid();
 
             // Limpiar los TextBox
@@ -1577,6 +1590,17 @@ namespace CapaVisual_Login
                             return;
                         }
                     }
+
+                    if (Txt_Tap3_Articulo_Codigo.Text.StartsWith("W") && string.IsNullOrEmpty(CodColorLC) && Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "02")
+                    {
+                        DataSet dsColorLC = _L_Articulo.CargarColoresLC(Dgv_Pnl3_ColoresLC, Txt_Tap3_Articulo_Codigo.Text);
+                        Dgv_Pnl3_ColoresLC.DataSource = dsColorLC.Tables[0];
+                        Formato_Dgv_Pnl3_ColoresLC();
+                        Pnl_3_Lista_ColoresLC.Visible = true;
+                        Pnl_3_Lista_ColoresLC.Location = new Point(250, 150);
+                        return;
+                    }
+
                     CargarArticulos_Girdvew();
                 }
             }
@@ -4946,7 +4970,7 @@ namespace CapaVisual_Login
             {
                 //if (ValidarTipoTrabajoTipoExamen(Cbx_Pnl2_Trbajo.SelectedValue.ToString(), Cbx_Tap2_Tipo_Examen.Text) == true)
                 //{
-                    //Cbx_Pnl2_Trbajo.Enabled = false;
+                    Cbx_Pnl2_Trbajo.Enabled = false;
                     CargarComboLaboratorios();
                     //CargarComboServicioLaboratorios();
                     ValidarTipoVenta(Cbx_Pnl2_Trbajo.Text);
@@ -6717,7 +6741,7 @@ namespace CapaVisual_Login
             ejeColumn.Minimum = 0M;
             ejeColumn.Maximum = 180M;
             //ejeColumn.Increment = 1M; 12072025
-            ejeColumn.Increment = 5M;
+            ejeColumn.Increment = 1M;
             Dgv_Pnl2_conv.Columns.Add(ejeColumn);
 
 
@@ -11087,13 +11111,13 @@ namespace CapaVisual_Login
                         btnCargarOrden.Enabled = true;
                         //btnCargarOrden.Focus();
                         tabControl.SelectedIndex = 2;
-                        
+                        this.btnCargarOrden.Checked = true;
+                        btnDetalleOrden_CheckedChanged(btnCargarOrden, EventArgs.Empty);
                     }
                     else
                     {
                         btnExamen.Focus();
                         tabControl.SelectedIndex = 1;
-                       
                     }
                     //btnCargarOrden.Enabled = true;
                     //tabControl.SelectedIndex = 2;
@@ -11416,45 +11440,45 @@ namespace CapaVisual_Login
                     }
                 }
             }
+            //Se comenta para que la columna Eje permita cualquier numero de 1-180
+            //if (e.ColumnIndex >= 0 && Dgv_Pnl2_conv.Columns[e.ColumnIndex].Name == "Eje" && e.RowIndex >= 0)
+            //{
+            //    DataGridViewCell cell = Dgv_Pnl2_conv.Rows[e.RowIndex].Cells[e.ColumnIndex];
 
-            if (e.ColumnIndex >= 0 && Dgv_Pnl2_conv.Columns[e.ColumnIndex].Name == "Eje" && e.RowIndex >= 0)
-            {
-                DataGridViewCell cell = Dgv_Pnl2_conv.Rows[e.RowIndex].Cells[e.ColumnIndex];
+            //    // Verifica si la celda está vacía
+            //    if (cell.Value == null || string.IsNullOrEmpty(cell.Value.ToString()))
+            //    {
+            //        cell.Value = 0; // Establece el valor a cero
+            //    }
+            //    else
+            //    {
+            //        int valoreje = Convert.ToInt32(cell.Value);
+            //        // Si la celda no está vacía, valida el número ingresado como entero
+            //        if (int.TryParse(valoreje.ToString(), out int enteredValue))
+            //        {
+            //            // Verifica si el valor es un múltiplo de 5
+            //            if (enteredValue % 5 != 0)
+            //            {
+            //                // Calcula el múltiplo de 5 más cercano
+            //                int roundedValue = (int)Math.Round((double)enteredValue / 5) * 5;
 
-                // Verifica si la celda está vacía
-                if (cell.Value == null || string.IsNullOrEmpty(cell.Value.ToString()))
-                {
-                    cell.Value = 0; // Establece el valor a cero
-                }
-                else
-                {
-                    int valoreje = Convert.ToInt32(cell.Value);
-                    // Si la celda no está vacía, valida el número ingresado como entero
-                    if (int.TryParse(valoreje.ToString(), out int enteredValue))
-                    {
-                        // Verifica si el valor es un múltiplo de 5
-                        if (enteredValue % 5 != 0)
-                        {
-                            // Calcula el múltiplo de 5 más cercano
-                            int roundedValue = (int)Math.Round((double)enteredValue / 5) * 5;
+            //                //// Muestra un mensaje al usuario
+            //                //Pnl_2_Msj.Visible = true;
+            //                //txt_pl2_msj.Text = $" El rango valido va desde 0,75 y 3,50  ";
+            //                ////pb_pl2_mj.Visible = true;
 
-                            //// Muestra un mensaje al usuario
-                            //Pnl_2_Msj.Visible = true;
-                            //txt_pl2_msj.Text = $" El rango valido va desde 0,75 y 3,50  ";
-                            ////pb_pl2_mj.Visible = true;
-
-                            // Actualiza el valor de la celda
-                            cell.Value = roundedValue;
-                        }
-                    }
-                    else
-                    {
-                        // Si el valor no es un entero válido
-                        //MessageBox.Show("Por favor, ingrese un número entero válido.", "Error de entrada", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        cell.Value = 0; // O la acción que consideres adecuada
-                    }
-                }
-            }
+            //                // Actualiza el valor de la celda
+            //                cell.Value = roundedValue;
+            //            }
+            //        }
+            //        else
+            //        {
+            //            // Si el valor no es un entero válido
+            //            //MessageBox.Show("Por favor, ingrese un número entero válido.", "Error de entrada", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //            cell.Value = 0; // O la acción que consideres adecuada
+            //        }
+            //    }
+            //}
 
             if (e.ColumnIndex >= 0 && Dgv_Pnl2_conv.Columns[e.ColumnIndex].Name == "Adicion" && e.RowIndex >= 0)
             {
@@ -12204,45 +12228,45 @@ namespace CapaVisual_Login
                     }
                 }
             }
+            //Se comenta para que la columna Eje permita cualquier numero de 1-180
+            //if (e.ColumnIndex >= 0 && Dgv_Pnl2_cont.Columns[e.ColumnIndex].Name == "Eje" && e.RowIndex >= 0)
+            //{
+            //    DataGridViewCell cell = Dgv_Pnl2_cont.Rows[e.RowIndex].Cells[e.ColumnIndex];
 
-            if (e.ColumnIndex >= 0 && Dgv_Pnl2_cont.Columns[e.ColumnIndex].Name == "Eje" && e.RowIndex >= 0)
-            {
-                DataGridViewCell cell = Dgv_Pnl2_cont.Rows[e.RowIndex].Cells[e.ColumnIndex];
+            //    // Verifica si la celda está vacía
+            //    if (cell.Value == null || string.IsNullOrEmpty(cell.Value.ToString()))
+            //    {
+            //        cell.Value = 0; // Establece el valor a cero
+            //    }
+            //    else
+            //    {
+            //        int valoreje = Convert.ToInt32(cell.Value);
+            //        // Si la celda no está vacía, valida el número ingresado
+            //        if (int.TryParse(valoreje.ToString(), out int enteredValue))
+            //        {
+            //            // Verifica si el valor es un múltiplo de 5
+            //            if (enteredValue % 5 != 0)
+            //            {
+            //                // Calcula el múltiplo de 5 más cercano
+            //                int roundedValue = (int)Math.Round((double)enteredValue / 5) * 5;
 
-                // Verifica si la celda está vacía
-                if (cell.Value == null || string.IsNullOrEmpty(cell.Value.ToString()))
-                {
-                    cell.Value = 0; // Establece el valor a cero
-                }
-                else
-                {
-                    int valoreje = Convert.ToInt32(cell.Value);
-                    // Si la celda no está vacía, valida el número ingresado
-                    if (int.TryParse(valoreje.ToString(), out int enteredValue))
-                    {
-                        // Verifica si el valor es un múltiplo de 5
-                        if (enteredValue % 5 != 0)
-                        {
-                            // Calcula el múltiplo de 5 más cercano
-                            int roundedValue = (int)Math.Round((double)enteredValue / 5) * 5;
+            //                // Muestra un mensaje al usuario
+            //                //Pnl_2_Msj.Visible = true;
+            //                //txt_pl2_msj.Text = $"El valor ingresado debe ser un múltiplo de 5. Se ha ajustado a {roundedValue}.";
+            //                //pb_pl2_mj.Visible = true;
 
-                            // Muestra un mensaje al usuario
-                            //Pnl_2_Msj.Visible = true;
-                            //txt_pl2_msj.Text = $"El valor ingresado debe ser un múltiplo de 5. Se ha ajustado a {roundedValue}.";
-                            //pb_pl2_mj.Visible = true;
-
-                            // Actualiza el valor de la celda
-                            cell.Value = roundedValue;
-                        }
-                    }
-                    else
-                    {
-                        // Si el valor no es un entero válido
-                        //MessageBox.Show("Por favor, ingrese un número entero válido.", "Error de entrada", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        cell.Value = 0; // O la acción que consideres adecuada
-                    }
-                }
-            }
+            //                // Actualiza el valor de la celda
+            //                cell.Value = roundedValue;
+            //            }
+            //        }
+            //        else
+            //        {
+            //            // Si el valor no es un entero válido
+            //            //MessageBox.Show("Por favor, ingrese un número entero válido.", "Error de entrada", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //            cell.Value = 0; // O la acción que consideres adecuada
+            //        }
+            //    }
+            //}
 
 
 

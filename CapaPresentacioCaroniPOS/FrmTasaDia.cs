@@ -72,7 +72,7 @@ namespace CapaVisual_Login
                                 _D_TasaSecuencia.Update_TB_Parametro("0", "SwNCAutom");
                                 string GerenteAprueba = VariablesGlobales.UsuarioAutorizado_FrmClaveAutorizada;
                                 AGteRegD = "NO";
-                                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "082", TB_USUARIO.COD_EMPLEADO, "--");
+                                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "082", TB_USUARIO.COD_EMPLEADO, "Cambio de Status Confirmado por Gerente Regional");
                             }
                             else
                             {
@@ -99,7 +99,7 @@ namespace CapaVisual_Login
                                 _D_TasaSecuencia.Update_TB_Parametro("0", "SwNCAutom");
                                 string GerenteAprueba = VariablesGlobales.UsuarioAutorizado_FrmClaveAutorizada;
                                 AGteRegE = "NO";
-                                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "082", TB_USUARIO.COD_EMPLEADO, "--");
+                                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "082", TB_USUARIO.COD_EMPLEADO, "Cambio de Status Confirmado por Gerente Regional");
                             }
                             else
                             {
@@ -138,7 +138,7 @@ namespace CapaVisual_Login
                         {
                             string GerenteAprueba= VariablesGlobales.UsuarioAutorizado_FrmClaveAutorizada;
                             AGteRegD = "NO";
-                            _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "082", TB_USUARIO.COD_EMPLEADO, "--");
+                            _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "082", TB_USUARIO.COD_EMPLEADO, "Cambio de Status Confirmado por Gerente Regional");
                         }
                         else
                         {
