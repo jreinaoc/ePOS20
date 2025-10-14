@@ -893,5 +893,20 @@ namespace CapaLogica.CierreCaja_Logica
             }
         }
 
+        public DataTable ModificaVendedor(string order, string codEmpleadoNew, string usuario, string Suc)
+        {
+            try
+            {
+                DataTable dt = _D_CierreCaja.ModificaVendedor(order, codEmpleadoNew, usuario, Suc);
+                return dt;
+
+            }
+            catch (Exception ex)
+            {
+                // Código para manejar el error
+                EscribirLog(ex.Message.ToString());
+                return null;
+            }
+        }
     }
 }

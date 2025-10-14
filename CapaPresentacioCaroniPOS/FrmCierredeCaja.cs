@@ -1469,6 +1469,7 @@ namespace CapaVisual_Login
                     DataGridViewRow filaActiva = Dvg_ConsignacionDeOS.CurrentRow;
 
                     filaActiva.Cells["CodVendedor"].Value = codUsr;
+
                     filaActiva.Cells["Vendedor"].Value = nombreUsr;
                     Pnl2_ListadoDeVendedores.Visible = false;
                 }
@@ -1477,6 +1478,17 @@ namespace CapaVisual_Login
 
         private void btn_Siguiente_pg3_Click(object sender, EventArgs e)
         {
+            foreach (DataGridViewRow fila in Dvg_ConsignacionDeOS.Rows)
+            {
+                // Ignorar fila nueva si está habilitada la opción de agregar
+                if (!fila.IsNewRow)
+                {
+                    var Orden = fila.Cells["Orden"].Value?.ToString().Trim();
+                    var CodVendedor = fila.Cells["CodVendedor"].Value?.ToString().Trim();
+
+                    _L_CierreCaja.ModificaVendedor(Orden, CodVendedor, CodVendedor, sucursal);
+                }
+            }
             tcCierreCaja.SelectedIndex = 3;
             dgvCierredecaja.ClearSelection();
 
