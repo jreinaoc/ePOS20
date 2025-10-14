@@ -477,7 +477,7 @@ namespace CapaDatos.CierreCaja_Datos
 
                 cmd.CommandText = "SP_MODIFICACODVENDEDOR";
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@fecha", order);
+                cmd.Parameters.AddWithValue("@Orden", order);
                 cmd.Parameters.AddWithValue("@CodEmpleadoNuevo", codEmpleadoNew);
                 cmd.Parameters.AddWithValue("@Usuario", usuario);
                 cmd.Parameters.AddWithValue("@suc", Suc);
