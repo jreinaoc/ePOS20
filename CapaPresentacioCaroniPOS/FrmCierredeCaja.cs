@@ -60,6 +60,11 @@ namespace CapaVisual_Login
 
         }
 
+        private void mostrarError(string mensaje)
+        {
+            FrmMensajes.MostrarError(mensaje);
+        }
+
         private void btnSiguiente_Click(object sender, EventArgs e)
         {
             if (_D_Inicio.DiaActivo() >= DateTime.Now)
@@ -72,7 +77,7 @@ namespace CapaVisual_Login
                 return;
 
             }
-            if (!_L_CierreCaja.CierreFueradeHorario(sucursal,DateTime.Now, DateTime.Now) && txtCierreHora.Text == "")
+            if (!_L_CierreCaja.CierreFueradeHorario(sucursal, DateTime.Now, DateTime.Now) && txtCierreHora.Text == "")
             {
                 _FrmMensajes.co = 2;
                 _FrmMensajes.avisomensaje("Debe registrar el cierre de la sucursal");
@@ -160,71 +165,71 @@ namespace CapaVisual_Login
             //Si no se han cerrado 
             //if (Dvg_CierrePuntoVenta.Rows.Count > 0 && dtPuntosCerrados.Rows.Count == 0 )
             //{
-                
 
-                //foreach (DataGridViewRow fila in Dvg_CierrePuntoVenta.Rows)
-                //{
-                //    // Ignorar fila nueva si está habilitada la opción de agregar
-                //    if (!fila.IsNewRow)
-                //    {
-                //        var valorLote = fila.Cells["Nro. Lote"].Value?.ToString().Trim();
 
-                //        if (valorLote != "")
-                //        {
-                //            todosLotesEnBlanco = false;
-                //            break;
-                //        }
-                //    }
-                //}
+            //foreach (DataGridViewRow fila in Dvg_CierrePuntoVenta.Rows)
+            //{
+            //    // Ignorar fila nueva si está habilitada la opción de agregar
+            //    if (!fila.IsNewRow)
+            //    {
+            //        var valorLote = fila.Cells["Nro. Lote"].Value?.ToString().Trim();
 
-                if (todosLotesEnBlanco)
+            //        if (valorLote != "")
+            //        {
+            //            todosLotesEnBlanco = false;
+            //            break;
+            //        }
+            //    }
+            //}
+
+            if (todosLotesEnBlanco)
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("Debe llenar todos los puntos de venta");
+                _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                _FrmMensajes.ShowDialog();
+                return;
+            }
+            else
+            {
+                foreach (DataGridViewRow fila in Dvg_CierrePuntoVenta.Rows)
                 {
-                    _FrmMensajes.co = 2;
-                    _FrmMensajes.avisomensaje("Debe llenar todos los puntos de venta");
-                    _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
-                    _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
-                    _FrmMensajes.ShowDialog();
-                    return;
-                }
-                else
-                {
-                    foreach (DataGridViewRow fila in Dvg_CierrePuntoVenta.Rows)
+                    // Ignorar fila nueva si está habilitada la opción de agregar
+                    if (!fila.IsNewRow)
                     {
-                        // Ignorar fila nueva si está habilitada la opción de agregar
-                        if (!fila.IsNewRow)
+                        var valorLote = fila.Cells["Nro. Lote"].Value?.ToString().Trim();
+                        if (valorLote != "")
                         {
-                            var valorLote = fila.Cells["Nro. Lote"].Value?.ToString().Trim();
-                            if (valorLote != "")
-                            {
-                            decimal.TryParse(fila.Cells[4].Value?.ToString().Trim().Replace(".",""), out decimal totalCredito);
+                            decimal.TryParse(fila.Cells[4].Value?.ToString().Trim().Replace(".", ""), out decimal totalCredito);
                             decimal.TryParse(fila.Cells[5].Value?.ToString().Trim().Replace(".", ""), out decimal totalAmex);
                             decimal.TryParse(fila.Cells[6].Value?.ToString().Trim().Replace(".", ""), out decimal totalDebito);
                             decimal.TryParse(fila.Cells[7].Value?.ToString().Trim().Replace(".", ""), out decimal totalOtros);
 
-                           
+
                             if (!_L_CierreCaja.AgregaPuntosdeVenta(fila.Cells[0].Value?.ToString().Trim(), fila.Cells[1].Value?.ToString().Trim(), diaActivo, fila.Cells[3].Value?.ToString().Trim(), totalCredito, totalAmex, totalDebito, totalOtros))
 
-                                {
-                                    _FrmMensajes.co = 2;
-                                    _FrmMensajes.avisomensaje("Error registrando puntos de venta");
-                                    _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
-                                    _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
-                                    _FrmMensajes.ShowDialog();
-                                    return;
-                                }
+                            {
+                                _FrmMensajes.co = 2;
+                                _FrmMensajes.avisomensaje("Error registrando puntos de venta");
+                                _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                                _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                                _FrmMensajes.ShowDialog();
+                                return;
                             }
                         }
                     }
-                    
-                    
                 }
 
-                //_FrmMensajes.co = 2;
-                //_FrmMensajes.avisomensaje("Debe cerrar los puntos de venta antes de cerrar la caja");
-                //_FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
-                //_FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
-                //_FrmMensajes.ShowDialog();
-                //return;
+
+            }
+
+            //_FrmMensajes.co = 2;
+            //_FrmMensajes.avisomensaje("Debe cerrar los puntos de venta antes de cerrar la caja");
+            //_FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+            //_FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+            //_FrmMensajes.ShowDialog();
+            //return;
             //}
 
             //ASISTENCIA PENDIENTE
@@ -263,7 +268,7 @@ namespace CapaVisual_Login
         public void FormatoClaro(System.Drawing.Color col1, System.Drawing.Color col3, System.Drawing.Color col5)
         {
             //col1 es blanco, col3 es Silken Jade, col5 es Noble Black
-            
+
             //Pagina 1
             tabPage1.BackColor = col1;
             Lbl_Tap1_DatosPersonal.BackColor = col3;
@@ -298,7 +303,7 @@ namespace CapaVisual_Login
             lbl_ListadoDeVendedores.BackColor = col3;
             lbl_ListadoDeVendedores.ForeColor = col5;
             Pnl2_ListadoDeVendedores.BackColor = col1;
-            
+
 
             //Pagina 4
             tabPage4.BackColor = col1;
@@ -373,7 +378,7 @@ namespace CapaVisual_Login
             lbl_ConsignacionOrdenesServ.ForeColor = col1;
             Dvg_ConsignacionDeOS.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#2f6b64");
             Dvg_ConsignacionDeOS.ColumnHeadersDefaultCellStyle.ForeColor = col1;
-            
+
 
             lbl_CambiarVendedor.BackColor = col6;
             lbl_CambiarVendedor.ForeColor = col1;
@@ -381,7 +386,7 @@ namespace CapaVisual_Login
             lbl_ListadoDeVendedores.BackColor = col6;
             lbl_ListadoDeVendedores.ForeColor = col1;
             Pnl2_ListadoDeVendedores.BackColor = ColorTranslator.FromHtml("#257b78");
-            
+
             //Pagina 4
             tabPage4.BackColor = col3;
             lbl_CierreDeCaja.BackColor = col6;
@@ -425,7 +430,7 @@ namespace CapaVisual_Login
         private void btn_Siguiente_pg2_Click(object sender, EventArgs e)
         {
             //bool hayReferenciasEnBlanco = false;
-           // bool hayAsistenciasEnBlanco = false;
+            // bool hayAsistenciasEnBlanco = false;
 
             foreach (DataGridViewRow fila in Dvg_OSconPagoMovil.Rows)
             {
@@ -460,7 +465,7 @@ namespace CapaVisual_Login
             }
 
             //ASISTENCIAS
-            
+
             foreach (DataGridViewRow filaAsis in Dvg_MarcajeAsistenciaPendiente.Rows)
             {
                 Dvg_MarcajeAsistenciaPendiente.CurrentCell = Dvg_MarcajeAsistenciaPendiente.Rows[0].Cells[0];
@@ -494,11 +499,11 @@ namespace CapaVisual_Login
                         //    // Ignorar fila nueva si está habilitada la opción de agregar
                         //    if (!fila.IsNewRow)
                         //    {
-                                string codigoEmpleado = filaAsis.Cells["COD_EMPLEADO"].Value?.ToString() ?? string.Empty;
-                                // DateTime horaSeleccionada = miTimePicker.Value;
-                                // si  tengo salida1
-                                if (!string.IsNullOrEmpty(HoraSalida1))
-                                {
+                        string codigoEmpleado = filaAsis.Cells["COD_EMPLEADO"].Value?.ToString() ?? string.Empty;
+                        // DateTime horaSeleccionada = miTimePicker.Value;
+                        // si  tengo salida1
+                        if (!string.IsNullOrEmpty(HoraSalida1))
+                        {
                             // 1. Reemplazar cualquier tipo de espacio entre "p." y "m." (incluyendo NO-BREAK SPACE)
                             HoraSalida1 = Regex.Replace(HoraSalida1, @"p\.\s*m\.", "pm", RegexOptions.IgnoreCase);
 
@@ -511,25 +516,25 @@ namespace CapaVisual_Login
 
 
                             _L_CierreCaja.ActualizaAsistencia(diaActivo.ToString("dd/MM/yyyy"), HoraSalida1, codigoEmpleado, codigoEmpleado);
-                                    _D_Anulacion.CaragarAuditor(TB_USUARIO.COD_SUCURSAL, "072", TB_USUARIO.COD_EMPLEADO, "Se asigno la hora de salida " + HoraSalida1 + ", al empleado " + codigoEmp + ", Autoriza: " + GerenteAutoriza);
+                            _D_Anulacion.CaragarAuditor(TB_USUARIO.COD_SUCURSAL, "072", TB_USUARIO.COD_EMPLEADO, "Se asigno la hora de salida " + HoraSalida1 + ", al empleado " + codigoEmp + ", Autoriza: " + GerenteAutoriza);
 
-                                }
+                        }
 
                         // si  tengo salida1
                         if (!string.IsNullOrEmpty(HoraSalida2))
                         {
                             // 1. Reemplazar cualquier tipo de espacio entre "p." y "m." (incluyendo NO-BREAK SPACE)
-                            HoraSalida1 = Regex.Replace(HoraSalida1, @"p\.\s*m\.", "pm", RegexOptions.IgnoreCase);
+                            HoraSalida2 = Regex.Replace(HoraSalida2, @"p\.\s*m\.", "pm", RegexOptions.IgnoreCase);
 
                             // 2. Reemplazar cualquier tipo de espacio entre "a." y "m." (por si hay AM)
-                            HoraSalida1 = Regex.Replace(HoraSalida1, @"a\.\s*m\.", "am", RegexOptions.IgnoreCase);
+                            HoraSalida2 = Regex.Replace(HoraSalida2, @"a\.\s*m\.", "am", RegexOptions.IgnoreCase);
 
                             // 3. Eliminar espacios adicionales antes del AM/PM
-                            HoraSalida1 = HoraSalida1.Trim();
+                            HoraSalida2 = HoraSalida2.Trim();
 
 
                             _L_CierreCaja.ActualizaAsistencia(diaActivo.ToString("dd/MM/yyyy"), HoraSalida2, codigoEmp, TB_USUARIO.COD_EMPLEADO);
-                            _D_Anulacion.CaragarAuditor(TB_USUARIO.COD_SUCURSAL, "072", TB_USUARIO.COD_EMPLEADO, "Se asigno la hora de salida " + HoraSalida1 + ", al empleado " + codigoEmp + ", Autoriza: " + GerenteAutoriza);
+                            _D_Anulacion.CaragarAuditor(TB_USUARIO.COD_SUCURSAL, "072", TB_USUARIO.COD_EMPLEADO, "Se asigno la hora de salida " + HoraSalida2 + ", al empleado " + codigoEmp + ", Autoriza: " + GerenteAutoriza);
 
                         }
 
@@ -563,10 +568,10 @@ namespace CapaVisual_Login
                 this.Dvg_CierrePuntoVenta.EditingControlShowing += Dvg_CierrePuntoVenta_EditingControlShowing;
                 this.dgvCierredecaja.EditingControlShowing += dgvCierredecaja_EditingControlShowing;
 
-                
+
                 tcCierreCaja.ItemSize = new Size(0, 1);
                 tcCierreCaja.SizeMode = TabSizeMode.Fixed;
-                
+
                 QuitarBorde1.BringToFront();
                 QuitarBorde2.BringToFront();
                 QuitarBorde3.BringToFront();
@@ -582,7 +587,7 @@ namespace CapaVisual_Login
                     ForeColor = Color.Black,
                     Size = new Size(30, 148),
 
-                    Location = new Point(110,126),
+                    Location = new Point(110, 126),
 
                     Invertir = true // ponlo en true si quieres que el texto vaya de abajo hacia arriba
                 };
@@ -603,7 +608,7 @@ namespace CapaVisual_Login
                 labelVerticalPagos.ForeColor = Color.White;
                 tabPage4.Controls.Add(labelVerticalPagos);
 
-               
+
 
 
             }
@@ -706,7 +711,7 @@ namespace CapaVisual_Login
                     //dtPagoMovil.Columns.Add("nombreSucursal", typeof(string));
                     //dtPagoMovil.Columns.Add("Referencia", typeof(string));
                     //dtPagoMovil.Columns.Add("CodigoError", typeof(string));
-                break;
+                    break;
 
 
                 default:
@@ -809,10 +814,10 @@ namespace CapaVisual_Login
                     //dtPtoVenta.Rows.Add(fila["Tipo"], fila[""CodPunto], fila[1], fila[2], fila[3], fila[4], fila[5], fila[6]);
                     dtPtoVenta.Rows.Add(fila["CodPunto"], fila["Tipo"], fila["Banco"], fila["NroLote"], fila["ManualTarjCredito"], fila["ManualTarjAmex"], fila["ManualTarjDebito"], fila["ManualTarjOtros"]);
                 }
-               
+
 
                 // Asignar al DataGridView
-        Dvg_CierrePuntoVenta.DataSource = dtPtoVenta;
+                Dvg_CierrePuntoVenta.DataSource = dtPtoVenta;
 
                 FormatoTabla("PuntodeVenta");
             }
@@ -843,7 +848,7 @@ namespace CapaVisual_Login
             Dvg_MarcajeAsistenciaPendiente.EditMode = DataGridViewEditMode.EditProgrammatically;
 
             //CONSIGNACION
-             dtConsignacion = _L_CierreCaja.ConsultaOsDia(diaActivo, sucursal);
+            dtConsignacion = _L_CierreCaja.ConsultaOsDia(diaActivo, sucursal);
 
             // Asignar al DataGridView
             Dvg_ConsignacionDeOS.DataSource = dtConsignacion;
@@ -867,7 +872,7 @@ namespace CapaVisual_Login
             {
                 case "PuntodeVenta":
 
-                   
+
 
                     // Asignar ancho personalizado a cada columna
                     Dvg_CierrePuntoVenta.Columns["CodPunto"].Width = 0;
@@ -880,7 +885,7 @@ namespace CapaVisual_Login
                     Dvg_CierrePuntoVenta.Columns["Total T. Débito"].Width = 120;
                     Dvg_CierrePuntoVenta.Columns["Total T. Otros"].Width = 120;
 
-                   
+
                     Dvg_CierrePuntoVenta.Columns["Banco"].ReadOnly = true;
 
                     //Dvg_CierrePuntoVenta.DefaultCellStyle.Font = new Font("Century Gothic", 20);
@@ -902,7 +907,7 @@ namespace CapaVisual_Login
                     Dvg_ConsignacionDeOS.Columns["Orden"].ReadOnly = true;
                     Dvg_ConsignacionDeOS.Columns["Lab"].ReadOnly = true;
                     Dvg_ConsignacionDeOS.Columns["Servicio"].ReadOnly = true;
-                    
+
 
                     Dvg_ConsignacionDeOS.Columns["Orden"].HeaderText = "Orden";
                     Dvg_ConsignacionDeOS.Columns["Lab"].HeaderText = "Laboratorio";
@@ -1201,9 +1206,9 @@ namespace CapaVisual_Login
                 case "Usuarios":
 
                     // Asignar ancho personalizado a cada columna
-                    Dgv_Usuarios.Columns["COD_USR"].Visible  = false;
+                    Dgv_Usuarios.Columns["COD_USR"].Visible = false;
                     Dgv_Usuarios.Columns["Nombre"].Width = 320;
-                    Dgv_Usuarios.Columns["COD_EMPLEADO"].HeaderText  = "Código";
+                    Dgv_Usuarios.Columns["COD_EMPLEADO"].HeaderText = "Código";
                     Dgv_Usuarios.Columns["COD_EMPLEADO"].Width = 75;
                     Dgv_Usuarios.ColumnHeadersDefaultCellStyle.Font = new Font("Century Gothic", 9);
                     Dgv_Usuarios.DefaultCellStyle.Font = new Font("Century Gothic", 9);
@@ -1217,7 +1222,7 @@ namespace CapaVisual_Login
             }
         }
 
-        
+
 
         private void btn_Cancelar_pg2_Click(object sender, EventArgs e)
         {
@@ -1247,7 +1252,7 @@ namespace CapaVisual_Login
 
         // 3) En CellBeginEdit pides la clave y, si es correcta,
         //    guardas la posición de la celda en el HashSet:
-       
+
 
         // 4) En CellEndEdit revisas si la celda estuvo autorizada.
         //    Si NO, la vacías; si SÍ, la aceptas y quitas la autorización
@@ -1323,7 +1328,7 @@ namespace CapaVisual_Login
                 }
             }
 
-            
+
 
             public object GetEditingControlFormattedValue(DataGridViewDataErrorContexts context) => EditingControlFormattedValue;
             public void ApplyCellStyleToEditingControl(DataGridViewCellStyle dataGridViewCellStyle) => this.Font = dataGridViewCellStyle.Font;
@@ -1460,7 +1465,8 @@ namespace CapaVisual_Login
             if (e.RowIndex >= 0)
             {
                 // Obtener datos del usuario seleccionado
-                string codUsr = Dgv_Usuarios.Rows[e.RowIndex].Cells["COD_USR"].Value?.ToString();
+                string codUsr = Dgv_Usuarios.Rows[e.RowIndex].Cells["COD_EMPLEADO"].Value?.ToString();
+
                 string nombreUsr = Dgv_Usuarios.Rows[e.RowIndex].Cells["Nombre"].Value?.ToString();
 
                 // Validar que haya una fila seleccionada en Dvg_ConsignacionDeOS
@@ -1496,7 +1502,7 @@ namespace CapaVisual_Login
             lbPaso.Text = "Paso 4";
         }
 
-        
+
         private double GetValorFila(int filaIndex)
         {
             var valor = dgvCierredecaja.Rows[filaIndex].Cells["Total"].Value;
@@ -1622,7 +1628,7 @@ namespace CapaVisual_Login
                     rutaInvenvio = _D_DetalleOrden.TB_PARAMETRO("RutaInvenvio");
                     nombreInvenvio = _D_DetalleOrden.TB_PARAMETRO("NombreArchInv");
 
-                   
+
 
                     //Existencia en Caja
                     if (!_L_CierreCaja.ValidaExistenciaCaja(dgvCierredecaja))
@@ -1671,13 +1677,13 @@ namespace CapaVisual_Login
                     dtLogCierre.Rows.Add("Confirmación", "✔ Completado");
                     dtLogCierre.Rows.Add("Asistencia", "✔ Completado");
                     dtLogCierre.Rows.Add("Ordenes", "✔ Completado");
-                    
+
                     dgvLogCierre.Refresh();
 
-                
+
 
                     //SP Cierre de Caja
-                    if (_L_CierreCaja.CierreDeCaja(dgvCierredecaja, diaActivo, sucursal, txtBox_observaciones_pg4.Text, TB_USUARIO.COD_USR, command))
+                    if (_L_CierreCaja.CierreDeCaja(dgvCierredecaja, diaActivo, sucursal, txtBox_observaciones_pg4.Text, TB_USUARIO.COD_USR, mostrarError,command))
                     {
                         dtLogCierre.Rows.Add("Cierre de Caja", "✔ Completado");
                         dgvLogCierre.DataSource = dtLogCierre;
@@ -2076,15 +2082,15 @@ namespace CapaVisual_Login
             // Comprueba si la celda que se edita es de la columna "Referencia"
             if (columnIndex == Dvg_CierrePuntoVenta.Columns["Nro. Lote"].Index)
             {
-               
-                    // Quita cualquier handler previo para no enganchar varios
-                    tb.KeyPress -= NroLoteColumn_KeyPress;
 
-                    // Limita la longitud a 10
-                    tb.MaxLength = 10;
+                // Quita cualquier handler previo para no enganchar varios
+                tb.KeyPress -= NroLoteColumn_KeyPress;
 
-                    // Engancha el KeyPress para filtrar sólo dígitos
-                    tb.KeyPress += NroLoteColumn_KeyPress;
+                // Limita la longitud a 10
+                tb.MaxLength = 10;
+
+                // Engancha el KeyPress para filtrar sólo dígitos
+                tb.KeyPress += NroLoteColumn_KeyPress;
 
                 // Para otras columnas, remover los eventos que no deben tener
                 tb.KeyPress -= TotalCredito_KeyPress;
@@ -2093,21 +2099,21 @@ namespace CapaVisual_Login
                 tb.Validating -= TotalCredito_Validating;
             }
 
-            else if (Dvg_CierrePuntoVenta.CurrentCell != null &&  (columnIndex == Dvg_CierrePuntoVenta.Columns["Total T. Crédito"].Index ) 
+            else if (Dvg_CierrePuntoVenta.CurrentCell != null && (columnIndex == Dvg_CierrePuntoVenta.Columns["Total T. Crédito"].Index)
                 || Dvg_CierrePuntoVenta.CurrentCell.ColumnIndex == Dvg_CierrePuntoVenta.Columns["Total T. Amex"].Index
                 || Dvg_CierrePuntoVenta.CurrentCell.ColumnIndex == Dvg_CierrePuntoVenta.Columns["Total T. Débito"].Index
                 || Dvg_CierrePuntoVenta.CurrentCell.ColumnIndex == Dvg_CierrePuntoVenta.Columns["Total T. Otros"].Index)
             {
-                    tb.KeyPress -= TotalCredito_KeyPress;
-                    tb.KeyPress += TotalCredito_KeyPress;
-                    tb.KeyDown -= TotalCredito_KeyDown;
-                    tb.KeyDown += TotalCredito_KeyDown;
+                tb.KeyPress -= TotalCredito_KeyPress;
+                tb.KeyPress += TotalCredito_KeyPress;
+                tb.KeyDown -= TotalCredito_KeyDown;
+                tb.KeyDown += TotalCredito_KeyDown;
                 tb.Validating -= TotalCredito_Validating;
                 tb.Validating += TotalCredito_Validating;
                 tb.Leave -= TotalCredito_Leave;
-                    tb.Leave += TotalCredito_Leave;
-                    tb.MaxLength = 10; // Opcional: límite de caracteres
-                
+                tb.Leave += TotalCredito_Leave;
+                tb.MaxLength = 10; // Opcional: límite de caracteres
+
             }
             else
             {
@@ -2227,11 +2233,11 @@ namespace CapaVisual_Login
             TextBox tb = sender as TextBox;
             if (tb != null && !string.IsNullOrEmpty(tb.Text))
             {
-                    string cleanText = tb.Text.Replace(".", "");
-                    if (decimal.TryParse(cleanText, out decimal value))
-                    {
-                        tb.Text = string.Format("{0:#,0.00}", value);
-                    }
+                string cleanText = tb.Text.Replace(".", "");
+                if (decimal.TryParse(cleanText, out decimal value))
+                {
+                    tb.Text = string.Format("{0:#,0.00}", value);
+                }
             }
         }
 
@@ -2351,9 +2357,9 @@ namespace CapaVisual_Login
                 DateTime currentDate = DateTime.Now;
                 string formattedDate = currentDate.ToString("yyyyMMdd");
 
-                if (TB_USUARIO.Id_Rol  != "000" && TB_USUARIO.Id_Rol != "013" && TB_USUARIO.Id_Rol != "017")
+                if (TB_USUARIO.Id_Rol != "000" && TB_USUARIO.Id_Rol != "013" && TB_USUARIO.Id_Rol != "017")
                 {
-                   
+
                     //Asis.ObtenerAsistenciasCodEmpleado(Codigo, DateTime.Today.ToString("dd/MM/yyyy"), sucursal, command);
                     DataTable dtAsis = _L_CierreCaja.ObtieneAsistenciaPendienteds(formattedDate, TB_USUARIO.COD_USR);
 
@@ -2365,7 +2371,7 @@ namespace CapaVisual_Login
                         _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
                         _FrmMensajes.ShowDialog();
                         return false;
-                        
+
 
                     }
                     else
@@ -2388,12 +2394,12 @@ namespace CapaVisual_Login
                         {
                             //if (IActivarAsisDia == "1")
                             //{
-                                _FrmMensajes.co = 2;
-                                _FrmMensajes.avisomensaje("Debe marcar asistencia para la entrada de turno");
-                                _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
-                                _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
-                                _FrmMensajes.ShowDialog();
-                                return false;
+                            _FrmMensajes.co = 2;
+                            _FrmMensajes.avisomensaje("Debe marcar asistencia para la entrada de turno");
+                            _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                            _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                            _FrmMensajes.ShowDialog();
+                            return false;
                             //}
                         }
                     }
@@ -2428,7 +2434,7 @@ namespace CapaVisual_Login
                 //var Asis = new CapaNegocio.Asistencia();
                 //var Usu = new CapaNegocio.Usuario();
                 string UltimaHoraMarcada;
-               
+
                 DateTime currentDate = _D_Inicio.DiaActivo();
                 string formattedDate = currentDate.ToString("yyyyMMdd");
 
@@ -2454,7 +2460,7 @@ namespace CapaVisual_Login
                                 int minutosRestantes = 30 - DateTime.Now.Subtract(entradaPrimerTurno.AddMinutes(-30)).Minutes;
 
                                 _FrmMensajes.co = 2;
-                                _FrmMensajes.avisomensaje(TB_USUARIO.USER_NOMBRE + " iniciará su período de descanso obligatorio en los próximos " + minutosRestantes +" minutos");
+                                _FrmMensajes.avisomensaje(TB_USUARIO.USER_NOMBRE + " iniciará su período de descanso obligatorio en los próximos " + minutosRestantes + " minutos");
                                 _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
                                 _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
                                 _FrmMensajes.ShowDialog();
@@ -2470,7 +2476,7 @@ namespace CapaVisual_Login
                         {
                             _FrmMensajes.co = 2;
                             _FrmMensajes.avisomensaje("Han transcurrido más de " + tiempoMax + " horas desde su última marca de asistencia, registre su salida");
-                             _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                            _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
                             _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
                             _FrmMensajes.ShowDialog();
                             return false;

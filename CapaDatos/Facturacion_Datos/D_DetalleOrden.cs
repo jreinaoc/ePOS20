@@ -1600,7 +1600,7 @@ public void MovimientoInventario(string CodArticulo, string TipoDoc, string Docu
         public string BuscarUsuarioOrden(string IdUsuario) // Para traer el ususario que creo la orden
         {
 
-            SqlCommand cmd = new SqlCommand("SELECT USER_NOMBRE, USER_APELLIDO from TB_USUARIO where COD_USR= @usuario", cn.LeerCadena());
+            SqlCommand cmd = new SqlCommand("SELECT USER_NOMBRE, USER_APELLIDO from TB_USUARIO where COD_USR= @usuario or  COD_EMPLEADO= @usuario", cn.LeerCadena());
             cmd.CommandType = CommandType.Text;
             cmd.Parameters.AddWithValue("@usuario", IdUsuario);
 
