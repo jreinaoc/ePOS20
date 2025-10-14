@@ -1082,9 +1082,21 @@ namespace CapaLogica.DetalleOrden_Logica
 
         public void LLenarComboboxTipoPunto(System.Windows.Forms.ComboBox Punto, string Tipo_punto)
         {
-            Punto.DataSource = _D_DetalleOrden.Punto(Tipo_punto);
+            Punto.BeginUpdate();
+
+            // 🔥 LIMPIAR ANTES de asignar nuevo DataSource
+            Punto.DataSource = null;
+            Punto.Items.Clear();
+            Punto.DisplayMember = string.Empty;
+            Punto.ValueMember = string.Empty;
+
+            // Ahora asignar los nuevos datos
+            var datos = _D_DetalleOrden.Punto(Tipo_punto);
+            Punto.DataSource = datos;
             Punto.DisplayMember = "Indexx";
             Punto.ValueMember = "Value";
+
+            Punto.EndUpdate();
 
         }
 

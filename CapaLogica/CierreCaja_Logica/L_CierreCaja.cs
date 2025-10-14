@@ -19,12 +19,12 @@ namespace CapaLogica.CierreCaja_Logica
 {
     public class L_CierreCaja
     {
-        
+
         private D_CierreCaja _D_CierreCaja = new D_CierreCaja();
         private D_DetalleOrden _D_DetalleOrden = new D_DetalleOrden();
         public bool ChequeaFacturasdelDia(string fecha, string usuario)
         {
-            DataTable dt = _D_CierreCaja.ChequeaFacturasdelDia(fecha,usuario);
+            DataTable dt = _D_CierreCaja.ChequeaFacturasdelDia(fecha, usuario);
 
             if (dt.Rows.Count > 0)
             {
@@ -54,7 +54,7 @@ namespace CapaLogica.CierreCaja_Logica
         {
             try
             {
-                DataTable dt = _D_CierreCaja.CierreFueradeHorario(codsuc, fechaIni,fechaFin);
+                DataTable dt = _D_CierreCaja.CierreFueradeHorario(codsuc, fechaIni, fechaFin);
 
                 if (dt.Rows.Count > 0)
                 {
@@ -71,7 +71,7 @@ namespace CapaLogica.CierreCaja_Logica
                 EscribirLog(ex.Message.ToString());
                 return false;
             }
-}
+        }
 
         public DataTable CierrePuntodeVenta(string codsuc, string codBanco, string nroLote, DateTime fecha)
         {
@@ -102,22 +102,22 @@ namespace CapaLogica.CierreCaja_Logica
             }
         }
 
-        public bool AgregaPuntosdeVenta( string codBanco, string tipo, DateTime fecha, string nroLote, decimal manualTarjCredito, decimal manualTarjCreditoAmex,
+        public bool AgregaPuntosdeVenta(string codBanco, string tipo, DateTime fecha, string nroLote, decimal manualTarjCredito, decimal manualTarjCreditoAmex,
     decimal manualTarjDebito, decimal manualTarjOtros)
         {
             try
             {
-                DataTable dt = _D_CierreCaja.AgregaPuntosdeVenta(  codBanco, tipo, fecha, nroLote, manualTarjCredito, manualTarjCreditoAmex,
+                DataTable dt = _D_CierreCaja.AgregaPuntosdeVenta(codBanco, tipo, fecha, nroLote, manualTarjCredito, manualTarjCreditoAmex,
                 manualTarjDebito, manualTarjOtros);
 
-                        if (dt.Rows.Count > 0)
-                        {
-                            return true;
-                        }
-                        else
-                        {
-                            return false;
-                        }
+                if (dt.Rows.Count > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             catch (Exception ex)
             {
@@ -198,7 +198,7 @@ namespace CapaLogica.CierreCaja_Logica
 
         public DataTable ConsultaOsDia(DateTime fecha, string suc)
         {
-            DataTable dt = _D_CierreCaja.ConsultaOsDia(fecha,suc);
+            DataTable dt = _D_CierreCaja.ConsultaOsDia(fecha, suc);
 
             if (dt.Rows.Count > 0)
             {
@@ -383,7 +383,7 @@ namespace CapaLogica.CierreCaja_Logica
             return 0;
         }
 
-        public bool CierreDeCaja(DataGridView dgvCierredecaja, DateTime fecha, string codSucursal, string observacion, string usuario, SqlCommand command = null)
+        public bool CierreDeCaja(DataGridView dgvCierredecaja, DateTime fecha, string codSucursal, string observacion, string usuario, Action<string> mostrarError, SqlCommand command = null)
         {
             try
             {
@@ -414,16 +414,22 @@ namespace CapaLogica.CierreCaja_Logica
                 string userEntrega = "";
                 string userRecibe = "";
 
-                DataTable dt = _D_CierreCaja.CierreDeCaja(fecha, codSucursal, M_TotalIngresos, M_Efectivo, M_Cheques, M_Cupones, M_TicketsSalud, M_TicketsSaludEfec, M_TarjetaC, M_TarjetaD, M_NotaCredito, M_Credito, M_Reintegro, M_Gastos, M_Financiamiento, M_NotaDevolucion, M_OrdenPago, M_IVARetenido, M_ISRLRetenido, M_Transferencia, M_Vuelto, M_Observacion, M_Usuario, cierreParcial, trabajaDomingos, userEntrega, userRecibe, command);
+                DataSet dts = _D_CierreCaja.CierreDeCaja(fecha, codSucursal, M_TotalIngresos, M_Efectivo, M_Cheques, M_Cupones, M_TicketsSalud, M_TicketsSaludEfec, M_TarjetaC, M_TarjetaD, M_NotaCredito, M_Credito, M_Reintegro, M_Gastos, M_Financiamiento, M_NotaDevolucion, M_OrdenPago, M_IVARetenido, M_ISRLRetenido, M_Transferencia, M_Vuelto, M_Observacion, M_Usuario, cierreParcial, trabajaDomingos, userEntrega, userRecibe, command);
 
-                if (dt != null)
+                if (dts != null && dts.Tables[0] != null)
                 {
-                    if (dt.Rows[0][0].ToString() == "SATISFACTORIO")
+                    if (dts.Tables[0].Rows[0][0].ToString() == "SATISFACTORIO")
                     {
                         return true;
                     }
                     else
                     {
+                        if (dts.Tables[1] != null && dts.Tables[1].Rows[0]["REPORTE_DIA"].ToString() == "1")
+                        {
+                            mostrarError("No hay reporte Z del dia");
+                            return false;
+                        }
+                        else
                         return false;
                     }
                 }
@@ -457,11 +463,11 @@ namespace CapaLogica.CierreCaja_Logica
             }
         }
 
-        public bool DesbloqueSistema(string bloqueo,string codSuc)
+        public bool DesbloqueSistema(string bloqueo, string codSuc)
         {
             try
             {
-                DataTable dt = _D_CierreCaja.DesbloqueSistema(bloqueo,codSuc);
+                DataTable dt = _D_CierreCaja.DesbloqueSistema(bloqueo, codSuc);
 
                 return true;
             }
@@ -477,7 +483,7 @@ namespace CapaLogica.CierreCaja_Logica
         {
             try
             {
-                DataTable dt = _D_CierreCaja.ActualizarFacturas(codSuc,command);
+                DataTable dt = _D_CierreCaja.ActualizarFacturas(codSuc, command);
 
                 return true;
             }
@@ -489,7 +495,7 @@ namespace CapaLogica.CierreCaja_Logica
             }
         }
 
-        public bool LibroVenta(DateTime fechaIni, DateTime fechaFin,SqlCommand command = null)
+        public bool LibroVenta(DateTime fechaIni, DateTime fechaFin, SqlCommand command = null)
         {
             try
             {
@@ -509,7 +515,7 @@ namespace CapaLogica.CierreCaja_Logica
         {
             try
             {
-                DataTable dt = _D_CierreCaja.InventarioFaltante(fechaIni,command);
+                DataTable dt = _D_CierreCaja.InventarioFaltante(fechaIni, command);
 
                 return true;
             }
@@ -526,7 +532,7 @@ namespace CapaLogica.CierreCaja_Logica
             try
             {
                 int nroDias = Convert.ToInt32(_D_DetalleOrden.TB_PARAMETRO("CantDiasOSXML"));
-                DataTable dt = _D_CierreCaja.CreaAcc(fecha, nroDias, sucursal,command);
+                DataTable dt = _D_CierreCaja.CreaAcc(fecha, nroDias, sucursal, command);
 
                 return true;
             }
@@ -544,7 +550,7 @@ namespace CapaLogica.CierreCaja_Logica
             {
                 string _xmlRutaDestino = _D_DetalleOrden.TB_PARAMETRO("RutaACC") + sucursal;
 
-                DataTable dt = _D_CierreCaja.ObtieneTablasAcc("",command);
+                DataTable dt = _D_CierreCaja.ObtieneTablasAcc("", command);
 
                 if (dt != null && dt.Rows.Count > 0)
                 {
@@ -557,8 +563,12 @@ namespace CapaLogica.CierreCaja_Logica
                         DataTable ds = _D_CierreCaja.ObtieneTablasAcc(ACCNombre, command);
 
                         ds.TableName = "ACC";
-                        // SE CREA EL ARCHIVO XML CON LOS DATOS DE LA TABLA ACC
-                        ds.WriteXml(System.IO.Path.Combine(_xmlRutaDestino, ACCNombre + ".xml"));
+
+                        DataSet dataSet = new DataSet("DocumentElement");
+                        dataSet.Tables.Add(ds.Copy()); // Usa Copy para evitar conflictos si el DataTable ya pertenece a otro DataSet
+
+                        dataSet.WriteXml(System.IO.Path.Combine(_xmlRutaDestino, ACCNombre + ".xml"), XmlWriteMode.IgnoreSchema);
+
                     }
 
                     //string ruta = @"C:\Ruta\Donde\EstánLosXml";
@@ -577,8 +587,8 @@ namespace CapaLogica.CierreCaja_Logica
             }
         }
 
-       public static void ComprimirXmlEnCarpeta(string carpetaPath, string sucursal)
-       {
+        public static void ComprimirXmlEnCarpeta(string carpetaPath, string sucursal)
+        {
             string zipPath = Path.Combine(carpetaPath, "ZIP" + sucursal + ".zip");
 
             // Elimina zip previo si existe
@@ -622,7 +632,7 @@ namespace CapaLogica.CierreCaja_Logica
 
 
             Console.WriteLine("✅ Archivos XML comprimidos en: " + zipPath);
-       }
+        }
 
         public static void EscribirLog(string mensaje)
         {
@@ -631,7 +641,7 @@ namespace CapaLogica.CierreCaja_Logica
             System.IO.File.AppendAllText(ruta, entrada + Environment.NewLine);
         }
 
-        public bool BuscoAsistencia(string fecha, Func<string, string, DialogResult> mostrarPregunta, Action<string> mostrarError, SqlCommand sqlCom = null)
+        public bool BuscoAsistencia2(string fecha, Func<string, string, DialogResult> mostrarPregunta, Action<string> mostrarError, SqlCommand sqlCom = null)
         {
             try
             {
@@ -646,21 +656,22 @@ namespace CapaLogica.CierreCaja_Logica
                 }
 
 
-                if (TB_USUARIO.Id_Rol != "000" && TB_USUARIO.Id_Rol != "017" && (TB_USUARIO.Id_Rol == "013" && _D_DetalleOrden.TB_PARAMETRO("BloqUsuSistemas") != "1")) // And GlbBloqUsuarioSistemas = True)
+                if (TB_USUARIO.Id_Rol.Trim() != "000" && TB_USUARIO.Id_Rol.Trim() != "017" && (TB_USUARIO.Id_Rol.Trim() != "013" && _D_DetalleOrden.TB_PARAMETRO("BloqUsuSistemas") != "1")) // And GlbBloqUsuarioSistemas = True)
                 {
                     // No es Propietario
                     DataSet ds = _D_CierreCaja.ObtieneAsistenciaPendiente(fecha, TB_USUARIO.COD_USR);
 
                     // Verifico que haya marcado asistencia el día de hoy
-                  if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-                  {
-                    if (string.IsNullOrEmpty(ds.Tables[0].Rows[0]["CodEmpleado"].ToString())) 
+                    //if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                    if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0 || string.IsNullOrEmpty(ds.Tables[0].Rows[0]["CodEmpleado"].ToString()))
+                    {
+                        if (string.IsNullOrEmpty(ds.Tables[0].Rows[0]["CodEmpleado"].ToString()))
                         {
-                        if (IActivarAsisDia == "1") // EPOS
-                        { 
-                                      // ********** Antigua ****************************************
+                            if (IActivarAsisDia == "1") // EPOS
+                            {
+                                // ********** Antigua ****************************************
                                 mostrarError("No ha marcado asistencia para la entrada del turno");
-                                  
+
                                 // ***************esto es para levantar el formulario de Asistencia***********************
 
                                 //DialogResult x = mostrarPregunta("No ha marcado asistencia para el día de hoy, desea hacerlo ahora?", "Falta la Asistencia");
@@ -678,33 +689,33 @@ namespace CapaLogica.CierreCaja_Logica
                                 //    OkAsis = false;
                                 //}
                             }
-                        else // BIOADMIN
-                        {
-                            mostrarError("No ha marcado asistencia para el día de hoy");
-                        }
-                    }
-                    else
-                    {
-                        if (string.IsNullOrEmpty(ds.Tables[0].Rows[0]["HoraDeSalidaPrimerTurno"].ToString().Trim()))
-                        {
-                            OkAsis = true;
+                            else // BIOADMIN
+                            {
+                                mostrarError("No ha marcado asistencia para el día de hoy");
+                            }
                         }
                         else
                         {
-                            if (!string.IsNullOrEmpty(ds.Tables[0].Rows[0]["HoraDeEntradaSegundoTurno"].ToString().Trim()) && string.IsNullOrEmpty(ds.Tables[0].Rows[0]["HoraDeSalidaSegundoTurno"].ToString().Trim()))
+                            if (string.IsNullOrEmpty(ds.Tables[0].Rows[0]["HoraDeSalidaPrimerTurno"].ToString().Trim()))
                             {
                                 OkAsis = true;
                             }
                             else
                             {
-                                if (!string.IsNullOrEmpty(ds.Tables[0].Rows[0]["HoraDeEntradaTercerTurno"].ToString().Trim()) && string.IsNullOrEmpty(ds.Tables[0].Rows[0]["HoraDeSalidaTercerTurno"].ToString().Trim()))
+                                if (!string.IsNullOrEmpty(ds.Tables[0].Rows[0]["HoraDeEntradaSegundoTurno"].ToString().Trim()) && string.IsNullOrEmpty(ds.Tables[0].Rows[0]["HoraDeSalidaSegundoTurno"].ToString().Trim()))
                                 {
                                     OkAsis = true;
                                 }
                                 else
                                 {
-                                    if (IActivarAsisDia == "1") // EPOS
+                                    if (!string.IsNullOrEmpty(ds.Tables[0].Rows[0]["HoraDeEntradaTercerTurno"].ToString().Trim()) && string.IsNullOrEmpty(ds.Tables[0].Rows[0]["HoraDeSalidaTercerTurno"].ToString().Trim()))
                                     {
+                                        OkAsis = true;
+                                    }
+                                    else
+                                    {
+                                        if (IActivarAsisDia == "1") // EPOS
+                                        {
                                             // Mientras se desarrolla el formulario de Asistencia
                                             mostrarError("No ha marcado asistencia para la entrada del turno");
 
@@ -725,24 +736,164 @@ namespace CapaLogica.CierreCaja_Logica
                                             //    OkAsis = false;
                                             //}
                                         }
-                                    else // BIOADMIN
-                                    {
-                                        mostrarError("No ha marcado asistencia para la entrada del turno");
+                                        else // BIOADMIN
+                                        {
+                                            mostrarError("No ha marcado asistencia para la entrada del turno");
+                                        }
                                     }
                                 }
                             }
                         }
                     }
+                    else
+                    {
+                        mostrarError("No ha marcado asistencia para el día de hoy");
+                        return OkAsis;
+                    }
+                    // Despues de verificar la asistencia verifico el horario de descanso
+                    if (OkAsis == true)
+                    {
+                        if (VerificarTiempoMaxTrabajo(ds, mostrarError, sqlCom) == true)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
                 else
                 {
-                        mostrarError("No ha marcado asistencia para el día de hoy");
-                        return OkAsis;
+                    // Si es Propietario
+                    return true;
                 }
-                // Despues de verificar la asistencia verifico el horario de descanso
-                if (OkAsis == true)
+            }
+            catch (Exception ex)
+            {
+                mostrarError($"Error en la función BuscaoAsistencia : {ex.Message}");
+                return false;
+            }
+        }
+
+        public bool BuscoAsistencia(string fecha, Func<string, string, DialogResult> mostrarPregunta, Action<string> mostrarError, SqlCommand sqlCom = null)
+        {
+            try
+            {
+                bool OkAsis = false;
+
+                // EH: 24/05/2021 Actualizar lista de asistencia del marca huella
+                string IActivarAsisDia = _D_DetalleOrden.TB_PARAMETRO("ActivarAsisDia"); // eh: 25/05/2021
+                if (IActivarAsisDia == "0")
+                {
+                    // Definir que hacer aqui
+                    //DataSet dsInsertDetalle = ManBD.EjecutaStoreProcedure("SP_INSERTATB_ASISTENCIA", glbSucursalActual, Command);
+                }
+
+
+                if ((TB_USUARIO.Id_Rol.Trim() != "000" && TB_USUARIO.Id_Rol.Trim() != "017")) // And GlbBloqUsuarioSistemas = True)
+                {
+                    if (TB_USUARIO.Id_Rol.Trim() == "013")
                     {
-                        if (VerificarTiempoMaxTrabajo(ds,mostrarError, sqlCom) == true)
+                        if (_D_DetalleOrden.TB_PARAMETRO("BloqUsuSistemas") == "0")
+                        {
+                            // Si es Propietario
+                            return true;
+                        }
+                    }
+                    // No es Propietario
+                    DataSet ds = _D_CierreCaja.ObtieneAsistenciaPendiente(fecha, TB_USUARIO.COD_USR);
+
+                    // Verifico que haya marcado asistencia el día de hoy
+                    //if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                    if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0 || string.IsNullOrEmpty(ds.Tables[0].Rows[0]["CodEmpleado"].ToString()))
+                    {
+                        if (IActivarAsisDia == "1") // EPOS
+                        {
+                            // ********** Antigua ****************************************
+                            mostrarError("No ha marcado asistencia para el día de hoy");
+
+                            //DialogResult x = mostrarPregunta("No ha marcado asistencia para el día de hoy, desea hacerlo ahora?", "Falta la Asistencia");
+                            //if (x == DialogResult.Yes)
+                            //{
+                            //    //mostrarFormularioAsistencia();
+                            //    if (seMarcoAsistencia())
+                            //    {
+                            //        // Vuelvo a llamar a esta misma funcion para verificar si se marco o no la hora
+                            //        return BuscoAsistencia(codigo, mostrarPregunta, mostrarError, mostrarFormularioAsistencia, seMarcoAsistencia, sqlCom);
+                            //    }
+                            //}
+                            //else
+                            //{
+                            //    OkAsis = false;
+                            //}
+                        }
+                        else // BIOADMIN
+                        {
+                            mostrarError("No ha marcado asistencia para el día de hoy");
+                            OkAsis = false;
+                        }
+                    }
+                    else
+                    {
+                        DataRow row = ds.Tables[0].Rows[0];
+
+                        if (string.IsNullOrEmpty(row["HoraDeSalidaPrimerTurno"].ToString().Trim()))
+                        {
+                            OkAsis = true;
+                        }
+                        else
+                        {
+                            if (!string.IsNullOrEmpty(row["HoraDeEntradaSegundoTurno"].ToString().Trim()) && string.IsNullOrEmpty(row["HoraDeSalidaSegundoTurno"].ToString().Trim()))
+                            {
+                                OkAsis = true;
+                            }
+                            else
+                            {
+                                if (!string.IsNullOrEmpty(row["HoraDeEntradaTercerTurno"].ToString().Trim()) && string.IsNullOrEmpty(row["HoraDeSalidaTercerTurno"].ToString().Trim()))
+                                {
+                                    OkAsis = true;
+                                }
+                                else
+                                {
+                                    if (IActivarAsisDia == "1") // EPOS
+                                    {
+                                        mostrarError("No ha marcado asistencia para la entrada del turno");
+
+                                        //DialogResult x = mostrarPregunta("No ha marcado asistencia para la entrada del turno, desea hacerlo ahora?", "Falta la hora de entrada");
+                                        //if (x == DialogResult.Yes)
+                                        //{
+                                        //    mostrarFormularioAsistencia();
+                                        //    if (seMarcoAsistencia())
+                                        //    {
+                                        //        // Vuelvo a llamar a esta misma funcion para verificar si se marco o no la hora
+                                        //        return BuscoAsistencia(codigo, mostrarPregunta, mostrarError, mostrarFormularioAsistencia, seMarcoAsistencia, sqlCom);
+                                        //    }
+                                        //}
+                                        //else
+                                        //{
+                                        //    OkAsis = false;
+                                        //}
+                                    }
+                                    else // BIOADMIN
+                                    {
+                                        mostrarError("No ha marcado asistencia para la entrada del turno");
+                                        OkAsis = false;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+
+                    // Despues de verificar la asistencia verifico el horario de descanso
+                    if (OkAsis == true)
+                    {
+                        if (VerificarTiempoMaxTrabajo(ds, mostrarError, sqlCom) == true) 
                         {
                             return true;
                         }
@@ -771,46 +922,46 @@ namespace CapaLogica.CierreCaja_Logica
 
         public bool VerificarTiempoMaxTrabajo(DataSet dtAsis, Action<string> mostrarError, SqlCommand sqlCom)
         {
-                if (TB_USUARIO.Id_Rol != "013")
+            if (TB_USUARIO.Id_Rol != "013")
+            {
+                // Verifico el primer turno
+                if (string.IsNullOrWhiteSpace(dtAsis.Tables[0].Rows[0]["HoraDeSalidaPrimerTurno"]?.ToString()))
                 {
-                    // Verifico el primer turno
-                    if (string.IsNullOrWhiteSpace(dtAsis.Tables[0].Rows[0]["HoraDeSalidaPrimerTurno"]?.ToString()))
+                    DateTime entradaPrimerTurno = Convert.ToDateTime(dtAsis.Tables[0].Rows[0]["HoraDeEntradaPrimerTurno"]?.ToString());
+                    int tiempoMax = Convert.ToInt32(_D_DetalleOrden.TB_PARAMETRO("TiempMaxTraba"));
+                    double horasTrabajadas = DateTime.Now.Subtract(entradaPrimerTurno).TotalHours;
+
+                    if (horasTrabajadas < tiempoMax)
                     {
-                        DateTime entradaPrimerTurno = Convert.ToDateTime(dtAsis.Tables[0].Rows[0]["HoraDeEntradaPrimerTurno"]?.ToString());
-                        int tiempoMax = Convert.ToInt32(_D_DetalleOrden.TB_PARAMETRO("TiempMaxTraba"));
-                        double horasTrabajadas = DateTime.Now.Subtract(entradaPrimerTurno).TotalHours;
-
-                        if (horasTrabajadas < tiempoMax)
+                        double avisoHoras = DateTime.Now.Subtract(entradaPrimerTurno.AddMinutes(-30)).TotalHours;
+                        if (avisoHoras >= tiempoMax)
                         {
-                            double avisoHoras = DateTime.Now.Subtract(entradaPrimerTurno.AddMinutes(-30)).TotalHours;
-                            if (avisoHoras >= tiempoMax)
-                            {
-                                //var Usus = new CapaNegocio.Usuario();
-                                //Usus.ObtenerUsuarioCodigo(CodigoUsuario, sqlCom);
-                                int minutosRestantes = 30 - DateTime.Now.Subtract(entradaPrimerTurno.AddMinutes(-30)).Minutes;
+                            //var Usus = new CapaNegocio.Usuario();
+                            //Usus.ObtenerUsuarioCodigo(CodigoUsuario, sqlCom);
+                            int minutosRestantes = 30 - DateTime.Now.Subtract(entradaPrimerTurno.AddMinutes(-30)).Minutes;
 
-                                mostrarError(TB_USUARIO.USER_NOMBRE + " iniciará su período de descanso obligatorio en los próximos " + minutosRestantes + " minutos");
-                                return true;
-                            }
-
+                            mostrarError(TB_USUARIO.USER_NOMBRE + " iniciará su período de descanso obligatorio en los próximos " + minutosRestantes + " minutos");
                             return true;
                         }
-                        else
-                        {
-                            mostrarError("Han transcurrido más de " + tiempoMax + " horas desde su última marca de asistencia, registre su salida");
-                            return false;
-                        }
+
+                        return true;
                     }
                     else
                     {
-                        return true;
+                        mostrarError("Han transcurrido más de " + tiempoMax + " horas desde su última marca de asistencia, registre su salida");
+                        return false;
                     }
                 }
                 else
                 {
                     return true;
                 }
-            
+            }
+            else
+            {
+                return true;
+            }
+
         }
 
         public bool ObtieneAsistenciaPendiente(string fecha, string usuario)
@@ -835,7 +986,7 @@ namespace CapaLogica.CierreCaja_Logica
             return false;
         }
 
-        public DataTable  ObtieneAsistenciaPendienteds (string fecha, string usuario)
+        public DataTable ObtieneAsistenciaPendienteds(string fecha, string usuario)
         {
             DataSet ds = _D_CierreCaja.ObtieneAsistenciaPendiente(fecha, usuario);
 
@@ -863,9 +1014,9 @@ namespace CapaLogica.CierreCaja_Logica
             {
                 DataTable dt = _D_CierreCaja.RelacionMonedaEx(fechaIni, fechaFin, codsuc, docum);
 
-                
-                    return dt;
-                
+
+                return dt;
+
             }
             catch (Exception ex)
             {
@@ -893,5 +1044,20 @@ namespace CapaLogica.CierreCaja_Logica
             }
         }
 
+        public DataTable ModificaVendedor(string order, string codEmpleadoNew, string usuario, string Suc)
+        {
+            try
+            {
+                DataTable dt = _D_CierreCaja.ModificaVendedor(order, codEmpleadoNew, usuario, Suc);
+                return dt;
+
+            }
+            catch (Exception ex)
+            {
+                // Código para manejar el error
+                EscribirLog(ex.Message.ToString());
+                return null;
+            }
+        }
     }
 }
