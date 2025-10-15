@@ -1492,7 +1492,7 @@ namespace CapaVisual_Login
                     var Orden = fila.Cells["Orden"].Value?.ToString().Trim();
                     var CodVendedor = fila.Cells["CodVendedor"].Value?.ToString().Trim();
 
-                    _L_CierreCaja.ModificaVendedor(Orden, CodVendedor, CodVendedor, sucursal);
+                    _L_CierreCaja.ModificaVendedor(Orden, CodVendedor, TB_USUARIO.COD_EMPLEADO, sucursal);
                 }
             }
             tcCierreCaja.SelectedIndex = 3;
