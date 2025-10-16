@@ -750,6 +750,7 @@ namespace CapaVisual_Login
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Principal";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FrmPrincipal_FormClosed);
             this.Load += new System.EventHandler(this.FrmPrincipal_Load_1);
             this.GbxMenuPrincipal.ResumeLayout(false);
             this.GbxMenuPrincipal.PerformLayout();

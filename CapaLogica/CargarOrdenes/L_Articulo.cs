@@ -4330,15 +4330,17 @@ namespace CapaLogica.CargarOrdenes
                 bool lcSinExist = false, lcConExist = false;
                 stringBuilder.Clear();
 
-
+            int existencia = 0, cant = 0;
+            string codArticulo = "";
             // Validar stock si aplica
             if (_D_DetalleOrden.TB_PARAMETROSPAIS("ValidaStockLC") == "1")
             {
+                               
                 foreach (DataGridViewRow row in Dgv_Tap3_Articulo.Rows)
                 {
                     if (row.IsNewRow) continue;
 
-                    string codArticulo = row.Cells["CodArticulo"].Value?.ToString() ?? "";
+                    codArticulo = row.Cells["CodArticulo"].Value?.ToString() ?? "";
                     string codColor = row.Cells["ColorLC"].Value?.ToString() ?? "";
                     string cantidad = row.Cells["ART_EXIST"].Value?.ToString() ?? "0";
                     string ojo = row.Cells["Ojo"].Value?.ToString() ?? "";
@@ -4352,7 +4354,7 @@ namespace CapaLogica.CargarOrdenes
                     else if (ojo == "D") ojoD = true;
 
                     // Validar existencia
-                    int existencia = 0, cant = 0;
+                    
                     int.TryParse(row.Cells["ART_EXIST"].Value?.ToString(), out existencia);
 
                     // Ejecuta el procedimiento almacenado
@@ -4369,31 +4371,6 @@ namespace CapaLogica.CargarOrdenes
                         stringBuilder.AppendLine("El código de laboratorio para el Lente de Contacto se encuentra vacío. Presione el Botón Cancelar y cargue los artículos nuevamente");
                         return false;
                     }
-
-                    if (cant <= 0)
-                        lcSinExist = true;
-                    else
-                    {
-                        lcConExist = true;
-                        //PQC
-                        if (TxtOjo == "Ambos")
-                        {
-                            existencia = 2;
-                        }
-                        else
-                        {
-                            existencia = 1;
-                        }
-                        if (existencia > cant) //existencia es la cant que se esta vendiento y cantidad la existencia en la tabla
-                        {
-                            stringBuilder.AppendLine(
-                                "Este artículo no tiene existencia");
-                            //$"La existencia del lente no cubre la cantidad que desea vender. Solo puede vender {existencia} del artículo {codArticulo} en esta orden");
-                            return false;
-                        }
-                    }
-
-                  
                 }
 
                 // Validar combinación de ojos
@@ -4414,6 +4391,31 @@ namespace CapaLogica.CargarOrdenes
                     stringBuilder.AppendLine("La cantidad de Ojos seleccionada no corresponde con los artículos cargados");
                     return false;
                 }
+
+
+                if (cant <= 0)
+                    lcSinExist = true;
+                else
+                {
+                    lcConExist = true;
+                    //PQC
+                    if (TxtOjo == "Ambos")
+                    {
+                        existencia = 2;
+                    }
+                    else
+                    {
+                        existencia = 1;
+                    }
+                    if (cant < existencia) //existencia es la cant que se esta vendiento y cantidad la existencia en la tabla
+                    {
+                        stringBuilder.AppendLine(
+                        //   "Este artículo no tiene existencia");
+                        $"Solo puede vender {cant} {(cant == 1 ? "unidad" : "unidades")} del artículo {codArticulo} por falta de existencia");
+                        return false;
+                    }
+                }
+
 
                 // Validar stock mixto
                 if (lcSinExist && lcConExist)

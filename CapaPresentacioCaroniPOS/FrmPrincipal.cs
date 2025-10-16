@@ -219,11 +219,11 @@ namespace CapaVisual_Login
             DateTime currentDate = _D_Inicio.DiaActivo();
             string formattedDate = currentDate.ToString("yyyyMMdd");
 
-            
-            //if (!_FrmCierreDeCaja.BuscoAsistencia(TB_USUARIO.COD_USR))
-            //{
-            //    return;
-            //}
+
+            //**** Se creo una nueva Funcion para validar la Asistencia 
+            if (!_L_CierreCaja.BuscoAsistencia(DateTime.Now.ToString("yyyyMMdd"), mostrarPregunta, mostrarError))
+                return;
+
             //if (!ValidarConfirmacionDivisas())
             //{
             //    return;
@@ -232,6 +232,7 @@ namespace CapaVisual_Login
             //{
             //    return;
             //}
+
             string bloqFacturacion = _D_DetalleOrden.TB_PARAMETRO("FactEliminada");
 
             if (bloqFacturacion == "0")
@@ -1403,6 +1404,11 @@ namespace CapaVisual_Login
         private void pnlUtilitarios_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void FrmPrincipal_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

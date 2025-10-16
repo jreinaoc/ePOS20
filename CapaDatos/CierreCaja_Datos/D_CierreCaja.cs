@@ -179,8 +179,8 @@ namespace CapaDatos.CierreCaja_Datos
             }
         }
 
-        public DataTable AgregaPuntosdeVenta( string codBanco,  string tipo,  DateTime fecha,    string nroLote,    decimal manualTarjCredito,    decimal manualTarjCreditoAmex,
-        decimal manualTarjDebito,    decimal manualTarjOtros,    SqlCommand command = null)
+        public DataTable AgregaPuntosdeVenta(string codBanco, string tipo, DateTime fecha, string nroLote, decimal manualTarjCredito, decimal manualTarjCreditoAmex,
+        decimal manualTarjDebito, decimal manualTarjOtros, SqlCommand command = null)
         {
             try
             {
@@ -265,7 +265,7 @@ namespace CapaDatos.CierreCaja_Datos
 
                 cmd.CommandText = "pGetCambioCierre";
                 cmd.CommandType = CommandType.StoredProcedure;
-             
+
                 cmd.Parameters.AddWithValue("@CodSuc", codSuc);
                 cmd.Parameters.AddWithValue("@NroOs", orden);
                 cmd.Parameters.AddWithValue("@Referencia", referencia);
@@ -427,7 +427,7 @@ namespace CapaDatos.CierreCaja_Datos
         }
 
 
-        
+
 
         public DataTable ConsultaOsDia(DateTime fecha, string suc, SqlCommand command = null)
         {
@@ -499,7 +499,7 @@ namespace CapaDatos.CierreCaja_Datos
             }
         }
 
-        public DataTable CierreDeCaja(DateTime fecha, string codSucursal, decimal M_TotalIngresos, decimal M_Efectivo, decimal M_Cheques,
+        public DataSet CierreDeCaja(DateTime fecha, string codSucursal, decimal M_TotalIngresos, decimal M_Efectivo, decimal M_Cheques,
             decimal M_Cupones, decimal M_TicketsSalud, decimal M_TicketsSaludEfec, decimal M_TarjetaC, decimal M_TarjetaD, decimal M_NotaCredito,
             decimal M_Credito, decimal M_Reintegro, decimal M_Gastos, decimal M_Financiamiento, decimal M_NotaDevolucion, decimal M_OrdenPago,
             decimal M_IVARetenido, decimal M_ISRLRetenido, decimal M_Transferencia, decimal M_Vuelto, string M_Observacion, string M_Usuario,
@@ -547,7 +547,7 @@ namespace CapaDatos.CierreCaja_Datos
 
 
 
-                DataTable dt = new DataTable();
+                DataSet dt = new DataSet();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(dt);
                 cmd.Parameters.Clear();
@@ -725,7 +725,7 @@ namespace CapaDatos.CierreCaja_Datos
             }
         }
 
-        public DataTable ObtieneUsuarios(string  suc, SqlCommand command = null)
+        public DataTable ObtieneUsuarios(string suc, SqlCommand command = null)
         {
             try
             {
@@ -857,7 +857,7 @@ namespace CapaDatos.CierreCaja_Datos
             }
         }
 
-        public DataTable ObtieneTablasAcc(string tabla,SqlCommand command = null)
+        public DataTable ObtieneTablasAcc(string tabla, SqlCommand command = null)
         {
             try
             {
@@ -944,7 +944,7 @@ namespace CapaDatos.CierreCaja_Datos
 
                 cmd.CommandText = "pGetRepRelacMonedaEx_MontoConfirma";
                 cmd.CommandType = CommandType.StoredProcedure;
-               
+
                 cmd.Parameters.AddWithValue("@FechaIni", fechaIni);
                 cmd.Parameters.AddWithValue("@FechaFin", fechaFin);
                 cmd.Parameters.AddWithValue("@Sucursal", codsuc);

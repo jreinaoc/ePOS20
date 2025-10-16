@@ -2041,6 +2041,7 @@ namespace CapaVisual_Login
                     label72.Visible = true;
                     txtNumeroFactura.Visible = true;
                     txtNumeroFactura.Text = TB_FACTURAS.Fact_Num;
+                    txtNombreVendedor.Text = _D_DetalleOrden.BuscarUsuarioOrden(TB_FACTURAS.USER_Crea);
                     label72.Location = new Point(126, 12);
                     txtNumeroFactura.Location = new Point(130, 37);
 
