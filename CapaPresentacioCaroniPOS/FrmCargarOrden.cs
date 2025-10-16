@@ -1940,7 +1940,11 @@ namespace CapaVisual_Login
                 LcAmbosCant1 = false;
                 BotonesColor(true,"todos");
                 if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "09")
+                {
+                    //bool deshabilitarBoton = Garantia || _D_DetalleOrden.TB_PARAMETROSPGE("PGEActivo") == "1";
+                    //Btn_Tap3_Garantia.Enabled = !deshabilitarBoton;
                     Btn_Tap3_Garantia.Enabled = true;
+                }
             }
 
             catch (Exception ex)
@@ -3389,6 +3393,8 @@ namespace CapaVisual_Login
             }
             else
             {
+                //bool deshabilitarBoton = Garantia || _D_DetalleOrden.TB_PARAMETROSPGE("PGEActivo") == "1";
+                //Btn_Tap3_Garantia.Enabled = !deshabilitarBoton;
                 Btn_Tap3_Garantia.Enabled = Garantia ? false : true;
                 Btn_Tap3_CristalPropio.Enabled = true;
             }

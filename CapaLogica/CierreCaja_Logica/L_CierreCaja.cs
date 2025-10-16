@@ -424,9 +424,9 @@ namespace CapaLogica.CierreCaja_Logica
                     }
                     else
                     {
-                        if (dts.Tables[1] != null && dts.Tables[1].Rows[0]["REPORTE_DIA"].ToString() == "1")
+                        if (dts.Tables[0] != null && dts.Tables[0].Rows[0]["REPORTE_DIA"].ToString() == "0")
                         {
-                            mostrarError("No hay reporte Z del dia");
+                            mostrarError("No hay reporte Z del día");
                             return false;
                         }
                         else
