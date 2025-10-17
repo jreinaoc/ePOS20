@@ -182,9 +182,9 @@ namespace CapaLogica.CierreCaja_Logica
             }
         }
 
-        public DataTable ActualizaAsistencia(string fecha, string hora, string codEmp, string usuario)
+        public DataTable ActualizaAsistencia(string fecha, string hora, string codEmp, string usuario, string TIPO_HORA)
         {
-            DataTable dt = _D_CierreCaja.ActualizaAsistencia(fecha, hora, codEmp, usuario);
+            DataTable dt = _D_CierreCaja.ActualizaAsistencia(fecha, hora, codEmp, usuario, TIPO_HORA);
 
             if (dt.Rows.Count > 0)
             {
@@ -430,7 +430,7 @@ namespace CapaLogica.CierreCaja_Logica
                             return false;
                         }
                         else
-                        return false;
+                            return false;
                     }
                 }
                 else
@@ -893,7 +893,7 @@ namespace CapaLogica.CierreCaja_Logica
                     // Despues de verificar la asistencia verifico el horario de descanso
                     if (OkAsis == true)
                     {
-                        if (VerificarTiempoMaxTrabajo(ds, mostrarError, sqlCom) == true) 
+                        if (VerificarTiempoMaxTrabajo(ds, mostrarError, sqlCom) == true)
                         {
                             return true;
                         }
