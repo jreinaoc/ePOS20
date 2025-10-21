@@ -182,9 +182,9 @@ namespace CapaLogica.CierreCaja_Logica
             }
         }
 
-        public DataTable ActualizaAsistencia(string fecha, string hora, string codEmp, string usuario)
+        public DataTable ActualizaAsistencia(string fecha, string hora, string codEmp, string usuario, string TIPO_HORA)
         {
-            DataTable dt = _D_CierreCaja.ActualizaAsistencia(fecha, hora, codEmp, usuario);
+            DataTable dt = _D_CierreCaja.ActualizaAsistencia(fecha, hora, codEmp, usuario, TIPO_HORA);
 
             if (dt.Rows.Count > 0)
             {

@@ -444,7 +444,8 @@ namespace CapaVisual_Login
                     this.Pnl_3_Coloración.Enabled = false;
                     this.Pnl_3_Garantia.Visible = false;
                     this.Pnl_3_Garantia.Enabled = false;
-                    
+                    label45.Visible = false;
+                    Txt_Pnl2_Edad.Visible = false;
                     break;
 
                 case "MostrarCabezeraSecundaria":
@@ -469,7 +470,6 @@ namespace CapaVisual_Login
                     this.Pnl_3_Garantia.Visible = false;
                     //this.Pnl_3_Garantia.Enabled = false;
                     //this.Pnl_2.Location = new Point(0, 0); // Establecer posición en (0, 0)
-
                     Cbx_Pnl2_Trbajo.Visible = true;
                     Lbl_Pnl2_Trabajo.Visible = true;
                     Lbl_Pnl2_Laboratorio.Visible = true;
@@ -498,13 +498,18 @@ namespace CapaVisual_Login
                     txtAltD.Visible = true;
                     txtAltI.Visible = true;
 
+                    label45.Visible = false;
+                    Txt_Pnl2_Edad.Visible = false;
+
                     mantengoexamenseleccionado = true;
                     break;
                 case "MostrarCabeceraExamen":
 
                     Txt_Pnl2_Cedula.Text = Cbx_Tap1_Nacionalidad.Text.Trim() + "-" + Txt_Tap1_Cedula.Text.Trim();
                     Txt_Pnl_2_Nombre.Text = Txt_Tap1_Nombre.Text;
-
+                    Txt_Pnl2_Edad.Text = Txt_Tap1_Edad.Text;
+                    label45.Visible = true;
+                    Txt_Pnl2_Edad.Visible = true;
                     this.Pnl_2.Enabled = true;
                     this.Pnl_2.Visible = true;
                     this.Pnl_1.Visible = false;
@@ -7167,7 +7172,7 @@ namespace CapaVisual_Login
             LimpiarCampos2();
             Txt_Pnl2_Cedula.Text = ""; // Ajusta el nombre de la columna
             Txt_Pnl_2_Nombre.Text = ""; // Ajusta el nombre de la columna
-
+            Txt_Pnl2_Edad.Text = "";
             Txt_Tap1_Cedula.Text = "";
             //Cbx_Tap1_Nacionalidad.SelectedIndex = -1; // Deselecciona el elemento
             Cbx_Tap1_Nacionalidad.Focus();
@@ -8770,28 +8775,35 @@ namespace CapaVisual_Login
 
         private void textBox1_KeyDown(object sender, KeyEventArgs e)
         {
-            try { 
+            try {
 
-            // Verifica si la tecla presionada es la tecla Enter
-            if (e.KeyCode == Keys.Enter)
-            {
-                // Opcional: Prevenir que el sonido de "ding" del sistema se reproduzca
-                // cuando se presiona Enter en un TextBox multilínea.
-                // Para un TextBox de una sola línea, esto no suele ser necesario.
-                e.SuppressKeyPress = true;
+                if (e.KeyCode == Keys.Enter)
+                {
+                    e.SuppressKeyPress = true;
 
-                // Mueve el foco al control DgvClientes
-                // Asegúrate de que 'DgvClientes' es el nombre correcto de tu DataGridView.
-                if (DgvClientes != null) // Es buena práctica verificar que el control no sea nulo
-                {
-                    DgvClientes.Focus();
+                    if (DgvClientes != null && DgvClientes.Rows.Count > 0)
+                    {
+                        DgvClientes.Focus();
+
+                        // Si ya hay una celda seleccionada, mantenerla
+                        if (DgvClientes.CurrentCell != null)
+                        {
+                            // Solo asegurar que la celda actual tenga el foco
+                            DgvClientes.CurrentCell.Selected = true;
+                        }
+                        else
+                        {
+                            // Si no hay celda seleccionada, seleccionar la primera
+                            DgvClientes.CurrentCell = DgvClientes.Rows[0].Cells[0];
+                        }
+
+                        // Iniciar edición si es posible
+                        if (!DgvClientes.CurrentCell.ReadOnly)
+                        {
+                            DgvClientes.BeginEdit(true);
+                        }
+                    }
                 }
-                else
-                {
-                    // Mensaje de depuración si DgvClientes no se encuentra (solo para desarrollo)
-                    Console.WriteLine("Error: El control DgvClientes no se encontró o no está inicializado.");
-                }
-            }
             }
             catch (Exception ex)
             {
@@ -14558,6 +14570,12 @@ namespace CapaVisual_Login
 
             // Si no se encuentra, dejar vacío
             comboBox.SelectedIndex = -1;
+        }
+
+        private void btnPrincipal_CheckedChanged(object sender, EventArgs e)
+        {
+            label45.Visible = false;
+            Txt_Pnl2_Edad.Visible = false;
         }
 
 

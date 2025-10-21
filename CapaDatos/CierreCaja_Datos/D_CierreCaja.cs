@@ -390,7 +390,7 @@ namespace CapaDatos.CierreCaja_Datos
             }
         }
 
-        public DataTable ActualizaAsistencia(string fecha, string hora, string codEmp, string usuario, SqlCommand command = null)
+        public DataTable ActualizaAsistencia(string fecha, string hora, string codEmp, string usuario, string TIPO_HORA, SqlCommand command = null)
         {
             try
             {
@@ -402,13 +402,14 @@ namespace CapaDatos.CierreCaja_Datos
                 SqlCommand cmd = command;
                 cmd.Parameters.Clear();
 
-                cmd.CommandText = "pUpdHoraSalidaAsistencia";
+                cmd.CommandText = "pUpdHoraSalidaAsistencia2";
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 cmd.Parameters.AddWithValue("@FECHA", fecha);
                 cmd.Parameters.AddWithValue("@HORA", hora);
                 cmd.Parameters.AddWithValue("@CODEMP", codEmp);
                 cmd.Parameters.AddWithValue("@USER", usuario);
+                cmd.Parameters.AddWithValue("@TIPO_HORA", TIPO_HORA);
 
 
                 DataTable dt = new DataTable();

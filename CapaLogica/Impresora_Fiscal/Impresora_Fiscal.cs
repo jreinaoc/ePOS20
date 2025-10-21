@@ -1396,8 +1396,24 @@ namespace CapaLogica.Impresora_Fiscal
                 ret = objVmax.AbrirPuerto(Convert.ToString(glbPuertoCOM));
                 ret = objVmax.ObtenerEstadoImpresora();
 
-                ////ExplorarObjetoManual(objVmax);
-                ////ExploracionCompletaEstructuras(objVmax);
+                //ExplorarObjetoManual(objVmax);
+                //ExploracionCompletaEstructuras(objVmax);
+
+
+                //// lo que nos dice Vmas 
+                //// 🔹 Para modelos VMAX2: 0x0001 = tapa abierta o sin papel
+                //if (ret == 0x0001)
+                //{
+
+                //    Console.WriteLine("La impresora reporta tapa abierta o ausencia de papel Advertencia");
+                //}
+                //else
+                //{
+                //    Console.WriteLine("✅ Impresora lista");
+                //}
+
+
+
 
                 //string estadoHex = ret.ToString("X4");
 
@@ -1420,7 +1436,7 @@ namespace CapaLogica.Impresora_Fiscal
 
                 //ushort mask = Convert.ToUInt16(hex4, 16);
 
-                //// Bits de “sin papel” y “tapa” según tabla del manual
+                // Bits de “sin papel” y “tapa” según tabla del manual
                 //bool tapaAbierta = (mask & (1 << 1)) != 0;
                 //bool sinPapel = ((mask & (1 << 6)) != 0)
                 //             || ((mask & (1 << 7)) != 0)

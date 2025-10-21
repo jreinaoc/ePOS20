@@ -298,7 +298,7 @@ namespace CapaVisual_Login
             this.BtnGuardar.ForeColor = System.Drawing.Color.White;
             this.BtnGuardar.Location = new System.Drawing.Point(293, 168);
             this.BtnGuardar.Name = "BtnGuardar";
-            this.BtnGuardar.Size = new System.Drawing.Size(80, 28);
+            this.BtnGuardar.Size = new System.Drawing.Size(87, 28);
             this.BtnGuardar.TabIndex = 108;
             this.BtnGuardar.Text = "Guardar";
             this.BtnGuardar.UseVisualStyleBackColor = false;
@@ -571,7 +571,7 @@ namespace CapaVisual_Login
             this.cbPagina_Ini.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbPagina_Ini.FormattingEnabled = true;
             this.cbPagina_Ini.Location = new System.Drawing.Point(502, 641);
-            this.cbPagina_Ini.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbPagina_Ini.Margin = new System.Windows.Forms.Padding(2);
             this.cbPagina_Ini.Name = "cbPagina_Ini";
             this.cbPagina_Ini.Size = new System.Drawing.Size(43, 23);
             this.cbPagina_Ini.TabIndex = 53;
@@ -596,7 +596,7 @@ namespace CapaVisual_Login
             this.txtPagina_Fin.Enabled = false;
             this.txtPagina_Fin.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPagina_Fin.Location = new System.Drawing.Point(569, 640);
-            this.txtPagina_Fin.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtPagina_Fin.Margin = new System.Windows.Forms.Padding(2);
             this.txtPagina_Fin.Name = "txtPagina_Fin";
             this.txtPagina_Fin.Size = new System.Drawing.Size(38, 22);
             this.txtPagina_Fin.TabIndex = 55;

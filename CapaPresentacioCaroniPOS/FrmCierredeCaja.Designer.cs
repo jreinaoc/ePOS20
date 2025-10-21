@@ -1004,7 +1004,7 @@ namespace CapaVisual_Login
             this.Dvg_ConsignacionDeOS.DefaultCellStyle = dataGridViewCellStyle14;
             this.Dvg_ConsignacionDeOS.EnableHeadersVisualStyles = false;
             this.Dvg_ConsignacionDeOS.GridColor = System.Drawing.SystemColors.ControlLightLight;
-            this.Dvg_ConsignacionDeOS.Location = new System.Drawing.Point(239, 122);
+            this.Dvg_ConsignacionDeOS.Location = new System.Drawing.Point(195, 122);
             this.Dvg_ConsignacionDeOS.Name = "Dvg_ConsignacionDeOS";
             this.Dvg_ConsignacionDeOS.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
@@ -1018,7 +1018,7 @@ namespace CapaVisual_Login
             this.Dvg_ConsignacionDeOS.RowHeadersVisible = false;
             this.Dvg_ConsignacionDeOS.RowHeadersWidth = 51;
             this.Dvg_ConsignacionDeOS.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.Dvg_ConsignacionDeOS.Size = new System.Drawing.Size(618, 390);
+            this.Dvg_ConsignacionDeOS.Size = new System.Drawing.Size(735, 390);
             this.Dvg_ConsignacionDeOS.TabIndex = 312;
             // 
             // btn_CambiarVendedor_pg3
@@ -1154,9 +1154,9 @@ namespace CapaVisual_Login
             // 
             this.lbl_ConsignacionOrdenesServ.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(173)))));
             this.lbl_ConsignacionOrdenesServ.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_ConsignacionOrdenesServ.Location = new System.Drawing.Point(239, 80);
+            this.lbl_ConsignacionOrdenesServ.Location = new System.Drawing.Point(195, 80);
             this.lbl_ConsignacionOrdenesServ.Name = "lbl_ConsignacionOrdenesServ";
-            this.lbl_ConsignacionOrdenesServ.Size = new System.Drawing.Size(618, 35);
+            this.lbl_ConsignacionOrdenesServ.Size = new System.Drawing.Size(735, 35);
             this.lbl_ConsignacionOrdenesServ.TabIndex = 24;
             this.lbl_ConsignacionOrdenesServ.Text = "Consignación de ordenes de servicio";
             this.lbl_ConsignacionOrdenesServ.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1553,7 +1553,6 @@ namespace CapaVisual_Login
             this.tcCierreCaja.SelectedIndex = 0;
             this.tcCierreCaja.Size = new System.Drawing.Size(1097, 702);
             this.tcCierreCaja.TabIndex = 0;
-            //this.tcCierreCaja.SelectedIndexChanged += new System.EventHandler(this.tcCierreCaja_SelectedIndexChanged);
             // 
             // lbPaso
             // 
