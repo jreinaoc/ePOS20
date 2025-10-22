@@ -48,7 +48,7 @@ namespace CapaVisual_Login
             this.Cbx_Promo.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Cbx_Promo.ForeColor = System.Drawing.Color.Black;
             this.Cbx_Promo.FormattingEnabled = true;
-            this.Cbx_Promo.Location = new System.Drawing.Point(187, 44);
+            this.Cbx_Promo.Location = new System.Drawing.Point(184, 51);
             this.Cbx_Promo.Name = "Cbx_Promo";
             this.Cbx_Promo.Size = new System.Drawing.Size(253, 24);
             this.Cbx_Promo.TabIndex = 315;
@@ -59,7 +59,7 @@ namespace CapaVisual_Login
             this.Lbl_Tap1_DatosPersonal.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(166)))), ((int)(((byte)(156)))));
             this.Lbl_Tap1_DatosPersonal.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Lbl_Tap1_DatosPersonal.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
-            this.Lbl_Tap1_DatosPersonal.Location = new System.Drawing.Point(108, 77);
+            this.Lbl_Tap1_DatosPersonal.Location = new System.Drawing.Point(105, 102);
             this.Lbl_Tap1_DatosPersonal.Name = "Lbl_Tap1_DatosPersonal";
             this.Lbl_Tap1_DatosPersonal.Size = new System.Drawing.Size(704, 38);
             this.Lbl_Tap1_DatosPersonal.TabIndex = 87;
@@ -97,7 +97,7 @@ namespace CapaVisual_Login
             this.Dgv_ListOsCasadas.DefaultCellStyle = dataGridViewCellStyle2;
             this.Dgv_ListOsCasadas.EnableHeadersVisualStyles = false;
             this.Dgv_ListOsCasadas.GridColor = System.Drawing.SystemColors.ControlLightLight;
-            this.Dgv_ListOsCasadas.Location = new System.Drawing.Point(108, 118);
+            this.Dgv_ListOsCasadas.Location = new System.Drawing.Point(105, 149);
             this.Dgv_ListOsCasadas.Name = "Dgv_ListOsCasadas";
             this.Dgv_ListOsCasadas.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
@@ -111,7 +111,7 @@ namespace CapaVisual_Login
             this.Dgv_ListOsCasadas.RowHeadersVisible = false;
             this.Dgv_ListOsCasadas.RowHeadersWidth = 51;
             this.Dgv_ListOsCasadas.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.Dgv_ListOsCasadas.Size = new System.Drawing.Size(704, 298);
+            this.Dgv_ListOsCasadas.Size = new System.Drawing.Size(704, 235);
             this.Dgv_ListOsCasadas.TabIndex = 310;
             this.Dgv_ListOsCasadas.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dgv_ListOsCasadas_CellContentClick);
             this.Dgv_ListOsCasadas.CurrentCellDirtyStateChanged += new System.EventHandler(this.Dgv_ListOsCasadas_CurrentCellDirtyStateChanged);
@@ -123,7 +123,7 @@ namespace CapaVisual_Login
             this.Btn_Pnl3_Cancelar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Btn_Pnl3_Cancelar.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Btn_Pnl3_Cancelar.ForeColor = System.Drawing.SystemColors.Window;
-            this.Btn_Pnl3_Cancelar.Location = new System.Drawing.Point(596, 426);
+            this.Btn_Pnl3_Cancelar.Location = new System.Drawing.Point(578, 454);
             this.Btn_Pnl3_Cancelar.Name = "Btn_Pnl3_Cancelar";
             this.Btn_Pnl3_Cancelar.Size = new System.Drawing.Size(105, 44);
             this.Btn_Pnl3_Cancelar.TabIndex = 312;
@@ -137,7 +137,7 @@ namespace CapaVisual_Login
             this.btAplicarPromo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btAplicarPromo.Font = new System.Drawing.Font("Century Gothic", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.btAplicarPromo.ForeColor = System.Drawing.SystemColors.Window;
-            this.btAplicarPromo.Location = new System.Drawing.Point(707, 426);
+            this.btAplicarPromo.Location = new System.Drawing.Point(704, 454);
             this.btAplicarPromo.Name = "btAplicarPromo";
             this.btAplicarPromo.Size = new System.Drawing.Size(105, 44);
             this.btAplicarPromo.TabIndex = 311;
@@ -150,7 +150,7 @@ namespace CapaVisual_Login
             this.Lbl_Promociones.AutoSize = true;
             this.Lbl_Promociones.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Lbl_Promociones.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
-            this.Lbl_Promociones.Location = new System.Drawing.Point(105, 46);
+            this.Lbl_Promociones.Location = new System.Drawing.Point(102, 53);
             this.Lbl_Promociones.Name = "Lbl_Promociones";
             this.Lbl_Promociones.Size = new System.Drawing.Size(76, 16);
             this.Lbl_Promociones.TabIndex = 313;
@@ -161,7 +161,7 @@ namespace CapaVisual_Login
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(952, 486);
+            this.ClientSize = new System.Drawing.Size(886, 510);
             this.Controls.Add(this.Cbx_Promo);
             this.Controls.Add(this.Lbl_Promociones);
             this.Controls.Add(this.Btn_Pnl3_Cancelar);

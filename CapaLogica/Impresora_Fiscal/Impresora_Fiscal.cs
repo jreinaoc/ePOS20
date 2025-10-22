@@ -1395,78 +1395,37 @@ namespace CapaLogica.Impresora_Fiscal
                 uint Prueba = 0;
                 ret = objVmax.AbrirPuerto(Convert.ToString(glbPuertoCOM));
                 ret = objVmax.ObtenerEstadoImpresora();
-
-                //ExplorarObjetoManual(objVmax);
-                //ExploracionCompletaEstructuras(objVmax);
+                var Resss= objVmax.RetornoStatusImpresora.sStatus;
 
 
-                //// lo que nos dice Vmas 
-                //// 🔹 Para modelos VMAX2: 0x0001 = tapa abierta o sin papel
-                //if (ret == 0x0001)
-                //{
+                // lo que nos dice Vmas 
+                // 🔹 Para modelos VMAX2: 0x0001 = tapa abierta o sin papel
+                if (Resss == "0001")
+                {
+                    ret = 3;
+                    objVmax.Cancelar();
+                    objVmax.Cerrar();
+                    objVmax.CerrarPuerto();
+                    Console.WriteLine("La impresora reporta tapa abierta o ausencia de papel Advertencia");
+                }
+                else
+                {
+                    Console.WriteLine("✅ Impresora lista");
+                }
 
-                //    Console.WriteLine("La impresora reporta tapa abierta o ausencia de papel Advertencia");
-                //}
-                //else
-                //{
-                //    Console.WriteLine("✅ Impresora lista");
-                //}
-
-
-
-
-                //string estadoHex = ret.ToString("X4");
-
-                ////// Análisis completo
-                ////EstadoImpresoraVmax.AnalizarEstadoCompleto(estadoHex);
-
-                ////// Verificaciones rápidas para lógica de programa
-                ////Console.WriteLine("\n✅ VERIFICACIONES RÁPIDAS:");
-
-                //bool tienePapel = EstadoImpresoraVmax.TienePapel(estadoHex);
-                //bool tapaAbierta = EstadoImpresoraVmax.TapaAbierta(estadoHex);
-                //bool estaOnline = EstadoImpresoraVmax.EstaOnline(estadoHex);
-                //bool tieneErrores = EstadoImpresoraVmax.TieneErroresGraves(estadoHex);
-
-                //Console.WriteLine($"Papel: {(tienePapel ? "✅ DISPONIBLE" : "❌ FALTANTE")}");
-                //Console.WriteLine($"Tapa: {(tapaAbierta ? "❌ ABIERTA" : "✅ CERRADA")}");
-                //Console.WriteLine($"Conexión: {(estaOnline ? "✅ EN LÍNEA" : "❌ FUERA DE LÍNEA")}");
-                //Console.WriteLine($"Errores: {(tieneErrores ? "❌ PRESENTES" : "✅ NINGUNO")}");
-
-
-                //ushort mask = Convert.ToUInt16(hex4, 16);
-
-                // Bits de “sin papel” y “tapa” según tabla del manual
-                //bool tapaAbierta = (mask & (1 << 1)) != 0;
-                //bool sinPapel = ((mask & (1 << 6)) != 0)
-                //             || ((mask & (1 << 7)) != 0)
-                //             || ((mask & (1 << 8)) != 0)
-                //             || ((mask & (1 << 9)) != 0)
-                //             || ((mask & (1 << 10)) != 0);
-
-
-                //var estados = ObtenerEstadoCompleto();
-                //string estadoHex4 = LeerEstadoHex(objVmax);
-                //var (sinPapel, tapaAbierta) = PapelOTapa((ushort)ret);
+              
                 if (ret != 16 && ret != 0)
                 {
-                    //resp = objVmax.AbrirCF("", "", "1", "1", "12345", "", "", 40);
-                    //objVmax.Cancelar();
-                    //objVmax.Cerrar();
                     objVmax.CerrarPuerto();
                     stringBuilder.Append(Environment.NewLine + "No hay conexión con la impresora fiscal");
                     Conexion = false;
                     _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, "No hay conexión con la impresora fiscal");
-
 
                 }
 
                 else
                 {
                     Conexion = true;
-                    //objVmax.Cancelar();
-                    //objVmax.Cerrar();
-                    //objVmax.CerrarPuerto();
                 }
 
                 return Conexion;

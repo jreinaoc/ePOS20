@@ -3120,7 +3120,7 @@ namespace CapaVisual_Login
 
                         Cbx_Pnl3_MotivoDesc.Focus();
                         _FrmMensajes.co = 2;
-                        _FrmMensajes.avisomensaje("Debe seleccionar un Motivo de Descuento para continuar");
+                        _FrmMensajes.avisomensaje("Debe seleccionar un motivo de descuento para continuar");
                         _FrmMensajes.ShowDialog();
                     }
                 }
@@ -5649,9 +5649,10 @@ namespace CapaVisual_Login
 
 
                 Txt_Tap1_Cedula.Clear();
-                Pnl_2_Msj.Visible = true;
-                txt_pl2_msj.Text = "Debe seleccionar la Nacionalidad antes de ingresar la Cédula";
-                //pb_pl2_mj.Visible = true;
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("Debe seleccionar la nacionalidad antes de ingresar la cédula");
+                _FrmMensajes.ShowDialog();
+
                 button3.Focus();
 
                 //Cbx_Tap1_Nacionalidad.Focus();
@@ -5694,9 +5695,9 @@ namespace CapaVisual_Login
                         {
                             // El campo cédula contiene caracteres no numéricos.
 
-                            Pnl_2_Msj.Visible = true;
-                            txt_pl2_msj.Text = "El campo Cédula debe contener solo números";
-                            //pb_pl2_mj.Visible = true;
+                            _FrmMensajes.co = 2;
+                            _FrmMensajes.avisomensaje("El campo Cédula debe contener solo números");
+                            _FrmMensajes.ShowDialog();
 
                             //MessageBox.Show("El campo Cédula debe contener solo números.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
                             Txt_Tap1_Cedula.SelectAll(); // Selecciona todo el texto para facilitar la corrección.
@@ -5753,9 +5754,10 @@ namespace CapaVisual_Login
                 {
                     // El valor ingresado no parece una dirección de correo electrónico válida
 
-                    Pnl_2_Msj.Visible = true;
-                    txt_pl2_msj.Text = "El formato del correo electrónico no es válido";
-                    //pb_pl2_mj.Visible = true;
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje("El formato del correo electrónico no es válido");
+                    _FrmMensajes.ShowDialog();
+
                     button3.Focus();
 
                     Txt_Tap1_Email.Focus(); // Devolver el foco al TextBox
@@ -5780,10 +5782,10 @@ namespace CapaVisual_Login
                 }
                 else
                 {
-
-                    Pnl_2_Msj.Visible = true;
-                    txt_pl2_msj.Text = "El número de teléfono debe contener exactamente 7 dígitos";
-                    //pb_pl2_mj.Visible = true;
+                    
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje("El número de teléfono debe contener exactamente 7 dígitos");
+                    _FrmMensajes.ShowDialog();
 
                     // El valor ingresado no es un número de 7 dígitos válido
                     //MessageBox.Show("El número de teléfono debe contener exactamente 7 dígitos.", "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
@@ -5822,11 +5824,9 @@ namespace CapaVisual_Login
                 {
                     // El valor ingresado no es un número de 7 dígitos válido
 
-                    Pnl_2_Msj.Visible = true;
-                    txt_pl2_msj.Text = "El número de teléfono debe contener exactamente 7 dígitos";
-                    //pb_pl2_mj.Visible = true;
-
-
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje("El número de teléfono debe contener exactamente 7 dígitos");
+                    _FrmMensajes.ShowDialog();
 
                     //MessageBox.Show("El número de teléfono debe contener exactamente 7 dígitos.", "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
                     //  Txt_Tap1_TLF_Celular.Focus(); // Devolver el foco al TextBox para que el usuario corrija
@@ -5970,8 +5970,11 @@ namespace CapaVisual_Login
                         // Si el valor está fuera del rango, establece un mensaje de error en la fila.
                         // Nota: CellLeave no permite cancelar la salida de la celda, solo mostrar una advertencia.
                         //e.Cancel = true; // Cancela la validación
-                        Pnl_2_Msj.Visible = true;
-                        txt_pl2_msj.Text = $"Los valores permitidos están entre  {minMeridianoCorneal} y {maxMeridianoCorneal}.";
+
+                        _FrmMensajes.co = 2;
+                        _FrmMensajes.avisomensaje($"Los valores permitidos están entre  {minMeridianoCorneal} y {maxMeridianoCorneal}.");
+                        _FrmMensajes.ShowDialog();
+
                         //pb_pl2_mj.Visible = true;
 
 
@@ -8577,28 +8580,14 @@ namespace CapaVisual_Login
         private void txtClienteBuscar_Leave(object sender, EventArgs e)
         {
 
-            // Obtener el texto del textBox1
-            string textoFiltro = txtClienteBuscar.Text.Trim(); // .Trim() para eliminar espacios en blanco al inicio y al final
+            // Validación adicional si es necesario
+            string textoFiltro = txtClienteBuscar.Text.Trim();
 
-            // Validar la longitud del texto
-            if (textoFiltro.Length < 3 && textoFiltro.Length > 0) // Si tiene entre 1 y 2 caracteres
+            if (textoFiltro.Length < 3 && textoFiltro.Length > 0)
             {
-                // Mostrar un mensaje al usuario
-                //  MessageBox.Show("Por favor, ingrese al menos 3 caracteres para realizar la búsqueda.", "Filtro Insuficiente", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                txtClienteBuscar.Focus(); // Opcional: devolver el foco al TextBox para que el usuario corrija
-            }
-            else if (textoFiltro.Length == 0) // Si el campo está vacío, puedes decidir si cargar todo o no hacer nada
-            {
-                // Si el campo está vacío, puedes optar por no hacer nada o cargar todos los datos
-                // Por ejemplo, si quieres que al borrar el texto se muestren todos los clientes:
-                // CargarDatosDeClientes(textoFiltro, radioButton2, radioButton1);
-                // O simplemente no hacer nada si no hay filtro
-                // Console.WriteLine("Campo de filtro vacío, no se realiza búsqueda.");
-            }
-            else // Si la longitud es 3 o más caracteres
-            {
-                // Llamar al método para cargar los datos de los clientes
-                CargarDatosDeClientes(textoFiltro, radioButton2, radioButton1);
+                MessageBox.Show("Por favor, ingrese al menos 3 caracteres para realizar la búsqueda.",
+                    "Filtro Insuficiente", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtClienteBuscar.Focus();
             }
         }
 
@@ -8635,7 +8624,24 @@ namespace CapaVisual_Login
 
         private void txtClienteBuscar_TextChanged(object sender, EventArgs e)
         {
-            txtClienteBuscar_Leave(sender, e);
+            //txtClienteBuscar_Leave(sender, e);
+
+            string textoFiltro = txtClienteBuscar.Text.Trim();
+
+            // Validar la longitud del texto
+            if (textoFiltro.Length < 3)
+            {
+                if (textoFiltro.Length == 0)
+                {
+                    // Limpiar resultados si el campo está vacío
+                    bindingSource.DataSource = null;
+                    DgvClientes.DataSource = null;
+                }
+                return;
+            }
+
+            // Llamar al método para cargar los datos
+            CargarDatosDeClientes(textoFiltro, radioButton2, radioButton1);
         }
 
 
@@ -9037,9 +9043,10 @@ namespace CapaVisual_Login
                     }
                     else
                     {
+                        _FrmMensajes.co = 2;
+                        _FrmMensajes.avisomensaje(" Error al guardar el email: {resultadoEmail}");
+                        _FrmMensajes.ShowDialog();
 
-                        Pnl_2_Msj.Visible = true;
-                        txt_pl2_msj.Text = " Error al guardar el email: {resultadoEmail}";
                         //pb_pl2_mj.Visible = true;
 
                         // Puedes registrar el error o informar al usuario de otra manera
@@ -9268,6 +9275,7 @@ namespace CapaVisual_Login
             //{
             //}
 
+
         }
 
         private bool validaVaciocorreemail()
@@ -9280,8 +9288,10 @@ namespace CapaVisual_Login
 
                 if (string.IsNullOrEmpty(textoIngresadoTLFCelular))
                 {
-                    Pnl_2_Msj.Visible = false;
-                    txt_pl2_msj.Text = "Registre un número de celular para continuar";
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje("Registre un número de celular para continuar");
+                    _FrmMensajes.ShowDialog();
+
                     //pb_pl2_mj.Visible = false;
                     Cbx_Tap1_TLF_Local.Focus(); // Coloca el foco en el ComboBox para que el usuario corrija.
 
@@ -9298,8 +9308,11 @@ namespace CapaVisual_Login
             {
                 if (!EsNumeroDeSieteDigitos(textoIngresadoTLFCelular))
                 {
-                    Pnl_2_Msj.Visible = true;
-                    txt_pl2_msj.Text = "El número de teléfono debe contener exactamente 7 dígitos";
+
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje("El número de teléfono debe contener exactamente 7 dígitos");
+                    _FrmMensajes.ShowDialog();
+
                     //pb_pl2_mj.Visible = true;
 
                     Txt_Tap1_TLF_Celular.Focus();
@@ -9307,10 +9320,9 @@ namespace CapaVisual_Login
                 }
                 if (Cbx_Tap1_TLF_Celular.SelectedIndex == -1)
                 {
-
-                    Pnl_2_Msj.Visible = true;
-                    txt_pl2_msj.Text = "Seleccione un número de Operador para continuar";
-                    //pb_pl2_mj.Visible = true;
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje("Seleccione un número de Operador para continuar");
+                    _FrmMensajes.ShowDialog();
 
                     Cbx_Tap1_TLF_Celular.Focus(); // Coloca el foco en el ComboBox para que el usuario corrija.
                     return false; // Detiene la ejecución del resto del código del botón.
@@ -9339,10 +9351,9 @@ namespace CapaVisual_Login
             {
                 if (!EsNumeroDeSieteDigitos(textoIngresadoTLFLocal))
                 {
-                    Pnl_2_Msj.Visible = true;
-                    txt_pl2_msj.Text = "El número de teléfono local debe contener exactamente 7 dígitos";
-                    //pb_pl2_mj.Visible = true;
-
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje("El número de teléfono local debe contener exactamente 7 dígitos");
+                    _FrmMensajes.ShowDialog();
 
                     Txt_Tap1_TLF_Local.Focus();
                     return false;
@@ -9350,10 +9361,9 @@ namespace CapaVisual_Login
                 // Verifica si no se ha seleccionado nada en el ComboBox.
                 if (Cbx_Tap1_TLF_Local.SelectedIndex == -1)
                 {
-
-                    Pnl_2_Msj.Visible = true;
-                    txt_pl2_msj.Text = "Seleccione un número de teléfono local para continuar";
-                    //pb_pl2_mj.Visible = true;
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje("Seleccione un número de teléfono local para continuar");
+                    _FrmMensajes.ShowDialog();
 
 
                     Cbx_Tap1_TLF_Local.Focus(); // Coloca el foco en el ComboBox para que el usuario corrija.
@@ -9368,11 +9378,9 @@ namespace CapaVisual_Login
             {
                 if (!EsEmailValido(textoIngresadoEmail))
                 {
-                    Pnl_2_Msj.Visible = true;
-                    txt_pl2_msj.Text = "El formato del correo electrónico no es válido";
-                    //pb_pl2_mj.Visible = true;
-
-
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje("El formato del correo electrónico no es válido");
+                    _FrmMensajes.ShowDialog();
 
                     Txt_Tap1_Email.Focus();
                     return false;
@@ -9426,9 +9434,10 @@ namespace CapaVisual_Login
             if (Cbx_Tap1_Nacionalidad.SelectedIndex == -1) // Mejor usar SelectedIndex para ComboBox
             {
 
-                Pnl_2_Msj.Visible = true;
-                txt_pl2_msj.Text = "Seleccione la nacionalidad antes de ingresar la cédula";
-                //pb_pl2_mj.Visible = true;
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("Seleccione la nacionalidad antes de ingresar la cédula");
+                _FrmMensajes.ShowDialog();
+
                 Cbx_Tap1_Nacionalidad.Focus();
                 return false;
             }
@@ -9454,7 +9463,7 @@ namespace CapaVisual_Login
                if (string.IsNullOrEmpty(Cbx_Tap1_Nacionalidad_Pagador.Text.Trim()))
                 {
                     _FrmMensajes.co = 2;
-                    _FrmMensajes.avisomensaje("Debe seleccionar la Nacionalidad del cliente pagador para continuar");
+                    _FrmMensajes.avisomensaje("Debe seleccionar la nacionalidad del cliente pagador para continuar");
                     _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
                     _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
                     _FrmMensajes.ShowDialog();
@@ -9480,7 +9489,7 @@ namespace CapaVisual_Login
                 if (string.IsNullOrEmpty(Cbx_Tap1_Nacionalidad_Pagador.Text.Trim()))
                 {
                     _FrmMensajes.co = 2;
-                    _FrmMensajes.avisomensaje("Debe seleccionar la Nacionalidad del cliente pagador para continuar");
+                    _FrmMensajes.avisomensaje("Debe seleccionar la nacionalidad del cliente pagador para continuar");
                     _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
                     _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
                     _FrmMensajes.ShowDialog();
@@ -10941,10 +10950,9 @@ namespace CapaVisual_Login
                 // Validar Cbx_Tap2_Nombre_Optome
                 if (Cbx_Tap2_Nombre_Optome.SelectedItem == null || string.IsNullOrEmpty(Cbx_Tap2_Nombre_Optome.Text))
                 {
-
-                    Pnl_2_Msj.Visible = true;
-                    txt_pl2_msj.Text = "Seleccione un nombre de optometría";
-                    //pb_pl2_mj.Visible = true;
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje("Seleccione un nombre de optometría");
+                    _FrmMensajes.ShowDialog();
 
                     todosValidos = false;
                     Cbx_Tap2_Nombre_Optome.Focus();
@@ -10953,9 +10961,10 @@ namespace CapaVisual_Login
             }
             else if (Txt_Tap2_Examen.Text == "0" & Cbx_Tap2_Tipo_Optome.SelectedItem?.ToString() == "EXTERNO" & string.IsNullOrEmpty(TXT_Tap2_Nombre_Optome.Text))
             {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("Debe llenar un Nombre de optometría");
+                _FrmMensajes.ShowDialog();
 
-                Pnl_2_Msj.Visible = true;
-                txt_pl2_msj.Text = "Debe llenar un Nombre de optometría";
                 //pb_pl2_mj.Visible = true;
                 todosValidos = false;
                 TXT_Tap2_Nombre_Optome.Focus();
@@ -11022,9 +11031,9 @@ namespace CapaVisual_Login
 
             if (!ValidarQueratometria())
             {
-                Pnl_2_Msj.Visible = true;
-                txt_pl2_msj.Text = "Valores de Queratometria Incompletos";
-                //pb_pl2_mj.Visible = true;
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("Valores de Queratometria Incompletos");
+                _FrmMensajes.ShowDialog();
                 return;
             }
 
@@ -11207,15 +11216,17 @@ namespace CapaVisual_Login
                 }
             }
 
-            // If no validation errors were found after checking all rows
-            HideValidationMessage();
+            //// If no validation errors were found after checking all rows
+            //HideValidationMessage();
             return true; // All rows passed the validation
         }
 
         private void ShowValidationMessage(string message, DataGridView dgv, int colIndex, int rowIndex)
         {
-            Pnl_2_Msj.Visible = true;
-            txt_pl2_msj.Text = message;
+            _FrmMensajes.co = 2;
+            _FrmMensajes.avisomensaje(message);
+            _FrmMensajes.ShowDialog();
+
             //pb_pl2_mj.Visible = true;
 
             // Optional: Scroll to the error cell and select it
@@ -11339,21 +11350,24 @@ namespace CapaVisual_Login
 
                     if (valorFila0 != valorFila1 && valorFila1 != "BALANCE" && valorFila0 != "BALANCE")
                     {
-                        Pnl_2_Msj.Visible = true;
-                        txt_pl2_msj.Text = "Debe colocar tipos de visión validos La combinación posible es el mismo tipo de visión o Balance";
+
+                        _FrmMensajes.co = 2;
+                        _FrmMensajes.avisomensaje("Debe colocar tipos de visión validos La combinación posible es el mismo tipo de visión o Balance");
+                        _FrmMensajes.ShowDialog();
+
                         //pb_pl2_mj.Visible = true;
 
                         cellFila1.Value = null; // O el valor que desees restablecer
                     }
-                    else
-                    {
-                        if (Pnl_2_Msj.Visible)
-                        {
-                            Pnl_2_Msj.Visible = false;
-                            txt_pl2_msj.Text = string.Empty;
-                            //pb_pl2_mj.Visible = false;
-                        }
-                    }
+                    //else
+                    //{
+                    //    //if (Pnl_2_Msj.Visible)
+                    //    //{
+                    //    //    Pnl_2_Msj.Visible = false;
+                    //    //    txt_pl2_msj.Text = string.Empty;
+                    //    //    //pb_pl2_mj.Visible = false;
+                    //    //}
+                    //}
                 }
             }
             finally
@@ -11687,10 +11701,9 @@ namespace CapaVisual_Login
                             if (cercaValue > lejosValue)
                             {
 
-
-                                Pnl_2_Msj.Visible = true;
-                                txt_pl2_msj.Text = "El valor de 'Cerca' no puede ser mayor que el valor de 'Lejos'";
-                                //pb_pl2_mj.Visible = true;
+                                _FrmMensajes.co = 2;
+                                _FrmMensajes.avisomensaje("El valor de 'Cerca' no puede ser mayor que el valor de 'Lejos'");
+                                _FrmMensajes.ShowDialog();
 
                                 Dgv_Pnl2_conv.Rows[e.RowIndex].Cells["Cerca"].Value = lejosValue; // Restablece el valor de "Cerca" a "Lejos"
                             }
@@ -12726,7 +12739,16 @@ namespace CapaVisual_Login
             //codigo Claro 
             if (Formato_Claro)
             {
-                
+                this.BackColor = col1;
+                //Con esta funcion coloreamos el grid del color oscuro 
+
+                foreach (Control C in this.Controls)
+                {
+                    C.ForeColor = Color.White;
+
+                }
+
+
                 tabPage1.BackColor = col2;
                 tabPage3.BackColor = col2;
                 QuitarLimea2.BackColor = col2;
@@ -12806,6 +12828,18 @@ namespace CapaVisual_Login
             //codigo oscuro
             else
             {
+                // col1 = fondo general, col3 = fondo grid, col5 = header, col6 = panel label
+                this.BackColor = col1;
+
+                // Ajustar texto de controles del form (si lo quieres global)
+                foreach (Control C in this.Controls)
+                {
+                    // Evitar cambiar el ForeColor del grid directo aquí (lo ajustamos abajo)
+                    if (!(C is DataGridView))
+                        C.ForeColor = Color.Black;
+                }
+
+
                 tabPage1.BackColor = col3;
                 tabPage3.BackColor = col3;
                 QuitarLimea2.BackColor = col3;
@@ -14415,8 +14449,11 @@ namespace CapaVisual_Login
             if (string.IsNullOrEmpty(Cbx_Tap1_Nacionalidad_Pagador.Text.Trim()))
             {
                 Txt_Tap1_Cedula_Pagador.Clear();
-                Pnl_2_Msj.Visible = true;
-                txt_pl2_msj.Text = "Debe seleccionar la Nacionalidad del cliente pagador antes de ingresar la Cédula";
+
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("Debe seleccionar la nacionalidad del cliente pagador antes de ingresar la cédula");
+                _FrmMensajes.ShowDialog();
+
                 //pb_pl2_mj.Visible = true;
                 Cbx_Tap1_Nacionalidad_Pagador.Focus();
 
@@ -14576,6 +14613,33 @@ namespace CapaVisual_Login
         {
             label45.Visible = false;
             Txt_Pnl2_Edad.Visible = false;
+        }
+
+        private void Txt_Pnl3_PorcDescuento_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                Txt_Pnl3_MontoDesc.Focus();
+
+            }
+        }
+
+        private void Txt_Pnl3_MontoDesc_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                Txt_Pnl3_ObservacionDesc.Focus();
+
+            }
+        }
+
+        private void Txt_Pnl3_ObservacionDesc_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                Txt_Pnl3_PorcDescuento.Focus();
+
+            }
         }
 
 
