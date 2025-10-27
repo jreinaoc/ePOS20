@@ -1906,12 +1906,27 @@ namespace CapaVisual_Login
 
                     _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "070", TB_USUARIO.COD_EMPLEADO, "Se generaron los ACC correctamente");
 
+                    int DiasAAgregar = 0;
+                    DayOfWeek dia = diaActivo.DayOfWeek;
+                    string TrabajaDomingos = _D_DetalleOrden.TB_PARAMETRO("TrabajaDomingo");
+                    if (dia == DayOfWeek.Saturday)
+                    {
+                        if (TrabajaDomingos == "1")
+                            DiasAAgregar = 1;
+                        else
+                            DiasAAgregar = 2;
+                    }
+                    else
+
+                    {
+                        DiasAAgregar = 1;
+                    }
 
                     FrmPrincipal frmPrincipal = this.ParentForm as FrmPrincipal;
 
                     if (frmPrincipal != null)
                     {
-                        frmPrincipal.ActualizarTextoLabel(diaActivo.AddDays(1).ToString("dd/MM/yyyy"));
+                        frmPrincipal.ActualizarTextoLabel(diaActivo.AddDays(DiasAAgregar).ToString("dd/MM/yyyy"));
                     }
 
                     //dtLogCierre.Rows.Add("Imprimiendo reportes", "...");

@@ -628,6 +628,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Actualizar\Script.csproj">
+      <Project>{4d28994e-859e-4b84-92cd-e086739039b9}</Project>
+      <Name>Script</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CapaDatos\CapaDatos.csproj">
       <Project>{c790d085-c1c6-4d3a-bde2-42a33a7abf65}</Project>
       <Name>CapaDatos</Name>

@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CapaEntidades", "CapaEntida
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CapaVisual_Login", "CapaPresentacioCaroniPOS\CapaVisual_Login.csproj", "{F9B3D92B-6C40-4D67-8825-F5D0115F7006}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Script", "Actualizar\Script.csproj", "{4D28994E-859E-4B84-92CD-E086739039B9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,29 +35,15 @@ Global
 		{F9B3D92B-6C40-4D67-8825-F5D0115F7006}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F9B3D92B-6C40-4D67-8825-F5D0115F7006}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F9B3D92B-6C40-4D67-8825-F5D0115F7006}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D28994E-859E-4B84-92CD-E086739039B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D28994E-859E-4B84-92CD-E086739039B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D28994E-859E-4B84-92CD-E086739039B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D28994E-859E-4B84-92CD-E086739039B9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3601FC3A-1F6B-4FEC-B2A2-A64AA65EAE41}
-	EndGlobalSection
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 5
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = http://caronitfs:8080/tfs/desarrollo2022
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = CapaDatos\\CapaDatos.csproj
-		SccProjectName1 = CapaDatos
-		SccLocalPath1 = CapaDatos
-		SccProjectUniqueName2 = CapaLogica\\CapaLogica.csproj
-		SccProjectName2 = CapaLogica
-		SccLocalPath2 = CapaLogica
-		SccProjectUniqueName3 = CapaEntidades\\CapaEntidades.csproj
-		SccProjectName3 = CapaEntidades
-		SccLocalPath3 = CapaEntidades
-		SccProjectUniqueName4 = CapaPresentacioCaroniPOS\\CapaVisual_Login.csproj
-		SccProjectName4 = CapaPresentacioCaroniPOS
-		SccLocalPath4 = CapaPresentacioCaroniPOS
 	EndGlobalSection
 EndGlobal

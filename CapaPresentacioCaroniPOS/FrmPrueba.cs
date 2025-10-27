@@ -55,7 +55,22 @@ namespace CapaVisual_Login
             DataSet Datos = _D_Login.SucursalCompania(Sucursal);
             string Descripcion = "";
             string RifCompania = "";
-            DateTime DiaActivo = _D_Inicio.DiaActivo().AddDays(-1);
+            int DiasAAgregar = 0;
+            DayOfWeek dia = _D_Inicio.DiaActivo().DayOfWeek;
+            string TrabajaDomingos = _D_DetalleOrden.TB_PARAMETRO("TrabajaDomingo");
+            if (dia == DayOfWeek.Monday)
+            {
+                if (TrabajaDomingos == "1")
+                    DiasAAgregar = 1;
+                else
+                    DiasAAgregar = 2;
+            }
+            else
+
+            {
+                DiasAAgregar = 1;
+            }
+            DateTime DiaActivo = _D_Inicio.DiaActivo().AddDays(-DiasAAgregar);
             //DiaActivo = dateTimePicker1.Value.Date;
             string NombreSucursal = "";
             bool imprimir;

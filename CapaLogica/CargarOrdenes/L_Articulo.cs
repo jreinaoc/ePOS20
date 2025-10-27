@@ -3083,7 +3083,7 @@ namespace CapaLogica.CargarOrdenes
                             PromoAplicada = true;
                         }
                         // Si el código comienza con "M" (Montura) o "L" (Lente de contacto)
-                        else if (codigo.StartsWith("M") || codigo.StartsWith("L"))
+                        else if ((codigo.StartsWith("M") || codigo.StartsWith("L")) && (codigo == (string)dsLl1so.Tables[0].Rows[0]["MONTURA"]))
                         {
                             row.Cells["TienePromo"].Value = "Si";
                             row.Cells["ART_PVP"].Value = (decimal)(dsLl1so.Tables[0].Rows[0]["PRECIOMONT_DESC"]);
