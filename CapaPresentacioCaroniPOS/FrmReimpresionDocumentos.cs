@@ -378,17 +378,17 @@ namespace CapaVisual_Login
             // 2. Obtener datos del reporte actual
             string numZ = objVmax.RetornoMF.uiUltNumZ.ToString();
 
-            mostrarError("Nro Reporte Z: " + numZ);
+            //mostrarError("Nro Reporte Z: " + numZ);
 
-            if (!string.IsNullOrEmpty(numZ))
-            {
-            }
-            else
-            {
-                objVmax.CerrarPuerto();
-                mostrarError("Hubo problemas leyendo los datos del último reporte Z desde la impresora fiscal.");
-                return;
-            }
+            //if (!string.IsNullOrEmpty(numZ))
+            //{
+            //}
+            //else
+            //{
+            //    objVmax.CerrarPuerto();
+            //    mostrarError("Hubo problemas leyendo los datos del último reporte Z desde la impresora fiscal.");
+            //    return;
+            //}
 
             string serialImpresora = objVmax.RetornoMF.sSerial;
             string cantidadFacturas = objVmax.RetornoMF.uiTotalFacturasDiarias.ToString();
