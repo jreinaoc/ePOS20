@@ -74,19 +74,19 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>sdHZiy0/GhxqFM3uxJcgCRX6kebtMD3TOK44Le+0GBs=</dsig:DigestValue>
+        <dsig:DigestValue>AuBXaQHPIsSsPkvKnFUDLlW364TSbw9H5UAyGWkDgT8=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CapaLogica.dll" size="358400">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CapaLogica.dll" size="358912">
       <assemblyIdentity name="CapaLogica" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>M4N537Qh9GwUKqRkHCvVWnk2h+cBUqqkRROgl7XEDmo=</dsig:DigestValue>
+        <dsig:DigestValue>ietfVVt4S32yWJhxpgaok6nTLpcVHksMsmefBXQhe3w=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -206,7 +206,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>9skRUaEpClHRMPoFSLT+MwtQQSjpNdahQeMkSaHbrlM=</dsig:DigestValue>
+        <dsig:DigestValue>4uOtaeXlxp92VkVLblv+A69VJsYZsTlsr/KIcNb+s4g=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -1172,13 +1172,13 @@
   </dependency>
   <dependency>
     <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Script.dll" size="5120">
-      <assemblyIdentity name="Script" version="1.0.0.1" language="neutral" processorArchitecture="msil" />
+      <assemblyIdentity name="Script" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>/W3M64hmdNuVsdMND0J87H13vfUBC2mz/ITqmpgSU3o=</dsig:DigestValue>
+        <dsig:DigestValue>Erzu4bQg7mDKu1S8LoibtYJTE6j8PKf0yq20X92eL6I=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -1311,13 +1311,13 @@
       <dsig:DigestValue>V/mIEnaNA7+y6AYCdZ7ovh0pOL9ya/R1ocUuN+BTkHw=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="ePOS.exe.config" size="2518">
+  <file name="ePOS.exe.config" size="2521">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>aLIUvr7mtOak0jKBmLHmdi6aQ60aXNGcXZlhU7YgDts=</dsig:DigestValue>
+      <dsig:DigestValue>z86UZrH1OXANNAHg/NnssjovnkeHPnw7fD3d4A2q0JI=</dsig:DigestValue>
     </hash>
   </file>
   <file name="icono-puntoDeVenta.ico" size="205662">
