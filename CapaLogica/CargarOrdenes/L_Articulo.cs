@@ -2979,7 +2979,7 @@ namespace CapaLogica.CargarOrdenes
             {
                 if (resultado.Tables[0].Rows[0]["Resultado"].ToString() == "APLICA" || resultado.Tables[0].Rows[0]["Resultado"].ToString() == "CASADA")
                 {
-                    PromoAplica= AplicarPromocionesEnGrid(listaArticulos, DgvArticulo, resultado, glbTipoTrabajo, TipoExamen);
+                    PromoAplica= AplicarPromocionesEnGrid(listaArticulos, DgvArticulo, resultado, parametros, glbTipoTrabajo, TipoExamen);
                 }
                 else
                     PromoAplica= false;
@@ -3045,7 +3045,7 @@ namespace CapaLogica.CargarOrdenes
             // Retornar null si no se encuentra el artículo
             return null;
         }
-        public bool AplicarPromocionesEnGrid(List<TB_ARTICULO> listaArticulos, DataGridView DgvArticulo, DataSet dsLl1so, string glbTipoTrabajo, string TipoExamen)
+        public bool AplicarPromocionesEnGrid(List<TB_ARTICULO> listaArticulos, DataGridView DgvArticulo, DataSet dsLl1so, Dictionary<string, string> ArticulosEvaluados, string glbTipoTrabajo, string TipoExamen)
         {
             bool PromoAplicada = false;
 
@@ -3062,6 +3062,10 @@ namespace CapaLogica.CargarOrdenes
                 }
             }
 
+            string Montura = ArticulosEvaluados.ContainsKey("@PARAMETRO01") ? ArticulosEvaluados["@PARAMETRO01"] : string.Empty;
+            string Cristal = ArticulosEvaluados.ContainsKey("@PARAMETRO02") ? ArticulosEvaluados["@PARAMETRO02"] : string.Empty;
+            string LC = ArticulosEvaluados.ContainsKey("@PARAMETRO03") ? ArticulosEvaluados["@PARAMETRO03"] : string.Empty;
+
             // Recorrer las filas del DataGridView
             foreach (DataGridViewRow row in DgvArticulo.Rows)
             {
@@ -3075,32 +3079,41 @@ namespace CapaLogica.CargarOrdenes
                         // Si el código comienza con "C" (Cristal)
                         if (codigo.StartsWith("C"))
                         {
-                            row.Cells["TienePromo"].Value = "Si";
-                            row.Cells["ART_PVP"].Value = (decimal)dsLl1so.Tables[0].Rows[0]["PRECIOCRT_DESC"];
-                            row.Cells["Total"].Value = (decimal)dsLl1so.Tables[0].Rows[0]["PRECIOCRT_DESC"] * Convert.ToDecimal(row.Cells["ART_EXIST"].Value);
-                            row.Cells["CodPromo"].Value = dsLl1so.Tables[0].Rows[0]["CODPROM"];
-                            row.Cells["PromoEvaluada"].Value = "Si";
-                            PromoAplicada = true;
+                            if (codigo == Cristal)
+                            {
+                                row.Cells["TienePromo"].Value = "Si";
+                                row.Cells["ART_PVP"].Value = (decimal)dsLl1so.Tables[0].Rows[0]["PRECIOCRT_DESC"];
+                                row.Cells["Total"].Value = (decimal)dsLl1so.Tables[0].Rows[0]["PRECIOCRT_DESC"] * Convert.ToDecimal(row.Cells["ART_EXIST"].Value);
+                                row.Cells["CodPromo"].Value = dsLl1so.Tables[0].Rows[0]["CODPROM"];
+                                row.Cells["PromoEvaluada"].Value = "Si";
+                                PromoAplicada = true;
+                            }
                         }
                         // Si el código comienza con "M" (Montura) o "L" (Lente de contacto)
-                        else if (codigo.StartsWith("M") || codigo.StartsWith("L"))
+                        else if ((codigo.StartsWith("M") || codigo.StartsWith("L")))
                         {
-                            row.Cells["TienePromo"].Value = "Si";
-                            row.Cells["ART_PVP"].Value = (decimal)(dsLl1so.Tables[0].Rows[0]["PRECIOMONT_DESC"]);
-                            row.Cells["Total"].Value = (decimal)((decimal)dsLl1so.Tables[0].Rows[0]["PRECIOMONT_DESC"] * Convert.ToDecimal(row.Cells["ART_EXIST"].Value));
-                            row.Cells["CodPromo"].Value = dsLl1so.Tables[0].Rows[0]["CODPROM"];
-                            row.Cells["PromoEvaluada"].Value = "Si";
-                            PromoAplicada = true;
+                            if (codigo == Montura)
+                            {
+                                row.Cells["TienePromo"].Value = "Si";
+                                row.Cells["ART_PVP"].Value = (decimal)(dsLl1so.Tables[0].Rows[0]["PRECIOMONT_DESC"]);
+                                row.Cells["Total"].Value = (decimal)((decimal)dsLl1so.Tables[0].Rows[0]["PRECIOMONT_DESC"] * Convert.ToDecimal(row.Cells["ART_EXIST"].Value));
+                                row.Cells["CodPromo"].Value = dsLl1so.Tables[0].Rows[0]["CODPROM"];
+                                row.Cells["PromoEvaluada"].Value = "Si";
+                                PromoAplicada = true;
+                            }
                         }
 
                         else if (codigo.StartsWith("W"))
                         {
-                            row.Cells["TienePromo"].Value = "Si";
-                            row.Cells["ART_PVP"].Value = (decimal)(dsLl1so.Tables[0].Rows[0]["TOTLC"]);
-                            row.Cells["Total"].Value = (decimal)((decimal)dsLl1so.Tables[0].Rows[0]["TOTLC"] * Convert.ToDecimal(row.Cells["ART_EXIST"].Value));
-                            row.Cells["CodPromo"].Value = dsLl1so.Tables[0].Rows[0]["CODPROM"];
-                            row.Cells["PromoEvaluada"].Value = "Si";
-                            PromoAplicada = true;
+                            if(codigo == LC)
+                            {
+                                row.Cells["TienePromo"].Value = "Si";
+                                row.Cells["ART_PVP"].Value = (decimal)(dsLl1so.Tables[0].Rows[0]["TOTLC"]);
+                                row.Cells["Total"].Value = (decimal)((decimal)dsLl1so.Tables[0].Rows[0]["TOTLC"] * Convert.ToDecimal(row.Cells["ART_EXIST"].Value));
+                                row.Cells["CodPromo"].Value = dsLl1so.Tables[0].Rows[0]["CODPROM"];
+                                row.Cells["PromoEvaluada"].Value = "Si";
+                                PromoAplicada = true;
+                            }
                         }
 
                         // Verificar si el artículo está en la lista negra (códigos de articulos sin promoción)

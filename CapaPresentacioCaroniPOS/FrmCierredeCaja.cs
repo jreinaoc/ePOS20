@@ -1195,7 +1195,7 @@ namespace CapaVisual_Login
 
             if (Dvg_MarcajeAsistenciaPendiente.Columns.Contains(columnName) &&
         columnasControlar.Contains(columnName))
-            { 
+            {
                 DataGridViewCell cell = row.Cells[columnName];
 
                 // Si la celda tiene datos, hacerla de solo lectura y no seleccionable
@@ -1215,6 +1215,25 @@ namespace CapaVisual_Login
                 }
             }
         }
+
+
+        //        // Si la celda tiene datos, hacerla de solo lectura y no seleccionable
+        //        if (cell.Value != null && !string.IsNullOrWhiteSpace(cell.Value.ToString()))
+        //        {
+        //            cell.ReadOnly = true;
+        //            //cell.Style.BackColor = Color.LightGray;
+        //            //cell.Style.SelectionBackColor = Color.LightGray; // Mismo color cuando está seleccionada
+        //            //cell.Style.SelectionForeColor = Color.DarkGray;
+        //        }
+        //        else
+        //        {
+        //            cell.ReadOnly = false;
+        //            cell.Style.BackColor = Color.White;
+        //            //cell.Style.SelectionBackColor = SystemColors.Highlight; // Color normal de selección
+        //            //cell.Style.SelectionForeColor = SystemColors.HighlightText;
+        //        }
+        //    }
+        //}
 
         private void btn_Cancelar_pg2_Click(object sender, EventArgs e)
         {
@@ -1711,7 +1730,7 @@ namespace CapaVisual_Login
 
 
                     //SP Cierre de Caja
-                    if (_L_CierreCaja.CierreDeCaja(dgvCierredecaja, diaActivo, sucursal, txtBox_observaciones_pg4.Text, TB_USUARIO.COD_USR, mostrarError,command))
+                    if (_L_CierreCaja.CierreDeCaja(dgvCierredecaja, diaActivo, sucursal, txtBox_observaciones_pg4.Text, TB_USUARIO.COD_USR, mostrarError, command))
                     {
                         dtLogCierre.Rows.Add("Cierre de Caja", "✔ Completado");
                         dgvLogCierre.DataSource = dtLogCierre;
@@ -1906,12 +1925,27 @@ namespace CapaVisual_Login
 
                     _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "070", TB_USUARIO.COD_EMPLEADO, "Se generaron los ACC correctamente");
 
+                    int DiasAAgregar = 0;
+                    DayOfWeek dia = diaActivo.DayOfWeek;
+                    string TrabajaDomingos = _D_DetalleOrden.TB_PARAMETRO("TrabajaDomingo");
+                    if (dia == DayOfWeek.Saturday)
+                    {
+                        if (TrabajaDomingos == "1")
+                            DiasAAgregar = 1;
+                        else
+                            DiasAAgregar = 2;
+                    }
+                    else
+
+                    {
+                        DiasAAgregar = 1;
+                    }
 
                     FrmPrincipal frmPrincipal = this.ParentForm as FrmPrincipal;
 
                     if (frmPrincipal != null)
                     {
-                        frmPrincipal.ActualizarTextoLabel(diaActivo.AddDays(1).ToString("dd/MM/yyyy"));
+                        frmPrincipal.ActualizarTextoLabel(diaActivo.AddDays(DiasAAgregar).ToString("dd/MM/yyyy"));
                     }
 
                     //dtLogCierre.Rows.Add("Imprimiendo reportes", "...");

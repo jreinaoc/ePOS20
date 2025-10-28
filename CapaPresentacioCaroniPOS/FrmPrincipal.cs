@@ -219,6 +219,13 @@ namespace CapaVisual_Login
             DateTime currentDate = _D_Inicio.DiaActivo();
             string formattedDate = currentDate.ToString("yyyyMMdd");
 
+            if (DateTime.Now.Date < currentDate.Date)
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("El día activo es mayor a la fecha de hoy");
+                _FrmMensajes.ShowDialog();
+                return;
+            }
 
             //**** Se creo una nueva Funcion para validar la Asistencia 
             if (!_L_CierreCaja.BuscoAsistencia(DateTime.Now.ToString("yyyyMMdd"), mostrarPregunta, mostrarError))
@@ -746,8 +753,16 @@ namespace CapaVisual_Login
                 btnPromoCasada.BackColor = Color.White;
             }
 
-            //DateTime currentDate = _D_Inicio.DiaActivo();
-            //string formattedDate = currentDate.ToString("yyyyMMdd");
+            DateTime currentDate = _D_Inicio.DiaActivo();
+            string formattedDate = currentDate.ToString("yyyyMMdd");
+
+            if (DateTime.Now.Date < currentDate.Date)
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("El día activo es mayor a la fecha de hoy");
+                _FrmMensajes.ShowDialog();
+                return;
+            }
 
             //if (!_L_CierreCaja.ObtieneAsistenciaPendiente(formattedDate, TB_USUARIO.COD_USR))
             //{
@@ -756,8 +771,15 @@ namespace CapaVisual_Login
             //    _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
             //    _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
             //    _FrmMensajes.ShowDialog();
-            //    return;
-            //}
+            ////if (!_L_CierreCaja.ObtieneAsistenciaPendiente(formattedDate, TB_USUARIO.COD_USR))
+            ////{
+            ////    _FrmMensajes.co = 2;
+            ////    _FrmMensajes.avisomensaje("Debe marcar asistencia para el día activo");
+            ////    _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+            ////    _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+            ////    _FrmMensajes.ShowDialog();
+            ////    return;
+            ////}
 
             //**** Se creo una nueva Funcion para validar la Asistencia 
             if (!_L_CierreCaja.BuscoAsistencia(DateTime.Now.ToString("yyyyMMdd"), mostrarPregunta, mostrarError))
@@ -840,7 +862,7 @@ namespace CapaVisual_Login
             pnlUtilitarios.Visible = false;
             System.Drawing.Color col2 = System.Drawing.ColorTranslator.FromHtml("#257b78");
 
-
+            
 
             if (this.BackColor == col2)
             {
@@ -886,8 +908,15 @@ namespace CapaVisual_Login
 
             //if (TB_USUARIO.COD_EMPLEADO != "99999")
             //{
+            if (DateTime.Now.Date < currentDate.Date)
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("El día activo es mayor a la fecha de hoy");
+                _FrmMensajes.ShowDialog();
+                return;
+            }
 
-                if (StatusTasa != "SI" || StatusSec != "SI")
+            if (StatusTasa != "SI" || StatusSec != "SI")
                 {
                     _FrmMensajes.co = 2;
                     _FrmMensajes.avisomensaje("Debe actualizar la tasa de las monedas y activación de secuencia diaria");
@@ -1135,6 +1164,15 @@ namespace CapaVisual_Login
 
         private void btnTasaSec_Click(object sender, EventArgs e)
         {
+            DateTime currentDate = _D_Inicio.DiaActivo();
+            if (DateTime.Now.Date < currentDate.Date)
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("El día activo es mayor a la fecha de hoy");
+                _FrmMensajes.ShowDialog();
+                return;
+            }
+            
             pnlUtilitarios.Visible = false; 
             PnlListadoOrdenes.Controls.Clear();
             addformulario(_FrmTasaDia);

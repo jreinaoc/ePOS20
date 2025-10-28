@@ -1946,8 +1946,9 @@ namespace CapaVisual_Login
                 BotonesColor(true,"todos");
                 if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "09")
                 {
-                    bool deshabilitarBoton = Garantia || _D_DetalleOrden.TB_PARAMETROSPGE("PGEActivo") == "1";
-                    Btn_Tap3_Garantia.Enabled = !deshabilitarBoton;
+                    //bool deshabilitarBoton = Garantia || _D_DetalleOrden.TB_PARAMETROSPGE("PGEActivo") == "1";
+                    //Btn_Tap3_Garantia.Enabled = !deshabilitarBoton;
+                    Btn_Tap3_Garantia.Enabled = true;
                 }
             }
 
@@ -3397,8 +3398,9 @@ namespace CapaVisual_Login
             }
             else
             {
-                bool deshabilitarBoton = Garantia || _D_DetalleOrden.TB_PARAMETROSPGE("PGEActivo") == "1";
-                Btn_Tap3_Garantia.Enabled = !deshabilitarBoton;
+                //bool deshabilitarBoton = Garantia || _D_DetalleOrden.TB_PARAMETROSPGE("PGEActivo") == "1";
+                //Btn_Tap3_Garantia.Enabled = !deshabilitarBoton;
+                Btn_Tap3_Garantia.Enabled = Garantia ? false : true;
                 Btn_Tap3_CristalPropio.Enabled = true;
             }
 
@@ -6687,8 +6689,8 @@ namespace CapaVisual_Login
             cilindroColumn.DataPropertyName = "Cilindro";
             cilindroColumn.HeaderText = "Cilindro";
             cilindroColumn.DecimalPlaces = 2;
-            cilindroColumn.Minimum = -5.75M;
-            cilindroColumn.Maximum = +5.75M;
+            cilindroColumn.Minimum = -8M;
+            cilindroColumn.Maximum = +8M;
             cilindroColumn.Increment = 0.25M; //pase de 1 a 0.25 14/07/2025
 
             Dgv_Pnl2_conv.Columns.Add(cilindroColumn);

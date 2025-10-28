@@ -89,7 +89,7 @@ namespace CapaLogica.TasaDia_Logica
                                 if (DateTime.TryParseExact(FechaSecuencia, "dd/MM/yyyy hh:mm:ss tt", cultura, DateTimeStyles.None, out DateTime fechaConvertida))
                                 {
                                     // Ahora podemos hacer la comparación
-                                    if (Convert.ToDateTime(DateTimeTasa) < fechaConvertida)
+                                    if (DateTimeTasa.Date < fechaConvertida.Date)
                                     {
                                         mostrarError("Secuencia inválida");
                                     }
@@ -861,7 +861,7 @@ namespace CapaLogica.TasaDia_Logica
             decimal porcentajeMin = ultimaTasa - ((ultimaTasa * valorMinMaxTasa) / 100m);
             decimal porcentajeMax = ultimaTasa + ((ultimaTasa * valorMinMaxTasa) / 100m);
 
-            if (tasaActual < (porcentajeMin / 100m))
+            if (tasaActual < (porcentajeMin))
             {
                 validoDescrip = true;
                 validoLimiteCambio = true;

@@ -426,11 +426,12 @@ namespace CapaLogica.CierreCaja_Logica
                     {
                         if (dts.Tables[0] != null && dts.Tables[0].Rows[0]["REPORTE_DIA"].ToString() == "0")
                         {
-                            mostrarError("No hay reporte Z del día");
-                            return false;
+                            mostrarError("Recuerde generar el reporte Z del día");
+                            return true;
+                            //return false;
                         }
                         else
-                        return false;
+                            return false;
                     }
                 }
                 else
@@ -570,6 +571,22 @@ namespace CapaLogica.CierreCaja_Logica
                         dataSet.WriteXml(System.IO.Path.Combine(_xmlRutaDestino, ACCNombre + ".xml"), XmlWriteMode.IgnoreSchema);
 
                     }
+
+                    // Crear el DataSet y la tabla
+                    DataSet dsFecha = new DataSet("DocumentElement");
+                    DataTable table = new DataTable("FechaACC");
+                    table.Columns.Add("Fecha", typeof(DateTime));
+
+                    // Agregar una fila con la fecha actual
+                    DataRow row = table.NewRow();
+                    row["Fecha"] = DateTime.Now;
+                    table.Rows.Add(row);
+
+                    // Agregar la tabla al DataSet
+                    dsFecha.Tables.Add(table);
+
+                    // Guardar como XML
+                    dsFecha.WriteXml(System.IO.Path.Combine(_xmlRutaDestino, "ACC_FECHA" + ".xml"), XmlWriteMode.IgnoreSchema);
 
                     //string ruta = @"C:\Ruta\Donde\EstánLosXml";
                     ComprimirXmlEnCarpeta(_xmlRutaDestino, sucursal);
@@ -893,7 +910,7 @@ namespace CapaLogica.CierreCaja_Logica
                     // Despues de verificar la asistencia verifico el horario de descanso
                     if (OkAsis == true)
                     {
-                        if (VerificarTiempoMaxTrabajo(ds, mostrarError, sqlCom) == true) 
+                        if (VerificarTiempoMaxTrabajo(ds, mostrarError, sqlCom) == true)
                         {
                             return true;
                         }
