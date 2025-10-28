@@ -12739,6 +12739,8 @@ namespace CapaVisual_Login
             //codigo Claro 
             if (Formato_Claro)
             {
+                System.Drawing.Color col1 = System.Drawing.ColorTranslator.FromHtml("#ffffff");
+
                 this.BackColor = col1;
                 //Con esta funcion coloreamos el grid del color oscuro 
 
@@ -12747,7 +12749,6 @@ namespace CapaVisual_Login
                     C.ForeColor = Color.White;
 
                 }
-
 
                 tabPage1.BackColor = col2;
                 tabPage3.BackColor = col2;
@@ -12828,6 +12829,8 @@ namespace CapaVisual_Login
             //codigo oscuro
             else
             {
+                System.Drawing.Color col1 = System.Drawing.ColorTranslator.FromHtml("#ffffff");
+
                 // col1 = fondo general, col3 = fondo grid, col5 = header, col6 = panel label
                 this.BackColor = col1;
 
@@ -13860,6 +13863,9 @@ namespace CapaVisual_Login
 
                     if (_FrmMensajes.DialogResult == DialogResult.OK)
                     {
+                        //Pido Clave Autorizada
+                        _FrmClaveAutorizada.Nuevo_Parametro = true;
+                        _FrmClaveAutorizada.Id_Rol = "015";
                         _FrmClaveAutorizada.ShowDialog();
 
                         if (_FrmClaveAutorizada.DialogResult == DialogResult.OK && _FrmClaveAutorizada.ClaveCorrecta)
