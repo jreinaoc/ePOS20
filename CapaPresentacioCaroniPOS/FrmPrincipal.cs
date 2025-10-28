@@ -228,7 +228,7 @@ namespace CapaVisual_Login
             }
 
             //**** Se creo una nueva Funcion para validar la Asistencia 
-            if (!_L_CierreCaja.BuscoAsistencia(DateTime.Now.ToString("yyyyMMdd"), mostrarPregunta, mostrarError))
+            if (!_L_CierreCaja.BuscoAsistencia3(DateTime.Now.ToString("yyyyMMdd"), mostrarPregunta, mostrarError))
                 return;
 
             //if (!ValidarConfirmacionDivisas())
