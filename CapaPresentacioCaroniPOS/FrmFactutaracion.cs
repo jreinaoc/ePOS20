@@ -23,6 +23,7 @@ using CapaLogica.ListaOrden_Logica;
 using System.Data.SqlClient;
 using CapaDatos.Conexion;
 using System.Threading;
+using CapaLogica.CierreCaja_Logica;
 
 namespace CapaVisual_Login
 {
@@ -64,6 +65,7 @@ namespace CapaVisual_Login
         D_Dana _D_Dana = new D_Dana();
         L_DanaService _L_DanaService = new L_DanaService();
         FrmMostrarRep _FrmMostrarRep = new FrmMostrarRep();
+        private L_CierreCaja _L_CierreCaja = new L_CierreCaja();
 
         D_Inicio _D_Inicio = new D_Inicio();
         private L_Facturacion _L_Facturacion = new L_Facturacion();
@@ -181,6 +183,15 @@ namespace CapaVisual_Login
             }
         }
 
+        private DialogResult mostrarPregunta(string mensaje, string titulo)
+        {
+            return FrmMensajes.MostrarPregunta(mensaje, titulo);
+        }
+
+        private void mostrarError(string mensaje)
+        {
+            FrmMensajes.MostrarError(mensaje);
+        }
 
         private void btnIngresar_Click(object sender, EventArgs e)
         {
@@ -214,6 +225,10 @@ namespace CapaVisual_Login
 
                 }
             }
+
+            //**** Se creo una nueva Funcion para validar la Asistencia 
+            if (!_L_CierreCaja.BuscoAsistencia(DateTime.Now.ToString("yyyyMMdd"), mostrarPregunta, mostrarError))
+                return;
 
             //validar si es factura manual 
 

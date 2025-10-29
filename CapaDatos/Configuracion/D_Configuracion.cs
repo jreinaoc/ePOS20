@@ -178,14 +178,21 @@ namespace CapaDatos.Configuracion
             string SucursalActual = dt.Rows[0]["Valor"].ToString();
             return SucursalActual;
 
-
-
-
-
-
         }
 
+        public DataTable ObtieneUltimaVersionScript()
+        {
+            string CodSuc = Sucursal();
 
+            SqlCommand cmd = new SqlCommand("SP_CPOS_ObtieneUltimoScript", cn.LeerCadena());
+
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            DataTable dt = new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            da.Fill(dt);
+            return (dt);
+        }
     }
 }
 

@@ -326,7 +326,7 @@ namespace CapaVisual_Login
         private void ConfigurarDataGridViewOrdenes()
         {
             // Configuración para la visualización de órdenes disponibles
-            Dgv_ListOsCasadas.AutoGenerateColumns = false;
+            Dgv_ListOsCasadas.AutoGenerateColumns = true;
             // No puedad cambiar el tamaño de las columnas
             Dgv_ListOsCasadas.AllowUserToResizeColumns = false;
 
@@ -347,7 +347,7 @@ namespace CapaVisual_Login
             if (Dgv_ListOsCasadas.Columns.Contains("Orden"))
             {
                 Dgv_ListOsCasadas.Columns["Orden"].HeaderText = "N° Orden";
-                Dgv_ListOsCasadas.Columns["Orden"].Width = 70;
+                Dgv_ListOsCasadas.Columns["Orden"].Width = 85;
                 Dgv_ListOsCasadas.Columns["Orden"].ReadOnly = true;
                 Dgv_ListOsCasadas.Columns["Orden"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             }
@@ -355,7 +355,7 @@ namespace CapaVisual_Login
             if (Dgv_ListOsCasadas.Columns.Contains("Cedula"))
             {
                 Dgv_ListOsCasadas.Columns["Cedula"].HeaderText = "Cedula";
-                Dgv_ListOsCasadas.Columns["Cedula"].Width = 80;
+                Dgv_ListOsCasadas.Columns["Cedula"].Width = 95;
                 Dgv_ListOsCasadas.Columns["Cedula"].ReadOnly = true;
                 Dgv_ListOsCasadas.Columns["Cedula"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             }
@@ -363,7 +363,7 @@ namespace CapaVisual_Login
             if (Dgv_ListOsCasadas.Columns.Contains("Cliente"))
             {
                 Dgv_ListOsCasadas.Columns["Cliente"].HeaderText = "Cliente";
-                Dgv_ListOsCasadas.Columns["Cliente"].Width = 120;
+                Dgv_ListOsCasadas.Columns["Cliente"].Width = 170;
                 Dgv_ListOsCasadas.Columns["Cliente"].ReadOnly = true;
                 Dgv_ListOsCasadas.Columns["Cliente"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             }
@@ -371,7 +371,7 @@ namespace CapaVisual_Login
             if (Dgv_ListOsCasadas.Columns.Contains("Vendedor"))
             {
                 Dgv_ListOsCasadas.Columns["Vendedor"].HeaderText = "Vendedor";
-                Dgv_ListOsCasadas.Columns["Vendedor"].Width = 70;
+                Dgv_ListOsCasadas.Columns["Vendedor"].Width = 80;
                 Dgv_ListOsCasadas.Columns["Vendedor"].ReadOnly = true;
                 Dgv_ListOsCasadas.Columns["Vendedor"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             }
@@ -379,7 +379,7 @@ namespace CapaVisual_Login
             if (Dgv_ListOsCasadas.Columns.Contains("MontoTotal"))
             {
                 Dgv_ListOsCasadas.Columns["MontoTotal"].HeaderText = "Monto Total";
-                Dgv_ListOsCasadas.Columns["MontoTotal"].Width = 80;
+                Dgv_ListOsCasadas.Columns["MontoTotal"].Width = 90;
                 Dgv_ListOsCasadas.Columns["MontoTotal"].ReadOnly = true;
                 Dgv_ListOsCasadas.Columns["MontoTotal"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
                 Dgv_ListOsCasadas.Columns["MontoTotal"].DefaultCellStyle.Format = "N2"; // Formato de 2 decimales y unidades de mil
@@ -388,7 +388,7 @@ namespace CapaVisual_Login
             if (Dgv_ListOsCasadas.Columns.Contains("Saldo"))
             {
                 Dgv_ListOsCasadas.Columns["Saldo"].HeaderText = "Saldo";
-                Dgv_ListOsCasadas.Columns["Saldo"].Width = 80;
+                Dgv_ListOsCasadas.Columns["Saldo"].Width = 90;
                 Dgv_ListOsCasadas.Columns["Saldo"].ReadOnly = true;
                 // Dgv_ListOsCasadas.Columns["Saldo"].Visible = false;
                 Dgv_ListOsCasadas.Columns["Saldo"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
@@ -414,7 +414,7 @@ namespace CapaVisual_Login
             if (Dgv_ListOsCasadas.Columns.Contains("PROMOCION"))
             {
                 Dgv_ListOsCasadas.Columns["PROMOCION"].HeaderText = "PROMOCION";
-                Dgv_ListOsCasadas.Columns["PROMOCION"].Width = 80;
+                Dgv_ListOsCasadas.Columns["PROMOCION"].Width = 95;
                 Dgv_ListOsCasadas.Columns["PROMOCION"].ReadOnly = true;
                 Dgv_ListOsCasadas.Columns["PROMOCION"].Visible = false;
             }
@@ -526,6 +526,66 @@ namespace CapaVisual_Login
             {
                 ProcesarSeleccionOrden(e.RowIndex);
             }
+        }
+
+
+        public void FormatoOsc(System.Drawing.Color col1, System.Drawing.Color col3, System.Drawing.Color col5, System.Drawing.Color col6, System.Drawing.Color col4)
+        {
+            // col1 = fondo general, col3 = fondo grid, col5 = header, col6 = panel label
+            this.BackColor = col1;
+
+            // Ajustar texto de controles del form (si lo quieres global)
+            foreach (Control C in this.Controls)
+            {
+                // Evitar cambiar el ForeColor del grid directo aquí (lo ajustamos abajo)
+                if (!(C is DataGridView))
+                    C.ForeColor = Color.Black;
+            }
+
+            Lbl_Tap1_DatosPersonal.BackColor = col6;
+            Lbl_Tap1_DatosPersonal.ForeColor = col1;
+
+            // Importante: evitar que el tema de Windows sobrescriba los headers
+            Dgv_ListOsCasadas.EnableHeadersVisualStyles = false;
+
+            // Colores base
+            Dgv_ListOsCasadas.BackgroundColor = col3;
+            Dgv_ListOsCasadas.GridColor = col6;
+            Dgv_ListOsCasadas.DefaultCellStyle.BackColor = col3;
+            Dgv_ListOsCasadas.ColumnHeadersDefaultCellStyle.BackColor = col4;
+            Dgv_ListOsCasadas.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            Dgv_ListOsCasadas.DefaultCellStyle.ForeColor = Color.White;
+
+            // Labels y botones
+            Lbl_Promociones.BackColor = col5;
+            Lbl_Promociones.ForeColor = col1;
+
+    }
+
+        public void FormatoClaro(System.Drawing.Color col1, System.Drawing.Color col3, System.Drawing.Color col5)
+        {
+            this.BackColor = col1;
+            //Con esta funcion coloreamos el grid del color oscuro 
+
+            foreach (Control C in this.Controls)
+            {
+                C.ForeColor = Color.White;
+
+            }
+
+            Lbl_Tap1_DatosPersonal.BackColor = col3;
+            Lbl_Tap1_DatosPersonal.ForeColor = Color.FromArgb(30, 30, 30);
+
+            Dgv_ListOsCasadas.BackgroundColor = col1;
+            Dgv_ListOsCasadas.DefaultCellStyle.BackColor = col1;
+            Dgv_ListOsCasadas.ColumnHeadersDefaultCellStyle.BackColor = col3;
+            Dgv_ListOsCasadas.ColumnHeadersDefaultCellStyle.ForeColor = col1;
+            Dgv_ListOsCasadas.DefaultCellStyle.ForeColor = Color.Black;
+            Dgv_ListOsCasadas.ColumnHeadersDefaultCellStyle.BackColor = col3;
+
+            Lbl_Promociones.BackColor = col1;
+            Lbl_Promociones.ForeColor = Color.FromArgb(30, 30, 30);
+
         }
 
         private void ProcesarSeleccionOrden(int rowIndex)

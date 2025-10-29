@@ -378,15 +378,17 @@ namespace CapaVisual_Login
             // 2. Obtener datos del reporte actual
             string numZ = objVmax.RetornoMF.uiUltNumZ.ToString();
 
-            if (resp != 0 ? false : true && !string.IsNullOrEmpty(numZ))
-            {
-            }
-            else
-            {
-                objVmax.CerrarPuerto();
-                mostrarError("Hubo problemas leyendo los datos del último reporte Z desde la impresora fiscal.");
-                return;
-            }
+            //mostrarError("Nro Reporte Z: " + numZ);
+
+            //if (!string.IsNullOrEmpty(numZ))
+            //{
+            //}
+            //else
+            //{
+            //    objVmax.CerrarPuerto();
+            //    mostrarError("Hubo problemas leyendo los datos del último reporte Z desde la impresora fiscal.");
+            //    return;
+            //}
 
             string serialImpresora = objVmax.RetornoMF.sSerial;
             string cantidadFacturas = objVmax.RetornoMF.uiTotalFacturasDiarias.ToString();
@@ -525,94 +527,211 @@ namespace CapaVisual_Login
       
         }
 
-        //private bool CapturaReportesZFaltantes(ref bool bErroresAlGuardar = false)
-        //{
-        //    try
-        //    {
-        //        uint Resp;
-        //        int x, IntentosDeLeer = 0;
-        //        string UltimoRepZ;
-        //        Resp=objVmax.AbrirPuerto(Convert.ToString(glbPuertoCOM));
-        //        Resp = objVmax.ObtenerReporteInformativo();
-        //        string SerialImpresora = objVmax.RetornoMI.sSerial;
-        //        UltimoRepZ = objVmax.RetornoMF.uiUltNumZ.ToString();
-        //        Resp = objVmax.CerrarPuerto();
+        private void CapturaReportesZFaltantes()
+        {
+            //try
+            //{
+            uint resp;
+            resp = objVmax.AbrirPuerto(Convert.ToString(glbPuertoCOM));
 
-        //        int nUltimoRep = Convert.ToInt32(UltimoRepZ);
-        //        DataTable dtRepzFalt = _D_TasaSecuencia.ExecuteGetReportesZProcedure(_D_Inicio.Sucursal(), SerialImpresora, nUltimoRep);
+            //string fecha = DateTime.Now.ToString("MM/dd/yyyy");
 
-        //        if (dtRepzFalt != null)
-        //        {
-        //            barra.Minimum = 0;
-        //            barra.Maximum = dtRepzFalt.Rows.Count;
-        //            barra.Visible = true;
+            //resp = objVmax.ReporteZ();
 
-        //            while (Resp != 0 ? false : true == false)
-        //            {
-        //                Resp = objVmax.LeeZ("");
-        //                IntentosDeLeer++;
+            // Esperar 18 segundos para el cierre fiscal
+            Thread.Sleep(18000);
 
-        //                if (IntentosDeLeer == 100)
-        //                {
-        //                    barra.Visible = false;
-        //                    return false;
-        //                }
-        //            }
 
-        //            foreach (DataRow Fila in dtRepzFalt.Rows)
-        //            {
-        //                string NumRepZFalt = Convert.ToInt32(Fila["Numero"].ToString()).ToString();
+            // 1. Obtener el reporte fiscal actual
+            ushort resultado = objVmax.ObtenerReporteMf("");
 
-        //                Resp = objVmax.LeeZ(NumRepZFalt);
-        //                if (Resp && objVmax.rNumZ != null)
-        //                {
-        //                    string NumZ = objVmax.rNumZ;
-        //                    string BaseEx = objVmax.rBaseE;
-        //                    string BaseGr = objVmax.rBaseG;
-        //                    string BaseGrA = objVmax.rBaseA;
-        //                    string BaseGrR = objVmax.rBaseR;
-        //                    string Alicuota = objVmax.rTasaG;
-        //                    string AlicuotaA = objVmax.rTasaA;
-        //                    string AlicuotaR = objVmax.rTasaR;
-        //                    string UltimaFact = objVmax.rUltimaFacturaZ;
-        //                    string SerialZ = objVmax.rSerialZ;
-        //                    string totalFact = objVmax.rTotalFacturas;
-        //                    string FechaHoraRep = objVmax.rFechaHoraZ;
-        //                    string totalNC = objVmax.rTotalNotasCredito;
-        //                    string NotaExento = objVmax.rDevE;
-        //                    string NotaGravable = objVmax.rDevG;
-        //                    string NotaGravA = objVmax.rDevA;
-        //                    string NotaGravR = objVmax.rDevR;
+            // 2. Obtener datos del reporte actual
+            string UltnumZ = objVmax.RetornoMF.uiUltNumZ.ToString();
 
-        //                    string FechaRepAnterior;
-        //                    objVmax.LeeZ(Convert.ToInt32(NumZ) - 1);
-        //                    FechaRepAnterior = objVmax.rFechaHoraZ;
+            string serialImpresora = objVmax.RetornoMF.sSerial;
 
-        //                    if (!_D_TasaSecuencia.GuadarReportesZ(FechaRepAnterior, FechaHoraRep, NumZ, SerialZ, UltimaFact,
-        //                        totalFact, totalNC, BaseEx, BaseGr, Alicuota, NotaExento, NotaGravable,
-        //                         _D_Inicio.Sucursal(), TB_USUARIO.COD_EMPLEADO, "1", "", BaseGrA, NotaGravA, AlicuotaA,
-        //                        BaseGrR, NotaGravR, AlicuotaR))
-        //                    {
-        //                        bErroresAlGuardar = true;
-        //                    }
-        //                    barra.Value = barra.Value + 1;
-        //                }
-        //            }
-        //        }
+            int nUltimoRep = Convert.ToInt32(UltnumZ);
+            DataTable dtRepzFalt = _D_TasaSecuencia.ExecuteGetReportesZProcedure(_D_Inicio.Sucursal(), serialImpresora, nUltimoRep);
 
-        //        objVmax.CerrarPuerto();
-        //        return true;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        mostrarError($"Error en la función Reporte Z: {ex.Message}");
-        //        return false;
-        //    }
-        //    finally
-        //    {
-        //        barra.Visible = false;
-        //    }
-        //}
+            if (dtRepzFalt != null)
+            {
+                //while (resp != 0 ? false : true == false)
+                //{
+                //    resp = objVmax.ReporteZ();
+                //    IntentosDeLeer++;
+
+                //    if (IntentosDeLeer == 100)
+                //    {
+                //        barra.Visible = false;
+                //        return false;
+                //    }
+                //}
+
+                foreach (DataRow Fila in dtRepzFalt.Rows)
+                {
+                    string NumRepZFalt = Convert.ToInt32(Fila["Numero"].ToString()).ToString();
+
+                    resp = objVmax.ObtenerReporteMf(NumRepZFalt);
+
+                    string numZ = objVmax.RetornoMF.uiUltNumZ.ToString();
+                    if (!string.IsNullOrEmpty(numZ))
+                    {
+                    }
+                    else
+                    {
+                        objVmax.CerrarPuerto();
+                        mostrarError("Hubo problemas leyendo los datos del último reporte Z desde la impresora fiscal.");
+                        return;
+                    }
+
+                    serialImpresora = objVmax.RetornoMF.sSerial;
+                    string cantidadFacturas = objVmax.RetornoMF.uiTotalFacturasDiarias.ToString();
+                    string cantidadNC = objVmax.RetornoMF.uiTotalNCDiarias.ToString();
+                    string ventasExentas = objVmax.RetornoMF.uiTotVenta_E.ToString();
+                    string ventasGravadas = objVmax.RetornoMF.uiTotVenta_G.ToString();
+                    string alicuota = objVmax.RetornoMF.uiAlicuota_G.ToString();
+                    string notaExento = objVmax.RetornoMF.uiTotDev_E.ToString();
+                    string notaGravable = objVmax.RetornoMF.uiTotDev_G.ToString();
+                    string fechaHoraReporte = objVmax.RetornoMF.sFechaHoraUltNumZ;
+
+                    // Datos adicionales para impuestos A y R
+                    string ventasGravA = objVmax.RetornoMF.uiTotVenta_A.ToString();
+                    string notaGravA = objVmax.RetornoMF.uiTotDev_A.ToString();
+                    string alicuotaA = objVmax.RetornoMF.uiAlicuota_A.ToString();
+                    string ventasGravR = objVmax.RetornoMF.uiTotVenta_R.ToString();
+                    string notaGravR = objVmax.RetornoMF.uiTotDev_R.ToString();
+                    string alicuotaR = objVmax.RetornoMF.uiAlicuota_R.ToString();
+
+                    // 3. Obtener el reporte anterior para la fecha
+                    ushort numZAnterior = (ushort)(objVmax.RetornoMF.uiUltNumZ - 1);
+                    objVmax.ObtenerReporteMf(numZAnterior.ToString());
+                    string fechaHoraReporteAnterior = objVmax.RetornoMF.sFechaHoraUltNumZ;
+                    // Ultimo numero de Factura
+                    resp = objVmax.ObtenerContadores();
+                    string ultimaFactura = objVmax.RetornoContadores.uiUltFacturaAbierta.ToString();
+                    objVmax.CerrarPuerto();
+
+                    // 4. Obtener información de usuario y sucursal (debes tener estas variables)
+                    string codSucursal = _D_Inicio.Sucursal();
+                    string usercrea = TB_USUARIO.COD_USR;
+                    string fechaMod = "";
+                    string usermod = "";
+
+                    switch (ultimaFactura.Length)
+                    {
+                        case 7:
+                            {
+                                ultimaFactura = ultimaFactura;
+                                break;
+                            }
+
+                        case 6:
+                            {
+                                ultimaFactura = "0" + ultimaFactura;
+                                break;
+                            }
+
+                        case 5:
+                            {
+                                ultimaFactura = "00" + ultimaFactura;
+                                break;
+                            }
+
+                        case 4:
+                            {
+                                ultimaFactura = "000" + ultimaFactura;
+                                break;
+                            }
+
+                        case 3:
+                            {
+                                ultimaFactura = "0000" + ultimaFactura;
+                                break;
+                            }
+
+                        case 2:
+                            {
+                                ultimaFactura = "00000" + ultimaFactura;
+                                break;
+                            }
+
+                        case 1:
+                            {
+                                ultimaFactura = "000000" + ultimaFactura;
+                                break;
+                            }
+                    }
+
+                    switch (numZ.Length)
+                    {
+                        case 4:
+                            {
+                                numZ = numZ;
+                                break;
+                            }
+
+                        case 3:
+                            {
+                                numZ = "0" + numZ;
+                                break;
+                            }
+
+                        case 2:
+                            {
+                                numZ = "00" + numZ;
+                                break;
+                            }
+
+                        case 1:
+                            {
+                                numZ = "000" + numZ;
+                                break;
+                            }
+                    }
+
+
+                    // 5. Llamar al método GuardarReporteZ con todos los parámetros
+                    DataSet dsResultado = _D_TasaSecuencia.GuardarReporteZ(
+                        FechaHoraReporteAnterior: fechaHoraReporteAnterior,
+                        FechaHoraReporte: fechaHoraReporte,
+                        NumReporteZ: numZ,
+                        SerialImpresora: serialImpresora,
+                        UltimaFactura: ultimaFactura,
+                        CantidadFacturas: cantidadFacturas,
+                        CantidadNC: cantidadNC,
+                        VentasExentas: ventasExentas,
+                        VentasGravadas: ventasGravadas,
+                        Alicuota: alicuota,
+                        NotaExento: notaExento,
+                        NotaGravable: notaGravable,
+                        codSucursal: codSucursal,
+                        usercrea: usercrea,
+                        FechaMod: fechaMod,
+                        usermod: usermod,
+                        VentasGravA: ventasGravA,
+                        NotaGravA: notaGravA,
+                        AlicuotaA: alicuotaA,
+                        VentasGravR: ventasGravR,
+                        NotaGravR: notaGravR,
+                        AlicuotaR: alicuotaR);
+
+                    objVmax.CerrarPuerto();
+                }
+            }
+
+            objVmax.CerrarPuerto();
+
+            //}
+            //catch (Exception ex)
+            //{
+            //    mostrarError($"Error en la función Reporte Z: {ex.Message}");
+            //    return;
+            //}
+            //finally
+            //{
+            //   //barra.Visible = false;
+            //}
+        }
 
         private void btn_pg5_reporteX_Click(object sender, EventArgs e)
         {
@@ -647,6 +766,11 @@ namespace CapaVisual_Login
         {
             //this.Hide();
             _onCancelarSolicitado?.Invoke();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            CapturaReportesZFaltantes();
         }
     }
  }

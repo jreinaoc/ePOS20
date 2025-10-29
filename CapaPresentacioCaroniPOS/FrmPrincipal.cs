@@ -219,9 +219,16 @@ namespace CapaVisual_Login
             DateTime currentDate = _D_Inicio.DiaActivo();
             string formattedDate = currentDate.ToString("yyyyMMdd");
 
+            if (DateTime.Now.Date < currentDate.Date)
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("El día activo es mayor a la fecha de hoy");
+                _FrmMensajes.ShowDialog();
+                return;
+            }
 
             //**** Se creo una nueva Funcion para validar la Asistencia 
-            if (!_L_CierreCaja.BuscoAsistencia(DateTime.Now.ToString("yyyyMMdd"), mostrarPregunta, mostrarError))
+            if (!_L_CierreCaja.BuscoAsistencia3(DateTime.Now.ToString("yyyyMMdd"), mostrarPregunta, mostrarError))
                 return;
 
             //if (!ValidarConfirmacionDivisas())
@@ -325,7 +332,7 @@ namespace CapaVisual_Login
             System.Drawing.Color col2 = System.Drawing.ColorTranslator.FromHtml("#257b78");
             GbxMenuPrincipal.BackColor = col2;
             System.Drawing.Color col4 = System.Drawing.ColorTranslator.FromHtml("#2f6b64");
-            System.Drawing.Color col3 = System.Drawing.ColorTranslator.FromHtml(" #07a79b");
+            System.Drawing.Color col3 = System.Drawing.ColorTranslator.FromHtml("#07a79b");
             //col 5 es Noble Black, col6 es Nordic Noir
             System.Drawing.Color col5 = System.Drawing.ColorTranslator.FromHtml("#1c2422");
             System.Drawing.Color col6 = System.Drawing.ColorTranslator.FromHtml("#003536");
@@ -339,6 +346,7 @@ namespace CapaVisual_Login
             //_FrmCargarOrden.FormatoDataGrid_Oscuro_Dgv_Tap3_Articulo(col2, col3, col4);
             _FrmCierreDeCaja.FormatoOsc(col1, col3, col5, col6);
             _FrmCargarOrden.FormatoOscuro(col2, col3, col4);
+            _FrmPromoCasada.FormatoOsc(col1, col3, col2, col6, col4);
 
             BtnListadoOrdenes.BackColor = col2;
             BtnInicio.BackColor = col2;
@@ -347,6 +355,8 @@ namespace CapaVisual_Login
             btnListaFactura.BackColor = col2;
             btnPagoMovil.BackColor = col2;
             btnCargarOrdenes.BackColor = col2;
+            btnUtilitarios.BackColor = col2;
+            btnPromoCasada.BackColor = col2;
 
             BtnInicio.ForeColor = Color.White;
             BtnListadoOrdenes.ForeColor = Color.White;
@@ -359,7 +369,7 @@ namespace CapaVisual_Login
             BackColor = col2;
             button2.ForeColor = Color.White;
             btnUtilitarios.ForeColor = Color.White;
-            
+            btnPromoCasada.ForeColor = Color.White;
 
             //FrmListaOrdenes frmListaOrdenes = new FrmListaOrdenes();
             //frmListaOrdenes.BackColor = col2;
@@ -389,6 +399,11 @@ namespace CapaVisual_Login
             PicBoxConfigOsc.Visible = true;
            // pictBoxPagoMovilOsc.Visible = true;
             pictureBox2.Visible = true;
+
+            pictureBox6.Visible = true;
+            pictureBox5.Visible = false;
+            pictBoxUtilitarioOscuro.Visible = true;
+            pictureBox3.Visible = false;
 
             string PMAutomatico = _D_DetalleOrden.TB_PARAMETRO("PMAutomatico");
             if (Envio.validarPermisos() == true && PMAutomatico == "1")
@@ -424,7 +439,7 @@ namespace CapaVisual_Login
             btnListaFactura.BackColor = Color.White;
             btnPagoMovil.BackColor = Color.White;
             btnCargarOrdenes.BackColor = Color.White;
-
+            btnPromoCasada.ForeColor = Color.Black;
             button2.ForeColor = Color.Black;
             BtnInicio.ForeColor = Color.Black;
             BtnListadoOrdenes.ForeColor = Color.Black;
@@ -435,7 +450,8 @@ namespace CapaVisual_Login
             btnPagoMovil.ForeColor = Color.Black;
             btnCargarOrdenes.ForeColor = Color.Black;
             btnUtilitarios.ForeColor = Color.Black;
-     
+            btnUtilitarios.BackColor = Color.White;
+            btnPromoCasada.BackColor = Color.White;
 
             _FrmInicio.ConfigClara(col1, col3);
             _FrmListaOrdenes.FormatoDataGrid1(col1, col3);
@@ -445,7 +461,7 @@ namespace CapaVisual_Login
             _FrmCargarOrden.FormatoDataGrid_Claro_Dgv_Tap3_Articulo(col1, col3);
             _FrmCargarOrden.FormatoOscuro(col1, col3, col1);
             _FrmCierreDeCaja.FormatoClaro(col1, col3, col5);
-
+            _FrmPromoCasada.FormatoClaro(col1, col3, col5);
 
             //_FrmListaOrdenes.EstructuraGrid();
             foreach (var form in Application.OpenForms.Cast<Form>())
@@ -475,6 +491,10 @@ namespace CapaVisual_Login
             PicBoxConfigOsc.Visible = false;
             //pictBoxPagoMovil.Visible = false;
             pictureBox2.Visible = false;
+            pictureBox6.Visible = false;  
+            pictureBox5.Visible = true;
+            pictureBox3.Visible = true;
+            pictBoxUtilitarioOscuro.Visible = false;
 
             string PMAutomatico = _D_DetalleOrden.TB_PARAMETRO("PMAutomatico");
             if (Envio.validarPermisos() == true && PMAutomatico == "1")
@@ -504,6 +524,8 @@ namespace CapaVisual_Login
                 btnPagoMovil.BackColor = col2;
                 btnListaFactura.BackColor = col2;
                 btnCargarOrdenes.BackColor = col2;
+                btnUtilitarios.BackColor = col2;
+                btnPromoCasada.BackColor = col2;
             }
             else
             {
@@ -624,6 +646,7 @@ namespace CapaVisual_Login
                 btnPagoMovil.BackColor = col2;
                 btnListaFactura.BackColor = col2;
                 btnCargarOrdenes.BackColor = col2;
+                btnUtilitarios.BackColor = col2;
             }
             else
             {
@@ -715,7 +738,7 @@ namespace CapaVisual_Login
                 btnClienteEspera.BackColor = col2;
                 btnListaFactura.BackColor = col2;
                 btnCargarOrdenes.BackColor = col2;
-
+                btnUtilitarios.BackColor = col2;
             }
             else
             {
@@ -733,15 +756,34 @@ namespace CapaVisual_Login
             DateTime currentDate = _D_Inicio.DiaActivo();
             string formattedDate = currentDate.ToString("yyyyMMdd");
 
-            if (!_L_CierreCaja.ObtieneAsistenciaPendiente(formattedDate, TB_USUARIO.COD_USR))
+            if (DateTime.Now.Date < currentDate.Date)
             {
                 _FrmMensajes.co = 2;
-                _FrmMensajes.avisomensaje("Debe marcar asistencia para el día activo");
-                _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
-                _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                _FrmMensajes.avisomensaje("El día activo es mayor a la fecha de hoy");
                 _FrmMensajes.ShowDialog();
                 return;
             }
+
+            //if (!_L_CierreCaja.ObtieneAsistenciaPendiente(formattedDate, TB_USUARIO.COD_USR))
+            //{
+            //    _FrmMensajes.co = 2;
+            //    _FrmMensajes.avisomensaje("Debe marcar asistencia para el día activo");
+            //    _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+            //    _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+            //    _FrmMensajes.ShowDialog();
+            ////if (!_L_CierreCaja.ObtieneAsistenciaPendiente(formattedDate, TB_USUARIO.COD_USR))
+            ////{
+            ////    _FrmMensajes.co = 2;
+            ////    _FrmMensajes.avisomensaje("Debe marcar asistencia para el día activo");
+            ////    _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+            ////    _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+            ////    _FrmMensajes.ShowDialog();
+            ////    return;
+            ////}
+
+            //**** Se creo una nueva Funcion para validar la Asistencia 
+            if (!_L_CierreCaja.BuscoAsistencia(DateTime.Now.ToString("yyyyMMdd"), mostrarPregunta, mostrarError))
+                return;
 
             if (menuUtilitariosExpandido)
                 ContraerMenuUtilitarios();
@@ -758,42 +800,52 @@ namespace CapaVisual_Login
             pnlUtilitarios.Visible = false; 
             System.Drawing.Color col2 = System.Drawing.ColorTranslator.FromHtml("#257b78");
 
-            DateTime currentDate = _D_Inicio.DiaActivo();
-            string formattedDate = currentDate.ToString("yyyyMMdd");
+            //DateTime currentDate = _D_Inicio.DiaActivo();
+            //string formattedDate = currentDate.ToString("yyyyMMdd");
 
-            if (!_L_CierreCaja.ObtieneAsistenciaPendiente(formattedDate, TB_USUARIO.COD_USR))
-            {
-                _FrmMensajes.co = 2;
-                _FrmMensajes.avisomensaje("Debe marcar asistencia para el día activo");
-                _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
-                _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
-                _FrmMensajes.ShowDialog();
-                return;
-            }
+            //if (!_L_CierreCaja.ObtieneAsistenciaPendiente(formattedDate, TB_USUARIO.COD_USR))
+            //{
+            //    _FrmMensajes.co = 2;
+            //    _FrmMensajes.avisomensaje("Debe marcar asistencia para el día activo");
+            //    _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+            //    _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+            //    _FrmMensajes.ShowDialog();
+            //    return;
+            //}
 
             if (this.BackColor == col2)
             {
                 btnListaFactura.BackColor = Color.FromArgb(4, 185, 166);
-                BtnListadoOrdenes.BackColor = col2;
+                btnconfiguracion.BackColor = Color.FromArgb(4, 185, 166);
                 BtnInicio.BackColor = col2;
-                btnconfiguracion.BackColor = col2;
+                BtnListadoOrdenes.BackColor = col2;
                 btnClienteEspera.BackColor = col2;
+                btnPagoMovil.BackColor = col2;
+                btnListaFactura.BackColor = col2;
                 btnCargarOrdenes.BackColor = col2;
+                btnUtilitarios.BackColor = col2;
+                btnPromoCasada.BackColor = col2;
 
 
             }
             else
             {
                 btnListaFactura.BackColor = Color.FromArgb(4, 185, 166);
+                BtnInicio.BackColor = Color.White;
                 BtnListadoOrdenes.BackColor = Color.White;
-                btnconfiguracion.BackColor = Color.White;
                 btnClienteEspera.BackColor = Color.White;
-                BtnListadoOrdenes.BackColor = Color.White;
                 btnPagoMovil.BackColor = Color.White;
+                btnListaFactura.BackColor = Color.White;
                 btnCargarOrdenes.BackColor = Color.White;
                 btnUtilitarios.BackColor = Color.White;
                 btnPromoCasada.BackColor = Color.White;
             }
+
+
+            //**** Se creo una nueva Funcion para validar la Asistencia 
+            if (!_L_CierreCaja.BuscoAsistencia(DateTime.Now.ToString("yyyyMMdd"), mostrarPregunta, mostrarError))
+                return;
+
 
             if (menuUtilitariosExpandido)
                 ContraerMenuUtilitarios();
@@ -810,7 +862,7 @@ namespace CapaVisual_Login
             pnlUtilitarios.Visible = false;
             System.Drawing.Color col2 = System.Drawing.ColorTranslator.FromHtml("#257b78");
 
-
+            
 
             if (this.BackColor == col2)
             {
@@ -821,7 +873,7 @@ namespace CapaVisual_Login
                 btnClienteEspera.BackColor = col2;
                 btnPagoMovil.BackColor = col2;
                 btnListaFactura.BackColor = col2;
-
+                btnUtilitarios.BackColor = col2;
             }
             else
             {
@@ -856,8 +908,15 @@ namespace CapaVisual_Login
 
             //if (TB_USUARIO.COD_EMPLEADO != "99999")
             //{
+            if (DateTime.Now.Date < currentDate.Date)
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("El día activo es mayor a la fecha de hoy");
+                _FrmMensajes.ShowDialog();
+                return;
+            }
 
-                if (StatusTasa != "SI" || StatusSec != "SI")
+            if (StatusTasa != "SI" || StatusSec != "SI")
                 {
                     _FrmMensajes.co = 2;
                     _FrmMensajes.avisomensaje("Debe actualizar la tasa de las monedas y activación de secuencia diaria");
@@ -942,6 +1001,7 @@ namespace CapaVisual_Login
                 btnPagoMovil.BackColor = col2;
                 btnListaFactura.BackColor = col2;
                 btnCargarOrdenes.BackColor = col2;
+                btnUtilitarios.BackColor= col2;
             }
             else
             {
@@ -973,6 +1033,8 @@ namespace CapaVisual_Login
             pictureBox5.Top += desplazamiento;
 
             menuUtilitariosExpandido = true;
+            PicBoxConfigOsc.Top += desplazamiento;
+            pictureBox6.Top += desplazamiento;
         }
 
         private void ContraerMenuUtilitarios()
@@ -989,7 +1051,8 @@ namespace CapaVisual_Login
 
             btnPromoCasada.Top -= desplazamiento;
             pictureBox5.Top -= desplazamiento;
-
+            pictureBox6.Top -= desplazamiento;
+            PicBoxConfigOsc.Top -= desplazamiento;
             menuUtilitariosExpandido = false;
         }
 
@@ -1101,6 +1164,15 @@ namespace CapaVisual_Login
 
         private void btnTasaSec_Click(object sender, EventArgs e)
         {
+            DateTime currentDate = _D_Inicio.DiaActivo();
+            if (DateTime.Now.Date < currentDate.Date)
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("El día activo es mayor a la fecha de hoy");
+                _FrmMensajes.ShowDialog();
+                return;
+            }
+            
             pnlUtilitarios.Visible = false; 
             PnlListadoOrdenes.Controls.Clear();
             addformulario(_FrmTasaDia);
@@ -1344,7 +1416,7 @@ namespace CapaVisual_Login
 
             System.Drawing.Color col2 = System.Drawing.ColorTranslator.FromHtml("#257b78");
             System.Drawing.Color col4 = System.Drawing.ColorTranslator.FromHtml("#2f6b64");
-            System.Drawing.Color col3 = System.Drawing.ColorTranslator.FromHtml(" #07a79b");
+            System.Drawing.Color col3 = System.Drawing.ColorTranslator.FromHtml("#07a79b");
 
             if (this.BackColor == col2)
             {
@@ -1370,30 +1442,45 @@ namespace CapaVisual_Login
             }
 
 
-            foreach (Control control in PnlListadoOrdenes.Controls.OfType<FrmPromoCasada>().ToList())
-            {
-                var form = (FrmPromoCasada)control;
-                form.Close();
-                form.Dispose();
-                PnlListadoOrdenes.Controls.Remove(form);
-            }
+            //foreach (Control control in PnlListadoOrdenes.Controls.OfType<FrmPromoCasada>().ToList())
+            //{
+            //    var form = (FrmPromoCasada)control;
+            //    form.Close();
+            //    form.Dispose();
+            //    PnlListadoOrdenes.Controls.Remove(form);
+            //}
 
             PnlListadoOrdenes.Controls.Clear();
+            addformulario(_FrmPromoCasada);
+            Focus();
 
-            // Crear nueva instancia
-            var nuevoForm = new FrmPromoCasada()
-            {
-                TopLevel = false,
-                FormBorderStyle = FormBorderStyle.None,
-                Dock = DockStyle.Fill
-            };
+            //_FrmListaOrdenes.cerrar();
+            //_FrmListaOrdenes.ListadoOrdenosRebot();
+
+            //FrmCargarOrden nuevoFormulario = new FrmCargarOrden();
+
+            // Cargar usando la función que limpia y configura el panel
+            //CerrarYRecargarFormulario(nuevoFormulario);
 
             if (menuUtilitariosExpandido)
                 ContraerMenuUtilitarios();
 
-            PnlListadoOrdenes.Controls.Add(nuevoForm);
-            nuevoForm.Show();
-            nuevoForm.Focus();
+
+
+            //// Crear nueva instancia
+            //var nuevoForm = new FrmPromoCasada()
+            //{
+            //    TopLevel = false,
+            //    FormBorderStyle = FormBorderStyle.None,
+            //    Dock = DockStyle.Fill
+            //};
+
+            //if (menuUtilitariosExpandido)
+            //    ContraerMenuUtilitarios();
+
+            //PnlListadoOrdenes.Controls.Add(nuevoForm);
+            //nuevoForm.Show();
+            //nuevoForm.Focus();
         }
 
         private void PnlListadoOrdenes_Paint(object sender, PaintEventArgs e)

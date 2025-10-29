@@ -515,7 +515,7 @@ namespace CapaVisual_Login
 
 
 
-                            _L_CierreCaja.ActualizaAsistencia(diaActivo.ToString("dd/MM/yyyy"), HoraSalida1, codigoEmpleado, codigoEmpleado);
+                            _L_CierreCaja.ActualizaAsistencia(diaActivo.ToString("dd/MM/yyyy"), HoraSalida1, codigoEmpleado, codigoEmpleado,"S");
                             _D_Anulacion.CaragarAuditor(TB_USUARIO.COD_SUCURSAL, "072", TB_USUARIO.COD_EMPLEADO, "Se asigno la hora de salida " + HoraSalida1 + ", al empleado " + codigoEmp + ", Autoriza: " + GerenteAutoriza);
 
                         }
@@ -533,10 +533,48 @@ namespace CapaVisual_Login
                             HoraSalida2 = HoraSalida2.Trim();
 
 
-                            _L_CierreCaja.ActualizaAsistencia(diaActivo.ToString("dd/MM/yyyy"), HoraSalida2, codigoEmp, TB_USUARIO.COD_EMPLEADO);
-                            _D_Anulacion.CaragarAuditor(TB_USUARIO.COD_SUCURSAL, "072", TB_USUARIO.COD_EMPLEADO, "Se asigno la hora de salida " + HoraSalida2 + ", al empleado " + codigoEmp + ", Autoriza: " + GerenteAutoriza);
+                            _L_CierreCaja.ActualizaAsistencia(diaActivo.ToString("dd/MM/yyyy"), HoraSalida2, codigoEmp, TB_USUARIO.COD_EMPLEADO, "S2");
+                            _D_Anulacion.CaragarAuditor(TB_USUARIO.COD_SUCURSAL, "072", TB_USUARIO.COD_EMPLEADO, "Se asigno la hora de salida2 " + HoraSalida2 + ", al empleado " + codigoEmp + ", Autoriza: " + GerenteAutoriza);
 
                         }
+
+                        if (!string.IsNullOrEmpty(HoraEntrada1))
+                        {
+                            // 1. Reemplazar cualquier tipo de espacio entre "p." y "m." (incluyendo NO-BREAK SPACE)
+                            HoraEntrada1 = Regex.Replace(HoraEntrada1, @"p\.\s*m\.", "pm", RegexOptions.IgnoreCase);
+
+                            // 2. Reemplazar cualquier tipo de espacio entre "a." y "m." (por si hay AM)
+                            HoraEntrada1 = Regex.Replace(HoraEntrada1, @"a\.\s*m\.", "am", RegexOptions.IgnoreCase);
+
+                            // 3. Eliminar espacios adicionales antes del AM/PM
+                            HoraEntrada1 = HoraEntrada1.Trim();
+
+
+
+                            _L_CierreCaja.ActualizaAsistencia(diaActivo.ToString("dd/MM/yyyy"), HoraEntrada1, codigoEmpleado, codigoEmpleado, "E");
+                            _D_Anulacion.CaragarAuditor(TB_USUARIO.COD_SUCURSAL, "072", TB_USUARIO.COD_EMPLEADO, "Se asigno la hora de entrada " + HoraEntrada1 + ", al empleado " + codigoEmp + ", Autoriza: " + GerenteAutoriza);
+
+                        }
+
+
+                        if (!string.IsNullOrEmpty(HoraEntrada2))
+                        {
+                            // 1. Reemplazar cualquier tipo de espacio entre "p." y "m." (incluyendo NO-BREAK SPACE)
+                            HoraEntrada2 = Regex.Replace(HoraEntrada2, @"p\.\s*m\.", "pm", RegexOptions.IgnoreCase);
+
+                            // 2. Reemplazar cualquier tipo de espacio entre "a." y "m." (por si hay AM)
+                            HoraEntrada2 = Regex.Replace(HoraEntrada2, @"a\.\s*m\.", "am", RegexOptions.IgnoreCase);
+
+                            // 3. Eliminar espacios adicionales antes del AM/PM
+                            HoraEntrada2 = HoraEntrada2.Trim();
+
+
+
+                            _L_CierreCaja.ActualizaAsistencia(diaActivo.ToString("dd/MM/yyyy"), HoraEntrada2, codigoEmpleado, codigoEmpleado, "E2");
+                            _D_Anulacion.CaragarAuditor(TB_USUARIO.COD_SUCURSAL, "072", TB_USUARIO.COD_EMPLEADO, "Se asigno la hora de entrada2 " + HoraEntrada2 + ", al empleado " + codigoEmp + ", Autoriza: " + GerenteAutoriza);
+
+                        }
+
 
                         //    }
                         //}
@@ -567,6 +605,7 @@ namespace CapaVisual_Login
                 this.Dvg_OSconPagoMovil.EditingControlShowing += Dvg_OSconPagoMovil_EditingControlShowing;
                 this.Dvg_CierrePuntoVenta.EditingControlShowing += Dvg_CierrePuntoVenta_EditingControlShowing;
                 this.dgvCierredecaja.EditingControlShowing += dgvCierredecaja_EditingControlShowing;
+                this.Dvg_MarcajeAsistenciaPendiente.CellMouseClick += Dvg_MarcajeAsistenciaPendiente_CellMouseClick;
 
 
                 tcCierreCaja.ItemSize = new Size(0, 1);
@@ -902,7 +941,7 @@ namespace CapaVisual_Login
                     Dvg_ConsignacionDeOS.Columns["CodServicio"].Visible = false;
                     Dvg_ConsignacionDeOS.Columns["Servicio"].Width = 160;
                     Dvg_ConsignacionDeOS.Columns["CodVendedor"].Width = 120;
-                    Dvg_ConsignacionDeOS.Columns["Vendedor"].Width = 180;
+                    Dvg_ConsignacionDeOS.Columns["Vendedor"].Width = 290;
 
                     Dvg_ConsignacionDeOS.Columns["Orden"].ReadOnly = true;
                     Dvg_ConsignacionDeOS.Columns["Lab"].ReadOnly = true;
@@ -1068,132 +1107,42 @@ namespace CapaVisual_Login
                     Dvg_MarcajeAsistenciaPendiente.Columns["HORAENTRADAT2"].ReadOnly = true;
                     Dvg_MarcajeAsistenciaPendiente.Columns["HORASALIDAT2"].ReadOnly = true;
 
-                    //foreach (DataGridViewRow row in Dvg_MarcajeAsistenciaPendiente.Rows)
-                    //{
-                    //    if (!row.IsNewRow)
-                    //    {
-                    //        row.Cells["HORAENTRADAT1"].Value = " ";
-                    //        row.Cells["HORASALIDAT1"].Value = " ";
-                    //        row.Cells["HORAENTRADAT2"].Value = " ";
-                    //        row.Cells["HORASALIDAT2"].Value = " ";
-                    //    }
-                    //}
 
-                    // Suponiendo que ya hiciste:
-                    // Dgv_MarcajeAsistenciaPendiente.DataSource = dtAsistenciaPendiente;
+                    string[] columnasTimePicker = { "HORAENTRADAT1", "HORASALIDAT1", "HORAENTRADAT2", "HORASALIDAT2" };
 
-                    //Dvg_MarcajeAsistenciaPendiente.Columns.Remove("HORASALIDAT1");
-
-                    //var timeCol = new DataGridViewTimePickerColumn
-                    //{
-                    //    Name = "HORASALIDAT1",
-                    //    DataPropertyName = "HORASALIDAT1",
-                    //    HeaderText = "HORASALIDAT1",
-                    //};
-                    //timeCol.DefaultCellStyle.NullValue = "";           // se ve vacío si es DBNull
-                    //timeCol.DefaultCellStyle.Format = "hh:mm tt";   // tu formato
-                    //Dvg_MarcajeAsistenciaPendiente.Columns.Add(timeCol);
-
-                    // Suscribir el BeginEdit
-                    //Dvg_MarcajeAsistenciaPendiente.CellBeginEdit += Dgv_MarcajeAsistenciaPendiente_CellBeginEdit;
-
-
-
-
-                    foreach (DataGridViewRow fila in Dvg_MarcajeAsistenciaPendiente.Rows)
+                    foreach (string columna in columnasTimePicker)
                     {
-                        // Ignorar fila nueva si está habilitada la opción de agregar
-                        if (!fila.IsNewRow)
+                        if (Dvg_MarcajeAsistenciaPendiente.Columns.Contains(columna))
                         {
-                            int colIndex = 0;
-                            var HoraEntrada1 = fila.Cells["HORAENTRADAT1"].Value?.ToString().Trim();
-                            var HoraSalida1 = fila.Cells["HORASALIDAT1"].Value?.ToString().Trim();
-                            var HoraEntrada2 = fila.Cells["HORAENTRADAT2"].Value?.ToString().Trim();
-                            var HoraSalida2 = fila.Cells["HORASALIDAT2"].Value?.ToString().Trim();
+                            int colIndex = Dvg_MarcajeAsistenciaPendiente.Columns[columna].Index;
 
-                            if (string.IsNullOrEmpty(HoraEntrada1))
+                            // Eliminar columna original
+                            Dvg_MarcajeAsistenciaPendiente.Columns.RemoveAt(colIndex);
+
+                            // Agregar columna TimePicker
+                            var timePickerCol = new DataGridViewTimePickerColumn
                             {
-                                // Obtener el índice y eliminar la columna original
-                                colIndex = Dvg_MarcajeAsistenciaPendiente.Columns["HORAENTRADAT1" +
-                                    ""].Index;
-                                Dvg_MarcajeAsistenciaPendiente.Columns.RemoveAt(colIndex);
+                                Name = columna,
+                                HeaderText = GetHeaderText(columna),
+                                Width = 100,
+                                DataPropertyName = columna,
+                                DefaultCellStyle = new DataGridViewCellStyle { Format = "t" }
+                            };
 
-                                // Agregar la nueva columna personalizada
-                                var colHoraEntrada1 = new DataGridViewTimePickerColumn
-                                {
-                                    Name = "HORAENTRADAT1",
-                                    HeaderText = "Entrada 1",
-                                    Width = 100,
-                                    DataPropertyName = "HORAENTRADAT1",
-                                    DefaultCellStyle = new DataGridViewCellStyle { Format = "t" } // formato corto de hora
-                                };
-
-                                Dvg_MarcajeAsistenciaPendiente.Columns.Insert(colIndex, colHoraEntrada1);
-                                Dvg_MarcajeAsistenciaPendiente.Columns["HORAENTRADAT1"].ReadOnly = false;
-                            }
-
-                            if (string.IsNullOrEmpty(HoraSalida1))
-                            {
-                                // Obtener el índice y eliminar la columna original
-                                colIndex = Dvg_MarcajeAsistenciaPendiente.Columns["HORASALIDAT1" + ""].Index;
-                                Dvg_MarcajeAsistenciaPendiente.Columns.RemoveAt(colIndex);
-
-                                // Agregar la nueva columna personalizada
-                                var colHoraSalida1 = new DataGridViewTimePickerColumn
-                                {
-                                    Name = "HORASALIDAT1",
-                                    HeaderText = "Salida 1",
-                                    Width = 100,
-                                    DataPropertyName = "HORASALIDAT1",
-                                    DefaultCellStyle = new DataGridViewCellStyle { Format = "t" } // formato corto de hora
-                                };
-
-                                Dvg_MarcajeAsistenciaPendiente.Columns.Insert(colIndex, colHoraSalida1);
-                                Dvg_MarcajeAsistenciaPendiente.Columns["HORASALIDAT1"].ReadOnly = false;
-                            }
-
-                            if (string.IsNullOrEmpty(HoraEntrada2))
-                            {
-                                // Obtener el índice y eliminar la columna original
-                                colIndex = Dvg_MarcajeAsistenciaPendiente.Columns["HORAENTRADAT2" +
-                                    ""].Index;
-                                Dvg_MarcajeAsistenciaPendiente.Columns.RemoveAt(colIndex);
-
-                                // Agregar la nueva columna personalizada
-                                var colHoraEntrada2 = new DataGridViewTimePickerColumn
-                                {
-                                    Name = "HORAENTRADAT2",
-                                    HeaderText = "Entrada 2",
-                                    Width = 100,
-                                    DataPropertyName = "HORAENTRADAT2",
-                                    DefaultCellStyle = new DataGridViewCellStyle { Format = "t" } // formato corto de hora
-                                };
-
-                                Dvg_MarcajeAsistenciaPendiente.Columns.Insert(colIndex, colHoraEntrada2);
-                                Dvg_MarcajeAsistenciaPendiente.Columns["HORAENTRADAT2"].ReadOnly = false;
-                            }
-
-                            if (string.IsNullOrEmpty(HoraSalida2))
-                            {
-                                // Obtener el índice y eliminar la columna original
-                                colIndex = Dvg_MarcajeAsistenciaPendiente.Columns["HORASALIDAT2" + ""].Index;
-                                Dvg_MarcajeAsistenciaPendiente.Columns.RemoveAt(colIndex);
-
-                                // Agregar la nueva columna personalizada
-                                var colHoraSalida2 = new DataGridViewTimePickerColumn
-                                {
-                                    Name = "HORASALIDAT2",
-                                    HeaderText = "Salida 2",
-                                    Width = 100,
-                                    DataPropertyName = "HORASALIDAT2",
-                                    DefaultCellStyle = new DataGridViewCellStyle { Format = "t" } // formato corto de hora
-                                };
-
-                                Dvg_MarcajeAsistenciaPendiente.Columns.Insert(colIndex, colHoraSalida2);
-                                Dvg_MarcajeAsistenciaPendiente.Columns["HORASALIDAT2"].ReadOnly = false;
-                            }
+                            Dvg_MarcajeAsistenciaPendiente.Columns.Insert(colIndex, timePickerCol);
+                        }
+                    }
 
 
+                    foreach (DataGridViewRow row in Dvg_MarcajeAsistenciaPendiente.Rows)
+                    {
+                        if (!row.IsNewRow)
+                        {
+                            // Verificar cada columna que quieres proteger
+                            VerificarYProtegerCelda(row, "HORAENTRADAT1");
+                            VerificarYProtegerCelda(row, "HORASALIDAT1");
+                            VerificarYProtegerCelda(row, "HORAENTRADAT2");
+                            VerificarYProtegerCelda(row, "HORASALIDAT2");
                         }
                     }
 
@@ -1222,7 +1171,69 @@ namespace CapaVisual_Login
             }
         }
 
+        private string GetHeaderText(string columnName)
+        {
+            switch (columnName)
+            {
+                case "HORAENTRADAT1":
+                    return "Entrada 1";
+                case "HORASALIDAT1":
+                    return "Salida 1";
+                case "HORAENTRADAT2":
+                    return "Entrada 2";
+                case "HORASALIDAT2":
+                    return "Salida 2";
+                default:
+                    return columnName;
+            }
+        }
 
+        private void VerificarYProtegerCelda(DataGridViewRow row, string columnName)
+        {
+
+            string[] columnasControlar = { "HORAENTRADAT1", "HORASALIDAT1", "HORAENTRADAT2", "HORASALIDAT2" };
+
+            if (Dvg_MarcajeAsistenciaPendiente.Columns.Contains(columnName) &&
+        columnasControlar.Contains(columnName))
+            {
+                DataGridViewCell cell = row.Cells[columnName];
+
+                // Si la celda tiene datos, hacerla de solo lectura y no seleccionable
+                if (cell.Value != null && !string.IsNullOrWhiteSpace(cell.Value.ToString()))
+                {
+                    cell.ReadOnly = true;
+                    //cell.Style.BackColor = Color.LightGray;
+                    //cell.Style.SelectionBackColor = Color.LightGray; // Mismo color cuando está seleccionada
+                    //cell.Style.SelectionForeColor = Color.DarkGray;
+                }
+                else
+                {
+                    cell.ReadOnly = false;
+                    cell.Style.BackColor = Color.White;
+                    //cell.Style.SelectionBackColor = SystemColors.Highlight; // Color normal de selección
+                    //cell.Style.SelectionForeColor = SystemColors.HighlightText;
+                }
+            }
+        }
+
+
+        //        // Si la celda tiene datos, hacerla de solo lectura y no seleccionable
+        //        if (cell.Value != null && !string.IsNullOrWhiteSpace(cell.Value.ToString()))
+        //        {
+        //            cell.ReadOnly = true;
+        //            //cell.Style.BackColor = Color.LightGray;
+        //            //cell.Style.SelectionBackColor = Color.LightGray; // Mismo color cuando está seleccionada
+        //            //cell.Style.SelectionForeColor = Color.DarkGray;
+        //        }
+        //        else
+        //        {
+        //            cell.ReadOnly = false;
+        //            cell.Style.BackColor = Color.White;
+        //            //cell.Style.SelectionBackColor = SystemColors.Highlight; // Color normal de selección
+        //            //cell.Style.SelectionForeColor = SystemColors.HighlightText;
+        //        }
+        //    }
+        //}
 
         private void btn_Cancelar_pg2_Click(object sender, EventArgs e)
         {
@@ -1351,6 +1362,7 @@ namespace CapaVisual_Login
                 base.OnValueChanged(eventargs);
             }
         }
+
 
         //private void Dvg_MarcajeAsistenciaPendiente_CellClick(object sender, DataGridViewCellEventArgs e)
         //{
@@ -1555,6 +1567,14 @@ namespace CapaVisual_Login
             if (!(Dvg_MarcajeAsistenciaPendiente.Columns[e.ColumnIndex] is DataGridViewTimePickerColumn))
                 return;
 
+            // VERIFICAR SI LA CELDA YA TIENE DATOS - AGREGAR ESTA VALIDACIÓN
+            DataGridViewCell celda = Dvg_MarcajeAsistenciaPendiente.Rows[e.RowIndex].Cells[e.ColumnIndex];
+            if (celda.Value != null && !string.IsNullOrWhiteSpace(celda.Value.ToString()))
+            {
+                // Si la celda ya tiene datos, no hacer nada
+                return;
+            }
+
             _FrmClaveGerente.ShowDialog();
             if (_FrmClaveGerente.DialogResult == DialogResult.OK
                 && _FrmClaveGerente.ClaveCorrecta)
@@ -1571,6 +1591,33 @@ namespace CapaVisual_Login
                 // Y de paso dejas el valor en null/blank si quieres:
                 Dvg_MarcajeAsistenciaPendiente.Rows[e.RowIndex]
                     .Cells[e.ColumnIndex].Value = DBNull.Value;
+            }
+        }
+
+        private void Dvg_MarcajeAsistenciaPendiente_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                string[] columnasControlar = { "HORAENTRADAT1", "HORASALIDAT1", "HORAENTRADAT2", "HORASALIDAT2" };
+
+                string nombreColumna = Dvg_MarcajeAsistenciaPendiente.Columns[e.ColumnIndex].Name;
+
+                // Verificar si es una columna que controlamos
+                if (columnasControlar.Contains(nombreColumna))
+                {
+                    DataGridViewCell celda = Dvg_MarcajeAsistenciaPendiente.Rows[e.RowIndex].Cells[e.ColumnIndex];
+
+                    // Si la celda tiene datos (está en gris), evitar la selección
+                    if (celda.Value != null && !string.IsNullOrWhiteSpace(celda.Value.ToString()))
+                    {
+                        // Limpiar la selección actual
+                        Dvg_MarcajeAsistenciaPendiente.ClearSelection();
+
+                        // Opcional: Seleccionar la primera celda editable o mantener sin selección
+                        // Esto evita que quede seleccionada visualmente
+                        return;
+                    }
+                }
             }
         }
         public class VerticalLabel : Control
@@ -1683,7 +1730,7 @@ namespace CapaVisual_Login
 
 
                     //SP Cierre de Caja
-                    if (_L_CierreCaja.CierreDeCaja(dgvCierredecaja, diaActivo, sucursal, txtBox_observaciones_pg4.Text, TB_USUARIO.COD_USR, mostrarError,command))
+                    if (_L_CierreCaja.CierreDeCaja(dgvCierredecaja, diaActivo, sucursal, txtBox_observaciones_pg4.Text, TB_USUARIO.COD_USR, mostrarError, command))
                     {
                         dtLogCierre.Rows.Add("Cierre de Caja", "✔ Completado");
                         dgvLogCierre.DataSource = dtLogCierre;
@@ -1878,12 +1925,27 @@ namespace CapaVisual_Login
 
                     _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "070", TB_USUARIO.COD_EMPLEADO, "Se generaron los ACC correctamente");
 
+                    int DiasAAgregar = 0;
+                    DayOfWeek dia = diaActivo.DayOfWeek;
+                    string TrabajaDomingos = _D_DetalleOrden.TB_PARAMETRO("TrabajaDomingo");
+                    if (dia == DayOfWeek.Saturday)
+                    {
+                        if (TrabajaDomingos == "1")
+                            DiasAAgregar = 1;
+                        else
+                            DiasAAgregar = 2;
+                    }
+                    else
+
+                    {
+                        DiasAAgregar = 1;
+                    }
 
                     FrmPrincipal frmPrincipal = this.ParentForm as FrmPrincipal;
 
                     if (frmPrincipal != null)
                     {
-                        frmPrincipal.ActualizarTextoLabel(diaActivo.AddDays(1).ToString("dd/MM/yyyy"));
+                        frmPrincipal.ActualizarTextoLabel(diaActivo.AddDays(DiasAAgregar).ToString("dd/MM/yyyy"));
                     }
 
                     //dtLogCierre.Rows.Add("Imprimiendo reportes", "...");
@@ -2012,7 +2074,21 @@ namespace CapaVisual_Login
             {
                 // Simplemente finaliza la edición, el evento Leave se disparará automáticamente
                 Dvg_CierrePuntoVenta.EndEdit();
-                e.Handled = true;
+                e.Handled = true; // Evita el comportamiento por defecto
+
+                int currentRow = dataGridView1.CurrentCell.RowIndex;
+                int currentCol = dataGridView1.CurrentCell.ColumnIndex;
+
+                // Si no es la última columna, pasa a la siguiente columna
+                if (currentCol < dataGridView1.Columns.Count - 1)
+                {
+                    dataGridView1.CurrentCell = dataGridView1.Rows[currentRow].Cells[currentCol + 1];
+                }
+                // Si es la última columna, pasa a la primera columna de la siguiente fila
+                else if (currentRow < dataGridView1.Rows.Count - 1)
+                {
+                    dataGridView1.CurrentCell = dataGridView1.Rows[currentRow + 1].Cells[0];
+                }
             }
         }
 
