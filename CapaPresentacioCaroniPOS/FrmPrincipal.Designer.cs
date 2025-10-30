@@ -69,12 +69,13 @@ namespace CapaVisual_Login
             this.PicBoxConfigOsc = new System.Windows.Forms.PictureBox();
             this.pictBoxPagoMovilOsc = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pictureBox6 = new System.Windows.Forms.PictureBox();
+            this.pictBoxUtilitarioOscuro = new System.Windows.Forms.PictureBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.BtnMinimizar = new System.Windows.Forms.Button();
             this.PnlListadoOrdenes = new System.Windows.Forms.Panel();
-            this.pictureBox6 = new System.Windows.Forms.PictureBox();
-            this.pictBoxUtilitarioOscuro = new System.Windows.Forms.PictureBox();
+            this.LbNombreUsuario = new System.Windows.Forms.Button();
             this.GbxMenuPrincipal.SuspendLayout();
             this.pnlUtilitarios.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
@@ -693,6 +694,28 @@ namespace CapaVisual_Login
             this.pictureBox1.TabIndex = 27;
             this.pictureBox1.TabStop = false;
             // 
+            // pictureBox6
+            // 
+            this.pictureBox6.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox6.Image")));
+            this.pictureBox6.Location = new System.Drawing.Point(9, 289);
+            this.pictureBox6.Name = "pictureBox6";
+            this.pictureBox6.Size = new System.Drawing.Size(28, 23);
+            this.pictureBox6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox6.TabIndex = 39;
+            this.pictureBox6.TabStop = false;
+            this.pictureBox6.Visible = false;
+            // 
+            // pictBoxUtilitarioOscuro
+            // 
+            this.pictBoxUtilitarioOscuro.Image = ((System.Drawing.Image)(resources.GetObject("pictBoxUtilitarioOscuro.Image")));
+            this.pictBoxUtilitarioOscuro.Location = new System.Drawing.Point(9, 254);
+            this.pictBoxUtilitarioOscuro.Name = "pictBoxUtilitarioOscuro";
+            this.pictBoxUtilitarioOscuro.Size = new System.Drawing.Size(28, 25);
+            this.pictBoxUtilitarioOscuro.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictBoxUtilitarioOscuro.TabIndex = 40;
+            this.pictBoxUtilitarioOscuro.TabStop = false;
+            this.pictBoxUtilitarioOscuro.Visible = false;
+            // 
             // label2
             // 
             this.label2.BackColor = System.Drawing.Color.White;
@@ -739,27 +762,24 @@ namespace CapaVisual_Login
             this.PnlListadoOrdenes.TabIndex = 15;
             this.PnlListadoOrdenes.Paint += new System.Windows.Forms.PaintEventHandler(this.PnlListadoOrdenes_Paint);
             // 
-            // pictureBox6
+            // LbNombreUsuario
             // 
-            this.pictureBox6.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox6.Image")));
-            this.pictureBox6.Location = new System.Drawing.Point(9, 289);
-            this.pictureBox6.Name = "pictureBox6";
-            this.pictureBox6.Size = new System.Drawing.Size(28, 23);
-            this.pictureBox6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox6.TabIndex = 39;
-            this.pictureBox6.TabStop = false;
-            this.pictureBox6.Visible = false;
-            // 
-            // pictBoxUtilitarioOscuro
-            // 
-            this.pictBoxUtilitarioOscuro.Image = ((System.Drawing.Image)(resources.GetObject("pictBoxUtilitarioOscuro.Image")));
-            this.pictBoxUtilitarioOscuro.Location = new System.Drawing.Point(9, 254);
-            this.pictBoxUtilitarioOscuro.Name = "pictBoxUtilitarioOscuro";
-            this.pictBoxUtilitarioOscuro.Size = new System.Drawing.Size(28, 25);
-            this.pictBoxUtilitarioOscuro.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictBoxUtilitarioOscuro.TabIndex = 40;
-            this.pictBoxUtilitarioOscuro.TabStop = false;
-            this.pictBoxUtilitarioOscuro.Visible = false;
+            this.LbNombreUsuario.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(2)))), ((int)(((byte)(127)))), ((int)(((byte)(121)))));
+            this.LbNombreUsuario.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.LbNombreUsuario.FlatAppearance.BorderSize = 0;
+            this.LbNombreUsuario.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(4)))), ((int)(((byte)(185)))), ((int)(((byte)(166)))));
+            this.LbNombreUsuario.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(4)))), ((int)(((byte)(185)))), ((int)(((byte)(166)))));
+            this.LbNombreUsuario.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.LbNombreUsuario.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LbNombreUsuario.ForeColor = System.Drawing.Color.White;
+            this.LbNombreUsuario.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.LbNombreUsuario.Location = new System.Drawing.Point(1012, 11);
+            this.LbNombreUsuario.Name = "LbNombreUsuario";
+            this.LbNombreUsuario.Size = new System.Drawing.Size(288, 34);
+            this.LbNombreUsuario.TabIndex = 12;
+            this.LbNombreUsuario.Text = "Nombre Usuario";
+            this.LbNombreUsuario.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.LbNombreUsuario.UseVisualStyleBackColor = false;
             // 
             // FrmPrincipal
             // 
@@ -768,6 +788,7 @@ namespace CapaVisual_Login
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1370, 722);
+            this.Controls.Add(this.LbNombreUsuario);
             this.Controls.Add(this.BtnMinimizar);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.label2);
@@ -854,5 +875,6 @@ namespace CapaVisual_Login
         internal System.Windows.Forms.Button btnPromoCasada;
         private System.Windows.Forms.PictureBox pictureBox6;
         private System.Windows.Forms.PictureBox pictBoxUtilitarioOscuro;
+        private System.Windows.Forms.Button LbNombreUsuario;
     }
 }

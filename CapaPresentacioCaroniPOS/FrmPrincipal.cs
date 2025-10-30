@@ -295,6 +295,8 @@ namespace CapaVisual_Login
                 //pictBoxPagoMovil.Visible = true;
             }
 
+            LbNombreUsuario.Text = TB_USUARIO.USER_NOMBRE + " " + TB_USUARIO.USER_APELLIDO;
+
         }
 
 
