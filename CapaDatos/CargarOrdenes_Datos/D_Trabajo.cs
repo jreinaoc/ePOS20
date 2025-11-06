@@ -84,7 +84,7 @@ namespace CapaDatos.CargarOrdenes_Datos // O el namespace que prefieras para tus
                         command.Parameters.AddWithValue("@TOJO", nuevoTrabajo.TOJO?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@TTIPOVISIOND", nuevoTrabajo.TTIPOVISIOND ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@TTIPOVISIONI", nuevoTrabajo.TTIPOVISIONI ?? (object)DBNull.Value);
-                        //command.Parameters.AddWithValue("@TLABORATORIO", nuevoTrabajo.TLABORATORIO ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@TLABORATORIO", "");
                         //command.Parameters.AddWithValue("@TSERVICIO", nuevoTrabajo.TSERVICIO ?? (object)DBNull.Value);
                         //command.Parameters.AddWithValue("@THORAOFRECIDO", nuevoTrabajo.THORAOFRECIDO ?? (object)DBNull.Value);
                         //command.Parameters.AddWithValue("@TTIPORX", nuevoTrabajo.TTIPORX ?? (object)DBNull.Value);
@@ -134,7 +134,7 @@ namespace CapaDatos.CargarOrdenes_Datos // O el namespace que prefieras para tus
                         // Agregar los parámetros al comando
                         command.Parameters.AddWithValue("@TSucursal", nuevoTrabajo.TSucursal ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@TNumOrdserv", nuevoTrabajo.TNumOrdserv ?? (object)DBNull.Value);
-                        command.Parameters.AddWithValue("@TRevision", nuevoTrabajo.TRevision ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@TRevision", nuevoTrabajo.TRevision ?? "0");
                         command.Parameters.AddWithValue("@TCEDIDEN", nuevoTrabajo.TCEDIDEN ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@TNACIO", nuevoTrabajo.TNACIO ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@TTIPOTRABAJO", nuevoTrabajo.TTIPOTRABAJO ?? (object)DBNull.Value);
@@ -148,7 +148,7 @@ namespace CapaDatos.CargarOrdenes_Datos // O el namespace que prefieras para tus
                         command.Parameters.AddWithValue("@TOJO", nuevoTrabajo.TOJO ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@TTIPOVISIOND", nuevoTrabajo.TTIPOVISIOND ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@TTIPOVISIONI", nuevoTrabajo.TTIPOVISIONI ?? (object)DBNull.Value);
-                        command.Parameters.AddWithValue("@TLABORATORIO", nuevoTrabajo.TLABORATORIO ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@TLABORATORIO", nuevoTrabajo.TLABORATORIO ?? "");
                         command.Parameters.AddWithValue("@TSERVICIO", nuevoTrabajo.TSERVICIO ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@THORAOFRECIDO", nuevoTrabajo.THORAOFRECIDO ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@TTIPORX", nuevoTrabajo.TTIPORX ?? (object)DBNull.Value);
@@ -177,6 +177,45 @@ namespace CapaDatos.CargarOrdenes_Datos // O el namespace que prefieras para tus
             {
                 stringBuilder.Append(Environment.NewLine + string.Format("Error al agregar Trabajo: {0}", ex.Message));
                 return false;
+            }
+        }
+
+        public void ActualizarTrabajoRx(TB_TRABAJOCTE nuevoTrabajo)
+        {
+            stringBuilder.Clear();
+
+            try
+            {
+                using (SqlConnection connection = cn.LeerCadena())
+                {
+                    //connection.Open();
+                    using (SqlCommand command = new SqlCommand("SP_CPOSC_AgregarActualizarTrabajoRx", connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        // Agregar los parámetros al comando
+                        command.Parameters.AddWithValue("@TSucursal", nuevoTrabajo.TSucursal ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@TNumOrdserv", nuevoTrabajo.TNumOrdserv ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@TRevision", nuevoTrabajo.TRevision ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@TCEDIDEN", nuevoTrabajo.TCEDIDEN ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@TNACIO", nuevoTrabajo.TNACIO ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@TEXAMEN", nuevoTrabajo.TEXAMEN ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@USERMOD", nuevoTrabajo.USERMOD ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@TDISTANCIAVERTICE", nuevoTrabajo.TDISTANCIAVERTICE ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@TANGULOPANTOSCOPICO", nuevoTrabajo.TANGULOPANTOSCOPICO ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@TANGULOFACIAL", nuevoTrabajo.TANGULOFACIAL ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@TDISTANCIADELECTURA", nuevoTrabajo.TDISTANCIADELECTURA ?? (object)DBNull.Value);
+
+                        // Ejecutar el Stored Procedure y obtener el número de filas afectadas
+                        command.ExecuteNonQuery();
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                stringBuilder.Append(Environment.NewLine + string.Format("Error al agregar Trabajo: {0}", ex.Message));
+
             }
         }
         private TB_TRABAJOCTE MapDataReaderToTrabajo(SqlDataReader reader)

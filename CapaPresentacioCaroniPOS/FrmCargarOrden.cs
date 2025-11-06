@@ -31,8 +31,9 @@ namespace CapaVisual_Login
         // Campo para almacenar el delegado de cierre
         private Action _onCierreSolicitado;
         private D_Articulos _D_Articulos  = new D_Articulos();
-
-        // Método público para asignar el delegado desde el padre
+        private  D_Trabajo _D_Trabajo = new D_Trabajo();
+        // Método público para asignar el delegado desde el pad
+        // re
         public void SetOnCierreSolicitado(Action onCierre)
         {
             _onCierreSolicitado = onCierre;
@@ -160,6 +161,8 @@ namespace CapaVisual_Login
         private L_Querato _L_Querato = new L_Querato(); // Declaración e inicialización
 
         private L_Trabajo _L_Trabajo = new L_Trabajo(); // Declaración e inicialización
+
+        //private D_Trabajo _D_Trabajo = new D_Trabajo(); // Declaración e inicialización
 
         private CapaLogica.CargarOrdenes_Logica.L_Examen _L_Examen = new CapaLogica.CargarOrdenes_Logica.L_Examen(); // Especifica el namespace completo
 
@@ -1602,6 +1605,9 @@ namespace CapaVisual_Login
                     }
 
                     CargarArticulos_Girdvew();
+
+                    Dgv_Tap3_Articulo.ClearSelection();
+
                 }
             }
         }
@@ -2147,6 +2153,8 @@ namespace CapaVisual_Login
             // ya que se ejecutará por cada celda pintada. Considera moverla a otro evento 
             // o realizar el ajuste de tamaño del DataGridView de otra manera si es necesario.
             // Dgv_Tap3_Articulo.Size = new Size(1059, 150);
+            
+
         }
 
         private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
@@ -11127,13 +11135,33 @@ namespace CapaVisual_Login
                     }
                     //btnCargarOrden.Enabled = true;
                     //tabControl.SelectedIndex = 2;
-                    AgregarRx();
+
+
+                    if (TB_CAORDSER.Cod_DetVta == "08")
+                    {
+
+                        LLenar_TbTrabajo();
+                        nuevoTrabajo.TNumOrdserv = TB_CAORDSER.NumOrdserv;
+                        nuevoTrabajo.TCEDIDEN = TB_CAORDSER.CTE_CedIden;
+                        nuevoTrabajo.TNACIO = TB_CAORDSER.CTE_Nacio;
+                        nuevoTrabajo.TEXAMEN = nuevoExamen.NUM_Examen.ToString();
+                        _L_Trabajo.ActualizarTrabajoRx(nuevoTrabajo);
+
+                        AgregarRx();
+                        
+                    }
+                    else
+                    {
+                        LLenar_TbTrabajo();
+                        _L_Trabajo.AgregarTrabajo(nuevoTrabajo);
+                    }
+
                 }
 
             }
-            //nuevoTrabajo.TEXAMEN = Txt_Tap2_Examen.Text;
-            LLenar_TbTrabajo();
-            _L_Trabajo.AgregarTrabajo(nuevoTrabajo);
+            //nuevoTrabajo.TEXAMEN = Txt_Tap2_Exa
+            //men.Text;
+            
             
         }
 
@@ -12674,8 +12702,7 @@ namespace CapaVisual_Login
                             _FrmRepOrden.ShowDialog();
 
                         }
-
-
+                        
                     }
                     else
                     {
@@ -12697,7 +12724,7 @@ namespace CapaVisual_Login
 
                     //// poner los controles en su posicion original 
                     // RegresarControlesAPnl2();
-
+                    TB_CAORDSER.Cod_DetVta = "";
                     // Cerrar el contenedor después de procesar exitosamente
                     _onCierreSolicitado?.Invoke(); // 👈 Ejecuta el cierre del padre
                 }
