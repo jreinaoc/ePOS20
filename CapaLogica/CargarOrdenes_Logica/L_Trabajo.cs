@@ -26,7 +26,14 @@ namespace CapaLogica.CargarOrdenes_Logica
 
              _D_Trabajo.AgregarTrabajo(nuevoTrabajo);
         }
-   // Puedes agregar más métodos de la capa de datos aquí y, si es necesario,
+
+        public void ActualizarTrabajoRx(TB_TRABAJOCTE nuevoTrabajo)
+        {
+
+
+            _D_Trabajo.ActualizarTrabajoRx(nuevoTrabajo);
+        }
+        // Puedes agregar más métodos de la capa de datos aquí y, si es necesario,
         // implementar lógica de negocio adicional. Por ejemplo, un método para
         // obtener todos los trabajos, o trabajos por un criterio diferente.
     }

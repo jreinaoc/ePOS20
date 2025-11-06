@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+using System.Configuration;
 
 namespace CapaVisual_Login
 {
@@ -500,6 +501,8 @@ namespace CapaVisual_Login
                     }
                 }
             }
+
+           // string trabajaDomingo = (ConfigurationManager.AppSettings.Get("TrabajaDomingo")); // TrabajaDomingo definido desde el config 
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)

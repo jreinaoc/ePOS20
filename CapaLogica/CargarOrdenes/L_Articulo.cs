@@ -417,8 +417,11 @@ namespace CapaLogica.CargarOrdenes
                     // Verificar que la fila no sea nueva
                     if (!fila.IsNewRow)
                     {
-                        // Actualizar el valor de la celda en la columna especificada
-                        fila.Cells[nombreColumna].Value = nuevoValor;
+                        if (fila.Cells["CodArticulo"].Value.ToString() != "A000004")
+                        {
+                            // Actualizar el valor de la celda en la columna especificada
+                            fila.Cells[nombreColumna].Value = nuevoValor;
+                        }
                     }
                 }
 
@@ -2687,7 +2690,7 @@ namespace CapaLogica.CargarOrdenes
 
                     if (artPadre != "" && gridFacturas.Rows[x].Cells["ArtPadre"].Value != DBNull.Value && codArticulo != "A000004")
                     {
-                        montoTotalServicios += Convert.ToDecimal(gridFacturas.Rows[x].Cells["ART_PVP"].Value) * Convert.ToInt32(gridFacturas.Rows[x].Cells["ART_EXIST"].Value);
+                        montoTotalServicios += Convert.ToDecimal(gridFacturas.Rows[x].Cells["PrecioViejo"].Value) * Convert.ToInt32(gridFacturas.Rows[x].Cells["ART_EXIST"].Value);
                     }
                 }
 
@@ -4326,7 +4329,14 @@ namespace CapaLogica.CargarOrdenes
                 }
                 else
                 {
-                    stringBuilder.AppendLine("No se encontró coincidencia con el código de laboratorio para lente de contacto");
+                    //if (dsGetLC.Tables[1].Rows[0][0].ToString() == "False")
+                    //{
+                    //    stringBuilder.AppendLine("El lente de contacto se encuentra inactivo");
+                    //}
+                    //else
+                    //{
+                        stringBuilder.AppendLine("No se encontró coincidencia con el código de laboratorio para lente de contacto");
+                    //}
                     return false;
                 }
             }

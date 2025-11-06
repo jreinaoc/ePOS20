@@ -55,14 +55,18 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CapaDatos.dll" size="252416">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CapaDatos.dll" size="253440">
       <assemblyIdentity name="CapaDatos" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+<<<<<<< HEAD
         <dsig:DigestValue>XyFeHHCwvrBZHT781Tia6/80QE87PPffdEXk8q7jQHI=</dsig:DigestValue>
+=======
+        <dsig:DigestValue>YNo+AWuWAvTnYPJKiNfb21YHdjkjrJ4sg7QrbwOk004=</dsig:DigestValue>
+>>>>>>> origin/PruebaCargaOrdenes
       </hash>
     </dependentAssembly>
   </dependency>
@@ -86,7 +90,11 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+<<<<<<< HEAD
         <dsig:DigestValue>RRbWXUt3mexeCopThTe5S4UZYs+JzEBdplIUXqXcZB0=</dsig:DigestValue>
+=======
+        <dsig:DigestValue>2aoNXsTfDpsE61ZasD2qwZWImQ6QltkPSmQHyYNJCLw=</dsig:DigestValue>
+>>>>>>> origin/PruebaCargaOrdenes
       </hash>
     </dependentAssembly>
   </dependency>
@@ -199,14 +207,22 @@
     </dependentAssembly>
   </dependency>
   <dependency>
+<<<<<<< HEAD
     <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ePOS.exe" size="3149824">
+=======
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ePOS.exe" size="3143680">
+>>>>>>> origin/PruebaCargaOrdenes
       <assemblyIdentity name="ePOS" version="1.0.2.4" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+<<<<<<< HEAD
         <dsig:DigestValue>lz10JFIgt7W/2VaskBq24Digs5OQlTzSEbpynm8Ig8Y=</dsig:DigestValue>
+=======
+        <dsig:DigestValue>G2APwWEaSL3zU4iaLrtcDpxuMZLt2XuaID8/ZttkUyE=</dsig:DigestValue>
+>>>>>>> origin/PruebaCargaOrdenes
       </hash>
     </dependentAssembly>
   </dependency>
@@ -1178,7 +1194,11 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+<<<<<<< HEAD
         <dsig:DigestValue>G94/Z+zbrQIHwLCDwaValJZQ+zoCIGzjTS1NKlI3k18=</dsig:DigestValue>
+=======
+        <dsig:DigestValue>kOebYuYiOK8Lb7QcLoi3W9yKvhCtkOQUlVUXtHZLBw4=</dsig:DigestValue>
+>>>>>>> origin/PruebaCargaOrdenes
       </hash>
     </dependentAssembly>
   </dependency>
@@ -1311,13 +1331,21 @@
       <dsig:DigestValue>V/mIEnaNA7+y6AYCdZ7ovh0pOL9ya/R1ocUuN+BTkHw=</dsig:DigestValue>
     </hash>
   </file>
+<<<<<<< HEAD
   <file name="ePOS.exe.config" size="2520">
+=======
+  <file name="ePOS.exe.config" size="2524">
+>>>>>>> origin/PruebaCargaOrdenes
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+<<<<<<< HEAD
       <dsig:DigestValue>gsEn63b25UC/7w1CA+akIgNaIvpMqm59tv757Z9nsvA=</dsig:DigestValue>
+=======
+      <dsig:DigestValue>UGaUl6ZBIHyeBIX3nO28TWSD/vcLr0Bw/Wfou+BDm4M=</dsig:DigestValue>
+>>>>>>> origin/PruebaCargaOrdenes
     </hash>
   </file>
   <file name="icono-puntoDeVenta.ico" size="205662">

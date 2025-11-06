@@ -957,7 +957,7 @@ namespace CapaVisual_Login
                     return;
                 }
             //}
-
+            TB_CAORDSER.Cod_DetVta = "";
             PnlListadoOrdenes.Controls.Clear();
             addformularioCargaOrdenes(_FrmCargarOrden);
             Focus();
