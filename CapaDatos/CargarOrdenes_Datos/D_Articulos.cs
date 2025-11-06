@@ -2633,6 +2633,36 @@ EXEC pValidoParametrosCRT
 
 
         }
+
+        public DataTable BuscarIvaPorce(SqlCommand command = null)
+        {
+            try
+            {
+                if (command == null)
+                {
+                    SqlConnection connection = cn.LeerCadena();
+                    command = connection.CreateCommand();
+                }
+
+                SqlCommand cmd = command;
+                cmd.Parameters.Clear();
+
+                cmd.CommandText = "sp_ObtenerPorceIvaSeparado";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                cmd.Parameters.Clear();
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                string error = $"Error: {ex.Message}";
+                return null;
+            }
+
+        }
     }
 
 }

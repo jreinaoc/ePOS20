@@ -2698,7 +2698,7 @@ namespace CapaLogica.CargarOrdenes
 
                     if (!string.IsNullOrEmpty(codigo2) && codigo2.StartsWith("C"))
                     {
-                        montoTotal += Convert.ToDecimal(gridFacturas.Rows[x].Cells["ART_PVP"].Value) * Convert.ToInt32(gridFacturas.Rows[x].Cells["ART_EXIST"].Value);
+                        montoTotal += Convert.ToDecimal(gridFacturas.Rows[x].Cells["PrecioViejo"].Value) * Convert.ToInt32(gridFacturas.Rows[x].Cells["ART_EXIST"].Value);
                     }
                 }
                 List<TB_ARTICULO> articulos = _D_Articulos.ObtenerArticulos("", "A000004");
