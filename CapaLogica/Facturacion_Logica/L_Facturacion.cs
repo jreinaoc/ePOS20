@@ -1609,10 +1609,12 @@ namespace CapaLogica.DetalleOrden_Logica
             String VisionI = "";
 
             //MEDIDAS DE LA Montura 
-            int HORIZONTAL = 0;
-            int VERTICAL = 0;
-            int MAXIMA = 0;
-            int DEL = 0;
+            Double HORIZONTAL = 0.00;
+            Double VERTICAL = 0.00;
+            Double MAXIMA = 0.00;
+
+            Double DEL = 0.00;
+
             int DV = 0;
             int AP = 0;
             int AF = 0;
@@ -1669,11 +1671,17 @@ namespace CapaLogica.DetalleOrden_Logica
                     VisionD = row["T_TIPOVISIOND"].ToString();
                     VisionI = row["T_TIPOVISIONI"].ToString();
 
+                    ////Montura 
+                    //HORIZONTAL = row["T_HORIZONTAL"] == DBNull.Value ? (int)0 : Convert.ToInt32(row["T_HORIZONTAL"].ToString());
+                    //VERTICAL = row["T_VERTICAL"] == DBNull.Value ? (int)0 : Convert.ToInt32(row["T_VERTICAL"].ToString());
+                    //MAXIMA = row["T_MAXIMA"] == DBNull.Value ? (int)0 : Convert.ToInt32(row["T_MAXIMA"].ToString());
+                    //DEL = row["T_PUENTE"] == DBNull.Value ? (int)0 : Convert.ToInt32(row["T_PUENTE"].ToString());
+
                     //Montura 
-                    HORIZONTAL = row["T_HORIZONTAL"] == DBNull.Value ? (int)0 : Convert.ToInt32(row["T_HORIZONTAL"].ToString());
-                    VERTICAL = row["T_VERTICAL"] == DBNull.Value ? (int)0 : Convert.ToInt32(row["T_VERTICAL"].ToString());
-                    MAXIMA = row["T_MAXIMA"] == DBNull.Value ? (int)0 : Convert.ToInt32(row["T_MAXIMA"].ToString());
-                    DEL = row["T_PUENTE"] == DBNull.Value ? (int)0 : Convert.ToInt32(row["T_PUENTE"].ToString());
+                    HORIZONTAL = row["T_HORIZONTAL"] == DBNull.Value ? 0.0 : Convert.ToDouble(row["T_HORIZONTAL"]);
+                    VERTICAL = row["T_VERTICAL"] == DBNull.Value ? 0.0 : Convert.ToDouble(row["T_VERTICAL"]);
+                    MAXIMA = row["T_MAXIMA"] == DBNull.Value ? 0.0 : Convert.ToDouble(row["T_MAXIMA"]);
+                    DEL = row["T_PUENTE"] == DBNull.Value ? 0.0 : Convert.ToDouble(row["T_PUENTE"]);
 
                     DV = row["T_DISTANCIAVERTICE"] == DBNull.Value ? (int)0 : Convert.ToInt32(row["T_DISTANCIAVERTICE"].ToString());
                     AP = row["T_ANGULOPANTOSCOPICO"] == DBNull.Value ? (int)0 : Convert.ToInt32(row["T_ANGULOPANTOSCOPICO"].ToString());
