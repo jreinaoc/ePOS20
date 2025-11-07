@@ -4469,7 +4469,7 @@ namespace CapaVisual_Login
             HabilitacionControl("CabezeraPrincipal");
             // Modo oscuro
             BotonesColor(false, "Cristal Propio");
-
+            Btn_Tap3_Garantia.Enabled = false;
         }
 
         private void QuitarLimea2_Click(object sender, EventArgs e)
@@ -4656,6 +4656,7 @@ namespace CapaVisual_Login
             // Modo oscuro
             BotonesColor(false, "Garantia");
             Btn_Tap3_Garantia.Enabled = false;
+            Btn_Tap3_CristalPropio.Enabled = false;
         }
 
         private bool AplicoGarantia(string CI, string nacio, string OS, string Suc, string exam)
