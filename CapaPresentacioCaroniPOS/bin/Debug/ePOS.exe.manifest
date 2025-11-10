@@ -1317,7 +1317,7 @@
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>9BkjZE/pd+zr1pBbJWVWmB4TOHduA9LTW1/04secXXE=</dsig:DigestValue>
+      <dsig:DigestValue>9pp/CgoF4T2w4UvP/+N82qhjH8563EyhDmAV5pFO76Q=</dsig:DigestValue>
     </hash>
   </file>
   <file name="icono-puntoDeVenta.ico" size="205662">
