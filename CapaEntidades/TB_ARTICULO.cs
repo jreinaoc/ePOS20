@@ -36,10 +36,11 @@ namespace CapaEntidades
         public string USER_CREA { get; set; }
         public string USER_MOD { get; set; }
         public bool ServicioVisual { get; set; }
-        public int? MHorizontal { get; set; }
-        public int? MVertical { get; set; }
-        public int? MMaxima { get; set; }
-        public int? MPuente { get; set; }
+        public decimal? MHorizontal { get; set; }
+        public decimal? MVertical { get; set; }
+        public decimal? MMaxima { get; set; }
+        public decimal
+            ? MPuente { get; set; }
         public decimal? CristalAlturaMin { get; set; }
         public decimal? CristalAlturaMax { get; set; }
         public decimal? CristalEsfMin { get; set; }
