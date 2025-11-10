@@ -235,9 +235,9 @@ namespace CapaLogica.Servicios
                 _Trabajo.T_TIPOVISIOND,
                 _Trabajo.T_TIPOVISIONI,
                 Montura,
-    (_Trabajo.T_HORIZONTAL?.ToString().Replace(".", "") ?? "0"),
-    (_Trabajo.T_MAXIMA?.ToString().Replace(".", "") ?? "0"),
-    (_Trabajo.T_PUENTE?.ToString().Replace(".", "") ?? "0"),
+                (decimal)Convert.ToDecimal(_Trabajo.T_HORIZONTAL),
+                (decimal)Convert.ToDecimal(_Trabajo.T_MAXIMA),
+                (decimal)Convert.ToDecimal(_Trabajo.T_PUENTE),
              sucursal, command);
 
             if (Convert.ToInt32(dsDiametroEfectivo.Tables[1].Rows[0][0]) > 0)
