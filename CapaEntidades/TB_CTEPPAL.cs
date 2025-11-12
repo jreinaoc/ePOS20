@@ -52,6 +52,6 @@ namespace CapaEntidades
         public string TLF_Ext03 { get; set; }
         public string Mail_Loogin { get; set; }
 
-        public bool CTE_RETIMUNICIPAL { get; set; }
+        //public bool CTE_RETIMUNICIPAL { get; set; }
     }
 }

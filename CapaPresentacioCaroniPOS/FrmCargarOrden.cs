@@ -5538,7 +5538,6 @@ namespace CapaVisual_Login
 
         }
 
-
         private void Txt_Tap1_Cedula_Pagador_MouseLeave(object sender, EventArgs e)
         {
             if (!string.IsNullOrEmpty(Txt_Tap1_Cedula_Pagador.Text))
@@ -5556,7 +5555,7 @@ namespace CapaVisual_Login
                         Txt_Tap1_Cedula_Pagador.Text = dtCliente.Rows[0]["CTE_CedIden"].ToString(); // Ajusta el nombre de la columna
                         Txt_Tap1_Nombre_Pagador.Text = dtCliente.Rows[0]["CTE_PNombre"].ToString(); // Ajusta el nombre de la columna
 
-                        if (dtCliente.Rows[0]["CTE_RETIMUNICIPAL"] != DBNull.Value && Convert.ToBoolean(dtCliente.Rows[0]["CTE_RETIMUNICIPAL"]))
+                        if (dtCliente.Rows[0]["CTE_RETIVA"] != DBNull.Value && Convert.ToBoolean(dtCliente.Rows[0]["CTE_RETIVA"]))
                         {
                             Chex_Tap1_Iva_Pagador.SetItemChecked(1, true); // Marcar el segundo elemento
                         }
@@ -5564,6 +5563,8 @@ namespace CapaVisual_Login
                         {
                             Chex_Tap1_Iva_Pagador.SetItemChecked(1, false); // Desmarcar el segundo elemento si es falso o nulo
                         }
+
+
 
 
                         if (dtCliente.Rows[0]["CTE_RETISLR"] != DBNull.Value && Convert.ToBoolean(dtCliente.Rows[0]["CTE_RETISLR"]))
@@ -5575,40 +5576,6 @@ namespace CapaVisual_Login
                             Chex_Tap1_Iva_Pagador.SetItemChecked(0, false); // Desmarcar el segundo elemento si es falso o nulo
                         }
 
-
-                        if (dtCliente.Rows[0]["CTE_RETIVA"] != DBNull.Value && Convert.ToBoolean(dtCliente.Rows[0]["CTE_RETIVA"]))
-                        {
-                            Chex_Tap1_Iva_Pagador2.SetItemChecked(0, true); // Marcar el segundo elemento
-                            DataTable DtIva = _D_Articulos.BuscarIvaPorce();
-                            
-                            // Limpiar el ComboBox antes de cargar nuevos datos
-                            Cbx_Tap1_PorcentajeIVA_Pagador.Items.Clear();
-
-                            // Cargar los porcentajes de IVA en el ComboBox
-                            foreach (DataRow row in DtIva.Rows)
-                            {
-                                Cbx_Tap1_PorcentajeIVA_Pagador.Items.Add(row["ValorSeparado"].ToString());
-                            }
-
-                            // Opcional: Seleccionar el primer elemento
-                            if (Cbx_Tap1_PorcentajeIVA_Pagador.Items.Count > 0)
-                            {
-                                Cbx_Tap1_PorcentajeIVA_Pagador.SelectedIndex = 0;
-                            }
-
-                            Cbx_Tap1_PorcentajeIVA_Pagador.Enabled = true;
-                        }
-                        else
-                        {
-                            Chex_Tap1_Iva_Pagador2.SetItemChecked(0, false); // Desmarcar el segundo elemento si es falso o nulo
-                           // Limpiar el ComboBox si no es retenedor de IVA
-                            Cbx_Tap1_PorcentajeIVA_Pagador.Items.Clear();
-                            Cbx_Tap1_PorcentajeIVA_Pagador.Enabled = false;
-                        }
-
-
-
-
                     }
                 }
                 catch (Exception ex)
@@ -5618,6 +5585,86 @@ namespace CapaVisual_Login
             }
 
         }
+
+        //private void Txt_Tap1_Cedula_Pagador_MouseLeave(object sender, EventArgs e)
+        //{
+        //    if (!string.IsNullOrEmpty(Txt_Tap1_Cedula_Pagador.Text))
+        //    {
+        //        try
+        //        {
+        //            string cedula = Txt_Tap1_Cedula_Pagador.Text.Trim();
+        //            string nacio = this.Cbx_Tap1_Nacionalidad_Pagador.Text.Trim();
+
+        //            DataTable dtCliente = _L_Cliente.ObtenerClientePorCedula(cedula, nacio); // Usa la instancia _L_Cliente
+
+        //            if (dtCliente != null && dtCliente.Rows.Count > 0 && !string.IsNullOrEmpty(dtCliente.Rows[0]["CTE_CedIden"].ToString()))
+        //            {
+        //                // Asigna los valores de la base de datos a las cajas de texto
+        //                Txt_Tap1_Cedula_Pagador.Text = dtCliente.Rows[0]["CTE_CedIden"].ToString(); // Ajusta el nombre de la columna
+        //                Txt_Tap1_Nombre_Pagador.Text = dtCliente.Rows[0]["CTE_PNombre"].ToString(); // Ajusta el nombre de la columna
+
+        //                if (dtCliente.Rows[0]["CTE_RETIMUNICIPAL"] != DBNull.Value && Convert.ToBoolean(dtCliente.Rows[0]["CTE_RETIMUNICIPAL"]))
+        //                {
+        //                    Chex_Tap1_Iva_Pagador.SetItemChecked(1, true); // Marcar el segundo elemento
+        //                }
+        //                else
+        //                {
+        //                    Chex_Tap1_Iva_Pagador.SetItemChecked(1, false); // Desmarcar el segundo elemento si es falso o nulo
+        //                }
+
+
+        //                if (dtCliente.Rows[0]["CTE_RETISLR"] != DBNull.Value && Convert.ToBoolean(dtCliente.Rows[0]["CTE_RETISLR"]))
+        //                {
+        //                    Chex_Tap1_Iva_Pagador.SetItemChecked(0, true); // Marcar el segundo elemento
+        //                }
+        //                else
+        //                {
+        //                    Chex_Tap1_Iva_Pagador.SetItemChecked(0, false); // Desmarcar el segundo elemento si es falso o nulo
+        //                }
+
+
+        //                if (dtCliente.Rows[0]["CTE_RETIVA"] != DBNull.Value && Convert.ToBoolean(dtCliente.Rows[0]["CTE_RETIVA"]))
+        //                {
+        //                    Chex_Tap1_Iva_Pagador2.SetItemChecked(0, true); // Marcar el segundo elemento
+        //                    DataTable DtIva = _D_Articulos.BuscarIvaPorce();
+                            
+        //                    // Limpiar el ComboBox antes de cargar nuevos datos
+        //                    Cbx_Tap1_PorcentajeIVA_Pagador.Items.Clear();
+
+        //                    // Cargar los porcentajes de IVA en el ComboBox
+        //                    foreach (DataRow row in DtIva.Rows)
+        //                    {
+        //                        Cbx_Tap1_PorcentajeIVA_Pagador.Items.Add(row["ValorSeparado"].ToString());
+        //                    }
+
+        //                    // Opcional: Seleccionar el primer elemento
+        //                    if (Cbx_Tap1_PorcentajeIVA_Pagador.Items.Count > 0)
+        //                    {
+        //                        Cbx_Tap1_PorcentajeIVA_Pagador.SelectedIndex = 0;
+        //                    }
+
+        //                    Cbx_Tap1_PorcentajeIVA_Pagador.Enabled = true;
+        //                }
+        //                else
+        //                {
+        //                    Chex_Tap1_Iva_Pagador2.SetItemChecked(0, false); // Desmarcar el segundo elemento si es falso o nulo
+        //                   // Limpiar el ComboBox si no es retenedor de IVA
+        //                    Cbx_Tap1_PorcentajeIVA_Pagador.Items.Clear();
+        //                    Cbx_Tap1_PorcentajeIVA_Pagador.Enabled = false;
+        //                }
+
+
+
+
+        //            }
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            MessageBox.Show($"Ocurrió un error al obtener la información del cliente: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+        //        }
+        //    }
+
+        //}
 
 
         private void Txt_Tap1_Cedula_KeyDown(object sender, KeyEventArgs e)
@@ -7109,14 +7156,20 @@ namespace CapaVisual_Login
 
             Chex_Tap1_Iva.SetItemChecked(0, false);
             Chex_Tap1_Iva.SetItemChecked(1, false);
-            Chex_Tap1_Iva2.SetItemChecked(0, false);
 
             Chex_Tap1_Iva_Pagador.SetItemChecked(0, false);
             Chex_Tap1_Iva_Pagador.SetItemChecked(1, false);
-            Chex_Tap1_Iva_Pagador2.SetItemChecked(0, false);
 
-            Cbx_Tap1_PorcentajeIVA_Pagador.Items.Clear();
-            Cbx_Tap1_PorcentajeIVA.Items.Clear();
+            //Chex_Tap1_Iva.SetItemChecked(0, false);
+            //Chex_Tap1_Iva.SetItemChecked(1, false);
+            //Chex_Tap1_Iva2.SetItemChecked(0, false);
+
+            //Chex_Tap1_Iva_Pagador.SetItemChecked(0, false);
+            //Chex_Tap1_Iva_Pagador.SetItemChecked(1, false);
+            //Chex_Tap1_Iva_Pagador2.SetItemChecked(0, false);
+
+            //Cbx_Tap1_PorcentajeIVA_Pagador.Items.Clear();
+            //Cbx_Tap1_PorcentajeIVA.Items.Clear();
 
             Txt_Tap1_Edad.Text = ""; // Limpiar el campo de edad también
 
@@ -8981,8 +9034,12 @@ namespace CapaVisual_Login
 
             // Obtener los valores de los CheckBoxes de retención
             nuevoCliente.CTE_RETISLR = Chex_Tap1_Iva.GetItemChecked(0); // Asume que ISR está en el índice 0
-            nuevoCliente.CTE_RETIMUNICIPAL = Chex_Tap1_Iva.GetItemChecked(1); // Asume que IVA está en el índice 1
-            nuevoCliente.CTE_RETIVA = Chex_Tap1_Iva2.GetItemChecked(0);
+            nuevoCliente.CTE_RETIVA = Chex_Tap1_Iva.GetItemChecked(1); // Asume que IVA está en el índice 1
+
+            //// Obtener los valores de los CheckBoxes de retención
+            //nuevoCliente.CTE_RETISLR = Chex_Tap1_Iva.GetItemChecked(0); // Asume que ISR está en el índice 0
+            //nuevoCliente.CTE_RETIMUNICIPAL = Chex_Tap1_Iva.GetItemChecked(1); // Asume que IVA está en el índice 1
+            //nuevoCliente.CTE_RETIVA = Chex_Tap1_Iva2.GetItemChecked(0);
 
             nuevoCliente.COD_Edo = Cbx_Tap1_Estado.SelectedValue != null ? Cbx_Tap1_Estado.SelectedValue.ToString() : null;
 
@@ -9137,12 +9194,102 @@ namespace CapaVisual_Login
         private void llenarcampos()
         {
 
+            //LimpiarCampos2();
+            //limpearExamen();
+
+
+
+            //Txt_Pnl2_Cedula.Text = dtCliente.Rows[0]["CTE_Nacio"].ToString() +"-"+dtCliente.Rows[0]["CTE_CedIden"].ToString(); // Ajusta el nombre de la columna
+            //Txt_Pnl_2_Nombre.Text = dtCliente.Rows[0]["CTE_PNombre"].ToString(); // Ajusta el nombre de la columna
+
+
+            //// Asigna los valores de la base de datos a las cajas de texto
+            //Cbx_Tap1_Nacionalidad.Text = dtCliente.Rows[0]["CTE_Nacio"].ToString();
+            //Txt_Tap1_Cedula.Text = dtCliente.Rows[0]["CTE_CedIden"].ToString(); // Ajusta el nombre de la columna
+            //Txt_Tap1_Nombre.Text = dtCliente.Rows[0]["CTE_PNombre"].ToString(); // Ajusta el nombre de la columna
+
+
+            //Dtp_Tap1_Nacimiento.Text = dtCliente.Rows[0]["CTE_FNac"].ToString();
+
+            //// ... Asigna los demás campos según tu estructura de base de datos
+
+            //if (dtCliente.Rows[0]["CTE_RETIMUNICIPAL"] != DBNull.Value && Convert.ToBoolean(dtCliente.Rows[0]["CTE_RETIMUNICIPAL"]))
+            //{
+            //    Chex_Tap1_Iva.SetItemChecked(1, true); // Marcar el segundo elemento
+            //}
+            //else
+            //{
+            //    Chex_Tap1_Iva.SetItemChecked(1, false); // Desmarcar el segundo elemento si es falso o nulo
+            //}
+
+            //if (dtCliente.Rows[0]["CTE_RETISLR"] != DBNull.Value && Convert.ToBoolean(dtCliente.Rows[0]["CTE_RETISLR"]))
+            //{
+            //    Chex_Tap1_Iva.SetItemChecked(0, true); // Marcar el primer elemento (asumiendo que es ISR)
+            //}
+            //else
+            //{
+            //    Chex_Tap1_Iva.SetItemChecked(0, false); // Desmarcar el primer elemento si es falso o nulo
+            //}
+
+            //if (dtCliente.Rows[0]["CTE_RETIVA"] != DBNull.Value && Convert.ToBoolean(dtCliente.Rows[0]["CTE_RETIVA"]))
+            //{
+            //    Chex_Tap1_Iva2.SetItemChecked(0, true); // Marcar el segundo elemento
+
+            //    DataTable DtIva = _D_Articulos.BuscarIvaPorce();
+
+            //    // Limpiar el ComboBox antes de cargar nuevos datos
+            //    Cbx_Tap1_PorcentajeIVA.Items.Clear();
+
+            //    // Cargar los porcentajes de IVA en el ComboBox
+            //    foreach (DataRow row in DtIva.Rows)
+            //    {
+            //        Cbx_Tap1_PorcentajeIVA.Items.Add(row["ValorSeparado"].ToString());
+            //    }
+
+            //    // Opcional: Seleccionar el primer elemento
+            //    if (Cbx_Tap1_PorcentajeIVA.Items.Count > 0)
+            //    {
+            //        Cbx_Tap1_PorcentajeIVA.SelectedIndex = 0;
+            //    }
+
+            //    Cbx_Tap1_PorcentajeIVA.Enabled = true;
+            //}
+            //else
+            //{
+            //    Chex_Tap1_Iva2.SetItemChecked(0, false); // Desmarcar el segundo elemento si es falso o nulo
+            //                                             // Limpiar el ComboBox antes de cargar nuevos datos
+            //    Cbx_Tap1_PorcentajeIVA.Items.Clear();
+            //    Cbx_Tap1_PorcentajeIVA.Enabled = false;
+            //}
+
+            //if (dtCliente.Rows[0]["CTE_Sex"] != DBNull.Value)
+            //{
+            //    string sexo = dtCliente.Rows[0]["CTE_Sex"].ToString().Trim().ToUpper();
+
+            //    if (sexo == "F")
+            //    {
+            //        Rd_Tap1_SexoF.Checked = true;
+            //        Rd_Tap1_SexoM.Checked = false;
+            //    }
+            //    else if (sexo == "M")
+            //    {
+            //        Rd_Tap1_SexoM.Checked = true;
+            //        Rd_Tap1_SexoF.Checked = false;
+            //    }
+            //}
+            //else
+            //{
+            //    Rd_Tap1_SexoF.Checked = false;
+            //    Rd_Tap1_SexoM.Checked = true;
+            //}
+
+
             LimpiarCampos2();
             limpearExamen();
 
-            
 
-            Txt_Pnl2_Cedula.Text = dtCliente.Rows[0]["CTE_Nacio"].ToString() +"-"+dtCliente.Rows[0]["CTE_CedIden"].ToString(); // Ajusta el nombre de la columna
+
+            Txt_Pnl2_Cedula.Text = dtCliente.Rows[0]["CTE_Nacio"].ToString() + "-" + dtCliente.Rows[0]["CTE_CedIden"].ToString(); // Ajusta el nombre de la columna
             Txt_Pnl_2_Nombre.Text = dtCliente.Rows[0]["CTE_PNombre"].ToString(); // Ajusta el nombre de la columna
 
 
@@ -9156,7 +9303,7 @@ namespace CapaVisual_Login
 
             // ... Asigna los demás campos según tu estructura de base de datos
 
-            if (dtCliente.Rows[0]["CTE_RETIMUNICIPAL"] != DBNull.Value && Convert.ToBoolean(dtCliente.Rows[0]["CTE_RETIMUNICIPAL"]))
+            if (dtCliente.Rows[0]["CTE_RETIVA"] != DBNull.Value && Convert.ToBoolean(dtCliente.Rows[0]["CTE_RETIVA"]))
             {
                 Chex_Tap1_Iva.SetItemChecked(1, true); // Marcar el segundo elemento
             }
@@ -9172,37 +9319,6 @@ namespace CapaVisual_Login
             else
             {
                 Chex_Tap1_Iva.SetItemChecked(0, false); // Desmarcar el primer elemento si es falso o nulo
-            }
-
-            if (dtCliente.Rows[0]["CTE_RETIVA"] != DBNull.Value && Convert.ToBoolean(dtCliente.Rows[0]["CTE_RETIVA"]))
-            {
-                Chex_Tap1_Iva2.SetItemChecked(0, true); // Marcar el segundo elemento
-
-                DataTable DtIva = _D_Articulos.BuscarIvaPorce();
-
-                // Limpiar el ComboBox antes de cargar nuevos datos
-                Cbx_Tap1_PorcentajeIVA.Items.Clear();
-
-                // Cargar los porcentajes de IVA en el ComboBox
-                foreach (DataRow row in DtIva.Rows)
-                {
-                    Cbx_Tap1_PorcentajeIVA.Items.Add(row["ValorSeparado"].ToString());
-                }
-
-                // Opcional: Seleccionar el primer elemento
-                if (Cbx_Tap1_PorcentajeIVA.Items.Count > 0)
-                {
-                    Cbx_Tap1_PorcentajeIVA.SelectedIndex = 0;
-                }
-
-                Cbx_Tap1_PorcentajeIVA.Enabled = true;
-            }
-            else
-            {
-                Chex_Tap1_Iva2.SetItemChecked(0, false); // Desmarcar el segundo elemento si es falso o nulo
-                                                         // Limpiar el ComboBox antes de cargar nuevos datos
-                Cbx_Tap1_PorcentajeIVA.Items.Clear();
-                Cbx_Tap1_PorcentajeIVA.Enabled = false;
             }
 
             if (dtCliente.Rows[0]["CTE_Sex"] != DBNull.Value)
@@ -9885,8 +10001,12 @@ namespace CapaVisual_Login
 
             // Obtener los valores de los CheckBoxes de retención
             nuevoCliente.CTE_RETISLR = Chex_Tap1_Iva_Pagador.GetItemChecked(0); // Asume que ISR está en el índice 0
-            nuevoCliente.CTE_RETIMUNICIPAL = Chex_Tap1_Iva_Pagador.GetItemChecked(1); // Asume que IVA está en el índice 1
-            nuevoCliente.CTE_RETIVA = Chex_Tap1_Iva_Pagador2.GetItemChecked(0);
+            nuevoCliente.CTE_RETIVA = Chex_Tap1_Iva_Pagador.GetItemChecked(1); // Asume que IVA está en el índice 1
+
+            //// Obtener los valores de los CheckBoxes de retención
+            //nuevoCliente.CTE_RETISLR = Chex_Tap1_Iva_Pagador.GetItemChecked(0); // Asume que ISR está en el índice 0
+            //nuevoCliente.CTE_RETIMUNICIPAL = Chex_Tap1_Iva_Pagador.GetItemChecked(1); // Asume que IVA está en el índice 1
+            //nuevoCliente.CTE_RETIVA = Chex_Tap1_Iva_Pagador2.GetItemChecked(0);
 
             nuevoCliente.COD_Edo = Cbx_Tap1_Estado.SelectedValue.ToString(); // 
             nuevoCliente.COD_Ciud = Cbx_Tap1_Ciudad.SelectedValue.ToString(); // 
@@ -10139,9 +10259,12 @@ namespace CapaVisual_Login
             //Txt_Tap1_Instagram.Text = "";
             Chex_Tap1_Iva.SetItemChecked(0, false);
             Chex_Tap1_Iva.SetItemChecked(1, false);
-            Chex_Tap1_Iva2.SetItemChecked(0, false);
-            Cbx_Tap1_PorcentajeIVA_Pagador.Enabled = false;
-            Cbx_Tap1_PorcentajeIVA.Enabled = false;
+
+            //Chex_Tap1_Iva.SetItemChecked(0, false);
+            //Chex_Tap1_Iva.SetItemChecked(1, false);
+            //Chex_Tap1_Iva2.SetItemChecked(0, false);
+            //Cbx_Tap1_PorcentajeIVA_Pagador.Enabled = false;
+            //Cbx_Tap1_PorcentajeIVA.Enabled = false;
 
             Txt_Tap1_Edad.Text = ""; // Limpiar el campo de edad también
 
