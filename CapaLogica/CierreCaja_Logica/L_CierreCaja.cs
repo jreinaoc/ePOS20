@@ -563,9 +563,9 @@ namespace CapaLogica.CierreCaja_Logica
                         // SE CREA EL DATASET CON LOS DATOS DE LA TABLA ACC
                         DataTable ds = _D_CierreCaja.ObtieneTablasAcc(ACCNombre, command);
 
-                        ds.TableName = "ACC";
+                        ds.TableName = ACCNombre;
 
-                        DataSet dataSet = new DataSet("DocumentElement");
+                        DataSet dataSet = new DataSet("ACCTabla");
                         dataSet.Tables.Add(ds.Copy()); // Usa Copy para evitar conflictos si el DataTable ya pertenece a otro DataSet
 
                         dataSet.WriteXml(System.IO.Path.Combine(_xmlRutaDestino, ACCNombre + ".xml"), XmlWriteMode.IgnoreSchema);

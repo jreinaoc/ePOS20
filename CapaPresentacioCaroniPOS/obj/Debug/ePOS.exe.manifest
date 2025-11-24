@@ -86,7 +86,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>+o1NJye6ZwVp3+o+Rzq9b06+DmYOvebvR0IHzXLPs/w=</dsig:DigestValue>
+        <dsig:DigestValue>H3BWtYBLYKSsNEvrzX5sHxuH/JFO7aWA10hPtmxy72E=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -206,7 +206,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>s+y1rWiPjaJswyLoquwgJtnL30GrQiQHZURyECD4n5w=</dsig:DigestValue>
+        <dsig:DigestValue>uHavhsY4pRau+4KmLRxvYwX71cj1Jvf7rnuys09zJmU=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -1172,13 +1172,13 @@
   </dependency>
   <dependency>
     <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Script.dll" size="5120">
-      <assemblyIdentity name="Script" version="1.0.0.3" language="neutral" processorArchitecture="msil" />
+      <assemblyIdentity name="Script" version="1.0.0.4" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>037oCHEhRjbjXbagUUH0gzB0DEntHPQChxsauiB1bkY=</dsig:DigestValue>
+        <dsig:DigestValue>Kz4Rm5ecE0hGEmwcLySFgwG971xpgZoW/RbnPGa03YI=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -1317,7 +1317,7 @@
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>UGaUl6ZBIHyeBIX3nO28TWSD/vcLr0Bw/Wfou+BDm4M=</dsig:DigestValue>
+      <dsig:DigestValue>yrhZJMfS4pP7QrCdHh738M0nGSwlIWaGt1mrvcx6Eik=</dsig:DigestValue>
     </hash>
   </file>
   <file name="icono-puntoDeVenta.ico" size="205662">

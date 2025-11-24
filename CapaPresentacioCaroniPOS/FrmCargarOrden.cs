@@ -13735,6 +13735,8 @@ namespace CapaVisual_Login
 
                     if (_FrmMensajes.DialogResult == DialogResult.OK)
                     {
+                        _FrmClaveAutorizada.Nuevo_Parametro = true;
+                        _FrmClaveAutorizada.Id_Rol = "015";
                         _FrmClaveAutorizada.ShowDialog();
 
                         if (_FrmClaveAutorizada.DialogResult == DialogResult.OK && _FrmClaveAutorizada.ClaveCorrecta == true)
@@ -13844,6 +13846,8 @@ namespace CapaVisual_Login
 
                     if (_FrmMensajes.DialogResult == DialogResult.OK)
                     {
+                        _FrmClaveAutorizada.Nuevo_Parametro = true;
+                        _FrmClaveAutorizada.Id_Rol = "015";
                         _FrmClaveAutorizada.ShowDialog();
 
                         if (_FrmClaveAutorizada.DialogResult == DialogResult.OK && _FrmClaveAutorizada.ClaveCorrecta)
