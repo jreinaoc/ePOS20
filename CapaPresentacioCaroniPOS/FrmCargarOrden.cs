@@ -3428,6 +3428,11 @@ namespace CapaVisual_Login
                 Btn_Tap3_Garantia.Enabled = false;
             }
 
+            if (_D_DetalleOrden.TB_PARAMETRO("MonturaPropia") == "0")
+            {
+                Btn_Tap3_MonturaPropia.Enabled = false;
+            }
+
         }
 
         private void Dgv_Tap3_Totales_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
