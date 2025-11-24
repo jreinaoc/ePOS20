@@ -3428,6 +3428,16 @@ namespace CapaVisual_Login
                 Txt_Tap3_Articulo_Precio.BackColor = ColorTranslator.FromHtml("#ffffff");
             }
 
+            if (_D_DetalleOrden.TB_PARAMETROSPGE("PGEActivo") == "0")
+            {
+                Btn_Tap3_Garantia.Enabled = false;
+            }
+
+            if (_D_DetalleOrden.TB_PARAMETRO("MonturaPropia") == "0")
+            {
+                Btn_Tap3_MonturaPropia.Enabled = false;
+            }
+
         }
 
         private void Dgv_Tap3_Totales_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
@@ -13969,6 +13979,8 @@ namespace CapaVisual_Login
 
                     if (_FrmMensajes.DialogResult == DialogResult.OK)
                     {
+                        _FrmClaveAutorizada.Nuevo_Parametro = true;
+                        _FrmClaveAutorizada.Id_Rol = "015";
                         _FrmClaveAutorizada.ShowDialog();
 
                         if (_FrmClaveAutorizada.DialogResult == DialogResult.OK && _FrmClaveAutorizada.ClaveCorrecta == true)
