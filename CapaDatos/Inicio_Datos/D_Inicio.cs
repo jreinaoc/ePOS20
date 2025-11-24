@@ -424,7 +424,7 @@ namespace CapaDatos.Inicio_Datos
         {
             string Cod_Sucursal = Sucursal();
 
-            SqlCommand cmd = new SqlCommand(" SELECT * FROM TB_TASA WHERE FecCreacion = @fechaDiaActivo AND Cod_Moneda = '01' order by ID_Tasa DESC ", cn.LeerCadena());
+            SqlCommand cmd = new SqlCommand(" SELECT top (1)* FROM TB_TASA WHERE FecCreacion = @fechaDiaActivo AND Cod_Moneda = '01' order by ID_Tasa DESC ", cn.LeerCadena());
             //SqlCommand cmd = new SqlCommand(" SELECT top(1)*FROM TB_TASA where Cod_Moneda = '01' and @fechaDiaActivo = FecCreacion order by ID_Tasa DESC", cn.LeerCadena());
             cmd.CommandType = CommandType.Text;
             cmd.Parameters.AddWithValue("@Cod_Sucursal", Cod_Sucursal);

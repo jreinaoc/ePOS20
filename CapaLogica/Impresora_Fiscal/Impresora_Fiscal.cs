@@ -1400,7 +1400,7 @@ namespace CapaLogica.Impresora_Fiscal
 
                 // lo que nos dice Vmas 
                 // 🔹 Para modelos VMAX2: 0x0001 = tapa abierta o sin papel
-                if (Resss == "0001")
+                if (!string.IsNullOrEmpty(Resss) && Resss != "0000")
                 {
                     ret = 3;
                     objVmax.Cancelar();

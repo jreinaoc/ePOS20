@@ -1496,7 +1496,7 @@ namespace CapaVisual_Login
             this.btnSiguiente.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSiguiente.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSiguiente.ForeColor = System.Drawing.SystemColors.Window;
-            this.btnSiguiente.Location = new System.Drawing.Point(867, 573);
+            this.btnSiguiente.Location = new System.Drawing.Point(868, 555);
             this.btnSiguiente.Name = "btnSiguiente";
             this.btnSiguiente.Size = new System.Drawing.Size(98, 33);
             this.btnSiguiente.TabIndex = 164;
