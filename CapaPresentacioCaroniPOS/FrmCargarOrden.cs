@@ -3423,6 +3423,11 @@ namespace CapaVisual_Login
                 Txt_Tap3_Articulo_Precio.BackColor = ColorTranslator.FromHtml("#ffffff");
             }
 
+            if (_D_DetalleOrden.TB_PARAMETROSPGE("PGEActivo") == "0")
+            {
+                Btn_Tap3_Garantia.Enabled = false;
+            }
+
         }
 
         private void Dgv_Tap3_Totales_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
