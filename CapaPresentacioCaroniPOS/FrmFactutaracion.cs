@@ -2053,12 +2053,22 @@ namespace CapaVisual_Login
                     _D_DetalleOrden.ObtenerFactura(TB_CAORDSER.NumOrdserv);
                     label3.Location = new Point(20, 12);
                     txtNumeroOrden.Location = new Point(24, 37);
-                    label72.Visible = true;
-                    txtNumeroFactura.Visible = true;
                     txtNumeroFactura.Text = TB_FACTURAS.Fact_Num;
-                    txtNombreVendedor.Text = _D_DetalleOrden.BuscarUsuarioOrden(TB_FACTURAS.USER_Crea);
                     label72.Location = new Point(126, 12);
                     txtNumeroFactura.Location = new Point(130, 37);
+
+                    if (TB_CAORDSER.OrSer_Status == "002")
+                    {
+                        txtNombreVendedor.Text = _D_DetalleOrden.BuscarUsuarioOrden(TB_FACTURAS.USER_Crea);
+                        txtNumeroFactura.Visible = true;
+                        label72.Visible = true;
+                    }
+                    else
+                    {
+                        txtNombreVendedor.Text = _D_DetalleOrden.BuscarUsuarioOrden(TB_CAORDSER.USER_Crea);
+                        txtNumeroFactura.Visible = false;
+                        label72.Visible = false;
+                    }
 
 
                 }
