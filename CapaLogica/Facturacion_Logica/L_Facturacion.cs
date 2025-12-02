@@ -1092,6 +1092,13 @@ namespace CapaLogica.DetalleOrden_Logica
 
             // Ahora asignar los nuevos datos
             var datos = _D_DetalleOrden.Punto(Tipo_punto);
+
+            // Agregar fila en blanco directamente al DataTable existente
+            DataRow blankRow = datos.NewRow();
+            blankRow["Indexx"] = "";
+            blankRow["Value"] = "";
+            datos.Rows.InsertAt(blankRow, 0); // Insertar al inicio
+
             Punto.DataSource = datos;
             Punto.DisplayMember = "Indexx";
             Punto.ValueMember = "Value";

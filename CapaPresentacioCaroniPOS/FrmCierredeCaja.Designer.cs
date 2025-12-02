@@ -1283,7 +1283,7 @@ namespace CapaVisual_Login
             this.Dvg_OSconPagoMovil.DefaultCellStyle = dataGridViewCellStyle20;
             this.Dvg_OSconPagoMovil.EnableHeadersVisualStyles = false;
             this.Dvg_OSconPagoMovil.GridColor = System.Drawing.SystemColors.ControlLightLight;
-            this.Dvg_OSconPagoMovil.Location = new System.Drawing.Point(228, 355);
+            this.Dvg_OSconPagoMovil.Location = new System.Drawing.Point(176, 355);
             this.Dvg_OSconPagoMovil.Name = "Dvg_OSconPagoMovil";
             this.Dvg_OSconPagoMovil.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
@@ -1297,7 +1297,7 @@ namespace CapaVisual_Login
             this.Dvg_OSconPagoMovil.RowHeadersVisible = false;
             this.Dvg_OSconPagoMovil.RowHeadersWidth = 51;
             this.Dvg_OSconPagoMovil.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.Dvg_OSconPagoMovil.Size = new System.Drawing.Size(656, 124);
+            this.Dvg_OSconPagoMovil.Size = new System.Drawing.Size(762, 124);
             this.Dvg_OSconPagoMovil.TabIndex = 310;
             // 
             // lbl_MarcajeAsistenciaPen
@@ -1369,9 +1369,9 @@ namespace CapaVisual_Login
             // 
             this.lbl_OrdenesServPagoMovil.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(173)))));
             this.lbl_OrdenesServPagoMovil.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_OrdenesServPagoMovil.Location = new System.Drawing.Point(228, 297);
+            this.lbl_OrdenesServPagoMovil.Location = new System.Drawing.Point(176, 297);
             this.lbl_OrdenesServPagoMovil.Name = "lbl_OrdenesServPagoMovil";
-            this.lbl_OrdenesServPagoMovil.Size = new System.Drawing.Size(656, 40);
+            this.lbl_OrdenesServPagoMovil.Size = new System.Drawing.Size(762, 40);
             this.lbl_OrdenesServPagoMovil.TabIndex = 167;
             this.lbl_OrdenesServPagoMovil.Text = "Ordenes de servicios con pago móvil ";
             this.lbl_OrdenesServPagoMovil.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1496,7 +1496,7 @@ namespace CapaVisual_Login
             this.btnSiguiente.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSiguiente.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSiguiente.ForeColor = System.Drawing.SystemColors.Window;
-            this.btnSiguiente.Location = new System.Drawing.Point(868, 555);
+            this.btnSiguiente.Location = new System.Drawing.Point(867, 573);
             this.btnSiguiente.Name = "btnSiguiente";
             this.btnSiguiente.Size = new System.Drawing.Size(98, 33);
             this.btnSiguiente.TabIndex = 164;

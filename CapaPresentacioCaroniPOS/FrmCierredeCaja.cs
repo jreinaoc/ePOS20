@@ -26,7 +26,7 @@ namespace CapaVisual_Login
         FrmMensajes _FrmMensajes = new FrmMensajes();
         private D_DetalleOrden _D_DetalleOrden = new D_DetalleOrden();
         D_Inicio _D_Inicio = new D_Inicio();
-
+        bool ValideClave = false;
         DateTime diaActivo;
         DataTable dtPtoVenta = new DataTable();
         string sucursal;
@@ -685,7 +685,7 @@ namespace CapaVisual_Login
             {
                 // 2) ¿Estamos en la columna TimePicker?
                 var col = Dvg_MarcajeAsistenciaPendiente.CurrentCell?.OwningColumn;
-                if (col is DataGridViewTimePickerColumn)
+                if (col is DataGridViewTimePickerColumn && ValideClave == true)
                 {
                     var dgv = Dvg_MarcajeAsistenciaPendiente;
 
@@ -1033,11 +1033,11 @@ namespace CapaVisual_Login
                     Dvg_OSconPagoMovil.Columns["BancoEmisor"].Visible = false; // Ocultar nombre original
                     Dvg_OSconPagoMovil.Columns["CodBancoEmisor"].Visible = false; // Ocultar código si deseas
 
-                    Dvg_OSconPagoMovil.Columns["Orden"].Width = 100;
-                    Dvg_OSconPagoMovil.Columns["Referencia"].Width = 120;
-                    Dvg_OSconPagoMovil.Columns["BancoReceptor"].Width = 120;
-                    Dvg_OSconPagoMovil.Columns["MontoVueltoRef"].Width = 100;
-                    Dvg_OSconPagoMovil.Columns["MontoVueltoBs"].Width = 100;
+                    Dvg_OSconPagoMovil.Columns["Orden"].Width = 110;
+                    Dvg_OSconPagoMovil.Columns["Referencia"].Width = 150;
+                    Dvg_OSconPagoMovil.Columns["BancoReceptor"].Width = 150;
+                    Dvg_OSconPagoMovil.Columns["MontoVueltoRef"].Width = 115;
+                    Dvg_OSconPagoMovil.Columns["MontoVueltoBs"].Width = 115;
 
                     Dvg_OSconPagoMovil.Columns["BancoReceptor"].HeaderText = "Banco Receptor";
                     Dvg_OSconPagoMovil.Columns["MontoVueltoRef"].HeaderText = "Monto $";
@@ -1240,6 +1240,7 @@ namespace CapaVisual_Login
             tcCierreCaja.SelectedIndex = 0;
             lblPaso.Text = "Confirmación";
             lbPaso.Text = "Paso 1";
+            ValideClave = false;
         }
 
         public void RegresarInicio()
@@ -1579,6 +1580,7 @@ namespace CapaVisual_Login
             if (_FrmClaveGerente.DialogResult == DialogResult.OK
                 && _FrmClaveGerente.ClaveCorrecta)
             {
+                ValideClave = true;
                 GerenteAutoriza = _FrmClaveGerente.RetornoNombreUsuario();
                 // Aquí sí iniciamos la edición y aparece el picker
                 Dvg_MarcajeAsistenciaPendiente.CurrentCell =
@@ -1587,6 +1589,7 @@ namespace CapaVisual_Login
             }
             else
             {
+                ValideClave = false;
                 // Al no llamar a BeginEdit, nunca instancias el DateTimePicker.
                 // Y de paso dejas el valor en null/blank si quieres:
                 Dvg_MarcajeAsistenciaPendiente.Rows[e.RowIndex]

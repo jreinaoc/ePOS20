@@ -105,6 +105,7 @@ namespace CapaVisual_Login
             this.GbxMenuPrincipal.Controls.Add(this.pnlUtilitarios);
             this.GbxMenuPrincipal.Controls.Add(this.pictureBox5);
             this.GbxMenuPrincipal.Controls.Add(this.btnPromoCasada);
+            this.GbxMenuPrincipal.Controls.Add(this.pictureBox6);
             this.GbxMenuPrincipal.Controls.Add(this.button1);
             this.GbxMenuPrincipal.Controls.Add(this.btn_FrmCierreDeCaja);
             this.GbxMenuPrincipal.Controls.Add(this.pictureBox4);
@@ -137,7 +138,6 @@ namespace CapaVisual_Login
             this.GbxMenuPrincipal.Controls.Add(this.PicBoxConfigOsc);
             this.GbxMenuPrincipal.Controls.Add(this.pictBoxPagoMovilOsc);
             this.GbxMenuPrincipal.Controls.Add(this.pictureBox1);
-            this.GbxMenuPrincipal.Controls.Add(this.pictureBox6);
             this.GbxMenuPrincipal.Controls.Add(this.pictBoxUtilitarioOscuro);
             this.GbxMenuPrincipal.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.GbxMenuPrincipal.Location = new System.Drawing.Point(5, 68);
@@ -223,9 +223,9 @@ namespace CapaVisual_Login
             // pictureBox5
             // 
             this.pictureBox5.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox5.Image")));
-            this.pictureBox5.Location = new System.Drawing.Point(13, 289);
+            this.pictureBox5.Location = new System.Drawing.Point(13, 291);
             this.pictureBox5.Name = "pictureBox5";
-            this.pictureBox5.Size = new System.Drawing.Size(20, 25);
+            this.pictureBox5.Size = new System.Drawing.Size(18, 22);
             this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox5.TabIndex = 38;
             this.pictureBox5.TabStop = false;
@@ -296,9 +296,9 @@ namespace CapaVisual_Login
             // pictureBox3
             // 
             this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
-            this.pictureBox3.Location = new System.Drawing.Point(13, 254);
+            this.pictureBox3.Location = new System.Drawing.Point(13, 258);
             this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(20, 25);
+            this.pictureBox3.Size = new System.Drawing.Size(20, 22);
             this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox3.TabIndex = 33;
             this.pictureBox3.TabStop = false;
@@ -498,9 +498,9 @@ namespace CapaVisual_Login
             // PicBoxConfigClaro
             // 
             this.PicBoxConfigClaro.Image = ((System.Drawing.Image)(resources.GetObject("PicBoxConfigClaro.Image")));
-            this.PicBoxConfigClaro.Location = new System.Drawing.Point(13, 327);
+            this.PicBoxConfigClaro.Location = new System.Drawing.Point(13, 326);
             this.PicBoxConfigClaro.Name = "PicBoxConfigClaro";
-            this.PicBoxConfigClaro.Size = new System.Drawing.Size(20, 25);
+            this.PicBoxConfigClaro.Size = new System.Drawing.Size(20, 23);
             this.PicBoxConfigClaro.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.PicBoxConfigClaro.TabIndex = 14;
             this.PicBoxConfigClaro.TabStop = false;
@@ -667,7 +667,7 @@ namespace CapaVisual_Login
             this.PicBoxConfigOsc.Image = ((System.Drawing.Image)(resources.GetObject("PicBoxConfigOsc.Image")));
             this.PicBoxConfigOsc.Location = new System.Drawing.Point(13, 326);
             this.PicBoxConfigOsc.Name = "PicBoxConfigOsc";
-            this.PicBoxConfigOsc.Size = new System.Drawing.Size(20, 25);
+            this.PicBoxConfigOsc.Size = new System.Drawing.Size(20, 23);
             this.PicBoxConfigOsc.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.PicBoxConfigOsc.TabIndex = 20;
             this.PicBoxConfigOsc.TabStop = false;
@@ -696,9 +696,9 @@ namespace CapaVisual_Login
             // pictureBox6
             // 
             this.pictureBox6.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox6.Image")));
-            this.pictureBox6.Location = new System.Drawing.Point(13, 289);
+            this.pictureBox6.Location = new System.Drawing.Point(13, 291);
             this.pictureBox6.Name = "pictureBox6";
-            this.pictureBox6.Size = new System.Drawing.Size(20, 25);
+            this.pictureBox6.Size = new System.Drawing.Size(18, 22);
             this.pictureBox6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox6.TabIndex = 39;
             this.pictureBox6.TabStop = false;
@@ -707,9 +707,9 @@ namespace CapaVisual_Login
             // pictBoxUtilitarioOscuro
             // 
             this.pictBoxUtilitarioOscuro.Image = ((System.Drawing.Image)(resources.GetObject("pictBoxUtilitarioOscuro.Image")));
-            this.pictBoxUtilitarioOscuro.Location = new System.Drawing.Point(13, 254);
+            this.pictBoxUtilitarioOscuro.Location = new System.Drawing.Point(13, 258);
             this.pictBoxUtilitarioOscuro.Name = "pictBoxUtilitarioOscuro";
-            this.pictBoxUtilitarioOscuro.Size = new System.Drawing.Size(20, 25);
+            this.pictBoxUtilitarioOscuro.Size = new System.Drawing.Size(20, 22);
             this.pictBoxUtilitarioOscuro.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictBoxUtilitarioOscuro.TabIndex = 40;
             this.pictBoxUtilitarioOscuro.TabStop = false;

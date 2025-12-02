@@ -226,6 +226,14 @@ namespace CapaVisual_Login
                 }
             }
 
+            if (TB_USUARIO.COD_EMPLEADO == "99999")
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("Este usuario no tiene autorización");
+                _FrmMensajes.ShowDialog();
+                return; // Salir 
+            }
+
             //**** Se creo una nueva Funcion para validar la Asistencia 
             if (!_L_CierreCaja.BuscoAsistencia(DateTime.Now.ToString("yyyyMMdd"), mostrarPregunta, mostrarError))
                 return;
@@ -1010,7 +1018,7 @@ namespace CapaVisual_Login
                 if (CbxMetodosPago2.Text == "Debito")
                 {
                     //'Si los campos poseen valores proceso los datos
-                    if (txtMonto2Bs.Text != "" && txtMonto2Bs.Text != "0,00" && txtTranferencia.Text != "" && CbxBanco.Text != "" && Convert.ToDouble(txtMonto2Bs.Text.Replace(".", "")) > 0)
+                    if (txtMonto2Bs.Text != "" && txtMonto2Bs.Text != "0,00" && txtTranferencia.Text != "" && CbxBanco.Text != "" && Convert.ToDouble(txtMonto2Bs.Text.Replace(".", "")) > 0 && !string.IsNullOrEmpty(CbxPunto_Venta.Text))
                     {
                         if (Bolivares > (Math.Round((TB_CAORDSER.OrSer_Saldo + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos))) - TotalAbono, 2)))
                         {
@@ -1325,7 +1333,7 @@ namespace CapaVisual_Login
                 if (CbxMetodosPago2.Text == "Tarjeta de Credito")
                 {
                     //'Si los campos poseen valores proceso los datos
-                    if (txtMonto2Bs.Text != "0,00" && txtTranferencia.Text != "" && CbxBanco.Text != "" && txtCVC.Text.Length == 3 && txtCVC.Text != "" && txtVence.Text != "" && Bolivares <= (Math.Round((TB_CAORDSER.OrSer_Saldo + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos))) - TotalAbono, 2)))
+                    if (!string.IsNullOrEmpty(CbxPunto_Venta.Text) && txtMonto2Bs.Text != "0,00" && txtTranferencia.Text != "" && CbxBanco.Text != "" && txtCVC.Text.Length == 3 && txtCVC.Text != "" && txtVence.Text != "" && Bolivares <= (Math.Round((TB_CAORDSER.OrSer_Saldo + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos))) - TotalAbono, 2)))
                     {
 
                         //Obtengo el año actual 
@@ -5424,13 +5432,19 @@ namespace CapaVisual_Login
                         { 
                             // Reversamos la Transacion para guardar la factura en la base de datos 
                             command.Transaction.Rollback();
+
+
+                            _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "091", TB_USUARIO.COD_EMPLEADO, "Numero de orden " + TB_CAORDSER.NumOrdserv + " En proceso de facturacion.");
+
                             rollbackRealizado = true;
                             string Resp = _D_DetalleOrden.GetFactura(TB_CAORDSER.Cod_Sucursal, NumeroComprobanteFiscal.PadLeft(7, '0'), DateTime.Today.ToString("yyyyMMdd"), txtCedula.Text[0].ToString(),
                                       txtCedula.Text.Substring(2, txtCedula.Text.Length - 2), TB_CAORDSER.COD_EMPLEADO, TB_CAORDSER.Cod_Venta, txtNumeroOrden.Text, Convert.ToString(TB_CAORDSER.Fec_ofrecido.ToString("yyyyMMdd")), TB_CAORDSER.Hor_ofrecido, Convert.ToDouble("0,00"),
                                        Convert.ToDouble("0,00"), Convert.ToDouble("0,00"), Convert.ToDouble("0,00"), TB_USUARIO.COD_USR, 0, 0, SerialImpresora,
                                         Convert.ToDouble("0,00"), Convert.ToDouble("0,00"), Convert.ToDouble("0,00"), Convert.ToDouble("0,00"), "I", null);
 
-                            _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "071", TB_USUARIO.COD_EMPLEADO, "OS: " + txtNumeroOrden.Text + ", Factura: " + NumeroComprobanteFiscal + ", Serial: " + SerialImpresora);
+                            //_D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "071", TB_USUARIO.COD_EMPLEADO, "OS: " + txtNumeroOrden.Text + ", Factura: " + NumeroComprobanteFiscal + ", Serial: " + SerialImpresora);
+                           
+                            _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "092", TB_USUARIO.COD_EMPLEADO, "Factura fiscal reversada N° " + NumeroComprobanteFiscal+ " ,Numero de orden: " + txtNumeroOrden.Text + ", Serial: " + SerialImpresora);
 
                             objVmax.ObtenerReporteInformativo();
                             //SerialImpresora = objVmax.RetornoMI.sSerial;
@@ -6469,6 +6483,10 @@ namespace CapaVisual_Login
                                 //return "";
                             }
                         }
+
+
+                    _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "091", TB_USUARIO.COD_EMPLEADO, "Numero de orden " + TB_CAORDSER.NumOrdserv +" En proceso de facturacion.", command);
+
                     rept = ImprimirFacturaFiscal(txtNumeroOrden.Text, txtCedula.Text, txtNombreCliente.Text, command);
 
                     // Imprimo el Pago Movil 

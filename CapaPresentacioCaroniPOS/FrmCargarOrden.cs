@@ -3848,7 +3848,7 @@ namespace CapaVisual_Login
                     return; // Salir
                 }
 
-                //Guardar datos en CAORDSERV
+                //Guardar datos en CAORDSER
                 string codServicio = Cbx_Pnl2_Servicio.SelectedValue?.ToString();
                 var glbCodDetVta = Cbx_Pnl2_Trbajo.SelectedValue.ToString();
                 string sucursal = TB_USUARIO.COD_SUCURSAL;
@@ -3865,6 +3865,13 @@ namespace CapaVisual_Login
                 //bool esEmpresaAfiliada = empresaAfiliada == "1" || empresaAfiliada.ToLower() == "true";
                 var glbManejaExisLC = _D_DetalleOrden.TB_PARAMETRO("LCManejaExist");
 
+                if (TB_USUARIO.COD_EMPLEADO == "99999")
+                {
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje("Este usuario no tiene autorización");
+                    _FrmMensajes.ShowDialog();
+                    return; // Salir 
+                }
 
                 Conexion cn = new Conexion();
                 SqlConnection connection = cn.LeerCadena();

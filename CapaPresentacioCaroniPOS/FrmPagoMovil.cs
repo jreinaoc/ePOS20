@@ -515,7 +515,15 @@ namespace CapaVisual_Login
                 if (DgvListadoOrdenes.Columns[e.ColumnIndex].Name == "Btn") //  PARA FACTURAR
                 {
                     lblMensaje.Text = "";
-                 
+
+                    if (TB_USUARIO.COD_EMPLEADO == "99999")
+                    {
+                        _FrmMensajes.co = 2;
+                        _FrmMensajes.avisomensaje("Este usuario no tiene autorización");
+                        _FrmMensajes.ShowDialog();
+                        return; // Salir 
+                    }
+
                     //Btnlupa.Visible = false;
                     //DgvListadoOrdenes.Visible = false;
                     string MaxDiaPagoMovil = _D_DetalleOrden.TB_PARAMETRO("PM");
@@ -617,6 +625,15 @@ namespace CapaVisual_Login
                 }
                 if (DgvListadoOrdenes.Columns[e.ColumnIndex].Name == "Btn2") // PARA ANULAR
                 {
+
+                    if (TB_USUARIO.COD_EMPLEADO == "99999")
+                    {
+                        _FrmMensajes.co = 2;
+                        _FrmMensajes.avisomensaje("Este usuario no tiene autorización");
+                        _FrmMensajes.ShowDialog();
+                        return; // Salir 
+                    }
+
                     // Para anular una orden abonada 
                     if (DgvListadoOrdenes.CurrentRow.Cells["Estado"].Value.ToString() == "FALLIDO" || DgvListadoOrdenes.CurrentRow.Cells["Estado"].Value.ToString() == "BLOQUEADO" || DgvListadoOrdenes.CurrentRow.Cells["Estado"].Value.ToString() == "EXCEDIDO")
                     {
