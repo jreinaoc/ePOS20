@@ -5365,6 +5365,38 @@ namespace CapaVisual_Login
             }
         }
 
+        private void txtVertical_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == '.')
+            {
+                e.KeyChar = ','; // reemplaza el punto por coma
+            }
+        }
+
+        private void txtHorizontal_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == '.')
+            {
+                e.KeyChar = ','; // reemplaza el punto por coma
+            }
+        }
+
+        private void txtMaxima_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == '.')
+            {
+                e.KeyChar = ','; // reemplaza el punto por coma
+            }
+        }
+
+        private void txtPuente_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == '.')
+            {
+                e.KeyChar = ','; // reemplaza el punto por coma
+            }
+        }
+
         private void txtVertical_Validated(object sender, EventArgs e)
         {
             if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01" && !string.IsNullOrEmpty(txtVertical.Text))
@@ -13973,9 +14005,9 @@ namespace CapaVisual_Login
                         !string.IsNullOrWhiteSpace(txtAltD.Text) &&
                         !string.IsNullOrWhiteSpace(txtAltI.Text))
                     {
-                        int vertical = Convert.ToInt32(txtVertical.Text);
-                        int altD = Convert.ToInt32(txtAltD.Text);
-                        int altI = Convert.ToInt32(txtAltI.Text);
+                        double vertical = Convert.ToDouble(txtVertical.Text);
+                        double altD = Convert.ToDouble(txtAltD.Text);
+                        double altI = Convert.ToDouble(txtAltI.Text);
 
                         if (cbVisionDerecha.Text == "Progresivo" && vertical - altD < 8)
                             altura = false;
@@ -13993,8 +14025,8 @@ namespace CapaVisual_Login
                     if (!string.IsNullOrWhiteSpace(txtVertical.Text) &&
                         !string.IsNullOrWhiteSpace(txtAltD.Text))
                     {
-                        int vertical = Convert.ToInt32(txtVertical.Text);
-                        int altD = Convert.ToInt32(txtAltD.Text);
+                        double vertical = Convert.ToDouble(txtVertical.Text);
+                        double altD = Convert.ToDouble(txtAltD.Text);
 
                         if (cbVisionDerecha.Text == "Progresivo" && vertical - altD < 8)
                             altura = false;
@@ -14010,8 +14042,8 @@ namespace CapaVisual_Login
                     if (!string.IsNullOrWhiteSpace(txtVertical.Text) &&
                         !string.IsNullOrWhiteSpace(txtAltI.Text))
                     {
-                        int vertical = Convert.ToInt32(txtVertical.Text);
-                        int altI = Convert.ToInt32(txtAltI.Text);
+                        double vertical = Convert.ToDouble(txtVertical.Text);
+                        double altI = Convert.ToDouble(txtAltI.Text);
 
                         if (cbVisionIzquierda.Text == "Progresivo" && vertical - altI < 8)
                             altura = false;
@@ -14105,7 +14137,7 @@ namespace CapaVisual_Login
                         !string.IsNullOrWhiteSpace(txtAltD.Text))
                     {
                         double vertical = Convert.ToDouble(txtVertical.Text);
-                        int altD = Convert.ToInt32(txtAltD.Text);
+                        double altD = Convert.ToDouble(txtAltD.Text);
 
                         if (Convert.ToInt32(txtAltD.Text) > 0 && (vertical - altD < 8))
                             altura = false;
@@ -14121,8 +14153,8 @@ namespace CapaVisual_Login
                     if (!string.IsNullOrWhiteSpace(txtVertical.Text) &&
                         !string.IsNullOrWhiteSpace(txtAltI.Text))
                     {
-                        int vertical = Convert.ToInt32(txtVertical.Text);
-                        int altI = Convert.ToInt32(txtAltI.Text);
+                        double vertical = Convert.ToDouble(txtVertical.Text);
+                        double altI = Convert.ToDouble(txtAltI.Text);
 
                         if (Convert.ToInt32(txtAltI.Text) > 0 && (vertical - altI < 8))
                             altura = false;
@@ -14212,6 +14244,8 @@ namespace CapaVisual_Login
             catch (Exception ex)
             {
                 _FrmMensajes.avisomensaje($"Error al validar altura y medidas: {ex.Message}");
+                _FrmMensajes.co = 2;
+                _FrmMensajes.ShowDialog();
                 return false;
             }
         }

@@ -3021,6 +3021,7 @@ namespace CapaVisual_Login
             this.txtPuente.Click += new System.EventHandler(this.txtPuente_Click);
             this.txtPuente.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtPuente_KeyDown);
             this.txtPuente.Validated += new System.EventHandler(this.txtPuente_Validated);
+            this.txtPuente.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPuente_KeyPress);
             // 
             // txtMaxima
             // 
@@ -3033,6 +3034,7 @@ namespace CapaVisual_Login
             this.txtMaxima.Click += new System.EventHandler(this.txtMaxima_Click);
             this.txtMaxima.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtMaxima_KeyDown);
             this.txtMaxima.Validated += new System.EventHandler(this.txtMaxima_Validated);
+            this.txtMaxima.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtMaxima_KeyPress);
             // 
             // txtVertical
             // 
@@ -3045,6 +3047,7 @@ namespace CapaVisual_Login
             this.txtVertical.Click += new System.EventHandler(this.txtVertical_Click);
             this.txtVertical.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtVertical_KeyDown);
             this.txtVertical.Validated += new System.EventHandler(this.txtVertical_Validated);
+            this.txtVertical.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtVertical_KeyPress);
             // 
             // txtHorizontal
             // 
@@ -3057,6 +3060,7 @@ namespace CapaVisual_Login
             this.txtHorizontal.Click += new System.EventHandler(this.txtHorizontal_Click);
             this.txtHorizontal.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtHorizontal_KeyDown);
             this.txtHorizontal.Validated += new System.EventHandler(this.txtHorizontal_Validated);
+            this.txtHorizontal.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtHorizontal_KeyPress);
             // 
             // Lbl_Tap3_
             // 
