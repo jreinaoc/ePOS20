@@ -841,6 +841,7 @@ namespace CapaVisual_Login
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "tabPage3";
             this.tabPage3.UseVisualStyleBackColor = true;
+            this.tabPage3.Click += new System.EventHandler(this.tabPage3_Click);
             // 
             // label16
             // 
@@ -1004,7 +1005,7 @@ namespace CapaVisual_Login
             this.Dvg_ConsignacionDeOS.DefaultCellStyle = dataGridViewCellStyle14;
             this.Dvg_ConsignacionDeOS.EnableHeadersVisualStyles = false;
             this.Dvg_ConsignacionDeOS.GridColor = System.Drawing.SystemColors.ControlLightLight;
-            this.Dvg_ConsignacionDeOS.Location = new System.Drawing.Point(195, 122);
+            this.Dvg_ConsignacionDeOS.Location = new System.Drawing.Point(146, 122);
             this.Dvg_ConsignacionDeOS.Name = "Dvg_ConsignacionDeOS";
             this.Dvg_ConsignacionDeOS.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
@@ -1018,7 +1019,7 @@ namespace CapaVisual_Login
             this.Dvg_ConsignacionDeOS.RowHeadersVisible = false;
             this.Dvg_ConsignacionDeOS.RowHeadersWidth = 51;
             this.Dvg_ConsignacionDeOS.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.Dvg_ConsignacionDeOS.Size = new System.Drawing.Size(735, 390);
+            this.Dvg_ConsignacionDeOS.Size = new System.Drawing.Size(792, 390);
             this.Dvg_ConsignacionDeOS.TabIndex = 312;
             // 
             // btn_CambiarVendedor_pg3
@@ -1154,12 +1155,13 @@ namespace CapaVisual_Login
             // 
             this.lbl_ConsignacionOrdenesServ.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(173)))));
             this.lbl_ConsignacionOrdenesServ.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_ConsignacionOrdenesServ.Location = new System.Drawing.Point(195, 80);
+            this.lbl_ConsignacionOrdenesServ.Location = new System.Drawing.Point(146, 80);
             this.lbl_ConsignacionOrdenesServ.Name = "lbl_ConsignacionOrdenesServ";
-            this.lbl_ConsignacionOrdenesServ.Size = new System.Drawing.Size(735, 35);
+            this.lbl_ConsignacionOrdenesServ.Size = new System.Drawing.Size(792, 35);
             this.lbl_ConsignacionOrdenesServ.TabIndex = 24;
             this.lbl_ConsignacionOrdenesServ.Text = "Consignación de ordenes de servicio";
             this.lbl_ConsignacionOrdenesServ.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbl_ConsignacionOrdenesServ.Click += new System.EventHandler(this.lbl_ConsignacionOrdenesServ_Click);
             // 
             // lbl_Paso3
             // 
@@ -1235,7 +1237,7 @@ namespace CapaVisual_Login
             this.Dvg_MarcajeAsistenciaPendiente.DefaultCellStyle = dataGridViewCellStyle17;
             this.Dvg_MarcajeAsistenciaPendiente.EnableHeadersVisualStyles = false;
             this.Dvg_MarcajeAsistenciaPendiente.GridColor = System.Drawing.SystemColors.ControlLightLight;
-            this.Dvg_MarcajeAsistenciaPendiente.Location = new System.Drawing.Point(176, 136);
+            this.Dvg_MarcajeAsistenciaPendiente.Location = new System.Drawing.Point(143, 136);
             this.Dvg_MarcajeAsistenciaPendiente.Name = "Dvg_MarcajeAsistenciaPendiente";
             this.Dvg_MarcajeAsistenciaPendiente.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
@@ -1249,7 +1251,7 @@ namespace CapaVisual_Login
             this.Dvg_MarcajeAsistenciaPendiente.RowHeadersVisible = false;
             this.Dvg_MarcajeAsistenciaPendiente.RowHeadersWidth = 51;
             this.Dvg_MarcajeAsistenciaPendiente.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.Dvg_MarcajeAsistenciaPendiente.Size = new System.Drawing.Size(762, 124);
+            this.Dvg_MarcajeAsistenciaPendiente.Size = new System.Drawing.Size(837, 124);
             this.Dvg_MarcajeAsistenciaPendiente.TabIndex = 311;
             // 
             // Dvg_OSconPagoMovil
@@ -1304,9 +1306,9 @@ namespace CapaVisual_Login
             // 
             this.lbl_MarcajeAsistenciaPen.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(173)))));
             this.lbl_MarcajeAsistenciaPen.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_MarcajeAsistenciaPen.Location = new System.Drawing.Point(176, 80);
+            this.lbl_MarcajeAsistenciaPen.Location = new System.Drawing.Point(143, 80);
             this.lbl_MarcajeAsistenciaPen.Name = "lbl_MarcajeAsistenciaPen";
-            this.lbl_MarcajeAsistenciaPen.Size = new System.Drawing.Size(762, 40);
+            this.lbl_MarcajeAsistenciaPen.Size = new System.Drawing.Size(837, 40);
             this.lbl_MarcajeAsistenciaPen.TabIndex = 173;
             this.lbl_MarcajeAsistenciaPen.Text = "Marcaje de asistencia pendiente";
             this.lbl_MarcajeAsistenciaPen.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;

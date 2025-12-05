@@ -3119,7 +3119,7 @@ namespace CapaVisual_Login
                     CbxBancoRecp.Enabled = true;
                     label49.Visible = false;
                     CbxPunto_Venta.Visible = false;
-                    CbxPunto_Venta.Enabled = false;
+                    //CbxPunto_Venta.Enabled = false;
                     LbePagoMovil.Visible = false;
                    
                     label45.Text = "Banco Emisor";
@@ -5225,7 +5225,7 @@ namespace CapaVisual_Login
                                 objVmax.CerrarPuerto();
                                 objVmax.Cerrar();
                                 //con datos de tb_abono
-                                if (resp == 0 && UltimoNumeroFacturaCancelado2 != NumeroComprobanteFiscal || NumeroComprobanteFiscal.Trim() != "0000000")
+                                if (resp == 0 && (UltimoNumeroFacturaCancelado2 != NumeroComprobanteFiscal) && (NumeroComprobanteFiscal.Trim() != "0000000"))
                                 {
 
 
@@ -5434,7 +5434,7 @@ namespace CapaVisual_Login
                             command.Transaction.Rollback();
 
 
-                            _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "091", TB_USUARIO.COD_EMPLEADO, "Numero de orden " + TB_CAORDSER.NumOrdserv + " En proceso de facturacion.");
+                            _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "091", TB_USUARIO.COD_EMPLEADO, "Número de orden " + TB_CAORDSER.NumOrdserv + " En proceso de facturación.");
 
                             rollbackRealizado = true;
                             string Resp = _D_DetalleOrden.GetFactura(TB_CAORDSER.Cod_Sucursal, NumeroComprobanteFiscal.PadLeft(7, '0'), DateTime.Today.ToString("yyyyMMdd"), txtCedula.Text[0].ToString(),
@@ -5444,7 +5444,7 @@ namespace CapaVisual_Login
 
                             //_D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "071", TB_USUARIO.COD_EMPLEADO, "OS: " + txtNumeroOrden.Text + ", Factura: " + NumeroComprobanteFiscal + ", Serial: " + SerialImpresora);
                            
-                            _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "092", TB_USUARIO.COD_EMPLEADO, "Factura fiscal reversada N° " + NumeroComprobanteFiscal+ " ,Numero de orden: " + txtNumeroOrden.Text + ", Serial: " + SerialImpresora);
+                            _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "092", TB_USUARIO.COD_EMPLEADO, "Factura fiscal reversada N° " + NumeroComprobanteFiscal.PadLeft(7, '0') + " ,Número de orden: " + txtNumeroOrden.Text + ", Serial: " + SerialImpresora);
 
                             objVmax.ObtenerReporteInformativo();
                             //SerialImpresora = objVmax.RetornoMI.sSerial;
@@ -6456,6 +6456,8 @@ namespace CapaVisual_Login
                 
                 if (TotalAbono == TotalSaldoOrdenConIgtf)
                 {
+                    _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "091", TB_USUARIO.COD_EMPLEADO, "Número de orden " + TB_CAORDSER.NumOrdserv + " En proceso de facturación.", command);
+
                     // Nuevo desarrollo Validaciones por tipo de pago segun la promocion selecionada 
                     if (rept == "SATISFACTORIO" && ValidaPagosRequeridos(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision, command).Facturar == false)
                     {
@@ -6485,7 +6487,7 @@ namespace CapaVisual_Login
                         }
 
 
-                    _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "091", TB_USUARIO.COD_EMPLEADO, "Numero de orden " + TB_CAORDSER.NumOrdserv +" En proceso de facturacion.", command);
+                    //_D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "091", TB_USUARIO.COD_EMPLEADO, "Numero de orden " + TB_CAORDSER.NumOrdserv +" En proceso de facturacion.", command);
 
                     rept = ImprimirFacturaFiscal(txtNumeroOrden.Text, txtCedula.Text, txtNombreCliente.Text, command);
 

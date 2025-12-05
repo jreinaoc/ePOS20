@@ -75,6 +75,10 @@ namespace CapaVisual_Login
             LlenarCbx_Tap1_Estado();
             CargarCbx_Tap1_Nacionalidad();
 
+            
+
+            
+
 
 
             // Habilita la captura de eventos de teclado a nivel del formulario
@@ -4553,6 +4557,41 @@ namespace CapaVisual_Login
             lblDiametroD.Refresh();
             lblDiametroI.Refresh();
 
+            // Aquí suscribes el evento después de inicializar los componentes
+            Dgv_Pnl2_conv.EditingControlShowing += (s, ev) =>
+            {
+                // Verifica si la columna actual es una de las que quieres controlar
+                string colName = Dgv_Pnl2_conv.CurrentCell.OwningColumn.Name;
+
+                if (colName == "Esfera" || colName == "Cilindro" || colName == "Adicion" || colName == "Lejos" || colName == "Cerca" || colName == "Prisma1")
+                {
+                    if (ev.Control is NumericUpDown nud)
+                    {
+                        nud.KeyPress -= Nud_KeyPress_BlockDot; // evitar duplicados
+                        nud.KeyPress += Nud_KeyPress_BlockDot;
+                    }
+                }
+            };
+
+            Dgv_Pnl2_cont.EditingControlShowing += (s, ev) =>
+            {
+                // Verifica si la columna actual es una de las que quieres controlar
+                string colName = Dgv_Pnl2_cont.CurrentCell.OwningColumn.Name;
+
+                if (colName == "Esfera" || colName == "Cilindro" || colName == "Adicion" || colName == "C_Base" || colName == "Diametro")
+                {
+                    if (ev.Control is NumericUpDown nud)
+                    {
+                        nud.KeyPress -= Nud_KeyPress_BlockDotCont; // evitar duplicados
+                        nud.KeyPress += Nud_KeyPress_BlockDotCont;
+                    }
+                }
+            };
+
+
+
+
+
         }
 
 
@@ -8188,6 +8227,17 @@ namespace CapaVisual_Login
                         dt.Rows[1]["Diametro"] = 0;
                     }
 
+                    D_Examen dExamen = new D_Examen();
+
+                    TB_EXAMENCTE examen = dExamen.ObtenerExamenPorNumeroYNacionalidadCedula(idExamen, nacionalidad, cedula);
+
+                    if (examen != null)
+                    {
+                        Cbx_Tap2_Tipo_Examen.SelectedItem = 0;
+                        //if (examen.TIPOEXAMEN != null && (Cbx_Tap2_Tipo_Examen.Text == null || Cbx_Tap2_Tipo_Examen.Text == ""))
+                        //{
+                        Cbx_Tap2_Tipo_Examen.Text = examen.TIPOEXAMEN.ToString().Trim(); // Deseleccionar cualquier elemento si examen.TIPO_Optm es null
+                    }
 
                 }
                 catch (Exception ex)
@@ -10207,7 +10257,7 @@ namespace CapaVisual_Login
 
         private void DesbloquearCamposE()
         {
-            //Cbx_Tap2_Tipo_Examen.Enabled = true;
+            Cbx_Tap2_Tipo_Examen.Enabled = true;
             Cbx_Tap2_Tipo_Optome.Enabled = true;
             Cbx_Tap2_Nombre_Optome.Enabled = true;
 
@@ -10234,7 +10284,7 @@ namespace CapaVisual_Login
 
         private void BloquearCamposE()
         {
-            //Cbx_Tap2_Tipo_Examen.Enabled = false;
+            Cbx_Tap2_Tipo_Examen.Enabled = false;
             Cbx_Tap2_Tipo_Optome.Enabled = false;
             Cbx_Tap2_Nombre_Optome.Enabled = false;
 
@@ -14054,7 +14104,7 @@ namespace CapaVisual_Login
                     if (!string.IsNullOrWhiteSpace(txtVertical.Text) &&
                         !string.IsNullOrWhiteSpace(txtAltD.Text))
                     {
-                        int vertical = Convert.ToInt32(txtVertical.Text);
+                        double vertical = Convert.ToDouble(txtVertical.Text);
                         int altD = Convert.ToInt32(txtAltD.Text);
 
                         if (Convert.ToInt32(txtAltD.Text) > 0 && (vertical - altD < 8))
@@ -14897,6 +14947,27 @@ namespace CapaVisual_Login
             }
         }
 
+        private void Nud_KeyPress_BlockDot(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == '.')
+            {
+                // reemplazar por coma si quieres
+                e.KeyChar = ',';
+                // o bloquear directamente:
+                // e.Handled = true;
+            }
+        }
+
+        private void Nud_KeyPress_BlockDotCont(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == '.')
+            {
+                // reemplazar por coma si quieres
+                e.KeyChar = ',';
+                // o bloquear directamente:
+                // e.Handled = true;
+            }
+        }
 
         //    private void RegresarControlesAPnl2()
         //    {

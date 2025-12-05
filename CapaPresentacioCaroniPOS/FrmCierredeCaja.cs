@@ -941,7 +941,7 @@ namespace CapaVisual_Login
                     Dvg_ConsignacionDeOS.Columns["CodServicio"].Visible = false;
                     Dvg_ConsignacionDeOS.Columns["Servicio"].Width = 160;
                     Dvg_ConsignacionDeOS.Columns["CodVendedor"].Width = 120;
-                    Dvg_ConsignacionDeOS.Columns["Vendedor"].Width = 290;
+                    Dvg_ConsignacionDeOS.Columns["Vendedor"].Width = 350;
 
                     Dvg_ConsignacionDeOS.Columns["Orden"].ReadOnly = true;
                     Dvg_ConsignacionDeOS.Columns["Lab"].ReadOnly = true;
@@ -1082,7 +1082,7 @@ namespace CapaVisual_Login
                 case "Asistencia":
 
                     // Asignar ancho personalizado a cada columna
-                    Dvg_MarcajeAsistenciaPendiente.Columns["NOMBREEMPLEADO"].Width = 200;
+                    Dvg_MarcajeAsistenciaPendiente.Columns["NOMBREEMPLEADO"].Width = 300;
                     Dvg_MarcajeAsistenciaPendiente.Columns["COD_SUCURSAL"].Visible = false;
                     Dvg_MarcajeAsistenciaPendiente.Columns["COD_EMPLEADO"].Width = 60;
                     Dvg_MarcajeAsistenciaPendiente.Columns["FECHA"].Width = 100;
@@ -2584,6 +2584,16 @@ namespace CapaVisual_Login
                 //MensajeError.ShowDialog();
                 return false;
             }
+        }
+
+        private void lbl_ConsignacionOrdenesServ_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tabPage3_Click(object sender, EventArgs e)
+        {
+
         }
 
         //private void tcCierreCaja_SelectedIndexChanged(object sender, EventArgs e)
