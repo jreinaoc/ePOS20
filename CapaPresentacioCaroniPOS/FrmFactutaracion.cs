@@ -196,11 +196,11 @@ namespace CapaVisual_Login
         private void btnIngresar_Click(object sender, EventArgs e)
         {
             //Validar que no haya sido facturada, para casos donde tienen 2 impresoras fiscales  y la emiten al mismo tiempo, sale por una pc/impresora y en la otra pc/impresora sale anulada y queda por pagar, cuando le vuelven a dar procesar debe validar que no fue facturada previamente
-            CargarDatosOrden(TB_CAORDSER.NumOrdserv, TB_CAORDSER.Cod_DetVta, TB_CAORDSER.OrSer_Status);
+            CargarDatosOrden(TB_CAORDSER.NumOrdserv, TB_CAORDSER.Cod_DetVta, TB_CAORDSER.Revision);
             if (TB_CAORDSER.OrSer_Status == "002")
             {
                 // Cargar los Pagos de la orden 
-                DgvListadoOrdenes.DataSource = _D_DetalleOrden.CargarPagosGrid(TB_CAORDSER.NumOrdserv, TB_CAORDSER.Cod_DetVta, TB_CAORDSER.OrSer_Status);
+                DgvListadoOrdenes.DataSource = _D_DetalleOrden.CargarPagosGrid(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision);
                 if (DgvListadoOrdenes.Rows.Count > 0)
                 {
                     //_FrmFacturacion.LimpiarGrid();
@@ -231,29 +231,29 @@ namespace CapaVisual_Login
                 return;
             }
 
-            if (TB_USUARIO.COD_EMPLEADO != "99999")
-            {
-                if (DiaActivo != DiaActual)
-                {
-                    _FrmMensajes.co = 2;
-                    _FrmMensajes.avisomensaje("Debe cerrar caja del día anterior para continuar");
-                    _FrmMensajes.ShowDialog();
-                    return;
+            //if (TB_USUARIO.COD_EMPLEADO != "99999")
+            //{
+            //    if (DiaActivo != DiaActual)
+            //    {
+            //        _FrmMensajes.co = 2;
+            //        _FrmMensajes.avisomensaje("Debe cerrar caja del día anterior para continuar");
+            //        _FrmMensajes.ShowDialog();
+            //        return;
 
-                }
-            }
+            //    }
+            //}
 
-            if (TB_USUARIO.COD_EMPLEADO == "99999")
-            {
-                _FrmMensajes.co = 2;
-                _FrmMensajes.avisomensaje("Este usuario no tiene autorización");
-                _FrmMensajes.ShowDialog();
-                return; // Salir 
-            }
+            //if (TB_USUARIO.COD_EMPLEADO == "99999")
+            //{
+            //    _FrmMensajes.co = 2;
+            //    _FrmMensajes.avisomensaje("Este usuario no tiene autorización");
+            //    _FrmMensajes.ShowDialog();
+            //    return; // Salir 
+            //}
 
-            //**** Se creo una nueva Funcion para validar la Asistencia 
-            if (!_L_CierreCaja.BuscoAsistencia(DateTime.Now.ToString("yyyyMMdd"), mostrarPregunta, mostrarError))
-                return;
+            ////**** Se creo una nueva Funcion para validar la Asistencia 
+            //if (!_L_CierreCaja.BuscoAsistencia(DateTime.Now.ToString("yyyyMMdd"), mostrarPregunta, mostrarError))
+            //    return;
 
             //validar si es factura manual 
 
@@ -1876,7 +1876,7 @@ namespace CapaVisual_Login
 
                 DataTable Pagos = _L_Facturacion.MostarPagosGrid(TB_CAORDSER.Cod_Sucursal, txtNumeroOrden.Text, TB_CAORDSER.Revision);
 
-                if (Pagos.Rows.Count > 0)
+                if (Pagos != null && Pagos.Rows.Count > 0)
                 {
                     CantAbonosPrevios = Pagos.Rows.Count;
                     DgvListadoOrdenes.DataSource = Pagos;

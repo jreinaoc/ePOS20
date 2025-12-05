@@ -617,7 +617,15 @@ namespace CapaVisual_Login
                         }
 
                         DtpDesde.Value = DateTime.Now.AddDays(-Dias);
-                        DtpHasta.Value = DateTime.Now;
+                        if (CbxUltimosTesD.SelectedIndex  == 1)
+                        {
+                            DtpHasta.Value = DateTime.Now.AddDays(-Dias);
+                        }
+                        else
+                        {
+                            DtpHasta.Value = DateTime.Now;
+                        }
+                        
                         DataSet Dts = _ListaOrdenes.TraerOrdporRango(DtpDesde, DtpHasta, CbxEstatus, NumCedula);
                         if (Dts != null)
                         {
@@ -1787,6 +1795,7 @@ namespace CapaVisual_Login
             {
 
                 DataSet Dts = _ListaOrdenes.TraerOrdenes(CbxUltimosTesD, CbxEstatus, NumOrden, NumCedula, PaginaInico, PaginaFinal);
+                //DataSet Dts = _ListaOrdenes.TraerOrdporRango(DtpDesde, DtpHasta, CbxEstatus, NumCedula);
                 if (Dts != null)
                 {
                     DgvListadoOrdenes.DataSource = Dts.Tables[0];
