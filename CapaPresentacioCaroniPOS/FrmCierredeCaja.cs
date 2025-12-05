@@ -1672,6 +1672,9 @@ namespace CapaVisual_Login
 
                 try
                 {
+                    Cursor.Current = new Cursor(Properties.Resources.relojArena__1_.Handle);
+                    button3.Enabled = false;
+                    btnCancelar.Enabled = false;
                     //Invenvio
                     string rutaInvenvio;
                     string nombreInvenvio;
@@ -1746,11 +1749,14 @@ namespace CapaVisual_Login
                         dgvLogCierre.Refresh();
                         if (command.Transaction != null && command.Transaction.Connection != null)
                         {
+                            button3.Enabled = true;
+                            btnCancelar.Enabled = true;
                             command.Transaction.Rollback();
+                            Cursor = System.Windows.Forms.Cursors.Default;
                         }
                         return;
                     }
-
+                    Cursor.Current = new Cursor(Properties.Resources.relojArena__1_.Handle);
                     if (_L_CierreCaja.HayDatosInvenvioTXT(sucursal, diaActivo.ToString("yyyyMMdd"), rutaInvenvio, nombreInvenvio, command))
                     {
                         if (_L_CierreCaja.GeneraInvenvioTXT(sucursal, diaActivo.ToString("yyyyMMdd"), rutaInvenvio, nombreInvenvio, command))
@@ -1772,7 +1778,10 @@ namespace CapaVisual_Login
                         dtLogCierre.Rows.Add("Error Actualizando parametros", "❌ Fallido");
                         dgvLogCierre.DataSource = dtLogCierre;
                         dgvLogCierre.Refresh();
+                        button3.Enabled = true;
+                        btnCancelar.Enabled = true;
                         command.Transaction.Rollback();
+                        Cursor = System.Windows.Forms.Cursors.Default;
                         return;
                     }
 
@@ -1781,7 +1790,10 @@ namespace CapaVisual_Login
                         dtLogCierre.Rows.Add("Error Actualizando parametros", "❌ Fallido");
                         dgvLogCierre.DataSource = dtLogCierre;
                         dgvLogCierre.Refresh();
+                        button3.Enabled = true;
+                        btnCancelar.Enabled = true;
                         command.Transaction.Rollback();
+                        Cursor = System.Windows.Forms.Cursors.Default;
                         return;
                     }
 
@@ -1790,7 +1802,10 @@ namespace CapaVisual_Login
                         dtLogCierre.Rows.Add("Error Actualizando Facturas", "❌ Fallido");
                         dgvLogCierre.DataSource = dtLogCierre;
                         dgvLogCierre.Refresh();
+                        button3.Enabled = true;
+                        btnCancelar.Enabled = true;
                         command.Transaction.Rollback();
+                        Cursor = System.Windows.Forms.Cursors.Default;
                         return;
                     }
 
@@ -1818,7 +1833,10 @@ namespace CapaVisual_Login
                             if (row["Descripcion"].ToString() == "Generando Libro de Ventas")
                             {
                                 row["Resultado"] = "❌ Fallido";
+                                button3.Enabled = true;
+                                btnCancelar.Enabled = true;
                                 command.Transaction.Rollback();
+                                Cursor = System.Windows.Forms.Cursors.Default;
                                 dgvLogCierre.Refresh();
                                 break;
                             }
@@ -1851,7 +1869,10 @@ namespace CapaVisual_Login
                             {
                                 row["Resultado"] = "❌ Fallido";
                                 dgvLogCierre.Refresh();
+                                button3.Enabled = true;
+                                btnCancelar.Enabled = true;
                                 command.Transaction.Rollback();
+                                Cursor = System.Windows.Forms.Cursors.Default;
                                 break;
                             }
                         }
@@ -1886,7 +1907,10 @@ namespace CapaVisual_Login
                             {
                                 row["Resultado"] = "❌ Fallido";
                                 dgvLogCierre.Refresh();
+                                button3.Enabled = true;
+                                btnCancelar.Enabled = true;
                                 command.Transaction.Rollback();
+                                Cursor = System.Windows.Forms.Cursors.Default;
                                 break;
                             }
                         }
@@ -1920,6 +1944,9 @@ namespace CapaVisual_Login
                                 row["Resultado"] = "❌ Fallido";
                                 dgvLogCierre.Refresh();
                                 command.Transaction.Rollback();
+                                Cursor = System.Windows.Forms.Cursors.Default;
+                                button3.Enabled = true;
+                                btnCancelar.Enabled = true;
                                 break;
                             }
                         }
@@ -1976,6 +2003,9 @@ namespace CapaVisual_Login
                     btnFinalizar.Text = "Confirmar";
                     btnCancelar.Enabled = false;
 
+                    //button3.Enabled = true;
+                    //btnCancelar.Enabled = true;
+
                     //CargarDatos();
 
                     //dtLogCierre.Rows.Add("Cierre de Caja", "✔ Completado");
@@ -1988,12 +2018,19 @@ namespace CapaVisual_Login
                 }
                 catch (Exception ex)
                 {
+                    button3.Enabled = true;
+                    btnCancelar.Enabled = true;
                     command.Transaction.Rollback();
+                    Cursor = System.Windows.Forms.Cursors.Default;
+                    //button3.Enabled = true;
+                    //btnCancelar.Enabled = true;
                 }
             }
             else
             {
                 tcCierreCaja.SelectedIndex = 0;
+                button3.Enabled = true;
+                btnCancelar.Enabled = true;
                 CargarDatos();
             }
 

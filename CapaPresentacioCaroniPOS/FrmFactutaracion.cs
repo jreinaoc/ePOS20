@@ -231,29 +231,29 @@ namespace CapaVisual_Login
                 return;
             }
 
-            //if (TB_USUARIO.COD_EMPLEADO != "99999")
-            //{
-            //    if (DiaActivo != DiaActual)
-            //    {
-            //        _FrmMensajes.co = 2;
-            //        _FrmMensajes.avisomensaje("Debe cerrar caja del día anterior para continuar");
-            //        _FrmMensajes.ShowDialog();
-            //        return;
+            if (TB_USUARIO.COD_EMPLEADO != "99999")
+            {
+                if (DiaActivo != DiaActual)
+                {
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje("Debe cerrar caja del día anterior para continuar");
+                    _FrmMensajes.ShowDialog();
+                    return;
 
-            //    }
-            //}
+                }
+            }
 
-            //if (TB_USUARIO.COD_EMPLEADO == "99999")
-            //{
-            //    _FrmMensajes.co = 2;
-            //    _FrmMensajes.avisomensaje("Este usuario no tiene autorización");
-            //    _FrmMensajes.ShowDialog();
-            //    return; // Salir 
-            //}
+            if (TB_USUARIO.COD_EMPLEADO == "99999")
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("Este usuario no tiene autorización");
+                _FrmMensajes.ShowDialog();
+                return; // Salir 
+            }
 
-            ////**** Se creo una nueva Funcion para validar la Asistencia 
-            //if (!_L_CierreCaja.BuscoAsistencia(DateTime.Now.ToString("yyyyMMdd"), mostrarPregunta, mostrarError))
-            //    return;
+            //**** Se creo una nueva Funcion para validar la Asistencia 
+            if (!_L_CierreCaja.BuscoAsistencia(DateTime.Now.ToString("yyyyMMdd"), mostrarPregunta, mostrarError))
+                return;
 
             //validar si es factura manual 
 
