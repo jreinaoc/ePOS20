@@ -105,6 +105,8 @@ namespace CapaVisual_Login
             this.btnExamen = new System.Windows.Forms.RadioButton();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.Chex_Tap1_Iva_Pagador = new System.Windows.Forms.CheckedListBox();
+            this.Chex_Tap1_Iva = new System.Windows.Forms.CheckedListBox();
             this.Pnl_5_Lista_ClienPagador = new System.Windows.Forms.Panel();
             this.panel6 = new System.Windows.Forms.Panel();
             this.radioButton7 = new System.Windows.Forms.RadioButton();
@@ -370,8 +372,6 @@ namespace CapaVisual_Login
             this.button2 = new System.Windows.Forms.Button();
             this.QuitarLimea3 = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.Chex_Tap1_Iva = new System.Windows.Forms.CheckedListBox();
-            this.Chex_Tap1_Iva_Pagador = new System.Windows.Forms.CheckedListBox();
             this.Pnl_1.SuspendLayout();
             this.Pnl_2.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -986,6 +986,32 @@ namespace CapaVisual_Login
             this.tabPage1.Size = new System.Drawing.Size(1043, 513);
             this.tabPage1.TabIndex = 4;
             this.tabPage1.ToolTipText = "Cliente";
+            // 
+            // Chex_Tap1_Iva_Pagador
+            // 
+            this.Chex_Tap1_Iva_Pagador.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.Chex_Tap1_Iva_Pagador.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Chex_Tap1_Iva_Pagador.FormattingEnabled = true;
+            this.Chex_Tap1_Iva_Pagador.Items.AddRange(new object[] {
+            "ISLR Retenido",
+            "IVA Retenido"});
+            this.Chex_Tap1_Iva_Pagador.Location = new System.Drawing.Point(762, 394);
+            this.Chex_Tap1_Iva_Pagador.Name = "Chex_Tap1_Iva_Pagador";
+            this.Chex_Tap1_Iva_Pagador.Size = new System.Drawing.Size(120, 42);
+            this.Chex_Tap1_Iva_Pagador.TabIndex = 358;
+            // 
+            // Chex_Tap1_Iva
+            // 
+            this.Chex_Tap1_Iva.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.Chex_Tap1_Iva.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Chex_Tap1_Iva.FormattingEnabled = true;
+            this.Chex_Tap1_Iva.Items.AddRange(new object[] {
+            "ISLR Retenido",
+            "IVA Retenido"});
+            this.Chex_Tap1_Iva.Location = new System.Drawing.Point(762, 127);
+            this.Chex_Tap1_Iva.Name = "Chex_Tap1_Iva";
+            this.Chex_Tap1_Iva.Size = new System.Drawing.Size(120, 42);
+            this.Chex_Tap1_Iva.TabIndex = 357;
             // 
             // Pnl_5_Lista_ClienPagador
             // 
@@ -3014,53 +3040,57 @@ namespace CapaVisual_Login
             // 
             this.txtPuente.Enabled = false;
             this.txtPuente.Location = new System.Drawing.Point(396, 70);
+            this.txtPuente.MaxLength = 5;
             this.txtPuente.Name = "txtPuente";
             this.txtPuente.Size = new System.Drawing.Size(117, 20);
             this.txtPuente.TabIndex = 309;
             this.txtPuente.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtPuente.Click += new System.EventHandler(this.txtPuente_Click);
             this.txtPuente.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtPuente_KeyDown);
-            this.txtPuente.Validated += new System.EventHandler(this.txtPuente_Validated);
             this.txtPuente.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPuente_KeyPress);
+            this.txtPuente.Validated += new System.EventHandler(this.txtPuente_Validated);
             // 
             // txtMaxima
             // 
             this.txtMaxima.Enabled = false;
             this.txtMaxima.Location = new System.Drawing.Point(260, 70);
+            this.txtMaxima.MaxLength = 5;
             this.txtMaxima.Name = "txtMaxima";
             this.txtMaxima.Size = new System.Drawing.Size(130, 20);
             this.txtMaxima.TabIndex = 308;
             this.txtMaxima.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtMaxima.Click += new System.EventHandler(this.txtMaxima_Click);
             this.txtMaxima.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtMaxima_KeyDown);
-            this.txtMaxima.Validated += new System.EventHandler(this.txtMaxima_Validated);
             this.txtMaxima.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtMaxima_KeyPress);
+            this.txtMaxima.Validated += new System.EventHandler(this.txtMaxima_Validated);
             // 
             // txtVertical
             // 
             this.txtVertical.Enabled = false;
             this.txtVertical.Location = new System.Drawing.Point(124, 70);
+            this.txtVertical.MaxLength = 5;
             this.txtVertical.Name = "txtVertical";
             this.txtVertical.Size = new System.Drawing.Size(130, 20);
             this.txtVertical.TabIndex = 307;
             this.txtVertical.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtVertical.Click += new System.EventHandler(this.txtVertical_Click);
             this.txtVertical.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtVertical_KeyDown);
-            this.txtVertical.Validated += new System.EventHandler(this.txtVertical_Validated);
             this.txtVertical.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtVertical_KeyPress);
+            this.txtVertical.Validated += new System.EventHandler(this.txtVertical_Validated);
             // 
             // txtHorizontal
             // 
             this.txtHorizontal.Enabled = false;
             this.txtHorizontal.Location = new System.Drawing.Point(4, 70);
+            this.txtHorizontal.MaxLength = 5;
             this.txtHorizontal.Name = "txtHorizontal";
             this.txtHorizontal.Size = new System.Drawing.Size(114, 20);
             this.txtHorizontal.TabIndex = 306;
             this.txtHorizontal.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtHorizontal.Click += new System.EventHandler(this.txtHorizontal_Click);
             this.txtHorizontal.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtHorizontal_KeyDown);
-            this.txtHorizontal.Validated += new System.EventHandler(this.txtHorizontal_Validated);
             this.txtHorizontal.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtHorizontal_KeyPress);
+            this.txtHorizontal.Validated += new System.EventHandler(this.txtHorizontal_Validated);
             // 
             // Lbl_Tap3_
             // 
@@ -4681,32 +4711,6 @@ namespace CapaVisual_Login
             this.QuitarLimea3.Size = new System.Drawing.Size(41, 814);
             this.QuitarLimea3.TabIndex = 108;
             this.QuitarLimea3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // Chex_Tap1_Iva
-            // 
-            this.Chex_Tap1_Iva.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.Chex_Tap1_Iva.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Chex_Tap1_Iva.FormattingEnabled = true;
-            this.Chex_Tap1_Iva.Items.AddRange(new object[] {
-            "ISLR Retenido",
-            "IVA Retenido"});
-            this.Chex_Tap1_Iva.Location = new System.Drawing.Point(762, 127);
-            this.Chex_Tap1_Iva.Name = "Chex_Tap1_Iva";
-            this.Chex_Tap1_Iva.Size = new System.Drawing.Size(120, 42);
-            this.Chex_Tap1_Iva.TabIndex = 357;
-            // 
-            // Chex_Tap1_Iva_Pagador
-            // 
-            this.Chex_Tap1_Iva_Pagador.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.Chex_Tap1_Iva_Pagador.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Chex_Tap1_Iva_Pagador.FormattingEnabled = true;
-            this.Chex_Tap1_Iva_Pagador.Items.AddRange(new object[] {
-            "ISLR Retenido",
-            "IVA Retenido"});
-            this.Chex_Tap1_Iva_Pagador.Location = new System.Drawing.Point(762, 394);
-            this.Chex_Tap1_Iva_Pagador.Name = "Chex_Tap1_Iva_Pagador";
-            this.Chex_Tap1_Iva_Pagador.Size = new System.Drawing.Size(120, 42);
-            this.Chex_Tap1_Iva_Pagador.TabIndex = 358;
             // 
             // FrmCargarOrden
             // 

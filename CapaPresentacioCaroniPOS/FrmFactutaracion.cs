@@ -6425,6 +6425,18 @@ namespace CapaVisual_Login
                 if (rept == "SATISFACTORIO")
                 rept = _L_Facturacion.ActualizarSaldoNotaDevolucion(DgvAbonos, txtCedula.Text.Substring(2, txtCedula.Text.Length - 2), NotaNumOrden, command);
 
+                string statusActual;
+                statusActual = _D_DetalleOrden.ObtieneStatusOrden(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision, command);
+                if (statusActual == "002")
+                {
+                    mensaje = "La orden ya fue facturada";
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje(mensaje);
+                    _FrmMensajes.ShowDialog();
+                    rept = mensaje;
+                    command.Transaction.Rollback();
+                    return "";
+                }
                 // Ejecuto el movimiento de inventario 
                 if (TB_CAORDSER.OrSer_Status == "004" && rept == "SATISFACTORIO") // PorPagar
                 {

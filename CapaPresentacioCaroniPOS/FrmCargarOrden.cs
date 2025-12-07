@@ -5367,6 +5367,11 @@ namespace CapaVisual_Login
 
         private void txtVertical_KeyPress(object sender, KeyPressEventArgs e)
         {
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != ',' && !char.IsControl(e.KeyChar))
+            {
+              e.Handled = true; // Cancela la entrada
+            }
+
             if (e.KeyChar == '.')
             {
                 e.KeyChar = ','; // reemplaza el punto por coma
@@ -5375,6 +5380,10 @@ namespace CapaVisual_Login
 
         private void txtHorizontal_KeyPress(object sender, KeyPressEventArgs e)
         {
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != ',' && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true; // Cancela la entrada
+            }
             if (e.KeyChar == '.')
             {
                 e.KeyChar = ','; // reemplaza el punto por coma
@@ -5383,6 +5392,10 @@ namespace CapaVisual_Login
 
         private void txtMaxima_KeyPress(object sender, KeyPressEventArgs e)
         {
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != ',' && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true; // Cancela la entrada
+            }
             if (e.KeyChar == '.')
             {
                 e.KeyChar = ','; // reemplaza el punto por coma
@@ -5391,6 +5404,10 @@ namespace CapaVisual_Login
 
         private void txtPuente_KeyPress(object sender, KeyPressEventArgs e)
         {
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != ',' && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true; // Cancela la entrada
+            }
             if (e.KeyChar == '.')
             {
                 e.KeyChar = ','; // reemplaza el punto por coma
