@@ -593,7 +593,8 @@ namespace CapaVisual_Login
 
                         if (resp != 0)
                         {
-                            StatusNoataCredito = false;
+                        NumeroNCFiscal = objVmax.RetornoAbrirFactura.uiNumeroFactura.ToString(); 
+                        StatusNoataCredito = false;
                             objVmax.Cancelar();
                             objVmax.Cerrar();
                             objVmax.CerrarPuerto();
@@ -726,9 +727,9 @@ namespace CapaVisual_Login
                                         break;
                                     }
                            }
-
+                        int tiempoImpTermica = Convert.ToInt32(_D_DetalleOrden.TB_PARAMETRO("TiempoImpTerm"));
                         // Esperar un tiempo para que la impresora emita el ticket
-                        Thread.Sleep(15000);  // Esperar 15 segundos (ajusta el tiempo según sea necesario)
+                        Thread.Sleep(tiempoImpTermica);  // Esperar 15 segundos (ajusta el tiempo según sea necesario)
                         objVmax.AbrirPuerto(Convert.ToString(glbPuertoCOM));
                         objVmax.ObtenerContadores();
                         string UltimoNumeroNotaEmitido2 = objVmax.RetornoContadores.uiUltNCAbierta.ToString().PadLeft(7, '0');
@@ -941,6 +942,8 @@ namespace CapaVisual_Login
             {
 
                 string mensaje;
+                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "093", TB_USUARIO.COD_EMPLEADO, "Número de factura " + TB_FACTURAS.Fact_Num + " En proceso de nota de crédito.");
+
                 //-----------------------Despues de Validar Continuo el proceso
                 // Cambio el status en Caorser
                 rept = _D_DetalleOrden.ActualizarCaorser(CbxSelectMotivo.SelectedValue.ToString(), CbxSelecResp.SelectedValue.ToString(), TB_FACTURAS.NumOrdServ, "0", TB_USUARIO.COD_USR, command);
@@ -959,6 +962,7 @@ namespace CapaVisual_Login
                         _FrmMensajes.avisomensaje(mensaje);
                         _FrmMensajes.ShowDialog();
                         command.Transaction.Rollback();
+
                         return;
                     }
                      mensaje = "Ocurrio un error creando el movimiento de la orden";
@@ -990,6 +994,8 @@ namespace CapaVisual_Login
                     if (Impresion == false)
                     {
                         transaction.Rollback();
+                        _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "094", TB_USUARIO.COD_EMPLEADO, "Nota de credito fiscal reversada N° " + NumeroNCFiscal.PadLeft(7, '0') + " ,Factura:" + TB_FACTURAS.Fact_Num );
+
                         Limpiarcbx();
                         return;
 
@@ -1014,6 +1020,8 @@ namespace CapaVisual_Login
                 else
                 {
                     transaction.Rollback();
+                    _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "094", TB_USUARIO.COD_EMPLEADO, "Nota de credito fiscal reversada N° " + NumeroNCFiscal.PadLeft(7, '0') + " ,Factura:" + TB_FACTURAS.Fact_Num);
+
                     Limpiarcbx();
                     return;
                 }
