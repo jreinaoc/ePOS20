@@ -55,14 +55,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CapaDatos.dll" size="253952">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CapaDatos.dll" size="253440">
       <assemblyIdentity name="CapaDatos" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>KPGGQWeGGKwVsnm1RkP8CGIfWjHph5v1AbJ2+EqT6ng=</dsig:DigestValue>
+        <dsig:DigestValue>xtkn4rSVUQdxpXQUsU64Pc4KEuV4mzYDTJAMvjLp1So=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -86,7 +86,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>9F+wjYAnM9gP8lBtJxu6RhVko2Goq6910lmVbwt89ps=</dsig:DigestValue>
+        <dsig:DigestValue>KIV3UQY76nYDlwxW8Erp3OiDWDMCZo0JUF5XR8rfe2E=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -206,7 +206,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>L8s2j/GvbI0IZ5rmudbO6nxJMS4fzL5HNATQCqrm7go=</dsig:DigestValue>
+        <dsig:DigestValue>D4w/g+s8Mm/+QiTHiyqe2XO/pSlON9hX6ldGHbVzq/s=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -1317,7 +1317,7 @@
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>Ag6MATZfjMf2YibGsoesrYLvstd6tV7AY26K6PtGSTk=</dsig:DigestValue>
+      <dsig:DigestValue>dOQGW7fvr2YyxdF+pTrVCNB6VofuXlBr2W1V1rg/OY0=</dsig:DigestValue>
     </hash>
   </file>
   <file name="icono-puntoDeVenta.ico" size="205662">

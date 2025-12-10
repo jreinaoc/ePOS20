@@ -6425,18 +6425,7 @@ namespace CapaVisual_Login
                 if (rept == "SATISFACTORIO")
                 rept = _L_Facturacion.ActualizarSaldoNotaDevolucion(DgvAbonos, txtCedula.Text.Substring(2, txtCedula.Text.Length - 2), NotaNumOrden, command);
 
-                string statusActual;
-                statusActual = _D_DetalleOrden.ObtieneStatusOrden(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision, command);
-                if (statusActual == "002")
-                {
-                    mensaje = "La orden ya fue facturada";
-                    _FrmMensajes.co = 2;
-                    _FrmMensajes.avisomensaje(mensaje);
-                    _FrmMensajes.ShowDialog();
-                    rept = mensaje;
-                    command.Transaction.Rollback();
-                    return "";
-                }
+                
                 // Ejecuto el movimiento de inventario 
                 if (TB_CAORDSER.OrSer_Status == "004" && rept == "SATISFACTORIO") // PorPagar
                 {
@@ -6904,6 +6893,17 @@ namespace CapaVisual_Login
             _LAnulacion.CargarDetalleOrd(TB_CAORDSER.NumOrdserv, "O", "006", command); // Se coloca antes de la impresion de manera que si no encuentra la impresora el cacth no nos salte nada importante
             if (_LAnulacion.GuardoMovimientoArticulo == false)
             {
+                string statusActual;
+                statusActual = _D_DetalleOrden.ObtieneStatusOrden(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision, command);
+                if (statusActual == "005")
+                {
+                    mensaje = "La orden ya fue facturada";
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje(mensaje);
+                    _FrmMensajes.ShowDialog();
+                    command.Transaction.Rollback();
+                    return mensaje;
+                }
                 mensaje = "Se produjo error al hacer el movimiento";
                 _FrmMensajes.co = 2;
                 _FrmMensajes.avisomensaje(mensaje);

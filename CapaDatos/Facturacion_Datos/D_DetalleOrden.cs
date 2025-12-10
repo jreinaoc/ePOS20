@@ -35,9 +35,11 @@ namespace CapaDatos.DetalleOrden_Datos
 
         public DataTable Bancos(bool MonedaExtranjera)
         {
-            SqlCommand cmd = new SqlCommand("select CODBAN as Value, NOMBREBANCO as Indexx from TB_BANCOS where  ST_BANCOS= 'A' and MONEDAEXTRANJERA= @Moneda and CODBAN<> '007' and CODBAN<> '110' ", cn.LeerCadena());
-            cmd.CommandType = CommandType.Text;
+            //SqlCommand cmd = new SqlCommand("select CODBAN as Value, NOMBREBANCO as Indexx from TB_BANCOS where  ST_BANCOS= 'A' and MONEDAEXTRANJERA= @Moneda and CODBAN<> '007' and CODBAN<> '110' ", cn.LeerCadena());
+            SqlCommand cmd = new SqlCommand("SP_CPOS_GetBancoTipoPagoMovil", cn.LeerCadena());
+            cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@Moneda", MonedaExtranjera);
+            cmd.Parameters.AddWithValue("@Tipo", "B2");
             DataTable dt = new DataTable();
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             da.Fill(dt);
@@ -47,9 +49,12 @@ namespace CapaDatos.DetalleOrden_Datos
 
         public DataTable Bancos2(bool MonedaExtranjera)
         {
-            SqlCommand cmd = new SqlCommand("select CODBAN as Value, NOMBREBANCO as Indexx from TB_BANCOS where  ST_BANCOS= 'A' and MONEDAEXTRANJERA= @Moneda ", cn.LeerCadena());
-            cmd.CommandType = CommandType.Text;
+            //SqlCommand cmd = new SqlCommand("select CODBAN as Value, NOMBREBANCO as Indexx from TB_BANCOS where  ST_BANCOS= 'A' and MONEDAEXTRANJERA= @Moneda ", cn.LeerCadena());
+          
+            SqlCommand cmd = new SqlCommand("SP_CPOS_GetBancoTipoPagoMovil", cn.LeerCadena());
+            cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@Moneda", MonedaExtranjera);
+            cmd.Parameters.AddWithValue("@Tipo", "B2");
             DataTable dt = new DataTable();
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             da.Fill(dt);
@@ -60,9 +65,11 @@ namespace CapaDatos.DetalleOrden_Datos
 
         public DataTable BancoRecp(bool MonedaExtranjera)
         {
-            SqlCommand cmd = new SqlCommand("select CODBAN as Value, NOMBREBANCO as Indexx from TB_BANCOS where  RT_BANCOS= 'A' and MONEDAEXTRANJERA= @Moneda and CODBAN<> '007' and CODBAN<> '110'", cn.LeerCadena());
-            cmd.CommandType = CommandType.Text;
+            //SqlCommand cmd = new SqlCommand("select CODBAN as Value, NOMBREBANCO as Indexx from TB_BANCOS where  RT_BANCOS= 'A' and MONEDAEXTRANJERA= @Moneda and CODBAN<> '007' and CODBAN<> '110'", cn.LeerCadena());
+            SqlCommand cmd = new SqlCommand("SP_CPOS_GetBancoTipoPagoMovil", cn.LeerCadena());
+            cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@Moneda", MonedaExtranjera);
+            cmd.Parameters.AddWithValue("@Tipo", "TR");
             DataTable dt = new DataTable();
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             da.Fill(dt);
@@ -71,9 +78,11 @@ namespace CapaDatos.DetalleOrden_Datos
 
         public DataTable BancoRecp_Pagomovil(bool MonedaExtranjera)
         {
-            SqlCommand cmd = new SqlCommand("select CODBAN as Value, NOMBREBANCO as Indexx from TB_BANCOS where MONEDAEXTRANJERA= @Moneda and PagoMovil=1 ", cn.LeerCadena());
-            cmd.CommandType = CommandType.Text;
+            //SqlCommand cmd = new SqlCommand("select CODBAN as Value, NOMBREBANCO as Indexx from TB_BANCOS where MONEDAEXTRANJERA= @Moneda and PagoMovil=1 ", cn.LeerCadena());
+            SqlCommand cmd = new SqlCommand("SP_CPOS_GetBancoTipoPagoMovil", cn.LeerCadena());
+            cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@Moneda", MonedaExtranjera);
+            cmd.Parameters.AddWithValue("@Tipo", "PM");
             DataTable dt = new DataTable();
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             da.Fill(dt);

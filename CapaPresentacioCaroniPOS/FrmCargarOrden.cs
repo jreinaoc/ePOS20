@@ -1610,6 +1610,7 @@ namespace CapaVisual_Login
                         Formato_Dgv_Pnl3_ColoresLC();
                         Pnl_3_Lista_ColoresLC.Visible = true;
                         Pnl_3_Lista_ColoresLC.Location = new Point(250, 150);
+                        Pnl_3_Lista_ColoresLC.BringToFront();
                         return;
                     }
 
@@ -2300,13 +2301,14 @@ namespace CapaVisual_Login
                 else if (e.KeyCode == Keys.Enter)
                 {
 
-                    if (Txt_Tap3_Articulo_Codigo.Text.StartsWith("W"))
+                    if (Txt_Tap3_Articulo_Codigo.Text.StartsWith("W") ||  Txt_Tap3_Articulo_Codigo.Text.StartsWith("w"))
                     {
                         DataSet dsColorLC = _L_Articulo.CargarColoresLC(Dgv_Pnl3_ColoresLC, Txt_Tap3_Articulo_Codigo.Text);
                         Dgv_Pnl3_ColoresLC.DataSource = dsColorLC.Tables[0];
                         Formato_Dgv_Pnl3_ColoresLC();
                         Pnl_3_Lista_ColoresLC.Visible = true;
                         Pnl_3_Lista_ColoresLC.Location = new Point(250, 1);
+                        Pnl_3_Lista_ColoresLC.BringToFront();
                     }
                     // Acción para Enter
                     _L_Articulo.CargarArticulos(Dgv_Pnl3_Articulo, listaArticulos, Cbx_Pnl2_Trbajo.SelectedValue.ToString(), _L_Articulo.ValidarExtenciaCristal(Dgv_Tap3_Articulo, Cbx_Pnl2_Trbajo.SelectedValue.ToString()));

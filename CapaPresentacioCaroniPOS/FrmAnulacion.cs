@@ -940,7 +940,7 @@ namespace CapaVisual_Login
             try 
             {
 
-
+                string mensaje;
                 //-----------------------Despues de Validar Continuo el proceso
                 // Cambio el status en Caorser
                 rept = _D_DetalleOrden.ActualizarCaorser(CbxSelectMotivo.SelectedValue.ToString(), CbxSelecResp.SelectedValue.ToString(), TB_FACTURAS.NumOrdServ, "0", TB_USUARIO.COD_USR, command);
@@ -950,7 +950,18 @@ namespace CapaVisual_Login
 
                 if (_L_Anulacion.GuardoMovimientoArticulo == false)
                 {
-                    string mensaje = "Ocurrio un error creando el movimiento de la orden";
+                    string statusActual;
+                    statusActual = _D_DetalleOrden.ObtieneStatusOrden(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision, command);
+                    if (statusActual == "003")
+                    {
+                         mensaje = "La nota ya fue generada";
+                        _FrmMensajes.co = 2;
+                        _FrmMensajes.avisomensaje(mensaje);
+                        _FrmMensajes.ShowDialog();
+                        command.Transaction.Rollback();
+                        return;
+                    }
+                     mensaje = "Ocurrio un error creando el movimiento de la orden";
                     _FrmMensajes.co = 2;
                     _FrmMensajes.avisomensaje(mensaje);
                     _FrmMensajes.ShowDialog();
@@ -966,7 +977,7 @@ namespace CapaVisual_Login
                 }
                 if (rept == "SATISFACTORIO" & TB_CAORDSER.MonturaEnQuorum == true)
                 {
-                    string mensaje = "Si recibió la montura, recuerde enviarla al laboratorio";
+                     mensaje = "Si recibió la montura, recuerde enviarla al laboratorio";
                     _FrmMensajes.co = 1;
                     _FrmMensajes.avisomensaje(mensaje);
                     _FrmMensajes.ShowDialog();

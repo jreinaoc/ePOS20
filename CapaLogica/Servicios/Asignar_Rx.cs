@@ -807,7 +807,7 @@ namespace CapaLogica.Servicios
                     ((examen.ESFI != examen.ESFD) || (examen.CILI != examen.CILD) ||
                      (examen.EJEI != examen.EJED) || (examen.ADDI != examen.ADDD) ||
                      (examenConv.DPIC != examenConv.DPDC) || (examenConv.DPIL != examenConv.DPDL) ||
-                     (examenConv.ALTI != examenConv.ALTD) || (examenConv.AVI != examenConv.AVD) ||
+                     (txtAltI.Text != txtAltD.Text) || (examenConv.AVI != examenConv.AVD) ||
                      (examenConv.PRISMAI != examenConv.PRISMAD) || (examenConv.PBASEI != examenConv.PBASED)))
                 {
                     mostrarError("Este exámen debe contener los mismos datos para el tipo de visión Balance. Modifíquelo, Agregue o Seleccione otro.");
