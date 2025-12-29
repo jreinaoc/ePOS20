@@ -3540,6 +3540,7 @@ namespace CapaVisual_Login
                         if (row.Cells["CodArticulo"].Value != null && (row.Cells["CodArticulo"].Value.ToString().StartsWith("M") || row.Cells["CodArticulo"].Value.ToString().StartsWith("L")))
                         {
                             TieneMontura = true;
+                            break;
                         }
                         else
                         {

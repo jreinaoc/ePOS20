@@ -108,6 +108,8 @@ namespace CapaVisual_Login
         ToolTip toolTip2 = new ToolTip();
         public int CantAbonosPrevios = 0;
         public int idAbonoPagoMovil = 0;
+        public string CedulaCtePagador;
+        public string NombreCtePagador;
         private void FrmDetalleOrden_Load(object sender, EventArgs e)
         {
             LimpiaVariablesIdAbonoPagoMovil();
@@ -196,7 +198,11 @@ namespace CapaVisual_Login
         private void btnIngresar_Click(object sender, EventArgs e)
         {
             //Validar que no haya sido facturada, para casos donde tienen 2 impresoras fiscales  y la emiten al mismo tiempo, sale por una pc/impresora y en la otra pc/impresora sale anulada y queda por pagar, cuando le vuelven a dar procesar debe validar que no fue facturada previamente
+            CedulaCtePagador = txtCedula.Text;
+            NombreCtePagador = txtNombreCliente.Text ;
             CargarDatosOrden(TB_CAORDSER.NumOrdserv, TB_CAORDSER.Cod_DetVta, TB_CAORDSER.Revision);
+            txtCedula.Text = CedulaCtePagador;
+            txtNombreCliente.Text = NombreCtePagador;
             if (TB_CAORDSER.OrSer_Status == "002")
             {
                 // Cargar los Pagos de la orden 
