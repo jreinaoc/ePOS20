@@ -74,19 +74,19 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>yqkONxB63IG0hGdN1oihc1DqFUtDNAUBq5uY+MEgBpU=</dsig:DigestValue>
+        <dsig:DigestValue>5v0Ou5/qVXOgDmti/6NlimudvuOXGnhbIb87YERCXp4=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CapaLogica.dll" size="358912">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CapaLogica.dll" size="361984">
       <assemblyIdentity name="CapaLogica" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>KIV3UQY76nYDlwxW8Erp3OiDWDMCZo0JUF5XR8rfe2E=</dsig:DigestValue>
+        <dsig:DigestValue>OSM8Eva3HFpRAxQYTid2duolQBau3vSA0GlThOXZaWM=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -206,7 +206,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>7u7TZ8ywhUKKOtG1yNfwG+m6HZS956A3JfTwsNTas2Q=</dsig:DigestValue>
+        <dsig:DigestValue>liGFfKTn/vcioQgMggqOXCafWHwwYOLOvQ6noFmEP5I=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -1178,7 +1178,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>coPwTvDdd1893Iyd+mi+7aa33Xke+Uz/zN8USd0BB5I=</dsig:DigestValue>
+        <dsig:DigestValue>LhuL51bWOSGrnvMHUt4YJlzMZ6+PYuujHWqSrPA/h8E=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -1291,14 +1291,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="VmaxComVe.dll" size="52736">
-      <assemblyIdentity name="VmaxComVe" version="1.0.0.10" language="neutral" processorArchitecture="msil" />
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="VmaxComVe.dll" size="64512">
+      <assemblyIdentity name="VmaxComVe" version="1.0.0.13" language="neutral" processorArchitecture="x86" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>VIBfzmX6PLUr2JmPDgavZxWWrCpTMb63qaIZ5mGeKhE=</dsig:DigestValue>
+        <dsig:DigestValue>jiWV/e+YPxKgCBViodGG8YQ0sujUJiulIyFzPh91DBY=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -1317,7 +1317,7 @@
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>qNjY+VzwIg7ozTQXsxmA4E4so1VfD2yb/pX31G5qU6Q=</dsig:DigestValue>
+      <dsig:DigestValue>iBxrEebyFUuRcrhhuow30inqyMBbMGrtKlvFBLIKDSs=</dsig:DigestValue>
     </hash>
   </file>
   <file name="icono-puntoDeVenta.ico" size="205662">

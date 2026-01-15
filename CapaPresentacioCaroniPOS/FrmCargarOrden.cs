@@ -3264,6 +3264,13 @@ namespace CapaVisual_Login
 
         private void Txt_Pnl3_MontoDesc_Leave(object sender, EventArgs e)
         {
+            // FORMA CORRECTA 1 - Con declaración de tipos explícita
+            //(bool descuentoPermitido, string Id_rol) = L_Articulo.Verificar_TB_DESCUENTOS(
+            //    Dgv_Tap3_Articulo,
+            //    Tipo_Descuento,
+            //    Txt_Pnl3_PorcDescuento,
+            //    Txt_Pnl3_MontoDesc);
+
             if (!_L_Articulo.CalculoDescuento(Dgv_Tap3_Totales.Rows[4].Cells["Valor"].Value.ToString(), Dgv_Tap3_Articulo, Tipo_Descuento, "0.00", Txt_Pnl3_PorcDescuento, Txt_Pnl3_MontoDesc, Txt_Pnl3_ObservacionDesc))
             {
                 //Txt_Pnl3_PorcDescuento.Text = "";
@@ -12864,7 +12871,7 @@ namespace CapaVisual_Login
             {
                 if (Cbx_Pnl2_Servicio.Items.Count > 0 && !string.IsNullOrEmpty(Cbx_Pnl2_Servicio.Text))
                 {
-                    if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01" || Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "02")
+                    if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01" || Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "02" || Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "08")
                     {
                         if (_L_Articulo.Disponible_Servicio_3Horas(Cbx_Pnl2_Servicio.Text, Cbx_Pnl2_Laboratorio.Text))
                         {

@@ -2351,7 +2351,7 @@ namespace CapaLogica.CargarOrdenes
                                 return false;
                             }
 
-                            Monto_Descuento.Text = ((Convert.ToDouble(Porce_Descuento.Text) * Convert.ToDouble((DgvArticulo.CurrentRow.Cells["ART_PVP"].Value.ToString()))) / 100).ToString("N2");
+                            Monto_Descuento.Text = ((Convert.ToDouble(Porce_Descuento.Text) * Convert.ToDouble((DgvArticulo.CurrentRow.Cells["PrecioViejo"].Value.ToString()))) / 100).ToString("N2");
                             txtMotivo.Focus();
                             return true;
 
@@ -2368,7 +2368,7 @@ namespace CapaLogica.CargarOrdenes
                         }
                         else
                         {
-                            Porce_Descuento.Text = ((Convert.ToDecimal(Monto_Descuento.Text) * 100) / Convert.ToDecimal(DgvArticulo.CurrentRow.Cells["ART_PVP"].Value)).ToString("N2");
+                            Porce_Descuento.Text = ((Convert.ToDecimal(Monto_Descuento.Text) * 100) / Convert.ToDecimal(DgvArticulo.CurrentRow.Cells["PrecioViejo"].Value)).ToString("N2");
                             Monto_Descuento.Text = Convert.ToDecimal(Monto_Descuento.Text).ToString("N2");
                             return true;
                         }
@@ -2382,6 +2382,111 @@ namespace CapaLogica.CargarOrdenes
                 stringBuilder.Append(Environment.NewLine + string.Format("Error: {0}", ex.Message));
                 return false;
             }
+        }
+
+        public class DescuentoInfo
+        {
+            public string CodMarca { get; set; }
+            public string TipoArticulo { get; set; }
+            public decimal DescuentoMin { get; set; }
+            public decimal DescuentoMax { get; set; }
+            public string RolAutorizado { get; set; }
+        }
+
+        public (bool descuentoPermitido, string rolAutorizado) Verificar_TB_DESCUENTOS(System.Windows.Forms.DataGridView DgvArticulo, string TipoDescuento, System.Windows.Forms.TextBox Porce_Descuento, System.Windows.Forms.TextBox Monto_Descuento)
+        {
+            // Diccionario con CodMarca como clave y List<DescuentoInfo> como valor (para múltiples configuraciones)
+            Dictionary<string, List<DescuentoInfo>> descuentosPorMarca = new Dictionary<string, List<DescuentoInfo>>();
+            StringBuilder stringBuilder = new StringBuilder();
+            
+            bool descuentoPermitido = true;
+            string Id_rol = "";
+
+            DataSet dsDesc = _D_Articulos.PermisosDescuento(DgvArticulo.CurrentRow.Cells["CodArticulo"].Value.ToString(), Porce_Descuento.Text, TB_USUARIO.Id_Rol);
+
+            if (dsDesc != null && dsDesc.Tables.Count > 0 && dsDesc.Tables[0].Rows.Count > 0)
+            {
+                descuentoPermitido = false;
+                // Recorrer todas las filas del DataTable
+                foreach (DataRow row in dsDesc.Tables[0].Rows)
+                {
+                    // Verificar que tenga los datos mínimos necesarios
+                    if (row["CodMarca"] != DBNull.Value && row["DescuentoMax"] != DBNull.Value)
+                    {
+                        string codMarca = row["CodMarca"].ToString();
+
+                        // Crear el objeto DescuentoInfo con los datos de la fila
+                        DescuentoInfo descuento = new DescuentoInfo
+                        {
+                            CodMarca = codMarca,
+                            TipoArticulo = row["TipoArticulo"] != DBNull.Value ? row["TipoArticulo"].ToString() : string.Empty,
+                            DescuentoMin = row["DescuentoMin"] != DBNull.Value && decimal.TryParse(row["DescuentoMin"].ToString(), out decimal min) ? min : 0,
+                            DescuentoMax = row["DescuentoMax"] != DBNull.Value && decimal.TryParse(row["DescuentoMax"].ToString(), out decimal max) ? max : 0,
+                            RolAutorizado = row["RolAutorizado"] != DBNull.Value ? row["RolAutorizado"].ToString() : string.Empty
+                        };
+
+                        // Agregar al diccionario (permite múltiples configuraciones por marca)
+                        if (!descuentosPorMarca.ContainsKey(codMarca))
+                        {
+                            descuentosPorMarca.Add(codMarca, new List<DescuentoInfo>());
+                        }
+                        descuentosPorMarca[codMarca].Add(descuento);
+                    }
+                }
+
+                // Obtener el porcentaje de descuento ingresado
+                if (!decimal.TryParse(Porce_Descuento.Text, out decimal porcentajeIngresado))
+                {
+                    stringBuilder.Append("El porcentaje de descuento ingresado no es válido");
+                    Porce_Descuento.Focus();
+                    Porce_Descuento.SelectAll();
+                    MessageBox.Show(stringBuilder.ToString());
+                    return (descuentoPermitido, Id_rol);
+                }
+
+                // Obtener la marca del primer registro (asumiendo que todos son de la misma marca)
+                string primeraMarca = dsDesc.Tables[0].Rows[0]["CodMarca"].ToString();
+
+                // Verificar si la marca existe en el diccionario
+                if (descuentosPorMarca.ContainsKey(primeraMarca))
+                {
+                    descuentoPermitido = false;
+
+                    // Verificar si el porcentaje está en algún rango permitido para esta marca
+                    foreach (var descuentoConfig in descuentosPorMarca[primeraMarca])
+                    {
+                        if (porcentajeIngresado >= descuentoConfig.DescuentoMin &&
+                            porcentajeIngresado <= descuentoConfig.DescuentoMax)
+                        {
+                            Id_rol = descuentoConfig.RolAutorizado;
+                            descuentoPermitido = true;
+                            break;
+                        }
+                    }
+
+                    if (!descuentoPermitido)
+                    {
+                        // Obtener rangos disponibles para el mensaje
+                        var minGlobal = descuentosPorMarca[primeraMarca].Min(d => d.DescuentoMin);
+                        var maxGlobal = descuentosPorMarca[primeraMarca].Max(d => d.DescuentoMax);
+
+                        stringBuilder.Append($"La marca {primeraMarca} no permite este % de descuento. ");
+                        stringBuilder.Append($"Rangos permitidos: {minGlobal}% - {maxGlobal}%");
+
+                        Porce_Descuento.Focus();
+                        Porce_Descuento.SelectAll();
+                        MessageBox.Show(stringBuilder.ToString());
+                    }       
+                    
+                }
+
+                return (descuentoPermitido, Id_rol) ;
+            }
+            else
+            {
+                return (descuentoPermitido, Id_rol);
+            }
+            
         }
 
         public void Cargo_CodMotivo_Descuento(System.Windows.Forms.ComboBox cbCodMotivo)
@@ -4801,7 +4906,7 @@ namespace CapaLogica.CargarOrdenes
                         int filaSeleccionada= row.Index;
                         if (codArticulo.StartsWith("C"))
                         {
-                            decimal precio = Convert.ToDecimal(row.Cells["ART_PVP"].Value.ToString());
+                            decimal precio = Convert.ToDecimal(row.Cells["PrecioViejo"].Value.ToString());
                             decimal descuento = Convert.ToDecimal(dsGetLC.Tables[2].Rows[0]["DESCUENTOCRT"]);
                             decimal NuevoPrecio = precio - descuento;
                             if (NuevoPrecio <= 0)
@@ -4816,7 +4921,7 @@ namespace CapaLogica.CargarOrdenes
                             // Coloracion
                             if (codArticulo == "S000004")
                             {
-                                decimal precio = Convert.ToDecimal(row.Cells["ART_PVP"].Value.ToString()); 
+                                decimal precio = Convert.ToDecimal(row.Cells["PrecioViejo"].Value.ToString()); 
                                 decimal descuento = Convert.ToDecimal(dsGetLC.Tables[2].Rows[0]["DESCUENTOSERVCOLOR"]);
                                 decimal NuevoPrecio = precio - descuento;
                                 if (NuevoPrecio <= 0)
@@ -4829,7 +4934,7 @@ namespace CapaLogica.CargarOrdenes
                             // Prisma 
                             if (codArticulo == "S000006")
                             {
-                                decimal precio = Convert.ToDecimal(row.Cells["ART_PVP"].Value.ToString());
+                                decimal precio = Convert.ToDecimal(row.Cells["PrecioViejo"].Value.ToString());
                                 decimal descuento = Convert.ToDecimal(dsGetLC.Tables[2].Rows[0]["DESCUENTOSERVPRISMA"]);
                                 decimal NuevoPrecio = precio - descuento;
                                 if (NuevoPrecio <= 0)
@@ -4846,7 +4951,7 @@ namespace CapaLogica.CargarOrdenes
                                     string agregadoProducto = dr["Agregado_Producto"]?.ToString().Trim('"');
                                     if (!string.IsNullOrEmpty(agregadoProducto) && agregadoProducto == codArticulo)
                                     {
-                                        decimal precio = Convert.ToDecimal(row.Cells["ART_PVP"].Value.ToString());
+                                        decimal precio = Convert.ToDecimal(row.Cells["PrecioViejo"].Value.ToString());
                                         string Ojo = row.Cells["Ojo"].Value.ToString();
                                         decimal descuento = 0.00M;
                                         if (Ojo.StartsWith("D"))
@@ -4880,7 +4985,7 @@ namespace CapaLogica.CargarOrdenes
                                     string agregadoProducto = dr["CodServicio"]?.ToString().Trim('"');
                                     if (!string.IsNullOrEmpty(agregadoProducto) && agregadoProducto == codArticulo)
                                     {
-                                        decimal precio1 = Convert.ToDecimal(row.Cells["ART_PVP"].Value.ToString());
+                                        decimal precio1 = Convert.ToDecimal(row.Cells["PrecioViejo"].Value.ToString());
                                         decimal descuento1 = Convert.ToDecimal(dsGetLC.Tables[2].Rows[0]["DESCUENTOSERVAR"]);
                                         decimal NuevoPrecio1 = precio1 - descuento1;
                                         if (NuevoPrecio1 <= 0)
