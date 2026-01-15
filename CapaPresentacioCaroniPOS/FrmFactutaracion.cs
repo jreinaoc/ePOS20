@@ -85,6 +85,7 @@ namespace CapaVisual_Login
         private string Medio_Pago = "";
         private string mensaje = "";
         private string NumeroComprobanteFiscal = "";
+        private string UltimoNumeroFacturaCancelado2;
         private bool FacturaManual;
         private bool ImprimirFacturaFiscall;
         private string TotalFacturaFiscal = "";
@@ -4340,7 +4341,7 @@ namespace CapaVisual_Login
                         // ''''' ********* DATOS DEL CLIENTE ************
                         //resp = objVmax.AbrirCF(txtNombreCliente.Text, (txtCedula.Text.Replace("-","")) , "1", "294", "12345", "", "", 40);
                         resp = objVmax.AbrirCF(txtNombreCliente.Text, txtCedula.Text, "1", "294", "12345", "", "", 40);
-
+                        
                         if (_Impresora_Fiscal.VerficarConexionImpresoraFiscalSinCerrar() == false)
                         {
                             mensaje = _Impresora_Fiscal.stringBuilder.ToString();
@@ -4406,6 +4407,12 @@ namespace CapaVisual_Login
                                 objVmax.Cancelar();
                                 objVmax.Cerrar();
                                 objVmax.CerrarPuerto();
+
+                                objVmax.AbrirPuerto(glbPuertoCOM.ToString());
+                                objVmax.ObtenerContadores();
+                                objVmax.CerrarPuerto();
+                                UltimoNumeroFacturaCancelado2 = objVmax.RetornoContadores.uiUltFacturaAnulada.ToString().PadLeft(7, '0');
+
                                 return "Error";
                             }
                             else
@@ -4477,6 +4484,12 @@ namespace CapaVisual_Login
                                     objVmax.Cancelar();
                                     objVmax.Cerrar();
                                     objVmax.CerrarPuerto();
+                                    
+                                    objVmax.AbrirPuerto(glbPuertoCOM.ToString());
+                                    objVmax.ObtenerContadores();
+                                    objVmax.CerrarPuerto();
+                                    UltimoNumeroFacturaCancelado2 = objVmax.RetornoContadores.uiUltFacturaAnulada.ToString().PadLeft(7, '0');
+                                    
                                     ImprimirFacturaFiscall = false;
                                     respuesta = false;
                                     return "Error";
@@ -4608,6 +4621,12 @@ namespace CapaVisual_Login
                                     objVmax.Cancelar();
                                     objVmax.Cerrar();
                                     objVmax.CerrarPuerto();
+
+                                    objVmax.AbrirPuerto(glbPuertoCOM.ToString());
+                                    objVmax.ObtenerContadores();
+                                    objVmax.CerrarPuerto();
+                                    UltimoNumeroFacturaCancelado2 = objVmax.RetornoContadores.uiUltFacturaAnulada.ToString().PadLeft(7, '0');
+
                                     ImprimirFacturaFiscall = false;
                                     respuesta = false;
                                     return "Error";
@@ -4728,6 +4747,12 @@ namespace CapaVisual_Login
                                     objVmax.Cancelar();
                                     objVmax.Cerrar();
                                     objVmax.CerrarPuerto();
+
+                                    objVmax.AbrirPuerto(glbPuertoCOM.ToString());
+                                    objVmax.ObtenerContadores();
+                                    objVmax.CerrarPuerto();
+                                    UltimoNumeroFacturaCancelado2 = objVmax.RetornoContadores.uiUltFacturaAnulada.ToString().PadLeft(7, '0');
+
                                     ImprimirFacturaFiscall = false;
                                     respuesta = false;
                                     return "Error";
@@ -4742,6 +4767,12 @@ namespace CapaVisual_Login
                             objVmax.Cancelar();
                             objVmax.Cerrar();
                             objVmax.CerrarPuerto();
+
+                            objVmax.AbrirPuerto(glbPuertoCOM.ToString());
+                            objVmax.ObtenerContadores();
+                            objVmax.CerrarPuerto();
+                            UltimoNumeroFacturaCancelado2 = objVmax.RetornoContadores.uiUltFacturaAnulada.ToString().PadLeft(7, '0');
+
                             ImprimirFacturaFiscall = false;
                             //rollbackRealizado = true;
                             respuesta = false;
@@ -5242,9 +5273,12 @@ namespace CapaVisual_Login
                             }
                             else
                             {
-                                string UltimoNumeroFacturaCancelado2 = objVmax.RetornoContadores.uiUltFacturaAnulada.ToString().PadLeft(7, '0');
-                                string UltimoNumeroFacturaEmitido2 = objVmax.RetornoContadores.uiUltFacturaAbierta.ToString().PadLeft(7, '0');
+                                objVmax.AbrirPuerto(glbPuertoCOM.ToString());
+                                objVmax.ObtenerContadores();
                                 objVmax.CerrarPuerto();
+                                UltimoNumeroFacturaCancelado2 = objVmax.RetornoContadores.uiUltFacturaAnulada.ToString().PadLeft(7, '0');
+                                string UltimoNumeroFacturaEmitido2 = objVmax.RetornoContadores.uiUltFacturaAbierta.ToString().PadLeft(7, '0');
+                               
                                 objVmax.Cerrar();
                                 //con datos de tb_abono
                                 if (resp == 0 && (UltimoNumeroFacturaCancelado2 != NumeroComprobanteFiscal) && (NumeroComprobanteFiscal.Trim() != "0000000"))
@@ -5300,6 +5334,12 @@ namespace CapaVisual_Login
                             objVmax.Cancelar();
                             objVmax.Cerrar();
                             objVmax.CerrarPuerto();
+
+                            objVmax.AbrirPuerto(glbPuertoCOM.ToString());
+                            objVmax.ObtenerContadores();
+                            objVmax.CerrarPuerto();
+                            UltimoNumeroFacturaCancelado2 = objVmax.RetornoContadores.uiUltFacturaAnulada.ToString().PadLeft(7, '0');
+
                             ImprimirFacturaFiscall = false;
                             respuesta = false;
 
@@ -5426,6 +5466,12 @@ namespace CapaVisual_Login
                 objVmax.Cancelar();
                 objVmax.Cerrar();
                 objVmax.CerrarPuerto();
+
+                objVmax.AbrirPuerto(glbPuertoCOM.ToString());
+                objVmax.ObtenerContadores();
+                objVmax.CerrarPuerto();
+                UltimoNumeroFacturaCancelado2 = objVmax.RetornoContadores.uiUltFacturaAnulada.ToString().PadLeft(7, '0');
+
                 ImprimirFacturaFiscall = false;
                 return "";
             }
@@ -5438,6 +5484,12 @@ namespace CapaVisual_Login
                 objVmax.Cancelar();
                 objVmax.Cerrar();
                 objVmax.CerrarPuerto();
+
+                objVmax.AbrirPuerto(glbPuertoCOM.ToString());
+                objVmax.ObtenerContadores();
+                objVmax.CerrarPuerto();
+                UltimoNumeroFacturaCancelado2 = objVmax.RetornoContadores.uiUltFacturaAnulada.ToString().PadLeft(7, '0');
+
                 ImprimirFacturaFiscall = false;
                 return "";
             }
@@ -5457,6 +5509,7 @@ namespace CapaVisual_Login
 
 
                             _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "091", TB_USUARIO.COD_EMPLEADO, "Número de orden " + TB_CAORDSER.NumOrdserv + " En proceso de facturación.");
+                            _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "091", TB_USUARIO.COD_EMPLEADO, "Número de factura en proceso: " + NumeroComprobanteFiscal.PadLeft(7, '0') + " Último número de factura anulada: " + UltimoNumeroFacturaCancelado2.PadLeft(7, '0'));
 
                             rollbackRealizado = true;
                             string Resp = _D_DetalleOrden.GetFactura(TB_CAORDSER.Cod_Sucursal, NumeroComprobanteFiscal.PadLeft(7, '0'), DateTime.Today.ToString("yyyyMMdd"), txtCedula.Text[0].ToString(),
@@ -8674,6 +8727,12 @@ namespace CapaVisual_Login
                                 objVmax.Cancelar();
                                 objVmax.Cerrar();
                                 resp = objVmax.CerrarPuerto();
+
+                                objVmax.AbrirPuerto(glbPuertoCOM.ToString());
+                                objVmax.ObtenerContadores();
+                                objVmax.CerrarPuerto();
+                                UltimoNumeroFacturaCancelado2 = objVmax.RetornoContadores.uiUltFacturaAnulada.ToString().PadLeft(7, '0');
+
                                 ImprimirFacturaFiscall = false;
                                 return "Error";
                             }
@@ -8696,6 +8755,11 @@ namespace CapaVisual_Login
                 objVmax.Cancelar();
                 objVmax.Cerrar();
                 resp = objVmax.CerrarPuerto();
+
+                objVmax.AbrirPuerto(glbPuertoCOM.ToString());
+                objVmax.ObtenerContadores();
+                objVmax.CerrarPuerto();
+                UltimoNumeroFacturaCancelado2 = objVmax.RetornoContadores.uiUltFacturaAnulada.ToString().PadLeft(7, '0');
 
                 _FrmMensajes.co = 2;
                 _FrmMensajes.avisomensaje("Ocurrió un error imprimiendo el cambio");
