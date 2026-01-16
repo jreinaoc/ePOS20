@@ -129,6 +129,8 @@ namespace CapaVisual_Login
         // Variables para guardar los datos recibidos del delegado Lentes de Contacto 
         string codLab = "";
         string generico = "";
+        string CodMotivoDescuento = "";
+        private int indiceBloqueado = -1;
         private BindingSource bindingSource = new BindingSource();
         // Lista temporal para relizar el filtrado 
         private List<TB_ARTICULO> listaTemporal = new List<TB_ARTICULO>();
@@ -1954,6 +1956,8 @@ namespace CapaVisual_Login
                 ojoLenteContacto = "";
                 pnlOjo.Visible = false;
                 LcAmbosCant1 = false;
+                CodMotivoDescuento = "";
+                indiceBloqueado = -1;
                 BotonesColor(true,"todos");
                 if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "09")
                 {
@@ -3034,7 +3038,9 @@ namespace CapaVisual_Login
 
         private void Btn_Tap3_Cancelar_Desc_Click(object sender, EventArgs e)
         {
-            CerrarPanelDescuento();
+         CodMotivoDescuento = "";
+         indiceBloqueado = -1;
+        CerrarPanelDescuento();
         }
         private void Btn_Tap3_Cancelar_Coloracion_Click(object sender, EventArgs e)
         {
@@ -3078,9 +3084,16 @@ namespace CapaVisual_Login
                     {
                         if (Tipo_Descuento == "Descuento Global")
                         {
-                            // Verifico se el Porcentaje de descuento esta por encima dle permitido para generar una clave autorizada diferente 
 
-                            if (_L_Articulo.VerificarTopeMaximoDesceunto(Convert.ToDecimal(Txt_Pnl3_PorcDescuento.Text)))
+                            // Verifico si algun articulo pertenece a la tabla tb descuento 
+                            if (!string.IsNullOrWhiteSpace(CodMotivoDescuento))
+                            {
+                                // Pido Clave Autorizada con unos parametros especificos
+                                _FrmClaveAutorizada.Nuevo_Parametro = true;
+                                _FrmClaveAutorizada.Parametro_Nuevo = _L_Articulo.BuscarCodigoGerenteDescuento(Cbx_Pnl3_MotivoDesc.SelectedValue.ToString());
+                            }
+                            // Verifico se el Porcentaje de descuento esta por encima dle permitido para generar una clave autorizada diferente 
+                            else if (_L_Articulo.VerificarTopeMaximoDesceunto(Convert.ToDecimal(Txt_Pnl3_PorcDescuento.Text)))
                             {   // Pido Clave Autorizada con unos parametros especificos
                                 _FrmClaveAutorizada.Nuevo_Parametro = true;
                                 _FrmClaveAutorizada.Parametro_Nuevo = _L_Articulo.BuscarCodigoGerenteDescuento(Cbx_Pnl3_MotivoDesc.SelectedValue.ToString());
@@ -3100,9 +3113,16 @@ namespace CapaVisual_Login
                         }
                         else if (Tipo_Descuento == "Descuento por articulo")
                         {
-                            // Verifico se el Porcentaje de descuento esta por encima dle permitido para generar una clave autorizada diferente 
 
-                            if (_L_Articulo.VerificarTopeMaximoDesceunto(Convert.ToDecimal(Txt_Pnl3_PorcDescuento.Text)))
+                            // Verifico si algun articulo pertenece a la tabla tb descuento 
+                            if (!string.IsNullOrWhiteSpace(CodMotivoDescuento))
+                            {
+                                // Pido Clave Autorizada con unos parametros especificos
+                                _FrmClaveAutorizada.Nuevo_Parametro = true;
+                                _FrmClaveAutorizada.Parametro_Nuevo = _L_Articulo.BuscarCodigoGerenteDescuento(Cbx_Pnl3_MotivoDesc.SelectedValue.ToString());
+                            }
+                            // Verifico se el Porcentaje de descuento esta por encima dle permitido para generar una clave autorizada diferente 
+                            else if (_L_Articulo.VerificarTopeMaximoDesceunto(Convert.ToDecimal(Txt_Pnl3_PorcDescuento.Text)))
                             {   // Pido Clave Autorizada con unos parametros especificos
                                 _FrmClaveAutorizada.Nuevo_Parametro = true;
                                 _FrmClaveAutorizada.Parametro_Nuevo = _L_Articulo.BuscarCodigoGerenteDescuento(Cbx_Pnl3_MotivoDesc.SelectedValue.ToString());
@@ -3264,12 +3284,6 @@ namespace CapaVisual_Login
 
         private void Txt_Pnl3_MontoDesc_Leave(object sender, EventArgs e)
         {
-            // FORMA CORRECTA 1 - Con declaración de tipos explícita
-            //(bool descuentoPermitido, string Id_rol) = L_Articulo.Verificar_TB_DESCUENTOS(
-            //    Dgv_Tap3_Articulo,
-            //    Tipo_Descuento,
-            //    Txt_Pnl3_PorcDescuento,
-            //    Txt_Pnl3_MontoDesc);
 
             if (!_L_Articulo.CalculoDescuento(Dgv_Tap3_Totales.Rows[4].Cells["Valor"].Value.ToString(), Dgv_Tap3_Articulo, Tipo_Descuento, "0.00", Txt_Pnl3_PorcDescuento, Txt_Pnl3_MontoDesc, Txt_Pnl3_ObservacionDesc))
             {
@@ -3279,6 +3293,37 @@ namespace CapaVisual_Login
                 _FrmMensajes.avisomensaje(_L_Articulo.stringBuilder.ToString());
                 _FrmMensajes.ShowDialog();
             }
+            else
+            {
+                CodMotivoDescuento = _L_Articulo.Verificar_TB_DESCUENTOS(Dgv_Tap3_Articulo, Tipo_Descuento, Txt_Pnl3_PorcDescuento, Txt_Pnl3_MontoDesc);
+
+                // Verificar si la variable tiene valor
+                if (!string.IsNullOrWhiteSpace(CodMotivoDescuento))
+                {
+
+                    // RECORRER el ComboBox para buscar la posición
+                    for (int i = 0; i < Cbx_Pnl3_MotivoDesc.Items.Count; i++)
+                    {
+                        // Obtener el DataRowView de cada item
+                        DataRowView item = Cbx_Pnl3_MotivoDesc.Items[i] as DataRowView;
+
+                        if (item != null)
+                        {
+                            // Obtener el valor de CodMotivo de este item
+                            string codigoItem = item["CodMotivo"].ToString();
+
+                            // VERIFICAR si coincide con la variable
+                            if (codigoItem == CodMotivoDescuento)
+                            {
+                                indiceBloqueado= i; // OBTENER la posición
+                                Cbx_Pnl3_MotivoDesc.SelectedIndex = i;
+                                break; // Salir del ciclo cuando se encuentre
+                            }
+                        }
+                    }
+                }
+            }
+
         }
 
         private void Txt_Pnl3_PorcDescuento_Validating(object sender, CancelEventArgs e)
@@ -3290,6 +3335,34 @@ namespace CapaVisual_Login
             else
             {
                 FormatoBs(Convert.ToDouble(Txt_Pnl3_PorcDescuento.Text), Txt_Pnl3_PorcDescuento);
+
+                CodMotivoDescuento = _L_Articulo.Verificar_TB_DESCUENTOS(Dgv_Tap3_Articulo, Tipo_Descuento, Txt_Pnl3_PorcDescuento, Txt_Pnl3_MontoDesc);
+
+                // Verificar si la variable tiene valor
+                if (!string.IsNullOrWhiteSpace(CodMotivoDescuento))
+                {
+
+                    // RECORRER el ComboBox para buscar la posición
+                    for (int i = 0; i < Cbx_Pnl3_MotivoDesc.Items.Count; i++)
+                    {
+                        // Obtener el DataRowView de cada item
+                        DataRowView item = Cbx_Pnl3_MotivoDesc.Items[i] as DataRowView;
+
+                        if (item != null)
+                        {
+                            // Obtener el valor de CodMotivo de este item
+                            string codigoItem = item["CodMotivo"].ToString();
+
+                            // VERIFICAR si coincide con la variable
+                            if (codigoItem == CodMotivoDescuento)
+                            {
+                                indiceBloqueado = i; // OBTENER la posición
+                                Cbx_Pnl3_MotivoDesc.SelectedIndex = i;
+                                break; // Salir del ciclo cuando se encuentre
+                            }
+                        }
+                    }
+                }
 
             }
         }
@@ -15027,6 +15100,15 @@ namespace CapaVisual_Login
                 e.KeyChar = ',';
                 // o bloquear directamente:
                 // e.Handled = true;
+            }
+        }
+
+        private void Cbx_Pnl3_MotivoDesc_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(CodMotivoDescuento) && Cbx_Pnl3_MotivoDesc.SelectedIndex != indiceBloqueado)
+            {
+                // Revertir al índice bloqueado
+                Cbx_Pnl3_MotivoDesc.SelectedIndex = indiceBloqueado;
             }
         }
 

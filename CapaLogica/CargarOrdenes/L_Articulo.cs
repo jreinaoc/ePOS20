@@ -2281,19 +2281,19 @@ namespace CapaLogica.CargarOrdenes
                         }
                         else
                         {
-                            for (int x = 0; x < DgvArticulo.RowCount; x++)
-                            {
-                                dsDesc = _D_Articulos.PermisosDescuento(DgvArticulo.Rows[x].Cells["CodArticulo"].Value.ToString(), Porce_Descuento.Text, TB_USUARIO.Id_Rol);
+                            //for (int x = 0; x < DgvArticulo.RowCount; x++)
+                            //{
+                            //    dsDesc = _D_Articulos.PermisosDescuento(DgvArticulo.Rows[x].Cells["CodArticulo"].Value.ToString(), Porce_Descuento.Text, TB_USUARIO.Id_Rol);
 
 
-                                if (dsDesc != null && dsDesc.Tables.Count > 0 && dsDesc.Tables[0].Rows.Count > 0)
-                                {
-                                    stringBuilder.Append($"La marca {dsDesc.Tables[0].Rows[0][0]} no permite este % de descuento");
-                                    Porce_Descuento.Focus();
-                                    Porce_Descuento.SelectAll();
-                                    return false;
-                                }
-                            }
+                            //    if (dsDesc != null && dsDesc.Tables.Count > 0 && dsDesc.Tables[0].Rows.Count > 0)
+                            //    {
+                            //        stringBuilder.Append($"La marca {dsDesc.Tables[0].Rows[0][0]} no permite este % de descuento");
+                            //        Porce_Descuento.Focus();
+                            //        Porce_Descuento.SelectAll();
+                            //        return false;
+                            //    }
+                            //}
 
                             if (Convert.ToDecimal(Porce_Descuento.Text) > Convert.ToDecimal(DescMax))
                             {
@@ -2340,16 +2340,16 @@ namespace CapaLogica.CargarOrdenes
                         }
                         else
                         {
-                            dsDesc = _D_Articulos.PermisosDescuento(DgvArticulo.CurrentRow.Cells["CodArticulo"].Value.ToString(), Porce_Descuento.Text, TB_USUARIO.Id_Rol);
+                            //dsDesc = _D_Articulos.PermisosDescuento(DgvArticulo.CurrentRow.Cells["CodArticulo"].Value.ToString(), Porce_Descuento.Text, TB_USUARIO.Id_Rol);
 
-                            if (dsDesc != null && dsDesc.Tables.Count > 0 && dsDesc.Tables[0].Rows.Count > 0)
-                            {
+                            //if (dsDesc != null && dsDesc.Tables.Count > 0 && dsDesc.Tables[0].Rows.Count > 0)
+                            //{
 
-                                stringBuilder.Append($"La marca {dsDesc.Tables[0].Rows[0][0]} no permite este % de descuento");
-                                Porce_Descuento.Focus();
-                                Porce_Descuento.SelectAll();
-                                return false;
-                            }
+                            //    stringBuilder.Append($"La marca {dsDesc.Tables[0].Rows[0][0]} no permite este % de descuento");
+                            //    Porce_Descuento.Focus();
+                            //    Porce_Descuento.SelectAll();
+                            //    return false;
+                            //}
 
                             Monto_Descuento.Text = ((Convert.ToDouble(Porce_Descuento.Text) * Convert.ToDouble((DgvArticulo.CurrentRow.Cells["PrecioViejo"].Value.ToString()))) / 100).ToString("N2");
                             txtMotivo.Focus();
@@ -2387,106 +2387,131 @@ namespace CapaLogica.CargarOrdenes
         public class DescuentoInfo
         {
             public string CodMarca { get; set; }
-            public string TipoArticulo { get; set; }
-            public decimal DescuentoMin { get; set; }
-            public decimal DescuentoMax { get; set; }
-            public string RolAutorizado { get; set; }
+            public string  CodigoMotivoDescuento { get; set; }
+
         }
 
-        public (bool descuentoPermitido, string rolAutorizado) Verificar_TB_DESCUENTOS(System.Windows.Forms.DataGridView DgvArticulo, string TipoDescuento, System.Windows.Forms.TextBox Porce_Descuento, System.Windows.Forms.TextBox Monto_Descuento)
+        public string Verificar_TB_DESCUENTOS(System.Windows.Forms.DataGridView DgvArticulo, string TipoDescuento, System.Windows.Forms.TextBox Porce_Descuento, System.Windows.Forms.TextBox Monto_Descuento)
         {
             // Diccionario con CodMarca como clave y List<DescuentoInfo> como valor (para múltiples configuraciones)
             Dictionary<string, List<DescuentoInfo>> descuentosPorMarca = new Dictionary<string, List<DescuentoInfo>>();
             StringBuilder stringBuilder = new StringBuilder();
-            
-            bool descuentoPermitido = true;
-            string Id_rol = "";
+            string Id_MotivoDescuento = "";
 
-            DataSet dsDesc = _D_Articulos.PermisosDescuento(DgvArticulo.CurrentRow.Cells["CodArticulo"].Value.ToString(), Porce_Descuento.Text, TB_USUARIO.Id_Rol);
-
-            if (dsDesc != null && dsDesc.Tables.Count > 0 && dsDesc.Tables[0].Rows.Count > 0)
+            if (TipoDescuento == "Descuento Global")
             {
-                descuentoPermitido = false;
-                // Recorrer todas las filas del DataTable
-                foreach (DataRow row in dsDesc.Tables[0].Rows)
+                // Recorrer todas las filas del DataGridView
+                for (int x = 0; x < DgvArticulo.RowCount; x++)
                 {
-                    // Verificar que tenga los datos mínimos necesarios
-                    if (row["CodMarca"] != DBNull.Value && row["DescuentoMax"] != DBNull.Value)
+                // Verificar que la fila no sea nula y que tenga datos
+                if (DgvArticulo.Rows[x].Cells["CodArticulo"].Value != null)
+                {
+                    string codArticulo = DgvArticulo.Rows[x].Cells["CodArticulo"].Value.ToString();
+
+                    DataSet dsDesc = _D_Articulos.PermisosDescuento(codArticulo, Porce_Descuento.Text, TB_USUARIO.Id_Rol);
+
+                    if (dsDesc != null && dsDesc.Tables.Count > 0 && dsDesc.Tables[0].Rows.Count > 0)
                     {
-                        string codMarca = row["CodMarca"].ToString();
-
-                        // Crear el objeto DescuentoInfo con los datos de la fila
-                        DescuentoInfo descuento = new DescuentoInfo
+                        // Recorrer todas las filas del DataTable
+                        foreach (DataRow row in dsDesc.Tables[0].Rows)
                         {
-                            CodMarca = codMarca,
-                            TipoArticulo = row["TipoArticulo"] != DBNull.Value ? row["TipoArticulo"].ToString() : string.Empty,
-                            DescuentoMin = row["DescuentoMin"] != DBNull.Value && decimal.TryParse(row["DescuentoMin"].ToString(), out decimal min) ? min : 0,
-                            DescuentoMax = row["DescuentoMax"] != DBNull.Value && decimal.TryParse(row["DescuentoMax"].ToString(), out decimal max) ? max : 0,
-                            RolAutorizado = row["RolAutorizado"] != DBNull.Value ? row["RolAutorizado"].ToString() : string.Empty
-                        };
+                            // Verificar que tenga los datos mínimos necesarios
+                            if (row["CodMarca"] != DBNull.Value)
+                            {
+                                string codMarca = row["CodMarca"].ToString();
 
-                        // Agregar al diccionario (permite múltiples configuraciones por marca)
-                        if (!descuentosPorMarca.ContainsKey(codMarca))
-                        {
-                            descuentosPorMarca.Add(codMarca, new List<DescuentoInfo>());
+                                // Crear el objeto DescuentoInfo con los datos de la fila
+                                DescuentoInfo descuento = new DescuentoInfo
+                                {
+                                    CodMarca = codMarca,
+                                    CodigoMotivoDescuento = row["CodMotivo"] != DBNull.Value ?
+                                                             row["CodMotivo"].ToString() : string.Empty
+                                };
+
+                                // Agregar al diccionario (permite múltiples configuraciones por marca)
+                                if (!descuentosPorMarca.ContainsKey(codMarca))
+                                {
+                                    descuentosPorMarca.Add(codMarca, new List<DescuentoInfo>());
+                                }
+                                descuentosPorMarca[codMarca].Add(descuento);
+                            }
                         }
-                        descuentosPorMarca[codMarca].Add(descuento);
                     }
                 }
+            }
+        }
 
-                // Obtener el porcentaje de descuento ingresado
-                if (!decimal.TryParse(Porce_Descuento.Text, out decimal porcentajeIngresado))
+            else
+            {
+                // CASO 2: NO ES DESCUENTO GLOBAL - Solo la fila actual
+                if (DgvArticulo.CurrentRow != null &&
+                    DgvArticulo.CurrentRow.Cells["CodArticulo"].Value != null)
                 {
-                    stringBuilder.Append("El porcentaje de descuento ingresado no es válido");
-                    Porce_Descuento.Focus();
-                    Porce_Descuento.SelectAll();
-                    MessageBox.Show(stringBuilder.ToString());
-                    return (descuentoPermitido, Id_rol);
-                }
+                    string codArticulo = DgvArticulo.CurrentRow.Cells["CodArticulo"].Value.ToString();
 
-                // Obtener la marca del primer registro (asumiendo que todos son de la misma marca)
-                string primeraMarca = dsDesc.Tables[0].Rows[0]["CodMarca"].ToString();
+                    DataSet dsDesc = _D_Articulos.PermisosDescuento(codArticulo,
+                                                                   Porce_Descuento.Text,
+                                                                   TB_USUARIO.Id_Rol);
 
-                // Verificar si la marca existe en el diccionario
-                if (descuentosPorMarca.ContainsKey(primeraMarca))
-                {
-                    descuentoPermitido = false;
-
-                    // Verificar si el porcentaje está en algún rango permitido para esta marca
-                    foreach (var descuentoConfig in descuentosPorMarca[primeraMarca])
+                    if (dsDesc != null && dsDesc.Tables.Count > 0 && dsDesc.Tables[0].Rows.Count > 0)
                     {
-                        if (porcentajeIngresado >= descuentoConfig.DescuentoMin &&
-                            porcentajeIngresado <= descuentoConfig.DescuentoMax)
+                        // Recorrer todas las filas del DataTable
+                        foreach (DataRow row in dsDesc.Tables[0].Rows)
                         {
-                            Id_rol = descuentoConfig.RolAutorizado;
-                            descuentoPermitido = true;
+                            // Verificar que tenga los datos mínimos necesarios
+                            if (row["CodMarca"] != DBNull.Value)
+                            {
+                                string codMarca = row["CodMarca"].ToString();
+
+                                // Crear el objeto DescuentoInfo con los datos de la fila
+                                DescuentoInfo descuento = new DescuentoInfo
+                                {
+                                    CodMarca = codMarca,
+                                    CodigoMotivoDescuento = row["CodMotivo"] != DBNull.Value ?
+                                                             row["CodMotivo"].ToString() : string.Empty
+                                };
+
+                                // Agregar al diccionario (permite múltiples configuraciones por marca)
+                                if (!descuentosPorMarca.ContainsKey(codMarca))
+                                {
+                                    descuentosPorMarca.Add(codMarca, new List<DescuentoInfo>());
+                                }
+                                descuentosPorMarca[codMarca].Add(descuento);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    // Si no hay fila actual seleccionada, retornar vacío
+                    return Id_MotivoDescuento;
+                }
+            }
+
+            // Si hay datos en el diccionario, procesar para encontrar el motivo de descuento
+            if (descuentosPorMarca.Count > 0)
+            {
+                // Estrategia para seleccionar el motivo de descuento:
+                // 1. Priorizar marcas que tengan un motivo de descuento específico
+                // 2. Tomar el primer motivo encontrado que no esté vacío
+
+                foreach (var marca in descuentosPorMarca.Keys)
+                {
+                    foreach (var descuentoConfig in descuentosPorMarca[marca])
+                    {
+                        if (!string.IsNullOrEmpty(descuentoConfig.CodigoMotivoDescuento))
+                        {
+                            Id_MotivoDescuento = descuentoConfig.CodigoMotivoDescuento;
                             break;
                         }
                     }
 
-                    if (!descuentoPermitido)
-                    {
-                        // Obtener rangos disponibles para el mensaje
-                        var minGlobal = descuentosPorMarca[primeraMarca].Min(d => d.DescuentoMin);
-                        var maxGlobal = descuentosPorMarca[primeraMarca].Max(d => d.DescuentoMax);
-
-                        stringBuilder.Append($"La marca {primeraMarca} no permite este % de descuento. ");
-                        stringBuilder.Append($"Rangos permitidos: {minGlobal}% - {maxGlobal}%");
-
-                        Porce_Descuento.Focus();
-                        Porce_Descuento.SelectAll();
-                        MessageBox.Show(stringBuilder.ToString());
-                    }       
-                    
+                    if (!string.IsNullOrEmpty(Id_MotivoDescuento))
+                        break;
                 }
+            }
 
-                return (descuentoPermitido, Id_rol) ;
-            }
-            else
-            {
-                return (descuentoPermitido, Id_rol);
-            }
-            
+            return Id_MotivoDescuento;
         }
 
         public void Cargo_CodMotivo_Descuento(System.Windows.Forms.ComboBox cbCodMotivo)

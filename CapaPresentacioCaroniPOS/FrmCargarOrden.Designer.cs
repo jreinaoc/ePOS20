@@ -3973,6 +3973,7 @@ namespace CapaVisual_Login
             this.Cbx_Pnl3_MotivoDesc.Name = "Cbx_Pnl3_MotivoDesc";
             this.Cbx_Pnl3_MotivoDesc.Size = new System.Drawing.Size(146, 25);
             this.Cbx_Pnl3_MotivoDesc.TabIndex = 314;
+            this.Cbx_Pnl3_MotivoDesc.SelectedIndexChanged += new System.EventHandler(this.Cbx_Pnl3_MotivoDesc_SelectedIndexChanged);
             // 
             // Lbl_Pnl3_MotivoDesc
             // 

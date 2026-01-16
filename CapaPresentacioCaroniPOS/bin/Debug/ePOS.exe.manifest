@@ -79,14 +79,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CapaLogica.dll" size="361984">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CapaLogica.dll" size="360448">
       <assemblyIdentity name="CapaLogica" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>OSM8Eva3HFpRAxQYTid2duolQBau3vSA0GlThOXZaWM=</dsig:DigestValue>
+        <dsig:DigestValue>Kv06tyfd81efsJramTH0iFLBw/1iWZbiRhCqCjUmads=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -199,14 +199,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ePOS.exe" size="3153920">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ePOS.exe" size="3155968">
       <assemblyIdentity name="ePOS" version="1.0.2.4" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>liGFfKTn/vcioQgMggqOXCafWHwwYOLOvQ6noFmEP5I=</dsig:DigestValue>
+        <dsig:DigestValue>mFVQbQb3j/P4T7N6ImRWxOcVFpVF+Nnazn4swIrnWdE=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -1172,13 +1172,13 @@
   </dependency>
   <dependency>
     <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Script.dll" size="5120">
-      <assemblyIdentity name="Script" version="1.0.0.5" language="neutral" processorArchitecture="msil" />
+      <assemblyIdentity name="Script" version="1.0.0.6" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>LhuL51bWOSGrnvMHUt4YJlzMZ6+PYuujHWqSrPA/h8E=</dsig:DigestValue>
+        <dsig:DigestValue>5FZloSlIDJ/vsL1RmXK+vgAGr12p6Kkn4Af/eNSRzOQ=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
