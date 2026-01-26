@@ -1867,6 +1867,45 @@ EXEC pValidoParametrosCRT
             return null; 
         }
 
+        public DataTable EjecutarConsultaDescuentos(string codMarca= "", string codMotivo= "", SqlCommand command = null)
+        {
+
+            if (command == null)
+            {
+                SqlConnection connection = cn.LeerCadena();
+                command = connection.CreateCommand();
+            }
+
+            SqlCommand cmd = command;
+            cmd.Parameters.Clear();
+
+            // Consulta directa con CommandType.Text
+            string query = @"
+        SELECT 
+            CodMarca,
+            CodMotivo
+        FROM TB_DESCUENTOS
+        WHERE (@CodMarca = '' OR CodMarca = @CodMarca)
+          AND (@CodMotivo = '' OR CodMotivo = @CodMotivo)
+        ORDER BY CodMotivo desc";
+
+            cmd.CommandText = query;
+            cmd.CommandType = CommandType.Text; // ← CommandType.Text
+
+            cmd.Parameters.AddWithValue("@CodMarca", codMarca ?? string.Empty);
+            cmd.Parameters.AddWithValue("@CodMotivo", codMotivo ?? string.Empty);
+
+            DataTable dt = new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            da.Fill(dt);
+
+            cmd.Parameters.Clear();
+
+            return dt;
+
+        }
+
+
         public async Task<bool> GuardarDescripcionDetalleOrdenServicio(string numeroOrdenServicio, string numeroRevision,
                                                                             string codVenta, string codigoArticulo, int cantidad, 
                                                                             string ojo, decimal precio, decimal porcentajeImpuesto,

@@ -406,6 +406,7 @@ namespace CapaVisual_Login
 
             try
             {
+
                 Conexion cn = new Conexion();
                 SqlConnection connection = cn.LeerCadena();
                 SqlCommand command = connection.CreateCommand();
@@ -926,7 +927,11 @@ namespace CapaVisual_Login
 
         public void Nota_Credito_Automatica(string DiaActivo) // para realizar anulacion con la nota de credito manual
         {
-            
+
+            bool ReversoAutomatico = false;
+            string Resultado_Parametro = _D_DetalleOrden.TB_PARAMETRO("ReversoAuto");
+            ReversoAutomatico = Convert.ToBoolean(Convert.ToInt32(Resultado_Parametro));
+
             Conexion cn = new Conexion();
             SqlConnection connection = cn.LeerCadena();
             SqlCommand command = connection.CreateCommand();
@@ -942,6 +947,7 @@ namespace CapaVisual_Login
             {
 
                 string mensaje;
+                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "095", TB_USUARIO.COD_EMPLEADO, "Número de factura " + TB_FACTURAS.Fact_Num + " Valor del Parametro Reverso Automático." + ReversoAutomatico.ToString(), command);
                 _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "093", TB_USUARIO.COD_EMPLEADO, "Número de factura " + TB_FACTURAS.Fact_Num + " En proceso de nota de crédito.");
 
                 //-----------------------Despues de Validar Continuo el proceso
@@ -993,8 +999,15 @@ namespace CapaVisual_Login
 
                     if (Impresion == false)
                     {
-                        transaction.Rollback();
-                        _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "094", TB_USUARIO.COD_EMPLEADO, "Nota de credito fiscal reversada N° " + NumeroNCFiscal.PadLeft(7, '0') + " ,Factura:" + TB_FACTURAS.Fact_Num );
+
+                        if (ReversoAutomatico)
+                        {
+                            command.Transaction.Rollback();
+                            _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "094", TB_USUARIO.COD_EMPLEADO, "Nota de credito fiscal reversada N° " + NumeroNCFiscal.PadLeft(7, '0') + " ,Factura:" + TB_FACTURAS.Fact_Num);
+
+                        }
+                        else
+                            command.Transaction.Commit();
 
                         Limpiarcbx();
                         return;
@@ -1019,8 +1032,14 @@ namespace CapaVisual_Login
 
                 else
                 {
-                    transaction.Rollback();
-                    _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "094", TB_USUARIO.COD_EMPLEADO, "Nota de credito fiscal reversada N° " + NumeroNCFiscal.PadLeft(7, '0') + " ,Factura:" + TB_FACTURAS.Fact_Num);
+                    if (ReversoAutomatico)
+                    {
+                        transaction.Rollback();
+                        _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "095", TB_USUARIO.COD_EMPLEADO, "Número de factura " + TB_FACTURAS.Fact_Num + " Valor del Parametro Reverso Automático." + ReversoAutomatico.ToString(), command);
+                        _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "094", TB_USUARIO.COD_EMPLEADO, "Nota de credito fiscal reversada N° " + NumeroNCFiscal.PadLeft(7, '0') + " ,Factura:" + TB_FACTURAS.Fact_Num);
+                    }
+                    else
+                        command.Transaction.Commit();
 
                     Limpiarcbx();
                     return;

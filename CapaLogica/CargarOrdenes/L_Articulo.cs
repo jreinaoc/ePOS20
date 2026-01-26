@@ -3282,6 +3282,7 @@ namespace CapaLogica.CargarOrdenes
                                         row.Cells["Total"].Value = (decimal)((decimal)Convert.ToDecimal(dsLl1so.Tables[0].Rows[0]["PRECIOAR_DESC"]) * Convert.ToDecimal(row.Cells["ART_EXIST"].Value));
                                         row.Cells["CodPromo"].Value = dsLl1so.Tables[0].Rows[0]["CODPROM"];
                                         row.Cells["PromoEvaluada"].Value = "Si";
+                                        //break;
                                     }
                                     // Verificar si el otro servicio diferente al AR 
                                     // preguntamos si existe el campo PORCDCTO  antes de accede a su valor 

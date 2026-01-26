@@ -3073,6 +3073,52 @@ namespace CapaVisual_Login
             }
         }
 
+        private bool ObtenerYCodigoMotivoDescuento(string CodMotivoDescuento)
+        {
+            if (CodMotivoDescuento== "")
+            {
+                // Tomar el código seleccionado del ComboBox
+                string codigoMotivo = Cbx_Pnl3_MotivoDesc.SelectedValue?.ToString();
+
+                // Si no hay código seleccionado o está vacío, retornar string vacío
+                if (string.IsNullOrWhiteSpace(codigoMotivo))
+                {
+                    return false;
+                }
+
+                // Obtener la tabla de descuentos
+                DataTable tablaDescuentos = _D_Articulos.EjecutarConsultaDescuentos();
+
+                // Verificar si la tabla tiene datos
+                if (tablaDescuentos == null || tablaDescuentos.Rows.Count == 0)
+                {
+                    return false;
+                }
+
+
+                // Recorrer la tabla buscando coincidencias
+                foreach (DataRow fila in tablaDescuentos.Rows)
+                {
+                    // Obtener el código de descuento de la fila actual
+                    string codigoEnTabla = fila["CodMotivo"]?.ToString();
+
+                    // Comparar con el código del ComboBox (ignorando mayúsculas/minúsculas)
+                    if (string.Equals(codigoMotivo, codigoEnTabla, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return true; // Retornar el código si se encuentra
+                    }
+                }
+
+                // Si no se encontró coincidencia
+                return false;
+
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         private void Btn_Tap3_Aceptar_Desc_Click(object sender, EventArgs e)
         {
             try
@@ -3082,6 +3128,8 @@ namespace CapaVisual_Login
                 {
                     if (!string.IsNullOrEmpty(Cbx_Pnl3_MotivoDesc.Text))
                     {
+                      if (!ObtenerYCodigoMotivoDescuento(CodMotivoDescuento))
+                      {
                         if (Tipo_Descuento == "Descuento Global")
                         {
 
@@ -3148,7 +3196,15 @@ namespace CapaVisual_Login
                         // Cierro el panel, limpio controles y Retorno a la pantalla primcipal 
                         CerrarPanelDescuento();
                         //BotonesColor(false, "Descuento");
+                      }
+                      else
+                      {
 
+                            Cbx_Pnl3_MotivoDesc.Focus();
+                            _FrmMensajes.co = 2;
+                            _FrmMensajes.avisomensaje("Debe seleccionar otro motivo de descuento para continuar");
+                            _FrmMensajes.ShowDialog();
+                      }
                     }
                     else
                     {
@@ -12946,7 +13002,18 @@ namespace CapaVisual_Login
                 {
                     if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01" || Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "02" || Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "08")
                     {
-                        if (_L_Articulo.Disponible_Servicio_3Horas(Cbx_Pnl2_Servicio.Text, Cbx_Pnl2_Laboratorio.Text))
+                        if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "08" && Cbx_Pnl2_Servicio.Text != "SERVICIO QUORUM")
+                        {
+                            _FrmMensajes.co = 2;
+                            _FrmMensajes.avisomensaje("El servicio no está disponible para este tipo de venta");
+                            _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                            _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                            _FrmMensajes.ShowDialog();
+                            //Codigo_Servicio_Agregar = "";
+                            return false;
+                        }
+
+                        else if (_L_Articulo.Disponible_Servicio_3Horas(Cbx_Pnl2_Servicio.Text, Cbx_Pnl2_Laboratorio.Text))
                         {
                             List<TB_SERVICIOSLABDTO> TB_SERVICIOSLABD = new List<TB_SERVICIOSLABDTO>();
                             TB_SERVICIOSLABD = _D_Articulo.ServiciosLaboratorio(Cbx_Pnl2_Servicio.SelectedValue.ToString());
@@ -12975,8 +13042,8 @@ namespace CapaVisual_Login
                                     _FrmMensajes.ShowDialog();
                                 }
 
-                               }
-                        }
+                                }
+                            }
                             else
                             {
                                 Codigo_Servicio_Agregar = "";
