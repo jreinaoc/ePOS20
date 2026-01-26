@@ -522,6 +522,7 @@ namespace CapaVisual_Login
 
         public bool ImprimirNCFiscal_Local(string SucursalActual, string NumeroFactura, string SerialImpresora, double Monto, string DiaActivo, string CodMotivoAnulacion, SqlCommand command, SqlTransaction transaction)
         {
+
             VmaxComVe.VmaxComClass objVmax = new VmaxComVe.VmaxComClass();
             uint resp = 0;
             string status = "";
@@ -574,8 +575,8 @@ namespace CapaVisual_Login
 
                     resp = objVmax.AbrirPuerto(Convert.ToString(1));
 
-                    if (resp != 0)
-                    {
+                if (resp != 0)
+                {
                         objVmax.Cancelar();
                         objVmax.Cerrar();
                         objVmax.CerrarPuerto();
@@ -583,12 +584,12 @@ namespace CapaVisual_Login
                         _FrmMensajes.co = 2;
                         _FrmMensajes.avisomensaje("No hay conexión con la impresora fiscal");
                         _FrmMensajes.ShowDialog();
-                        return StatusNoataCredito;
+                        Impresora_Fiscal.AgregarAccionPendiente("096");
+                       return StatusNoataCredito;
 
-                    }
-
-                    else
-                    {
+                }
+                else
+                {
                         //resp = objVmax.AbrirCF("Jesus Antonio Pabon Mavare", "J309860895", "2", "000000262", "TIU2202214", "26032022", "1055", 40);
                         resp = objVmax.AbrirCF(PrimerNombre + " " + PrimerApellido, Convert.ToString(TB_FACTURAS.CTE_NacioPAG) + "" + Convert.ToString(TB_FACTURAS.CTE_CedIdenPAG), "2", Convert.ToString(TB_FACTURAS.Fact_Num), Convert.ToString(TB_FACTURAS.Fact_SerialImpresora), Convert.ToDateTime(TB_FACTURAS.Fact_FecCrea).ToString("dd/MM/yyyy"), FechaOperacion.ToString("HH:mm"), 40);
 
@@ -602,7 +603,8 @@ namespace CapaVisual_Login
                             _FrmMensajes.co = 2;
                             _FrmMensajes.avisomensaje("Error inesperado, al generar la NC");
                             _FrmMensajes.ShowDialog();
-                            return StatusNoataCredito;
+                            Impresora_Fiscal.AgregarAccionPendiente("096");
+                        return StatusNoataCredito;
                         }
 
                      NumeroNCFiscal = (Convert.ToInt32(objVmax.RetornoMF.uiTotalNCDiarias) + 1).ToString();
@@ -610,7 +612,7 @@ namespace CapaVisual_Login
                     if (resp == 0)
                     {
 
-                            DataSet dsArti = _D_DetalleOrden.DetalleNotaCreditoFiscal(NumeroFactura, SerialImpresora,command);
+                        DataSet dsArti = _D_DetalleOrden.DetalleNotaCreditoFiscal(NumeroFactura, SerialImpresora,command);
                         string desart;
 
                             foreach (DataRow drItem in dsArti.Tables[0].Rows)
@@ -639,7 +641,7 @@ namespace CapaVisual_Login
 
                             DataSet dsDcto = _D_DetalleOrden.DescuentosNotaCreditoFiscal(NunOrden, command);
 
-                        if (resp == 0)
+                            if (resp == 0)
                             {
                                 foreach (DataRow drItemdcto in dsDcto.Tables[0].Rows)
                                 {
@@ -727,7 +729,7 @@ namespace CapaVisual_Login
                                         NumeroNCFiscal = "000000" + NumeroNCFiscal;
                                         break;
                                     }
-                           }
+                        }
                         int tiempoImpTermica = Convert.ToInt32(_D_DetalleOrden.TB_PARAMETRO("TiempoImpTerm"));
                         // Esperar un tiempo para que la impresora emita el ticket
                         Thread.Sleep(tiempoImpTermica);  // Esperar 15 segundos (ajusta el tiempo según sea necesario)
@@ -750,6 +752,7 @@ namespace CapaVisual_Login
 
                             else
                             {
+                                Impresora_Fiscal.AgregarAccionPendiente("101");
                                 StatusNoataCredito = false;
                                 _FrmMensajes.co = 2;
                                 _FrmMensajes.avisomensaje("Por favor comunicarse con el Dpto de sistemas y reportar el siguiente error: " + string.Format("Error: {0}", Transaccionn) + ", Error inesperado");
@@ -761,6 +764,7 @@ namespace CapaVisual_Login
                         }
                         else
                         {
+                            Impresora_Fiscal.AgregarAccionPendiente("100");
                             StatusNoataCredito = false;
                             _FrmMensajes.co = 2;
                             _FrmMensajes.avisomensaje("No se pudo verificar la emisión del ticket.");
@@ -768,6 +772,10 @@ namespace CapaVisual_Login
                             return StatusNoataCredito;
 
                         }
+                    }
+                    else
+                    {
+                        Impresora_Fiscal.AgregarAccionPendiente("099");
                     }
 
                 }
@@ -925,8 +933,30 @@ namespace CapaVisual_Login
             return mensaje;
         }
 
+        private void ProcesarAccionesPendientes()
+        {
+            if (Impresora_Fiscal.TieneAccionesPendientes())
+            {
+                var acciones = Impresora_Fiscal.ObtenerAccionesPendientes();
+
+                foreach (var accion in acciones)
+                {
+                    _D_Anulacion.CaragarAuditor(
+                        _D_Inicio.Sucursal(),
+                        accion.Key,  // Código
+                        TB_USUARIO.COD_EMPLEADO,
+                        $"Proceso Nota de credito, Numero de Factura: {TB_FACTURAS.Fact_Num}, Error: {accion.Value}"
+                    );
+                }
+
+                Impresora_Fiscal.LimpiarAccionesPendientes();
+            }
+        }
+
         public void Nota_Credito_Automatica(string DiaActivo) // para realizar anulacion con la nota de credito manual
         {
+            // Si hay commit, limpiamos acciones pendientes
+            Impresora_Fiscal.LimpiarAccionesPendientes();
 
             bool ReversoAutomatico = false;
             string Resultado_Parametro = _D_DetalleOrden.TB_PARAMETRO("ReversoAuto");
@@ -1002,12 +1032,21 @@ namespace CapaVisual_Login
 
                         if (ReversoAutomatico)
                         {
+
                             command.Transaction.Rollback();
+
+                            // ✅ FUNCIÓN EXISTENTE Para Registras las nuevas Acciones
+                            ProcesarAccionesPendientes();
+
                             _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "094", TB_USUARIO.COD_EMPLEADO, "Nota de credito fiscal reversada N° " + NumeroNCFiscal.PadLeft(7, '0') + " ,Factura:" + TB_FACTURAS.Fact_Num);
 
                         }
                         else
+                        {
+                            // Si hay commit, limpiamos acciones pendientes
+                            Impresora_Fiscal.LimpiarAccionesPendientes();
                             command.Transaction.Commit();
+                        }
 
                         Limpiarcbx();
                         return;

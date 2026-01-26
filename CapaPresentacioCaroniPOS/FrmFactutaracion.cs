@@ -4251,7 +4251,7 @@ namespace CapaVisual_Login
                         _D_Inicio.Sucursal(),
                         accion.Key,  // Código
                         TB_USUARIO.COD_EMPLEADO,
-                        $"OS: {txtNumeroOrden.Text}, Factura: {TxtNumFact.Text}, Serial: FACTMANUAL, Error: {accion.Value}"
+                        $"Proceso de Facturacion, OS: {txtNumeroOrden.Text}, Error: {accion.Value}"
                     );
                 }
 

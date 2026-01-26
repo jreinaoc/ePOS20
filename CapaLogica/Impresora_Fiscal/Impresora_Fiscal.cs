@@ -473,7 +473,7 @@ namespace CapaLogica.Impresora_Fiscal
         // Diccionario estático con todos los códigos predefinidos
         public static readonly Dictionary<string, string> _accionesPredefinidas = new Dictionary<string, string>
         {
-            { "096", "Fallo en apertura de puerto" },
+            { "096", "Fallo en la apertura del puerto" },
             { "097", "Ausencia de papel o Tapa Abierta" },
             { "098", "numero de factura o serial de impresora fiscal en blanco" },
             { "099", "Discrepancia en totales" },
