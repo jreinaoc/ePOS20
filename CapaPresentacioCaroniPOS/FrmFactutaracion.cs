@@ -250,13 +250,13 @@ namespace CapaVisual_Login
                 }
             }
 
-            if (TB_USUARIO.COD_EMPLEADO == "99999")
-            {
-                _FrmMensajes.co = 2;
-                _FrmMensajes.avisomensaje("Este usuario no tiene autorización");
-                _FrmMensajes.ShowDialog();
-                return; // Salir 
-            }
+            //if (TB_USUARIO.COD_EMPLEADO == "99999")
+            //{
+            //    _FrmMensajes.co = 2;
+            //    _FrmMensajes.avisomensaje("Este usuario no tiene autorización");
+            //    _FrmMensajes.ShowDialog();
+            //    return; // Salir 
+            //}
 
             //**** Se creo una nueva Funcion para validar la Asistencia 
             if (!_L_CierreCaja.BuscoAsistencia(DateTime.Now.ToString("yyyyMMdd"), mostrarPregunta, mostrarError))
@@ -1502,15 +1502,7 @@ namespace CapaVisual_Login
             string Resultado_Parametro = _D_DetalleOrden.TB_PARAMETRO("ReversoAuto");
             ReversoAutomatico = Convert.ToBoolean(Convert.ToInt32(Resultado_Parametro));
 
-            Conexion cn = new Conexion();
-            SqlConnection connection = cn.LeerCadena();
-            SqlCommand command = connection.CreateCommand();
-            SqlTransaction transaction;
-            transaction = connection.BeginTransaction();
-            command.Connection = connection;
-            command.Transaction = transaction;
-            command.Parameters.Clear();
-            command.CommandTimeout = 300000;
+            
 
             this.Enabled = false;
             LimpiaVariablesIdAbonoPagoMovil();
@@ -1579,7 +1571,7 @@ namespace CapaVisual_Login
                     {
                         if (_L_Facturacion.ValidaFactManual() == false)
                         {
-                            if (_Impresora_Fiscal.VerficarConexionImpresoraFiscal() == false)
+                            if (_Impresora_Fiscal.VerficarConexionImpresoraFiscalSinCerrar() == false)
                             {
                                 mensaje = _Impresora_Fiscal.stringBuilder.ToString();
                                 rept = "Error";
@@ -1627,9 +1619,264 @@ namespace CapaVisual_Login
                                 // validar el numero de factura, solo para impprimir factura manual 
                                 completo = _L_Facturacion.ValidacionNumFact(TxtNumFact, TxtNroCorrelativo);
 
-                                // insertar abonos, actualizar caorser, ejecutar movimiento, insertar los billetes TB_BILLETE , emitir factura, Imprimir reporte, Enviar Dana, Actualizar fecha ofrecida
-                                string Estado = ProcesarPagos(TotalAbono, Math.Round((TB_CAORDSER.OrSer_Saldo + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos))), 2), ReversoAutomatico, command);
-                                return;
+                                //SqlConnection connection = cn.LeerCadena();
+                                //SqlCommand command = connection.CreateCommand();
+                                //SqlTransaction transaction;
+                                //transaction = connection.BeginTransaction();
+                                //command.Connection = connection;
+                                //command.Transaction = transaction;
+                                //command.Parameters.Clear();
+                                //command.CommandTimeout = 300000;
+
+                                Conexion cn = new Conexion();
+                                string Estado = "ERROR";
+                                // 1. Usamos 'using' para asegurar que la conexión se cierre SIEMPRE
+                                using (SqlConnection connection = cn.LeerCadena())
+                                {
+                                    // Solo abrimos si está cerrada
+                                    if (connection.State == ConnectionState.Closed)
+                                    {
+                                        connection.Open();
+                                    }
+
+                                    using (SqlTransaction transaction = connection.BeginTransaction())
+                                    {
+                                        using (SqlCommand command = connection.CreateCommand())
+                                        {
+                                            try
+                                            {
+                                                command.Transaction = transaction;
+                                                command.CommandTimeout = 120;
+
+                                                // ... Tu lógica aquí ...
+                                                // insertar abonos, actualizar caorser, ejecutar movimiento, insertar los billetes TB_BILLETE , emitir factura, Imprimir reporte, Enviar Dana, Actualizar fecha ofrecida
+                                                Estado = ProcesarPagos(TotalAbono, Math.Round((TB_CAORDSER.OrSer_Saldo + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos))), 2), ReversoAutomatico, command);
+                                                
+
+                                                // Si algo falla aquí, saltará al catch
+
+                                                transaction.Commit();
+
+                                               
+                                                //return;
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                // Al fallar, intentamos el rollback
+                                                //Estado == "ERROR";
+                                                if (ReversoAutomatico)
+                                                {
+                                                    transaction.Rollback();
+                                                }
+                                                else
+                                                    transaction.Commit();
+
+                                                // Loguear el error o relanzarlo
+                                                //throw;
+                                            }
+                                        } // Aquí se destruye el command
+                                    } // <-- ¡IMPORTANTE! Aquí se libera la transacción
+                                } // <-- ¡AQUÍ ES DONDE SE SOLUCIONA TU ERROR! 
+                                  // Al llegar aquí, la conexión vuelve al Pool automáticamente.
+
+                                if (Estado == "SATISFACTORIO")
+                                {
+                                    string OrSer_Statu = TB_CAORDSER.OrSer_Status;
+                                    string Cod_Venta = TB_CAORDSER.Cod_Venta;
+
+                                    _D_DetalleOrden.Datos_de_la_Orden(txtNumeroOrden.Text, TB_CAORDSER.Revision);
+
+                               
+                                    if (TB_CAORDSER.OrSer_Saldo == 0)
+                                    {
+                                        FuncionSaldo0();// Funcion de dana, garantia, actualizar Fecha Ofrecida 
+
+                                        if (TB_CAORDSER.Cod_Venta == "002" && TB_CAORDSER.Asegurada == true && _D_DetalleOrden.TB_PARAMETROSPGE("ImprimeContrato") == "1")
+                                        {
+                                            // Para inmprimir o mostrar contrato de garantia solo cuando es trabajo convencio
+                                            RepContrato(concat);
+                                        }
+                                    }
+                                    if (TB_CAORDSER.OrSer_Saldo != 0)
+                                    {
+                                        mensaje = "Se ha realizado correctamente el abono";
+                                        _FrmMensajes.co = 1;
+                                        _FrmMensajes.avisomensaje(mensaje);
+                                        _FrmMensajes.ShowDialog();
+                                        LimpiarNotasCredito();
+
+                                        // Validamos si este es necesario imprimir el Reporte de Orden o de Contacto Para imprimirlo junto con el Reporte de Abono como un Sub Reporte 
+                                        if (OrSer_Statu == "004" && Cod_Venta != "001") // Estatus PorPagar , se ejecuto la funcion y es diferente de Venta directa
+                                        {
+                                            // Trabajo convencional reservado = 08 
+                                            if (TB_CAORDSER.Cod_DetVta != "08") // Solo se muestra o se imprime el reporte de la orden si no es trabajo convencional reservado 
+                                            {
+                                                // Si es trabajo de contacto se muestra este reporte 
+                                                if (TB_CAORDSER.Cod_DetVta == "02") // Si se procesa uan orden de contacto se muestra reporte de contacto  
+                                                {
+                                                    _FrmMostrarReporte.setParametros(concat);
+                                                    _FrmMostrarReporte.ConfigRep(true, true);
+
+                                                    if (_D_DetalleOrden.ParametroImpresion() == "1") // Si el parametro de impresion es 1 entonces imprime el reporte 
+                                                    {
+                                                        _FrmMostrarReporte.imprimir();
+
+                                                    }
+                                                    else
+                                                    {
+                                                        _FrmMostrarReporte.ShowDialog();
+
+                                                    }
+
+                                                }
+                                                else // si es otro tipo de trabajo 
+                                                {
+                                                    _FrmMostrarReporte.setParametros(concat);
+                                                    _FrmMostrarReporte.ConfigRep(true, false);
+
+                                                    if (_D_DetalleOrden.ParametroImpresion() == "1") // Si el parametro de impresion es 1 entonces imprime el reporte 
+                                                    {
+                                                        _FrmMostrarReporte.imprimir();
+
+                                                    }
+                                                    else
+                                                    {
+                                                        _FrmMostrarReporte.ShowDialog();
+
+                                                    }
+
+
+                                                }
+                                            }
+
+                                            else
+                                            {
+                                                _FrmMostrarReporte.setParametros(concat);
+                                                _FrmMostrarReporte.ConfigRep(false, false);
+
+                                                if (_D_DetalleOrden.ParametroImpresion() == "1") // Si el parametro de impresion es 1 entonces imprime el reporte 
+                                                {
+                                                    _FrmMostrarReporte.imprimir();
+
+                                                }
+                                                else
+                                                {
+                                                    _FrmMostrarReporte.ShowDialog();
+
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            _FrmMostrarReporte.setParametros(concat);
+                                            _FrmMostrarReporte.ConfigRep(false, false);
+
+                                            if (_D_DetalleOrden.ParametroImpresion() == "1") // Si el parametro de impresion es 1 entonces imprime el reporte 
+                                            {
+                                                _FrmMostrarReporte.imprimir();
+
+                                            }
+                                            else
+                                            {
+                                                _FrmMostrarReporte.ShowDialog();
+
+                                            }
+                                        }
+
+                                        //7//// Reporte de Declaracion se imprime si se abono la orden y el status antes era por pagar 
+                                        if (OrSer_Statu == "004" && (Cod_Venta == "003" | Cod_Venta == "002") && (_D_DetalleOrden.TB_PARAMETRO("ImprimeDocResp") == "1")) // Estatus PorPagar , se ejecuto la funcion es trabajo convencional o reparacion y el parametro de imprimirDeclaracion sea 1 
+                                        {
+                                            if (TB_CAORDSER.Cod_DetVta != "08")
+                                            {
+                                                ImprimirDeclaracion_CristalPropio_MonturaPropia();
+                                            }
+                                            else
+                                            {
+                                                _FrmMensajes.co = 1;
+                                                _FrmMensajes.avisomensaje("La orden de servicio se imprimirá cuando se asigne su RX correspondiente");
+                                                _FrmMensajes.ShowDialog();
+
+                                            }
+
+                                        }
+
+                                    }
+                                    else
+                                    {
+
+                                        //7//// Reporte de Declaracion se imprime si se facturo la orden y el status antes era por pagar 
+                                        if (OrSer_Statu == "004" && (Cod_Venta == "003" | Cod_Venta == "002") && (_D_DetalleOrden.TB_PARAMETRO("ImprimeDocResp") == "1")) // Estatus PorPagar , se ejecuto la funcion es trabajo convencional o reparacion y el parametro de imprimirDeclaracion sea 1 
+                                        {
+                                            if (TB_CAORDSER.Cod_DetVta != "08")
+                                            {
+                                                ImprimirDeclaracion_CristalPropio_MonturaPropia();
+                                            }
+                                            else
+                                            {
+                                                _FrmMensajes.co = 1;
+                                                _FrmMensajes.avisomensaje("La orden de servicio se imprimirá cuando se asigne su RX correspondiente");
+                                                _FrmMensajes.ShowDialog();
+
+                                            }
+
+                                        }
+
+                                        //7//// Reporte de Orden y Rep Contacto
+                                        if (OrSer_Statu == "004" && Cod_Venta != "001") // Estatus PorPagar , se ejecuto la funcion y es diferente de Venta directa
+                                        {
+                                            RepOrden(concat);// reporte de orden se emite cuando la orden tiene status por pagar 
+                                        }
+
+                                    }
+
+                                }
+                                else
+                                {
+                                    // ✅ FUNCIÓN EXISTENTE Para Registras las nuevas Acciones
+                                    //ProcesarAccionesPendientes();
+                                    //objVmax.ObtenerReporteInformativo();
+                                    //string SerialImpresora = objVmax.RetornoMI.sSerial;
+                                    // 1. Creamos UNA sola conexión y UN solo comando para todo el bloque
+                                    using (SqlConnection connection = cn.LeerCadena())
+                                    {
+                                        // Solo abrimos si no está abierta ya
+                                        if (connection.State == ConnectionState.Closed)
+                                        {
+                                            connection.Open();
+                                        }
+                                        using (SqlCommand cmdUnico = connection.CreateCommand())
+                                        {
+                                            // ✅ Procesamos acciones
+                                            //ProcesarAccionesPendientes();
+                                            objVmax.ObtenerReporteInformativo();
+                                            string SerialImpresora = objVmax.RetornoMI.sSerial;
+
+                                            // ✅ Auditoría 1 (Usando el cmdUnico)
+                                            _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "091", TB_USUARIO.COD_EMPLEADO,"Número de orden " + TB_CAORDSER.NumOrdserv + " En proceso de facturación.", cmdUnico);
+
+                                            // ✅ Auditoría 2 (Reusando el cmdUnico)
+                                            _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "095", TB_USUARIO.COD_EMPLEADO,"Número de orden " + TB_CAORDSER.NumOrdserv + " Valor del Parametro Reverso Automático." + ReversoAutomatico.ToString(), cmdUnico);
+
+                                            // ✅ Auditoría 3
+                                            _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "091", TB_USUARIO.COD_EMPLEADO,"Número de factura en proceso: " + NumeroComprobanteFiscal?.PadLeft(7, '0'), cmdUnico);
+
+                                            // ✅ La Factura (Deberías modificar GetFactura para que también acepte el cmdUnico)
+                                            string Resp = _D_DetalleOrden.GetFactura(TB_CAORDSER.Cod_Sucursal, NumeroComprobanteFiscal.PadLeft(7, '0'), DateTime.Today.ToString("yyyyMMdd"), txtCedula.Text[0].ToString(),
+                                             txtCedula.Text.Substring(2, txtCedula.Text.Length - 2), TB_CAORDSER.COD_EMPLEADO, TB_CAORDSER.Cod_Venta, txtNumeroOrden.Text, Convert.ToString(TB_CAORDSER.Fec_ofrecido.ToString("yyyyMMdd")), TB_CAORDSER.Hor_ofrecido, Convert.ToDouble("0,00"),
+                                              Convert.ToDouble("0,00"), Convert.ToDouble("0,00"), Convert.ToDouble("0,00"), TB_USUARIO.COD_USR, 0, 0, SerialImpresora,
+                                               Convert.ToDouble("0,00"), Convert.ToDouble("0,00"), Convert.ToDouble("0,00"), Convert.ToDouble("0,00"), "I", null);
+
+
+                                            // ✅ Auditoría 4
+                                            _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "092", TB_USUARIO.COD_EMPLEADO,"Factura fiscal reversada...", cmdUnico);
+
+                                        } // Aquí se destruye el comando
+                                    } // Aquí se CIERRA la conexión automáticamente, falle o no el código.
+                                   
+                                   // _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "092", TB_USUARIO.COD_EMPLEADO, "Factura fiscal reversada N° " + NumeroComprobanteFiscal.PadLeft(7, '0') + " ,Número de orden: " + txtNumeroOrden.Text + ", Serial: " + SerialImpresora);
+
+                                    
+                                }
                             }
 
 
@@ -1702,11 +1949,244 @@ namespace CapaVisual_Login
                                     // validar el numero de factura, solo para impprimir factura manual 
                                     completo = _L_Facturacion.ValidacionNumFact(TxtNumFact, TxtNroCorrelativo);
 
-                                    
+                                    Conexion cn = new Conexion();
+                                    string Estado = "ERROR";
+                                    // 1. Usamos 'using' para asegurar que la conexión se cierre SIEMPRE
+                                    using (SqlConnection connection = cn.LeerCadena())
+                                    {
+                                        // Solo abrimos si está cerrada
+                                        if (connection.State == ConnectionState.Closed)
+                                        {
+                                            connection.Open();
+                                        }
 
+                                        using (SqlTransaction transaction = connection.BeginTransaction())
+                                        {
+                                            using (SqlCommand command = connection.CreateCommand())
+                                            {
+                                                try
+                                                {
+                                                    command.Transaction = transaction;
+                                                    command.CommandTimeout = 300000;
+
+                                                    // ... Tu lógica aquí ...
+                                                    // insertar abonos, actualizar caorser, ejecutar movimiento, insertar los billetes TB_BILLETE , emitir factura, Imprimir reporte, Enviar Dana, Actualizar fecha ofrecida
+                                                     Estado = ProcesarPagos(TotalAbono, Math.Round((TB_CAORDSER.OrSer_Saldo + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos))), 2), ReversoAutomatico, command);
+
+
+                                                    // Si algo falla aquí, saltará al catch
+
+                                                    transaction.Commit();
+                                                    return;
+                                                }
+                                                catch (Exception ex)
+                                                {
+                                                    if (ReversoAutomatico)
+                                                    {
+                                                        transaction.Rollback();
+                                                    }
+                                                    else
+                                                        transaction.Commit();
+                                                }
+                                            } // Aquí se destruye el command
+                                        } // <-- ¡IMPORTANTE! Aquí se libera la transacción
+                                    } // <-- ¡AQUÍ ES DONDE SE SOLUCIONA TU ERROR! 
+                                      // Al llegar aquí, la conexión vuelve al Pool automáticamente.
+
+                                    if (Estado == "SATISFACTORIO")
+                                    {
+                                        string OrSer_Statu = TB_CAORDSER.OrSer_Status;
+                                        string Cod_Venta = TB_CAORDSER.Cod_Venta;
+
+                                        _D_DetalleOrden.Datos_de_la_Orden(txtNumeroOrden.Text, TB_CAORDSER.Revision);
+
+
+                                        if (TB_CAORDSER.OrSer_Saldo == 0)
+                                        {
+                                            FuncionSaldo0();// Funcion de dana, garantia, actualizar Fecha Ofrecida 
+
+                                            if (TB_CAORDSER.Cod_Venta == "002" && TB_CAORDSER.Asegurada == true && _D_DetalleOrden.TB_PARAMETROSPGE("ImprimeContrato") == "1")
+                                            {
+                                                // Para inmprimir o mostrar contrato de garantia solo cuando es trabajo convencio
+                                                RepContrato(concat);
+                                            }
+                                        }
+                                        if (TB_CAORDSER.OrSer_Saldo != 0)
+                                        {
+                                            mensaje = "Se ha realizado correctamente el abono";
+                                            _FrmMensajes.co = 1;
+                                            _FrmMensajes.avisomensaje(mensaje);
+                                            _FrmMensajes.ShowDialog();
+                                            LimpiarNotasCredito();
+
+                                            // Validamos si este es necesario imprimir el Reporte de Orden o de Contacto Para imprimirlo junto con el Reporte de Abono como un Sub Reporte 
+                                            if (OrSer_Statu == "004" && Cod_Venta != "001") // Estatus PorPagar , se ejecuto la funcion y es diferente de Venta directa
+                                            {
+                                                // Trabajo convencional reservado = 08 
+                                                if (TB_CAORDSER.Cod_DetVta != "08") // Solo se muestra o se imprime el reporte de la orden si no es trabajo convencional reservado 
+                                                {
+                                                    // Si es trabajo de contacto se muestra este reporte 
+                                                    if (TB_CAORDSER.Cod_DetVta == "02") // Si se procesa uan orden de contacto se muestra reporte de contacto  
+                                                    {
+                                                        _FrmMostrarReporte.setParametros(concat);
+                                                        _FrmMostrarReporte.ConfigRep(true, true);
+
+                                                        if (_D_DetalleOrden.ParametroImpresion() == "1") // Si el parametro de impresion es 1 entonces imprime el reporte 
+                                                        {
+                                                            _FrmMostrarReporte.imprimir();
+
+                                                        }
+                                                        else
+                                                        {
+                                                            _FrmMostrarReporte.ShowDialog();
+
+                                                        }
+
+                                                    }
+                                                    else // si es otro tipo de trabajo 
+                                                    {
+                                                        _FrmMostrarReporte.setParametros(concat);
+                                                        _FrmMostrarReporte.ConfigRep(true, false);
+
+                                                        if (_D_DetalleOrden.ParametroImpresion() == "1") // Si el parametro de impresion es 1 entonces imprime el reporte 
+                                                        {
+                                                            _FrmMostrarReporte.imprimir();
+
+                                                        }
+                                                        else
+                                                        {
+                                                            _FrmMostrarReporte.ShowDialog();
+
+                                                        }
+
+
+                                                    }
+                                                }
+
+                                                else
+                                                {
+                                                    _FrmMostrarReporte.setParametros(concat);
+                                                    _FrmMostrarReporte.ConfigRep(false, false);
+
+                                                    if (_D_DetalleOrden.ParametroImpresion() == "1") // Si el parametro de impresion es 1 entonces imprime el reporte 
+                                                    {
+                                                        _FrmMostrarReporte.imprimir();
+
+                                                    }
+                                                    else
+                                                    {
+                                                        _FrmMostrarReporte.ShowDialog();
+
+                                                    }
+                                                }
+                                            }
+                                            else
+                                            {
+                                                _FrmMostrarReporte.setParametros(concat);
+                                                _FrmMostrarReporte.ConfigRep(false, false);
+
+                                                if (_D_DetalleOrden.ParametroImpresion() == "1") // Si el parametro de impresion es 1 entonces imprime el reporte 
+                                                {
+                                                    _FrmMostrarReporte.imprimir();
+
+                                                }
+                                                else
+                                                {
+                                                    _FrmMostrarReporte.ShowDialog();
+
+                                                }
+                                            }
+
+                                            //7//// Reporte de Declaracion se imprime si se abono la orden y el status antes era por pagar 
+                                            if (OrSer_Statu == "004" && (Cod_Venta == "003" | Cod_Venta == "002") && (_D_DetalleOrden.TB_PARAMETRO("ImprimeDocResp") == "1")) // Estatus PorPagar , se ejecuto la funcion es trabajo convencional o reparacion y el parametro de imprimirDeclaracion sea 1 
+                                            {
+                                                if (TB_CAORDSER.Cod_DetVta != "08")
+                                                {
+                                                    ImprimirDeclaracion_CristalPropio_MonturaPropia();
+                                                }
+                                                else
+                                                {
+                                                    _FrmMensajes.co = 1;
+                                                    _FrmMensajes.avisomensaje("La orden de servicio se imprimirá cuando se asigne su RX correspondiente");
+                                                    _FrmMensajes.ShowDialog();
+
+                                                }
+
+                                            }
+
+                                        }
+                                        else
+                                        {
+
+                                            //7//// Reporte de Declaracion se imprime si se facturo la orden y el status antes era por pagar 
+                                            if (OrSer_Statu == "004" && (Cod_Venta == "003" | Cod_Venta == "002") && (_D_DetalleOrden.TB_PARAMETRO("ImprimeDocResp") == "1")) // Estatus PorPagar , se ejecuto la funcion es trabajo convencional o reparacion y el parametro de imprimirDeclaracion sea 1 
+                                            {
+                                                if (TB_CAORDSER.Cod_DetVta != "08")
+                                                {
+                                                    ImprimirDeclaracion_CristalPropio_MonturaPropia();
+                                                }
+                                                else
+                                                {
+                                                    _FrmMensajes.co = 1;
+                                                    _FrmMensajes.avisomensaje("La orden de servicio se imprimirá cuando se asigne su RX correspondiente");
+                                                    _FrmMensajes.ShowDialog();
+
+                                                }
+
+                                            }
+
+                                            //7//// Reporte de Orden y Rep Contacto
+                                            if (OrSer_Statu == "004" && Cod_Venta != "001") // Estatus PorPagar , se ejecuto la funcion y es diferente de Venta directa
+                                            {
+                                                RepOrden(concat);// reporte de orden se emite cuando la orden tiene status por pagar 
+                                            }
+
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        // ✅ FUNCIÓN EXISTENTE Para Registras las nuevas Acciones
+                                        //ProcesarAccionesPendientes();
+                                        //objVmax.ObtenerReporteInformativo();
+                                        //string SerialImpresora = objVmax.RetornoMI.sSerial;
+                                        // 1. Creamos UNA sola conexión y UN solo comando para todo el bloque
+                                        using (SqlConnection connection = cn.LeerCadena())
+                                        {
+                                            connection.Open();
+                                            using (SqlCommand cmdUnico = connection.CreateCommand())
+                                            {
+                                                // ✅ Procesamos acciones
+                                                //ProcesarAccionesPendientes();
+                                                objVmax.ObtenerReporteInformativo();
+                                                string SerialImpresora = objVmax.RetornoMI.sSerial;
+
+                                                // ✅ Auditoría 1 (Usando el cmdUnico)
+                                                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "091", TB_USUARIO.COD_EMPLEADO, "Número de orden " + TB_CAORDSER.NumOrdserv + " En proceso de facturación.", cmdUnico);
+
+                                                // ✅ Auditoría 2 (Reusando el cmdUnico)
+                                                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "095", TB_USUARIO.COD_EMPLEADO, "Número de orden " + TB_CAORDSER.NumOrdserv + " Valor del Parametro Reverso Automático." + ReversoAutomatico.ToString(), cmdUnico);
+
+                                                // ✅ Auditoría 3
+                                                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "091", TB_USUARIO.COD_EMPLEADO, "Número de factura en proceso: " + NumeroComprobanteFiscal?.PadLeft(7, '0'), cmdUnico);
+
+                                                // ✅ La Factura (Deberías modificar GetFactura para que también acepte el cmdUnico)
+                                                string Resp = _D_DetalleOrden.GetFactura(TB_CAORDSER.Cod_Sucursal, NumeroComprobanteFiscal.PadLeft(7, '0'), DateTime.Today.ToString("yyyyMMdd"), txtCedula.Text[0].ToString(),
+                                                 txtCedula.Text.Substring(2, txtCedula.Text.Length - 2), TB_CAORDSER.COD_EMPLEADO, TB_CAORDSER.Cod_Venta, txtNumeroOrden.Text, Convert.ToString(TB_CAORDSER.Fec_ofrecido.ToString("yyyyMMdd")), TB_CAORDSER.Hor_ofrecido, Convert.ToDouble("0,00"),
+                                                  Convert.ToDouble("0,00"), Convert.ToDouble("0,00"), Convert.ToDouble("0,00"), TB_USUARIO.COD_USR, 0, 0, SerialImpresora,
+                                                   Convert.ToDouble("0,00"), Convert.ToDouble("0,00"), Convert.ToDouble("0,00"), Convert.ToDouble("0,00"), "I", null);
+
+
+                                                // ✅ Auditoría 4
+                                                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "092", TB_USUARIO.COD_EMPLEADO, "Factura fiscal reversada...", cmdUnico);
+
+                                            } // Aquí se destruye el comando
+                                        } // Aquí se CIERRA la conexión automáticamente, falle o no el código.
+
+
+                                    }
                                     // insertar abonos, actualizar caorser, ejecutar movimiento, insertar los billetes TB_BILLETE , emitir factura, Imprimir reporte, Enviar Dana, Actualizar fecha ofrecida
-                                    string Estado = ProcesarPagos(TotalAbono, Math.Round((TB_CAORDSER.OrSer_Saldo + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos))), 2), ReversoAutomatico, command);
-                                    return;
+                                    //return;
                                 }
 
                             }
@@ -1766,15 +2246,250 @@ namespace CapaVisual_Login
                                         // validar el numero de factura, solo para impprimir factura manual 
                                         completo = _L_Facturacion.ValidacionNumFact(TxtNumFact, TxtNroCorrelativo);
 
-                                        // insertar abonos, actualizar caorser, ejecutar movimiento, insertar los billetes TB_BILLETE , emitir factura, Imprimir reporte, Enviar Dana, Actualizar fecha ofrecida
-                                        Estado = ProcesarPagos(TotalAbono, Math.Round((TB_CAORDSER.OrSer_Saldo + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos))), 2), ReversoAutomatico, command);
+                                        Conexion cn = new Conexion();
+                                        //string Estado = "ERROR";
+                                        // 1. Usamos 'using' para asegurar que la conexión se cierre SIEMPRE
+                                        using (SqlConnection connection = cn.LeerCadena())
+                                        {
+                                            // Solo abrimos si está cerrada
+                                            if (connection.State == ConnectionState.Closed)
+                                            {
+                                                connection.Open();
+                                            }
+
+                                            using (SqlTransaction transaction = connection.BeginTransaction())
+                                            {
+                                                using (SqlCommand command = connection.CreateCommand())
+                                                {
+                                                    try
+                                                    {
+                                                        command.Transaction = transaction;
+                                                        command.CommandTimeout = 300000;
+
+                                                        // ... Tu lógica aquí ...
+                                                        // insertar abonos, actualizar caorser, ejecutar movimiento, insertar los billetes TB_BILLETE , emitir factura, Imprimir reporte, Enviar Dana, Actualizar fecha ofrecida
+                                                        Estado = ProcesarPagos(TotalAbono, Math.Round((TB_CAORDSER.OrSer_Saldo + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos))), 2), ReversoAutomatico, command);
+
+                                                        if (Estado == "SATISFACTORIO")
+                                                        {
+                                                            string DescripAuditorAbono = "OS: " + TB_CAORDSER.NumOrdserv + ", Monto abono: " + Convert.ToString(TotalAbono) + ", Autoriza: " + Autoriza;
+                                                            _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "060", TB_USUARIO.COD_EMPLEADO, DescripAuditorAbono);
+                                                            return;
+                                                        }
+
+                                                        // Si algo falla aquí, saltará al catch
+
+                                                        transaction.Commit();
+                                                        return;
+                                                    }
+                                                    catch (Exception ex)
+                                                    {
+                                                        if (ReversoAutomatico)
+                                                        {
+                                                            transaction.Rollback();
+                                                        }
+                                                        else
+                                                            transaction.Commit();
+                                                    }
+                                                } // Aquí se destruye el command
+                                            } // <-- ¡IMPORTANTE! Aquí se libera la transacción
+                                        } // <-- ¡AQUÍ ES DONDE SE SOLUCIONA TU ERROR! 
+                                          // Al llegar aquí, la conexión vuelve al Pool automáticamente.
 
                                         if (Estado == "SATISFACTORIO")
                                         {
-                                            string DescripAuditorAbono = "OS: " + TB_CAORDSER.NumOrdserv + ", Monto abono: " + Convert.ToString(TotalAbono) + ", Autoriza: " + Autoriza;
-                                            _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "060", TB_USUARIO.COD_EMPLEADO, DescripAuditorAbono);
-                                            return;
+                                            string OrSer_Statu = TB_CAORDSER.OrSer_Status;
+                                            string Cod_Venta = TB_CAORDSER.Cod_Venta;
+
+                                            _D_DetalleOrden.Datos_de_la_Orden(txtNumeroOrden.Text, TB_CAORDSER.Revision);
+
+
+                                            if (TB_CAORDSER.OrSer_Saldo == 0)
+                                            {
+                                                FuncionSaldo0();// Funcion de dana, garantia, actualizar Fecha Ofrecida 
+
+                                                if (TB_CAORDSER.Cod_Venta == "002" && TB_CAORDSER.Asegurada == true && _D_DetalleOrden.TB_PARAMETROSPGE("ImprimeContrato") == "1")
+                                                {
+                                                    // Para inmprimir o mostrar contrato de garantia solo cuando es trabajo convencio
+                                                    RepContrato(concat);
+                                                }
+                                            }
+                                            if (TB_CAORDSER.OrSer_Saldo != 0)
+                                            {
+                                                mensaje = "Se ha realizado correctamente el abono";
+                                                _FrmMensajes.co = 1;
+                                                _FrmMensajes.avisomensaje(mensaje);
+                                                _FrmMensajes.ShowDialog();
+                                                LimpiarNotasCredito();
+
+                                                // Validamos si este es necesario imprimir el Reporte de Orden o de Contacto Para imprimirlo junto con el Reporte de Abono como un Sub Reporte 
+                                                if (OrSer_Statu == "004" && Cod_Venta != "001") // Estatus PorPagar , se ejecuto la funcion y es diferente de Venta directa
+                                                {
+                                                    // Trabajo convencional reservado = 08 
+                                                    if (TB_CAORDSER.Cod_DetVta != "08") // Solo se muestra o se imprime el reporte de la orden si no es trabajo convencional reservado 
+                                                    {
+                                                        // Si es trabajo de contacto se muestra este reporte 
+                                                        if (TB_CAORDSER.Cod_DetVta == "02") // Si se procesa uan orden de contacto se muestra reporte de contacto  
+                                                        {
+                                                            _FrmMostrarReporte.setParametros(concat);
+                                                            _FrmMostrarReporte.ConfigRep(true, true);
+
+                                                            if (_D_DetalleOrden.ParametroImpresion() == "1") // Si el parametro de impresion es 1 entonces imprime el reporte 
+                                                            {
+                                                                _FrmMostrarReporte.imprimir();
+
+                                                            }
+                                                            else
+                                                            {
+                                                                _FrmMostrarReporte.ShowDialog();
+
+                                                            }
+
+                                                        }
+                                                        else // si es otro tipo de trabajo 
+                                                        {
+                                                            _FrmMostrarReporte.setParametros(concat);
+                                                            _FrmMostrarReporte.ConfigRep(true, false);
+
+                                                            if (_D_DetalleOrden.ParametroImpresion() == "1") // Si el parametro de impresion es 1 entonces imprime el reporte 
+                                                            {
+                                                                _FrmMostrarReporte.imprimir();
+
+                                                            }
+                                                            else
+                                                            {
+                                                                _FrmMostrarReporte.ShowDialog();
+
+                                                            }
+
+
+                                                        }
+                                                    }
+
+                                                    else
+                                                    {
+                                                        _FrmMostrarReporte.setParametros(concat);
+                                                        _FrmMostrarReporte.ConfigRep(false, false);
+
+                                                        if (_D_DetalleOrden.ParametroImpresion() == "1") // Si el parametro de impresion es 1 entonces imprime el reporte 
+                                                        {
+                                                            _FrmMostrarReporte.imprimir();
+
+                                                        }
+                                                        else
+                                                        {
+                                                            _FrmMostrarReporte.ShowDialog();
+
+                                                        }
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    _FrmMostrarReporte.setParametros(concat);
+                                                    _FrmMostrarReporte.ConfigRep(false, false);
+
+                                                    if (_D_DetalleOrden.ParametroImpresion() == "1") // Si el parametro de impresion es 1 entonces imprime el reporte 
+                                                    {
+                                                        _FrmMostrarReporte.imprimir();
+
+                                                    }
+                                                    else
+                                                    {
+                                                        _FrmMostrarReporte.ShowDialog();
+
+                                                    }
+                                                }
+
+                                                //7//// Reporte de Declaracion se imprime si se abono la orden y el status antes era por pagar 
+                                                if (OrSer_Statu == "004" && (Cod_Venta == "003" | Cod_Venta == "002") && (_D_DetalleOrden.TB_PARAMETRO("ImprimeDocResp") == "1")) // Estatus PorPagar , se ejecuto la funcion es trabajo convencional o reparacion y el parametro de imprimirDeclaracion sea 1 
+                                                {
+                                                    if (TB_CAORDSER.Cod_DetVta != "08")
+                                                    {
+                                                        ImprimirDeclaracion_CristalPropio_MonturaPropia();
+                                                    }
+                                                    else
+                                                    {
+                                                        _FrmMensajes.co = 1;
+                                                        _FrmMensajes.avisomensaje("La orden de servicio se imprimirá cuando se asigne su RX correspondiente");
+                                                        _FrmMensajes.ShowDialog();
+
+                                                    }
+
+                                                }
+
+                                            }
+                                            else
+                                            {
+
+                                                //7//// Reporte de Declaracion se imprime si se facturo la orden y el status antes era por pagar 
+                                                if (OrSer_Statu == "004" && (Cod_Venta == "003" | Cod_Venta == "002") && (_D_DetalleOrden.TB_PARAMETRO("ImprimeDocResp") == "1")) // Estatus PorPagar , se ejecuto la funcion es trabajo convencional o reparacion y el parametro de imprimirDeclaracion sea 1 
+                                                {
+                                                    if (TB_CAORDSER.Cod_DetVta != "08")
+                                                    {
+                                                        ImprimirDeclaracion_CristalPropio_MonturaPropia();
+                                                    }
+                                                    else
+                                                    {
+                                                        _FrmMensajes.co = 1;
+                                                        _FrmMensajes.avisomensaje("La orden de servicio se imprimirá cuando se asigne su RX correspondiente");
+                                                        _FrmMensajes.ShowDialog();
+
+                                                    }
+
+                                                }
+
+                                                //7//// Reporte de Orden y Rep Contacto
+                                                if (OrSer_Statu == "004" && Cod_Venta != "001") // Estatus PorPagar , se ejecuto la funcion y es diferente de Venta directa
+                                                {
+                                                    RepOrden(concat);// reporte de orden se emite cuando la orden tiene status por pagar 
+                                                }
+
+                                            }
+
                                         }
+                                        else
+                                        {
+                                            // ✅ FUNCIÓN EXISTENTE Para Registras las nuevas Acciones
+                                            //ProcesarAccionesPendientes();
+                                            //objVmax.ObtenerReporteInformativo();
+                                            //string SerialImpresora = objVmax.RetornoMI.sSerial;
+                                            // 1. Creamos UNA sola conexión y UN solo comando para todo el bloque
+                                            using (SqlConnection connection = cn.LeerCadena())
+                                            {
+                                                connection.Open();
+                                                using (SqlCommand cmdUnico = connection.CreateCommand())
+                                                {
+                                                    // ✅ Procesamos acciones
+                                                    //ProcesarAccionesPendientes();
+                                                    objVmax.ObtenerReporteInformativo();
+                                                    string SerialImpresora = objVmax.RetornoMI.sSerial;
+
+                                                    // ✅ Auditoría 1 (Usando el cmdUnico)
+                                                    _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "091", TB_USUARIO.COD_EMPLEADO, "Número de orden " + TB_CAORDSER.NumOrdserv + " En proceso de facturación.", cmdUnico);
+
+                                                    // ✅ Auditoría 2 (Reusando el cmdUnico)
+                                                    _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "095", TB_USUARIO.COD_EMPLEADO, "Número de orden " + TB_CAORDSER.NumOrdserv + " Valor del Parametro Reverso Automático." + ReversoAutomatico.ToString(), cmdUnico);
+
+                                                    // ✅ Auditoría 3
+                                                    _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "091", TB_USUARIO.COD_EMPLEADO, "Número de factura en proceso: " + NumeroComprobanteFiscal?.PadLeft(7, '0'), cmdUnico);
+
+                                                    // ✅ La Factura (Deberías modificar GetFactura para que también acepte el cmdUnico)
+                                                    string Resp = _D_DetalleOrden.GetFactura(TB_CAORDSER.Cod_Sucursal, NumeroComprobanteFiscal.PadLeft(7, '0'), DateTime.Today.ToString("yyyyMMdd"), txtCedula.Text[0].ToString(),
+                                                     txtCedula.Text.Substring(2, txtCedula.Text.Length - 2), TB_CAORDSER.COD_EMPLEADO, TB_CAORDSER.Cod_Venta, txtNumeroOrden.Text, Convert.ToString(TB_CAORDSER.Fec_ofrecido.ToString("yyyyMMdd")), TB_CAORDSER.Hor_ofrecido, Convert.ToDouble("0,00"),
+                                                      Convert.ToDouble("0,00"), Convert.ToDouble("0,00"), Convert.ToDouble("0,00"), TB_USUARIO.COD_USR, 0, 0, SerialImpresora,
+                                                       Convert.ToDouble("0,00"), Convert.ToDouble("0,00"), Convert.ToDouble("0,00"), Convert.ToDouble("0,00"), "I", null);
+
+
+                                                    // ✅ Auditoría 4
+                                                    _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "092", TB_USUARIO.COD_EMPLEADO, "Factura fiscal reversada...", cmdUnico);
+
+                                                } // Aquí se destruye el comando
+                                            } // Aquí se CIERRA la conexión automáticamente, falle o no el código.
+
+                                        }
+                                        // insertar abonos, actualizar caorser, ejecutar movimiento, insertar los billetes TB_BILLETE , emitir factura, Imprimir reporte, Enviar Dana, Actualizar fecha ofrecida
+
+
 
                                     }
                                 }
@@ -1836,9 +2551,243 @@ namespace CapaVisual_Login
                                     // validar el numero de factura, solo para impprimir factura manual 
                                     completo = _L_Facturacion.ValidacionNumFact(TxtNumFact, TxtNroCorrelativo);
 
-                                     // insertar abonos, actualizar caorser, ejecutar movimiento, insertar los billetes TB_BILLETE , emitir factura
-                                    rept = ProcesarPagos(TotalAbono, Math.Round((TB_CAORDSER.OrSer_Saldo + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos))), 2), ReversoAutomatico, command);
-                                    return;
+                                    Conexion cn = new Conexion();
+                                    string Estado = "ERROR";
+                                    // 1. Usamos 'using' para asegurar que la conexión se cierre SIEMPRE
+                                    using (SqlConnection connection = cn.LeerCadena())
+                                    {
+                                        // Solo abrimos si está cerrada
+                                        if (connection.State == ConnectionState.Closed)
+                                        {
+                                            connection.Open();
+                                        }
+
+                                        using (SqlTransaction transaction = connection.BeginTransaction())
+                                        {
+                                            using (SqlCommand command = connection.CreateCommand())
+                                            {
+                                                try
+                                                {
+                                                    command.Transaction = transaction;
+                                                    command.CommandTimeout = 300000;
+
+                                                    // ... Tu lógica aquí ...
+                                                    // insertar abonos, actualizar caorser, ejecutar movimiento, insertar los billetes TB_BILLETE , emitir factura, Imprimir reporte, Enviar Dana, Actualizar fecha ofrecida
+                                                    rept = ProcesarPagos(TotalAbono, Math.Round((TB_CAORDSER.OrSer_Saldo + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos))), 2), ReversoAutomatico, command);
+
+
+                                                    // Si algo falla aquí, saltará al catch
+
+                                                    transaction.Commit();
+                                                    return;
+                                                }
+                                                catch (Exception ex)
+                                                {
+                                                    if (ReversoAutomatico)
+                                                    {
+                                                        transaction.Rollback();
+                                                    }
+                                                    else
+                                                        transaction.Commit();
+                                                }
+                                            } // Aquí se destruye el command
+                                        } // <-- ¡IMPORTANTE! Aquí se libera la transacción
+                                    } // <-- ¡AQUÍ ES DONDE SE SOLUCIONA TU ERROR! 
+                                      // Al llegar aquí, la conexión vuelve al Pool automáticamente.
+
+                                    if (Estado == "SATISFACTORIO")
+                                    {
+                                        string OrSer_Statu = TB_CAORDSER.OrSer_Status;
+                                        string Cod_Venta = TB_CAORDSER.Cod_Venta;
+
+                                        _D_DetalleOrden.Datos_de_la_Orden(txtNumeroOrden.Text, TB_CAORDSER.Revision);
+
+
+                                        if (TB_CAORDSER.OrSer_Saldo == 0)
+                                        {
+                                            FuncionSaldo0();// Funcion de dana, garantia, actualizar Fecha Ofrecida 
+
+                                            if (TB_CAORDSER.Cod_Venta == "002" && TB_CAORDSER.Asegurada == true && _D_DetalleOrden.TB_PARAMETROSPGE("ImprimeContrato") == "1")
+                                            {
+                                                // Para inmprimir o mostrar contrato de garantia solo cuando es trabajo convencio
+                                                RepContrato(concat);
+                                            }
+                                        }
+                                        if (TB_CAORDSER.OrSer_Saldo != 0)
+                                        {
+                                            mensaje = "Se ha realizado correctamente el abono";
+                                            _FrmMensajes.co = 1;
+                                            _FrmMensajes.avisomensaje(mensaje);
+                                            _FrmMensajes.ShowDialog();
+                                            LimpiarNotasCredito();
+
+                                            // Validamos si este es necesario imprimir el Reporte de Orden o de Contacto Para imprimirlo junto con el Reporte de Abono como un Sub Reporte 
+                                            if (OrSer_Statu == "004" && Cod_Venta != "001") // Estatus PorPagar , se ejecuto la funcion y es diferente de Venta directa
+                                            {
+                                                // Trabajo convencional reservado = 08 
+                                                if (TB_CAORDSER.Cod_DetVta != "08") // Solo se muestra o se imprime el reporte de la orden si no es trabajo convencional reservado 
+                                                {
+                                                    // Si es trabajo de contacto se muestra este reporte 
+                                                    if (TB_CAORDSER.Cod_DetVta == "02") // Si se procesa uan orden de contacto se muestra reporte de contacto  
+                                                    {
+                                                        _FrmMostrarReporte.setParametros(concat);
+                                                        _FrmMostrarReporte.ConfigRep(true, true);
+
+                                                        if (_D_DetalleOrden.ParametroImpresion() == "1") // Si el parametro de impresion es 1 entonces imprime el reporte 
+                                                        {
+                                                            _FrmMostrarReporte.imprimir();
+
+                                                        }
+                                                        else
+                                                        {
+                                                            _FrmMostrarReporte.ShowDialog();
+
+                                                        }
+
+                                                    }
+                                                    else // si es otro tipo de trabajo 
+                                                    {
+                                                        _FrmMostrarReporte.setParametros(concat);
+                                                        _FrmMostrarReporte.ConfigRep(true, false);
+
+                                                        if (_D_DetalleOrden.ParametroImpresion() == "1") // Si el parametro de impresion es 1 entonces imprime el reporte 
+                                                        {
+                                                            _FrmMostrarReporte.imprimir();
+
+                                                        }
+                                                        else
+                                                        {
+                                                            _FrmMostrarReporte.ShowDialog();
+
+                                                        }
+
+
+                                                    }
+                                                }
+
+                                                else
+                                                {
+                                                    _FrmMostrarReporte.setParametros(concat);
+                                                    _FrmMostrarReporte.ConfigRep(false, false);
+
+                                                    if (_D_DetalleOrden.ParametroImpresion() == "1") // Si el parametro de impresion es 1 entonces imprime el reporte 
+                                                    {
+                                                        _FrmMostrarReporte.imprimir();
+
+                                                    }
+                                                    else
+                                                    {
+                                                        _FrmMostrarReporte.ShowDialog();
+
+                                                    }
+                                                }
+                                            }
+                                            else
+                                            {
+                                                _FrmMostrarReporte.setParametros(concat);
+                                                _FrmMostrarReporte.ConfigRep(false, false);
+
+                                                if (_D_DetalleOrden.ParametroImpresion() == "1") // Si el parametro de impresion es 1 entonces imprime el reporte 
+                                                {
+                                                    _FrmMostrarReporte.imprimir();
+
+                                                }
+                                                else
+                                                {
+                                                    _FrmMostrarReporte.ShowDialog();
+
+                                                }
+                                            }
+
+                                            //7//// Reporte de Declaracion se imprime si se abono la orden y el status antes era por pagar 
+                                            if (OrSer_Statu == "004" && (Cod_Venta == "003" | Cod_Venta == "002") && (_D_DetalleOrden.TB_PARAMETRO("ImprimeDocResp") == "1")) // Estatus PorPagar , se ejecuto la funcion es trabajo convencional o reparacion y el parametro de imprimirDeclaracion sea 1 
+                                            {
+                                                if (TB_CAORDSER.Cod_DetVta != "08")
+                                                {
+                                                    ImprimirDeclaracion_CristalPropio_MonturaPropia();
+                                                }
+                                                else
+                                                {
+                                                    _FrmMensajes.co = 1;
+                                                    _FrmMensajes.avisomensaje("La orden de servicio se imprimirá cuando se asigne su RX correspondiente");
+                                                    _FrmMensajes.ShowDialog();
+
+                                                }
+
+                                            }
+
+                                        }
+                                        else
+                                        {
+
+                                            //7//// Reporte de Declaracion se imprime si se facturo la orden y el status antes era por pagar 
+                                            if (OrSer_Statu == "004" && (Cod_Venta == "003" | Cod_Venta == "002") && (_D_DetalleOrden.TB_PARAMETRO("ImprimeDocResp") == "1")) // Estatus PorPagar , se ejecuto la funcion es trabajo convencional o reparacion y el parametro de imprimirDeclaracion sea 1 
+                                            {
+                                                if (TB_CAORDSER.Cod_DetVta != "08")
+                                                {
+                                                    ImprimirDeclaracion_CristalPropio_MonturaPropia();
+                                                }
+                                                else
+                                                {
+                                                    _FrmMensajes.co = 1;
+                                                    _FrmMensajes.avisomensaje("La orden de servicio se imprimirá cuando se asigne su RX correspondiente");
+                                                    _FrmMensajes.ShowDialog();
+
+                                                }
+
+                                            }
+
+                                            //7//// Reporte de Orden y Rep Contacto
+                                            if (OrSer_Statu == "004" && Cod_Venta != "001") // Estatus PorPagar , se ejecuto la funcion y es diferente de Venta directa
+                                            {
+                                                RepOrden(concat);// reporte de orden se emite cuando la orden tiene status por pagar 
+                                            }
+
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        // ✅ FUNCIÓN EXISTENTE Para Registras las nuevas Acciones
+                                        //ProcesarAccionesPendientes();
+                                        //objVmax.ObtenerReporteInformativo();
+                                        //string SerialImpresora = objVmax.RetornoMI.sSerial;
+                                        // 1. Creamos UNA sola conexión y UN solo comando para todo el bloque
+                                        using (SqlConnection connection = cn.LeerCadena())
+                                        {
+                                            connection.Open();
+                                            using (SqlCommand cmdUnico = connection.CreateCommand())
+                                            {
+                                                // ✅ Procesamos acciones
+                                                //ProcesarAccionesPendientes();
+                                                objVmax.ObtenerReporteInformativo();
+                                                string SerialImpresora = objVmax.RetornoMI.sSerial;
+
+                                                // ✅ Auditoría 1 (Usando el cmdUnico)
+                                                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "091", TB_USUARIO.COD_EMPLEADO, "Número de orden " + TB_CAORDSER.NumOrdserv + " En proceso de facturación.", cmdUnico);
+
+                                                // ✅ Auditoría 2 (Reusando el cmdUnico)
+                                                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "095", TB_USUARIO.COD_EMPLEADO, "Número de orden " + TB_CAORDSER.NumOrdserv + " Valor del Parametro Reverso Automático." + ReversoAutomatico.ToString(), cmdUnico);
+
+                                                // ✅ Auditoría 3
+                                                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "091", TB_USUARIO.COD_EMPLEADO, "Número de factura en proceso: " + NumeroComprobanteFiscal?.PadLeft(7, '0'), cmdUnico);
+
+                                                // ✅ La Factura (Deberías modificar GetFactura para que también acepte el cmdUnico)
+                                                string Resp = _D_DetalleOrden.GetFactura(TB_CAORDSER.Cod_Sucursal, NumeroComprobanteFiscal.PadLeft(7, '0'), DateTime.Today.ToString("yyyyMMdd"), txtCedula.Text[0].ToString(),
+                                                 txtCedula.Text.Substring(2, txtCedula.Text.Length - 2), TB_CAORDSER.COD_EMPLEADO, TB_CAORDSER.Cod_Venta, txtNumeroOrden.Text, Convert.ToString(TB_CAORDSER.Fec_ofrecido.ToString("yyyyMMdd")), TB_CAORDSER.Hor_ofrecido, Convert.ToDouble("0,00"),
+                                                  Convert.ToDouble("0,00"), Convert.ToDouble("0,00"), Convert.ToDouble("0,00"), TB_USUARIO.COD_USR, 0, 0, SerialImpresora,
+                                                   Convert.ToDouble("0,00"), Convert.ToDouble("0,00"), Convert.ToDouble("0,00"), Convert.ToDouble("0,00"), "I", null);
+
+
+                                                // ✅ Auditoría 4
+                                                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "092", TB_USUARIO.COD_EMPLEADO, "Factura fiscal reversada...", cmdUnico);
+
+                                            } // Aquí se destruye el comando
+                                        } // Aquí se CIERRA la conexión automáticamente, falle o no el código.
+
+                                    }
+                                    // insertar abonos, actualizar caorser, ejecutar movimiento, insertar los billetes TB_BILLETE , emitir factura
+
                                 }
 
                             }
@@ -1863,11 +2812,11 @@ namespace CapaVisual_Login
 
             catch (Exception ex)
             {
-                transaction.Rollback();
+                //transaction.Rollback();
 
-                _FrmMensajes.co = 2;
-                _FrmMensajes.avisomensaje(string.Format("Error: {0}", ex.Message) + ", Error inesperado");
-                _FrmMensajes.ShowDialog();
+                //_FrmMensajes.co = 2;
+                //_FrmMensajes.avisomensaje(string.Format("Error: {0}", ex.Message) + ", Error inesperado");
+                //_FrmMensajes.ShowDialog();
             }
 
             finally
@@ -1895,7 +2844,7 @@ namespace CapaVisual_Login
 
                 CargarDatosOrden(txtNumeroOrden.Text, txtNombreCliente.Text, TB_CAORDSER.Revision);
 
-                    this.Enabled = true;
+                this.Enabled = true;
                 if (rept == "SATISFACTORIO" || rept == "" || rept == "Error")
                 {
                     btnCancelar1.PerformClick();
@@ -5311,7 +6260,7 @@ namespace CapaVisual_Login
                                 }
                                 else
                                 {
-                                    Impresora_Fiscal.AgregarAccionPendiente("100");
+                                    //Impresora_Fiscal.AgregarAccionPendiente("100");
                                     ImprimirFacturaFiscall = false;
                                     return "Error";
                                 }
@@ -5502,26 +6451,16 @@ namespace CapaVisual_Login
 
                                  if (ReversoTransaccion)
                                  {
-                                command.Transaction.Rollback();
-                                rollbackRealizado = true;
+                                //command.Transaction.Rollback();
+                                //rollbackRealizado = true;
                               
-                                // ✅ FUNCIÓN EXISTENTE Para Registras las nuevas Acciones
-                                ProcesarAccionesPendientes();
 
-                                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "091", TB_USUARIO.COD_EMPLEADO, "Número de orden " + TB_CAORDSER.NumOrdserv + " En proceso de facturación.");
-                                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "095", TB_USUARIO.COD_EMPLEADO, "Número de orden " + TB_CAORDSER.NumOrdserv + " Valor del Parametro Reverso Automático." + ReversoTransaccion.ToString(), command);
-                                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "091", TB_USUARIO.COD_EMPLEADO, "Número de factura en proceso: " + NumeroComprobanteFiscal.PadLeft(7, '0') + " Último número de factura anulada: " + UltimoNumeroFacturaCancelado2.PadLeft(7, '0'));
 
-                                string Resp = _D_DetalleOrden.GetFactura(TB_CAORDSER.Cod_Sucursal, NumeroComprobanteFiscal.PadLeft(7, '0'), DateTime.Today.ToString("yyyyMMdd"), txtCedula.Text[0].ToString(),
-                                          txtCedula.Text.Substring(2, txtCedula.Text.Length - 2), TB_CAORDSER.COD_EMPLEADO, TB_CAORDSER.Cod_Venta, txtNumeroOrden.Text, Convert.ToString(TB_CAORDSER.Fec_ofrecido.ToString("yyyyMMdd")), TB_CAORDSER.Hor_ofrecido, Convert.ToDouble("0,00"),
-                                           Convert.ToDouble("0,00"), Convert.ToDouble("0,00"), Convert.ToDouble("0,00"), TB_USUARIO.COD_USR, 0, 0, SerialImpresora,
-                                            Convert.ToDouble("0,00"), Convert.ToDouble("0,00"), Convert.ToDouble("0,00"), Convert.ToDouble("0,00"), "I", null);
-
-                                 _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "092", TB_USUARIO.COD_EMPLEADO, "Factura fiscal reversada N° " + NumeroComprobanteFiscal.PadLeft(7, '0') + " ,Número de orden: " + txtNumeroOrden.Text + ", Serial: " + SerialImpresora);
-                                 }
+                                
+                            }
                                  else
                                  {
-                                command.Transaction.Commit();
+                                //command.Transaction.Commit();
                                 // Si hay commit, limpiamos acciones pendientes
                                 Impresora_Fiscal.LimpiarAccionesPendientes();
                                  }
@@ -5550,14 +6489,15 @@ namespace CapaVisual_Login
 
                             if (ReversoTransaccion)
                             {
-                                command.Transaction.Rollback();
-                                rollbackRealizado = true;
+                                //command.Transaction.Rollback();
+                                //rollbackRealizado = true;
                                 // ✅ FUNCIÓN EXISTENTE Para Registras las nuevas Acciones
                                 ProcesarAccionesPendientes();
+                                throw new Exception("Error en SerialFacturaFiscal: ");
                             }   
                             else
                             {
-                                command.Transaction.Commit();
+                                //command.Transaction.Commit();
                                 // Si hay commit, limpiamos acciones pendientes
                                 Impresora_Fiscal.LimpiarAccionesPendientes();
                             }
@@ -6517,8 +7457,9 @@ namespace CapaVisual_Login
 
                     if (rept != "SATISFACTORIO")
                     {
-                        command.Transaction.Rollback();
-                        return "";
+                        throw new Exception("Error en Movimiento de Inventario: " + rept);
+                        //command.Transaction.Rollback();
+                        //return "";
                     }
 
 
@@ -6562,9 +7503,10 @@ namespace CapaVisual_Login
                     // Nuevo desarrollo Validaciones por tipo de pago segun la promocion selecionada 
                     if (rept == "SATISFACTORIO" && ValidaPagosRequeridos(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision, command).Facturar == false)
                     {
-                        command.Transaction.Rollback();
-                        rept = "Abortada";
-                        return "";
+                        //command.Transaction.Rollback();
+                        //rept = "Abortada";
+                        throw new Exception("Error No tiene pagos requeridos: ");
+                        //return "";
                     }
 
 
@@ -6592,6 +7534,12 @@ namespace CapaVisual_Login
 
                     rept = ImprimirFacturaFiscal(txtNumeroOrden.Text, txtCedula.Text, txtNombreCliente.Text, ReversoTransaccion, command);
 
+                    if (rept != "SATISFACTORIO")
+                    {
+                       
+                        throw new Exception("Error en ImprimirFacturaFiscal");
+                    }
+
                     // Imprimo el Pago Movil 
                     if (rept == "SATISFACTORIO" && PMAutomatico == "0")
                      rept = ImprimirCambio(Correlativo, Dt_PagoMovil, TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision, Num_Factura, command);
@@ -6605,15 +7553,16 @@ namespace CapaVisual_Login
                 }
 
                 //Attempt to commit the transaction.
-                if (rept == "SATISFACTORIO")
-                    command.Transaction.Commit();
-                else if ((command.Transaction != null && !rollbackRealizado))
-                {
-                    if (ReversoTransaccion)
-                    command.Transaction.Rollback();
-                    else
-                        command.Transaction.Commit();
-                }
+                //if (rept == "SATISFACTORIO")
+                //    //command.Transaction.Commit();
+                //else if ((command.Transaction != null && !rollbackRealizado))
+                //{
+                //    if (ReversoTransaccion)
+                //    //command.Transaction.Rollback();
+                //    throw new Exception("Error rollback: ");
+                //    else
+                //        //command.Transaction.Commit();
+                //}
 
                 //Cursor = System.Windows.Forms.Cursors.Default;
                 return rept;
@@ -6622,21 +7571,22 @@ namespace CapaVisual_Login
 
             catch (Exception ex)
             {
-                rept = string.Format("Error: {0}", ex.Message);
-                return rept;
+                //rept = string.Format("Error: {0}", ex.Message);
+                //return rept;
 
-                try
-                {
-                    command.Transaction.Rollback();
-                }
-                catch (Exception ex2)
-                {
-                    // Este bloque catch manejará cualquier error que pueda haber ocurrido
-                    // en el servidor que haría que la reversión fallara, en una conexión cerrada.
+                //try
+                //{
+                    throw; 
+                    //command.Transaction.Rollback();
+                //}
+                //catch (Exception ex2)
+                //{
+                //    // Este bloque catch manejará cualquier error que pueda haber ocurrido
+                //    // en el servidor que haría que la reversión fallara, en una conexión cerrada.
 
-                    Console.WriteLine("Rollback Exception Type: {0}", ex2.GetType());
-                    Console.WriteLine("  Message: {0}", ex2.Message);
-                }
+                //    Console.WriteLine("Rollback Exception Type: {0}", ex2.GetType());
+                //    Console.WriteLine("  Message: {0}", ex2.Message);
+                //}
 
             }
 
@@ -6649,156 +7599,156 @@ namespace CapaVisual_Login
                 _D_DetalleOrden.Limpiar_TEMP_ABONO(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision);
                 Dt_PagoMovil.Clear();
 
-                string OrSer_Statu = TB_CAORDSER.OrSer_Status;
-                string Cod_Venta = TB_CAORDSER.Cod_Venta;
+                //string OrSer_Statu = TB_CAORDSER.OrSer_Status;
+                //string Cod_Venta = TB_CAORDSER.Cod_Venta;
 
-                _D_DetalleOrden.Datos_de_la_Orden(txtNumeroOrden.Text, TB_CAORDSER.Revision);
+                //_D_DetalleOrden.Datos_de_la_Orden(txtNumeroOrden.Text, TB_CAORDSER.Revision);
 
-                if (rept == "SATISFACTORIO")
-                {
-                    if (TB_CAORDSER.OrSer_Saldo == 0)
-                    {
-                        FuncionSaldo0();// Funcion de dana, garantia, actualizar Fecha Ofrecida 
+                //if (rept == "SATISFACTORIO")
+                //{
+                //    if (TB_CAORDSER.OrSer_Saldo == 0)
+                //    {
+                //        FuncionSaldo0();// Funcion de dana, garantia, actualizar Fecha Ofrecida 
 
-                        if (TB_CAORDSER.Cod_Venta == "002" && TB_CAORDSER.Asegurada == true && _D_DetalleOrden.TB_PARAMETROSPGE("ImprimeContrato") == "1")
-                        {
-                            // Para inmprimir o mostrar contrato de garantia solo cuando es trabajo convencio
-                            RepContrato(concat);
-                        }
-                    }
-                    if (TB_CAORDSER.OrSer_Saldo != 0)
-                    {
-                        mensaje = "Se ha realizado correctamente el abono";
-                        _FrmMensajes.co = 1;
-                        _FrmMensajes.avisomensaje(mensaje);
-                        _FrmMensajes.ShowDialog();
-                        LimpiarNotasCredito();
+                //        if (TB_CAORDSER.Cod_Venta == "002" && TB_CAORDSER.Asegurada == true && _D_DetalleOrden.TB_PARAMETROSPGE("ImprimeContrato") == "1")
+                //        {
+                //            // Para inmprimir o mostrar contrato de garantia solo cuando es trabajo convencio
+                //            RepContrato(concat);
+                //        }
+                //    }
+                //    if (TB_CAORDSER.OrSer_Saldo != 0)
+                //    {
+                //        mensaje = "Se ha realizado correctamente el abono";
+                //        _FrmMensajes.co = 1;
+                //        _FrmMensajes.avisomensaje(mensaje);
+                //        _FrmMensajes.ShowDialog();
+                //        LimpiarNotasCredito();
 
-                        // Validamos si este es necesario imprimir el Reporte de Orden o de Contacto Para imprimirlo junto con el Reporte de Abono como un Sub Reporte 
-                        if (OrSer_Statu == "004" && Cod_Venta != "001") // Estatus PorPagar , se ejecuto la funcion y es diferente de Venta directa
-                        {
-                            // Trabajo convencional reservado = 08 
-                            if (TB_CAORDSER.Cod_DetVta != "08") // Solo se muestra o se imprime el reporte de la orden si no es trabajo convencional reservado 
-                            {
-                                // Si es trabajo de contacto se muestra este reporte 
-                                if (TB_CAORDSER.Cod_DetVta == "02") // Si se procesa uan orden de contacto se muestra reporte de contacto  
-                                {
-                                    _FrmMostrarReporte.setParametros(concat);
-                                    _FrmMostrarReporte.ConfigRep(true, true);
+                //        // Validamos si este es necesario imprimir el Reporte de Orden o de Contacto Para imprimirlo junto con el Reporte de Abono como un Sub Reporte 
+                //        if (OrSer_Statu == "004" && Cod_Venta != "001") // Estatus PorPagar , se ejecuto la funcion y es diferente de Venta directa
+                //        {
+                //            // Trabajo convencional reservado = 08 
+                //            if (TB_CAORDSER.Cod_DetVta != "08") // Solo se muestra o se imprime el reporte de la orden si no es trabajo convencional reservado 
+                //            {
+                //                // Si es trabajo de contacto se muestra este reporte 
+                //                if (TB_CAORDSER.Cod_DetVta == "02") // Si se procesa uan orden de contacto se muestra reporte de contacto  
+                //                {
+                //                    _FrmMostrarReporte.setParametros(concat);
+                //                    _FrmMostrarReporte.ConfigRep(true, true);
 
-                                    if (_D_DetalleOrden.ParametroImpresion() == "1") // Si el parametro de impresion es 1 entonces imprime el reporte 
-                                    {
-                                        _FrmMostrarReporte.imprimir();
+                //                    if (_D_DetalleOrden.ParametroImpresion() == "1") // Si el parametro de impresion es 1 entonces imprime el reporte 
+                //                    {
+                //                        _FrmMostrarReporte.imprimir();
 
-                                    }
-                                    else
-                                    {
-                                        _FrmMostrarReporte.ShowDialog();
+                //                    }
+                //                    else
+                //                    {
+                //                        _FrmMostrarReporte.ShowDialog();
 
-                                    }
+                //                    }
 
-                                }
-                                else // si es otro tipo de trabajo 
-                                {
-                                    _FrmMostrarReporte.setParametros(concat);
-                                    _FrmMostrarReporte.ConfigRep(true, false);
+                //                }
+                //                else // si es otro tipo de trabajo 
+                //                {
+                //                    _FrmMostrarReporte.setParametros(concat);
+                //                    _FrmMostrarReporte.ConfigRep(true, false);
 
-                                    if (_D_DetalleOrden.ParametroImpresion() == "1") // Si el parametro de impresion es 1 entonces imprime el reporte 
-                                    {
-                                        _FrmMostrarReporte.imprimir();
+                //                    if (_D_DetalleOrden.ParametroImpresion() == "1") // Si el parametro de impresion es 1 entonces imprime el reporte 
+                //                    {
+                //                        _FrmMostrarReporte.imprimir();
 
-                                    }
-                                    else
-                                    {
-                                        _FrmMostrarReporte.ShowDialog();
+                //                    }
+                //                    else
+                //                    {
+                //                        _FrmMostrarReporte.ShowDialog();
 
-                                    }
+                //                    }
 
 
-                                }
-                            }
+                //                }
+                //            }
 
-                            else
-                            {
-                                _FrmMostrarReporte.setParametros(concat);
-                                _FrmMostrarReporte.ConfigRep(false, false);
+                //            else
+                //            {
+                //                _FrmMostrarReporte.setParametros(concat);
+                //                _FrmMostrarReporte.ConfigRep(false, false);
 
-                                if (_D_DetalleOrden.ParametroImpresion() == "1") // Si el parametro de impresion es 1 entonces imprime el reporte 
-                                {
-                                    _FrmMostrarReporte.imprimir();
+                //                if (_D_DetalleOrden.ParametroImpresion() == "1") // Si el parametro de impresion es 1 entonces imprime el reporte 
+                //                {
+                //                    _FrmMostrarReporte.imprimir();
 
-                                }
-                                else
-                                {
-                                    _FrmMostrarReporte.ShowDialog();
+                //                }
+                //                else
+                //                {
+                //                    _FrmMostrarReporte.ShowDialog();
 
-                                }
-                            }
-                        }
-                        else
-                        {
-                            _FrmMostrarReporte.setParametros(concat);
-                            _FrmMostrarReporte.ConfigRep(false, false);
+                //                }
+                //            }
+                //        }
+                //        else
+                //        {
+                //            _FrmMostrarReporte.setParametros(concat);
+                //            _FrmMostrarReporte.ConfigRep(false, false);
 
-                            if (_D_DetalleOrden.ParametroImpresion() == "1") // Si el parametro de impresion es 1 entonces imprime el reporte 
-                            {
-                                _FrmMostrarReporte.imprimir();
+                //            if (_D_DetalleOrden.ParametroImpresion() == "1") // Si el parametro de impresion es 1 entonces imprime el reporte 
+                //            {
+                //                _FrmMostrarReporte.imprimir();
 
-                            }
-                            else
-                            {
-                                _FrmMostrarReporte.ShowDialog();
+                //            }
+                //            else
+                //            {
+                //                _FrmMostrarReporte.ShowDialog();
 
-                            }
-                        }
+                //            }
+                //        }
 
-                        //7//// Reporte de Declaracion se imprime si se abono la orden y el status antes era por pagar 
-                        if (OrSer_Statu == "004" && (Cod_Venta == "003" | Cod_Venta == "002") && (_D_DetalleOrden.TB_PARAMETRO("ImprimeDocResp") =="1")) // Estatus PorPagar , se ejecuto la funcion es trabajo convencional o reparacion y el parametro de imprimirDeclaracion sea 1 
-                        {
-                            if (TB_CAORDSER.Cod_DetVta != "08")
-                            {
-                                ImprimirDeclaracion_CristalPropio_MonturaPropia();
-                            }
-                            else
-                            {
-                                _FrmMensajes.co = 1;
-                                _FrmMensajes.avisomensaje("La orden de servicio se imprimirá cuando se asigne su RX correspondiente");
-                                _FrmMensajes.ShowDialog();
+                //        //7//// Reporte de Declaracion se imprime si se abono la orden y el status antes era por pagar 
+                //        if (OrSer_Statu == "004" && (Cod_Venta == "003" | Cod_Venta == "002") && (_D_DetalleOrden.TB_PARAMETRO("ImprimeDocResp") =="1")) // Estatus PorPagar , se ejecuto la funcion es trabajo convencional o reparacion y el parametro de imprimirDeclaracion sea 1 
+                //        {
+                //            if (TB_CAORDSER.Cod_DetVta != "08")
+                //            {
+                //                ImprimirDeclaracion_CristalPropio_MonturaPropia();
+                //            }
+                //            else
+                //            {
+                //                _FrmMensajes.co = 1;
+                //                _FrmMensajes.avisomensaje("La orden de servicio se imprimirá cuando se asigne su RX correspondiente");
+                //                _FrmMensajes.ShowDialog();
 
-                            }
+                //            }
 
-                        }
+                //        }
 
-                    }
-                  else
-                  {
+                //    }
+                //  else
+                //  {
 
-                    //7//// Reporte de Declaracion se imprime si se facturo la orden y el status antes era por pagar 
-                    if (OrSer_Statu == "004" && (Cod_Venta == "003" | Cod_Venta == "002") && (_D_DetalleOrden.TB_PARAMETRO("ImprimeDocResp") == "1")) // Estatus PorPagar , se ejecuto la funcion es trabajo convencional o reparacion y el parametro de imprimirDeclaracion sea 1 
-                    {
-                            if (TB_CAORDSER.Cod_DetVta != "08")
-                            {
-                                ImprimirDeclaracion_CristalPropio_MonturaPropia();
-                            }
-                            else
-                            {
-                                _FrmMensajes.co = 1;
-                                _FrmMensajes.avisomensaje("La orden de servicio se imprimirá cuando se asigne su RX correspondiente");
-                                _FrmMensajes.ShowDialog();
+                //    //7//// Reporte de Declaracion se imprime si se facturo la orden y el status antes era por pagar 
+                //    if (OrSer_Statu == "004" && (Cod_Venta == "003" | Cod_Venta == "002") && (_D_DetalleOrden.TB_PARAMETRO("ImprimeDocResp") == "1")) // Estatus PorPagar , se ejecuto la funcion es trabajo convencional o reparacion y el parametro de imprimirDeclaracion sea 1 
+                //    {
+                //            if (TB_CAORDSER.Cod_DetVta != "08")
+                //            {
+                //                ImprimirDeclaracion_CristalPropio_MonturaPropia();
+                //            }
+                //            else
+                //            {
+                //                _FrmMensajes.co = 1;
+                //                _FrmMensajes.avisomensaje("La orden de servicio se imprimirá cuando se asigne su RX correspondiente");
+                //                _FrmMensajes.ShowDialog();
 
-                            }
+                //            }
 
-                    }
+                //    }
 
-                        //7//// Reporte de Orden y Rep Contacto
-                        if (OrSer_Statu == "004" && Cod_Venta != "001") // Estatus PorPagar , se ejecuto la funcion y es diferente de Venta directa
-                    {
-                        RepOrden(concat);// reporte de orden se emite cuando la orden tiene status por pagar 
-                    }
+                //        //7//// Reporte de Orden y Rep Contacto
+                //        if (OrSer_Statu == "004" && Cod_Venta != "001") // Estatus PorPagar , se ejecuto la funcion y es diferente de Venta directa
+                //    {
+                //        RepOrden(concat);// reporte de orden se emite cuando la orden tiene status por pagar 
+                //    }
 
-                  }
+                //  }
 
-                }
+                //}
 
                 }
                 catch (Exception ex)
@@ -6987,8 +7937,9 @@ namespace CapaVisual_Login
                     _FrmMensajes.co = 2;
                     _FrmMensajes.avisomensaje(mensaje);
                     _FrmMensajes.ShowDialog();
-                    command.Transaction.Rollback();
-                    return mensaje;
+                    //command.Transaction.Rollback();
+                    //return mensaje;
+                    throw new Exception("Error factura generada: ");
                 }
                 mensaje = "Se produjo error al hacer el movimiento";
                 _FrmMensajes.co = 2;

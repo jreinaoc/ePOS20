@@ -138,82 +138,164 @@ namespace CapaDatos.DetalleOrden_Datos
             {
                 string Sucursal = _D_Inicio.Sucursal();
 
+                // Usamos using para el comando y para la conexión si es posible
+                using (SqlCommand cmd = new SqlCommand("SP_CPOS_Datos_de_la_Orden", cn.LeerCadena()))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Sucursal", Sucursal);
+                    cmd.Parameters.AddWithValue("@NumeroOrden", NumeroOrden);
+                    cmd.Parameters.AddWithValue("@Revison", Revison);
+
+                    // Abrir conexión si es necesario (depende de tu clase cn)
+                    if (cmd.Connection.State != ConnectionState.Open) cmd.Connection.Open();
+
+                    // El using aquí asegura que el DataReader se cierre AUTOMÁTICAMENTE 
+                    // incluso si hay un error en el while
+                    using (SqlDataReader dataReader = cmd.ExecuteReader())
+                    {
+                        if (dataReader.HasRows)
+                        {
+                            while (dataReader.Read())
+                            {
+                                TB_CAORDSER.Cod_Sucursal = Convert.ToString(dataReader["Cod_Sucursal"]);
+                                TB_CAORDSER.NumOrdserv = Convert.ToString(dataReader["NumOrdserv"]);
+                                TB_CAORDSER.Revision = Convert.ToString(dataReader["Revision"]);
+                                TB_CAORDSER.Fecha = Convert.ToDateTime(dataReader["Fecha"].ToString());
+                                TB_CAORDSER.Cod_Venta = Convert.ToString(dataReader["Cod_Venta"]);
+                                TB_CAORDSER.CTE_Nacio = Convert.ToString(dataReader["CTE_Nacio"]);
+                                TB_CAORDSER.CTE_CedIden = Convert.ToString(dataReader["CTE_CedIden"]);
+                                TB_CAORDSER.NumExamen = dataReader["NumExamen"] == DBNull.Value ? (Int32?)0.00 : Convert.ToInt32(dataReader["NumExamen"]);
+                                TB_CAORDSER.COD_EMPLEADO = Convert.ToString(dataReader["COD_EMPLEADO"]);
+                                TB_CAORDSER.Cod_Laboratorio = Convert.ToString(dataReader["Cod_Laboratorio"]);
+                                TB_CAORDSER.Cod_Servicio = Convert.ToString(dataReader["Cod_Servicio"]);
+                                TB_CAORDSER.Vision = Convert.ToString(dataReader["Vision"]);
+                                TB_CAORDSER.Fec_ofrecido = Convert.ToDateTime(dataReader["Fec_ofrecido"].ToString());
+                                TB_CAORDSER.Hor_ofrecido = Convert.ToString(dataReader["Hor_ofrecido"]);
+                                TB_CAORDSER.Fec_Entrega = dataReader["Fec_Entrega"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(dataReader["Fec_Entrega"]);
+                                TB_CAORDSER.Fec_Envio = dataReader["Fec_Envio"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(dataReader["Fec_Envio"]);
+                                TB_CAORDSER.Fec_Recibido = dataReader["Fec_Recibido"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(dataReader["Fec_Recibido"]);
+                                TB_CAORDSER.VtaSubTotal = Convert.ToDouble(dataReader["VtaSubTotal"]);
+                                TB_CAORDSER.VtaImpuesto = Convert.ToDouble(dataReader["VtaImpuesto"]);
+                                TB_CAORDSER.VtaDescuento = Convert.ToDouble(dataReader["VtaDescuento"]);
+                                TB_CAORDSER.VtaTotal = Convert.ToDouble(dataReader["VtaTotal"]);
+                                TB_CAORDSER.OrSer_Saldo = Convert.ToDouble(dataReader["OrSer_Saldo"]);
+                                TB_CAORDSER.OrSer_Finan = Convert.ToBoolean(dataReader["OrSer_Finan"]);
+                                TB_CAORDSER.OrSer_Status = Convert.ToString(dataReader["OrSer_Status"]);
+                                TB_CAORDSER.OrSer_Observ = Convert.ToString(dataReader["OrSer_Observ"]);
+                                TB_CAORDSER.CodCausa = Convert.ToString(dataReader["CodCausa"]);
+                                TB_CAORDSER.MonturaPropia = dataReader["MonturaPropia"] == DBNull.Value ? (Boolean?)null : Convert.ToBoolean(dataReader["MonturaPropia"]);
+                                TB_CAORDSER.OrSer_fecCrea = Convert.ToDateTime(dataReader["OrSer_fecCrea"].ToString());
+                                TB_CAORDSER.OrSer_FecMod = dataReader["OrSer_FecMod"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(dataReader["OrSer_FecMod"]);
+                                TB_CAORDSER.USER_Crea = Convert.ToString(dataReader["USER_Crea"]);
+                                TB_CAORDSER.USER_Mod = Convert.ToString(dataReader["USER_Mod"]);
+                                TB_CAORDSER.Cod_DetVta = Convert.ToString(dataReader["Cod_DetVta"]);
+                                TB_CAORDSER.Aplica = dataReader["Aplica"] == DBNull.Value ? (Boolean?)null : Convert.ToBoolean(dataReader["Aplica"]);
+                                TB_CAORDSER.OTCORRESPONDIENTE = Convert.ToString(dataReader["OTCORRESPONDIENTE"]);
+                                TB_CAORDSER.Anulado = dataReader["Anulado"] == DBNull.Value ? (Boolean?)null : Convert.ToBoolean(dataReader["Anulado"]);
+                                TB_CAORDSER.Ventaafil = dataReader["Ventaafil"] == DBNull.Value ? (Boolean?)null : Convert.ToBoolean(dataReader["Ventaafil"]);
+                                TB_CAORDSER.cristalpropio = Convert.ToBoolean(dataReader["cristalpropio"]);
+                                TB_CAORDSER.Nota = dataReader["Nota"] == DBNull.Value ? (Boolean?)null : Convert.ToBoolean(dataReader["Nota"]);
+                                TB_CAORDSER.Cuantas = dataReader["Cuantas"] == DBNull.Value ? (Int32?)0.00 : Convert.ToInt32(dataReader["Cuantas"]);
+                                TB_CAORDSER.CodMotivoAnul = Convert.ToString(dataReader["CodMotivoAnul"]);
+                                TB_CAORDSER.FechaAnulacion = dataReader["FechaAnulacion"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(dataReader["FechaAnulacion"]);
+                                TB_CAORDSER.FechaCaja = dataReader["FechaCaja"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(dataReader["FechaCaja"]);
+                                TB_CAORDSER.Cod_ResponsableRev = Convert.ToString(dataReader["Cod_ResponsableRev"]);
+                                TB_CAORDSER.Cod_ResponsableAnu = Convert.ToString(dataReader["Cod_ResponsableAnu"]);
+                                TB_CAORDSER.Asegurada = dataReader["Asegurada"] == DBNull.Value ? (Boolean?)null : Convert.ToBoolean(dataReader["Asegurada"]);
+                                TB_CAORDSER.Exonerada = dataReader["Exonerada"] == DBNull.Value ? (Boolean?)null : Convert.ToBoolean(dataReader["Exonerada"]);
+                                TB_CAORDSER.TipoMonturaPropia = Convert.ToString(dataReader["TipoMonturaPropia"]);
+                                TB_CAORDSER.CodMotivoReposicion = Convert.ToString(dataReader["CodMotivoReposicion"]);
+                                TB_CAORDSER.Cedula_CteAfil = Convert.ToString(dataReader["Cedula_CteAfil"]);
+                                TB_CAORDSER.Codigo_EmpAfil = Convert.ToString(dataReader["Codigo_EmpAfil"]);
+                                TB_CAORDSER.MonturaEnQuorum = dataReader["MonturaEnQuorum"] == DBNull.Value ? (Boolean?)null : Convert.ToBoolean(dataReader["MonturaEnQuorum"]);
+                                TB_CAORDSER.Cod_Coloracion = Convert.ToString(dataReader["Cod_Coloracion"]);
+                                TB_CAORDSER.OS_Externa = Convert.ToString(dataReader["OS_Externa"]);
+                                TB_CAORDSER.OrSer_Saldo_Mon = dataReader["OrSer_Saldo_Mon"] == DBNull.Value ? (Double?)0.00 : Convert.ToDouble(dataReader["OrSer_Saldo_Mon"]);
+                                TB_CAORDSER.OrSer_Tipo_Mon = Convert.ToString(dataReader["OrSer_Tipo_Mon"]);
+                                TB_CAORDSER.Orser_Total_Mon = dataReader["Orser_Total_Mon"] == DBNull.Value ? (Double?)0.00 : Convert.ToDouble(dataReader["Orser_Total_Mon"]);
+                                TB_CAORDSER.VtaImpuestoIGTF = dataReader["VtaImpuestoIGTF"] == DBNull.Value ? (Double?)0.00 : Convert.ToDouble(dataReader["VtaImpuestoIGTF"]);
+                            }
+                        }
+                    } // <--- Aquí el DataReader se destruye y libera la conexión
+                } // <--- Aquí el Command se destruye
+
+
                 ////ejecuto el recalculo de la orden 
                 //RecalcularOrden(Sucursal, NumeroOrden);
 
                 //Busco los datos de la orden; datos que ya estan actualizados (Recalculados)
-                SqlCommand cmd = new SqlCommand("SP_CPOS_Datos_de_la_Orden", cn.LeerCadena());
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@Sucursal", Sucursal);
-                cmd.Parameters.AddWithValue("@NumeroOrden", NumeroOrden);
-                cmd.Parameters.AddWithValue("@Revison", Revison);
-                SqlDataReader dataReader = cmd.ExecuteReader();
+                //SqlCommand cmd = new SqlCommand("SP_CPOS_Datos_de_la_Orden", cn.LeerCadena());
+                //cmd.CommandType = CommandType.StoredProcedure;
+                //cmd.Parameters.AddWithValue("@Sucursal", Sucursal);
+                //cmd.Parameters.AddWithValue("@NumeroOrden", NumeroOrden);
+                //cmd.Parameters.AddWithValue("@Revison", Revison);
+                //SqlDataReader dataReader = cmd.ExecuteReader();
 
-                if (dataReader.HasRows)
-                {
+                //if (dataReader.HasRows)
+                //{
 
-                    while (dataReader.Read())
-                    {
-                        TB_CAORDSER.Cod_Sucursal = Convert.ToString(dataReader["Cod_Sucursal"]);
-                        TB_CAORDSER.NumOrdserv = Convert.ToString(dataReader["NumOrdserv"]);
-                        TB_CAORDSER.Revision = Convert.ToString(dataReader["Revision"]);
-                        TB_CAORDSER.Fecha = Convert.ToDateTime(dataReader["Fecha"].ToString());
-                        TB_CAORDSER.Cod_Venta = Convert.ToString(dataReader["Cod_Venta"]);
-                        TB_CAORDSER.CTE_Nacio = Convert.ToString(dataReader["CTE_Nacio"]);
-                        TB_CAORDSER.CTE_CedIden = Convert.ToString(dataReader["CTE_CedIden"]);
-                        TB_CAORDSER.NumExamen = dataReader["NumExamen"] == DBNull.Value ? (Int32?)0.00 : Convert.ToInt32(dataReader["NumExamen"]);
-                        TB_CAORDSER.COD_EMPLEADO = Convert.ToString(dataReader["COD_EMPLEADO"]);
-                        TB_CAORDSER.Cod_Laboratorio = Convert.ToString(dataReader["Cod_Laboratorio"]);
-                        TB_CAORDSER.Cod_Servicio = Convert.ToString(dataReader["Cod_Servicio"]);
-                        TB_CAORDSER.Vision = Convert.ToString(dataReader["Vision"]);
-                        TB_CAORDSER.Fec_ofrecido = Convert.ToDateTime(dataReader["Fec_ofrecido"].ToString());
-                        TB_CAORDSER.Hor_ofrecido = Convert.ToString(dataReader["Hor_ofrecido"]);
-                        TB_CAORDSER.Fec_Entrega = dataReader["Fec_Entrega"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(dataReader["Fec_Entrega"]);
-                        TB_CAORDSER.Fec_Envio = dataReader["Fec_Envio"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(dataReader["Fec_Envio"]);
-                        TB_CAORDSER.Fec_Recibido = dataReader["Fec_Recibido"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(dataReader["Fec_Recibido"]);
-                        TB_CAORDSER.VtaSubTotal = Convert.ToDouble(dataReader["VtaSubTotal"]);
-                        TB_CAORDSER.VtaImpuesto = Convert.ToDouble(dataReader["VtaImpuesto"]);
-                        TB_CAORDSER.VtaDescuento = Convert.ToDouble(dataReader["VtaDescuento"]);
-                        TB_CAORDSER.VtaTotal = Convert.ToDouble(dataReader["VtaTotal"]);
-                        TB_CAORDSER.OrSer_Saldo = Convert.ToDouble(dataReader["OrSer_Saldo"]);
-                        TB_CAORDSER.OrSer_Finan = Convert.ToBoolean(dataReader["OrSer_Finan"]);
-                        TB_CAORDSER.OrSer_Status = Convert.ToString(dataReader["OrSer_Status"]);
-                        TB_CAORDSER.OrSer_Observ = Convert.ToString(dataReader["OrSer_Observ"]);
-                        TB_CAORDSER.CodCausa = Convert.ToString(dataReader["CodCausa"]);
-                        TB_CAORDSER.MonturaPropia = dataReader["MonturaPropia"] == DBNull.Value ? (Boolean?)null : Convert.ToBoolean(dataReader["MonturaPropia"]);
-                        TB_CAORDSER.OrSer_fecCrea = Convert.ToDateTime(dataReader["OrSer_fecCrea"].ToString());
-                        TB_CAORDSER.OrSer_FecMod = dataReader["OrSer_FecMod"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(dataReader["OrSer_FecMod"]);
-                        TB_CAORDSER.USER_Crea = Convert.ToString(dataReader["USER_Crea"]);
-                        TB_CAORDSER.USER_Mod = Convert.ToString(dataReader["USER_Mod"]);
-                        TB_CAORDSER.Cod_DetVta = Convert.ToString(dataReader["Cod_DetVta"]);
-                        TB_CAORDSER.Aplica = dataReader["Aplica"] == DBNull.Value ? (Boolean?)null : Convert.ToBoolean(dataReader["Aplica"]);
-                        TB_CAORDSER.OTCORRESPONDIENTE = Convert.ToString(dataReader["OTCORRESPONDIENTE"]);
-                        TB_CAORDSER.Anulado = dataReader["Anulado"] == DBNull.Value ? (Boolean?)null : Convert.ToBoolean(dataReader["Anulado"]);
-                        TB_CAORDSER.Ventaafil = dataReader["Ventaafil"] == DBNull.Value ? (Boolean?)null : Convert.ToBoolean(dataReader["Ventaafil"]);
-                        TB_CAORDSER.cristalpropio = Convert.ToBoolean(dataReader["cristalpropio"]);
-                        TB_CAORDSER.Nota = dataReader["Nota"] == DBNull.Value ? (Boolean?)null : Convert.ToBoolean(dataReader["Nota"]);
-                        TB_CAORDSER.Cuantas = dataReader["Cuantas"] == DBNull.Value ? (Int32?)0.00 : Convert.ToInt32(dataReader["Cuantas"]);
-                        TB_CAORDSER.CodMotivoAnul = Convert.ToString(dataReader["CodMotivoAnul"]);
-                        TB_CAORDSER.FechaAnulacion = dataReader["FechaAnulacion"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(dataReader["FechaAnulacion"]);
-                        TB_CAORDSER.FechaCaja = dataReader["FechaCaja"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(dataReader["FechaCaja"]);
-                        TB_CAORDSER.Cod_ResponsableRev = Convert.ToString(dataReader["Cod_ResponsableRev"]);
-                        TB_CAORDSER.Cod_ResponsableAnu = Convert.ToString(dataReader["Cod_ResponsableAnu"]);
-                        TB_CAORDSER.Asegurada = dataReader["Asegurada"] == DBNull.Value ? (Boolean?)null : Convert.ToBoolean(dataReader["Asegurada"]);
-                        TB_CAORDSER.Exonerada = dataReader["Exonerada"] == DBNull.Value ? (Boolean?)null : Convert.ToBoolean(dataReader["Exonerada"]);
-                        TB_CAORDSER.TipoMonturaPropia = Convert.ToString(dataReader["TipoMonturaPropia"]);
-                        TB_CAORDSER.CodMotivoReposicion = Convert.ToString(dataReader["CodMotivoReposicion"]);
-                        TB_CAORDSER.Cedula_CteAfil = Convert.ToString(dataReader["Cedula_CteAfil"]);
-                        TB_CAORDSER.Codigo_EmpAfil = Convert.ToString(dataReader["Codigo_EmpAfil"]);
-                        TB_CAORDSER.MonturaEnQuorum = dataReader["MonturaEnQuorum"] == DBNull.Value ? (Boolean?)null : Convert.ToBoolean(dataReader["MonturaEnQuorum"]);
-                        TB_CAORDSER.Cod_Coloracion = Convert.ToString(dataReader["Cod_Coloracion"]);
-                        TB_CAORDSER.OS_Externa = Convert.ToString(dataReader["OS_Externa"]);
-                        TB_CAORDSER.OrSer_Saldo_Mon = dataReader["OrSer_Saldo_Mon"] == DBNull.Value ? (Double?)0.00 : Convert.ToDouble(dataReader["OrSer_Saldo_Mon"]);
-                        TB_CAORDSER.OrSer_Tipo_Mon = Convert.ToString(dataReader["OrSer_Tipo_Mon"]);
-                        TB_CAORDSER.Orser_Total_Mon = dataReader["Orser_Total_Mon"] == DBNull.Value ? (Double?)0.00 : Convert.ToDouble(dataReader["Orser_Total_Mon"]);
-                        TB_CAORDSER.VtaImpuestoIGTF = dataReader["VtaImpuestoIGTF"] == DBNull.Value ? (Double?)0.00 : Convert.ToDouble(dataReader["VtaImpuestoIGTF"]);
-                    }
+                //    while (dataReader.Read())
+                //    {
+                //        TB_CAORDSER.Cod_Sucursal = Convert.ToString(dataReader["Cod_Sucursal"]);
+                //        TB_CAORDSER.NumOrdserv = Convert.ToString(dataReader["NumOrdserv"]);
+                //        TB_CAORDSER.Revision = Convert.ToString(dataReader["Revision"]);
+                //        TB_CAORDSER.Fecha = Convert.ToDateTime(dataReader["Fecha"].ToString());
+                //        TB_CAORDSER.Cod_Venta = Convert.ToString(dataReader["Cod_Venta"]);
+                //        TB_CAORDSER.CTE_Nacio = Convert.ToString(dataReader["CTE_Nacio"]);
+                //        TB_CAORDSER.CTE_CedIden = Convert.ToString(dataReader["CTE_CedIden"]);
+                //        TB_CAORDSER.NumExamen = dataReader["NumExamen"] == DBNull.Value ? (Int32?)0.00 : Convert.ToInt32(dataReader["NumExamen"]);
+                //        TB_CAORDSER.COD_EMPLEADO = Convert.ToString(dataReader["COD_EMPLEADO"]);
+                //        TB_CAORDSER.Cod_Laboratorio = Convert.ToString(dataReader["Cod_Laboratorio"]);
+                //        TB_CAORDSER.Cod_Servicio = Convert.ToString(dataReader["Cod_Servicio"]);
+                //        TB_CAORDSER.Vision = Convert.ToString(dataReader["Vision"]);
+                //        TB_CAORDSER.Fec_ofrecido = Convert.ToDateTime(dataReader["Fec_ofrecido"].ToString());
+                //        TB_CAORDSER.Hor_ofrecido = Convert.ToString(dataReader["Hor_ofrecido"]);
+                //        TB_CAORDSER.Fec_Entrega = dataReader["Fec_Entrega"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(dataReader["Fec_Entrega"]);
+                //        TB_CAORDSER.Fec_Envio = dataReader["Fec_Envio"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(dataReader["Fec_Envio"]);
+                //        TB_CAORDSER.Fec_Recibido = dataReader["Fec_Recibido"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(dataReader["Fec_Recibido"]);
+                //        TB_CAORDSER.VtaSubTotal = Convert.ToDouble(dataReader["VtaSubTotal"]);
+                //        TB_CAORDSER.VtaImpuesto = Convert.ToDouble(dataReader["VtaImpuesto"]);
+                //        TB_CAORDSER.VtaDescuento = Convert.ToDouble(dataReader["VtaDescuento"]);
+                //        TB_CAORDSER.VtaTotal = Convert.ToDouble(dataReader["VtaTotal"]);
+                //        TB_CAORDSER.OrSer_Saldo = Convert.ToDouble(dataReader["OrSer_Saldo"]);
+                //        TB_CAORDSER.OrSer_Finan = Convert.ToBoolean(dataReader["OrSer_Finan"]);
+                //        TB_CAORDSER.OrSer_Status = Convert.ToString(dataReader["OrSer_Status"]);
+                //        TB_CAORDSER.OrSer_Observ = Convert.ToString(dataReader["OrSer_Observ"]);
+                //        TB_CAORDSER.CodCausa = Convert.ToString(dataReader["CodCausa"]);
+                //        TB_CAORDSER.MonturaPropia = dataReader["MonturaPropia"] == DBNull.Value ? (Boolean?)null : Convert.ToBoolean(dataReader["MonturaPropia"]);
+                //        TB_CAORDSER.OrSer_fecCrea = Convert.ToDateTime(dataReader["OrSer_fecCrea"].ToString());
+                //        TB_CAORDSER.OrSer_FecMod = dataReader["OrSer_FecMod"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(dataReader["OrSer_FecMod"]);
+                //        TB_CAORDSER.USER_Crea = Convert.ToString(dataReader["USER_Crea"]);
+                //        TB_CAORDSER.USER_Mod = Convert.ToString(dataReader["USER_Mod"]);
+                //        TB_CAORDSER.Cod_DetVta = Convert.ToString(dataReader["Cod_DetVta"]);
+                //        TB_CAORDSER.Aplica = dataReader["Aplica"] == DBNull.Value ? (Boolean?)null : Convert.ToBoolean(dataReader["Aplica"]);
+                //        TB_CAORDSER.OTCORRESPONDIENTE = Convert.ToString(dataReader["OTCORRESPONDIENTE"]);
+                //        TB_CAORDSER.Anulado = dataReader["Anulado"] == DBNull.Value ? (Boolean?)null : Convert.ToBoolean(dataReader["Anulado"]);
+                //        TB_CAORDSER.Ventaafil = dataReader["Ventaafil"] == DBNull.Value ? (Boolean?)null : Convert.ToBoolean(dataReader["Ventaafil"]);
+                //        TB_CAORDSER.cristalpropio = Convert.ToBoolean(dataReader["cristalpropio"]);
+                //        TB_CAORDSER.Nota = dataReader["Nota"] == DBNull.Value ? (Boolean?)null : Convert.ToBoolean(dataReader["Nota"]);
+                //        TB_CAORDSER.Cuantas = dataReader["Cuantas"] == DBNull.Value ? (Int32?)0.00 : Convert.ToInt32(dataReader["Cuantas"]);
+                //        TB_CAORDSER.CodMotivoAnul = Convert.ToString(dataReader["CodMotivoAnul"]);
+                //        TB_CAORDSER.FechaAnulacion = dataReader["FechaAnulacion"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(dataReader["FechaAnulacion"]);
+                //        TB_CAORDSER.FechaCaja = dataReader["FechaCaja"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(dataReader["FechaCaja"]);
+                //        TB_CAORDSER.Cod_ResponsableRev = Convert.ToString(dataReader["Cod_ResponsableRev"]);
+                //        TB_CAORDSER.Cod_ResponsableAnu = Convert.ToString(dataReader["Cod_ResponsableAnu"]);
+                //        TB_CAORDSER.Asegurada = dataReader["Asegurada"] == DBNull.Value ? (Boolean?)null : Convert.ToBoolean(dataReader["Asegurada"]);
+                //        TB_CAORDSER.Exonerada = dataReader["Exonerada"] == DBNull.Value ? (Boolean?)null : Convert.ToBoolean(dataReader["Exonerada"]);
+                //        TB_CAORDSER.TipoMonturaPropia = Convert.ToString(dataReader["TipoMonturaPropia"]);
+                //        TB_CAORDSER.CodMotivoReposicion = Convert.ToString(dataReader["CodMotivoReposicion"]);
+                //        TB_CAORDSER.Cedula_CteAfil = Convert.ToString(dataReader["Cedula_CteAfil"]);
+                //        TB_CAORDSER.Codigo_EmpAfil = Convert.ToString(dataReader["Codigo_EmpAfil"]);
+                //        TB_CAORDSER.MonturaEnQuorum = dataReader["MonturaEnQuorum"] == DBNull.Value ? (Boolean?)null : Convert.ToBoolean(dataReader["MonturaEnQuorum"]);
+                //        TB_CAORDSER.Cod_Coloracion = Convert.ToString(dataReader["Cod_Coloracion"]);
+                //        TB_CAORDSER.OS_Externa = Convert.ToString(dataReader["OS_Externa"]);
+                //        TB_CAORDSER.OrSer_Saldo_Mon = dataReader["OrSer_Saldo_Mon"] == DBNull.Value ? (Double?)0.00 : Convert.ToDouble(dataReader["OrSer_Saldo_Mon"]);
+                //        TB_CAORDSER.OrSer_Tipo_Mon = Convert.ToString(dataReader["OrSer_Tipo_Mon"]);
+                //        TB_CAORDSER.Orser_Total_Mon = dataReader["Orser_Total_Mon"] == DBNull.Value ? (Double?)0.00 : Convert.ToDouble(dataReader["Orser_Total_Mon"]);
+                //        TB_CAORDSER.VtaImpuestoIGTF = dataReader["VtaImpuestoIGTF"] == DBNull.Value ? (Double?)0.00 : Convert.ToDouble(dataReader["VtaImpuestoIGTF"]);
+                //    }
 
-                }
+                //}
             }
             catch (Exception ex)
             {

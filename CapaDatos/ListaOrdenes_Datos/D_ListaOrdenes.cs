@@ -15,47 +15,116 @@ namespace CapaDatos.ListaOrdenes_Datos
 
         public DataSet CargarOrdenes(string Fecha, string Status, string Orden, string Cedula, int Inicio = 1, int Final= 12)
         {
-            SqlCommand cmd = new SqlCommand("SP_CPOS_BuscarOrdenesListaOrdenes", cn.LeerCadena());
+            // 1. Obtenemos la conexión y la envolvemos en un using
+            using (SqlConnection connection = cn.LeerCadena())
+            {
+                try
+                {
+                    // 2. Creamos el comando asociado a esa conexión
+                    using (SqlCommand cmd = new SqlCommand("SP_CPOS_BuscarOrdenesListaOrdenes", connection))
+                    {
+                        // ESTA ES LA LÍNEA QUE FALTA:
+                        cmd.CommandType = CommandType.StoredProcedure;
 
-            cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@Fecha", Fecha);
+                        cmd.Parameters.AddWithValue("@Status", Status);
+                        cmd.Parameters.AddWithValue("@Orden", Orden);
+                        cmd.Parameters.AddWithValue("@Cedula", Cedula);
+                        cmd.Parameters.AddWithValue("@Inicio", Inicio);
+                        cmd.Parameters.AddWithValue("@Final", Final);
 
-            cmd.Parameters.AddWithValue("@Fecha", Fecha);
-            cmd.Parameters.AddWithValue("@Status", Status);
-            cmd.Parameters.AddWithValue("@Orden", Orden);
-            cmd.Parameters.AddWithValue("@Cedula", Cedula);
-            cmd.Parameters.AddWithValue("@Inicio", Inicio);
-            cmd.Parameters.AddWithValue("@Final", Final);
+                        // 3. Verificamos que esté abierta (por si LeerCadena no la abre)
+                        if (connection.State == ConnectionState.Closed) connection.Open();
 
-            DataSet dts = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter(cmd);
-            da.Fill(dts);
-            return (dts);
+                        DataSet dts = new DataSet();
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dts);
+                        }
+                        return dts;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Log de error (opcional)
+                    return null;
+                }
+            } // <--- AQUÍ la conexión se cierra y desaparece del sp_who2 automáticamente
+
+            //SqlCommand cmd = new SqlCommand("SP_CPOS_BuscarOrdenesListaOrdenes", cn.LeerCadena());
+
+            //cmd.CommandType = CommandType.StoredProcedure;
+
+            //cmd.Parameters.AddWithValue("@Fecha", Fecha);
+            //cmd.Parameters.AddWithValue("@Status", Status);
+            //cmd.Parameters.AddWithValue("@Orden", Orden);
+            //cmd.Parameters.AddWithValue("@Cedula", Cedula);
+            //cmd.Parameters.AddWithValue("@Inicio", Inicio);
+            //cmd.Parameters.AddWithValue("@Final", Final);
+
+            //DataSet dts = new DataSet();
+            //SqlDataAdapter da = new SqlDataAdapter(cmd);
+            //da.Fill(dts);
+            //return (dts);
 
         }
         public DataSet CargarOrdPorRango(string Fechadesde, string Fechahasta, string Status, string Cedula, int Inicio = 1, int Final = 12)
         {
-            try
+            // 1. Obtenemos la conexión y la envolvemos en un using
+            using (SqlConnection connection = cn.LeerCadena())
             {
-                SqlCommand cmd = new SqlCommand("SP_CPOS_BuscarOrdenesporRango", cn.LeerCadena());
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@Fechadesde", Fechadesde);
-                cmd.Parameters.AddWithValue("@Fechahasta", Fechahasta);
-                cmd.Parameters.AddWithValue("@Status", Status);
-                cmd.Parameters.AddWithValue("@Cedula", Cedula);
-                cmd.Parameters.AddWithValue("@Inicio", Inicio);
-                cmd.Parameters.AddWithValue("@Final", Final);
+                try
+                {
+                    // 2. Creamos el comando asociado a esa conexión
+                    using (SqlCommand cmd = new SqlCommand("SP_CPOS_BuscarOrdenesporRango", connection))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@Fechadesde", Fechadesde);
+                        cmd.Parameters.AddWithValue("@Fechahasta", Fechahasta);
+                        cmd.Parameters.AddWithValue("@Status", Status);
+                        cmd.Parameters.AddWithValue("@Cedula", Cedula);
+                        cmd.Parameters.AddWithValue("@Inicio", Inicio);
+                        cmd.Parameters.AddWithValue("@Final", Final);
 
-                DataSet dts = new DataSet();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dts);
-                return (dts);
-            }
+                        // 3. Verificamos que esté abierta (por si LeerCadena no la abre)
+                        if (connection.State == ConnectionState.Closed) connection.Open();
 
-            catch (Exception ex)
-            {
-                return null;
-                //MessageBox.Show(string.Format("Error: {0}", ex.Message), "Error inesperado");
-            }
+                        DataSet dts = new DataSet();
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dts);
+                        }
+                        return dts;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Log de error (opcional)
+                    return null;
+                }
+            } // <--- AQUÍ la conexión se cierra y desaparece del sp_who2 automáticamente
+            //try
+            //{
+            //    SqlCommand cmd = new SqlCommand("SP_CPOS_BuscarOrdenesporRango", cn.LeerCadena());
+            //    cmd.CommandType = CommandType.StoredProcedure;
+            //    cmd.Parameters.AddWithValue("@Fechadesde", Fechadesde);
+            //    cmd.Parameters.AddWithValue("@Fechahasta", Fechahasta);
+            //    cmd.Parameters.AddWithValue("@Status", Status);
+            //    cmd.Parameters.AddWithValue("@Cedula", Cedula);
+            //    cmd.Parameters.AddWithValue("@Inicio", Inicio);
+            //    cmd.Parameters.AddWithValue("@Final", Final);
+
+            //    DataSet dts = new DataSet();
+            //    SqlDataAdapter da = new SqlDataAdapter(cmd);
+            //    da.Fill(dts);
+            //    return (dts);
+            //}
+
+            //catch (Exception ex)
+            //{
+            //    return null;
+            //    //MessageBox.Show(string.Format("Error: {0}", ex.Message), "Error inesperado");
+            //}
 
         }
 

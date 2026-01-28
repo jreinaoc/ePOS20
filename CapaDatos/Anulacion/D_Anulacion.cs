@@ -207,34 +207,62 @@ public DataTable TraerOrdenDet(string NumOrden , SqlCommand command = null)  // 
         }
         public void CaragarAuditor(string CodSucursal, string CodAccion, string CodEmpleado, string Detalles, SqlCommand command = null)
         {
+            // Usamos una variable local para no sobreescribir el parámetro original
+            SqlCommand cmdActivo = command;
+            bool connectionCreatedHere = false;
+
             try
             {
+                if (cmdActivo == null)
+                {
+                    // Si no viene comando, creamos uno con su propia conexión
+                    SqlConnection connection = cn.LeerCadena();
+                    cmdActivo = connection.CreateCommand();
+                    connectionCreatedHere = true;
+                }
 
-                if (command == null)
-            {
-                SqlConnection connection = cn.LeerCadena();
-                command = connection.CreateCommand();
-            }
-            SqlCommand cmd = command;
-            cmd.CommandText ="SP_CPOS_CARGAR_AUDITOR";
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@CodSucursal", CodSucursal);
-            cmd.Parameters.AddWithValue("@CodAccion", CodAccion);
-            cmd.Parameters.AddWithValue("@CarnetUsusario", CodEmpleado);
-            cmd.Parameters.AddWithValue("@Detalles", Detalles);
-            DataTable dt = new DataTable();
-            SqlDataAdapter da = new SqlDataAdapter(cmd);
-            da.Fill(dt);
-            cmd.Parameters.Clear();
+                cmdActivo.CommandText = "SP_CPOS_CARGAR_AUDITOR";
+                cmdActivo.CommandType = CommandType.StoredProcedure;
+
+                // Limpiamos por si el comando viene de otra función previa
+                cmdActivo.Parameters.Clear();
+                cmdActivo.Parameters.AddWithValue("@CodSucursal", CodSucursal);
+                cmdActivo.Parameters.AddWithValue("@CodAccion", CodAccion);
+                cmdActivo.Parameters.AddWithValue("@CarnetUsusario", CodEmpleado);
+                cmdActivo.Parameters.AddWithValue("@Detalles", Detalles);
+
+                if (cmdActivo.Connection.State != ConnectionState.Open)
+                    cmdActivo.Connection.Open();
+
+                // Si es un INSERT de auditoría, no necesitas DataTable ni DataAdapter. 
+                // ExecuteNonQuery es mucho más rápido y ligero.
+                cmdActivo.ExecuteNonQuery();
             }
             catch (Exception ex)
             {
-                string Error = string.Format("Error: {0}", ex.Message);
-             
+                // Importante: Si vas a capturar el error, al menos regístralo.
+                //Debug.WriteLine("Error en Auditoría: " + ex.Message);
+                throw; // Re-lanzar ayuda a que la transacción principal sepa que falló
             }
-
+            finally
+            {
+                // ¡LA CLAVE! Si nosotros creamos la conexión aquí, nosotros la CERRAMOS.
+                if (connectionCreatedHere && cmdActivo != null)
+                {
+                    if (cmdActivo.Connection != null)
+                    {
+                        cmdActivo.Connection.Close();
+                        cmdActivo.Connection.Dispose();
+                    }
+                    cmdActivo.Dispose();
+                }
+                else if (cmdActivo != null)
+                {
+                    // Si el comando venía de afuera, solo limpiamos parámetros para no ensuciar la transacción
+                    cmdActivo.Parameters.Clear();
+                }
+            }
         }
-
         public string ObtenerNroNota (string NroOrden, string CodSuc, string Revision, SqlCommand command = null)
         {
             try

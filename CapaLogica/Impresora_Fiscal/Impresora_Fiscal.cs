@@ -431,7 +431,7 @@ namespace CapaLogica.Impresora_Fiscal
                     objVmax.CerrarPuerto();
                     stringBuilder.Append(Environment.NewLine + "No hay conexión con la impresora fiscal");
                     Conexion = false;
-                    AgregarAccionPendiente("096"); // "Fallo en apertura de puerto"
+                    //AgregarAccionPendiente("096"); // "Fallo en apertura de puerto"
                     _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, "No hay conexión con la impresora fiscal");
 
                 }

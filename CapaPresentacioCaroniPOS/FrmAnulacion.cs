@@ -584,7 +584,7 @@ namespace CapaVisual_Login
                         _FrmMensajes.co = 2;
                         _FrmMensajes.avisomensaje("No hay conexión con la impresora fiscal");
                         _FrmMensajes.ShowDialog();
-                        Impresora_Fiscal.AgregarAccionPendiente("096");
+                        //Impresora_Fiscal.AgregarAccionPendiente("096");
                        return StatusNoataCredito;
 
                 }
@@ -603,7 +603,7 @@ namespace CapaVisual_Login
                             _FrmMensajes.co = 2;
                             _FrmMensajes.avisomensaje("Error inesperado, al generar la NC");
                             _FrmMensajes.ShowDialog();
-                            Impresora_Fiscal.AgregarAccionPendiente("096");
+                            //Impresora_Fiscal.AgregarAccionPendiente("096");
                         return StatusNoataCredito;
                         }
 
@@ -764,7 +764,7 @@ namespace CapaVisual_Login
                         }
                         else
                         {
-                            Impresora_Fiscal.AgregarAccionPendiente("100");
+                            //Impresora_Fiscal.AgregarAccionPendiente("100");
                             StatusNoataCredito = false;
                             _FrmMensajes.co = 2;
                             _FrmMensajes.avisomensaje("No se pudo verificar la emisión del ticket.");
