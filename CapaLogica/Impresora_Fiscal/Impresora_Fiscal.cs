@@ -401,7 +401,15 @@ namespace CapaLogica.Impresora_Fiscal
 
             try
             {
+
                 VmaxComVe.VmaxComClass objVmax = new VmaxComVe.VmaxComClass();
+
+                //objVmax.ObtenerReporteInformativo();
+                //objVmax.AbrirPuerto(glbPuertoCOM.ToString());
+                //objVmax.ObtenerContadores();
+                //objVmax.CerrarPuerto();
+                //string UltimoNumeroFacturaCancelado2 = objVmax.RetornoContadores.uiUltFacturaAnulada.ToString().PadLeft(7, '0');
+
                 uint ret = 0;
                 uint Prueba = 0;
                 ret = objVmax.AbrirPuerto(Convert.ToString(glbPuertoCOM));
@@ -431,8 +439,8 @@ namespace CapaLogica.Impresora_Fiscal
                     objVmax.CerrarPuerto();
                     stringBuilder.Append(Environment.NewLine + "No hay conexión con la impresora fiscal");
                     Conexion = false;
-                    AgregarAccionPendiente("096"); // "Fallo en apertura de puerto"
-                    _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, "No hay conexión con la impresora fiscal");
+                    //AgregarAccionPendiente("096"); // "Fallo en apertura de puerto"
+                    //_D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, "No hay conexión con la impresora fiscal");
 
                 }
 
@@ -473,11 +481,11 @@ namespace CapaLogica.Impresora_Fiscal
         // Diccionario estático con todos los códigos predefinidos
         public static readonly Dictionary<string, string> _accionesPredefinidas = new Dictionary<string, string>
         {
-            { "096", "Fallo en la apertura del puerto" },
+            //{ "096", "Fallo en la apertura del puerto" },
             { "097", "Ausencia de papel o Tapa Abierta" },
             { "098", "numero de factura o serial de impresora fiscal en blanco" },
             { "099", "Discrepancia en totales" },
-            { "100", "Numero de factura invalido o ya anulado" },
+            //{ "100", "Numero de factura invalido o ya anulado" },
             { "101", "Violacion de calve primaria en la Base de datos" }
         };
 
