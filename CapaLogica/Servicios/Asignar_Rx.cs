@@ -53,7 +53,7 @@ namespace CapaLogica.Servicios
 
             return datosTrabajo;
         }
-        public bool AsignarRx(string GlbCodDetVta, string OSaModificar, string sucursal, string nacio, string cediden, string Examen, string Numero_Orden, System.Windows.Forms.ListView LbResultado2, System.Windows.Forms.ListView LbResultados, System.Windows.Forms.DataGridView dgvRangoCrt, string Laboratorio, string Servicio, string medDisV, string medAngF, string medAngP)
+        public bool AsignarRx(string GlbCodDetVta, string OSaModificar, string sucursal, string nacio, string cediden, string Examen, string Numero_Orden, System.Windows.Forms.ListView LbResultado2, System.Windows.Forms.ListView LbResultados, System.Windows.Forms.DataGridView dgvRangoCrt, string Laboratorio, string Servicio, string medDisV, string medAngP, string medAngF )
         //public bool AsignarRx(string GlbCodDetVta, string OSaModificar, string sucursal, string nacio, string cediden, string Examen, string Numero_Orden, System.Windows.Forms.ListView LbResultado2, System.Windows.Forms.ListView LbResultados, System.Windows.Forms.DataGridView dgvRangoCrt, string Laboratorio, string Servicio, string medDisV, string medAngF, string medAngP, List<(string nombre, string valor)> DatosPanle2 )
         {
             stringBuilder.Clear();
@@ -235,9 +235,9 @@ namespace CapaLogica.Servicios
                 _Trabajo.T_TIPOVISIOND,
                 _Trabajo.T_TIPOVISIONI,
                 Montura,
-    (_Trabajo.T_HORIZONTAL?.ToString().Replace(".", "") ?? "0"),
-    (_Trabajo.T_MAXIMA?.ToString().Replace(".", "") ?? "0"),
-    (_Trabajo.T_PUENTE?.ToString().Replace(".", "") ?? "0"),
+                (decimal)Convert.ToDecimal(_Trabajo.T_HORIZONTAL),
+                (decimal)Convert.ToDecimal(_Trabajo.T_MAXIMA),
+                (decimal)Convert.ToDecimal(_Trabajo.T_PUENTE),
              sucursal, command);
 
             if (Convert.ToInt32(dsDiametroEfectivo.Tables[1].Rows[0][0]) > 0)
@@ -359,7 +359,7 @@ namespace CapaLogica.Servicios
 
                 // Validación de parámetros
 
-                if (Enumerable.Range(1, 16).All(x => dsParamCRT.Tables[2].Rows[0][x].ToString() == "1"))
+                if (Enumerable.Range(0, 16).All(x => dsParamCRT.Tables[2].Rows[0][x].ToString() == "1"))
                 {
                     AceptaCristalD = true;
                 }
@@ -375,7 +375,7 @@ namespace CapaLogica.Servicios
                     }
                 }
 
-                if (Enumerable.Range(1, 16).All(x => dsParamCRT2.Tables[2].Rows[0][x].ToString() == "1"))
+                if (Enumerable.Range(0, 16).All(x => dsParamCRT2.Tables[2].Rows[0][x].ToString() == "1"))
                 {
                     AceptaCristalI = true;
                 }
@@ -395,7 +395,7 @@ namespace CapaLogica.Servicios
             {
                 dsParamCRT = _D_Articulo.MostrarRangosCrtGrid(nacionalidad, cedula, Examen, CristalD, "D", _Trabajo.T_TIPOVISIOND, Convert.ToDecimal(_Trabajo.T_ALTD), 0, Convert.ToDecimal(_Trabajo.T_DISTANCIAVERTICE), Convert.ToDecimal(_Trabajo.T_ANGULOFACIAL), Convert.ToDecimal(_Trabajo.T_ANGULOPANTOSCOPICO), "", Servicio, Laboratorio, medDisV, medAngF, medAngP, Convert.ToString(_Trabajo.T_DISTANCIADELECTURA), command);
 
-                AceptaCristalD = Enumerable.Range(1, 16).All(x => dsParamCRT.Tables[2].Rows[0][x].ToString() == "1");
+                AceptaCristalD = Enumerable.Range(0, 16).All(x => dsParamCRT.Tables[2].Rows[0][x].ToString() == "1");
                 AceptaCristalI = AceptaCristalD;
 
                 if (!AceptaCristalD)
@@ -413,7 +413,7 @@ namespace CapaLogica.Servicios
             {
                 dsParamCRT2 = _D_Articulo.MostrarRangosCrtGrid(nacionalidad, cedula, Examen, CristalI, "I", _Trabajo.T_TIPOVISIONI, Convert.ToDecimal(_Trabajo.T_ALTI), 0, Convert.ToDecimal(_Trabajo.T_DISTANCIAVERTICE), Convert.ToDecimal(_Trabajo.T_ANGULOFACIAL), Convert.ToDecimal(_Trabajo.T_ANGULOPANTOSCOPICO), "", Servicio, Laboratorio, medDisV, medAngF, medAngP, Convert.ToString(_Trabajo.T_DISTANCIADELECTURA), command);
 
-                AceptaCristalI = Enumerable.Range(1, 16).All(x => dsParamCRT2.Tables[2].Rows[0][x].ToString() == "1");
+                AceptaCristalI = Enumerable.Range(0, 16).All(x => dsParamCRT2.Tables[2].Rows[0][x].ToString() == "1");
                 AceptaCristalD = AceptaCristalI;
 
                 if (!AceptaCristalI)
@@ -807,7 +807,7 @@ namespace CapaLogica.Servicios
                     ((examen.ESFI != examen.ESFD) || (examen.CILI != examen.CILD) ||
                      (examen.EJEI != examen.EJED) || (examen.ADDI != examen.ADDD) ||
                      (examenConv.DPIC != examenConv.DPDC) || (examenConv.DPIL != examenConv.DPDL) ||
-                     (examenConv.ALTI != examenConv.ALTD) || (examenConv.AVI != examenConv.AVD) ||
+                     (txtAltI.Text != txtAltD.Text) || (examenConv.AVI != examenConv.AVD) ||
                      (examenConv.PRISMAI != examenConv.PRISMAD) || (examenConv.PBASEI != examenConv.PBASED)))
                 {
                     mostrarError("Este exámen debe contener los mismos datos para el tipo de visión Balance. Modifíquelo, Agregue o Seleccione otro.");

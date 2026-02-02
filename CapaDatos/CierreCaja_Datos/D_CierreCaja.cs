@@ -642,6 +642,13 @@ namespace CapaDatos.CierreCaja_Datos
                 SqlCommand cmd = command;
                 cmd.Parameters.Clear();
 
+                // VERIFICAR COMANDO - EN VARIABLES
+                string commandText = cmd.CommandText;
+                string commandType = cmd.CommandType.ToString();
+                string connectionState = cmd.Connection?.State.ToString();
+                cmd.Parameters.Clear();
+                cmd.CommandText = "";
+
                 cmd.CommandText = "SP_ACTUALIZAFACTURAS01";
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@Sucursal", sucursal);

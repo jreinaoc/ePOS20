@@ -239,6 +239,9 @@ namespace CapaVisual_Login
                 DgvListadoOrdenes.Columns["Comprobante_ISLR_Numero"].Visible = false;
                 DgvListadoOrdenes.Columns["Revision"].Visible = false;
                 DgvListadoOrdenes.Columns["Numero"].Visible = false;
+                DgvListadoOrdenes.Columns["Cod_DetVta"].Visible = false;
+                DgvListadoOrdenes.Columns["OrSer_Status"].Visible = false;
+
 
                 // nuevo 21-08-2023 
                 DgvListadoOrdenes.Columns["Monto"].DefaultCellStyle.Format = "##,##0.00";
@@ -614,7 +617,15 @@ namespace CapaVisual_Login
                         }
 
                         DtpDesde.Value = DateTime.Now.AddDays(-Dias);
-                        DtpHasta.Value = DateTime.Now;
+                        if (CbxUltimosTesD.SelectedIndex  == 1)
+                        {
+                            DtpHasta.Value = DateTime.Now.AddDays(-Dias);
+                        }
+                        else
+                        {
+                            DtpHasta.Value = DateTime.Now;
+                        }
+                        
                         DataSet Dts = _ListaOrdenes.TraerOrdporRango(DtpDesde, DtpHasta, CbxEstatus, NumCedula);
                         if (Dts != null)
                         {
@@ -827,7 +838,18 @@ namespace CapaVisual_Login
                 e.Paint(e.CellBounds, DataGridViewPaintParts.All);
                 e.CellStyle.BackColor = Color.Black;
                 DataGridViewButtonCell celBoton = this.DgvListadoOrdenes.Rows[e.RowIndex].Cells["Btn6"] as DataGridViewButtonCell;
-                Icon IconAtomico = new Icon(Environment.CurrentDirectory + @"\\Asignar examen.ico");
+
+                Icon IconAtomico;
+                if (DgvListadoOrdenes.Rows[e.RowIndex].Cells["Cod_DetVta"].Value.ToString() == "08" && DgvListadoOrdenes.CurrentRow.Cells["OrSer_Status"].Value.ToString().Trim() != "003")
+                {
+                    IconAtomico = new Icon(Environment.CurrentDirectory + @"\\Asignar examen.ico");
+                }
+                else
+                {
+                     IconAtomico = new Icon(Environment.CurrentDirectory + @"\\Asignar examen_Gris.ico");
+
+                }
+
                 e.Graphics.DrawIcon(IconAtomico, e.CellBounds.Left + 1, e.CellBounds.Top + 0);
 
 
@@ -885,7 +907,7 @@ namespace CapaVisual_Login
             {
 
 
-                DataSet Dts = _ListaOrdenes.TraerOrdenes(CbxUltimosTesD, CbxEstatus, NumOrden, NumCedula);
+                DataSet Dts = _ListaOrdenes.TraerOrdenes(CbxUltimosTesD, CbxEstatus, "0177140", NumCedula);
                 if (Dts != null)
                 {
                     DgvListadoOrdenes.DataSource = Dts.Tables[0];
@@ -1546,7 +1568,7 @@ namespace CapaVisual_Login
                 _D_DetalleOrden.Datos_de_la_Orden(DgvListadoOrdenes.CurrentRow.Cells["NumOrdserv"].Value.ToString(), DgvListadoOrdenes.CurrentRow.Cells["Revision"].Value.ToString());
 
                 // Se pide la clave de gerente
-                if (TB_CAORDSER.Cod_DetVta == "08")
+                if (TB_CAORDSER.Cod_DetVta == "08" & DgvListadoOrdenes.CurrentRow.Cells["OrSer_Status"].Value.ToString().Trim() != "003")
                     _FrmClaveGerente.ShowDialog();
                 else
                     return;
@@ -1773,6 +1795,7 @@ namespace CapaVisual_Login
             {
 
                 DataSet Dts = _ListaOrdenes.TraerOrdenes(CbxUltimosTesD, CbxEstatus, NumOrden, NumCedula, PaginaInico, PaginaFinal);
+                //DataSet Dts = _ListaOrdenes.TraerOrdporRango(DtpDesde, DtpHasta, CbxEstatus, NumCedula);
                 if (Dts != null)
                 {
                     DgvListadoOrdenes.DataSource = Dts.Tables[0];

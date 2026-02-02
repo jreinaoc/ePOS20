@@ -417,8 +417,11 @@ namespace CapaLogica.CargarOrdenes
                     // Verificar que la fila no sea nueva
                     if (!fila.IsNewRow)
                     {
-                        // Actualizar el valor de la celda en la columna especificada
-                        fila.Cells[nombreColumna].Value = nuevoValor;
+                        if (fila.Cells["CodArticulo"].Value.ToString() != "A000004")
+                        {
+                            // Actualizar el valor de la celda en la columna especificada
+                            fila.Cells[nombreColumna].Value = nuevoValor;
+                        }
                     }
                 }
 
@@ -2278,19 +2281,19 @@ namespace CapaLogica.CargarOrdenes
                         }
                         else
                         {
-                            for (int x = 0; x < DgvArticulo.RowCount; x++)
-                            {
-                                dsDesc = _D_Articulos.PermisosDescuento(DgvArticulo.Rows[x].Cells["CodArticulo"].Value.ToString(), Porce_Descuento.Text, TB_USUARIO.Id_Rol);
+                            //for (int x = 0; x < DgvArticulo.RowCount; x++)
+                            //{
+                            //    dsDesc = _D_Articulos.PermisosDescuento(DgvArticulo.Rows[x].Cells["CodArticulo"].Value.ToString(), Porce_Descuento.Text, TB_USUARIO.Id_Rol);
 
 
-                                if (dsDesc != null && dsDesc.Tables.Count > 0 && dsDesc.Tables[0].Rows.Count > 0)
-                                {
-                                    stringBuilder.Append($"La marca {dsDesc.Tables[0].Rows[0][0]} no permite este % de descuento");
-                                    Porce_Descuento.Focus();
-                                    Porce_Descuento.SelectAll();
-                                    return false;
-                                }
-                            }
+                            //    if (dsDesc != null && dsDesc.Tables.Count > 0 && dsDesc.Tables[0].Rows.Count > 0)
+                            //    {
+                            //        stringBuilder.Append($"La marca {dsDesc.Tables[0].Rows[0][0]} no permite este % de descuento");
+                            //        Porce_Descuento.Focus();
+                            //        Porce_Descuento.SelectAll();
+                            //        return false;
+                            //    }
+                            //}
 
                             if (Convert.ToDecimal(Porce_Descuento.Text) > Convert.ToDecimal(DescMax))
                             {
@@ -2337,18 +2340,18 @@ namespace CapaLogica.CargarOrdenes
                         }
                         else
                         {
-                            dsDesc = _D_Articulos.PermisosDescuento(DgvArticulo.CurrentRow.Cells["CodArticulo"].Value.ToString(), Porce_Descuento.Text, TB_USUARIO.Id_Rol);
+                            //dsDesc = _D_Articulos.PermisosDescuento(DgvArticulo.CurrentRow.Cells["CodArticulo"].Value.ToString(), Porce_Descuento.Text, TB_USUARIO.Id_Rol);
 
-                            if (dsDesc != null && dsDesc.Tables.Count > 0 && dsDesc.Tables[0].Rows.Count > 0)
-                            {
+                            //if (dsDesc != null && dsDesc.Tables.Count > 0 && dsDesc.Tables[0].Rows.Count > 0)
+                            //{
 
-                                stringBuilder.Append($"La marca {dsDesc.Tables[0].Rows[0][0]} no permite este % de descuento");
-                                Porce_Descuento.Focus();
-                                Porce_Descuento.SelectAll();
-                                return false;
-                            }
+                            //    stringBuilder.Append($"La marca {dsDesc.Tables[0].Rows[0][0]} no permite este % de descuento");
+                            //    Porce_Descuento.Focus();
+                            //    Porce_Descuento.SelectAll();
+                            //    return false;
+                            //}
 
-                            Monto_Descuento.Text = ((Convert.ToDouble(Porce_Descuento.Text) * Convert.ToDouble((DgvArticulo.CurrentRow.Cells["ART_PVP"].Value.ToString()))) / 100).ToString("N2");
+                            Monto_Descuento.Text = ((Convert.ToDouble(Porce_Descuento.Text) * Convert.ToDouble((DgvArticulo.CurrentRow.Cells["PrecioViejo"].Value.ToString()))) / 100).ToString("N2");
                             txtMotivo.Focus();
                             return true;
 
@@ -2365,7 +2368,7 @@ namespace CapaLogica.CargarOrdenes
                         }
                         else
                         {
-                            Porce_Descuento.Text = ((Convert.ToDecimal(Monto_Descuento.Text) * 100) / Convert.ToDecimal(DgvArticulo.CurrentRow.Cells["ART_PVP"].Value)).ToString("N2");
+                            Porce_Descuento.Text = ((Convert.ToDecimal(Monto_Descuento.Text) * 100) / Convert.ToDecimal(DgvArticulo.CurrentRow.Cells["PrecioViejo"].Value)).ToString("N2");
                             Monto_Descuento.Text = Convert.ToDecimal(Monto_Descuento.Text).ToString("N2");
                             return true;
                         }
@@ -2379,6 +2382,136 @@ namespace CapaLogica.CargarOrdenes
                 stringBuilder.Append(Environment.NewLine + string.Format("Error: {0}", ex.Message));
                 return false;
             }
+        }
+
+        public class DescuentoInfo
+        {
+            public string CodMarca { get; set; }
+            public string  CodigoMotivoDescuento { get; set; }
+
+        }
+
+        public string Verificar_TB_DESCUENTOS(System.Windows.Forms.DataGridView DgvArticulo, string TipoDescuento, System.Windows.Forms.TextBox Porce_Descuento, System.Windows.Forms.TextBox Monto_Descuento)
+        {
+            // Diccionario con CodMarca como clave y List<DescuentoInfo> como valor (para múltiples configuraciones)
+            Dictionary<string, List<DescuentoInfo>> descuentosPorMarca = new Dictionary<string, List<DescuentoInfo>>();
+            StringBuilder stringBuilder = new StringBuilder();
+            string Id_MotivoDescuento = "";
+
+            if (TipoDescuento == "Descuento Global")
+            {
+                // Recorrer todas las filas del DataGridView
+                for (int x = 0; x < DgvArticulo.RowCount; x++)
+                {
+                // Verificar que la fila no sea nula y que tenga datos
+                if (DgvArticulo.Rows[x].Cells["CodArticulo"].Value != null)
+                {
+                    string codArticulo = DgvArticulo.Rows[x].Cells["CodArticulo"].Value.ToString();
+
+                    DataSet dsDesc = _D_Articulos.PermisosDescuento(codArticulo, Porce_Descuento.Text, TB_USUARIO.Id_Rol);
+
+                    if (dsDesc != null && dsDesc.Tables.Count > 0 && dsDesc.Tables[0].Rows.Count > 0)
+                    {
+                        // Recorrer todas las filas del DataTable
+                        foreach (DataRow row in dsDesc.Tables[0].Rows)
+                        {
+                            // Verificar que tenga los datos mínimos necesarios
+                            if (row["CodMarca"] != DBNull.Value)
+                            {
+                                string codMarca = row["CodMarca"].ToString();
+
+                                // Crear el objeto DescuentoInfo con los datos de la fila
+                                DescuentoInfo descuento = new DescuentoInfo
+                                {
+                                    CodMarca = codMarca,
+                                    CodigoMotivoDescuento = row["CodMotivo"] != DBNull.Value ?
+                                                             row["CodMotivo"].ToString() : string.Empty
+                                };
+
+                                // Agregar al diccionario (permite múltiples configuraciones por marca)
+                                if (!descuentosPorMarca.ContainsKey(codMarca))
+                                {
+                                    descuentosPorMarca.Add(codMarca, new List<DescuentoInfo>());
+                                }
+                                descuentosPorMarca[codMarca].Add(descuento);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+            else
+            {
+                // CASO 2: NO ES DESCUENTO GLOBAL - Solo la fila actual
+                if (DgvArticulo.CurrentRow != null &&
+                    DgvArticulo.CurrentRow.Cells["CodArticulo"].Value != null)
+                {
+                    string codArticulo = DgvArticulo.CurrentRow.Cells["CodArticulo"].Value.ToString();
+
+                    DataSet dsDesc = _D_Articulos.PermisosDescuento(codArticulo,
+                                                                   Porce_Descuento.Text,
+                                                                   TB_USUARIO.Id_Rol);
+
+                    if (dsDesc != null && dsDesc.Tables.Count > 0 && dsDesc.Tables[0].Rows.Count > 0)
+                    {
+                        // Recorrer todas las filas del DataTable
+                        foreach (DataRow row in dsDesc.Tables[0].Rows)
+                        {
+                            // Verificar que tenga los datos mínimos necesarios
+                            if (row["CodMarca"] != DBNull.Value)
+                            {
+                                string codMarca = row["CodMarca"].ToString();
+
+                                // Crear el objeto DescuentoInfo con los datos de la fila
+                                DescuentoInfo descuento = new DescuentoInfo
+                                {
+                                    CodMarca = codMarca,
+                                    CodigoMotivoDescuento = row["CodMotivo"] != DBNull.Value ?
+                                                             row["CodMotivo"].ToString() : string.Empty
+                                };
+
+                                // Agregar al diccionario (permite múltiples configuraciones por marca)
+                                if (!descuentosPorMarca.ContainsKey(codMarca))
+                                {
+                                    descuentosPorMarca.Add(codMarca, new List<DescuentoInfo>());
+                                }
+                                descuentosPorMarca[codMarca].Add(descuento);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    // Si no hay fila actual seleccionada, retornar vacío
+                    return Id_MotivoDescuento;
+                }
+            }
+
+            // Si hay datos en el diccionario, procesar para encontrar el motivo de descuento
+            if (descuentosPorMarca.Count > 0)
+            {
+                // Estrategia para seleccionar el motivo de descuento:
+                // 1. Priorizar marcas que tengan un motivo de descuento específico
+                // 2. Tomar el primer motivo encontrado que no esté vacío
+
+                foreach (var marca in descuentosPorMarca.Keys)
+                {
+                    foreach (var descuentoConfig in descuentosPorMarca[marca])
+                    {
+                        if (!string.IsNullOrEmpty(descuentoConfig.CodigoMotivoDescuento))
+                        {
+                            Id_MotivoDescuento = descuentoConfig.CodigoMotivoDescuento;
+                            break;
+                        }
+                    }
+
+                    if (!string.IsNullOrEmpty(Id_MotivoDescuento))
+                        break;
+                }
+            }
+
+            return Id_MotivoDescuento;
         }
 
         public void Cargo_CodMotivo_Descuento(System.Windows.Forms.ComboBox cbCodMotivo)
@@ -2687,7 +2820,7 @@ namespace CapaLogica.CargarOrdenes
 
                     if (artPadre != "" && gridFacturas.Rows[x].Cells["ArtPadre"].Value != DBNull.Value && codArticulo != "A000004")
                     {
-                        montoTotalServicios += Convert.ToDecimal(gridFacturas.Rows[x].Cells["ART_PVP"].Value) * Convert.ToInt32(gridFacturas.Rows[x].Cells["ART_EXIST"].Value);
+                        montoTotalServicios += Convert.ToDecimal(gridFacturas.Rows[x].Cells["PrecioViejo"].Value) * Convert.ToInt32(gridFacturas.Rows[x].Cells["ART_EXIST"].Value);
                     }
                 }
 
@@ -2698,7 +2831,7 @@ namespace CapaLogica.CargarOrdenes
 
                     if (!string.IsNullOrEmpty(codigo2) && codigo2.StartsWith("C"))
                     {
-                        montoTotal += Convert.ToDecimal(gridFacturas.Rows[x].Cells["ART_PVP"].Value) * Convert.ToInt32(gridFacturas.Rows[x].Cells["ART_EXIST"].Value);
+                        montoTotal += Convert.ToDecimal(gridFacturas.Rows[x].Cells["PrecioViejo"].Value) * Convert.ToInt32(gridFacturas.Rows[x].Cells["ART_EXIST"].Value);
                     }
                 }
                 List<TB_ARTICULO> articulos = _D_Articulos.ObtenerArticulos("", "A000004");
@@ -3149,6 +3282,7 @@ namespace CapaLogica.CargarOrdenes
                                         row.Cells["Total"].Value = (decimal)((decimal)Convert.ToDecimal(dsLl1so.Tables[0].Rows[0]["PRECIOAR_DESC"]) * Convert.ToDecimal(row.Cells["ART_EXIST"].Value));
                                         row.Cells["CodPromo"].Value = dsLl1so.Tables[0].Rows[0]["CODPROM"];
                                         row.Cells["PromoEvaluada"].Value = "Si";
+                                        //break;
                                     }
                                     // Verificar si el otro servicio diferente al AR 
                                     // preguntamos si existe el campo PORCDCTO  antes de accede a su valor 
@@ -4326,7 +4460,14 @@ namespace CapaLogica.CargarOrdenes
                 }
                 else
                 {
-                    stringBuilder.AppendLine("No se encontró coincidencia con el código de laboratorio para lente de contacto");
+                    //if (dsGetLC.Tables[1].Rows[0][0].ToString() == "False")
+                    //{
+                    //    stringBuilder.AppendLine("El lente de contacto se encuentra inactivo");
+                    //}
+                    //else
+                    //{
+                        stringBuilder.AppendLine("No se encontró coincidencia con el código de laboratorio para lente de contacto");
+                    //}
                     return false;
                 }
             }
@@ -4791,7 +4932,7 @@ namespace CapaLogica.CargarOrdenes
                         int filaSeleccionada= row.Index;
                         if (codArticulo.StartsWith("C"))
                         {
-                            decimal precio = Convert.ToDecimal(row.Cells["ART_PVP"].Value.ToString());
+                            decimal precio = Convert.ToDecimal(row.Cells["PrecioViejo"].Value.ToString());
                             decimal descuento = Convert.ToDecimal(dsGetLC.Tables[2].Rows[0]["DESCUENTOCRT"]);
                             decimal NuevoPrecio = precio - descuento;
                             if (NuevoPrecio <= 0)
@@ -4806,7 +4947,7 @@ namespace CapaLogica.CargarOrdenes
                             // Coloracion
                             if (codArticulo == "S000004")
                             {
-                                decimal precio = Convert.ToDecimal(row.Cells["ART_PVP"].Value.ToString()); 
+                                decimal precio = Convert.ToDecimal(row.Cells["PrecioViejo"].Value.ToString()); 
                                 decimal descuento = Convert.ToDecimal(dsGetLC.Tables[2].Rows[0]["DESCUENTOSERVCOLOR"]);
                                 decimal NuevoPrecio = precio - descuento;
                                 if (NuevoPrecio <= 0)
@@ -4819,7 +4960,7 @@ namespace CapaLogica.CargarOrdenes
                             // Prisma 
                             if (codArticulo == "S000006")
                             {
-                                decimal precio = Convert.ToDecimal(row.Cells["ART_PVP"].Value.ToString());
+                                decimal precio = Convert.ToDecimal(row.Cells["PrecioViejo"].Value.ToString());
                                 decimal descuento = Convert.ToDecimal(dsGetLC.Tables[2].Rows[0]["DESCUENTOSERVPRISMA"]);
                                 decimal NuevoPrecio = precio - descuento;
                                 if (NuevoPrecio <= 0)
@@ -4836,7 +4977,7 @@ namespace CapaLogica.CargarOrdenes
                                     string agregadoProducto = dr["Agregado_Producto"]?.ToString().Trim('"');
                                     if (!string.IsNullOrEmpty(agregadoProducto) && agregadoProducto == codArticulo)
                                     {
-                                        decimal precio = Convert.ToDecimal(row.Cells["ART_PVP"].Value.ToString());
+                                        decimal precio = Convert.ToDecimal(row.Cells["PrecioViejo"].Value.ToString());
                                         string Ojo = row.Cells["Ojo"].Value.ToString();
                                         decimal descuento = 0.00M;
                                         if (Ojo.StartsWith("D"))
@@ -4870,7 +5011,7 @@ namespace CapaLogica.CargarOrdenes
                                     string agregadoProducto = dr["CodServicio"]?.ToString().Trim('"');
                                     if (!string.IsNullOrEmpty(agregadoProducto) && agregadoProducto == codArticulo)
                                     {
-                                        decimal precio1 = Convert.ToDecimal(row.Cells["ART_PVP"].Value.ToString());
+                                        decimal precio1 = Convert.ToDecimal(row.Cells["PrecioViejo"].Value.ToString());
                                         decimal descuento1 = Convert.ToDecimal(dsGetLC.Tables[2].Rows[0]["DESCUENTOSERVAR"]);
                                         decimal NuevoPrecio1 = precio1 - descuento1;
                                         if (NuevoPrecio1 <= 0)

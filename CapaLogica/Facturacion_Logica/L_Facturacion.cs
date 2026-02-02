@@ -1092,6 +1092,13 @@ namespace CapaLogica.DetalleOrden_Logica
 
             // Ahora asignar los nuevos datos
             var datos = _D_DetalleOrden.Punto(Tipo_punto);
+
+            // Agregar fila en blanco directamente al DataTable existente
+            DataRow blankRow = datos.NewRow();
+            blankRow["Indexx"] = "";
+            blankRow["Value"] = "";
+            datos.Rows.InsertAt(blankRow, 0); // Insertar al inicio
+
             Punto.DataSource = datos;
             Punto.DisplayMember = "Indexx";
             Punto.ValueMember = "Value";
@@ -1609,10 +1616,11 @@ namespace CapaLogica.DetalleOrden_Logica
             String VisionI = "";
 
             //MEDIDAS DE LA Montura 
-            int HORIZONTAL = 0;
-            int VERTICAL = 0;
-            int MAXIMA = 0;
-            int DEL = 0;
+            double HORIZONTAL = 0;
+            double VERTICAL = 0;
+            double MAXIMA = 0;
+            double DEL = 0;
+
             int DV = 0;
             int AP = 0;
             int AF = 0;
@@ -1669,11 +1677,17 @@ namespace CapaLogica.DetalleOrden_Logica
                     VisionD = row["T_TIPOVISIOND"].ToString();
                     VisionI = row["T_TIPOVISIONI"].ToString();
 
+                    ////Montura 
+                    //HORIZONTAL = row["T_HORIZONTAL"] == DBNull.Value ? (int)0 : Convert.ToInt32(row["T_HORIZONTAL"].ToString());
+                    //VERTICAL = row["T_VERTICAL"] == DBNull.Value ? (int)0 : Convert.ToInt32(row["T_VERTICAL"].ToString());
+                    //MAXIMA = row["T_MAXIMA"] == DBNull.Value ? (int)0 : Convert.ToInt32(row["T_MAXIMA"].ToString());
+                    //DEL = row["T_PUENTE"] == DBNull.Value ? (int)0 : Convert.ToInt32(row["T_PUENTE"].ToString());
+
                     //Montura 
-                    HORIZONTAL = row["T_HORIZONTAL"] == DBNull.Value ? (int)0 : Convert.ToInt32(row["T_HORIZONTAL"].ToString());
-                    VERTICAL = row["T_VERTICAL"] == DBNull.Value ? (int)0 : Convert.ToInt32(row["T_VERTICAL"].ToString());
-                    MAXIMA = row["T_MAXIMA"] == DBNull.Value ? (int)0 : Convert.ToInt32(row["T_MAXIMA"].ToString());
-                    DEL = row["T_PUENTE"] == DBNull.Value ? (int)0 : Convert.ToInt32(row["T_PUENTE"].ToString());
+                    HORIZONTAL = row["T_HORIZONTAL"] == DBNull.Value ? 0.0 : Convert.ToDouble(row["T_HORIZONTAL"]);
+                    VERTICAL = row["T_VERTICAL"] == DBNull.Value ? 0.0 : Convert.ToDouble(row["T_VERTICAL"]);
+                    MAXIMA = row["T_MAXIMA"] == DBNull.Value ? 0.0 : Convert.ToDouble(row["T_MAXIMA"]);
+                    DEL = row["T_PUENTE"] == DBNull.Value ? 0.0 : Convert.ToDouble(row["T_PUENTE"]);
 
                     DV = row["T_DISTANCIAVERTICE"] == DBNull.Value ? (int)0 : Convert.ToInt32(row["T_DISTANCIAVERTICE"].ToString());
                     AP = row["T_ANGULOPANTOSCOPICO"] == DBNull.Value ? (int)0 : Convert.ToInt32(row["T_ANGULOPANTOSCOPICO"].ToString());
@@ -2053,10 +2067,10 @@ namespace CapaLogica.DetalleOrden_Logica
                 Decimal Total_Ref = 0;
 
             //MEDIDAS DE LA Montura 
-                int HORIZONTAL = 0;
-            int VERTICAL = 0;
-            int MAXIMA = 0;
-            int DEL = 0;
+                double HORIZONTAL = 0;
+                double VERTICAL = 0;
+                double MAXIMA = 0;
+                double DEL = 0;
 
             string Observa = "";
 
@@ -2066,14 +2080,14 @@ namespace CapaLogica.DetalleOrden_Logica
 
                 foreach (DataRow row in DtsDetalle_Orden_consulta.Tables[0].Rows)
                 {
-                    //Montura 
-                    HORIZONTAL = (row["T_HORIZONTAL"] == DBNull.Value ? (int)0 : Convert.ToInt32(row["T_HORIZONTAL"].ToString()));
-                    VERTICAL = (row["T_VERTICAL"] == DBNull.Value ? (int)0 : Convert.ToInt32(row["T_VERTICAL"].ToString()));
-                    MAXIMA = (row["T_MAXIMA"] == DBNull.Value ? (int)0 : Convert.ToInt32(row["T_MAXIMA"].ToString()));
-                    DEL = (row["T_PUENTE"] == DBNull.Value ? (int)0 : Convert.ToInt32(row["T_PUENTE"].ToString()));
+                        //Montura 
+                        HORIZONTAL = row["T_HORIZONTAL"] == DBNull.Value ? 0.0 : Convert.ToDouble(row["T_HORIZONTAL"]);
+                        VERTICAL = row["T_VERTICAL"] == DBNull.Value ? 0.0 : Convert.ToDouble(row["T_VERTICAL"]);
+                        MAXIMA = row["T_MAXIMA"] == DBNull.Value ? 0.0 : Convert.ToDouble(row["T_MAXIMA"]);
+                        DEL = row["T_PUENTE"] == DBNull.Value ? 0.0 : Convert.ToDouble(row["T_PUENTE"]);
 
-                    //Observa
-                    Observa = row["OrSer_Observ"].ToString();
+                        //Observa
+                        Observa = row["OrSer_Observ"].ToString();
 
                     //Calculos
                     SubTotal = (row["VtaSubTotal"] == DBNull.Value ? (Decimal)0.00 : Convert.ToDecimal(row["VtaSubTotal"].ToString()));

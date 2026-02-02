@@ -663,7 +663,6 @@ namespace CapaVisual_Login
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button button1;
-        public System.Windows.Forms.Button BtnGuardar;
         private System.Windows.Forms.TextBox TxtNumeroNC;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label35;
@@ -688,5 +687,6 @@ namespace CapaVisual_Login
         private System.Windows.Forms.ComboBox cbPagina_Ini;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.TextBox txtPagina_Fin;
+        private System.Windows.Forms.Button BtnGuardar;
     }
 }

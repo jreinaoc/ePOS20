@@ -22,6 +22,7 @@ namespace CapaDatos.DetalleOrden_Datos
         public string CED;
         public string Correo;
         public string Tlf;
+        public string statusOrden;
         public DataTable Pagos()
         {
             SqlDataAdapter da = new SqlDataAdapter("select COD_PAGO as Value, DescripPago as Indexx from TB_TIPOPAGO where  TipoPag_ST= 'A' order by Indexx ASC", cn.LeerCadena());
@@ -34,9 +35,11 @@ namespace CapaDatos.DetalleOrden_Datos
 
         public DataTable Bancos(bool MonedaExtranjera)
         {
-            SqlCommand cmd = new SqlCommand("select CODBAN as Value, NOMBREBANCO as Indexx from TB_BANCOS where  ST_BANCOS= 'A' and MONEDAEXTRANJERA= @Moneda and CODBAN<> '007' and CODBAN<> '110' ", cn.LeerCadena());
-            cmd.CommandType = CommandType.Text;
+            //SqlCommand cmd = new SqlCommand("select CODBAN as Value, NOMBREBANCO as Indexx from TB_BANCOS where  ST_BANCOS= 'A' and MONEDAEXTRANJERA= @Moneda and CODBAN<> '007' and CODBAN<> '110' ", cn.LeerCadena());
+            SqlCommand cmd = new SqlCommand("SP_CPOS_GetBancoTipoPagoMovil", cn.LeerCadena());
+            cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@Moneda", MonedaExtranjera);
+            cmd.Parameters.AddWithValue("@Tipo", "B2");
             DataTable dt = new DataTable();
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             da.Fill(dt);
@@ -46,9 +49,12 @@ namespace CapaDatos.DetalleOrden_Datos
 
         public DataTable Bancos2(bool MonedaExtranjera)
         {
-            SqlCommand cmd = new SqlCommand("select CODBAN as Value, NOMBREBANCO as Indexx from TB_BANCOS where  ST_BANCOS= 'A' and MONEDAEXTRANJERA= @Moneda ", cn.LeerCadena());
-            cmd.CommandType = CommandType.Text;
+            //SqlCommand cmd = new SqlCommand("select CODBAN as Value, NOMBREBANCO as Indexx from TB_BANCOS where  ST_BANCOS= 'A' and MONEDAEXTRANJERA= @Moneda ", cn.LeerCadena());
+          
+            SqlCommand cmd = new SqlCommand("SP_CPOS_GetBancoTipoPagoMovil", cn.LeerCadena());
+            cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@Moneda", MonedaExtranjera);
+            cmd.Parameters.AddWithValue("@Tipo", "B2");
             DataTable dt = new DataTable();
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             da.Fill(dt);
@@ -59,9 +65,11 @@ namespace CapaDatos.DetalleOrden_Datos
 
         public DataTable BancoRecp(bool MonedaExtranjera)
         {
-            SqlCommand cmd = new SqlCommand("select CODBAN as Value, NOMBREBANCO as Indexx from TB_BANCOS where  RT_BANCOS= 'A' and MONEDAEXTRANJERA= @Moneda and CODBAN<> '007' and CODBAN<> '110'", cn.LeerCadena());
-            cmd.CommandType = CommandType.Text;
+            //SqlCommand cmd = new SqlCommand("select CODBAN as Value, NOMBREBANCO as Indexx from TB_BANCOS where  RT_BANCOS= 'A' and MONEDAEXTRANJERA= @Moneda and CODBAN<> '007' and CODBAN<> '110'", cn.LeerCadena());
+            SqlCommand cmd = new SqlCommand("SP_CPOS_GetBancoTipoPagoMovil", cn.LeerCadena());
+            cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@Moneda", MonedaExtranjera);
+            cmd.Parameters.AddWithValue("@Tipo", "TR");
             DataTable dt = new DataTable();
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             da.Fill(dt);
@@ -70,9 +78,11 @@ namespace CapaDatos.DetalleOrden_Datos
 
         public DataTable BancoRecp_Pagomovil(bool MonedaExtranjera)
         {
-            SqlCommand cmd = new SqlCommand("select CODBAN as Value, NOMBREBANCO as Indexx from TB_BANCOS where MONEDAEXTRANJERA= @Moneda and PagoMovil=1 ", cn.LeerCadena());
-            cmd.CommandType = CommandType.Text;
+            //SqlCommand cmd = new SqlCommand("select CODBAN as Value, NOMBREBANCO as Indexx from TB_BANCOS where MONEDAEXTRANJERA= @Moneda and PagoMovil=1 ", cn.LeerCadena());
+            SqlCommand cmd = new SqlCommand("SP_CPOS_GetBancoTipoPagoMovil", cn.LeerCadena());
+            cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@Moneda", MonedaExtranjera);
+            cmd.Parameters.AddWithValue("@Tipo", "PM");
             DataTable dt = new DataTable();
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             da.Fill(dt);
@@ -849,7 +859,7 @@ namespace CapaDatos.DetalleOrden_Datos
 }
 
 
-public void MovimientoInventario(string CodArticulo, string TipoDoc, string Documento, string CantidadArt, string Costo, string Precio, string Movimiento, string Usuario, string sucursal, string Fecha, string os, SqlCommand command = null)
+        public void MovimientoInventario(string CodArticulo, string TipoDoc, string Documento, string CantidadArt, string Costo, string Precio, string Movimiento, string Usuario, string sucursal, string Fecha, string os, SqlCommand command = null)
         {
             try
             {
@@ -2400,6 +2410,41 @@ public void MovimientoInventario(string CodArticulo, string TipoDoc, string Docu
             {
                 string Error = string.Format("Error: {0}", ex.Message);
                 return null;
+            }
+        }
+
+        public string ObtieneStatusOrden(string sucursal, string orden, string rev, SqlCommand command = null)
+        {
+            try
+            {
+
+                if (command == null)
+                {
+                    SqlConnection connection = cn.LeerCadena();
+                    command = connection.CreateCommand();
+                }
+
+                SqlCommand cmd = command;
+                cmd.Parameters.Clear();
+                cmd.CommandText = "SP_CPOS_Status_Orden";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Sucursal", sucursal);
+                cmd.Parameters.AddWithValue("@NumeroOrden", orden);
+                cmd.Parameters.AddWithValue("@Revison", rev);
+
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                cmd.Parameters.Clear();
+
+
+                statusOrden = dt.Rows[0]["OrSer_Status"].ToString();
+                return statusOrden;
+            }
+            catch (Exception ex)
+            {
+                statusOrden = string.Format("Error: {0}", ex.Message);
+                return statusOrden;
             }
         }
 

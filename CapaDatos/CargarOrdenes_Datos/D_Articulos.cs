@@ -71,10 +71,11 @@ namespace CapaDatos.CargarOrdenes_Datos
                         USER_CREA = reader["USER_CREA"].ToString(),
                         USER_MOD = reader["USER_MOD"].ToString(),
                         ServicioVisual = reader["ServicioVisual"] != DBNull.Value && Convert.ToBoolean(reader["ServicioVisual"]),
-                        MHorizontal = reader["MHorizontal"] != DBNull.Value ? (int?)Convert.ToInt32(reader["MHorizontal"]) : null,
-                        MVertical = reader["MVertical"] != DBNull.Value ? (int?)Convert.ToInt32(reader["MVertical"]) : null,
-                        MMaxima = reader["MMaxima"] != DBNull.Value ? (int?)Convert.ToInt32(reader["MMaxima"]) : null,
-                        MPuente = reader["MPuente"] != DBNull.Value ? (int?)Convert.ToInt32(reader["MPuente"]) : null,
+                        //MHorizontal = reader["MHorizontal"] != DBNull.Value ? (int?)Convert.ToInt32(reader["MHorizontal"]) : null,
+                        MHorizontal = reader["MHorizontal"] != DBNull.Value ? (decimal?)Convert.ToDecimal(reader["MHorizontal"]) : null,
+                        MVertical = reader["MVertical"] != DBNull.Value ? (decimal?)Convert.ToDecimal(reader["MVertical"]) : null,
+                        MMaxima = reader["MMaxima"] != DBNull.Value ? (decimal?)Convert.ToDecimal(reader["MMaxima"]) : null,
+                        MPuente = reader["MPuente"] != DBNull.Value ? (decimal?)Convert.ToDecimal(reader["MPuente"]) : null,
                         CristalAlturaMin = reader["CristalAlturaMin"] != DBNull.Value ? (decimal?)Convert.ToDecimal(reader["CristalAlturaMin"]) : null,
                         CristalAlturaMax = reader["CristalAlturaMax"] != DBNull.Value ? (decimal?)Convert.ToDecimal(reader["CristalAlturaMax"]) : null,
                         CristalEsfMin = reader["CristalEsfMin"] != DBNull.Value ? (decimal?)Convert.ToDecimal(reader["CristalEsfMin"]) : null,
@@ -1025,7 +1026,7 @@ EXEC pValidoParametrosCRT
 
         }
 
-        public DataSet MostrarDiametroEfectivoCrtGrid(string nacCte, string cedulaCte, string numExamen, string cristalD, string cristalI, string ojo, string tipoVisionD, string tipoVisionI, string montura, string horizontal, string maxima, string puente, string suc, SqlCommand command = null)
+        public DataSet MostrarDiametroEfectivoCrtGrid(string nacCte, string cedulaCte, string numExamen, string cristalD, string cristalI, string ojo, string tipoVisionD, string tipoVisionI, string montura, decimal horizontal, decimal maxima, decimal puente, string suc, SqlCommand command = null)
         {
             if (command == null)
             {
@@ -1034,7 +1035,7 @@ EXEC pValidoParametrosCRT
             }
             SqlCommand cmd = command;
             cmd.Parameters.Clear();
-            cmd.CommandText = "pGetDiametroEfectivo";
+            cmd.CommandText = "SPCPOS_pGetDiametroEfectivo";
             cmd.CommandType = CommandType.StoredProcedure;
 
             // Asignando los nombres de parámetros del SP correctamente
@@ -1866,6 +1867,45 @@ EXEC pValidoParametrosCRT
             return null; 
         }
 
+        public DataTable EjecutarConsultaDescuentos(string codMarca= "", string codMotivo= "", SqlCommand command = null)
+        {
+
+            if (command == null)
+            {
+                SqlConnection connection = cn.LeerCadena();
+                command = connection.CreateCommand();
+            }
+
+            SqlCommand cmd = command;
+            cmd.Parameters.Clear();
+
+            // Consulta directa con CommandType.Text
+            string query = @"
+        SELECT 
+            CodMarca,
+            CodMotivo
+        FROM TB_DESCUENTOS
+        WHERE (@CodMarca = '' OR CodMarca = @CodMarca)
+          AND (@CodMotivo = '' OR CodMotivo = @CodMotivo)
+        ORDER BY CodMotivo desc";
+
+            cmd.CommandText = query;
+            cmd.CommandType = CommandType.Text; // ← CommandType.Text
+
+            cmd.Parameters.AddWithValue("@CodMarca", codMarca ?? string.Empty);
+            cmd.Parameters.AddWithValue("@CodMotivo", codMotivo ?? string.Empty);
+
+            DataTable dt = new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            da.Fill(dt);
+
+            cmd.Parameters.Clear();
+
+            return dt;
+
+        }
+
+
         public async Task<bool> GuardarDescripcionDetalleOrdenServicio(string numeroOrdenServicio, string numeroRevision,
                                                                             string codVenta, string codigoArticulo, int cantidad, 
                                                                             string ojo, decimal precio, decimal porcentajeImpuesto,
@@ -2631,6 +2671,36 @@ EXEC pValidoParametrosCRT
                 return "";
             }
 
+
+        }
+
+        public DataTable BuscarIvaPorce(SqlCommand command = null)
+        {
+            try
+            {
+                if (command == null)
+                {
+                    SqlConnection connection = cn.LeerCadena();
+                    command = connection.CreateCommand();
+                }
+
+                SqlCommand cmd = command;
+                cmd.Parameters.Clear();
+
+                cmd.CommandText = "sp_ObtenerPorceIvaSeparado";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                cmd.Parameters.Clear();
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                string error = $"Error: {ex.Message}";
+                return null;
+            }
 
         }
     }

@@ -31,8 +31,9 @@ namespace CapaVisual_Login
         // Campo para almacenar el delegado de cierre
         private Action _onCierreSolicitado;
         private D_Articulos _D_Articulos  = new D_Articulos();
-
-        // Método público para asignar el delegado desde el padre
+        private  D_Trabajo _D_Trabajo = new D_Trabajo();
+        // Método público para asignar el delegado desde el pad
+        // re
         public void SetOnCierreSolicitado(Action onCierre)
         {
             _onCierreSolicitado = onCierre;
@@ -73,6 +74,10 @@ namespace CapaVisual_Login
 
             LlenarCbx_Tap1_Estado();
             CargarCbx_Tap1_Nacionalidad();
+
+            
+
+            
 
 
 
@@ -124,6 +129,8 @@ namespace CapaVisual_Login
         // Variables para guardar los datos recibidos del delegado Lentes de Contacto 
         string codLab = "";
         string generico = "";
+        string CodMotivoDescuento = "";
+        private int indiceBloqueado = -1;
         private BindingSource bindingSource = new BindingSource();
         // Lista temporal para relizar el filtrado 
         private List<TB_ARTICULO> listaTemporal = new List<TB_ARTICULO>();
@@ -160,6 +167,8 @@ namespace CapaVisual_Login
         private L_Querato _L_Querato = new L_Querato(); // Declaración e inicialización
 
         private L_Trabajo _L_Trabajo = new L_Trabajo(); // Declaración e inicialización
+
+        //private D_Trabajo _D_Trabajo = new D_Trabajo(); // Declaración e inicialización
 
         private CapaLogica.CargarOrdenes_Logica.L_Examen _L_Examen = new CapaLogica.CargarOrdenes_Logica.L_Examen(); // Especifica el namespace completo
 
@@ -1603,10 +1612,14 @@ namespace CapaVisual_Login
                         Formato_Dgv_Pnl3_ColoresLC();
                         Pnl_3_Lista_ColoresLC.Visible = true;
                         Pnl_3_Lista_ColoresLC.Location = new Point(250, 150);
+                        Pnl_3_Lista_ColoresLC.BringToFront();
                         return;
                     }
 
                     CargarArticulos_Girdvew();
+
+                    Dgv_Tap3_Articulo.ClearSelection();
+
                 }
             }
         }
@@ -1943,6 +1956,8 @@ namespace CapaVisual_Login
                 ojoLenteContacto = "";
                 pnlOjo.Visible = false;
                 LcAmbosCant1 = false;
+                CodMotivoDescuento = "";
+                indiceBloqueado = -1;
                 BotonesColor(true,"todos");
                 if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "09")
                 {
@@ -2152,6 +2167,8 @@ namespace CapaVisual_Login
             // ya que se ejecutará por cada celda pintada. Considera moverla a otro evento 
             // o realizar el ajuste de tamaño del DataGridView de otra manera si es necesario.
             // Dgv_Tap3_Articulo.Size = new Size(1059, 150);
+            
+
         }
 
         private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
@@ -2288,13 +2305,14 @@ namespace CapaVisual_Login
                 else if (e.KeyCode == Keys.Enter)
                 {
 
-                    if (Txt_Tap3_Articulo_Codigo.Text.StartsWith("W"))
+                    if (Txt_Tap3_Articulo_Codigo.Text.StartsWith("W") ||  Txt_Tap3_Articulo_Codigo.Text.StartsWith("w"))
                     {
                         DataSet dsColorLC = _L_Articulo.CargarColoresLC(Dgv_Pnl3_ColoresLC, Txt_Tap3_Articulo_Codigo.Text);
                         Dgv_Pnl3_ColoresLC.DataSource = dsColorLC.Tables[0];
                         Formato_Dgv_Pnl3_ColoresLC();
                         Pnl_3_Lista_ColoresLC.Visible = true;
                         Pnl_3_Lista_ColoresLC.Location = new Point(250, 1);
+                        Pnl_3_Lista_ColoresLC.BringToFront();
                     }
                     // Acción para Enter
                     _L_Articulo.CargarArticulos(Dgv_Pnl3_Articulo, listaArticulos, Cbx_Pnl2_Trbajo.SelectedValue.ToString(), _L_Articulo.ValidarExtenciaCristal(Dgv_Tap3_Articulo, Cbx_Pnl2_Trbajo.SelectedValue.ToString()));
@@ -3020,7 +3038,9 @@ namespace CapaVisual_Login
 
         private void Btn_Tap3_Cancelar_Desc_Click(object sender, EventArgs e)
         {
-            CerrarPanelDescuento();
+         CodMotivoDescuento = "";
+         indiceBloqueado = -1;
+        CerrarPanelDescuento();
         }
         private void Btn_Tap3_Cancelar_Coloracion_Click(object sender, EventArgs e)
         {
@@ -3053,6 +3073,52 @@ namespace CapaVisual_Login
             }
         }
 
+        private bool ObtenerYCodigoMotivoDescuento(string CodMotivoDescuento)
+        {
+            if (CodMotivoDescuento== "")
+            {
+                // Tomar el código seleccionado del ComboBox
+                string codigoMotivo = Cbx_Pnl3_MotivoDesc.SelectedValue?.ToString();
+
+                // Si no hay código seleccionado o está vacío, retornar string vacío
+                if (string.IsNullOrWhiteSpace(codigoMotivo))
+                {
+                    return false;
+                }
+
+                // Obtener la tabla de descuentos
+                DataTable tablaDescuentos = _D_Articulos.EjecutarConsultaDescuentos();
+
+                // Verificar si la tabla tiene datos
+                if (tablaDescuentos == null || tablaDescuentos.Rows.Count == 0)
+                {
+                    return false;
+                }
+
+
+                // Recorrer la tabla buscando coincidencias
+                foreach (DataRow fila in tablaDescuentos.Rows)
+                {
+                    // Obtener el código de descuento de la fila actual
+                    string codigoEnTabla = fila["CodMotivo"]?.ToString();
+
+                    // Comparar con el código del ComboBox (ignorando mayúsculas/minúsculas)
+                    if (string.Equals(codigoMotivo, codigoEnTabla, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return true; // Retornar el código si se encuentra
+                    }
+                }
+
+                // Si no se encontró coincidencia
+                return false;
+
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         private void Btn_Tap3_Aceptar_Desc_Click(object sender, EventArgs e)
         {
             try
@@ -3062,11 +3128,20 @@ namespace CapaVisual_Login
                 {
                     if (!string.IsNullOrEmpty(Cbx_Pnl3_MotivoDesc.Text))
                     {
+                      if (!ObtenerYCodigoMotivoDescuento(CodMotivoDescuento))
+                      {
                         if (Tipo_Descuento == "Descuento Global")
                         {
-                            // Verifico se el Porcentaje de descuento esta por encima dle permitido para generar una clave autorizada diferente 
 
-                            if (_L_Articulo.VerificarTopeMaximoDesceunto(Convert.ToDecimal(Txt_Pnl3_PorcDescuento.Text)))
+                            // Verifico si algun articulo pertenece a la tabla tb descuento 
+                            if (!string.IsNullOrWhiteSpace(CodMotivoDescuento))
+                            {
+                                // Pido Clave Autorizada con unos parametros especificos
+                                _FrmClaveAutorizada.Nuevo_Parametro = true;
+                                _FrmClaveAutorizada.Parametro_Nuevo = _L_Articulo.BuscarCodigoGerenteDescuento(Cbx_Pnl3_MotivoDesc.SelectedValue.ToString());
+                            }
+                            // Verifico se el Porcentaje de descuento esta por encima dle permitido para generar una clave autorizada diferente 
+                            else if (_L_Articulo.VerificarTopeMaximoDesceunto(Convert.ToDecimal(Txt_Pnl3_PorcDescuento.Text)))
                             {   // Pido Clave Autorizada con unos parametros especificos
                                 _FrmClaveAutorizada.Nuevo_Parametro = true;
                                 _FrmClaveAutorizada.Parametro_Nuevo = _L_Articulo.BuscarCodigoGerenteDescuento(Cbx_Pnl3_MotivoDesc.SelectedValue.ToString());
@@ -3086,9 +3161,16 @@ namespace CapaVisual_Login
                         }
                         else if (Tipo_Descuento == "Descuento por articulo")
                         {
-                            // Verifico se el Porcentaje de descuento esta por encima dle permitido para generar una clave autorizada diferente 
 
-                            if (_L_Articulo.VerificarTopeMaximoDesceunto(Convert.ToDecimal(Txt_Pnl3_PorcDescuento.Text)))
+                            // Verifico si algun articulo pertenece a la tabla tb descuento 
+                            if (!string.IsNullOrWhiteSpace(CodMotivoDescuento))
+                            {
+                                // Pido Clave Autorizada con unos parametros especificos
+                                _FrmClaveAutorizada.Nuevo_Parametro = true;
+                                _FrmClaveAutorizada.Parametro_Nuevo = _L_Articulo.BuscarCodigoGerenteDescuento(Cbx_Pnl3_MotivoDesc.SelectedValue.ToString());
+                            }
+                            // Verifico se el Porcentaje de descuento esta por encima dle permitido para generar una clave autorizada diferente 
+                            else if (_L_Articulo.VerificarTopeMaximoDesceunto(Convert.ToDecimal(Txt_Pnl3_PorcDescuento.Text)))
                             {   // Pido Clave Autorizada con unos parametros especificos
                                 _FrmClaveAutorizada.Nuevo_Parametro = true;
                                 _FrmClaveAutorizada.Parametro_Nuevo = _L_Articulo.BuscarCodigoGerenteDescuento(Cbx_Pnl3_MotivoDesc.SelectedValue.ToString());
@@ -3114,7 +3196,15 @@ namespace CapaVisual_Login
                         // Cierro el panel, limpio controles y Retorno a la pantalla primcipal 
                         CerrarPanelDescuento();
                         //BotonesColor(false, "Descuento");
+                      }
+                      else
+                      {
 
+                            Cbx_Pnl3_MotivoDesc.Focus();
+                            _FrmMensajes.co = 2;
+                            _FrmMensajes.avisomensaje("Debe seleccionar otro motivo de descuento para continuar");
+                            _FrmMensajes.ShowDialog();
+                      }
                     }
                     else
                     {
@@ -3250,6 +3340,7 @@ namespace CapaVisual_Login
 
         private void Txt_Pnl3_MontoDesc_Leave(object sender, EventArgs e)
         {
+
             if (!_L_Articulo.CalculoDescuento(Dgv_Tap3_Totales.Rows[4].Cells["Valor"].Value.ToString(), Dgv_Tap3_Articulo, Tipo_Descuento, "0.00", Txt_Pnl3_PorcDescuento, Txt_Pnl3_MontoDesc, Txt_Pnl3_ObservacionDesc))
             {
                 //Txt_Pnl3_PorcDescuento.Text = "";
@@ -3258,6 +3349,37 @@ namespace CapaVisual_Login
                 _FrmMensajes.avisomensaje(_L_Articulo.stringBuilder.ToString());
                 _FrmMensajes.ShowDialog();
             }
+            else
+            {
+                CodMotivoDescuento = _L_Articulo.Verificar_TB_DESCUENTOS(Dgv_Tap3_Articulo, Tipo_Descuento, Txt_Pnl3_PorcDescuento, Txt_Pnl3_MontoDesc);
+
+                // Verificar si la variable tiene valor
+                if (!string.IsNullOrWhiteSpace(CodMotivoDescuento))
+                {
+
+                    // RECORRER el ComboBox para buscar la posición
+                    for (int i = 0; i < Cbx_Pnl3_MotivoDesc.Items.Count; i++)
+                    {
+                        // Obtener el DataRowView de cada item
+                        DataRowView item = Cbx_Pnl3_MotivoDesc.Items[i] as DataRowView;
+
+                        if (item != null)
+                        {
+                            // Obtener el valor de CodMotivo de este item
+                            string codigoItem = item["CodMotivo"].ToString();
+
+                            // VERIFICAR si coincide con la variable
+                            if (codigoItem == CodMotivoDescuento)
+                            {
+                                indiceBloqueado= i; // OBTENER la posición
+                                Cbx_Pnl3_MotivoDesc.SelectedIndex = i;
+                                break; // Salir del ciclo cuando se encuentre
+                            }
+                        }
+                    }
+                }
+            }
+
         }
 
         private void Txt_Pnl3_PorcDescuento_Validating(object sender, CancelEventArgs e)
@@ -3269,6 +3391,34 @@ namespace CapaVisual_Login
             else
             {
                 FormatoBs(Convert.ToDouble(Txt_Pnl3_PorcDescuento.Text), Txt_Pnl3_PorcDescuento);
+
+                CodMotivoDescuento = _L_Articulo.Verificar_TB_DESCUENTOS(Dgv_Tap3_Articulo, Tipo_Descuento, Txt_Pnl3_PorcDescuento, Txt_Pnl3_MontoDesc);
+
+                // Verificar si la variable tiene valor
+                if (!string.IsNullOrWhiteSpace(CodMotivoDescuento))
+                {
+
+                    // RECORRER el ComboBox para buscar la posición
+                    for (int i = 0; i < Cbx_Pnl3_MotivoDesc.Items.Count; i++)
+                    {
+                        // Obtener el DataRowView de cada item
+                        DataRowView item = Cbx_Pnl3_MotivoDesc.Items[i] as DataRowView;
+
+                        if (item != null)
+                        {
+                            // Obtener el valor de CodMotivo de este item
+                            string codigoItem = item["CodMotivo"].ToString();
+
+                            // VERIFICAR si coincide con la variable
+                            if (codigoItem == CodMotivoDescuento)
+                            {
+                                indiceBloqueado = i; // OBTENER la posición
+                                Cbx_Pnl3_MotivoDesc.SelectedIndex = i;
+                                break; // Salir del ciclo cuando se encuentre
+                            }
+                        }
+                    }
+                }
 
             }
         }
@@ -3420,6 +3570,16 @@ namespace CapaVisual_Login
                 Txt_Tap3_Articulo_Precio.BackColor = ColorTranslator.FromHtml("#ffffff");
             }
 
+            if (_D_DetalleOrden.TB_PARAMETROSPGE("PGEActivo") == "0")
+            {
+                Btn_Tap3_Garantia.Enabled = false;
+            }
+
+            if (_D_DetalleOrden.TB_PARAMETRO("MonturaPropia") == "0")
+            {
+                Btn_Tap3_MonturaPropia.Enabled = false;
+            }
+
         }
 
         private void Dgv_Tap3_Totales_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
@@ -3516,6 +3676,7 @@ namespace CapaVisual_Login
                         if (row.Cells["CodArticulo"].Value != null && (row.Cells["CodArticulo"].Value.ToString().StartsWith("M") || row.Cells["CodArticulo"].Value.ToString().StartsWith("L")))
                         {
                             TieneMontura = true;
+                            break;
                         }
                         else
                         {
@@ -3830,7 +3991,7 @@ namespace CapaVisual_Login
                     return; // Salir
                 }
 
-                //Guardar datos en CAORDSERV
+                //Guardar datos en CAORDSER
                 string codServicio = Cbx_Pnl2_Servicio.SelectedValue?.ToString();
                 var glbCodDetVta = Cbx_Pnl2_Trbajo.SelectedValue.ToString();
                 string sucursal = TB_USUARIO.COD_SUCURSAL;
@@ -3847,6 +4008,13 @@ namespace CapaVisual_Login
                 //bool esEmpresaAfiliada = empresaAfiliada == "1" || empresaAfiliada.ToLower() == "true";
                 var glbManejaExisLC = _D_DetalleOrden.TB_PARAMETRO("LCManejaExist");
 
+                if (TB_USUARIO.COD_EMPLEADO == "99999")
+                {
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje("Este usuario no tiene autorización");
+                    _FrmMensajes.ShowDialog();
+                    return; // Salir 
+                }
 
                 Conexion cn = new Conexion();
                 SqlConnection connection = cn.LeerCadena();
@@ -4466,7 +4634,7 @@ namespace CapaVisual_Login
             HabilitacionControl("CabezeraPrincipal");
             // Modo oscuro
             BotonesColor(false, "Cristal Propio");
-
+            Btn_Tap3_Garantia.Enabled = false;
         }
 
         private void QuitarLimea2_Click(object sender, EventArgs e)
@@ -4527,6 +4695,41 @@ namespace CapaVisual_Login
             lblDiametroD.AutoSize = true;
             lblDiametroD.Refresh();
             lblDiametroI.Refresh();
+
+            // Aquí suscribes el evento después de inicializar los componentes
+            Dgv_Pnl2_conv.EditingControlShowing += (s, ev) =>
+            {
+                // Verifica si la columna actual es una de las que quieres controlar
+                string colName = Dgv_Pnl2_conv.CurrentCell.OwningColumn.Name;
+
+                if (colName == "Esfera" || colName == "Cilindro" || colName == "Adicion" || colName == "Lejos" || colName == "Cerca" || colName == "Prisma1")
+                {
+                    if (ev.Control is NumericUpDown nud)
+                    {
+                        nud.KeyPress -= Nud_KeyPress_BlockDot; // evitar duplicados
+                        nud.KeyPress += Nud_KeyPress_BlockDot;
+                    }
+                }
+            };
+
+            Dgv_Pnl2_cont.EditingControlShowing += (s, ev) =>
+            {
+                // Verifica si la columna actual es una de las que quieres controlar
+                string colName = Dgv_Pnl2_cont.CurrentCell.OwningColumn.Name;
+
+                if (colName == "Esfera" || colName == "Cilindro" || colName == "Adicion" || colName == "C_Base" || colName == "Diametro")
+                {
+                    if (ev.Control is NumericUpDown nud)
+                    {
+                        nud.KeyPress -= Nud_KeyPress_BlockDotCont; // evitar duplicados
+                        nud.KeyPress += Nud_KeyPress_BlockDotCont;
+                    }
+                }
+            };
+
+
+
+
 
         }
 
@@ -4653,6 +4856,7 @@ namespace CapaVisual_Login
             // Modo oscuro
             BotonesColor(false, "Garantia");
             Btn_Tap3_Garantia.Enabled = false;
+            Btn_Tap3_CristalPropio.Enabled = false;
         }
 
         private bool AplicoGarantia(string CI, string nacio, string OS, string Suc, string exam)
@@ -5300,6 +5504,55 @@ namespace CapaVisual_Login
             }
         }
 
+        private void txtVertical_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != ',' && !char.IsControl(e.KeyChar))
+            {
+              e.Handled = true; // Cancela la entrada
+            }
+
+            if (e.KeyChar == '.')
+            {
+                e.KeyChar = ','; // reemplaza el punto por coma
+            }
+        }
+
+        private void txtHorizontal_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != ',' && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true; // Cancela la entrada
+            }
+            if (e.KeyChar == '.')
+            {
+                e.KeyChar = ','; // reemplaza el punto por coma
+            }
+        }
+
+        private void txtMaxima_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != ',' && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true; // Cancela la entrada
+            }
+            if (e.KeyChar == '.')
+            {
+                e.KeyChar = ','; // reemplaza el punto por coma
+            }
+        }
+
+        private void txtPuente_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != ',' && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true; // Cancela la entrada
+            }
+            if (e.KeyChar == '.')
+            {
+                e.KeyChar = ','; // reemplaza el punto por coma
+            }
+        }
+
         private void txtVertical_Validated(object sender, EventArgs e)
         {
             if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01" && !string.IsNullOrEmpty(txtVertical.Text))
@@ -5529,7 +5782,6 @@ namespace CapaVisual_Login
 
         }
 
-
         private void Txt_Tap1_Cedula_Pagador_MouseLeave(object sender, EventArgs e)
         {
             if (!string.IsNullOrEmpty(Txt_Tap1_Cedula_Pagador.Text))
@@ -5577,6 +5829,86 @@ namespace CapaVisual_Login
             }
 
         }
+
+        //private void Txt_Tap1_Cedula_Pagador_MouseLeave(object sender, EventArgs e)
+        //{
+        //    if (!string.IsNullOrEmpty(Txt_Tap1_Cedula_Pagador.Text))
+        //    {
+        //        try
+        //        {
+        //            string cedula = Txt_Tap1_Cedula_Pagador.Text.Trim();
+        //            string nacio = this.Cbx_Tap1_Nacionalidad_Pagador.Text.Trim();
+
+        //            DataTable dtCliente = _L_Cliente.ObtenerClientePorCedula(cedula, nacio); // Usa la instancia _L_Cliente
+
+        //            if (dtCliente != null && dtCliente.Rows.Count > 0 && !string.IsNullOrEmpty(dtCliente.Rows[0]["CTE_CedIden"].ToString()))
+        //            {
+        //                // Asigna los valores de la base de datos a las cajas de texto
+        //                Txt_Tap1_Cedula_Pagador.Text = dtCliente.Rows[0]["CTE_CedIden"].ToString(); // Ajusta el nombre de la columna
+        //                Txt_Tap1_Nombre_Pagador.Text = dtCliente.Rows[0]["CTE_PNombre"].ToString(); // Ajusta el nombre de la columna
+
+        //                if (dtCliente.Rows[0]["CTE_RETIMUNICIPAL"] != DBNull.Value && Convert.ToBoolean(dtCliente.Rows[0]["CTE_RETIMUNICIPAL"]))
+        //                {
+        //                    Chex_Tap1_Iva_Pagador.SetItemChecked(1, true); // Marcar el segundo elemento
+        //                }
+        //                else
+        //                {
+        //                    Chex_Tap1_Iva_Pagador.SetItemChecked(1, false); // Desmarcar el segundo elemento si es falso o nulo
+        //                }
+
+
+        //                if (dtCliente.Rows[0]["CTE_RETISLR"] != DBNull.Value && Convert.ToBoolean(dtCliente.Rows[0]["CTE_RETISLR"]))
+        //                {
+        //                    Chex_Tap1_Iva_Pagador.SetItemChecked(0, true); // Marcar el segundo elemento
+        //                }
+        //                else
+        //                {
+        //                    Chex_Tap1_Iva_Pagador.SetItemChecked(0, false); // Desmarcar el segundo elemento si es falso o nulo
+        //                }
+
+
+        //                if (dtCliente.Rows[0]["CTE_RETIVA"] != DBNull.Value && Convert.ToBoolean(dtCliente.Rows[0]["CTE_RETIVA"]))
+        //                {
+        //                    Chex_Tap1_Iva_Pagador2.SetItemChecked(0, true); // Marcar el segundo elemento
+        //                    DataTable DtIva = _D_Articulos.BuscarIvaPorce();
+                            
+        //                    // Limpiar el ComboBox antes de cargar nuevos datos
+        //                    Cbx_Tap1_PorcentajeIVA_Pagador.Items.Clear();
+
+        //                    // Cargar los porcentajes de IVA en el ComboBox
+        //                    foreach (DataRow row in DtIva.Rows)
+        //                    {
+        //                        Cbx_Tap1_PorcentajeIVA_Pagador.Items.Add(row["ValorSeparado"].ToString());
+        //                    }
+
+        //                    // Opcional: Seleccionar el primer elemento
+        //                    if (Cbx_Tap1_PorcentajeIVA_Pagador.Items.Count > 0)
+        //                    {
+        //                        Cbx_Tap1_PorcentajeIVA_Pagador.SelectedIndex = 0;
+        //                    }
+
+        //                    Cbx_Tap1_PorcentajeIVA_Pagador.Enabled = true;
+        //                }
+        //                else
+        //                {
+        //                    Chex_Tap1_Iva_Pagador2.SetItemChecked(0, false); // Desmarcar el segundo elemento si es falso o nulo
+        //                   // Limpiar el ComboBox si no es retenedor de IVA
+        //                    Cbx_Tap1_PorcentajeIVA_Pagador.Items.Clear();
+        //                    Cbx_Tap1_PorcentajeIVA_Pagador.Enabled = false;
+        //                }
+
+
+
+
+        //            }
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            MessageBox.Show($"Ocurrió un error al obtener la información del cliente: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+        //        }
+        //    }
+
+        //}
 
 
         private void Txt_Tap1_Cedula_KeyDown(object sender, KeyEventArgs e)
@@ -7071,6 +7403,18 @@ namespace CapaVisual_Login
 
             Chex_Tap1_Iva_Pagador.SetItemChecked(0, false);
             Chex_Tap1_Iva_Pagador.SetItemChecked(1, false);
+
+            //Chex_Tap1_Iva.SetItemChecked(0, false);
+            //Chex_Tap1_Iva.SetItemChecked(1, false);
+            //Chex_Tap1_Iva2.SetItemChecked(0, false);
+
+            //Chex_Tap1_Iva_Pagador.SetItemChecked(0, false);
+            //Chex_Tap1_Iva_Pagador.SetItemChecked(1, false);
+            //Chex_Tap1_Iva_Pagador2.SetItemChecked(0, false);
+
+            //Cbx_Tap1_PorcentajeIVA_Pagador.Items.Clear();
+            //Cbx_Tap1_PorcentajeIVA.Items.Clear();
+
             Txt_Tap1_Edad.Text = ""; // Limpiar el campo de edad también
 
 
@@ -8071,6 +8415,17 @@ namespace CapaVisual_Login
                         dt.Rows[1]["Diametro"] = 0;
                     }
 
+                    D_Examen dExamen = new D_Examen();
+
+                    TB_EXAMENCTE examen = dExamen.ObtenerExamenPorNumeroYNacionalidadCedula(idExamen, nacionalidad, cedula);
+
+                    if (examen != null)
+                    {
+                        Cbx_Tap2_Tipo_Examen.SelectedItem = 0;
+                        //if (examen.TIPOEXAMEN != null && (Cbx_Tap2_Tipo_Examen.Text == null || Cbx_Tap2_Tipo_Examen.Text == ""))
+                        //{
+                        Cbx_Tap2_Tipo_Examen.Text = examen.TIPOEXAMEN.ToString().Trim(); // Deseleccionar cualquier elemento si examen.TIPO_Optm es null
+                    }
 
                 }
                 catch (Exception ex)
@@ -8936,6 +9291,11 @@ namespace CapaVisual_Login
             nuevoCliente.CTE_RETISLR = Chex_Tap1_Iva.GetItemChecked(0); // Asume que ISR está en el índice 0
             nuevoCliente.CTE_RETIVA = Chex_Tap1_Iva.GetItemChecked(1); // Asume que IVA está en el índice 1
 
+            //// Obtener los valores de los CheckBoxes de retención
+            //nuevoCliente.CTE_RETISLR = Chex_Tap1_Iva.GetItemChecked(0); // Asume que ISR está en el índice 0
+            //nuevoCliente.CTE_RETIMUNICIPAL = Chex_Tap1_Iva.GetItemChecked(1); // Asume que IVA está en el índice 1
+            //nuevoCliente.CTE_RETIVA = Chex_Tap1_Iva2.GetItemChecked(0);
+
             nuevoCliente.COD_Edo = Cbx_Tap1_Estado.SelectedValue != null ? Cbx_Tap1_Estado.SelectedValue.ToString() : null;
 
             nuevoCliente.COD_Ciud = Cbx_Tap1_Ciudad.SelectedValue != null ? Cbx_Tap1_Ciudad.SelectedValue.ToString() : null;
@@ -9089,12 +9449,102 @@ namespace CapaVisual_Login
         private void llenarcampos()
         {
 
+            //LimpiarCampos2();
+            //limpearExamen();
+
+
+
+            //Txt_Pnl2_Cedula.Text = dtCliente.Rows[0]["CTE_Nacio"].ToString() +"-"+dtCliente.Rows[0]["CTE_CedIden"].ToString(); // Ajusta el nombre de la columna
+            //Txt_Pnl_2_Nombre.Text = dtCliente.Rows[0]["CTE_PNombre"].ToString(); // Ajusta el nombre de la columna
+
+
+            //// Asigna los valores de la base de datos a las cajas de texto
+            //Cbx_Tap1_Nacionalidad.Text = dtCliente.Rows[0]["CTE_Nacio"].ToString();
+            //Txt_Tap1_Cedula.Text = dtCliente.Rows[0]["CTE_CedIden"].ToString(); // Ajusta el nombre de la columna
+            //Txt_Tap1_Nombre.Text = dtCliente.Rows[0]["CTE_PNombre"].ToString(); // Ajusta el nombre de la columna
+
+
+            //Dtp_Tap1_Nacimiento.Text = dtCliente.Rows[0]["CTE_FNac"].ToString();
+
+            //// ... Asigna los demás campos según tu estructura de base de datos
+
+            //if (dtCliente.Rows[0]["CTE_RETIMUNICIPAL"] != DBNull.Value && Convert.ToBoolean(dtCliente.Rows[0]["CTE_RETIMUNICIPAL"]))
+            //{
+            //    Chex_Tap1_Iva.SetItemChecked(1, true); // Marcar el segundo elemento
+            //}
+            //else
+            //{
+            //    Chex_Tap1_Iva.SetItemChecked(1, false); // Desmarcar el segundo elemento si es falso o nulo
+            //}
+
+            //if (dtCliente.Rows[0]["CTE_RETISLR"] != DBNull.Value && Convert.ToBoolean(dtCliente.Rows[0]["CTE_RETISLR"]))
+            //{
+            //    Chex_Tap1_Iva.SetItemChecked(0, true); // Marcar el primer elemento (asumiendo que es ISR)
+            //}
+            //else
+            //{
+            //    Chex_Tap1_Iva.SetItemChecked(0, false); // Desmarcar el primer elemento si es falso o nulo
+            //}
+
+            //if (dtCliente.Rows[0]["CTE_RETIVA"] != DBNull.Value && Convert.ToBoolean(dtCliente.Rows[0]["CTE_RETIVA"]))
+            //{
+            //    Chex_Tap1_Iva2.SetItemChecked(0, true); // Marcar el segundo elemento
+
+            //    DataTable DtIva = _D_Articulos.BuscarIvaPorce();
+
+            //    // Limpiar el ComboBox antes de cargar nuevos datos
+            //    Cbx_Tap1_PorcentajeIVA.Items.Clear();
+
+            //    // Cargar los porcentajes de IVA en el ComboBox
+            //    foreach (DataRow row in DtIva.Rows)
+            //    {
+            //        Cbx_Tap1_PorcentajeIVA.Items.Add(row["ValorSeparado"].ToString());
+            //    }
+
+            //    // Opcional: Seleccionar el primer elemento
+            //    if (Cbx_Tap1_PorcentajeIVA.Items.Count > 0)
+            //    {
+            //        Cbx_Tap1_PorcentajeIVA.SelectedIndex = 0;
+            //    }
+
+            //    Cbx_Tap1_PorcentajeIVA.Enabled = true;
+            //}
+            //else
+            //{
+            //    Chex_Tap1_Iva2.SetItemChecked(0, false); // Desmarcar el segundo elemento si es falso o nulo
+            //                                             // Limpiar el ComboBox antes de cargar nuevos datos
+            //    Cbx_Tap1_PorcentajeIVA.Items.Clear();
+            //    Cbx_Tap1_PorcentajeIVA.Enabled = false;
+            //}
+
+            //if (dtCliente.Rows[0]["CTE_Sex"] != DBNull.Value)
+            //{
+            //    string sexo = dtCliente.Rows[0]["CTE_Sex"].ToString().Trim().ToUpper();
+
+            //    if (sexo == "F")
+            //    {
+            //        Rd_Tap1_SexoF.Checked = true;
+            //        Rd_Tap1_SexoM.Checked = false;
+            //    }
+            //    else if (sexo == "M")
+            //    {
+            //        Rd_Tap1_SexoM.Checked = true;
+            //        Rd_Tap1_SexoF.Checked = false;
+            //    }
+            //}
+            //else
+            //{
+            //    Rd_Tap1_SexoF.Checked = false;
+            //    Rd_Tap1_SexoM.Checked = true;
+            //}
+
+
             LimpiarCampos2();
             limpearExamen();
 
-            
 
-            Txt_Pnl2_Cedula.Text = dtCliente.Rows[0]["CTE_Nacio"].ToString() +"-"+dtCliente.Rows[0]["CTE_CedIden"].ToString(); // Ajusta el nombre de la columna
+
+            Txt_Pnl2_Cedula.Text = dtCliente.Rows[0]["CTE_Nacio"].ToString() + "-" + dtCliente.Rows[0]["CTE_CedIden"].ToString(); // Ajusta el nombre de la columna
             Txt_Pnl_2_Nombre.Text = dtCliente.Rows[0]["CTE_PNombre"].ToString(); // Ajusta el nombre de la columna
 
 
@@ -9808,6 +10258,11 @@ namespace CapaVisual_Login
             nuevoCliente.CTE_RETISLR = Chex_Tap1_Iva_Pagador.GetItemChecked(0); // Asume que ISR está en el índice 0
             nuevoCliente.CTE_RETIVA = Chex_Tap1_Iva_Pagador.GetItemChecked(1); // Asume que IVA está en el índice 1
 
+            //// Obtener los valores de los CheckBoxes de retención
+            //nuevoCliente.CTE_RETISLR = Chex_Tap1_Iva_Pagador.GetItemChecked(0); // Asume que ISR está en el índice 0
+            //nuevoCliente.CTE_RETIMUNICIPAL = Chex_Tap1_Iva_Pagador.GetItemChecked(1); // Asume que IVA está en el índice 1
+            //nuevoCliente.CTE_RETIVA = Chex_Tap1_Iva_Pagador2.GetItemChecked(0);
+
             nuevoCliente.COD_Edo = Cbx_Tap1_Estado.SelectedValue.ToString(); // 
             nuevoCliente.COD_Ciud = Cbx_Tap1_Ciudad.SelectedValue.ToString(); // 
 
@@ -9986,12 +10441,11 @@ namespace CapaVisual_Login
         {
             txtClienteP.Text = "";
             Pnl_5_Lista_ClienPagador.Visible = false;
-            Pnl_2_Msj.Visible = false;
         }
 
         private void DesbloquearCamposE()
         {
-            //Cbx_Tap2_Tipo_Examen.Enabled = true;
+            Cbx_Tap2_Tipo_Examen.Enabled = true;
             Cbx_Tap2_Tipo_Optome.Enabled = true;
             Cbx_Tap2_Nombre_Optome.Enabled = true;
 
@@ -10018,7 +10472,7 @@ namespace CapaVisual_Login
 
         private void BloquearCamposE()
         {
-            //Cbx_Tap2_Tipo_Examen.Enabled = false;
+            Cbx_Tap2_Tipo_Examen.Enabled = false;
             Cbx_Tap2_Tipo_Optome.Enabled = false;
             Cbx_Tap2_Nombre_Optome.Enabled = false;
 
@@ -10060,6 +10514,13 @@ namespace CapaVisual_Login
             //Txt_Tap1_Instagram.Text = "";
             Chex_Tap1_Iva.SetItemChecked(0, false);
             Chex_Tap1_Iva.SetItemChecked(1, false);
+
+            //Chex_Tap1_Iva.SetItemChecked(0, false);
+            //Chex_Tap1_Iva.SetItemChecked(1, false);
+            //Chex_Tap1_Iva2.SetItemChecked(0, false);
+            //Cbx_Tap1_PorcentajeIVA_Pagador.Enabled = false;
+            //Cbx_Tap1_PorcentajeIVA.Enabled = false;
+
             Txt_Tap1_Edad.Text = ""; // Limpiar el campo de edad también
 
 
@@ -11148,13 +11609,33 @@ namespace CapaVisual_Login
                     }
                     //btnCargarOrden.Enabled = true;
                     //tabControl.SelectedIndex = 2;
-                    AgregarRx();
+
+
+                    if (TB_CAORDSER.Cod_DetVta == "08")
+                    {
+
+                        LLenar_TbTrabajo();
+                        nuevoTrabajo.TNumOrdserv = TB_CAORDSER.NumOrdserv;
+                        nuevoTrabajo.TCEDIDEN = TB_CAORDSER.CTE_CedIden;
+                        nuevoTrabajo.TNACIO = TB_CAORDSER.CTE_Nacio;
+                        nuevoTrabajo.TEXAMEN = nuevoExamen.NUM_Examen.ToString();
+                        _L_Trabajo.ActualizarTrabajoRx(nuevoTrabajo);
+
+                        AgregarRx();
+                        
+                    }
+                    else
+                    {
+                        LLenar_TbTrabajo();
+                        _L_Trabajo.AgregarTrabajo(nuevoTrabajo);
+                    }
+
                 }
 
             }
-            //nuevoTrabajo.TEXAMEN = Txt_Tap2_Examen.Text;
-            LLenar_TbTrabajo();
-            _L_Trabajo.AgregarTrabajo(nuevoTrabajo);
+            //nuevoTrabajo.TEXAMEN = Txt_Tap2_Exa
+            //men.Text;
+            
             
         }
 
@@ -11240,12 +11721,6 @@ namespace CapaVisual_Login
         }
 
         // Helper method to hide the validation message
-        private void HideValidationMessage()
-        {
-            Pnl_2_Msj.Visible = false;
-            txt_pl2_msj.Text = string.Empty;
-            //pb_pl2_mj.Visible = false;
-        }
 
         private bool ValidarVisionConv()
         {
@@ -12481,13 +12956,7 @@ namespace CapaVisual_Login
             // Para revalidar datos específicos, tendrías que iterar por las filas y columnas.
         }
 
-        
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-
-            Pnl_2_Msj.Visible = false;
-        }
+       
 
        
 
@@ -12531,9 +13000,20 @@ namespace CapaVisual_Login
             {
                 if (Cbx_Pnl2_Servicio.Items.Count > 0 && !string.IsNullOrEmpty(Cbx_Pnl2_Servicio.Text))
                 {
-                    if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01" || Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "02")
+                    if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01" || Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "02" || Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "08")
                     {
-                        if (_L_Articulo.Disponible_Servicio_3Horas(Cbx_Pnl2_Servicio.Text, Cbx_Pnl2_Laboratorio.Text))
+                        if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "08" && Cbx_Pnl2_Servicio.Text != "SERVICIO QUORUM")
+                        {
+                            _FrmMensajes.co = 2;
+                            _FrmMensajes.avisomensaje("El servicio no está disponible para este tipo de venta");
+                            _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                            _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                            _FrmMensajes.ShowDialog();
+                            //Codigo_Servicio_Agregar = "";
+                            return false;
+                        }
+
+                        else if (_L_Articulo.Disponible_Servicio_3Horas(Cbx_Pnl2_Servicio.Text, Cbx_Pnl2_Laboratorio.Text))
                         {
                             List<TB_SERVICIOSLABDTO> TB_SERVICIOSLABD = new List<TB_SERVICIOSLABDTO>();
                             TB_SERVICIOSLABD = _D_Articulo.ServiciosLaboratorio(Cbx_Pnl2_Servicio.SelectedValue.ToString());
@@ -12562,8 +13042,8 @@ namespace CapaVisual_Login
                                     _FrmMensajes.ShowDialog();
                                 }
 
-                               }
-                        }
+                                }
+                            }
                             else
                             {
                                 Codigo_Servicio_Agregar = "";
@@ -12699,8 +13179,7 @@ namespace CapaVisual_Login
                             _FrmRepOrden.ShowDialog();
 
                         }
-
-
+                        
                     }
                     else
                     {
@@ -12722,7 +13201,7 @@ namespace CapaVisual_Login
 
                     //// poner los controles en su posicion original 
                     // RegresarControlesAPnl2();
-
+                    TB_CAORDSER.Cod_DetVta = "";
                     // Cerrar el contenedor después de procesar exitosamente
                     _onCierreSolicitado?.Invoke(); // 👈 Ejecuta el cierre del padre
                 }
@@ -12822,10 +13301,10 @@ namespace CapaVisual_Login
                 grp_pln2_Conv2.BackColor = col2;
                 lbl_pnl2_con_obser.BackColor = col3;
                 lbl_pnl2_con_obser.ForeColor = col2;
-                label30.BackColor = col3;
-                label30.ForeColor = ColorTranslator.FromHtml("#1c2422");
-                txt_pl2_msj.BackColor = col2;
-                txt_pl2_msj.ForeColor = ColorTranslator.FromHtml("#1c2422");
+                //label30.BackColor = col3;
+                //label30.ForeColor = ColorTranslator.FromHtml("#1c2422");
+                //txt_pl2_msj.BackColor = col2;
+                //txt_pl2_msj.ForeColor = ColorTranslator.FromHtml("#1c2422");
                 Dgv_Pnl3_Garantia.ColumnHeadersDefaultCellStyle.BackColor = col3;
             }
             //codigo oscuro
@@ -12921,10 +13400,10 @@ namespace CapaVisual_Login
                 grp_pln2_Conv2.BackColor = col3;
                 lbl_pnl2_con_obser.ForeColor = col2;
                 lbl_pnl2_con_obser.BackColor = ColorTranslator.FromHtml("#07a79b");
-                label30.BackColor = ColorTranslator.FromHtml("#003536");
-                label30.ForeColor = Color.White;
-                txt_pl2_msj.BackColor = col2;
-                txt_pl2_msj.ForeColor = Color.White;
+                //label30.BackColor = ColorTranslator.FromHtml("#003536");
+                //label30.ForeColor = Color.White;
+                //txt_pl2_msj.BackColor = col2;
+                //txt_pl2_msj.ForeColor = Color.White;
                 Dgv_Pnl3_Garantia.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#2f6b64");
             }
 
@@ -13693,9 +14172,9 @@ namespace CapaVisual_Login
                         !string.IsNullOrWhiteSpace(txtAltD.Text) &&
                         !string.IsNullOrWhiteSpace(txtAltI.Text))
                     {
-                        int vertical = Convert.ToInt32(txtVertical.Text);
-                        int altD = Convert.ToInt32(txtAltD.Text);
-                        int altI = Convert.ToInt32(txtAltI.Text);
+                        double vertical = Convert.ToDouble(txtVertical.Text);
+                        double altD = Convert.ToDouble(txtAltD.Text);
+                        double altI = Convert.ToDouble(txtAltI.Text);
 
                         if (cbVisionDerecha.Text == "Progresivo" && vertical - altD < 8)
                             altura = false;
@@ -13713,8 +14192,8 @@ namespace CapaVisual_Login
                     if (!string.IsNullOrWhiteSpace(txtVertical.Text) &&
                         !string.IsNullOrWhiteSpace(txtAltD.Text))
                     {
-                        int vertical = Convert.ToInt32(txtVertical.Text);
-                        int altD = Convert.ToInt32(txtAltD.Text);
+                        double vertical = Convert.ToDouble(txtVertical.Text);
+                        double altD = Convert.ToDouble(txtAltD.Text);
 
                         if (cbVisionDerecha.Text == "Progresivo" && vertical - altD < 8)
                             altura = false;
@@ -13730,8 +14209,8 @@ namespace CapaVisual_Login
                     if (!string.IsNullOrWhiteSpace(txtVertical.Text) &&
                         !string.IsNullOrWhiteSpace(txtAltI.Text))
                     {
-                        int vertical = Convert.ToInt32(txtVertical.Text);
-                        int altI = Convert.ToInt32(txtAltI.Text);
+                        double vertical = Convert.ToDouble(txtVertical.Text);
+                        double altI = Convert.ToDouble(txtAltI.Text);
 
                         if (cbVisionIzquierda.Text == "Progresivo" && vertical - altI < 8)
                             altura = false;
@@ -13756,6 +14235,8 @@ namespace CapaVisual_Login
 
                     if (_FrmMensajes.DialogResult == DialogResult.OK)
                     {
+                        _FrmClaveAutorizada.Nuevo_Parametro = true;
+                        _FrmClaveAutorizada.Id_Rol = "015";
                         _FrmClaveAutorizada.ShowDialog();
 
                         if (_FrmClaveAutorizada.DialogResult == DialogResult.OK && _FrmClaveAutorizada.ClaveCorrecta == true)
@@ -13822,8 +14303,8 @@ namespace CapaVisual_Login
                     if (!string.IsNullOrWhiteSpace(txtVertical.Text) &&
                         !string.IsNullOrWhiteSpace(txtAltD.Text))
                     {
-                        int vertical = Convert.ToInt32(txtVertical.Text);
-                        int altD = Convert.ToInt32(txtAltD.Text);
+                        double vertical = Convert.ToDouble(txtVertical.Text);
+                        double altD = Convert.ToDouble(txtAltD.Text);
 
                         if (Convert.ToInt32(txtAltD.Text) > 0 && (vertical - altD < 8))
                             altura = false;
@@ -13839,8 +14320,8 @@ namespace CapaVisual_Login
                     if (!string.IsNullOrWhiteSpace(txtVertical.Text) &&
                         !string.IsNullOrWhiteSpace(txtAltI.Text))
                     {
-                        int vertical = Convert.ToInt32(txtVertical.Text);
-                        int altI = Convert.ToInt32(txtAltI.Text);
+                        double vertical = Convert.ToDouble(txtVertical.Text);
+                        double altI = Convert.ToDouble(txtAltI.Text);
 
                         if (Convert.ToInt32(txtAltI.Text) > 0 && (vertical - altI < 8))
                             altura = false;
@@ -13930,6 +14411,8 @@ namespace CapaVisual_Login
             catch (Exception ex)
             {
                 _FrmMensajes.avisomensaje($"Error al validar altura y medidas: {ex.Message}");
+                _FrmMensajes.co = 2;
+                _FrmMensajes.ShowDialog();
                 return false;
             }
         }
@@ -14650,6 +15133,51 @@ namespace CapaVisual_Login
             }
         }
 
+        private void Chex_Tap1_Iva_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            // Verificar si el clic fue en el ítem 1 (índice 1)
+            if (e.Index == 1)
+            {
+                string valorParametro = _D_DetalleOrden.TB_PARAMETRO("ImpuestoMuni");
+
+                if(valorParametro== "0")
+                {
+                    Chex_Tap1_Iva.SetItemChecked(1, false);
+                }
+
+            }
+        }
+
+        private void Nud_KeyPress_BlockDot(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == '.')
+            {
+                // reemplazar por coma si quieres
+                e.KeyChar = ',';
+                // o bloquear directamente:
+                // e.Handled = true;
+            }
+        }
+
+        private void Nud_KeyPress_BlockDotCont(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == '.')
+            {
+                // reemplazar por coma si quieres
+                e.KeyChar = ',';
+                // o bloquear directamente:
+                // e.Handled = true;
+            }
+        }
+
+        private void Cbx_Pnl3_MotivoDesc_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(CodMotivoDescuento) && Cbx_Pnl3_MotivoDesc.SelectedIndex != indiceBloqueado)
+            {
+                // Revertir al índice bloqueado
+                Cbx_Pnl3_MotivoDesc.SelectedIndex = indiceBloqueado;
+            }
+        }
 
         //    private void RegresarControlesAPnl2()
         //    {

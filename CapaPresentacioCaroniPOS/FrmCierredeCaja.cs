@@ -26,7 +26,7 @@ namespace CapaVisual_Login
         FrmMensajes _FrmMensajes = new FrmMensajes();
         private D_DetalleOrden _D_DetalleOrden = new D_DetalleOrden();
         D_Inicio _D_Inicio = new D_Inicio();
-
+        bool ValideClave = false;
         DateTime diaActivo;
         DataTable dtPtoVenta = new DataTable();
         string sucursal;
@@ -685,7 +685,7 @@ namespace CapaVisual_Login
             {
                 // 2) ¿Estamos en la columna TimePicker?
                 var col = Dvg_MarcajeAsistenciaPendiente.CurrentCell?.OwningColumn;
-                if (col is DataGridViewTimePickerColumn)
+                if (col is DataGridViewTimePickerColumn && ValideClave == true)
                 {
                     var dgv = Dvg_MarcajeAsistenciaPendiente;
 
@@ -941,7 +941,7 @@ namespace CapaVisual_Login
                     Dvg_ConsignacionDeOS.Columns["CodServicio"].Visible = false;
                     Dvg_ConsignacionDeOS.Columns["Servicio"].Width = 160;
                     Dvg_ConsignacionDeOS.Columns["CodVendedor"].Width = 120;
-                    Dvg_ConsignacionDeOS.Columns["Vendedor"].Width = 290;
+                    Dvg_ConsignacionDeOS.Columns["Vendedor"].Width = 350;
 
                     Dvg_ConsignacionDeOS.Columns["Orden"].ReadOnly = true;
                     Dvg_ConsignacionDeOS.Columns["Lab"].ReadOnly = true;
@@ -1033,11 +1033,11 @@ namespace CapaVisual_Login
                     Dvg_OSconPagoMovil.Columns["BancoEmisor"].Visible = false; // Ocultar nombre original
                     Dvg_OSconPagoMovil.Columns["CodBancoEmisor"].Visible = false; // Ocultar código si deseas
 
-                    Dvg_OSconPagoMovil.Columns["Orden"].Width = 100;
-                    Dvg_OSconPagoMovil.Columns["Referencia"].Width = 120;
-                    Dvg_OSconPagoMovil.Columns["BancoReceptor"].Width = 120;
-                    Dvg_OSconPagoMovil.Columns["MontoVueltoRef"].Width = 100;
-                    Dvg_OSconPagoMovil.Columns["MontoVueltoBs"].Width = 100;
+                    Dvg_OSconPagoMovil.Columns["Orden"].Width = 110;
+                    Dvg_OSconPagoMovil.Columns["Referencia"].Width = 150;
+                    Dvg_OSconPagoMovil.Columns["BancoReceptor"].Width = 150;
+                    Dvg_OSconPagoMovil.Columns["MontoVueltoRef"].Width = 115;
+                    Dvg_OSconPagoMovil.Columns["MontoVueltoBs"].Width = 115;
 
                     Dvg_OSconPagoMovil.Columns["BancoReceptor"].HeaderText = "Banco Receptor";
                     Dvg_OSconPagoMovil.Columns["MontoVueltoRef"].HeaderText = "Monto $";
@@ -1082,7 +1082,7 @@ namespace CapaVisual_Login
                 case "Asistencia":
 
                     // Asignar ancho personalizado a cada columna
-                    Dvg_MarcajeAsistenciaPendiente.Columns["NOMBREEMPLEADO"].Width = 200;
+                    Dvg_MarcajeAsistenciaPendiente.Columns["NOMBREEMPLEADO"].Width = 300;
                     Dvg_MarcajeAsistenciaPendiente.Columns["COD_SUCURSAL"].Visible = false;
                     Dvg_MarcajeAsistenciaPendiente.Columns["COD_EMPLEADO"].Width = 60;
                     Dvg_MarcajeAsistenciaPendiente.Columns["FECHA"].Width = 100;
@@ -1240,6 +1240,7 @@ namespace CapaVisual_Login
             tcCierreCaja.SelectedIndex = 0;
             lblPaso.Text = "Confirmación";
             lbPaso.Text = "Paso 1";
+            ValideClave = false;
         }
 
         public void RegresarInicio()
@@ -1579,6 +1580,7 @@ namespace CapaVisual_Login
             if (_FrmClaveGerente.DialogResult == DialogResult.OK
                 && _FrmClaveGerente.ClaveCorrecta)
             {
+                ValideClave = true;
                 GerenteAutoriza = _FrmClaveGerente.RetornoNombreUsuario();
                 // Aquí sí iniciamos la edición y aparece el picker
                 Dvg_MarcajeAsistenciaPendiente.CurrentCell =
@@ -1587,6 +1589,7 @@ namespace CapaVisual_Login
             }
             else
             {
+                ValideClave = false;
                 // Al no llamar a BeginEdit, nunca instancias el DateTimePicker.
                 // Y de paso dejas el valor en null/blank si quieres:
                 Dvg_MarcajeAsistenciaPendiente.Rows[e.RowIndex]
@@ -1669,6 +1672,9 @@ namespace CapaVisual_Login
 
                 try
                 {
+                    Cursor.Current = new Cursor(Properties.Resources.relojArena__1_.Handle);
+                    button3.Enabled = false;
+                    btnCancelar.Enabled = false;
                     //Invenvio
                     string rutaInvenvio;
                     string nombreInvenvio;
@@ -1743,11 +1749,14 @@ namespace CapaVisual_Login
                         dgvLogCierre.Refresh();
                         if (command.Transaction != null && command.Transaction.Connection != null)
                         {
+                            button3.Enabled = true;
+                            btnCancelar.Enabled = true;
                             command.Transaction.Rollback();
+                            Cursor = System.Windows.Forms.Cursors.Default;
                         }
                         return;
                     }
-
+                    Cursor.Current = new Cursor(Properties.Resources.relojArena__1_.Handle);
                     if (_L_CierreCaja.HayDatosInvenvioTXT(sucursal, diaActivo.ToString("yyyyMMdd"), rutaInvenvio, nombreInvenvio, command))
                     {
                         if (_L_CierreCaja.GeneraInvenvioTXT(sucursal, diaActivo.ToString("yyyyMMdd"), rutaInvenvio, nombreInvenvio, command))
@@ -1769,7 +1778,10 @@ namespace CapaVisual_Login
                         dtLogCierre.Rows.Add("Error Actualizando parametros", "❌ Fallido");
                         dgvLogCierre.DataSource = dtLogCierre;
                         dgvLogCierre.Refresh();
+                        button3.Enabled = true;
+                        btnCancelar.Enabled = true;
                         command.Transaction.Rollback();
+                        Cursor = System.Windows.Forms.Cursors.Default;
                         return;
                     }
 
@@ -1778,7 +1790,10 @@ namespace CapaVisual_Login
                         dtLogCierre.Rows.Add("Error Actualizando parametros", "❌ Fallido");
                         dgvLogCierre.DataSource = dtLogCierre;
                         dgvLogCierre.Refresh();
+                        button3.Enabled = true;
+                        btnCancelar.Enabled = true;
                         command.Transaction.Rollback();
+                        Cursor = System.Windows.Forms.Cursors.Default;
                         return;
                     }
 
@@ -1787,7 +1802,10 @@ namespace CapaVisual_Login
                         dtLogCierre.Rows.Add("Error Actualizando Facturas", "❌ Fallido");
                         dgvLogCierre.DataSource = dtLogCierre;
                         dgvLogCierre.Refresh();
+                        button3.Enabled = true;
+                        btnCancelar.Enabled = true;
                         command.Transaction.Rollback();
+                        Cursor = System.Windows.Forms.Cursors.Default;
                         return;
                     }
 
@@ -1815,7 +1833,10 @@ namespace CapaVisual_Login
                             if (row["Descripcion"].ToString() == "Generando Libro de Ventas")
                             {
                                 row["Resultado"] = "❌ Fallido";
+                                button3.Enabled = true;
+                                btnCancelar.Enabled = true;
                                 command.Transaction.Rollback();
+                                Cursor = System.Windows.Forms.Cursors.Default;
                                 dgvLogCierre.Refresh();
                                 break;
                             }
@@ -1848,7 +1869,10 @@ namespace CapaVisual_Login
                             {
                                 row["Resultado"] = "❌ Fallido";
                                 dgvLogCierre.Refresh();
+                                button3.Enabled = true;
+                                btnCancelar.Enabled = true;
                                 command.Transaction.Rollback();
+                                Cursor = System.Windows.Forms.Cursors.Default;
                                 break;
                             }
                         }
@@ -1883,7 +1907,10 @@ namespace CapaVisual_Login
                             {
                                 row["Resultado"] = "❌ Fallido";
                                 dgvLogCierre.Refresh();
+                                button3.Enabled = true;
+                                btnCancelar.Enabled = true;
                                 command.Transaction.Rollback();
+                                Cursor = System.Windows.Forms.Cursors.Default;
                                 break;
                             }
                         }
@@ -1917,6 +1944,9 @@ namespace CapaVisual_Login
                                 row["Resultado"] = "❌ Fallido";
                                 dgvLogCierre.Refresh();
                                 command.Transaction.Rollback();
+                                Cursor = System.Windows.Forms.Cursors.Default;
+                                button3.Enabled = true;
+                                btnCancelar.Enabled = true;
                                 break;
                             }
                         }
@@ -1973,6 +2003,9 @@ namespace CapaVisual_Login
                     btnFinalizar.Text = "Confirmar";
                     btnCancelar.Enabled = false;
 
+                    //button3.Enabled = true;
+                    //btnCancelar.Enabled = true;
+
                     //CargarDatos();
 
                     //dtLogCierre.Rows.Add("Cierre de Caja", "✔ Completado");
@@ -1985,12 +2018,19 @@ namespace CapaVisual_Login
                 }
                 catch (Exception ex)
                 {
+                    button3.Enabled = true;
+                    btnCancelar.Enabled = true;
                     command.Transaction.Rollback();
+                    Cursor = System.Windows.Forms.Cursors.Default;
+                    //button3.Enabled = true;
+                    //btnCancelar.Enabled = true;
                 }
             }
             else
             {
                 tcCierreCaja.SelectedIndex = 0;
+                button3.Enabled = true;
+                btnCancelar.Enabled = true;
                 CargarDatos();
             }
 
@@ -2581,6 +2621,16 @@ namespace CapaVisual_Login
                 //MensajeError.ShowDialog();
                 return false;
             }
+        }
+
+        private void lbl_ConsignacionOrdenesServ_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tabPage3_Click(object sender, EventArgs e)
+        {
+
         }
 
         //private void tcCierreCaja_SelectedIndexChanged(object sender, EventArgs e)

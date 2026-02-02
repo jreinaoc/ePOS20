@@ -294,9 +294,7 @@ namespace CapaVisual_Login
                 //btnPagoMovil.Visible = true;
                 //pictBoxPagoMovil.Visible = true;
             }
-
-            LbNombreUsuario.Text = TB_USUARIO.USER_NOMBRE + " " + TB_USUARIO.USER_APELLIDO;
-
+            lblUsuario.Text = TB_USUARIO.USER_NOMBRE + " " + TB_USUARIO.USER_APELLIDO;
         }
 
 
@@ -959,7 +957,7 @@ namespace CapaVisual_Login
                     return;
                 }
             //}
-
+            TB_CAORDSER.Cod_DetVta = "";
             PnlListadoOrdenes.Controls.Clear();
             addformularioCargaOrdenes(_FrmCargarOrden);
             Focus();
@@ -1498,6 +1496,11 @@ namespace CapaVisual_Login
         private void FrmPrincipal_FormClosed(object sender, FormClosedEventArgs e)
         {
             Application.Exit();
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

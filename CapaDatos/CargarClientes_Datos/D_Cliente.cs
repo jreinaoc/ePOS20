@@ -51,6 +51,7 @@ namespace CapaDatos.CargarClientes_Datos
                     command.Parameters.AddWithValue("@Instagram", cliente.Instagram ?? (object)DBNull.Value);
                     command.Parameters.AddWithValue("@CTE_RETISLR", cliente.CTE_RETISLR);
                     command.Parameters.AddWithValue("@CTE_RETIVA", cliente.CTE_RETIVA);
+                    //command.Parameters.AddWithValue("@CTE_RETIMUNICIPAL", cliente.CTE_RETIMUNICIPAL);
                     command.Parameters.AddWithValue("@COD_Edo", cliente.COD_Edo);
                     command.Parameters.AddWithValue("@COD_Ciud", cliente.COD_Ciud);
                     command.ExecuteNonQuery();
@@ -98,6 +99,7 @@ namespace CapaDatos.CargarClientes_Datos
                     command.Parameters.AddWithValue("@Instagram", cliente.Instagram ?? (object)DBNull.Value);
                     command.Parameters.AddWithValue("@CTE_RETISLR", cliente.CTE_RETISLR);
                     command.Parameters.AddWithValue("@CTE_RETIVA", cliente.CTE_RETIVA);
+                    //command.Parameters.AddWithValue("@CTE_RETIMUNICIPAL", cliente.CTE_RETIMUNICIPAL);
                     command.Parameters.AddWithValue("@COD_Edo", cliente.COD_Edo);
                     command.Parameters.AddWithValue("@COD_Ciud", cliente.COD_Ciud);
 

@@ -337,6 +337,24 @@ namespace CapaDatos.TasaDia_Datos
                     command = connection.CreateCommand();
                 }
 
+                if (FechaHoraReporte == null)
+                {
+                    FechaHoraReporte = DateTime.Now.ToString("ddMMyyyyHHmm");
+
+                }
+
+                if (FechaHoraReporteAnterior == null)
+                {
+                    FechaHoraReporteAnterior = DateTime.Now.ToString("ddMMyyyyHHmm");
+
+                }
+
+                if (FechaMod == "")
+                {
+                    FechaMod = DateTime.Now.ToString("yyyyMMdd");
+                }
+
+
                 SqlCommand cmd = command;
                 cmd.Parameters.Clear();
 
@@ -347,7 +365,7 @@ namespace CapaDatos.TasaDia_Datos
                 cmd.Parameters.AddWithValue("@FechaHoraReporteAnterior", FechaHoraReporteAnterior);
                 cmd.Parameters.AddWithValue("@FechaHoraReporte", FechaHoraReporte);
                 cmd.Parameters.AddWithValue("@NumReporteZ", NumReporteZ);
-                cmd.Parameters.AddWithValue("@SerialImpresora", SerialImpresora);
+                cmd.Parameters.AddWithValue("@SerialImpresora", SerialImpresora ?? "");
                 cmd.Parameters.AddWithValue("@UltimaFactura", UltimaFactura);
                 cmd.Parameters.AddWithValue("@CantidadFacturas", CantidadFacturas);
                 cmd.Parameters.AddWithValue("@CantidadNC", CantidadNC);
