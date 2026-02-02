@@ -963,7 +963,7 @@ namespace CapaVisual_Login
                 {
 
                     //'Si los campos poseen valores proceso los datos
-                    if (txtRef.Text != "0.00" && txtMonto2Bs.Text != "0,00" && txtIGTF.Text != "0.00" && txtTranferencia.Text != "" && CbxBanco.Text != "" && Convert.ToDouble(txtMonto2Bs.Text.Replace(".", "")) >= 1)
+                    if (txtRef.Text.Trim() != "0.00" && txtMonto2Bs.Text.Trim() != "0,00" && txtIGTF.Text.Trim() != "0.00" && txtTranferencia.Text.Trim() != "" && CbxBanco.Text.Trim() != "" && Convert.ToDouble(txtMonto2Bs.Text.Trim().Replace(".", "")) >= 1)
                     {
 
                         if (Bolivares > (Math.Round((TB_CAORDSER.OrSer_Saldo + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos)) + Convert.ToDouble(txtIGTF.Text.Replace(".", ","))) - TotalAbono, 2)))
@@ -1005,7 +1005,7 @@ namespace CapaVisual_Login
                 if (CbxMetodosPago2.Text == "Transferencia")
                 {
                     //'Si los campos poseen valores proceso los datos
-                    if (txtMonto2Bs.Text != "0.00" && txtTranferencia.Text != "" && CbxBanco.Text != "" && Convert.ToDouble(txtMonto2Bs.Text.Replace(".", "")) > 0)
+                    if (txtMonto2Bs.Text.Trim() != "0.00" && txtTranferencia.Text.Trim() != "" && CbxBanco.Text.Trim() != "" && Convert.ToDouble(txtMonto2Bs.Text.Trim().Replace(".", "")) > 0)
                     {
                         if (Bolivares > (Math.Round((TB_CAORDSER.OrSer_Saldo + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos))) - TotalAbono, 2)))
                         {
@@ -1042,7 +1042,7 @@ namespace CapaVisual_Login
                 if (CbxMetodosPago2.Text == "Debito")
                 {
                     //'Si los campos poseen valores proceso los datos
-                    if (txtMonto2Bs.Text != "" && txtMonto2Bs.Text != "0,00" && txtTranferencia.Text != "" && CbxBanco.Text != "" && Convert.ToDouble(txtMonto2Bs.Text.Replace(".", "")) > 0 && !string.IsNullOrEmpty(CbxPunto_Venta.Text))
+                    if (txtMonto2Bs.Text.Trim() != "" && txtMonto2Bs.Text.Trim() != "0,00" && txtTranferencia.Text.Trim() != "" && CbxBanco.Text.Trim() != "" && Convert.ToDouble(txtMonto2Bs.Text.Trim().Replace(".", "")) > 0 && !string.IsNullOrEmpty(CbxPunto_Venta.Text.Trim()))
                     {
                         if (Bolivares > (Math.Round((TB_CAORDSER.OrSer_Saldo + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos))) - TotalAbono, 2)))
                         {
@@ -1091,7 +1091,7 @@ namespace CapaVisual_Login
                 if (CbxMetodosPago2.Text == "Cashea")
                 {
                     //'Si los campos poseen valores proceso los datos
-                    if (txtMonto2Bs.Text != "" && txtMonto2Bs.Text != "0,00" && txtTranferencia.Text != "" && CbxBanco.Text != "" && (txtTranferencia.Text.Replace(" ", "")).Length > 3 && Convert.ToDouble(txtMonto2Bs.Text.Replace(".", "")) > 0)
+                    if (txtMonto2Bs.Text.Trim() != "" && txtMonto2Bs.Text.Trim() != "0,00" && txtTranferencia.Text.Trim() != "" && CbxBanco.Text.Trim() != "" && (txtTranferencia.Text.Trim().Replace(" ", "")).Length > 3 && Convert.ToDouble(txtMonto2Bs.Text.Trim().Replace(".", "")) > 0)
                     {
                         if (Bolivares > (Math.Round((TB_CAORDSER.OrSer_Saldo + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos))) - TotalAbono, 2)))
                         {
@@ -1103,7 +1103,7 @@ namespace CapaVisual_Login
 
                         }
 
-                        if (txtTranferencia.Text.Length >= 4)
+                        if (txtTranferencia.Text.Trim().Length >= 4)
                         {
                             //CbxMetodosPago2.SelectedIndex = 10;
                             _L_Facturacion.GuardarAbonoGrid(2,Dt_Abonos, CbxMetodosPago2.Text, CbxMoneda.Text, "CASHEA", txtMonto2Bs.Text, txtTranferencia.Text, DtpFecha.Value.ToString(), "021", "110", "110", TxtVuelto.Text, "", "", "", "", "", "", "000");
@@ -1152,7 +1152,7 @@ namespace CapaVisual_Login
                 if (CbxMetodosPago2.Text == "Pago Móvil")
                 {
                     //'Si los campos poseen valores proceso los datos
-                    if (txtMonto2Bs.Text != "0,00" && txtTranferencia.Text != "" && CbxBanco.Text != "" && Convert.ToDouble(txtMonto2Bs.Text.Replace(".", "")) > 0)
+                    if (txtMonto2Bs.Text.Trim() != "0,00" && txtTranferencia.Text.Trim() != "" && CbxBanco.Text.Trim() != "" && Convert.ToDouble(txtMonto2Bs.Text.Trim().Replace(".", "")) > 0)
                     {
                         if (Bolivares > (Math.Round((TB_CAORDSER.OrSer_Saldo + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos))) - TotalAbono, 2)))
                         {
@@ -1191,7 +1191,7 @@ namespace CapaVisual_Login
                 {
 
                     //'Si los campos poseen valores proceso los datos
-                    if (txtRef.Text != "0.00" && txtMonto2Bs.Text != "0,00" && txtIGTF.Text != "0.00" && CbxBanco.Text != "" && Convert.ToDouble(txtMonto2Bs.Text.Replace(".", "")) > 0)
+                    if (txtRef.Text.Trim() != "0.00" && txtMonto2Bs.Text.Trim() != "0,00" && txtIGTF.Text.Trim() != "0.00" && CbxBanco.Text.Trim() != "" && Convert.ToDouble(txtMonto2Bs.Text.Trim().Replace(".", "")) > 0)
                     {
 
 
@@ -1203,7 +1203,7 @@ namespace CapaVisual_Login
                             return;
                         }
 
-                        if (TxtRecibidoREF.Text != "" && TxtRecibidoREF.Text != "0.00")
+                        if (TxtRecibidoREF.Text.Trim() != "" && TxtRecibidoREF.Text.Trim() != "0.00")
                         {
                             if ( (TxtCedulaPagoMovil.Text != "" && TxtCedulaPagoMovil.TextLength > 1 && (TxtCedulaPagoMovil.Text.Replace(" ", "")).Length > 1 && TxtMontoPagoMovil.Text != "0.00"
                                                                 && TxtCedularPagoMovil.Text != "" && TxtCedularPagoMovil.TextLength > 1 && (TxtCedularPagoMovil.Text.Replace(" ", "")).Length > 1 && TxtMontoPagoMovil.Text != "" && CbxCelularPagoMovil.Text != ""))
@@ -1221,7 +1221,7 @@ namespace CapaVisual_Login
                             }
                         }
 
-                        if (TxtRecibidoREF.Text != "" && TxtRecibidoREF.Text != "0.00")
+                        if (TxtRecibidoREF.Text.Trim() != "" && TxtRecibidoREF.Text.Trim() != "0.00")
                         {
                             if ((CbxNacionalidadPagoMovil.Text + "-" + TxtCedulaPagoMovil.Text).Replace(" ", "") != (txtCedula.Text).Replace(" ", "") | (TxtTelefono.Text).Replace(" ", "") != (CbxCelularPagoMovil.Text + "-" + TxtCedularPagoMovil.Text).Replace(" ", ""))
                             {
@@ -1253,7 +1253,7 @@ namespace CapaVisual_Login
 
 
 
-                        if (TxtRecibidoREF.Text != "" && TxtRecibidoREF.Text != "0.00")
+                        if (TxtRecibidoREF.Text.Trim() != "" && TxtRecibidoREF.Text.Trim() != "0.00")
                         {
                             _FrmMensajes.co = 3;
                             _FrmMensajes.avisomensaje("¿Está seguro que estos son los datos para realizar el pago móvil de la orden " + txtNumeroOrden.Text + "?");
@@ -1272,7 +1272,7 @@ namespace CapaVisual_Login
                                 idAbonoPagoMovil = CantAbonosPrevios + Dt_Abonos.Rows.Count + 1;
 
                                 double recibidoREF = 0; ;
-                                if (TxtRecibidoREF.Text != "" && TxtRecibidoREF.Text != "0.00")
+                                if (TxtRecibidoREF.Text.Trim() != "" && TxtRecibidoREF.Text.Trim() != "0.00")
                                 {
                                     double reftotal = Convert.ToDouble(TxtRecibidoREF.Text.Replace(".", ""));
                                     double tasa = Convert.ToDouble(txtTasaFact.Text.Replace(".", ""));
@@ -1285,7 +1285,7 @@ namespace CapaVisual_Login
                                 _L_Facturacion.GuardarAbonoGrid(idAbonoPagoMovil, Dt_Abonos, CbxMetodosPago2.Text, CbxMoneda.Text, CbxBanco.Text, txtMonto2Bs.Text, "0000", DtpFecha.Value.ToString(), "021", CbxBanco.SelectedValue.ToString(), "", TxtVuelto.Text, txtRef.Text, txtIGTF.Text,"","","","","000", Convert.ToString(recibidoREF));
 
                                 //'Valido que recibido ref no este vacio para guardar el pago si no continuo mi proceso normal 
-                                if (TxtRecibidoREF.Text != "" && TxtRecibidoREF.Text != "0.00")
+                                if (TxtRecibidoREF.Text.Trim() != "" && TxtRecibidoREF.Text.Trim() != "0.00")
                                 {
 
                                     if (Convert.ToDouble(TxtRecibidoREF.Text) <= Convert.ToDouble(txtRef.Text))
@@ -1357,7 +1357,7 @@ namespace CapaVisual_Login
                 if (CbxMetodosPago2.Text == "Tarjeta de Credito")
                 {
                     //'Si los campos poseen valores proceso los datos
-                    if (!string.IsNullOrEmpty(CbxPunto_Venta.Text) && txtMonto2Bs.Text != "0,00" && txtTranferencia.Text != "" && CbxBanco.Text != "" && txtCVC.Text.Length == 3 && txtCVC.Text != "" && txtVence.Text != "" && Bolivares <= (Math.Round((TB_CAORDSER.OrSer_Saldo + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos))) - TotalAbono, 2)))
+                    if (!string.IsNullOrEmpty(CbxPunto_Venta.Text.Trim()) && txtMonto2Bs.Text.Trim() != "0,00" && txtTranferencia.Text.Trim() != "" && CbxBanco.Text.Trim() != "" && txtCVC.Text.Length == 3 && txtCVC.Text.Trim() != "" && txtVence.Text.Trim() != "" && Bolivares <= (Math.Round((TB_CAORDSER.OrSer_Saldo + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos))) - TotalAbono, 2)))
                     {
 
                         //Obtengo el año actual 
@@ -1389,7 +1389,7 @@ namespace CapaVisual_Login
 
                         }
 
-                        if (txtTranferencia.Text.Length >= 6) // Valida que el Numero de TC Sea minimo de 12 digitos
+                        if (txtTranferencia.Text.Trim().Length >= 6) // Valida que el Numero de TC Sea minimo de 12 digitos
                         {
                             // Si es de 12 digitos se valida el comienzo de la tarjeta dependiendo del tipo de tarjeta
                             if (_L_Facturacion.ValidoNumeroTarjeta_Credito(txtTranferencia.Text, CbxTarjeta.Text) == true)
