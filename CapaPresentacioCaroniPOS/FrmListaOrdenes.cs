@@ -907,7 +907,7 @@ namespace CapaVisual_Login
             {
 
 
-                DataSet Dts = _ListaOrdenes.TraerOrdenes(CbxUltimosTesD, CbxEstatus, "0177140", NumCedula);
+                DataSet Dts = _ListaOrdenes.TraerOrdenes(CbxUltimosTesD, CbxEstatus, txtNumeroOrden.Text.Trim(), NumCedula);
                 if (Dts != null)
                 {
                     DgvListadoOrdenes.DataSource = Dts.Tables[0];
