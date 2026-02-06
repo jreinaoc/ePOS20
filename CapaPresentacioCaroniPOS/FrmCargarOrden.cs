@@ -85,6 +85,8 @@ namespace CapaVisual_Login
             this.KeyPreview = true;
         }
 
+        private int filaSeleccionadaPrisma = -1;
+
         private string COD_Aprueba_Desc = "";
         // Declarar la lista para almacenar los resultados
         private FrmRepOrden _FrmRepOrden = new FrmRepOrden();
@@ -2348,7 +2350,7 @@ namespace CapaVisual_Login
 
         public void CancelarPorCambioExamen()
         {
-            
+            button15.PerformClick();
             LimpiarGridMantenerMedidasEsp();
         }
 
@@ -4709,6 +4711,8 @@ namespace CapaVisual_Login
                         nud.KeyPress -= Nud_KeyPress_BlockDot; // evitar duplicados
                         nud.KeyPress += Nud_KeyPress_BlockDot;
                     }
+
+
                 }
             };
 
@@ -4728,8 +4732,32 @@ namespace CapaVisual_Login
             };
 
 
+            // También mantener el evento KeyDown del DataGridView para cuando no está en modo edición
+            Dgv_Pnl2_conv.KeyDown += Dgv_Pnl2_conv_KeyDown;
 
+            // También mantener el evento KeyDown del DataGridView para cuando no está en modo edición
+            Dgv_Pnl2_cont.KeyDown += Dgv_Pnl2_cont_KeyDown;
 
+            // Configurar para capturar Enter correctamente
+            Dgv_Pnl2_conv.PreviewKeyDown += (s, ev) =>
+            {
+                if (ev.KeyCode == Keys.Enter)
+                {
+                    ev.IsInputKey = true;
+                }
+            };
+
+            // Configurar para capturar Enter correctamente
+            Dgv_Pnl2_cont.PreviewKeyDown += (s, ev) =>
+            {
+                if (ev.KeyCode == Keys.Enter)
+                {
+                    ev.IsInputKey = true;
+                }
+            };
+
+            // Suscribir el evento CellContentClick
+            Dgv_Pnl2_conv.CellContentClick += Dgv_Pnl2_cont_CellContentClick;
 
         }
 
@@ -6871,7 +6899,6 @@ namespace CapaVisual_Login
             }
 
 
-
         }
 
 
@@ -6952,6 +6979,7 @@ namespace CapaVisual_Login
             Dgv_Pnl2_conv.Columns.Add(esferaColumn);
             ///
             Dgv_Pnl2_conv.CellFormatting += (sender, e) =>
+            
             {
                 if (e.ColumnIndex == Dgv_Pnl2_conv.Columns["Esfera"].Index && e.Value != null)
                 {
@@ -7192,45 +7220,15 @@ namespace CapaVisual_Login
             grado1Column.Increment = 90; // Establece el incremento en 90
             Dgv_Pnl2_conv.Columns.Add(grado1Column);
 
-            //DataGridViewNumericUpDownColumn AlturaColumn = new DataGridViewNumericUpDownColumn();
-            //AlturaColumn.Name = "Altura";
-            //AlturaColumn.DataPropertyName = "Altura";
-            //AlturaColumn.HeaderText = "Altura";
-            //AlturaColumn.Minimum = 10;
-            //AlturaColumn.Maximum = 35;
-            //// Formato personalizado para mostrar siempre 3 dígitos
-            //AlturaColumn.DefaultCellStyle.Format = "000";
-            //Dgv_Pnl2_conv.Columns.Add(AlturaColumn);
+            DataGridViewButtonColumn BtnPrisma = new DataGridViewButtonColumn();
+            BtnPrisma.Name = "BtnPrisma";
+            BtnPrisma.HeaderText = "";  // Sin encabezado
+            BtnPrisma.Text = "";  // Texto muy corto (una letra)
+            BtnPrisma.UseColumnTextForButtonValue = true;
+            BtnPrisma.Width = 25;  // Más pequeño aún
+            BtnPrisma.Resizable = DataGridViewTriState.False;
 
-
-            // Now, add your custom DataGridViewComboBoxColumn for "Vision"
-            //DataGridViewComboBoxColumn visionComboColumn = new DataGridViewComboBoxColumn();
-            //visionComboColumn.Name = "Vision"; // Give it a distinct name for the DataGridView column
-            //visionComboColumn.DataPropertyName = "Vision"; // This must match the DataTable column name
-            //visionComboColumn.HeaderText = "Visión";
-            //visionComboColumn.Items.AddRange(new object[] { "Cerca", "Lejos", "Bifocal", "Progresivo", "Balance", "Intermedia" });
-            //visionComboColumn.ValueType = typeof(string);
-            //Dgv_Pnl2_conv.Columns.Add(visionComboColumn);
-
-            //// 2. Crear una nueva DataGridViewComboBoxColumn
-            //DataGridViewComboBoxColumn visionComboColumn = new DataGridViewComboBoxColumn();
-            //visionComboColumn.Name = "Vision";
-            //visionComboColumn.DataPropertyName = "Vision"; // Mantén el mismo DataPropertyName si es apropiado
-            //visionComboColumn.HeaderText = "Vision";
-
-            //// 3. Definir los valores que aparecerán en el ComboBox
-            //visionComboColumn.Items.AddRange(new object[] { "Cerca", "Lejos", "Bifocal", "Progresivo", "Balance", "Intermedia" });
-            //// 4. Opcionalmente, puedes establecer el tipo de dato del valor (si es relevante)
-            // visionComboColumn.ValueType = typeof(string); // Ejemplo si los valores son strings
-
-            //// 5. Agregar la nueva columna ComboBox al DataGridView
-            //Dgv_Pnl2_conv.Columns.Add(visionComboColumn);
-
-
-
-
-
-
+            Dgv_Pnl2_conv.Columns.Add(BtnPrisma);
 
             tamañoExamenGridConv();
         }
@@ -7656,6 +7654,15 @@ namespace CapaVisual_Login
                 Dgv_Pnl2_conv.Columns["aCilindro"].Width = 20; // Establecer el ancho fijo (aproximadamente 0.5 cm)
             }
 
+
+            // Configurar la columna "aEsfera" para que no se ajuste automáticamente
+            if (Dgv_Pnl2_conv.Columns.Contains("BtnPrisma"))
+            {
+                Dgv_Pnl2_conv.Columns["BtnPrisma"].Width = 25; // Establecer el ancho fijo (aproximadamente 0.5 cm)
+                Dgv_Pnl2_conv.Columns["BtnPrisma"].DisplayIndex = Dgv_Pnl2_conv.Columns.Count - 1;
+            }
+
+
             // Configurar la columna "aEsfera" para que no se ajuste automáticamente
             //if (Dgv_Pnl2_conv.Columns.Contains("aEsfera"))
             //{
@@ -7716,7 +7723,7 @@ namespace CapaVisual_Login
                     {
                         //cell.Value = -1;
                     }
-                    else if (cell.ColumnIndex != 9 && cell.ColumnIndex != 0)
+                    else if (cell.ColumnIndex != 10 && cell.ColumnIndex != 1)
                     {
                         cell.Value = "0";
                     }
@@ -12870,6 +12877,7 @@ namespace CapaVisual_Login
 
         private void button6_Click(object sender, EventArgs e)
         {
+            button15.PerformClick();
             mantenervacio = false;
             Btn_Tap2_Derecha_Click(this.Btn_Tap2_Derecha, EventArgs.Empty);
 
@@ -15179,40 +15187,187 @@ namespace CapaVisual_Login
             }
         }
 
-        //    private void RegresarControlesAPnl2()
-        //    {
-        //        // Crear lista temporal para evitar modificar la colección durante la iteración
-        //        var controlesARegresar = new List<Control>();
-        //        string[] nombresControles = {
-        //    "label24", "label26", "label33", "label34", "label35",
-        //    "Cbx_Tap2_Ojo", "cbVisionDerecha", "cbVisionIzquierda",
-        //    "txtAltD", "txtAltI"
-        //};
+        private void Dgv_Pnl2_conv_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.Handled = true;
+                e.SuppressKeyPress = true;
 
-        //        // Buscar todos los controles primero
-        //        foreach (string nombre in nombresControles)
-        //        {
-        //            Control control = Pnl_1.Controls[nombre];
-        //            if (control != null)
-        //            {
-        //                controlesARegresar.Add(control);
-        //            }
-        //        }
+                // Si está en modo edición, terminarlo
+                if (Dgv_Pnl2_conv.IsCurrentCellInEditMode)
+                {
+                    Dgv_Pnl2_conv.EndEdit();
+                    System.Threading.Thread.Sleep(10);
+                }
 
-        //        // Regresar todos los controles manteniendo sus posiciones
-        //        foreach (Control control in controlesARegresar)
-        //        {
-        //            Point posicionActual = control.Location;
-        //            Pnl_1.Controls.Remove(control);
-        //            Pnl_2.Controls.Add(control);
-        //            control.Location = posicionActual;
-        //            control.Visible = true; // Forzar visibilidad
-        //            control.BringToFront(); // Traer al frente
+                // Ejecutar navegación
+                NavigateOnEnter(Dgv_Pnl2_conv);
+            }
+        }
 
-        //            // Opcional: mantener el estado Enabled también
-        //            control.Enabled = true;
-        //        }
-        //    }
+        private void Dgv_Pnl2_cont_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+
+                // Si está en modo edición, terminarlo
+                if (Dgv_Pnl2_cont.IsCurrentCellInEditMode)
+                {
+                    Dgv_Pnl2_cont.EndEdit();
+                    System.Threading.Thread.Sleep(10);
+                }
+
+                // Ejecutar navegación
+                NavigateOnEnter(Dgv_Pnl2_cont);
+            }
+        }
+
+        // Tu método de navegación (igual que antes)
+        private void NavigateOnEnter(DataGridView dgv)
+        {
+            int currentRow = dgv.CurrentCell.RowIndex;
+            int currentCol = dgv.CurrentCell.ColumnIndex;
+
+            // Lógica de navegación que ya tenías
+            switch (currentCol)
+            {
+                case 1: // Posición 0 -> posición 2
+                case 2: // Posición 1 -> posición 2
+                    dgv.CurrentCell = dgv.Rows[currentRow].Cells[3];
+                    break;
+
+                case 4: // Posición 2 -> posición 4
+                case 3: // Posición 3 -> posición 4
+                    dgv.CurrentCell = dgv.Rows[currentRow].Cells[5];
+                    break;
+
+                case 5: // Posición 4 -> posición 5
+                    dgv.CurrentCell = dgv.Rows[currentRow].Cells[6];
+                    break;
+
+                case 13: // Posición 12
+                    if (currentRow == 0) // Primera fila
+                    {
+                        if (dgv.RowCount > 1)
+                        {
+                            dgv.CurrentCell = dgv.Rows[1].Cells[3];
+                        }
+                        else
+                        {
+                            dgv.CurrentCell = dgv.Rows[0].Cells[3];
+                        }
+                    }
+                    else if (currentRow == 1) // Segunda fila
+                    {
+                        dgv.CurrentCell = dgv.Rows[0].Cells[3];
+                    }
+                    else // Otras filas
+                    {
+                        int nextRow = (currentRow + 1) % dgv.RowCount;
+                        dgv.CurrentCell = dgv.Rows[nextRow].Cells[3];
+                    }
+                    break;
+
+                default: // Columnas 5-11
+                    if (currentCol < dgv.ColumnCount - 1)
+                    {
+                        dgv.CurrentCell = dgv.Rows[currentRow].Cells[currentCol + 1];
+                    }
+                    else
+                    {
+                        // Si es la última columna (11), ir a posición 2 de la siguiente fila
+                        int nextRow = currentRow + 1;
+                        if (nextRow < dgv.RowCount)
+                        {
+                            dgv.CurrentCell = dgv.Rows[nextRow].Cells[3];
+                        }
+                        else
+                        {
+                            dgv.CurrentCell = dgv.Rows[0].Cells[3];
+                        }
+                    }
+                    break;
+            }
+
+            // 2. IMPORTANTE: NO iniciar edición automáticamente
+            // En su lugar, asegurar que la celda está seleccionada completamente
+
+            // 3. Forzar que la celda NO entre en modo edición
+            dgv.BeginEdit(false); // Esto inicia edición temporalmente
+            dgv.EndEdit();        // Esto la saca del modo edición pero mantiene selección
+
+            // 4. Asegurar que la celda está seleccionada (azul completa)
+            dgv.Focus();
+
+            // 5. Configurar para que la próxima tecla entre en modo edición
+            dgv.EditMode = DataGridViewEditMode.EditOnKeystrokeOrF2;
+        }
+
+        private void Dgv_Pnl2_cont_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            // Verificar que el clic fue en una celda válida (no en el encabezado)
+            if (e.RowIndex < 0) return;  // Ignorar clics en el encabezado
+
+            // Verificar que el clic fue en la columna del botón "BtnPrisma"
+            if (e.ColumnIndex == Dgv_Pnl2_conv.Columns["BtnPrisma"].Index && mantenervacio)
+            {
+                // Guardar la fila donde hicieron clic
+                filaSeleccionadaPrisma = e.RowIndex;
+                PnlPrisma.Visible = true;
+                PnlPrisma.Show();
+                PnlPrisma.Location = new Point(450, 200);
+                PnlPrisma.BringToFront();
+                // Para evitar que el DataGridView entre en modo edición
+                Dgv_Pnl2_conv.EndEdit();
+
+            }
+        }
+
+        private void RadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            RadioButton rb = sender as RadioButton;
+
+            if (rb != null && rb.Checked && Dgv_Pnl2_conv.CurrentCell != null)
+            {
+                decimal valorPrisma = 0;
+
+                // Asignar valor según el RadioButton seleccionado
+                if (rb == RdPrismaUp)
+                    valorPrisma = 90;
+                else if (rb == RdPrismaDow)
+                    valorPrisma = 270;
+                else if (rb == RdPrismaRight)
+                    valorPrisma = 0;
+                else if (rb == RdPrismaLeft)
+                    valorPrisma = 180;
+
+               Dgv_Pnl2_conv.Rows[filaSeleccionadaPrisma].Cells["Grado1"].Value = valorPrisma;
+
+            }
+        }
+
+        private void button15_Click(object sender, EventArgs e)
+        {
+            PnlPrisma.Visible = false;
+            filaSeleccionadaPrisma = -1;
+            LimpiarSeleccionRadioButtons();
+
+        }
+
+        private void LimpiarSeleccionRadioButtons()
+        {
+            foreach (Control control in PnlPrisma.Controls)
+            {
+                if (control is RadioButton rb)
+                {
+                    rb.Checked = false;
+                }
+            }
+        }
+
     }
 
 }
