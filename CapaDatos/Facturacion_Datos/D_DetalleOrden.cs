@@ -553,10 +553,21 @@ namespace CapaDatos.DetalleOrden_Datos
             cmd.Parameters.Clear();
             string Valor = dt.Rows[0]["Valor"].ToString();
             return Valor;
+            //if (dt.Rows.Count > 0)
+            //{
+            //    return dt.Rows[0]["Valor"].ToString();
+            //}
+            //else
+            //{
+            //    return string.Empty;
+            //}
+
+
+
 
         }
 
-        public string TB_PARAMETROSPAIS(string Parametro)
+    public string TB_PARAMETROSPAIS(string Parametro)
         {
             SqlCommand cmd = new SqlCommand("SELECT Venezuela from  TB_PARAMETROSPAIS where Parametro= @Parametro", cn.LeerCadena());
             cmd.CommandType = CommandType.Text;
