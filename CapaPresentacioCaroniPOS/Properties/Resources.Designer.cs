@@ -63,6 +63,36 @@ namespace CapaVisual_Login.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Abajo {
+            get {
+                object obj = ResourceManager.GetObject("Abajo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Arriba {
+            get {
+                object obj = ResourceManager.GetObject("Arriba", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Arriba1 {
+            get {
+                object obj = ResourceManager.GetObject("Arriba1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Codigo_QR {
             get {
                 object obj = ResourceManager.GetObject("Codigo QR", resourceCulture);
@@ -76,6 +106,16 @@ namespace CapaVisual_Login.Properties {
         internal static System.Drawing.Bitmap Codigo_QR_Claro {
             get {
                 object obj = ResourceManager.GetObject("Codigo QR Claro", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Derecha {
+            get {
+                object obj = ResourceManager.GetObject("Derecha", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -106,6 +146,16 @@ namespace CapaVisual_Login.Properties {
         internal static System.Drawing.Bitmap icons8_verificar_100 {
             get {
                 object obj = ResourceManager.GetObject("icons8-verificar-100", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Izquierda {
+            get {
+                object obj = ResourceManager.GetObject("Izquierda", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

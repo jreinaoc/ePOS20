@@ -661,8 +661,17 @@
     <Folder Include="SqlServerTypes\" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\up3.png" />
+    <None Include="Resources\up2.png" />
+    <None Include="Resources\up.jfif" />
+    <None Include="Resources\Up.bmp" />
+    <None Include="Resources\Image1.bmp" />
     <None Include="bin\Debug\Codigo QR.ico" />
     <None Include="bin\Debug\Codigo QR Claro.ico" />
+    <None Include="bin\Debug\Arriba.ico" />
+    <None Include="bin\Debug\Abajo.ico" />
+    <None Include="bin\Debug\Derecha.ico" />
+    <None Include="bin\Debug\Izquierda.ico" />
     <Content Include="icono-puntoDeVenta.ico" />
     <None Include="Reportes\DSRepVuelto.xsc">
       <DependentUpon>DSRepVuelto.xsd</DependentUpon>

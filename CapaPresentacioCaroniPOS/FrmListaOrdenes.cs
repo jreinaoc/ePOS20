@@ -1495,25 +1495,69 @@ namespace CapaVisual_Login
             { //Se cargan los datos de la orden 
                 string concat = DgvListadoOrdenes.CurrentRow.Cells["Cod_Sucursal"].Value.ToString() + DgvListadoOrdenes.CurrentRow.Cells["NumOrdserv"].Value.ToString() + "0";
                 // Se valida si la orden es abonada para que pueda imprimir o mostrar el reporte 
-                if (DgvListadoOrdenes.CurrentRow.Cells["Estatus"].Value.ToString().Trim() == "Abonada")
+                if (DgvListadoOrdenes.CurrentRow.Cells["Estatus"].Value.ToString().Trim() == "Abonada" || DgvListadoOrdenes.CurrentRow.Cells["Estatus"].Value.ToString().Trim() == "Facturada")
                 {
-                    _FrmMostrarReporte.setParametros(concat);
-                    _FrmMostrarReporte.ConfigRep();
-                    if (_D_DetalleOrden.ParametroImpresion() == "1") // Si el parametro de impresion es 1 entonces imprime el reporte 
+                    
+                    // Reporte Orden 
+                    // Trabajo Contacto
+                    if (TB_CAORDSER.Cod_DetVta == "02") // Si se procesa uan orden de contacto se muestra reporte de contacto  
                     {
-                        _FrmMostrarReporte.imprimir();
+                        _FrmRepProSinPag.setParametros(concat);
+                        _FrmRepProSinPag.ConfigRep(true, true);
+
+                        if (_D_DetalleOrden.ParametroImpresion() == "1") // Si el parametro de impresion es 1 entonces imprime el reporte 
+                        {
+                            _FrmRepProSinPag.imprimir();
+
+                        }
+                        else
+                        {
+                            _FrmRepProSinPag.ShowDialog();
+
+                        }
 
                     }
-                    else
+                    else // si es otro tipo de trabajo 
                     {
-                        _FrmMostrarReporte.ShowDialog();
+                        _FrmRepProSinPag.setParametros(concat);
+                        _FrmRepProSinPag.ConfigRep(true, false);
+
+                        if (_D_DetalleOrden.ParametroImpresion() == "1") // Si el parametro de impresion es 1 entonces imprime el reporte 
+                        {
+                            _FrmRepProSinPag.imprimir();
+
+                        }
+                        else
+                        {
+                            _FrmRepProSinPag.ShowDialog();
+
+                        }
+
+
+
+                    }
+
+
+                    if (DgvListadoOrdenes.CurrentRow.Cells["Estatus"].Value.ToString().Trim() == "Abonada")
+                    {
+                        _FrmMostrarReporte.setParametros(concat);
+                        _FrmMostrarReporte.ConfigRep();
+                        if (_D_DetalleOrden.ParametroImpresion() == "1") // Si el parametro de impresion es 1 entonces imprime el reporte 
+                        {
+                            _FrmMostrarReporte.imprimir();
+
+                        }
+                        else
+                        {
+                            _FrmMostrarReporte.ShowDialog();
+
+                        }
 
                     }
 
                 }
 
                 cerrar();
-
             }
 
             //Boton numero 5 
