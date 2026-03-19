@@ -62,7 +62,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>79B9iRtdn7SAMPODYsQz5dByy0EBAXxhyiy2De+yDls=</dsig:DigestValue>
+        <dsig:DigestValue>SOMbjN+exJFLMNX8uwbf+NKkqGftkGO+ahvZWE6rChk=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -74,7 +74,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>yqkONxB63IG0hGdN1oihc1DqFUtDNAUBq5uY+MEgBpU=</dsig:DigestValue>
+        <dsig:DigestValue>JPoJwihK/UIVjdfYNbkAk8LcsFXd+bVwYp+VyTfwyCY=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -86,7 +86,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>3SuKHCxGh1WhiFoHa09h2t6saM/guw9YGxOuL61IWWA=</dsig:DigestValue>
+        <dsig:DigestValue>IbXeY1ANQp9z5t+dcw98n1s5F4t6c8klONBxOqPlsvA=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -199,14 +199,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ePOS.exe" size="3167232">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ePOS.exe" size="3169280">
       <assemblyIdentity name="ePOS" version="1.0.2.4" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>YL7B3IsAMV8quW2WCjm5LydQPM3Z49Roq2bzjfpm1yM=</dsig:DigestValue>
+        <dsig:DigestValue>Wsmiy7dr6h3/7STfB3l6wnQklNuRgsoy0+FlV/OGA1g=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -1178,7 +1178,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>exDfj5HL5BNYOTLf51jUgBo/7mKmHP4z68vWCiORQp8=</dsig:DigestValue>
+        <dsig:DigestValue>U9hF/nyDWozX/s9fG+L2FYo763k92f2v5rsWMMF91bY=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -1317,7 +1317,7 @@
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>EzGOJ2NTPaNWQ2VnrCkogFHnz6n1xhaflZCHnf8vdMI=</dsig:DigestValue>
+      <dsig:DigestValue>b8BuUXgcqgRoi83CCG3chhotaP2pjWlquBrMf1xlVSM=</dsig:DigestValue>
     </hash>
   </file>
   <file name="icono-puntoDeVenta.ico" size="205662">

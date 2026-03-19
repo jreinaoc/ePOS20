@@ -47,6 +47,7 @@ namespace CapaVisual_Login
         //Instanciamos nuestra clase D_Loguin para poder utilizar sus miembros
         private FrmCargarOrden _FrmCargarOrden = new FrmCargarOrden();
         private L_ListaOrdenes _ListaOrdenes = new L_ListaOrdenes();
+        FrmRepOrden _FrmRepOrden = new FrmRepOrden();
         FrmInicio _FrmInicio = new FrmInicio();
         private FrmMensajes _FrmMensajes = new FrmMensajes();
         FrmFacturacion _FrmFacturacion = new FrmFacturacion();
@@ -907,7 +908,7 @@ namespace CapaVisual_Login
             {
 
 
-                DataSet Dts = _ListaOrdenes.TraerOrdenes(CbxUltimosTesD, CbxEstatus, txtNumeroOrden.Text.Trim(), NumCedula);
+                DataSet Dts = _ListaOrdenes.TraerOrdenes(CbxUltimosTesD, CbxEstatus, RecNumOrden().Trim(), NumCedula);
                 if (Dts != null)
                 {
                     DgvListadoOrdenes.DataSource = Dts.Tables[0];
@@ -1495,53 +1496,19 @@ namespace CapaVisual_Login
             { //Se cargan los datos de la orden 
                 string concat = DgvListadoOrdenes.CurrentRow.Cells["Cod_Sucursal"].Value.ToString() + DgvListadoOrdenes.CurrentRow.Cells["NumOrdserv"].Value.ToString() + "0";
                 // Se valida si la orden es abonada para que pueda imprimir o mostrar el reporte 
-                if (DgvListadoOrdenes.CurrentRow.Cells["Estatus"].Value.ToString().Trim() == "Abonada" || DgvListadoOrdenes.CurrentRow.Cells["Estatus"].Value.ToString().Trim() == "Facturada")
+                if (DgvListadoOrdenes.CurrentRow.Cells["Estatus"].Value.ToString().Trim() == "Abonada")
                 {
-                    
-                    // Reporte Orden 
-                    // Trabajo Contacto
+                  // Solo se muestra o se imprime el reporte de la orden si no es trabajo convencional reservado 
+                  if (TB_CAORDSER.Cod_DetVta != "08") 
+                    {
+                      // Reporte Orden 
+                      // Trabajo Contacto
+                      // Si es trabajo de contacto se muestra este reporte 
                     if (TB_CAORDSER.Cod_DetVta == "02") // Si se procesa uan orden de contacto se muestra reporte de contacto  
-                    {
-                        _FrmRepProSinPag.setParametros(concat);
-                        _FrmRepProSinPag.ConfigRep(true, true);
-
-                        if (_D_DetalleOrden.ParametroImpresion() == "1") // Si el parametro de impresion es 1 entonces imprime el reporte 
                         {
-                            _FrmRepProSinPag.imprimir();
-
-                        }
-                        else
-                        {
-                            _FrmRepProSinPag.ShowDialog();
-
-                        }
-
-                    }
-                    else // si es otro tipo de trabajo 
-                    {
-                        _FrmRepProSinPag.setParametros(concat);
-                        _FrmRepProSinPag.ConfigRep(true, false);
-
-                        if (_D_DetalleOrden.ParametroImpresion() == "1") // Si el parametro de impresion es 1 entonces imprime el reporte 
-                        {
-                            _FrmRepProSinPag.imprimir();
-
-                        }
-                        else
-                        {
-                            _FrmRepProSinPag.ShowDialog();
-
-                        }
-
-
-
-                    }
-
-
-                    if (DgvListadoOrdenes.CurrentRow.Cells["Estatus"].Value.ToString().Trim() == "Abonada")
-                    {
                         _FrmMostrarReporte.setParametros(concat);
-                        _FrmMostrarReporte.ConfigRep();
+                        _FrmMostrarReporte.ConfigRep(true, true);
+
                         if (_D_DetalleOrden.ParametroImpresion() == "1") // Si el parametro de impresion es 1 entonces imprime el reporte 
                         {
                             _FrmMostrarReporte.imprimir();
@@ -1554,8 +1521,86 @@ namespace CapaVisual_Login
                         }
 
                     }
+                    else // si es otro tipo de trabajo 
+                    {
+                        _FrmMostrarReporte.setParametros(concat);
+                        _FrmMostrarReporte.ConfigRep(true, false);
+
+                        if (_D_DetalleOrden.ParametroImpresion() == "1") // Si el parametro de impresion es 1 entonces imprime el reporte 
+                        {
+                            _FrmMostrarReporte.imprimir();
+
+                        }
+                        else
+                        {
+                            _FrmMostrarReporte.ShowDialog();
+
+                        }
+
+
+                    }
+
+                  }
+                  else
+                  {
+                        _FrmMostrarReporte.setParametros(concat);
+                        _FrmMostrarReporte.ConfigRep(false, false);
+
+                        if (_D_DetalleOrden.ParametroImpresion() == "1") // Si el parametro de impresion es 1 entonces imprime el reporte 
+                        {
+                            _FrmMostrarReporte.imprimir();
+
+                        }
+                        else
+                        {
+                            _FrmMostrarReporte.ShowDialog();
+
+                        }
+                  }
 
                 }
+
+                else if  (DgvListadoOrdenes.CurrentRow.Cells["Estatus"].Value.ToString().Trim() == "Facturada")
+                {
+
+                    if (TB_CAORDSER.Cod_DetVta == "02") // Si se procesa uan orden de contacto se muestra reporte de contacto  
+                    {
+                        _FrmRepOrden.setParametros(concat);
+                        _FrmRepOrden.ConfigRep(false, true);
+
+                        if (_D_DetalleOrden.ParametroImpresion() == "1") // Si el parametro de impresion es 1 entonces imprime el reporte 
+                        {
+                            _FrmRepOrden.imprimir();
+
+                        }
+                        else
+                        {
+                            //_FrmRepOrden.ShowDialog();
+                            _FrmRepOrden.InicializarFormulario();
+                        }
+
+
+                    }
+                    else
+                    {
+                        _FrmRepOrden.setParametros(concat);
+                        _FrmRepOrden.ConfigRep(true, false);
+
+                        if (_D_DetalleOrden.ParametroImpresion() == "1") // Si el parametro de impresion es 1 entonces imprime el reporte 
+                        {
+                            _FrmRepOrden.imprimir();
+
+                        }
+                        else
+                        {
+                            //_FrmRepOrden.ShowDialog();
+                            _FrmRepOrden.InicializarFormulario();
+                        }
+
+                    }
+                }
+
+                   
 
                 cerrar();
             }
@@ -2217,8 +2262,6 @@ namespace CapaVisual_Login
             return cedula;
 
         }
-
-
 
 
         private void TxtCedula_Enter(object sender, EventArgs e)

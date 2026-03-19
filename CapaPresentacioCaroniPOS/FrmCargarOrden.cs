@@ -12126,10 +12126,66 @@ namespace CapaVisual_Login
                 // Llama al evento CellEnter, pasando los mismos sender y argumentos
                 DataGridViewCell changedCell = Dgv_Pnl2_conv.Rows[e.RowIndex].Cells[e.ColumnIndex];
                 // Obtiene la celda que cambió
-                if (changedCell.Value != null && changedCell.Value.ToString() != string.Empty)
+              
+                if (changedCell != null && changedCell.Value != null &&
+                   !string.IsNullOrEmpty(changedCell.Value.ToString()))
                 // Verifica que el valor no sea nulo ni vacío
                 {
+                    // Guardar la posición actual ANTES de llamar a CellEnter
+                    int currentRow = e.RowIndex;
+                    int currentCol = e.ColumnIndex;
+                    object valorActual = changedCell.Value;
+
                     Dgv_Pnl2_conv_CellEnter(sender, e);
+
+                    // 👇 IMPORTANTE: Usar BeginInvoke para que la navegación ocurra
+                    // DESPUÉS de que el DataGridView termine su procesamiento interno
+                    this.BeginInvoke(new Action(() =>
+                    {
+                        // Pequeña pausa para asegurar que todo terminó
+                        System.Threading.Thread.Sleep(10);
+
+                        // VALIDACIONES ANTES DE RESTAURAR
+                        if (Dgv_Pnl2_conv != null &&
+                            Dgv_Pnl2_conv.Rows.Count > currentRow &&
+                            Dgv_Pnl2_conv.Columns.Count > currentCol && valorActual != "20/" && valorActual != "-" && valorActual.ToString() != "0")
+                        {
+                            // Verificar si necesitamos restaurar la celda original
+                            bool necesitaRestaurar = true;
+
+                            if (Dgv_Pnl2_conv.CurrentCell != null)
+                            {
+                                if (Dgv_Pnl2_conv.CurrentCell.RowIndex == currentRow &&
+                                    Dgv_Pnl2_conv.CurrentCell.ColumnIndex == currentCol)
+                                {
+                                    necesitaRestaurar = false;
+                                }
+                            }
+
+                            if (necesitaRestaurar)
+                            {
+                                var celdaOriginal = Dgv_Pnl2_conv.Rows[currentRow].Cells[currentCol];
+                                if (celdaOriginal != null)
+                                {
+                                    Dgv_Pnl2_conv.CurrentCell = celdaOriginal;
+
+                                    // Restaurar valor solo si es necesario
+                                    if (celdaOriginal.Value == null ||
+                                        celdaOriginal.Value.ToString() != valorActual)
+                                    {
+                                        celdaOriginal.Value = valorActual;
+                                    }
+
+                                    Dgv_Pnl2_conv.Refresh();
+                                }
+                            }
+
+                            // AHORA SÍ, navegar
+                            NavigateOnEnter(Dgv_Pnl2_conv,false, currentRow, currentCol);
+                        }
+                        
+                    }));
+
                 }
 
 
@@ -12401,6 +12457,7 @@ namespace CapaVisual_Login
                     }
                 }
             }
+
         }
 
         private void Dgv_Pnl2_conv_CellLeave(object sender, DataGridViewCellEventArgs e)
@@ -12791,12 +12848,66 @@ namespace CapaVisual_Login
             {
                 // Llama al evento CellEnter, pasando los mismos sender y argumentos
                 DataGridViewCell changedCell = Dgv_Pnl2_cont.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                // Guardar la posición actual ANTES de llamar a CellEnter
+                int currentRow = e.RowIndex;
+                int currentCol = e.ColumnIndex;
+                object valorActual = changedCell.Value;
+
                 // Obtiene la celda que cambió
                 if (changedCell.Value != null && changedCell.Value.ToString() != string.Empty)
                 // Verifica que el valor no sea nulo ni vacío
                 {
                     Dgv_Pnl2_cont_CellEnter(sender, e);
                 }
+
+
+                // 👇 IMPORTANTE: Usar BeginInvoke para que la navegación ocurra
+                // DESPUÉS de que el DataGridView termine su procesamiento interno
+                this.BeginInvoke(new Action(() =>
+                {
+                    // Pequeña pausa para asegurar que todo terminó
+                    System.Threading.Thread.Sleep(10);
+
+                    // VALIDACIONES ANTES DE RESTAURAR
+                    if (Dgv_Pnl2_cont != null &&
+                        Dgv_Pnl2_cont.Rows.Count > currentRow &&
+                        Dgv_Pnl2_cont.Columns.Count > currentCol && valorActual != "20/" && valorActual != "-" && valorActual.ToString() != "0")
+                    {
+                        // Verificar si necesitamos restaurar la celda original
+                        bool necesitaRestaurar = true;
+
+                        if (Dgv_Pnl2_cont.CurrentCell != null)
+                        {
+                            if (Dgv_Pnl2_cont.CurrentCell.RowIndex == currentRow &&
+                                Dgv_Pnl2_cont.CurrentCell.ColumnIndex == currentCol)
+                            {
+                                necesitaRestaurar = false;
+                            }
+                        }
+
+                        if (necesitaRestaurar)
+                        {
+                            var celdaOriginal = Dgv_Pnl2_cont.Rows[currentRow].Cells[currentCol];
+                            if (celdaOriginal != null)
+                            {
+                                Dgv_Pnl2_cont.CurrentCell = celdaOriginal;
+
+                                // Restaurar valor solo si es necesario
+                                if (celdaOriginal.Value == null ||
+                                    celdaOriginal.Value.ToString() != valorActual)
+                                {
+                                    celdaOriginal.Value = valorActual;
+                                }
+
+                                Dgv_Pnl2_cont.Refresh();
+                            }
+                        }
+
+                        // AHORA SÍ, navegar
+                        NavigateOnEnter(Dgv_Pnl2_cont, true, currentRow, currentCol);
+                    }
+
+                }));
 
             }
 
@@ -13083,17 +13194,6 @@ namespace CapaVisual_Login
                     return;
                 }
 
-//                // Crear la lista primero
-//                List<(string nombre, string valor)> datosPanel2 = new List<(string nombre, string valor)>
-//{
-//    ("T_ALTD", txtAltD.Text),
-//    ("T_ALTI", txtAltI.Text),
-//    ("T_OJO", Cbx_Tap2_Ojo.Text),
-//    ("T_TIPOVISIOND", cbVisionDerecha.Enabled ? cbVisionDerecha.Text : ""),
-//    ("T_TIPOVISIONI", cbVisionIzquierda.Enabled ? cbVisionIzquierda.Text : "")
-//};
-
-//                bool Respuesta = _Asignar_Rx.AsignarRx(TB_CAORDSER.Cod_DetVta, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.CTE_Nacio, TB_CAORDSER.CTE_CedIden, Txt_Tap2_Examen.Text, TB_CAORDSER.NumOrdserv, LbResultado2, LbResultados, dgvRangoCrt, TB_CAORDSER.Cod_Laboratorio, TB_CAORDSER.Cod_Servicio, ((!string.IsNullOrEmpty(txtDistVertice.Text?.Trim())) ? "TRUE" : "FALSE"), ((!string.IsNullOrEmpty(txtAngPant.Text?.Trim())) ? "TRUE" : "FALSE"), ((!string.IsNullOrEmpty(txtAngFac.Text?.Trim())) ? "TRUE" : "FALSE"), datosPanel2);
                 bool Respuesta = _Asignar_Rx.AsignarRx(TB_CAORDSER.Cod_DetVta, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.CTE_Nacio, TB_CAORDSER.CTE_CedIden, Txt_Tap2_Examen.Text, TB_CAORDSER.NumOrdserv, LbResultado2, LbResultados, dgvRangoCrt, TB_CAORDSER.Cod_Laboratorio, TB_CAORDSER.Cod_Servicio, ((!string.IsNullOrEmpty(txtDistVertice.Text?.Trim())) ? "TRUE" : "FALSE"), ((!string.IsNullOrEmpty(txtAngPant.Text?.Trim())) ? "TRUE" : "FALSE"), ((!string.IsNullOrEmpty(txtAngFac.Text?.Trim())) ? "TRUE" : "FALSE"));
                 if (!Respuesta && _Asignar_Rx.stringBuilder.Length > 0)
                 {
@@ -15221,35 +15321,63 @@ namespace CapaVisual_Login
                 }
 
                 // Ejecutar navegación
-                NavigateOnEnter(Dgv_Pnl2_cont);
+                NavigateOnEnter(Dgv_Pnl2_cont,true);
             }
         }
 
         // Tu método de navegación (igual que antes)
-        private void NavigateOnEnter(DataGridView dgv)
+        private void NavigateOnEnter(DataGridView dgv, bool Contacto = false , int? currentRow = null, int? currentCol = null)
         {
-            int currentRow = dgv.CurrentCell.RowIndex;
-            int currentCol = dgv.CurrentCell.ColumnIndex;
+            //int currentRow = dgv.CurrentCell.RowIndex;
+            //int currentCol = dgv.CurrentCell.ColumnIndex;
+
+            // Si no se proporcionaron fila/columna, usar las del CurrentCell
+            int row = currentRow ?? dgv.CurrentCell?.RowIndex ?? 0;
+            int col = currentCol ?? dgv.CurrentCell?.ColumnIndex ?? 0;
+
+            // Validar que los índices sean válidos
+            if (row < 0 || row >= dgv.RowCount || col < 0 || col >= dgv.ColumnCount)
+            {
+                // Si son inválidos, intentar usar CurrentCell
+                if (dgv.CurrentCell != null)
+                {
+                    row = dgv.CurrentCell.RowIndex;
+                    col = dgv.CurrentCell.ColumnIndex;
+                }
+                else
+                {
+                    return; // No hay celda válida, salir
+                }
+            }
+
+
 
             // Lógica de navegación que ya tenías
-            switch (currentCol)
+            switch (col)
             {
+                case 0:
+                    dgv.CurrentCell = dgv.Rows[row].Cells[2];
+                    break;
+                
                 case 1: // Posición 0 -> posición 2
                 case 2: // Posición 1 -> posición 2
-                    dgv.CurrentCell = dgv.Rows[currentRow].Cells[3];
+                    if (Contacto)
+                        dgv.CurrentCell = dgv.Rows[row].Cells[4];
+                    else
+                        dgv.CurrentCell = dgv.Rows[row].Cells[3];
                     break;
 
                 case 4: // Posición 2 -> posición 4
                 case 3: // Posición 3 -> posición 4
-                    dgv.CurrentCell = dgv.Rows[currentRow].Cells[5];
+                    dgv.CurrentCell = dgv.Rows[row].Cells[5];
                     break;
 
                 case 5: // Posición 4 -> posición 5
-                    dgv.CurrentCell = dgv.Rows[currentRow].Cells[6];
+                    dgv.CurrentCell = dgv.Rows[row].Cells[6];
                     break;
 
                 case 13: // Posición 12
-                    if (currentRow == 0) // Primera fila
+                    if (row == 0) // Primera fila
                     {
                         if (dgv.RowCount > 1)
                         {
@@ -15260,51 +15388,79 @@ namespace CapaVisual_Login
                             dgv.CurrentCell = dgv.Rows[0].Cells[3];
                         }
                     }
-                    else if (currentRow == 1) // Segunda fila
+                    else if (row == 1) // Segunda fila
                     {
                         dgv.CurrentCell = dgv.Rows[0].Cells[3];
                     }
                     else // Otras filas
                     {
-                        int nextRow = (currentRow + 1) % dgv.RowCount;
+                        int nextRow = (row + 1) % dgv.RowCount;
                         dgv.CurrentCell = dgv.Rows[nextRow].Cells[3];
                     }
                     break;
 
                 default: // Columnas 5-11
-                    if (currentCol < dgv.ColumnCount - 1)
+                    if (col < dgv.ColumnCount - 1)
                     {
-                        dgv.CurrentCell = dgv.Rows[currentRow].Cells[currentCol + 1];
+                        dgv.CurrentCell = dgv.Rows[row].Cells[col + 1];
                     }
                     else
                     {
                         // Si es la última columna (11), ir a posición 2 de la siguiente fila
-                        int nextRow = currentRow + 1;
+                        int nextRow = row + 1;
                         if (nextRow < dgv.RowCount)
                         {
-                            dgv.CurrentCell = dgv.Rows[nextRow].Cells[3];
+                            dgv.CurrentCell = dgv.Rows[nextRow].Cells[2];
                         }
                         else
                         {
-                            dgv.CurrentCell = dgv.Rows[0].Cells[3];
+                            dgv.CurrentCell = dgv.Rows[0].Cells[2];
                         }
                     }
+
                     break;
             }
 
-            // 2. IMPORTANTE: NO iniciar edición automáticamente
-            // En su lugar, asegurar que la celda está seleccionada completamente
+            try
+            {
+                // Verificar si la celda actual tiene valor DBNull
+                if (dgv.CurrentCell != null && dgv.CurrentCell.Value == DBNull.Value)
+                {
+                    // Asignar un valor por defecto según el tipo de columna
+                    if (dgv.CurrentCell is DataGridViewNumericUpDownCell)
+                    {
+                        dgv.CurrentCell.Value = 0M;
+                    }
+                    else if (dgv.CurrentCell is DataGridViewTextBoxCell)
+                    {
+                        dgv.CurrentCell.Value = "";
+                    }
+                    else
+                    {
+                        dgv.CurrentCell.Value = null;
+                    }
+                }
 
-            // 3. Forzar que la celda NO entre en modo edición
-            dgv.BeginEdit(false); // Esto inicia edición temporalmente
-            dgv.EndEdit();        // Esto la saca del modo edición pero mantiene selección
+                // Ahora sí, iniciar edición
+                dgv.BeginEdit(false);
+                dgv.EndEdit();
+            }
+            catch (InvalidCastException)
+            {
+                // Si aún falla, intentar sin BeginEdit
+                dgv.Focus();
+            }
+            catch (Exception ex)
+            {
+                // Log del error si es necesario
+                Console.WriteLine($"Error en navegación: {ex.Message}");
+                dgv.Focus();
+            }
 
-            // 4. Asegurar que la celda está seleccionada (azul completa)
             dgv.Focus();
-
-            // 5. Configurar para que la próxima tecla entre en modo edición
             dgv.EditMode = DataGridViewEditMode.EditOnKeystrokeOrF2;
         }
+
 
         private void Dgv_Pnl2_cont_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {

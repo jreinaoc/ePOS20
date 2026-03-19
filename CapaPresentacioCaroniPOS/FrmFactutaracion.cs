@@ -1268,6 +1268,25 @@ namespace CapaVisual_Login
                             //Preguta
                             if (_FrmMensajes.DialogResult == DialogResult.OK)
                             {
+
+                                //'Valido que recibido ref no este vacio para guardar el pago si no continuo mi proceso normal 
+                                if (TxtRecibidoREF.Text.Trim() != "" && TxtRecibidoREF.Text.Trim() != "0.00")
+                                {
+
+                                    if (Convert.ToDouble(TxtRecibidoREF.Text) <= Convert.ToDouble(txtRef.Text))
+                                    {
+                                        _FrmMensajes.co = 2;
+                                        _FrmMensajes.avisomensaje("El Monto recibido debe ser mayor a: " + txtRef.Text + "");
+                                        _FrmMensajes.ShowDialog();
+                                        TxtRecibidoREF.Text = "";
+                                        TxtRecibidoREF.Focus();
+                                        return;
+
+                                    }
+
+
+                                }
+
                                 DataTable Pagos = _L_Facturacion.MostarPagosGrid(TB_CAORDSER.Cod_Sucursal, txtNumeroOrden.Text, TB_CAORDSER.Revision);
 
                                 if (Pagos.Rows.Count > 0)
@@ -1289,25 +1308,6 @@ namespace CapaVisual_Login
 
                                 // Guardo el Abono y retotno a la pantalla principal 
                                 _L_Facturacion.GuardarAbonoGrid(idAbonoPagoMovil, Dt_Abonos, CbxMetodosPago2.Text, CbxMoneda.Text, CbxBanco.Text, txtMonto2Bs.Text, "0000", DtpFecha.Value.ToString(), "021", CbxBanco.SelectedValue.ToString(), "", TxtVuelto.Text, txtRef.Text, txtIGTF.Text,"","","","","000", Convert.ToString(recibidoREF));
-
-                                //'Valido que recibido ref no este vacio para guardar el pago si no continuo mi proceso normal 
-                                if (TxtRecibidoREF.Text.Trim() != "" && TxtRecibidoREF.Text.Trim() != "0.00")
-                                {
-
-                                    if (Convert.ToDouble(TxtRecibidoREF.Text) <= Convert.ToDouble(txtRef.Text))
-                                    {
-                                        _FrmMensajes.co = 2;
-                                        _FrmMensajes.avisomensaje("El Monto recibido debe ser mayor a: " + txtRef.Text + "");
-                                        _FrmMensajes.ShowDialog();
-                                        TxtRecibidoREF.Text = "";
-                                        TxtRecibidoREF.Focus();
-                                        return;
-
-                                    }
-
-                                    
-                                }
-
 
                                 BolivaresConveridos(Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos)), txtMontoBs);
                                 //-----------ConvertirBolivares---------------------------
