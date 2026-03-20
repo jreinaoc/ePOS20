@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using CapaLogica.ListaOrden_Logica;
 using CapaDatos.DetalleOrden_Datos;
 using CapaDatos.Inicio_Datos;
+using BibliotecaAppEnvioEmail;
 using CapaLogica.DetalleOrden_Logica;
 using EnvioPagoMovil;
 using Newtonsoft.Json;
@@ -867,60 +868,58 @@ namespace CapaVisual_Login
             parte4 += "<tr><td><font face='Calibri'><strong>Monto en Bolívares:</strong></font>" + "</td><td><font face='Calibri'>" + monto.Replace(".", ",") + "</font></td></tr>";
             parte4 += "<tr><td><font face='Calibri'><strong>Monto en Dólares:</strong></font>" + "</td><td><font face='Calibri'>" + montoRef.Replace(".", ",") + "</font></td></tr>";
             parte4 += "<tr><td><font face='Calibri'><strong>Fecha:</strong></font>" + "</td><td><font face='Calibri'>" + fecha.ToShortDateString() + "</font></td></tr>";
-
-
-            //parte4 += "<br/><font face='Calibri'><strong>N° de Factura / N° de Anticipo:</strong> " + nroOrden + "</font>";
-            //parte4 += "<br/><font face='Calibri'><strong>Paciente:</strong> " + nombrePaciente + "</font>";
-
-            //parte4 += "<br/><font face='Calibri'><strong>Beneficiario:</strong> " + nombreBeneficiario + "</font>";
-            //parte4 += "<br/><font face='Calibri'><strong>Cédula o RIF:</strong> " + cedula + "</font>";
-            //parte4 += "<br/><font face='Calibri'><strong>N° Celular:</strong> " + telefono + "</font>";
-            //parte4 += "<br/><font face='Calibri'><strong>Banco Receptor:</strong> " + nombreBancoReceptor + "</font>";
-            //parte4 += "<br/><font face='Calibri'><strong>Monto en Bolívares:</strong> "+ monto.Replace(".", ",") + "</font>";
-            //parte4 += "<br/><font face='Calibri'><strong>Monto en Dólares:</strong> " + montoRef.Replace(".", ",") + "</font>";
-            //parte4 += "<br/><font face='Calibri'><strong>Fecha:</strong> " + fecha.ToShortDateString()  + "</font>";
             parte4 += "</table>";
-            //
-            //parte4 = "<br/><font face='Calibri Light'>N° de Factura / N° de Anticipo:" + nroOrden + "</font>";
-            //parte4 += "<br/><font face='Calibri Light'>Paciente:" + nombrePaciente + "</font>";
-            //parte4 = "<br/><font face='Calibri Black'>Prueba:</font>" + "<font face='Calibri Black'>Textovalor:</font>";
-            //parte4 = "<br/><font face='Calibri Black'>N° de Factura / N° de Anticipo:" + nroOrden + "</font>";
-            //parte4 += "</table>";
-            // string cuerpoMensaje = parte3 + parte4;
 
 
-            //     string parte11 = "<br/><br/> <b> Nota: </b> " + "Gracias por la atención prestada.";
-            //string parteXI = "<br/> Automáticamente por EposFFt";
-
-            //Llamado a variables de config.
-            string urlApp = _D_DetalleOrden.TB_PARAMETRO("RutaEnvioEmail") + "AppEnvioEmail.exe";
-            var Orig = _D_DetalleOrden.TB_PARAMETRO("UserEnvioEmail");
-
-
-            var DestinatariosP = _D_DetalleOrden.TB_PARAMETRO("UserDestEmailPM"); ;
-
-            //Buscamos Los detinatarios que estan en Tb_Parametros parametro= CopiaEnvioMail
-            var DestinatariosC = "";  
+            var DestinatariosP = _D_DetalleOrden.TB_PARAMETRO("UserDestEmailPM"); ; 
             var Asunto = Sucursal_Descripcion +  "-Solicitud de Vuelto";
-            var User = _D_DetalleOrden.TB_PARAMETRO("UserEnvioEmail");
-            var pass = _D_DetalleOrden.TB_PARAMETRO("PassEnvioEmail");
-
             string CuerpoMensaje = parte1 + parte3 + parte4 ;
-
-            //var word1 = new Chunk(CuerpoMensaje, fuente);
-
-
             string adj = "";
+            bool Respuesta = EnviarEmail(Asunto, CuerpoMensaje, DestinatariosP, adj);
 
-            var HostEnvioMail = _D_DetalleOrden.TB_PARAMETRO("HostEnvioMail");
-            //string strComand = ruta + Orig + ";" + DestinatariosP + ";" + DestinatariosC + ";" + Asunto + ";" + User + ";" + pass + ";" + CuerpoMensaje + ";" + adj + ";" + HostEnvioMail + ";1";
-            string strComand = ";" + Orig + ";" + DestinatariosP + ";" + DestinatariosC + ";" + Asunto + ";" + User + ";" + pass + ";" + CuerpoMensaje + ";" + adj + ";" + HostEnvioMail + ";1";
-            //Ejecutar app externa con parametros
-            Process.Start(urlApp, strComand);
-            //FuncionDelay();
-            //Console.Write("Proceso culminado.\n");
             return;
         }
+
+
+        private bool EnviarEmail(string asunto, string cuerpo, string correoDestino, string rutaAdjunto)
+        {
+            try
+            {
+                string host = _D_DetalleOrden.TB_PARAMETRO("HostEnvioMail");
+                string origen = _D_DetalleOrden.TB_PARAMETRO("UserEnvioEmail");
+                string usuario = _D_DetalleOrden.TB_PARAMETRO("UserEnvioEmail");
+                string pass = _D_DetalleOrden.TB_PARAMETRO("PassEnvioEmail");
+
+                if (string.IsNullOrWhiteSpace(correoDestino))
+                    throw new Exception("El correo destino está vacío");
+
+                ////// Crear instancia del servicio de email
+                EmailService emailService = new EmailService();
+
+                // Usar método de la DLL
+                bool resultado = emailService.SendEmail(
+                    remitente: origen,
+                    destinatarios: correoDestino,
+                    destinatariosCC: "", // si no tienes CC, lo dejas vacío
+                    asunto: asunto,
+                    usuario: usuario,
+                    password: pass,
+                    mensaje: cuerpo,
+                    adjuntos: rutaAdjunto,
+                    dominio: host,
+                    generarLog: "1"
+                );
+
+
+                return resultado;
+
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
 
         private void LblListadoOrdenes_Click(object sender, EventArgs e)
         {

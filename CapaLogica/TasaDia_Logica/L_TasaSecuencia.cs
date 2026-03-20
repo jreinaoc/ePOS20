@@ -7,6 +7,7 @@ using CapaDatos.Conexion;
 using CapaDatos.TasaDia_Datos;
 using CapaDatos.Inicio_Datos;
 using CapaEntidades;
+using BibliotecaAppEnvioEmail;
 using CapaLogica.ListaFactura_Logica;
 using System.Data;
 using System.Data.SqlClient;
@@ -165,11 +166,7 @@ namespace CapaLogica.TasaDia_Logica
 
                                                         if (IActivarEmailASD == "1")
                                                         {
-
-                                                            string urlApp = _D_DetalleOrden.TB_PARAMETRO("RutaEnvioEmail") + "AppEnvioEmail.exe";
-
-                                                                if (File.Exists(urlApp))
-                                                                {
+                                                               
                                                                     string strSucursalDeTrabajo = _D_DetalleOrden.TB_PARAMETRO("Sucursal");
 
                                                                     string NombreSucursal = _D_DetalleOrden.Nombre_Surculsal_PagoMovil(strSucursalDeTrabajo, null);
@@ -178,12 +175,11 @@ namespace CapaLogica.TasaDia_Logica
 
                                                                     var Correo = FormatoCorreoSecuencia(strSucursalDeTrabajo, NombreSucursal, LblTasaDesenc.Text, valor1);
 
-                                                                    EnviarCorreo(Correo.Asunto, Correo.CuerpoMensaje);
-                                                                }
-                                                                else
-                                                                {
-                                                                    mostrarError("No se encontró la aplicación de envío de mail");
-                                                                }
+                                                                     bool repuesta = EnviarEmail(Correo.Asunto, Correo.CuerpoMensaje, _D_DetalleOrden.TB_PARAMETRO("EnvioEmail3"), "");
+                                                                     if (!repuesta)
+                                                                     {
+                                                                      mostrarError("Problema al realizar el envio de Email");
+                                                                     }
                                                         }
 
                                                         // Blanquear campo de Secuencia al finalizar proceso de activación 
@@ -511,24 +507,44 @@ namespace CapaLogica.TasaDia_Logica
             return false;
         }
 
-        public void EnviarCorreo(string asunto, string cuerpoMensaje)
+
+        private bool EnviarEmail(string asunto, string cuerpo, string correoDestino, string rutaAdjunto)
         {
-            // Llamado a variables de config.
-            string urlApp = _D_DetalleOrden.TB_PARAMETRO("RutaEnvioEmail") + "AppEnvioEmail.exe";
-            var Orig = _D_DetalleOrden.TB_PARAMETRO("UserEnvioEmail");
-            var DestinatariosP = _D_DetalleOrden.TB_PARAMETRO("EnvioEmail3");
-            var DestinatariosC = "";
-            var User = _D_DetalleOrden.TB_PARAMETRO("UserEnvioEmail");
-            var pass = _D_DetalleOrden.TB_PARAMETRO("PassEnvioEmail");
-            string adj = "";
-            var HostEnvioMail = _D_DetalleOrden.TB_PARAMETRO("HostEnvioMail");
+            try
+            {
+                string host = _D_DetalleOrden.TB_PARAMETRO("HostEnvioMail");
+                string origen = _D_DetalleOrden.TB_PARAMETRO("UserEnvioEmail");
+                string usuario = _D_DetalleOrden.TB_PARAMETRO("UserEnvioEmail");
+                string pass = _D_DetalleOrden.TB_PARAMETRO("PassEnvioEmail");
 
-            // Construir el comando para la app externa
-            string strComand = ";" + Orig + ";" + DestinatariosP + ";" + DestinatariosC + ";" + asunto + ";" + User + ";" + pass + ";" + cuerpoMensaje + ";" + adj + ";" + "CARONI" + ";1";
+                if (string.IsNullOrWhiteSpace(correoDestino))
+                    throw new Exception("El correo destino está vacío");
 
-            // Ejecutar app externa con parámetros
-            Process.Start(urlApp, strComand);
-            return;
+                ////// Crear instancia del servicio de email
+                EmailService emailService = new EmailService();
+
+                // Usar método de la DLL
+                bool resultado = emailService.SendEmail(
+                    remitente: origen,
+                    destinatarios: correoDestino,
+                    destinatariosCC: "", // si no tienes CC, lo dejas vacío
+                    asunto: asunto,
+                    usuario: usuario,
+                    password: pass,
+                    mensaje: cuerpo,
+                    adjuntos: rutaAdjunto,
+                    dominio: host,
+                    generarLog: "1"
+                );
+
+
+                return resultado;
+
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
 
         public (string Asunto, string CuerpoMensaje) FormatoCorreoSecuencia(string codSucursal, string sucursalDescripcion, string tasa, string fechaSecuencia)
