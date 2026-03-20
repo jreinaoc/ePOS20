@@ -15474,7 +15474,7 @@ namespace CapaVisual_Login
                 filaSeleccionadaPrisma = e.RowIndex;
                 PnlPrisma.Visible = true;
                 PnlPrisma.Show();
-                PnlPrisma.Location = new Point(450, 200);
+                PnlPrisma.Location = new Point(400, 200);
                 PnlPrisma.BringToFront();
                 // Para evitar que el DataGridView entre en modo edición
                 Dgv_Pnl2_conv.EndEdit();

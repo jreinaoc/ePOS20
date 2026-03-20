@@ -199,14 +199,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ePOS.exe" size="3169280">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ePOS.exe" size="3169792">
       <assemblyIdentity name="ePOS" version="1.0.2.4" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>Wsmiy7dr6h3/7STfB3l6wnQklNuRgsoy0+FlV/OGA1g=</dsig:DigestValue>
+        <dsig:DigestValue>Y32QZQx/q74DnZURdBV2deEKLTtdUO8cZ5Vz+3GvT0Y=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
