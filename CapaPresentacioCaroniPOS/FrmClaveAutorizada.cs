@@ -41,9 +41,12 @@ namespace CapaVisual_Login
 
         L_Colores _L_Colores = new L_Colores();
 
-        public FrmClaveAutorizada()
+        private string CodigoTipo; // Variable privada NuevoRequerimiento
+
+        public FrmClaveAutorizada(string codigoTipo)
         {
             InitializeComponent();
+            CodigoTipo = codigoTipo; // Asignas el parámetro al constructor
             CbxSelecGerent.Text = "Seleccionar";
         }
 
@@ -93,8 +96,21 @@ namespace CapaVisual_Login
             DialogResult = DialogResult.OK;
             var gerente = CbxSelecGerent.Text;
             IngresoClaveEsp(gerente);
-            validacion = _L_ClaveAutorizada.clavegenerada + idespecial;
-            probar = validacion.ToString();
+            string clave = "";
+            if (string.IsNullOrWhiteSpace(CodigoTipo))
+            {
+                validacion = _L_ClaveAutorizada.clavegenerada + idespecial;
+                clave = validacion.ToString();
+            }
+            else if (!string.IsNullOrWhiteSpace(CodigoTipo))
+            {
+                string TipoVenta = _D_ClaveAutorizada.BuscarTipoVentaClave(CodigoTipo);
+                int Aleatoria = (int) Convert.ToInt32(LblClaveAleatoria.Text);
+                // Crea una instancia:
+                D_ClaveAutorizada dClaveAutorizada = new D_ClaveAutorizada();
+                clave = dClaveAutorizada.BuscarNuevasClave(TipoVenta, idespecial, Aleatoria);
+
+            }
 
             if (TxtClave.TextLength < 5)
             {
@@ -102,9 +118,8 @@ namespace CapaVisual_Login
                 MostrarMensajeError("El campo de clave debe tener al menos 5 carácteres");
                 return;
             }
-
             CampoCorrect = true;
-            if (TxtClave.Text == probar)
+            if (TxtClave.Text == clave)
             {
                 ClaveCorrecta = true;
                 VariablesGlobales.UsuarioAutorizado_FrmClaveAutorizada = gerente;
@@ -116,8 +131,7 @@ namespace CapaVisual_Login
                 VariablesGlobales.UsuarioAutorizado_FrmClaveAutorizada = "";
                 VariablesGlobales.CodigoUsuarioAutorizado_FrmClaveAutorizada = "";
                 MostrarMensajeError("La clave ingresada es invalida");
-            }
-
+            }   
             Limpiar();
             Nuevo_Parametro = false;
             Parametro_Nuevo = "";
@@ -129,14 +143,17 @@ namespace CapaVisual_Login
         private void FrmClaveAutorizada_Load(object sender, EventArgs e)
         {
             Limpiar();
-            CargarDatosComboBox();
+            CargarDatosComboBox(CodigoTipo);
             AplicarFormatoVisual();
         }
 
-        private void CargarDatosComboBox()
+        private void CargarDatosComboBox(string codigoTipo)
         {
             object dataSource = null;
-
+            //Logica vieja 
+            //Si codigoTipo es Null o blanco 
+            if (string.IsNullOrWhiteSpace(codigoTipo) || codigoTipo == "001")
+            {
             if (Nuevo_Parametro)
             {
                 if (!string.IsNullOrEmpty(Parametro_Nuevo))
@@ -155,6 +172,11 @@ namespace CapaVisual_Login
             else
             {
                 CbxSelecGerent.DataSource = _D_ClaveAutorizada.ClaveAutorizada(TB_USUARIO.COD_SUCURSAL);
+            }
+            }
+            else if (!string.IsNullOrWhiteSpace(codigoTipo))
+            {
+                CbxSelecGerent.DataSource = _D_ClaveAutorizada.ObtengoGerentesClaveAutorizadaII(_D_ClaveAutorizada.BuscarEmpleadosClave(codigoTipo));
             }
 
             if (CbxSelecGerent.Items.Count > 0)

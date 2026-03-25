@@ -34,7 +34,6 @@ namespace CapaVisual_Login
         }
 
         FrmFacturacion _FrmFacturacion = new FrmFacturacion();
-        FrmClaveAutorizada _FrmClaveAutorizada = new FrmClaveAutorizada();
         FrmClaveGerente _FrmClaveGerente = new FrmClaveGerente();
         private D_Inicio _D_Inicio = new D_Inicio();
         private D_DetalleOrden _D_DetalleOrden = new D_DetalleOrden();

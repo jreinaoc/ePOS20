@@ -3943,9 +3943,9 @@ namespace CapaVisual_Login
             this.Pnl_3_Descuento.Controls.Add(this.Btn_Tap3_Aceptar_Desc);
             this.Pnl_3_Descuento.Controls.Add(this.Lbl_Pnl3_Descuento);
             this.Pnl_3_Descuento.Controls.Add(this.Btn_Tap3_Cancelar_Desc);
-            this.Pnl_3_Descuento.Location = new System.Drawing.Point(1056, 473);
+            this.Pnl_3_Descuento.Location = new System.Drawing.Point(1124, 327);
             this.Pnl_3_Descuento.Name = "Pnl_3_Descuento";
-            this.Pnl_3_Descuento.Size = new System.Drawing.Size(461, 223);
+            this.Pnl_3_Descuento.Size = new System.Drawing.Size(519, 223);
             this.Pnl_3_Descuento.TabIndex = 105;
             this.Pnl_3_Descuento.Visible = false;
             // 
@@ -3957,7 +3957,7 @@ namespace CapaVisual_Login
             this.Txt_Pnl3_ObservacionDesc.MaxLength = 200;
             this.Txt_Pnl3_ObservacionDesc.Multiline = true;
             this.Txt_Pnl3_ObservacionDesc.Name = "Txt_Pnl3_ObservacionDesc";
-            this.Txt_Pnl3_ObservacionDesc.Size = new System.Drawing.Size(417, 46);
+            this.Txt_Pnl3_ObservacionDesc.Size = new System.Drawing.Size(479, 46);
             this.Txt_Pnl3_ObservacionDesc.TabIndex = 316;
             this.Txt_Pnl3_ObservacionDesc.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Txt_Pnl3_ObservacionDesc_KeyDown);
             // 
@@ -3979,7 +3979,7 @@ namespace CapaVisual_Login
             this.Cbx_Pnl3_MotivoDesc.FormattingEnabled = true;
             this.Cbx_Pnl3_MotivoDesc.Location = new System.Drawing.Point(292, 80);
             this.Cbx_Pnl3_MotivoDesc.Name = "Cbx_Pnl3_MotivoDesc";
-            this.Cbx_Pnl3_MotivoDesc.Size = new System.Drawing.Size(146, 25);
+            this.Cbx_Pnl3_MotivoDesc.Size = new System.Drawing.Size(212, 25);
             this.Cbx_Pnl3_MotivoDesc.TabIndex = 314;
             this.Cbx_Pnl3_MotivoDesc.SelectedIndexChanged += new System.EventHandler(this.Cbx_Pnl3_MotivoDesc_SelectedIndexChanged);
             // 
@@ -4055,7 +4055,7 @@ namespace CapaVisual_Login
             this.Btn_Tap3_Aceptar_Desc.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Btn_Tap3_Aceptar_Desc.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Btn_Tap3_Aceptar_Desc.ForeColor = System.Drawing.SystemColors.Window;
-            this.Btn_Tap3_Aceptar_Desc.Location = new System.Drawing.Point(346, 186);
+            this.Btn_Tap3_Aceptar_Desc.Location = new System.Drawing.Point(397, 186);
             this.Btn_Tap3_Aceptar_Desc.Name = "Btn_Tap3_Aceptar_Desc";
             this.Btn_Tap3_Aceptar_Desc.Size = new System.Drawing.Size(105, 31);
             this.Btn_Tap3_Aceptar_Desc.TabIndex = 307;
@@ -4071,7 +4071,7 @@ namespace CapaVisual_Login
             this.Lbl_Pnl3_Descuento.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
             this.Lbl_Pnl3_Descuento.Location = new System.Drawing.Point(4, 6);
             this.Lbl_Pnl3_Descuento.Name = "Lbl_Pnl3_Descuento";
-            this.Lbl_Pnl3_Descuento.Size = new System.Drawing.Size(454, 34);
+            this.Lbl_Pnl3_Descuento.Size = new System.Drawing.Size(510, 34);
             this.Lbl_Pnl3_Descuento.TabIndex = 31;
             this.Lbl_Pnl3_Descuento.Text = "Descuento (Precio Total Original)";
             this.Lbl_Pnl3_Descuento.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -4083,7 +4083,7 @@ namespace CapaVisual_Login
             this.Btn_Tap3_Cancelar_Desc.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Btn_Tap3_Cancelar_Desc.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Btn_Tap3_Cancelar_Desc.ForeColor = System.Drawing.SystemColors.Window;
-            this.Btn_Tap3_Cancelar_Desc.Location = new System.Drawing.Point(210, 186);
+            this.Btn_Tap3_Cancelar_Desc.Location = new System.Drawing.Point(261, 186);
             this.Btn_Tap3_Cancelar_Desc.Name = "Btn_Tap3_Cancelar_Desc";
             this.Btn_Tap3_Cancelar_Desc.Size = new System.Drawing.Size(105, 30);
             this.Btn_Tap3_Cancelar_Desc.TabIndex = 30;
@@ -4730,7 +4730,7 @@ namespace CapaVisual_Login
             this.PnlPrisma.Controls.Add(this.RdPrismaRight);
             this.PnlPrisma.Controls.Add(this.RdPrismaDow);
             this.PnlPrisma.Controls.Add(this.RdPrismaUp);
-            this.PnlPrisma.Location = new System.Drawing.Point(1128, 171);
+            this.PnlPrisma.Location = new System.Drawing.Point(1127, 378);
             this.PnlPrisma.Name = "PnlPrisma";
             this.PnlPrisma.Size = new System.Drawing.Size(269, 255);
             this.PnlPrisma.TabIndex = 168;
@@ -4845,9 +4845,9 @@ namespace CapaVisual_Login
             this.Controls.Add(this.tabControl);
             this.Controls.Add(this.Pnl_3_Lista_ClienteAfiliado);
             this.Controls.Add(this.pnl_MonturaPropia);
-            this.Controls.Add(this.Pnl_3_Descuento);
             this.Controls.Add(this.Pnl_3_Promociones);
             this.Controls.Add(this.PnlPrisma);
+            this.Controls.Add(this.Pnl_3_Descuento);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FrmCargarOrden";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

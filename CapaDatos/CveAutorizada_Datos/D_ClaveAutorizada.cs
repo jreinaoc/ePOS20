@@ -118,8 +118,69 @@ namespace CapaDatos.CveAutorizada_Datos
             
         }
 
-        public DataTable ObtengoGerentesClaveAutorizadaII(string CodEmpleado, SqlCommand command = null)
+        public string BuscarEmpleadosClave(string CodigoTipo, SqlCommand command = null)
         {
+            if (command == null)
+            {
+                SqlConnection connection = cn.LeerCadena();
+                command = connection.CreateCommand();
+            }
+
+            SqlCommand cmd = new SqlCommand("SELECT CodigoEmpleado as Valor FROM  TB_CONFIGURACION_CALCULOS WHERE CodigoTipo = @CodigoTipo", cn.LeerCadena());
+            cmd.Parameters.Clear();
+            cmd.CommandType = CommandType.Text;
+            cmd.Parameters.AddWithValue("CodigoTipo", CodigoTipo);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            return dt.Rows[0]["Valor"].ToString();
+
+        }
+
+        public string BuscarTipoVentaClave(string CodigoTipo, SqlCommand command = null)
+        {
+            if (command == null)
+            {
+                SqlConnection connection = cn.LeerCadena();
+                command = connection.CreateCommand();
+            }
+
+            SqlCommand cmd = new SqlCommand("SELECT TipoCalculo as Valor FROM  TB_CONFIGURACION_CALCULOS WHERE CodigoTipo = @CodigoTipo", cn.LeerCadena());
+            cmd.Parameters.Clear();
+            cmd.CommandType = CommandType.Text;
+            cmd.Parameters.AddWithValue("CodigoTipo", CodigoTipo);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            return dt.Rows[0]["Valor"].ToString();
+
+        }
+
+        public string BuscarNuevasClave(string TipoVenta, int IdEspecial, int Secuencia, SqlCommand command = null)
+        {
+            if (command == null)
+            {
+                SqlConnection connection = cn.LeerCadena();
+                command = connection.CreateCommand();
+            }
+            SqlCommand cmd = command;
+            cmd.Parameters.Clear();
+
+            cmd.CommandText = "SP_SECUENCIAEPOS_CALCULAR";
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@OPERACION", TipoVenta.ToUpper());
+            cmd.Parameters.AddWithValue("@IdEspecialGerente", IdEspecial);
+            cmd.Parameters.AddWithValue("@Clave", Secuencia);
+            DataTable dt = new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            da.Fill(dt);
+            cmd.Parameters.Clear();
+            return dt.Rows[0]["RESULTADO"].ToString();
+
+        }
+
+            public DataTable ObtengoGerentesClaveAutorizadaII(string CodEmpleado, SqlCommand command = null)
+            {
 
             try
             {

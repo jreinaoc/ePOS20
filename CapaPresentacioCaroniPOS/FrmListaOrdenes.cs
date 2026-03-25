@@ -51,7 +51,6 @@ namespace CapaVisual_Login
         FrmInicio _FrmInicio = new FrmInicio();
         private FrmMensajes _FrmMensajes = new FrmMensajes();
         FrmFacturacion _FrmFacturacion = new FrmFacturacion();
-        FrmClaveAutorizada _FrmClaveAutorizada = new FrmClaveAutorizada();
         FrmClaveGerente _FrmClaveGerente = new FrmClaveGerente();
         private D_Inicio _D_Inicio = new D_Inicio();
         private D_DetalleOrden _D_DetalleOrden = new D_DetalleOrden();
@@ -1024,6 +1023,9 @@ namespace CapaVisual_Login
 
                         if (_FrmMensajes.DialogResult == DialogResult.OK)
                         {
+                            // Pasas el parámetro directamente en el constructor
+                            FrmClaveAutorizada _FrmClaveAutorizada = new FrmClaveAutorizada("002");
+
                             // Se pide la clave de autorizada
                             _FrmClaveAutorizada.ShowDialog();
 
@@ -1070,6 +1072,9 @@ namespace CapaVisual_Login
                 ////NoataCredito
                 if (DgvListadoOrdenes.CurrentRow.Cells["Estatus"].Value.ToString().Trim() == "Facturada")
                 {
+                    // Pasas el parámetro directamente en el constructor
+                    FrmClaveAutorizada _FrmClaveAutorizada = new FrmClaveAutorizada("002");
+
                     _FrmFacturacion.CargarDatosOrden(DgvListadoOrdenes.CurrentRow.Cells["NumOrdserv"].Value.ToString(), DgvListadoOrdenes.CurrentRow.Cells["Nombre"].Value.ToString(), DgvListadoOrdenes.CurrentRow.Cells["Revision"].Value.ToString());
                     _D_DetalleOrden.ObtenerFactura(TB_CAORDSER.NumOrdserv);
 
@@ -1316,6 +1321,9 @@ namespace CapaVisual_Login
 
                     if (_FrmMensajes.DialogResult == DialogResult.OK)
                     {
+                        // Pasas el parámetro directamente en el constructor
+                        FrmClaveAutorizada _FrmClaveAutorizada = new FrmClaveAutorizada("003");
+
                         _FrmClaveAutorizada.ShowDialog();
 
                         if (_FrmClaveAutorizada.DialogResult == DialogResult.OK)

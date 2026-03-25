@@ -31,7 +31,6 @@ namespace CapaVisual_Login
         FrmListaOrdenes _FrmListaOrdenes = new FrmListaOrdenes();
         FrmInicio _FrmInicio = new FrmInicio();
         FrmMensajes _FrmMensajes = new FrmMensajes();
-        FrmClaveAutorizada _FrmClaveAutorizada = new FrmClaveAutorizada();
         FrmConfiguracion _FrmConfiguracion = new FrmConfiguracion();
         FrmRepContratGart _FrmRepContrat = new FrmRepContratGart();
         FrmFacturacion _FrmFacturacion = new FrmFacturacion();
@@ -1450,6 +1449,9 @@ namespace CapaVisual_Login
 
                 if (_FrmMensajes.DialogResult == DialogResult.OK)
                 {
+                    // Pasas el parámetro directamente en el constructor
+                    FrmClaveAutorizada _FrmClaveAutorizada = new FrmClaveAutorizada("007");
+
                     _FrmClaveAutorizada.Nuevo_Parametro = true;
                     _FrmClaveAutorizada.Parametro_Nuevo = _D_DetalleOrden.TB_PARAMETRO("Codigo_nomina");
                     _FrmClaveAutorizada.ShowDialog();

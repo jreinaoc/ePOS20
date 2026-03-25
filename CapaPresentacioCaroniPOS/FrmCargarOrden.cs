@@ -92,7 +92,6 @@ namespace CapaVisual_Login
         private FrmRepOrden _FrmRepOrden = new FrmRepOrden();
         List<TB_ARTICULO> listaArticulos = new List<TB_ARTICULO>();
         FrmMostrarReporte _FrmMostrarReporte = new FrmMostrarReporte();
-        private FrmClaveAutorizada _FrmClaveAutorizada = new FrmClaveAutorizada();
         private FrmClaveGerente _FrmClaveGerente = new FrmClaveGerente();
         private L_Articulo _L_Articulo = new L_Articulo();
         private FrmMensajes _FrmMensajes = new FrmMensajes();
@@ -2942,6 +2941,9 @@ namespace CapaVisual_Login
 
                     if (_FrmMensajes.DialogResult == DialogResult.OK)
                     {
+                        // Pasas el parámetro directamente en el constructor
+                        FrmClaveAutorizada _FrmClaveAutorizada = new FrmClaveAutorizada("");
+
                         _FrmClaveAutorizada.ShowDialog();
 
                         if (_FrmClaveAutorizada.DialogResult == DialogResult.OK && _FrmClaveAutorizada.ClaveCorrecta == true)
@@ -3123,8 +3125,12 @@ namespace CapaVisual_Login
 
         private void Btn_Tap3_Aceptar_Desc_Click(object sender, EventArgs e)
         {
+            // Pasas el parámetro directamente en el constructor
+            FrmClaveAutorizada _FrmClaveAutorizada = new FrmClaveAutorizada("001");
+
             try
             {
+              
                 // Por descuento
                 if (!string.IsNullOrEmpty(Txt_Pnl3_ObservacionDesc.Text) && !string.IsNullOrEmpty(Txt_Pnl3_PorcDescuento.Text) && !string.IsNullOrEmpty(Txt_Pnl3_MontoDesc.Text))
                 {
@@ -4766,12 +4772,15 @@ namespace CapaVisual_Login
 
         private void Btn_Tap3_ClienteAfiliado_Click(object sender, EventArgs e)
         {
-            //Pido Clave Autorizada
-            _FrmClaveAutorizada.Nuevo_Parametro = true;
-            _FrmClaveAutorizada.Parametro_Nuevo = _L_Articulo.BuscarCodigoGerenteDescuento("009");
-            _FrmClaveAutorizada.ShowDialog();
+            // Pasas el parámetro directamente en el constructor
+            FrmClaveAutorizada __FrmClaveAutorizada = new FrmClaveAutorizada("009");
 
-            if (_FrmClaveAutorizada.DialogResult == DialogResult.OK && _FrmClaveAutorizada.ClaveCorrecta == true)
+            //Pido Clave Autorizada
+            __FrmClaveAutorizada.Nuevo_Parametro = true;
+            __FrmClaveAutorizada.Parametro_Nuevo = _L_Articulo.BuscarCodigoGerenteDescuento("009");
+            __FrmClaveAutorizada.ShowDialog();
+
+            if (__FrmClaveAutorizada.DialogResult == DialogResult.OK && __FrmClaveAutorizada.ClaveCorrecta == true)
             {
 
                 VisualizarPanel("ClienteAfiliado");
@@ -14254,6 +14263,9 @@ namespace CapaVisual_Login
 
         private void btnAutorizarRangosCrt_Click(object sender, EventArgs e)
         {
+            // Pasas el parámetro directamente en el constructor
+            FrmClaveAutorizada _FrmClaveAutorizada = new FrmClaveAutorizada("008");
+
             _FrmClaveAutorizada.Nuevo_Parametro = true;
             _FrmClaveAutorizada.Id_Rol = "015";
             _FrmClaveAutorizada.ShowDialog();
@@ -14265,122 +14277,14 @@ namespace CapaVisual_Login
             }
         }
 
-        private bool ValidoAlturaMedidasRevision()
-        {
-            try
-            {
-                //var gerenteRegio = new frmClaveAutorizada();
-                bool altura = true;
-                bool resultado = false;
-
-                // Validación de altura - medida vertical de la montura
-                if (Cbx_Tap2_Ojo.Text == "Ambos")
-                {
-                    if (!string.IsNullOrWhiteSpace(txtVertical.Text) &&
-                        !string.IsNullOrWhiteSpace(txtAltD.Text) &&
-                        !string.IsNullOrWhiteSpace(txtAltI.Text))
-                    {
-                        double vertical = Convert.ToDouble(txtVertical.Text);
-                        double altD = Convert.ToDouble(txtAltD.Text);
-                        double altI = Convert.ToDouble(txtAltI.Text);
-
-                        if (cbVisionDerecha.Text == "Progresivo" && vertical - altD < 8)
-                            altura = false;
-                        else if (cbVisionIzquierda.Text == "Progresivo" && vertical - altI < 8)
-                            altura = false;
-                        else
-                        {
-                            altura = true;
-                            resultado = true;
-                        }
-                    }
-                }
-                else if (Cbx_Tap2_Ojo.Text == "Derecho")
-                {
-                    if (!string.IsNullOrWhiteSpace(txtVertical.Text) &&
-                        !string.IsNullOrWhiteSpace(txtAltD.Text))
-                    {
-                        double vertical = Convert.ToDouble(txtVertical.Text);
-                        double altD = Convert.ToDouble(txtAltD.Text);
-
-                        if (cbVisionDerecha.Text == "Progresivo" && vertical - altD < 8)
-                            altura = false;
-                        else
-                        {
-                            altura = true;
-                            resultado = true;
-                        }
-                    }
-                }
-                else if (Cbx_Tap2_Ojo.Text == "Izquierdo")
-                {
-                    if (!string.IsNullOrWhiteSpace(txtVertical.Text) &&
-                        !string.IsNullOrWhiteSpace(txtAltI.Text))
-                    {
-                        double vertical = Convert.ToDouble(txtVertical.Text);
-                        double altI = Convert.ToDouble(txtAltI.Text);
-
-                        if (cbVisionIzquierda.Text == "Progresivo" && vertical - altI < 8)
-                            altura = false;
-                        else
-                        {
-                            altura = true;
-                            resultado = true;
-                        }
-                    }
-                }
-                else
-                {
-                    altura = true;
-                    resultado = true;
-                }
-
-                if (!altura)
-                {
-                    _FrmMensajes.co = 3;
-                    _FrmMensajes.avisomensaje("La Medida Vertical de la montura menos la Altura debe ser mayor o igual a 8\n¿Desea generar la venta con clave AUTORIZADA?");
-                    _FrmMensajes.ShowDialog();
-
-                    if (_FrmMensajes.DialogResult == DialogResult.OK)
-                    {
-                        _FrmClaveAutorizada.Nuevo_Parametro = true;
-                        _FrmClaveAutorizada.Id_Rol = "015";
-                        _FrmClaveAutorizada.ShowDialog();
-
-                        if (_FrmClaveAutorizada.DialogResult == DialogResult.OK && _FrmClaveAutorizada.ClaveCorrecta == true)
-                        {
-                            resultado = true;
-                            _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "058", TB_USUARIO.COD_EMPLEADO, $"OS:  Altura D: {txtAltD.Text} Altura I: {txtAltI.Text} MVertical: {txtVertical.Text}, Autoriza: {TB_USUARIO.COD_EMPLEADO}");
-                        }
-                        else
-                        {
-                            resultado = false;
-                        }
-
-                    }
-
-                }
-                return resultado;
-            }
-            catch (Exception ex)
-            {
-                //MensajeError.MuestroMensaje(
-                //    "Error en la función",
-                //    "frmFacturas.VerificoCantidadProducto",
-                //    "Por favor comunicarse con el Dpto de Sistemas y reportar el siguiente error: ",
-                //    ex.Message,
-                //    CapaNegocio.MensajesGenerales.TiposIconos.IconoError,
-                //    glbUsuarioActual);
-
-                //MensajeError.ShowDialog();
-                return false;
-            }
-        }
 
         private bool ValidoAlturaMedidas()
         {
             try
             {
+                // Pasas el parámetro directamente en el constructor
+                FrmClaveAutorizada _FrmClaveAutorizada = new FrmClaveAutorizada("008");
+
                 bool altura = true;
                 bool resultado = true;
 

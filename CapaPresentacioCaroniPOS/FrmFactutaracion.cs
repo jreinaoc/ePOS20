@@ -59,7 +59,6 @@ namespace CapaVisual_Login
         FrmMostrarReporte _FrmMostrarReporte = new FrmMostrarReporte();
         FrmRepContratGart _FrmRepContrat = new FrmRepContratGart();
         FrmAnulacion _FrmAnulacion = new FrmAnulacion();
-        FrmClaveAutorizada _FrmClaveAutorizada = new FrmClaveAutorizada();
         FrmClaveGerente _FrmClaveGerente = new FrmClaveGerente();
         D_Anulacion _D_Anulacion = new D_Anulacion();
         D_Dana _D_Dana = new D_Dana();
@@ -1231,11 +1230,13 @@ namespace CapaVisual_Login
                         {
                             if ((CbxNacionalidadPagoMovil.Text + "-" + TxtCedulaPagoMovil.Text).Replace(" ", "") != (txtCedula.Text).Replace(" ", "") | (TxtTelefono.Text).Replace(" ", "") != (CbxCelularPagoMovil.Text + "-" + TxtCedularPagoMovil.Text).Replace(" ", ""))
                             {
-                                _FrmClaveAutorizada.ShowDialog();
+                                // Pasas el parámetro directamente en el constructor
+                                FrmClaveAutorizada __FrmClaveAutorizada = new FrmClaveAutorizada("005");
+                                __FrmClaveAutorizada.ShowDialog();
 
-                                if (_FrmClaveAutorizada.DialogResult == DialogResult.OK)
+                                if (__FrmClaveAutorizada.DialogResult == DialogResult.OK)
                                 {
-                                    if (_FrmClaveAutorizada.ClaveCorrecta == true)
+                                    if (__FrmClaveAutorizada.ClaveCorrecta == true)
                                     {
                                         string Autorizaa = VariablesGlobales.UsuarioAutorizado_FrmClaveAutorizada;
                                         string DescripAuditorAbono = "OS: " + TB_CAORDSER.NumOrdserv + ", Autorizado por: " + Autorizaa;
@@ -1731,7 +1732,10 @@ namespace CapaVisual_Login
                                     string Autoriza = "";
                                     string Estado = "";
 
-                                   //if (TotalAbono < Convert.ToDouble(MenorMinimoAbono))
+                                    // Pasas el parámetro directamente en el constructor
+                                    FrmClaveAutorizada _FrmClaveAutorizada = new FrmClaveAutorizada("004");
+
+                                    //if (TotalAbono < Convert.ToDouble(MenorMinimoAbono))
                                     if (TotalAbono >= Convert.ToDouble(MenorMinimoAbono))
                                     {
                                         _FrmClaveGerente.ShowDialog();
@@ -1913,7 +1917,7 @@ namespace CapaVisual_Login
                     HabilitacionControl("Bloquear");
                 }
 
-                if (TxtStatus.Text == "Facturada" || TxtStatus.Text == "Anulada")
+                if (TxtStatus.Text == "Facturada" || TxtStatus.Text == "Anulada" )
                 {
                     btnIngresar.Enabled = false;
                     BtnClientePagador.Visible = false;
@@ -5928,6 +5932,9 @@ namespace CapaVisual_Login
                                 }
                             }
                         }
+
+                        // Pasas el parámetro directamente en el constructor
+                        FrmClaveAutorizada _FrmClaveAutorizada = new FrmClaveAutorizada("");
 
                         _FrmClaveAutorizada.ShowDialog();
 
