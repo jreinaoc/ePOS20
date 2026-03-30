@@ -5757,6 +5757,36 @@ namespace CapaVisual_Login
                 if (TotalNota >= (txtBsNotaCredito.Text == "" ? (Double)0.00 : Convert.ToDouble(txtBsNotaCredito.Text.Replace(".", ""))) && (txtBsNotaCredito.Text == "" ? (Double)0.00 : Convert.ToDouble(txtBsNotaCredito.Text.Replace(".", ""))) > 0)
                 {
 
+                    // Verifico que los datos del cliente de la orden sean los mismos que el de la nota 
+                    // si no pido clave 
+
+                    if ((TB_CAORDSER.CTE_Nacio + "-" + TB_CAORDSER.CTE_CedIden).Replace(" ", "") != (txtCedula.Text).Replace(" ", ""))
+                    {
+                        // Pasas el parámetro directamente en el constructor
+                        FrmClaveAutorizada __FrmClaveAutorizada = new FrmClaveAutorizada("010");
+                        __FrmClaveAutorizada.ShowDialog();
+
+                        if (__FrmClaveAutorizada.DialogResult == DialogResult.OK)
+                        {
+                            if (__FrmClaveAutorizada.ClaveCorrecta == true)
+                            {
+                                string Autorizaa = VariablesGlobales.UsuarioAutorizado_FrmClaveAutorizada;
+                                string DescripAuditorAbono = "OS: " + TB_CAORDSER.NumOrdserv + ", ClientePagador: " + (txtCedula.Text).Replace(" ", "") + ", Autorizado por: " + Autorizaa;
+                                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "306", TB_USUARIO.COD_EMPLEADO, DescripAuditorAbono);
+                            }
+                            else
+                            {
+                                return;
+                            }
+                        }
+                        else
+                        {
+                            return;
+                        }
+                    }
+
+
+
                     _L_Facturacion.GuardarAbonoGrid(2,Dt_Abonos, CbxMetodosPago.Text, "Bolivares", "", txtBsNotaCredito.Text, "", DtpFecha.Value.ToString(), CbxMetodosPago.SelectedValue.ToString(), "000", "", "", "", "", "", "", "", NotaNumNota);
                     BolivaresConveridos(Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos)), txtMontoBs);
                     //-----------ConvertirBolivares---------------------------
@@ -7283,6 +7313,33 @@ namespace CapaVisual_Login
 
                 if (TotalNota >= (txtBsNotaDevolucion.Text == "" ? (Double)0.00 : Convert.ToDouble(txtBsNotaDevolucion.Text.Replace(".",""))) && (txtBsNotaDevolucion.Text.Replace(".", "") == "" ? (Double)0.00 : Convert.ToDouble(txtBsNotaDevolucion.Text.Replace(".", ""))) > 0)
                 {
+                    // Verifico que los datos del cliente de la orden sean los mismos que el de la nota 
+                    // si no pido clave 
+
+                    if ((TB_CAORDSER.CTE_Nacio + "-" + TB_CAORDSER.CTE_CedIden).Replace(" ", "") != (txtCedula.Text).Replace(" ", ""))
+                    {
+                        // Pasas el parámetro directamente en el constructor
+                        FrmClaveAutorizada __FrmClaveAutorizada = new FrmClaveAutorizada("011");
+                        __FrmClaveAutorizada.ShowDialog();
+
+                        if (__FrmClaveAutorizada.DialogResult == DialogResult.OK)
+                        {
+                            if (__FrmClaveAutorizada.ClaveCorrecta == true)
+                            {
+                                string Autorizaa = VariablesGlobales.UsuarioAutorizado_FrmClaveAutorizada;
+                                string DescripAuditorAbono = "OS: " + TB_CAORDSER.NumOrdserv + ", ClientePagador: " + (txtCedula.Text).Replace(" ", "") + ", Autorizado por: " + Autorizaa;
+                                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "307", TB_USUARIO.COD_EMPLEADO, DescripAuditorAbono);
+                            }
+                            else
+                            {
+                                return;
+                            }
+                        }
+                        else
+                        {
+                            return;
+                        }
+                    }
 
                     _L_Facturacion.GuardarAbonoGrid(2,Dt_Abonos, CbxMetodosPago.Text, "Bolivares", "", txtBsNotaDevolucion.Text, "", DtpFecha.Value.ToString(), CbxMetodosPago.SelectedValue.ToString(), "000", "", "", "", "", "", "", "", NotaNumNotaDevolucion);
                     BolivaresConveridos(Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos)), txtMontoBs);
