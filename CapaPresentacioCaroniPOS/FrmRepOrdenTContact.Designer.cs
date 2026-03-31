@@ -47,11 +47,13 @@ namespace CapaVisual_Login
             // 
             this.sPCPOSREPORDENBindingSource.DataMember = "SP_CPOS_REP_ORDEN";
             this.sPCPOSREPORDENBindingSource.DataSource = this.dsRepOrdenBindingSource;
+            this.sPCPOSREPORDENBindingSource.CurrentChanged += new System.EventHandler(this.sPCPOSREPORDENBindingSource_CurrentChanged);
             // 
             // dsRepOrdenBindingSource
             // 
             this.dsRepOrdenBindingSource.DataSource = this.dsRepOrden;
             this.dsRepOrdenBindingSource.Position = 0;
+            this.dsRepOrdenBindingSource.CurrentChanged += new System.EventHandler(this.dsRepOrdenBindingSource_CurrentChanged);
             // 
             // dsRepOrden
             // 
@@ -64,6 +66,7 @@ namespace CapaVisual_Login
             reportDataSource1.Name = "DsRepOrden";
             reportDataSource1.Value = this.sPCPOSREPORDENBindingSource;
             reportDataSource2.Name = "DsRepProSinPago";
+            reportDataSource2.Value = null;
             this.reportViewer1.LocalReport.DataSources.Add(reportDataSource1);
             this.reportViewer1.LocalReport.DataSources.Add(reportDataSource2);
             this.reportViewer1.LocalReport.ReportEmbeddedResource = "CapaVisual_Login.Reportes.RepOrdenTContacto.rdlc";

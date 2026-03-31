@@ -14,11 +14,16 @@ using CapaLogica.Login_Logica;
 using System.Data.SqlClient;
 using System.Drawing;
 using CapaDatos.Anulacion;
+using CapaDatos.Conexion;
+
 
 namespace CapaLogica.DetalleOrden_Logica
 {
     public class L_Facturacion
     {
+
+        CapaDatos.Conexion.Conexion cn = new CapaDatos.Conexion.Conexion();
+
         //El uso de la clase StringBuilder nos ayudara a devolver los mensajes de las validaciones
         public readonly StringBuilder stringBuilder = new StringBuilder();
 
@@ -41,6 +46,9 @@ namespace CapaLogica.DetalleOrden_Logica
             public string Value { get; set; }
             public string Index { get; set; }
         }
+
+
+
 
         public struct ValuesTransposicion
         {
@@ -106,22 +114,64 @@ namespace CapaLogica.DetalleOrden_Logica
         }
 
 
-        public void ComboboxTipoPago1(System.Windows.Forms.ComboBox Pagos)
+        public void ComboboxTipoPago1(System.Windows.Forms.ComboBox Pagos, SqlCommand command = null)
         {
+            try
+            {
+                stringBuilder.Clear();
+                if (command == null)
+                {
+                    SqlConnection connection = cn.LeerCadena();
+                    command = connection.CreateCommand();
+                }
 
+                SqlCommand cmd = command;
+                cmd.CommandText = "SP_Get_TipoPago_Ordenado";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@Estado", "A");
+
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+
+                var Valores = new List<Valor>();
+
+                foreach (DataRow row in dt.Rows)
+                {
+                    Valores.Add(new Valor()
+                    {
+                        Index = row["DescripPago"].ToString(),     // DisplayMember
+                        Value = row["COD_PAGO"].ToString(),        // ValueMember (legacy)
+                    });
+                }
+
+                Pagos.DataSource = Valores;
+                Pagos.DisplayMember = "Index";
+                Pagos.ValueMember = "Value";
+
+                cmd.Parameters.Clear();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+
+            /* JM:100226 - Se sustituye este procedimiento para que la lista se obtenga de la tabla TB_TIPOPAGO 
+             
             var Valores = new List<Valor>();
             Valores.Add(new Valor() { Index = "Cashea", Value = "021" });
             Valores.Add(new Valor() { Index = "Debito", Value = "003" });
             Valores.Add(new Valor() { Index = "Efectivo", Value = "001" });
-            Valores.Add(new Valor() { Index = "Efectivo Divisa", Value = "022" });
+            Valores.Add(new Valor() { Index = "Efectivo Divisa", Value = "022" });  *** esto fue cambiado porque efectivo divisa en codigo es 021 ***
             Valores.Add(new Valor() { Index = "ISLR Retenido", Value = "014" });
             Valores.Add(new Valor() { Index = "Iva Retenido", Value = "013" });
             Valores.Add(new Valor() { Index = "Nota Credito", Value = "006" });
             Valores.Add(new Valor() { Index = "Nota Devolucion", Value = "010" });
-            Valores.Add(new Valor() { Index = "Pago Móvil", Value = "024" });
+            Valores.Add(new Valor() { Index = "Pago Móvil", Value = "024" });      *** esto fue cambiado porque pago movil en codigo es 021 ***
             Valores.Add(new Valor() { Index = "Tarjeta de Credito", Value = "007" });
             Valores.Add(new Valor() { Index = "Transferencia", Value = "021" });
-            Valores.Add(new Valor() { Index = "Transferencia Divisa", Value = "022" });
+            Valores.Add(new Valor() { Index = "Transferencia Divisa", Value = "022" });  *** esto fue cambiado porque Transferencia Divisa en codigo es 021 ***
 
             //Valores.Add(new Valor() { Index = "Cheque", Value = "002" });
             //Valores.Add(new Valor() { Index = "Credito", Value = "004" });
@@ -137,10 +187,9 @@ namespace CapaLogica.DetalleOrden_Logica
             //Valores.Add(new Valor() { Index = "Ticket Salud Tarjeta", Value = "019" });
             //Valores.Add(new Valor() { Index = "Ticket Salud Efectivo", Value = "020" });
 
-
             Pagos.DataSource = Valores;
             Pagos.DisplayMember = "Index";
-            Pagos.ValueMember = "Value";
+            Pagos.ValueMember = "Value";  */
 
         }
 
@@ -789,7 +838,10 @@ namespace CapaLogica.DetalleOrden_Logica
                             Abo_Monto_SinIGTF = Convert.ToString(Convert.ToDouble(Row.Cells["Bs"].Value) - Convert.ToDouble(Abo_IGTF.Replace(".", ","))).Replace(",", ".");
                             Abo_Fecha = "01";
                         }
-                        Tipo_Pago = "021";
+
+                        /*JM:120226 Desde Tabla TB_TIPOPAGO "Transferencia Divisa" es "021"
+                         * Tipo_Pago = "021"; */
+
                         Abo_Tipo = "TRANSFERENCIA";
 
                     }
@@ -899,28 +951,28 @@ namespace CapaLogica.DetalleOrden_Logica
             try
             {
                 ////////****************   Asi se Validaba la Factura Manual Antes   *********************///////////////
-                //    DataSet dsFactManual = new DataSet();
-                //    DataSet dsIGTF = new DataSet();
+                                                                                                           //    DataSet dsFactManual = new DataSet();
+                                                                                                           //    DataSet dsIGTF = new DataSet();
 
-                //    dsFactManual = _D_DetalleOrden.GetFactManual(TB_CAORDSER.NumOrdserv, "", command);
-                //    dsIGTF = _D_DetalleOrden.PagosConIGTFVal(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, command);
+                        //    dsFactManual = _D_DetalleOrden.GetFactManual(TB_CAORDSER.NumOrdserv, "", command);
+                        //    dsIGTF = _D_DetalleOrden.PagosConIGTFVal(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, command);
 
-                //    bool FactManual;
+                        //    bool FactManual;
 
-                //    if ((dsFactManual.Tables[0].Rows.Count == 0) & (dsFactManual.Tables[1].Rows.Count == 0) & ((Convert.ToInt32(dsIGTF.Tables[0].Rows[0]["Abo_Monto"]) > 0 & dsIGTF.Tables[0].Rows[0]["FacturaManualIGTF"].ToString() == "False") | Convert.ToInt32(dsIGTF.Tables[0].Rows[0]["Abo_Monto"]) == 0))
-                //    {
-                //        FactManual = false;
-                //    }
-                //    else
-                //    {
-                //        FactManual = true;
-                //    }
+                        //    if ((dsFactManual.Tables[0].Rows.Count == 0) & (dsFactManual.Tables[1].Rows.Count == 0) & ((Convert.ToInt32(dsIGTF.Tables[0].Rows[0]["Abo_Monto"]) > 0 & dsIGTF.Tables[0].Rows[0]["FacturaManualIGTF"].ToString() == "False") | Convert.ToInt32(dsIGTF.Tables[0].Rows[0]["Abo_Monto"]) == 0))
+                        //    {
+                        //        FactManual = false;
+                        //    }
+                        //    else
+                        //    {
+                        //        FactManual = true;
+                        //    }
 
-                //    return FactManual;
+                        //    return FactManual;
 
-                ////////****************   Nueva forma de validar la Factura Manual 25-01-2024  *********************///////////////
-                ///
-                string FactManual = _D_DetalleOrden.Validar_Factura_Manual("FactManual");
+                        ////////****************   Nueva forma de validar la Factura Manual 25-01-2024  *********************///////////////
+                        ///
+                        string FactManual = _D_DetalleOrden.Validar_Factura_Manual("FactManual");
 
                 if (FactManual =="1")
                 {

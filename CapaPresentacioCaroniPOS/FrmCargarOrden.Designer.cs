@@ -1022,7 +1022,7 @@ namespace CapaVisual_Login
             this.Pnl_5_Lista_ClienPagador.Controls.Add(this.txtClienteP);
             this.Pnl_5_Lista_ClienPagador.Controls.Add(this.label29);
             this.Pnl_5_Lista_ClienPagador.Controls.Add(this.button3);
-            this.Pnl_5_Lista_ClienPagador.Location = new System.Drawing.Point(10, 108);
+            this.Pnl_5_Lista_ClienPagador.Location = new System.Drawing.Point(118, 108);
             this.Pnl_5_Lista_ClienPagador.Name = "Pnl_5_Lista_ClienPagador";
             this.Pnl_5_Lista_ClienPagador.Size = new System.Drawing.Size(480, 331);
             this.Pnl_5_Lista_ClienPagador.TabIndex = 356;
