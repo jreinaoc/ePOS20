@@ -87,5 +87,16 @@ namespace CapaVisual_Login.Properties {
                 return ((string)(this["BD122JRConnectionString"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=vcaronibd1\\vcaronibd1;Initial Catalog=BD125EJ;Persist Security Info=T" +
+            "rue;User ID=interconexion;Password=interconexion")]
+        public string BD125EJConnectionString {
+            get {
+                return ((string)(this["BD125EJConnectionString"]));
+            }
+        }
     }
 }

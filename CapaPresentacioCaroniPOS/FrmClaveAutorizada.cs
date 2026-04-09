@@ -15,6 +15,7 @@ using System.Windows.Forms;
 using System;
 using CapaDatos.DetalleOrden_Datos;
 using System.Collections;
+using CapaDatos.Inicio_Datos;
 
 namespace CapaVisual_Login
 {
@@ -27,6 +28,7 @@ namespace CapaVisual_Login
         FrmMensajes _FrmMensajes = new FrmMensajes();
         FrmAnulacion _FrmAnulacion = new FrmAnulacion();
         private D_DetalleOrden _D_DetalleOrden = new D_DetalleOrden();
+        private D_Inicio _D_Inicio = new D_Inicio();
         int idespecial;
         string texto;
         int validacion;
@@ -154,29 +156,37 @@ namespace CapaVisual_Login
             //Si codigoTipo es Null o blanco 
             if (string.IsNullOrWhiteSpace(codigoTipo) || codigoTipo == "001")
             {
-            if (Nuevo_Parametro)
-            {
-                if (!string.IsNullOrEmpty(Parametro_Nuevo))
+                if (Nuevo_Parametro)
                 {
-                    CbxSelecGerent.DataSource = _D_ClaveAutorizada.ObtengoGerentesClaveAutorizadaII(Parametro_Nuevo);
-                }
-                else if (!string.IsNullOrEmpty(Id_Rol))
-                {
-                    CbxSelecGerent.DataSource = _D_ClaveAutorizada.ObtengoGerentesClaveAutorizadaIII(Id_Rol);
+                    if (!string.IsNullOrEmpty(Parametro_Nuevo))
+                    {
+                        CbxSelecGerent.DataSource = _D_ClaveAutorizada.ObtengoGerentesClaveAutorizadaII(Parametro_Nuevo);
+                    }
+                    else if (!string.IsNullOrEmpty(Id_Rol))
+                    {
+                        CbxSelecGerent.DataSource = _D_ClaveAutorizada.ObtengoGerentesClaveAutorizadaIII(Id_Rol);
+                    }
+                    else
+                    {
+                        CbxSelecGerent.DataSource = _D_ClaveAutorizada.ClaveAutorizadaII(_D_DetalleOrden.TB_PARAMETRO("Codigo_nomina"));
+                    }
                 }
                 else
                 {
-                    CbxSelecGerent.DataSource = _D_ClaveAutorizada.ClaveAutorizadaII(_D_DetalleOrden.TB_PARAMETRO("Codigo_nomina"));
+                    CbxSelecGerent.DataSource = _D_ClaveAutorizada.ClaveAutorizada(TB_USUARIO.COD_SUCURSAL);
                 }
-            }
-            else
-            {
-                CbxSelecGerent.DataSource = _D_ClaveAutorizada.ClaveAutorizada(TB_USUARIO.COD_SUCURSAL);
-            }
             }
             else if (!string.IsNullOrWhiteSpace(codigoTipo))
             {
+                //// Esto es para poner los gerentes regionales por zona porque en la entidad TIPOSCLAVEAUTORIZADA estan todos 
+                //if (codigoTipo == "004" || codigoTipo== "005" || codigoTipo== "002" )
+                //{
+                //    CbxSelecGerent.DataSource = _D_ClaveAutorizada.ObtengoGerentesClaveAutorizadaII(_D_ClaveAutorizada.EmpleadosPorZona(_D_Inicio.Sucursal()));
+                //}
+                //else
+                //{ 
                 CbxSelecGerent.DataSource = _D_ClaveAutorizada.ObtengoGerentesClaveAutorizadaII(_D_ClaveAutorizada.BuscarEmpleadosClave(codigoTipo));
+                //}
             }
 
             if (CbxSelecGerent.Items.Count > 0)

@@ -126,7 +126,7 @@ namespace CapaDatos.CveAutorizada_Datos
                 command = connection.CreateCommand();
             }
 
-            SqlCommand cmd = new SqlCommand("SELECT CodigoEmpleado as Valor FROM  TB_CONFIGURACION_CALCULOS WHERE CodigoTipo = @CodigoTipo", cn.LeerCadena());
+            SqlCommand cmd = new SqlCommand("SELECT CodigoEmpleado as Valor FROM  TIPOSCLAVEAUTORIZADA WHERE CodigoTipo = @CodigoTipo", cn.LeerCadena());
             cmd.Parameters.Clear();
             cmd.CommandType = CommandType.Text;
             cmd.Parameters.AddWithValue("CodigoTipo", CodigoTipo);
@@ -134,6 +134,27 @@ namespace CapaDatos.CveAutorizada_Datos
             DataTable dt = new DataTable();
             da.Fill(dt);
             return dt.Rows[0]["Valor"].ToString();
+
+        }
+
+        public string EmpleadosPorZona(string CodSucursal, SqlCommand command = null)
+        {
+            if (command == null)
+            {
+                SqlConnection connection = cn.LeerCadena();
+                command = connection.CreateCommand();
+            }
+            SqlCommand cmd = command;
+            cmd.Parameters.Clear();
+
+            cmd.CommandText = "pGet_EmpleadosPorZona";
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@CodSucursa", CodSucursal.ToUpper());
+            DataTable dt = new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            da.Fill(dt);
+            cmd.Parameters.Clear();
+            return dt.Rows[0]["CodigosEmpleado"].ToString();
 
         }
 
@@ -145,7 +166,7 @@ namespace CapaDatos.CveAutorizada_Datos
                 command = connection.CreateCommand();
             }
 
-            SqlCommand cmd = new SqlCommand("SELECT TipoCalculo as Valor FROM  TB_CONFIGURACION_CALCULOS WHERE CodigoTipo = @CodigoTipo", cn.LeerCadena());
+            SqlCommand cmd = new SqlCommand("SELECT TipoCalculo as Valor FROM  TIPOSCLAVEAUTORIZADA WHERE CodigoTipo = @CodigoTipo", cn.LeerCadena());
             cmd.Parameters.Clear();
             cmd.CommandType = CommandType.Text;
             cmd.Parameters.AddWithValue("CodigoTipo", CodigoTipo);

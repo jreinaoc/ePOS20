@@ -103,6 +103,10 @@ namespace CapaVisual_Login
                     _FrmMensajes.ShowDialog();
                     return;
                 }
+                else
+                {
+                    _L_CierreCaja.CierreSucursalObservacion(sucursal, diaActivo, TB_USUARIO.COD_USR , txtCierreHora.Text);
+                }
             }
 
             bool valido = true;

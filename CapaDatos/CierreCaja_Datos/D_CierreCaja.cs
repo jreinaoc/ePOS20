@@ -114,6 +114,40 @@ namespace CapaDatos.CierreCaja_Datos
             }
         }
 
+        public void  CierreSucursal_Observacion(string codsuc, DateTime DiaActivo, string UsuarioCreacion, string Observacion, SqlCommand command = null)
+        {
+            try
+            {
+                if (command == null)
+                {
+                    SqlConnection connection = cn.LeerCadena();
+                    command = connection.CreateCommand();
+                }
+                SqlCommand cmd = command;
+                cmd.Parameters.Clear();
+
+                cmd.CommandText = "pAdd_CierreSucursal";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Cod_Sucursal", codsuc);
+                cmd.Parameters.AddWithValue("@fechaDiaActivo", DiaActivo);
+                cmd.Parameters.AddWithValue("@fechaCrea", DiaActivo);
+                cmd.Parameters.AddWithValue("@USER_Crea", UsuarioCreacion);
+                cmd.Parameters.AddWithValue("@Observacion", Observacion);
+
+
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                cmd.Parameters.Clear();
+
+            }
+            catch (Exception ex)
+            {
+                string Error = string.Format("Error: {0}", ex.Message);
+                EscribirLog(ex.Message.ToString());
+            }
+        }
+
         public DataTable CierrePuntodeVenta(string codsuc, string codBanco, string nroLote, DateTime fecha, SqlCommand command = null)
         {
             try
