@@ -59,7 +59,6 @@ namespace CapaVisual_Login
         FrmMostrarReporte _FrmMostrarReporte = new FrmMostrarReporte();
         FrmRepContratGart _FrmRepContrat = new FrmRepContratGart();
         FrmAnulacion _FrmAnulacion = new FrmAnulacion();
-        FrmClaveAutorizada _FrmClaveAutorizada = new FrmClaveAutorizada();
         FrmClaveGerente _FrmClaveGerente = new FrmClaveGerente();
         D_Anulacion _D_Anulacion = new D_Anulacion();
         D_Dana _D_Dana = new D_Dana();
@@ -251,17 +250,23 @@ namespace CapaVisual_Login
                 }
             }
 
-            if (TB_USUARIO.COD_EMPLEADO == "99999")
+            if (_D_DetalleOrden.TB_PARAMETRO("AmbDesarrollo") == "0")
             {
-                _FrmMensajes.co = 2;
-                _FrmMensajes.avisomensaje("Este usuario no tiene autorización");
-                _FrmMensajes.ShowDialog();
-                return; // Salir 
-            } 
+                
+                if (TB_USUARIO.COD_EMPLEADO == "99999")
+                {
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje("Este usuario no tiene autorización");
+                    _FrmMensajes.ShowDialog();
+                    return; // Salir 
+                }
 
-            //**** Se creo una nueva Funcion para validar la Asistencia 
-            if (!_L_CierreCaja.BuscoAsistencia(DateTime.Now.ToString("yyyyMMdd"), mostrarPregunta, mostrarError))
-                return;
+                //**** Se creo una nueva Funcion para validar la Asistencia 
+                if (!_L_CierreCaja.BuscoAsistencia(DateTime.Now.ToString("yyyyMMdd"), mostrarPregunta, mostrarError))
+                    return;
+            }
+
+           
 
             //validar si es factura manual 
 
@@ -1232,11 +1237,13 @@ namespace CapaVisual_Login
                         {
                             if ((CbxNacionalidadPagoMovil.Text + "-" + TxtCedulaPagoMovil.Text).Replace(" ", "") != (txtCedula.Text).Replace(" ", "") | (TxtTelefono.Text).Replace(" ", "") != (CbxCelularPagoMovil.Text + "-" + TxtCedularPagoMovil.Text).Replace(" ", ""))
                             {
-                                _FrmClaveAutorizada.ShowDialog();
+                                // Pasas el parámetro directamente en el constructor
+                                FrmClaveAutorizada __FrmClaveAutorizada = new FrmClaveAutorizada("005");
+                                __FrmClaveAutorizada.ShowDialog();
 
-                                if (_FrmClaveAutorizada.DialogResult == DialogResult.OK)
+                                if (__FrmClaveAutorizada.DialogResult == DialogResult.OK)
                                 {
-                                    if (_FrmClaveAutorizada.ClaveCorrecta == true)
+                                    if (__FrmClaveAutorizada.ClaveCorrecta == true)
                                     {
                                         string Autorizaa = VariablesGlobales.UsuarioAutorizado_FrmClaveAutorizada;
                                         string DescripAuditorAbono = "OS: " + TB_CAORDSER.NumOrdserv + ", Autorizado por: " + Autorizaa;
@@ -1269,6 +1276,25 @@ namespace CapaVisual_Login
                             //Preguta
                             if (_FrmMensajes.DialogResult == DialogResult.OK)
                             {
+
+                                //'Valido que recibido ref no este vacio para guardar el pago si no continuo mi proceso normal 
+                                if (TxtRecibidoREF.Text.Trim() != "" && TxtRecibidoREF.Text.Trim() != "0.00")
+                                {
+
+                                    if (Convert.ToDouble(TxtRecibidoREF.Text) <= Convert.ToDouble(txtRef.Text))
+                                    {
+                                        _FrmMensajes.co = 2;
+                                        _FrmMensajes.avisomensaje("El Monto recibido debe ser mayor a: " + txtRef.Text + "");
+                                        _FrmMensajes.ShowDialog();
+                                        TxtRecibidoREF.Text = "";
+                                        TxtRecibidoREF.Focus();
+                                        return;
+
+                                    }
+
+
+                                }
+
                                 DataTable Pagos = _L_Facturacion.MostarPagosGrid(TB_CAORDSER.Cod_Sucursal, txtNumeroOrden.Text, TB_CAORDSER.Revision);
 
                                 if (Pagos.Rows.Count > 0)
@@ -1295,25 +1321,6 @@ namespace CapaVisual_Login
 
                                 _L_Facturacion.GuardarAbonoGrid(idAbonoPagoMovil, Dt_Abonos, CbxMetodosPago2.Text, CbxMoneda.Text, CbxBanco.Text, txtMonto2Bs.Text, "0000", DtpFecha.Value.ToString(), CbxMetodosPago2.SelectedValue.ToString(), CbxBanco.SelectedValue.ToString(), "", TxtVuelto.Text, txtRef.Text, txtIGTF.Text, "", "", "", "", "000", Convert.ToString(recibidoREF));
 
-
-
-                                //'Valido que recibido ref no este vacio para guardar el pago si no continuo mi proceso normal 
-                                if (TxtRecibidoREF.Text.Trim() != "" && TxtRecibidoREF.Text.Trim() != "0.00")
-                                {
-
-                                    if (Convert.ToDouble(TxtRecibidoREF.Text) <= Convert.ToDouble(txtRef.Text))
-                                    {
-                                        _FrmMensajes.co = 2;
-                                        _FrmMensajes.avisomensaje("El Monto recibido debe ser mayor a: " + txtRef.Text + "");
-                                        _FrmMensajes.ShowDialog();
-                                        TxtRecibidoREF.Text = "";
-                                        TxtRecibidoREF.Focus();
-                                        return;
-
-                                    }
-
-                                    
-                                }
 
 
                                 BolivaresConveridos(Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos)), txtMontoBs);
@@ -1598,6 +1605,7 @@ namespace CapaVisual_Login
                         {
                             if (_Impresora_Fiscal.VerficarConexionImpresoraFiscalSinCerrar() == false)
                             {
+                                ImprimirFacturaFiscall = false;
                                 mensaje = _Impresora_Fiscal.stringBuilder.ToString();
                                 rept = "Error";
                                 _FrmMensajes.co = 2;
@@ -1741,7 +1749,10 @@ namespace CapaVisual_Login
                                     string Autoriza = "";
                                     string Estado = "";
 
-                                   //if (TotalAbono < Convert.ToDouble(MenorMinimoAbono))
+                                    // Pasas el parámetro directamente en el constructor
+                                    FrmClaveAutorizada _FrmClaveAutorizada = new FrmClaveAutorizada("004");
+
+                                    //if (TotalAbono < Convert.ToDouble(MenorMinimoAbono))
                                     if (TotalAbono >= Convert.ToDouble(MenorMinimoAbono))
                                     {
                                         _FrmClaveGerente.ShowDialog();
@@ -1923,7 +1934,7 @@ namespace CapaVisual_Login
                     HabilitacionControl("Bloquear");
                 }
 
-                if (TxtStatus.Text == "Facturada" || TxtStatus.Text == "Anulada")
+                if (TxtStatus.Text == "Facturada" || TxtStatus.Text == "Anulada" )
                 {
                     btnIngresar.Enabled = false;
                     BtnClientePagador.Visible = false;
@@ -2581,20 +2592,6 @@ namespace CapaVisual_Login
         {
             if (CbxMetodosPago.SelectedIndex != -1)
             {
-                //if (_L_Facturacion.ValidaFactManual() == false)
-                //{
-                //    if (_Impresora_Fiscal.VerficarConexionImpresoraFiscalSinCerrar() == false)
-                //    {
-                //        mensaje = _Impresora_Fiscal.stringBuilder.ToString();
-                //        //rept = "Error";
-                //        _FrmMensajes.co = 2;
-                //        _FrmMensajes.avisomensaje(mensaje);
-                //        _FrmMensajes.ShowDialog();
-                //        //btnCancelar1.PerformClick();
-                //        //return;
-                //    }
-                //}
-
                 //Tasa
                 label74.Visible = false;
                 txtTasaFact.Visible = false;
@@ -4344,10 +4341,7 @@ namespace CapaVisual_Login
                     ImprimirFacturaFiscall = true;
 
 
-                    resp = objVmax.AbrirPuerto(Convert.ToString(glbPuertoCOM));
-
-                    //(ret != 16 && ret != 0)
-                    if (_Impresora_Fiscal.VerficarConexionImpresoraFiscalSinCerrar() == false)
+                    if(1==2)
                     {
                         mensaje = _Impresora_Fiscal.stringBuilder.ToString();
                         ImprimirFacturaFiscall = false;
@@ -4363,30 +4357,34 @@ namespace CapaVisual_Login
                     {
 
                         objVmax.AbrirPuerto(Convert.ToString(glbPuertoCOM));
+                        resp = objVmax.ObtenerReporteInformativo();
+                        //objVmax.AbrirDNF();
+                        SerialImpresora = objVmax.RetornoMI.sSerial;
+                        FechaImpresora = objVmax.RetornoMI.sFecha;
                         bool respuesta = false;
                         // ''''' ********* DATOS DEL CLIENTE ************
                         //resp = objVmax.AbrirCF(txtNombreCliente.Text, (txtCedula.Text.Replace("-","")) , "1", "294", "12345", "", "", 40);
                         resp = objVmax.AbrirCF(txtNombreCliente.Text, txtCedula.Text, "1", "294", "12345", "", "", 40);
-                        
-                        if (_Impresora_Fiscal.VerficarConexionImpresoraFiscalSinCerrar() == false)
+
+                        do
                         {
-                            mensaje = _Impresora_Fiscal.stringBuilder.ToString();
+                            if (_Impresora_Fiscal.VerficarConexionImpresoraFiscalSinCerrar()) break;
                             ImprimirFacturaFiscall = false;
-                            _FrmMensajes.co = 2;
-                            _FrmMensajes.avisomensaje(mensaje);
-                            _FrmMensajes.ShowDialog();
-                            btnCancelar1.PerformClick();
-                            _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, "No hay conexión con la impresora fiscal");
+                            mensaje = _Impresora_Fiscal.stringBuilder.ToString();
+                                _FrmMensajes.co = 2;
+                                _FrmMensajes.avisomensaje(mensaje);
+                                _FrmMensajes.ShowDialog();
+                                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, mensaje);
+                        } while (true);
+
+                        objVmax.ObtenerContadores();
+                        UltimoNumeroFacturaCancelado2 = objVmax.RetornoContadores.uiUltFacturaAnulada.ToString().PadLeft(7, '0');
+                        NumeroComprobanteFiscal = objVmax.RetornoAbrirFactura.uiNumeroFactura.ToString().PadLeft(7, '0');
+
+                        if (UltimoNumeroFacturaCancelado2 == NumeroComprobanteFiscal)
+                        {
                             return "Error";
                         }
-                        else
-                        {
-                            objVmax.ObtenerReporteInformativo();
-                            SerialImpresora = objVmax.RetornoMI.sSerial;
-                            NumeroComprobanteFiscal = objVmax.RetornoAbrirFactura.uiNumeroFactura.ToString();
-
-                        }
-
 
                         /// **********'IMPRIMO LOS ITEMS *********************
 
@@ -4421,29 +4419,29 @@ namespace CapaVisual_Login
 
 
                             resp = objVmax.Item(desart, Convert.ToString(Convert.ToDouble(drItem["Ordserv_Cant"]) * 1000), drItem["OrdServ_Precio"].ToString(), TipoTasaIVA, "1", 40);
-                            if (_Impresora_Fiscal.VerficarConexionImpresoraFiscalSinCerrar() == false)
+                            
+                            do
                             {
-                                mensaje = _Impresora_Fiscal.stringBuilder.ToString();
+                                if (_Impresora_Fiscal.VerficarConexionImpresoraFiscalSinCerrar()) break;
                                 ImprimirFacturaFiscall = false;
+                                mensaje = _Impresora_Fiscal.stringBuilder.ToString();
                                 _FrmMensajes.co = 2;
                                 _FrmMensajes.avisomensaje(mensaje);
                                 _FrmMensajes.ShowDialog();
-                                btnCancelar1.PerformClick();
                                 _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, "No hay conexión con la impresora fiscal");
-                                objVmax.Cancelar();
-                                objVmax.Cerrar();
-                                objVmax.CerrarPuerto();
+                            } while (true);
 
-                                objVmax.AbrirPuerto(glbPuertoCOM.ToString());
-                                objVmax.ObtenerContadores();
-                                objVmax.CerrarPuerto();
-                                UltimoNumeroFacturaCancelado2 = objVmax.RetornoContadores.uiUltFacturaAnulada.ToString().PadLeft(7, '0');
+                            objVmax.ObtenerContadores();
+                            UltimoNumeroFacturaCancelado2 = objVmax.RetornoContadores.uiUltFacturaAnulada.ToString().PadLeft(7, '0');
+                            NumeroComprobanteFiscal = objVmax.RetornoAbrirFactura.uiNumeroFactura.ToString().PadLeft(7, '0');
+
+                            if (UltimoNumeroFacturaCancelado2 == NumeroComprobanteFiscal)
+                            {
                                 return "Error";
                             }
-                            else
-                            {
-                                TotalItems = TotalItems + ((Convert.ToDouble(drItem["OrdServ_Precio"]) * Convert.ToInt32(drItem["Ordserv_Cant"]))) + Convert.ToDouble(drItem["OrdServ_Impuesto"]);
-                            }
+
+                            TotalItems = TotalItems + ((Convert.ToDouble(drItem["OrdServ_Precio"]) * Convert.ToInt32(drItem["Ordserv_Cant"]))) + Convert.ToDouble(drItem["OrdServ_Impuesto"]);
+                            
                         }
 
 
@@ -4453,8 +4451,8 @@ namespace CapaVisual_Login
 
                         // ************SUB TOTAL DEL CF ********************
                         // Si la impresora devuelve true imprimo  subtotal
-                        if (resp == 16 || resp == 0)
-                        {
+                        //if (resp == 16 || resp == 0)
+                        //{
 
                             // OBTENGO LA SUMATORIA DE LOS ABONOS PARA SABER SI COINCIDEN CON EL TOTAL DE LOS ARTICULOS  PARA CANCELAR EL CF ANTES DE ENVIAR EL SUBTOTAL. 
                             DataTable dtPago = _D_DetalleOrden.TEMP_ABONO(TB_CAORDSER.Cod_Sucursal, txtNumeroOrden.Text, TB_CAORDSER.Revision, command);
@@ -4575,15 +4573,35 @@ namespace CapaVisual_Login
 
                                         DctoExento = drItemdcto["DescuentoExento"].ToString();
                                         DctoGravable = drItemdcto["DescuentoGravable"].ToString() + drItemdcto["DescuentoGravableA"].ToString() + drItemdcto["DescuentoGravableR"].ToString();
+                                    
+                                    do
+                                    {
+                                        if (_Impresora_Fiscal.VerficarConexionImpresoraFiscalSinCerrar()) break;
+                                        ImprimirFacturaFiscall = false;
+                                        mensaje = _Impresora_Fiscal.stringBuilder.ToString();
+                                        _FrmMensajes.co = 2;
+                                        _FrmMensajes.avisomensaje(mensaje);
+                                        _FrmMensajes.ShowDialog();
+                                        _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, mensaje);
+                                    } while (true);
+
+                                    objVmax.ObtenerContadores();
+                                    UltimoNumeroFacturaCancelado2 = objVmax.RetornoContadores.uiUltFacturaAnulada.ToString().PadLeft(7, '0');
+                                    NumeroComprobanteFiscal = objVmax.RetornoAbrirFactura.uiNumeroFactura.ToString().PadLeft(7, '0');
+
+                                    if (UltimoNumeroFacturaCancelado2 == NumeroComprobanteFiscal)
+                                    {
+                                        return "Error";
                                     }
+                                }
                                 }
 
                                 Double subtotal = 0.00;
                                 Double subtotalIgtf = 0.00;
 
                                 // ******ENVIO EL SUBTOTAL DE LA FACTURA**************
-                                if (resp == 16 || resp == 0)
-                                {
+                                //if (resp == 16 || resp == 0)
+                                //{
 
                                     foreach (DataRow drIgtf in DtIGTF.Tables[0].Rows)
                                     {
@@ -4592,27 +4610,33 @@ namespace CapaVisual_Login
                                         subtotalIgtf = subtotalIgtf + Convert.ToDouble(drIgtf["IGTFCALC1"].ToString());
                                     }
 
+                                    do
+                                    {
+                                        if (_Impresora_Fiscal.VerficarConexionImpresoraFiscalSinCerrar()) break;
+                                ImprimirFacturaFiscall = false;
+                                mensaje = _Impresora_Fiscal.stringBuilder.ToString();
+                                        _FrmMensajes.co = 2;
+                                        _FrmMensajes.avisomensaje(mensaje);
+                                        _FrmMensajes.ShowDialog();
+                                        _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, "No hay conexión con la impresora fiscal");
+                                    } while (true);
+
+                                    objVmax.ObtenerContadores();
+                                    UltimoNumeroFacturaCancelado2 = objVmax.RetornoContadores.uiUltFacturaAnulada.ToString().PadLeft(7, '0');
+                                    NumeroComprobanteFiscal = objVmax.RetornoAbrirFactura.uiNumeroFactura.ToString().PadLeft(7, '0');
+
+                                    if (UltimoNumeroFacturaCancelado2 == NumeroComprobanteFiscal)
+                                    {
+                                        return "Error";
+                                    }
+
                                     // Verifico si la orden tiene Igtf 1
                                     if (Convert.ToBoolean(DtIGTF.Tables[0].Rows[0]["ActivaIGTF"].ToString()) == true & DtIGTF.Tables[0].Rows[0]["Abo_Monto"].ToString() != "0")
                                     {
 
                                         if (DtIGTF.Tables[0].Rows[0]["IGTFCAORDSER"].ToString().Replace(",", "") == (subtotalIgtf * 100).ToString().Replace(",", ""))
                                         {
-                                            if (_Impresora_Fiscal.VerficarConexionImpresoraFiscalSinCerrar() == false)
-                                            {
-                                                mensaje = _Impresora_Fiscal.stringBuilder.ToString();
-                                                ImprimirFacturaFiscall = false;
-                                                _FrmMensajes.co = 2;
-                                                _FrmMensajes.avisomensaje(mensaje);
-                                                _FrmMensajes.ShowDialog();
-                                                btnCancelar1.PerformClick();
-                                                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, "No hay conexión con la impresora fiscal");
-                                                return "Error";
-                                            }
-                                            else
-                                            {
-                                                resp = objVmax.SubtotalT_sinRetorno(Convert.ToString(subtotal * 100).Replace(".", ","));
-                                            }
+                                            resp = objVmax.SubtotalT_sinRetorno(Convert.ToString(subtotal * 100).Replace(".", ","));
                                         }
                                         else
                                             respuesta = false;
@@ -4621,44 +4645,51 @@ namespace CapaVisual_Login
 
                                     else
                                     {
-                                        if (_Impresora_Fiscal.VerficarConexionImpresoraFiscalSinCerrar() == false)
-                                        {
-                                            mensaje = _Impresora_Fiscal.stringBuilder.ToString();
-                                            ImprimirFacturaFiscall = false;
-                                            _FrmMensajes.co = 2;
-                                            _FrmMensajes.avisomensaje(mensaje);
-                                            _FrmMensajes.ShowDialog();
-                                            btnCancelar1.PerformClick();
-                                            _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, "No hay conexión con la impresora fiscal");
-                                            return "Error";
-                                        }
-                                        else
-                                        {
-                                            resp = objVmax.Subtotal();
-                                        }
+                                        resp = objVmax.Subtotal();
+                                        
                                         //Modificarrrr
                                         TotalFacturaFiscal = objVmax.RetornoSubtotal.llSubtotal.ToString();
                                         NumeroComprobanteFiscal = objVmax.RetornoAbrirFactura.uiNumeroFactura.ToString();
 
-                                    }
-
-                                }
-                                else
+                                do
                                 {
-                                    objVmax.Cancelar();
-                                    objVmax.Cerrar();
-                                    objVmax.CerrarPuerto();
-
-                                    objVmax.AbrirPuerto(glbPuertoCOM.ToString());
-                                    objVmax.ObtenerContadores();
-                                    objVmax.CerrarPuerto();
-                                    UltimoNumeroFacturaCancelado2 = objVmax.RetornoContadores.uiUltFacturaAnulada.ToString().PadLeft(7, '0');
-
+                                    if (_Impresora_Fiscal.VerficarConexionImpresoraFiscalSinCerrar()) break;
                                     ImprimirFacturaFiscall = false;
-                                    respuesta = false;
-                                    return "Error";
+                                    mensaje = _Impresora_Fiscal.stringBuilder.ToString();
+                                    _FrmMensajes.co = 2;
+                                    _FrmMensajes.avisomensaje(mensaje);
+                                    _FrmMensajes.ShowDialog();
+                                    _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, mensaje);
+                                } while (true);
 
+                                objVmax.ObtenerContadores();
+                                UltimoNumeroFacturaCancelado2 = objVmax.RetornoContadores.uiUltFacturaAnulada.ToString().PadLeft(7, '0');
+                                NumeroComprobanteFiscal = objVmax.RetornoAbrirFactura.uiNumeroFactura.ToString().PadLeft(7, '0');
+
+                                if (UltimoNumeroFacturaCancelado2 == NumeroComprobanteFiscal)
+                                {
+                                    return "Error";
                                 }
+
+                            }
+
+                                //}
+                                //else
+                                //{
+                                //    objVmax.Cancelar();
+                                //    objVmax.Cerrar();
+                                //    objVmax.CerrarPuerto();
+
+                                //    objVmax.AbrirPuerto(glbPuertoCOM.ToString());
+                                //    objVmax.ObtenerContadores();
+                                //    objVmax.CerrarPuerto();
+                                //    UltimoNumeroFacturaCancelado2 = objVmax.RetornoContadores.uiUltFacturaAnulada.ToString().PadLeft(7, '0');
+
+                                //    ImprimirFacturaFiscall = false;
+                                //    respuesta = false;
+                                //    return "Error";
+
+                                //}
                             }
 
                             if (sumo01 == true)
@@ -4713,15 +4744,36 @@ namespace CapaVisual_Login
                                         DctoExento = drItemdcto["DescuentoExento"].ToString();
                                         DctoGravable = drItemdcto["DescuentoGravable"].ToString() + drItemdcto["DescuentoGravableA"].ToString() + drItemdcto["DescuentoGravableR"].ToString();
 
+
+                                    do
+                                    {
+                                        if (_Impresora_Fiscal.VerficarConexionImpresoraFiscalSinCerrar()) break;
+                                        ImprimirFacturaFiscall = false;
+                                        mensaje = _Impresora_Fiscal.stringBuilder.ToString();
+                                        _FrmMensajes.co = 2;
+                                        _FrmMensajes.avisomensaje(mensaje);
+                                        _FrmMensajes.ShowDialog();
+                                        _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, mensaje);
+                                    } while (true);
+
+                                    objVmax.ObtenerContadores();
+                                    UltimoNumeroFacturaCancelado2 = objVmax.RetornoContadores.uiUltFacturaAnulada.ToString().PadLeft(7, '0');
+                                    NumeroComprobanteFiscal = objVmax.RetornoAbrirFactura.uiNumeroFactura.ToString().PadLeft(7, '0');
+
+                                    if (UltimoNumeroFacturaCancelado2 == NumeroComprobanteFiscal)
+                                    {
+                                        return "Error";
                                     }
+                                
+                                }
                                 }
 
 
 
 
                                 // ******ENVIO EL SUBTOTAL DE LA FACTURA**************
-                                if (resp == 16 || resp == 0)
-                                {
+                                //if (resp == 16 || resp == 0)
+                                //{
 
                                     Double subtotal = 0.00;
                                     Double subtotalIgtf = 0.00;
@@ -4733,27 +4785,33 @@ namespace CapaVisual_Login
                                         subtotalIgtf = subtotalIgtf + Convert.ToDouble(drIgtf["IGTFCALC1"].ToString());
                                     }
 
+                                    do
+                                    {
+                                        if (_Impresora_Fiscal.VerficarConexionImpresoraFiscalSinCerrar()) break;
+                                ImprimirFacturaFiscall = false;
+                                mensaje = _Impresora_Fiscal.stringBuilder.ToString();
+                                        _FrmMensajes.co = 2;
+                                        _FrmMensajes.avisomensaje(mensaje);
+                                        _FrmMensajes.ShowDialog();
+                                        _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, "No hay conexión con la impresora fiscal");
+                                    } while (true);
+
+                                    objVmax.ObtenerContadores();
+                                    UltimoNumeroFacturaCancelado2 = objVmax.RetornoContadores.uiUltFacturaAnulada.ToString().PadLeft(7, '0');
+                                    NumeroComprobanteFiscal = objVmax.RetornoAbrirFactura.uiNumeroFactura.ToString().PadLeft(7, '0');
+
+                                    if (UltimoNumeroFacturaCancelado2 == NumeroComprobanteFiscal)
+                                    {
+                                        return "Error";
+                                    }
+
                                     // Verifico si la orden tiene Igtf 2
                                     if (Convert.ToBoolean(DtIGTF.Tables[0].Rows[0]["ActivaIGTF"].ToString()) == true & DtIGTF.Tables[0].Rows[0]["Abo_Monto"].ToString() != "0")
                                     {
 
                                         if (DtIGTF.Tables[0].Rows[0]["IGTFCAORDSER"].ToString().Replace(",", "") == (subtotalIgtf * 100).ToString().Replace(",", ""))
                                         {
-                                            if (_Impresora_Fiscal.VerficarConexionImpresoraFiscalSinCerrar() == false)
-                                            {
-                                                mensaje = _Impresora_Fiscal.stringBuilder.ToString();
-                                                ImprimirFacturaFiscall = false;
-                                                _FrmMensajes.co = 2;
-                                                _FrmMensajes.avisomensaje(mensaje);
-                                                _FrmMensajes.ShowDialog();
-                                                btnCancelar1.PerformClick();
-                                                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, "No hay conexión con la impresora fiscal");
-                                                return "Error";
-                                            }
-                                            else
-                                            {
-                                                resp = objVmax.SubtotalT_sinRetorno(Convert.ToString(subtotal * 100).Replace(".", ","));
-                                            }
+                                            resp = objVmax.SubtotalT_sinRetorno(Convert.ToString(subtotal * 100).Replace(".", ","));
                                         }
                                         else
                                         {
@@ -4771,93 +4829,84 @@ namespace CapaVisual_Login
 
                                     }
 
-                                }
-                                else
-                                {
-                                    objVmax.Cancelar();
-                                    objVmax.Cerrar();
-                                    objVmax.CerrarPuerto();
+                                //}
+                                //else
+                                //{
+                                //    objVmax.Cancelar();
+                                //    objVmax.Cerrar();
+                                //    objVmax.CerrarPuerto();
 
-                                    objVmax.AbrirPuerto(glbPuertoCOM.ToString());
-                                    objVmax.ObtenerContadores();
-                                    objVmax.CerrarPuerto();
-                                    UltimoNumeroFacturaCancelado2 = objVmax.RetornoContadores.uiUltFacturaAnulada.ToString().PadLeft(7, '0');
+                                //    objVmax.AbrirPuerto(glbPuertoCOM.ToString());
+                                //    objVmax.ObtenerContadores();
+                                //    objVmax.CerrarPuerto();
+                                //    UltimoNumeroFacturaCancelado2 = objVmax.RetornoContadores.uiUltFacturaAnulada.ToString().PadLeft(7, '0');
 
-                                    ImprimirFacturaFiscall = false;
-                                    respuesta = false;
-                                    return "Error";
+                                //    ImprimirFacturaFiscall = false;
+                                //    respuesta = false;
+                                //    return "Error";
 
-                                }
+                                //}
 
                             }
-                        }
+                        //}
 
-                        else
-                        {
-                            objVmax.Cancelar();
-                            objVmax.Cerrar();
-                            objVmax.CerrarPuerto();
+                        //else
+                        //{
+                        //    objVmax.Cancelar();
+                        //    objVmax.Cerrar();
+                        //    objVmax.CerrarPuerto();
 
-                            objVmax.AbrirPuerto(glbPuertoCOM.ToString());
-                            objVmax.ObtenerContadores();
-                            objVmax.CerrarPuerto();
-                            UltimoNumeroFacturaCancelado2 = objVmax.RetornoContadores.uiUltFacturaAnulada.ToString().PadLeft(7, '0');
+                        //    objVmax.AbrirPuerto(glbPuertoCOM.ToString());
+                        //    objVmax.ObtenerContadores();
+                        //    objVmax.CerrarPuerto();
+                        //    UltimoNumeroFacturaCancelado2 = objVmax.RetornoContadores.uiUltFacturaAnulada.ToString().PadLeft(7, '0');
 
-                            ImprimirFacturaFiscall = false;
-                            //rollbackRealizado = true;
-                            respuesta = false;
-                            return "Error";
+                        //    ImprimirFacturaFiscall = false;
+                        //    //rollbackRealizado = true;
+                        //    respuesta = false;
+                        //    return "Error";
 
 
 
-                        }
+                        //}
 
                         // *************ENVIO LOS PAGOS***********************
-                        if (resp == 16 || resp == 0)
-                        {
-                            DataTable dtPago = _D_DetalleOrden.Pasgos(TB_CAORDSER.Cod_Sucursal, txtNumeroOrden.Text, TB_CAORDSER.Revision, command);
+                       
+                            dtPago = _D_DetalleOrden.Pasgos(TB_CAORDSER.Cod_Sucursal, txtNumeroOrden.Text, TB_CAORDSER.Revision, command);
                             TotalFacturaFiscal = objVmax.RetornoSubtotal.llSubtotal.ToString();
                             decimal PagosEnviados = 0;
                             foreach (DataRow drPago in dtPago.Rows)
                             {
                                 if (Convert.ToDecimal(drPago["Abo_Monto"].ToString()) > 0)
                                 {
+                                    do
+                                    {
+                                        if (_Impresora_Fiscal.VerficarConexionImpresoraFiscalSinCerrar()) break;
+                                    ImprimirFacturaFiscall = false;
+                                    mensaje = _Impresora_Fiscal.stringBuilder.ToString();
+                                        _FrmMensajes.co = 2;
+                                        _FrmMensajes.avisomensaje(mensaje);
+                                        _FrmMensajes.ShowDialog();
+                                        _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, "No hay conexión con la impresora fiscal");
+                                    } while (true);
+
+                                    objVmax.ObtenerContadores();
+                                    UltimoNumeroFacturaCancelado2 = objVmax.RetornoContadores.uiUltFacturaAnulada.ToString().PadLeft(7, '0');
+                                    NumeroComprobanteFiscal = objVmax.RetornoAbrirFactura.uiNumeroFactura.ToString().PadLeft(7, '0');
+
+                                    if (UltimoNumeroFacturaCancelado2 == NumeroComprobanteFiscal)
+                                    {
+                                        return "Error";
+                                    }
+
                                     int NumeroMaximoCaracteres = Convert.ToInt32(drPago["Abo_Tipo"].ToString().Length);
                                     if (Convert.ToDecimal(drPago["Abo_Monto_RecibidoREF"].ToString()) == 0)
                                     {
-                                        if (_Impresora_Fiscal.VerficarConexionImpresoraFiscalSinCerrar() == false)
-                                        {
-                                            mensaje = _Impresora_Fiscal.stringBuilder.ToString();
-                                            ImprimirFacturaFiscall = false;
-                                            _FrmMensajes.co = 2;
-                                            _FrmMensajes.avisomensaje(mensaje);
-                                            _FrmMensajes.ShowDialog();
-                                            btnCancelar1.PerformClick();
-                                            _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, "No hay conexión con la impresora fiscal");
-                                            return "Error";
-                                        }
-                                        else
-                                        {
-                                            resp = objVmax.PagoCF(drPago["Abo_Monto"].ToString(), drPago["Abo_Tipo"].ToString(), 1);
-                                        }
+                                        resp = objVmax.PagoCF(drPago["Abo_Monto"].ToString(), drPago["Abo_Tipo"].ToString(), 1);
                                     }
                                     else
                                     {
-                                        if (_Impresora_Fiscal.VerficarConexionImpresoraFiscalSinCerrar() == false)
-                                        {
-                                            mensaje = _Impresora_Fiscal.stringBuilder.ToString();
-                                            ImprimirFacturaFiscall = false;
-                                            _FrmMensajes.co = 2;
-                                            _FrmMensajes.avisomensaje(mensaje);
-                                            _FrmMensajes.ShowDialog();
-                                            btnCancelar1.PerformClick();
-                                            _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, "No hay conexión con la impresora fiscal");
-                                            return "Error";
-                                        }
-                                        else
-                                        {
-                                            resp = objVmax.PagoCF(drPago["Abo_Monto_RecibidoREF"].ToString(), drPago["Abo_Tipo"].ToString(), 1);
-                                        }
+                                        resp = objVmax.PagoCF(drPago["Abo_Monto_RecibidoREF"].ToString(), drPago["Abo_Tipo"].ToString(), 1);
                                     }
                                     PagosEnviados = PagosEnviados + Convert.ToDecimal(drPago["Abo_Monto"].ToString());
                                 }
@@ -4866,19 +4915,7 @@ namespace CapaVisual_Login
                             TotalFacturaFiscal = objVmax.RetornoSubtotal.llSubtotal.ToString();
                             decimal Calculo = Convert.ToDecimal(TotalFacturaFiscal) - PagosEnviados;
 
-                            if (_Impresora_Fiscal.VerficarConexionImpresoraFiscalSinCerrar() == false)
-                            {
-                                mensaje = _Impresora_Fiscal.stringBuilder.ToString();
-                                ImprimirFacturaFiscall = false;
-                                _FrmMensajes.co = 2;
-                                _FrmMensajes.avisomensaje(mensaje);
-                                _FrmMensajes.ShowDialog();
-                                btnCancelar1.PerformClick();
-                                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, "No hay conexión con la impresora fiscal");
-                                return "Error";
-                            }
-                            else
-                            {
+                           
 
                                 if (Convert.ToString(Convert.ToDecimal(TotalFacturaFiscal) - PagosEnviados) == "1")
                                 {
@@ -4911,32 +4948,13 @@ namespace CapaVisual_Login
                                     _D_DetalleOrden.SP_SUMOFACTURA(TB_CAORDSER.Cod_Sucursal, NumeroComprobanteFiscal, SerialImpresora, txtNumeroOrden.Text, TotalFacturaFiscal, DctoExento, DctoGravable, command);
 
                                 }
-                            }
+                            //}
 
-                        }
-                        else
-                        {
-                            ImprimirFacturaFiscall = false;
+                       
 
 
-                            mensaje = "No hay conexión con la impresora fiscal";
-                            _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, "No hay conexión con la impresora fiscal");
-                            _FrmMensajes.co = 2;
-                            _FrmMensajes.avisomensaje(mensaje);
-                            _FrmMensajes.ShowDialog();
-                            btnCancelar1.PerformClick();
-                            //objVmax.Cancelar();
-                            //objVmax.Cerrar();
-                            //objVmax.CerrarPuerto();
-
-                            respuesta = false;
-                            return "Error";
-
-                        }
-
-
-                        if (resp == 16 || resp == 0)
-                        {
+                        //if (resp == 16 || resp == 0)
+                        //{
                             //if ("1" == "1")
                             //{
 
@@ -5044,70 +5062,34 @@ namespace CapaVisual_Login
 
                             }
 
-                            resp = objVmax.ObtenerReporteInformativo();
-                            //objVmax.AbrirDNF();
-                            SerialImpresora = objVmax.RetornoMI.sSerial;
-                            FechaImpresora = objVmax.RetornoMI.sFecha;
+                            
                             // string Fecha2 = DateTime.Today.ToString("yyyyMMdd");
 
-                            if (_Impresora_Fiscal.VerficarConexionImpresoraFiscalSinCerrar() == false)
+                            do
                             {
-                                mensaje = _Impresora_Fiscal.stringBuilder.ToString();
-                                ImprimirFacturaFiscall = false;
+                                if (_Impresora_Fiscal.VerficarConexionImpresoraFiscalSinCerrar()) break;
+                            ImprimirFacturaFiscall = false;
+                            mensaje = _Impresora_Fiscal.stringBuilder.ToString();
                                 _FrmMensajes.co = 2;
                                 _FrmMensajes.avisomensaje(mensaje);
                                 _FrmMensajes.ShowDialog();
-                                btnCancelar1.PerformClick();
                                 _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, "No hay conexión con la impresora fiscal");
+                            } while (true);
+
+                            objVmax.ObtenerContadores();
+                            UltimoNumeroFacturaCancelado2 = objVmax.RetornoContadores.uiUltFacturaAnulada.ToString().PadLeft(7, '0');
+                            NumeroComprobanteFiscal = objVmax.RetornoAbrirFactura.uiNumeroFactura.ToString().PadLeft(7, '0');
+
+                            if (UltimoNumeroFacturaCancelado2 == NumeroComprobanteFiscal)
+                            {
                                 return "Error";
                             }
-                            else
-                            {
 
-
-
-
-                                // Si la impresora devuelve true imprimo los comentarios y cierro el CF
-
-                                resp = objVmax.TextoNoFiscal("");
-                                if (_Impresora_Fiscal.VerficarConexionImpresoraFiscalSinCerrar() == false)
-                                {
-                                    mensaje = _Impresora_Fiscal.stringBuilder.ToString();
-                                    ImprimirFacturaFiscall = false;
-                                    _FrmMensajes.co = 2;
-                                    _FrmMensajes.avisomensaje(mensaje);
-                                    _FrmMensajes.ShowDialog();
-                                    btnCancelar1.PerformClick();
-                                    _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, "No hay conexión con la impresora fiscal");
-                                    return "Error";
-                                }
-                                else
-                                {
-
-                                    resp = objVmax.TextoNoFiscal("Numero Orden: " + txtNumeroOrden.Text);
-                                    resp = objVmax.TextoNoFiscal("");
-                                }
-
-                                //if (_Impresora_Fiscal.VerficarConexionImpresoraFiscalSinCerrar() == false)
-                                //{
-                                //    mensaje = _Impresora_Fiscal.stringBuilder.ToString();
-                                //    ImprimirFacturaFiscall = false;
-                                //    _FrmMensajes.co = 2;
-                                //    _FrmMensajes.avisomensaje(mensaje);
-                                //    _FrmMensajes.ShowDialog();
-                                //    btnCancelar1.PerformClick();
-                                //    _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, "No hay conexión con la impresora fiscal");
-                                //    return "Error";
-                                //}
-                                //else
-                                //{
-
-                                    
-                                //}
-
-
-
-                                string ImpTextNoFiscal = _D_DetalleOrden.TB_PARAMETRO("ImpTextNoFiscal");
+                            resp = objVmax.TextoNoFiscal("");
+                            resp = objVmax.TextoNoFiscal("Numero Orden: " + txtNumeroOrden.Text);
+                            resp = objVmax.TextoNoFiscal("");
+                                
+                            string ImpTextNoFiscal = _D_DetalleOrden.TB_PARAMETRO("ImpTextNoFiscal");
 
                                 if (ImpTextNoFiscal == "1")
                                 {
@@ -5121,73 +5103,91 @@ namespace CapaVisual_Login
                                 }
 
 
-                                if (resp == 16 || resp == 0)
-                                {
-                                    if (_Impresora_Fiscal.VerficarConexionImpresoraFiscalSinCerrar() == false)
-                                    {
-                                        mensaje = _Impresora_Fiscal.stringBuilder.ToString();
-                                        ImprimirFacturaFiscall = false;
-                                        _FrmMensajes.co = 2;
-                                        _FrmMensajes.avisomensaje(mensaje);
-                                        _FrmMensajes.ShowDialog();
-                                        btnCancelar1.PerformClick();
-                                        _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, "No hay conexión con la impresora fiscal");
-                                        return "Error";
-                                    }
-                                    else
-                                    {
+                            do
+                            {
+                                if (_Impresora_Fiscal.VerficarConexionImpresoraFiscalSinCerrar()) break;
+                            ImprimirFacturaFiscall = false;
+                            mensaje = _Impresora_Fiscal.stringBuilder.ToString();
+                                _FrmMensajes.co = 2;
+                                _FrmMensajes.avisomensaje(mensaje);
+                                _FrmMensajes.ShowDialog();
+                                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, "No hay conexión con la impresora fiscal");
+                            } while (true);
 
-                                        resp = objVmax.Cerrar();
-                                    }
+                            objVmax.ObtenerContadores();
+                            UltimoNumeroFacturaCancelado2 = objVmax.RetornoContadores.uiUltFacturaAnulada.ToString().PadLeft(7, '0');
+                            NumeroComprobanteFiscal = objVmax.RetornoAbrirFactura.uiNumeroFactura.ToString().PadLeft(7, '0');
 
+                            if (UltimoNumeroFacturaCancelado2 == NumeroComprobanteFiscal)
+                            {
+                                return "Error";
+                            }
 
-                                }
-                                else
-                                {
-                                    //objVmax.CerrarPuerto();
-                                    ImprimirFacturaFiscall = false;
+                           
 
-
-                                    mensaje = "No hay conexión con la impresora fiscal";
-                                    _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, "No hay conexión con la impresora fiscal");
-                                    _FrmMensajes.co = 2;
-                                    _FrmMensajes.avisomensaje(mensaje);
-                                    _FrmMensajes.ShowDialog();
-                                    btnCancelar1.PerformClick();
-                                    //objVmax.Cancelar();
-                                    //objVmax.Cerrar();
-                                    //objVmax.CerrarPuerto();
-                                    return "Error";
-                                }
-
-                                //if (resp != 16 && resp != 0)
-                                //{
-                                //    //objVmax.CerrarPuerto();
-                                //    ImprimirFacturaFiscall = false;
+                        do
+                        {
+                            //uint cantFact = 0;
+                            //objVmax.ObtenerReporteMf("");
+                            //cantFact = objVmax.RetornoMF.uiTotalFacturasEmitidas;
 
 
-                                //    mensaje = "No hay conexión con la impresora fiscal";
-                                //    _FrmMensajes.co = 2;
-                                //    _FrmMensajes.avisomensaje(mensaje);
-                                //    _FrmMensajes.ShowDialog();
-                                //    btnCancelar1.PerformClick();
-                                //    //objVmax.Cancelar();
-                                //    //objVmax.Cerrar();
-                                //    //objVmax.CerrarPuerto();
-                                //    return "Error";
-                                //}
-                                //else
-                                //{
+                            //objVmax.ObtenerReporteMf("");
+                            //cantFact = objVmax.RetornoMF.uiTotalFacturasEmitidas;
+                            // lo que nos dice Vmas 
+                            // 🔹 Para modelos VMAX2: 0x0001 = tapa abierta o sin papel
+                            //if (!string.IsNullOrEmpty(Resss) && Resss != "0000") 
+                            objVmax.ObtenerContadores();
 
-                                resp = objVmax.CerrarPuerto();
-                                //}
+                            //objVmax.ObtenerReporteMf("");
+                            UltimoNumeroFacturaCancelado2 = objVmax.RetornoContadores.uiUltFacturaAnulada.ToString().PadLeft(7, '0');
+                            NumeroComprobanteFiscal = objVmax.RetornoAbrirFactura.uiNumeroFactura.ToString().PadLeft(7, '0');
+
+                            //_D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, "obt contadores: anu" + UltimoNumeroFacturaCancelado2 + " fact " + NumeroComprobanteFiscal);
+
+
+                            if (UltimoNumeroFacturaCancelado2 == NumeroComprobanteFiscal)
+                            {
+                                return "Error";
                             }
 
 
-                            //if (resp == 16 || resp == 0)
-                            //{
+                            uint Resss = 0;
+                            Resss = objVmax.Cerrar();
+
+                            if (_Impresora_Fiscal.VerficarConexionImpresoraFiscalSinCerrar() & (Resss == 0 || Resss == 16)) break;
+                            ImprimirFacturaFiscall = false;
+                            mensaje = _Impresora_Fiscal.stringBuilder.ToString();
+                            if (string.IsNullOrWhiteSpace(mensaje))
+                            {
+                                mensaje = "Verifique la conexión de la impresora fiscal";
+                            }
+                            _FrmMensajes.co = 2;
+                            _FrmMensajes.avisomensaje(mensaje);
+                            _FrmMensajes.ShowDialog();
+                            //_D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, "aqui Resss =" + Resss);
+
+                            _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, "No hay conexión con la impresora fiscal");
+                        } while (true);
+
+                       
+                        //resp = 1;
+                        //do
+                        //{
+                        //    if (resp == 16 || resp == 0) break;
+                        //    resp = objVmax.Cerrar();
+                        //    //if (_Impresora_Fiscal.VerficarConexionImpresoraFiscalSinCerrar()) break;
+                        //    //mensaje = _Impresora_Fiscal.stringBuilder.ToString();
+                        //    _FrmMensajes.co = 2;
+                        //    _FrmMensajes.avisomensaje("No hay conexión con la impresora fiscal");
+                        //    _FrmMensajes.ShowDialog();
+                        //    _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, "No hay conexión con la impresora fiscal");
+                        //} while (true) ;
 
 
+
+                        resp = objVmax.CerrarPuerto();
+                             
                             ImprimirFacturaFiscall = true;
                             NumeroComprobanteFiscal = objVmax.RetornoAbrirFactura.uiNumeroFactura.ToString();
                             string Ultimo_Tiket_Anulado = objVmax.RetornoAbrirFactura.uiUltNumeroCancelado.ToString();
@@ -5254,63 +5254,11 @@ namespace CapaVisual_Login
 
                             string cedula = txtCedula.Text;
                             string Nacionalidad = cedula[0].ToString();
-                            int tiempoImpTermica = Convert.ToInt32(_D_DetalleOrden.TB_PARAMETRO("TiempoImpTerm"));
+                            //int tiempoImpTermica = Convert.ToInt32(_D_DetalleOrden.TB_PARAMETRO("TiempoImpTerm"));
 
-                            // Esperar un tiempo para que la impresora emita el ticket
-                            Thread.Sleep(tiempoImpTermica); // Esperar 5 segundos (ajusta el tiempo según sea necesario)
-                            //if (_Impresora_Fiscal.VerficarConexionImpresoraFiscalSinCerrar() == false)
-                            //{
-                            //    mensaje = _Impresora_Fiscal.stringBuilder.ToString();
-                            //    ImprimirFacturaFiscall = false;
-                            //    _FrmMensajes.co = 2;
-                            //    _FrmMensajes.avisomensaje(mensaje);
-                            //    _FrmMensajes.ShowDialog();
-                            //    btnCancelar1.PerformClick();
-                            //    _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, "No hay conexión con la impresora fiscal");
-                            //    return "Error";
-                            //}
-                            //else
-                            //{
-                            //    objVmax.AbrirPuerto(Convert.ToString(glbPuertoCOM));
-                            //}
-
-                            //if (_Impresora_Fiscal.VerficarConexionImpresoraFiscalSinCerrar() == false)
-                            //{
-                            //    mensaje = _Impresora_Fiscal.stringBuilder.ToString();
-                            //    ImprimirFacturaFiscall = false;
-                            //    _FrmMensajes.co = 2;
-                            //    _FrmMensajes.avisomensaje(mensaje);
-                            //    _FrmMensajes.ShowDialog();
-                            //    btnCancelar1.PerformClick();
-                            //    _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, "No hay conexión con la impresora fiscal");
-                            //    return "Error";
-                            //}
-                            //else
-                            //{
-                            //    objVmax.ObtenerContadores();
-                            //}
-
-                            //if (_Impresora_Fiscal.VerficarConexionImpresoraFiscalSinCerrar() == false)
-                            //{
-                            //    mensaje = _Impresora_Fiscal.stringBuilder.ToString();
-                            //    ImprimirFacturaFiscall = false;
-                            //    _FrmMensajes.co = 2;
-                            //    _FrmMensajes.avisomensaje(mensaje);
-                            //    _FrmMensajes.ShowDialog();
-                            //    btnCancelar1.PerformClick();
-                            //    _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, "No hay conexión con la impresora fiscal");
-                            //    return "Error";
-                            //}
-                            //else
-                            //{
-                                objVmax.AbrirPuerto(glbPuertoCOM.ToString());
-                                objVmax.ObtenerContadores();
-                                objVmax.CerrarPuerto();
-                                UltimoNumeroFacturaCancelado2 = objVmax.RetornoContadores.uiUltFacturaAnulada.ToString().PadLeft(7, '0');
-                                string UltimoNumeroFacturaEmitido2 = objVmax.RetornoContadores.uiUltFacturaAbierta.ToString().PadLeft(7, '0');
-                               
-                                objVmax.Cerrar();
-                                //con datos de tb_abono
+                            //// Esperar un tiempo para que la impresora emita el ticket
+                            //Thread.Sleep(tiempoImpTermica); // Esperar 5 segundos (ajusta el tiempo según sea necesario)
+                            
                                 if (resp == 0 && (UltimoNumeroFacturaCancelado2 != NumeroComprobanteFiscal) && (NumeroComprobanteFiscal.Trim() != "0000000"))
                                 {
 
@@ -5335,45 +5283,45 @@ namespace CapaVisual_Login
                                 }
                             //}
 
-                        }
-                        else
-                        {
+                        //}
+                        //else
+                        //{
 
-                            // SI NO COINCIDEN, ANULO EL TICKET
+                        //    // SI NO COINCIDEN, ANULO EL TICKET
 
-                            objVmax.Cancelar();
-                            objVmax.Cerrar();
-                            objVmax.CerrarPuerto();
+                        //    objVmax.Cancelar();
+                        //    objVmax.Cerrar();
+                        //    objVmax.CerrarPuerto();
 
-                            objVmax.AbrirPuerto(glbPuertoCOM.ToString());
-                            objVmax.ObtenerContadores();
-                            objVmax.CerrarPuerto();
-                            UltimoNumeroFacturaCancelado2 = objVmax.RetornoContadores.uiUltFacturaAnulada.ToString().PadLeft(7, '0');
+                        //    objVmax.AbrirPuerto(glbPuertoCOM.ToString());
+                        //    objVmax.ObtenerContadores();
+                        //    objVmax.CerrarPuerto();
+                        //    UltimoNumeroFacturaCancelado2 = objVmax.RetornoContadores.uiUltFacturaAnulada.ToString().PadLeft(7, '0');
 
-                            ImprimirFacturaFiscall = false;
-                            respuesta = false;
+                        //    ImprimirFacturaFiscall = false;
+                        //    respuesta = false;
 
-                            objVmax.ObtenerReporteInformativo();
-                            //SerialImpresora = objVmax.RetornoMI.sSerial;
-                            if (resp == 16 || resp == 0)
-                            {
-                                resp = objVmax.Cerrar();
-                            }
-                            else
-                            {
-                                mensaje = "No hay conexión con la impresora fiscal";
-                                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, "No hay conexión con la impresora fiscal");
-                                _FrmMensajes.co = 2;
-                                _FrmMensajes.avisomensaje(mensaje);
-                                _FrmMensajes.ShowDialog();
-                                btnCancelar1.PerformClick();
-                            }
+                        //    objVmax.ObtenerReporteInformativo();
+                        //    //SerialImpresora = objVmax.RetornoMI.sSerial;
+                        //    if (resp == 16 || resp == 0)
+                        //    {
+                        //        resp = objVmax.Cerrar();
+                        //    }
+                        //    else
+                        //    {
+                        //        mensaje = "No hay conexión con la impresora fiscal";
+                        //        _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, "No hay conexión con la impresora fiscal");
+                        //        _FrmMensajes.co = 2;
+                        //        _FrmMensajes.avisomensaje(mensaje);
+                        //        _FrmMensajes.ShowDialog();
+                        //        btnCancelar1.PerformClick();
+                        //    }
 
-                            return "Error";
+                        //    return "Error";
 
 
 
-                        }
+                        //}
 
                         return Transaccion;
                     }
@@ -5560,19 +5508,19 @@ namespace CapaVisual_Login
                             _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "091", TB_USUARIO.COD_EMPLEADO, "Número de factura en proceso: " + NumeroComprobanteFiscal.PadLeft(7, '0') + " Último número de factura anulada: " + UltimoNumeroFacturaCancelado2.PadLeft(7, '0'));
 
                             //SerialImpresora = objVmax.RetornoMI.sSerial;
-                            if (resp == 16 || resp == 0)
-                            {
-                                resp = objVmax.Cerrar();
-                            }
-                            else
-                            {
-                                mensaje = "No hay conexión con la impresora fiscal";
-                                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, "No hay conexión con la impresora fiscal");
-                                _FrmMensajes.co = 2;
-                                _FrmMensajes.avisomensaje(mensaje);
-                                _FrmMensajes.ShowDialog();
-                                btnCancelar1.PerformClick();
-                            }
+                            //if (resp == 16 || resp == 0)
+                            //{
+                            //    resp = objVmax.Cerrar();
+                            //}
+                            //else
+                            //{
+                            //    mensaje = "No hay conexión con la impresora fiscal";
+                            //    _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, "No hay conexión con la impresora fiscal");
+                            //    _FrmMensajes.co = 2;
+                            //    _FrmMensajes.avisomensaje(mensaje);
+                            //    _FrmMensajes.ShowDialog();
+                            //    btnCancelar1.PerformClick();
+                            //}
                         }
                         else
                      
@@ -5619,19 +5567,19 @@ namespace CapaVisual_Login
                             _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "091", TB_USUARIO.COD_EMPLEADO, "Número de factura en proceso: " + NumeroComprobanteFiscal.PadLeft(7, '0') + " Último número de factura anulada: " + UltimoNumeroFacturaCancelado2.PadLeft(7, '0'));
 
                             //SerialImpresora = objVmax.RetornoMI.sSerial;
-                            if (resp == 16 || resp == 0)
-                            {
-                                resp = objVmax.Cerrar();
-                            }
-                            else
-                            {
-                                mensaje = "No hay conexión con la impresora fiscal";
-                                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, "No hay conexión con la impresora fiscal");
-                                _FrmMensajes.co = 2;
-                                _FrmMensajes.avisomensaje(mensaje);
-                                _FrmMensajes.ShowDialog();
-                                btnCancelar1.PerformClick();
-                            }
+                            //if (resp == 16 || resp == 0)
+                            //{
+                            //    resp = objVmax.Cerrar();
+                            //}
+                            //else
+                            //{
+                            //    mensaje = "No hay conexión con la impresora fiscal";
+                            //    _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, "No hay conexión con la impresora fiscal");
+                            //    _FrmMensajes.co = 2;
+                            //    _FrmMensajes.avisomensaje(mensaje);
+                            //    _FrmMensajes.ShowDialog();
+                            //    btnCancelar1.PerformClick();
+                            //}
 
                         }
                     }
@@ -5826,6 +5774,36 @@ namespace CapaVisual_Login
                 if (TotalNota >= (txtBsNotaCredito.Text == "" ? (Double)0.00 : Convert.ToDouble(txtBsNotaCredito.Text.Replace(".", ""))) && (txtBsNotaCredito.Text == "" ? (Double)0.00 : Convert.ToDouble(txtBsNotaCredito.Text.Replace(".", ""))) > 0)
                 {
 
+                    // Verifico que los datos del cliente de la orden sean los mismos que el de la nota 
+                    // si no pido clave 
+
+                    if ((TB_CAORDSER.CTE_Nacio + "-" + TB_CAORDSER.CTE_CedIden).Replace(" ", "") != (txtCedula.Text).Replace(" ", ""))
+                    {
+                        // Pasas el parámetro directamente en el constructor
+                        FrmClaveAutorizada __FrmClaveAutorizada = new FrmClaveAutorizada("010");
+                        __FrmClaveAutorizada.ShowDialog();
+
+                        if (__FrmClaveAutorizada.DialogResult == DialogResult.OK)
+                        {
+                            if (__FrmClaveAutorizada.ClaveCorrecta == true)
+                            {
+                                string Autorizaa = VariablesGlobales.UsuarioAutorizado_FrmClaveAutorizada;
+                                string DescripAuditorAbono = "OS: " + TB_CAORDSER.NumOrdserv + ", ClientePagador: " + (txtCedula.Text).Replace(" ", "") + ", Autorizado por: " + Autorizaa;
+                                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "306", TB_USUARIO.COD_EMPLEADO, DescripAuditorAbono);
+                            }
+                            else
+                            {
+                                return;
+                            }
+                        }
+                        else
+                        {
+                            return;
+                        }
+                    }
+
+
+
                     _L_Facturacion.GuardarAbonoGrid(2,Dt_Abonos, CbxMetodosPago.Text, "Bolivares", "", txtBsNotaCredito.Text, "", DtpFecha.Value.ToString(), CbxMetodosPago.SelectedValue.ToString(), "000", "", "", "", "", "", "", "", NotaNumNota);
                     BolivaresConveridos(Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos)), txtMontoBs);
                     //-----------ConvertirBolivares---------------------------
@@ -6001,6 +5979,9 @@ namespace CapaVisual_Login
                                 }
                             }
                         }
+
+                        // Pasas el parámetro directamente en el constructor
+                        FrmClaveAutorizada _FrmClaveAutorizada = new FrmClaveAutorizada("");
 
                         _FrmClaveAutorizada.ShowDialog();
 
@@ -6641,23 +6622,7 @@ namespace CapaVisual_Login
 
                     // Imprimo La Factura
                     if (rept == "SATISFACTORIO" )
-                        if (_L_Facturacion.ValidaFactManual() == false)
-                        {
-                            if (_Impresora_Fiscal.VerficarConexionImpresoraFiscalSinCerrar() == false)
-                            {
-                                mensaje = _Impresora_Fiscal.stringBuilder.ToString();
-                                //rept = "Error";
-                                _FrmMensajes.co = 2;
-                                _FrmMensajes.avisomensaje(mensaje);
-                                _FrmMensajes.ShowDialog();
-
-                                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, "No hay conexión con la impresora fiscal");
-                                //btnCancelar1.PerformClick();
-                                rept = "";
-                                //return "";
-                            }
-                        }
-
+                        
 
                     //_D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "091", TB_USUARIO.COD_EMPLEADO, "Numero de orden " + TB_CAORDSER.NumOrdserv +" En proceso de facturacion.", command);
 
@@ -7365,6 +7330,33 @@ namespace CapaVisual_Login
 
                 if (TotalNota >= (txtBsNotaDevolucion.Text == "" ? (Double)0.00 : Convert.ToDouble(txtBsNotaDevolucion.Text.Replace(".",""))) && (txtBsNotaDevolucion.Text.Replace(".", "") == "" ? (Double)0.00 : Convert.ToDouble(txtBsNotaDevolucion.Text.Replace(".", ""))) > 0)
                 {
+                    // Verifico que los datos del cliente de la orden sean los mismos que el de la nota 
+                    // si no pido clave 
+
+                    if ((TB_CAORDSER.CTE_Nacio + "-" + TB_CAORDSER.CTE_CedIden).Replace(" ", "") != (txtCedula.Text).Replace(" ", ""))
+                    {
+                        // Pasas el parámetro directamente en el constructor
+                        FrmClaveAutorizada __FrmClaveAutorizada = new FrmClaveAutorizada("011");
+                        __FrmClaveAutorizada.ShowDialog();
+
+                        if (__FrmClaveAutorizada.DialogResult == DialogResult.OK)
+                        {
+                            if (__FrmClaveAutorizada.ClaveCorrecta == true)
+                            {
+                                string Autorizaa = VariablesGlobales.UsuarioAutorizado_FrmClaveAutorizada;
+                                string DescripAuditorAbono = "OS: " + TB_CAORDSER.NumOrdserv + ", ClientePagador: " + (txtCedula.Text).Replace(" ", "") + ", Autorizado por: " + Autorizaa;
+                                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "307", TB_USUARIO.COD_EMPLEADO, DescripAuditorAbono);
+                            }
+                            else
+                            {
+                                return;
+                            }
+                        }
+                        else
+                        {
+                            return;
+                        }
+                    }
 
                     _L_Facturacion.GuardarAbonoGrid(2,Dt_Abonos, CbxMetodosPago.Text, "Bolivares", "", txtBsNotaDevolucion.Text, "", DtpFecha.Value.ToString(), CbxMetodosPago.SelectedValue.ToString(), "000", "", "", "", "", "", "", "", NotaNumNotaDevolucion);
                     BolivaresConveridos(Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos)), txtMontoBs);

@@ -31,7 +31,6 @@ namespace CapaVisual_Login
         FrmListaOrdenes _FrmListaOrdenes = new FrmListaOrdenes();
         FrmInicio _FrmInicio = new FrmInicio();
         FrmMensajes _FrmMensajes = new FrmMensajes();
-        FrmClaveAutorizada _FrmClaveAutorizada = new FrmClaveAutorizada();
         FrmConfiguracion _FrmConfiguracion = new FrmConfiguracion();
         FrmRepContratGart _FrmRepContrat = new FrmRepContratGart();
         FrmFacturacion _FrmFacturacion = new FrmFacturacion();
@@ -858,6 +857,80 @@ namespace CapaVisual_Login
 
         private void btnCargarOrdenes_Click(object sender, EventArgs e)
         {
+            DataTable VerificaFechaHoraEnvio = _D_Inicio.VerificaFechaHoraEnvio(_D_Inicio.DiaActivo());
+
+            string status = string.Empty; // Valor por defecto
+
+            // 1. Validamos que la tabla no sea nula y que tenga al menos una fila
+            if (VerificaFechaHoraEnvio != null && VerificaFechaHoraEnvio.Rows.Count > 0)
+            {
+                // 2. Validamos que la celda no sea nula antes de convertir a String
+                if (VerificaFechaHoraEnvio.Rows[0][0] != DBNull.Value)
+                {
+                    status = VerificaFechaHoraEnvio.Rows[0][0].ToString();
+                }
+            }
+
+            // Ahora ya puedes usar 'status' sin miedo a que truene el código
+            if (!string.IsNullOrEmpty(status))
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("Tiene ordenes pendientes por enviar");
+                _FrmMensajes.ShowDialog();
+                return;
+                // Aquí pones tu switch o tus if de los bloqueos...
+                //if (status == "BLOQUEO POR ENVIO")
+                //{
+                //    _FrmMensajes.co = 2;
+                //    _FrmMensajes.avisomensaje("Ya transcurrió el tiempo máximo de espera para el envío de ordenes\nDebe enviar las ordenes pendientes desde EPOS al laboratorio para desbloquear el sistema");
+                //    _FrmMensajes.ShowDialog();
+                //    //MessageBox.Show("Ya transcurrió el tiempo máximo de espera para el envío de ordenes\nDebe enviar las ordenes pendientes desde EPOS al laboratorio para desbloquear el sistema",
+                //    //                "Sistema Bloqueado por Envío en Epos",
+                //    //                MessageBoxButtons.OK,
+                //    //                MessageBoxIcon.Information,
+                //    //                MessageBoxDefaultButton.Button1);
+                //}
+                //else if (status == "BLOQUEO POR FAX")
+                //{
+                //    _FrmMensajes.co = 2;
+                //    _FrmMensajes.avisomensaje("Ya transcurrió el tiempo máximo de espera para el envío de ordenes\nDebe enviar las ordenes pendientes desde el MENÚ DE APLICACIONES al laboratorio para desbloquear el sistema");
+                //    _FrmMensajes.ShowDialog(); 
+                //    //MessageBox.Show("Ya transcurrió el tiempo máximo de espera para el envío de ordenes\nDebe enviar las ordenes pendientes desde el MENÚ DE APLICACIONES al laboratorio para desbloquear el sistema",
+                //    //                "Sistema Bloqueado por envío de Fax Módem",
+                //    //                MessageBoxButtons.OK,
+                //    //                MessageBoxIcon.Information,
+                //    //                MessageBoxDefaultButton.Button1);
+                //}
+                //else if (status == "BLOQUEO POR ENVIO DE ANULACIONES")
+                //{
+                //    _FrmMensajes.co = 2;
+                //    _FrmMensajes.avisomensaje("Ya transcurrió el tiempo máximo de espera para el envío de anulaciones\nDebe enviar las anulaciones pendientes desde EPOS al laboratorio para desbloquear el sistema");
+                //    _FrmMensajes.ShowDialog();
+
+                //    //MessageBox.Show("Ya transcurrió el tiempo máximo de espera para el envío de anulaciones\nDebe enviar las anulaciones pendientes desde EPOS al laboratorio para desbloquear el sistema",
+                //    //                "Sistema Bloqueado por Envío de anulaciones en Epos",
+                //    //                MessageBoxButtons.OK,
+                //    //                MessageBoxIcon.Information,
+                //    //                MessageBoxDefaultButton.Button1);
+                //}
+                //else if (status == "BLOQUEO POR ENVIO DE REVISIONES")
+                //{
+                //    _FrmMensajes.co = 2;
+                //    _FrmMensajes.avisomensaje("Ya transcurrió el tiempo máximo de espera para el envío de revisiones\nDebe enviar las revisiones pendientes desde EPOS al laboratorio para desbloquear el sistema");
+                //    _FrmMensajes.ShowDialog();
+                //    //MessageBox.Show("Ya transcurrió el tiempo máximo de espera para el envío de revisiones\nDebe enviar las revisiones pendientes desde EPOS al laboratorio para desbloquear el sistema",
+                //    //                "Sistema Bloqueado por Envío de revisiones en Epos",
+                //    //                MessageBoxButtons.OK,
+                //    //                MessageBoxIcon.Information,
+                //    //                MessageBoxDefaultButton.Button1);
+                //}
+
+            }
+
+            
+
+            
+
             _FrmInicio.Actualizar_Tasas();
             pnlUtilitarios.Visible = false;
             System.Drawing.Color col2 = System.Drawing.ColorTranslator.FromHtml("#257b78");
@@ -1376,6 +1449,9 @@ namespace CapaVisual_Login
 
                 if (_FrmMensajes.DialogResult == DialogResult.OK)
                 {
+                    // Pasas el parámetro directamente en el constructor
+                    FrmClaveAutorizada _FrmClaveAutorizada = new FrmClaveAutorizada("007");
+
                     _FrmClaveAutorizada.Nuevo_Parametro = true;
                     _FrmClaveAutorizada.Parametro_Nuevo = _D_DetalleOrden.TB_PARAMETRO("Codigo_nomina");
                     _FrmClaveAutorizada.ShowDialog();

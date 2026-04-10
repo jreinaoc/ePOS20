@@ -723,6 +723,21 @@ namespace CapaDatos.Inicio_Datos
             return System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
         }
 
+        public DataTable VerificaFechaHoraEnvio(DateTime fecha)
+        {
+
+            SqlCommand cmd = new SqlCommand("SP_VERIFICAFECHAHORADEENVIO", cn.LeerCadena());
+
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@fechafin", fecha);
+
+            DataTable dt = new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            da.Fill(dt);
+            return (dt);
+        }
+
 
     }
 

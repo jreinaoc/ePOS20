@@ -537,6 +537,9 @@ namespace CapaVisual_Login
             string PrimerApellido = "";
             string SerialImpresoraNC = "";
             string FechaImpresora = "";
+            string mensaje = "No hay conexión con la impresora fiscal";
+            string UltimoNumeroNotaCancelado;
+            string NumeroComprobanteFiscal;
 
             try
             {
@@ -557,7 +560,6 @@ namespace CapaVisual_Login
                             NunOrden = drItem["NumOrdServ"].ToString();
                         break;
                         }
-
                     }
 
                     dtCliente = _D_DetalleOrden.BucarTB_CTEPPAL(TB_FACTURAS.CTE_CedIdenPAG, TB_FACTURAS.CTE_NacioPAG, command);
@@ -575,173 +577,285 @@ namespace CapaVisual_Login
 
                     resp = objVmax.AbrirPuerto(Convert.ToString(1));
 
-                if (resp != 0)
-                {
-                        objVmax.Cancelar();
-                        objVmax.Cerrar();
-                        objVmax.CerrarPuerto();
-                        StatusNoataCredito = false;
-                        _FrmMensajes.co = 2;
-                        _FrmMensajes.avisomensaje("No hay conexión con la impresora fiscal");
-                        _FrmMensajes.ShowDialog();
-                        Impresora_Fiscal.AgregarAccionPendiente("096");
-                       return StatusNoataCredito;
+                //do
+                //{
+                //    if (_Impresora_Fiscal.VerficarConexionImpresoraFiscalSinCerrar()) break;
+                //    mensaje = _Impresora_Fiscal.stringBuilder.ToString();
+                //    _FrmMensajes.co = 2;
+                //    _FrmMensajes.avisomensaje(mensaje);
+                //    _FrmMensajes.ShowDialog();
+                //    _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, "No hay conexión con la impresora fiscal");
+                //} while (true);
 
-                }
-                else
-                {
+                //objVmax.ObtenerContadores();
+                //UltimoNumeroNotaCancelado = objVmax.RetornoContadores.uiUltNCAnulada.ToString().PadLeft(7, '0');
+                //NumeroComprobanteFiscal = objVmax.RetornoContadores.uiUltNCAbierta.ToString().PadLeft(7, '0');
+
+                //if (UltimoNumeroNotaCancelado == NumeroComprobanteFiscal)
+                //{
+                //    return false;
+                //}
+
+                //if (resp != 0)
+                //{
+                //        objVmax.Cancelar();
+                //        objVmax.Cerrar();
+                //        objVmax.CerrarPuerto();
+                //        StatusNoataCredito = false;
+                //        _FrmMensajes.co = 2;
+                //        _FrmMensajes.avisomensaje("No hay conexión con la impresora fiscal");
+                //        _FrmMensajes.ShowDialog();
+                //        Impresora_Fiscal.AgregarAccionPendiente("096");
+                //       return StatusNoataCredito;
+
+                //}
+                //else
+                //{
                         //resp = objVmax.AbrirCF("Jesus Antonio Pabon Mavare", "J309860895", "2", "000000262", "TIU2202214", "26032022", "1055", 40);
-                        resp = objVmax.AbrirCF(PrimerNombre + " " + PrimerApellido, Convert.ToString(TB_FACTURAS.CTE_NacioPAG) + "" + Convert.ToString(TB_FACTURAS.CTE_CedIdenPAG), "2", Convert.ToString(TB_FACTURAS.Fact_Num), Convert.ToString(TB_FACTURAS.Fact_SerialImpresora), Convert.ToDateTime(TB_FACTURAS.Fact_FecCrea).ToString("dd/MM/yyyy"), FechaOperacion.ToString("HH:mm"), 40);
+                    resp = objVmax.AbrirCF(PrimerNombre + " " + PrimerApellido, Convert.ToString(TB_FACTURAS.CTE_NacioPAG) + "" + Convert.ToString(TB_FACTURAS.CTE_CedIdenPAG), "2", Convert.ToString(TB_FACTURAS.Fact_Num), Convert.ToString(TB_FACTURAS.Fact_SerialImpresora), Convert.ToDateTime(TB_FACTURAS.Fact_FecCrea).ToString("dd/MM/yyyy"), FechaOperacion.ToString("HH:mm"), 40);
 
-                        if (resp != 0)
+                //NumeroNCFiscal = (Convert.ToInt32(objVmax.RetornoMF.uiTotalNCDiarias) + 1).ToString();
+                    objVmax.ObtenerContadores();
+                    NumeroNCFiscal = objVmax.RetornoContadores.uiUltNCAbierta.ToString();
+                    NumeroNCFiscal = NumeroNCFiscal.PadLeft(7, '0');
+                    do
+                    {
+                        if (_Impresora_Fiscal.VerficarConexionImpresoraFiscalSinCerrar()) break;
+                        mensaje = _Impresora_Fiscal.stringBuilder.ToString();
+                        _FrmMensajes.co = 2;
+                        _FrmMensajes.avisomensaje(mensaje);
+                        _FrmMensajes.ShowDialog();
+                        _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, "No hay conexión con la impresora fiscal");
+                    } while (true);
+
+                    objVmax.ObtenerContadores();
+                    UltimoNumeroNotaCancelado = objVmax.RetornoContadores.uiUltNCAnulada.ToString().PadLeft(7, '0');
+                    //NumeroComprobanteFiscal = objVmax.RetornoAbrirFactura.uiNumeroFactura.ToString();
+
+                    if (UltimoNumeroNotaCancelado == NumeroNCFiscal)
+                    {
+                        return false;
+                    }
+                    //if (resp != 0)
+                    //    {
+                        //NumeroNCFiscal = objVmax.RetornoAbrirFactura.uiNumeroFactura.ToString(); 
+                        //StatusNoataCredito = false;
+                        //    objVmax.Cancelar();
+                        //    objVmax.Cerrar();
+                        //    objVmax.CerrarPuerto();
+                        //    _FrmMensajes.co = 2;
+                        //    _FrmMensajes.avisomensaje("Error inesperado, al generar la NC");
+                        //    _FrmMensajes.ShowDialog();
+                        //    Impresora_Fiscal.AgregarAccionPendiente("096");
+                        //return StatusNoataCredito;
+                     //   }
+
+                     
+
+                    //if (resp == 0)
+                    //{
+
+                    DataSet dsArti = _D_DetalleOrden.DetalleNotaCreditoFiscal(NumeroFactura, SerialImpresora,command);
+                    string desart;
+
+                    foreach (DataRow drItem in dsArti.Tables[0].Rows)
+                    {
+                        if (Convert.ToUInt32(drItem["Ordserv_Dto"].ToString()) > 0)
                         {
-                        NumeroNCFiscal = objVmax.RetornoAbrirFactura.uiNumeroFactura.ToString(); 
-                        StatusNoataCredito = false;
-                            objVmax.Cancelar();
-                            objVmax.Cerrar();
-                            objVmax.CerrarPuerto();
-                            _FrmMensajes.co = 2;
-                            _FrmMensajes.avisomensaje("Error inesperado, al generar la NC");
-                            _FrmMensajes.ShowDialog();
-                            Impresora_Fiscal.AgregarAccionPendiente("096");
-                        return StatusNoataCredito;
                         }
 
-                     NumeroNCFiscal = (Convert.ToInt32(objVmax.RetornoMF.uiTotalNCDiarias) + 1).ToString();
+                        desart = drItem["CodArticulo"] + " " + drItem["DESART"];
+                        //Valido que el texto no sea mayor a 40 caracteres para que no salga duplicado el articulo en la factura 25-05-2023
+                        desart = Validar_Cadena(desart);
 
-                    if (resp == 0)
-                    {
+                        string Impuesto = "";
+                        if (drItem["ART_EXENTO"].ToString() == "1")
+                        {
+                           Impuesto = "0";
+                        }
+                        else
+                        {
+                           Impuesto = "1";
+                        }
 
-                        DataSet dsArti = _D_DetalleOrden.DetalleNotaCreditoFiscal(NumeroFactura, SerialImpresora,command);
-                        string desart;
+                        resp = objVmax.ItemDev(desart, (Convert.ToDouble(drItem["Ordserv_Cant"]) * 1000).ToString(), drItem["OrdServ_Precio"].ToString(), Impuesto, "1", 40);
 
-                            foreach (DataRow drItem in dsArti.Tables[0].Rows)
-                            {
-                                if (Convert.ToUInt32(drItem["Ordserv_Dto"].ToString()) > 0)
-                                {
-                                }
+                        do
+                        {
+                            if (_Impresora_Fiscal.VerficarConexionImpresoraFiscalSinCerrar()) break;
+                            mensaje = _Impresora_Fiscal.stringBuilder.ToString();
+                            _FrmMensajes.co = 2;
+                            _FrmMensajes.avisomensaje(mensaje);
+                            _FrmMensajes.ShowDialog();
+                            _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, "No hay conexión con la impresora fiscal");
+                        } while (true);
 
-                                desart = drItem["CodArticulo"] + " " + drItem["DESART"];
-                                //Valido que el texto no sea mayor a 40 caracteres para que no salga duplicado el articulo en la factura 25-05-2023
-                                desart = Validar_Cadena(desart);
+                        objVmax.ObtenerContadores();
+                        UltimoNumeroNotaCancelado = objVmax.RetornoContadores.uiUltNCAnulada.ToString().PadLeft(7, '0');
+                        //NumeroComprobanteFiscal = objVmax.RetornoAbrirFactura.uiNumeroFactura.ToString();
 
-                                string Impuesto = "";
-                                if (drItem["ART_EXENTO"].ToString() == "1")
-                                {
-                                    Impuesto = "0";
-                                }
-                                else
-                                {
-                                    Impuesto = "1";
-                                }
-
-                            resp = objVmax.ItemDev(desart, (Convert.ToDouble(drItem["Ordserv_Cant"]) * 1000).ToString(), drItem["OrdServ_Precio"].ToString(), Impuesto, "1", 40);
-
-                            }
-
-                            DataSet dsDcto = _D_DetalleOrden.DescuentosNotaCreditoFiscal(NunOrden, command);
-
-                            if (resp == 0)
-                            {
-                                foreach (DataRow drItemdcto in dsDcto.Tables[0].Rows)
-                                {
-                                if(Convert.ToDouble(drItemdcto["DescuentoExento"])>0)
-                                {
-
-                                    resp = objVmax.DescuentoCF("Descuento", drItemdcto["DescuentoExento"].ToString(), drItemdcto["DescuentoGravable"].ToString(), "", "");
-                                }
-
-                                }
-
-                            }
-                            if (resp == 0)
-                            {
-                            DataSet DtIGTF = _D_DetalleOrden.PagosConIGTF_NotaCredito(TB_FACTURAS.Cod_Sucursal, TB_FACTURAS.NumOrdServ, TB_FACTURAS.Revision, command);
-                            Double subtotal = 0.00;
-                            Double subtotalIgtf = 0.00;
-
-                            // ******ENVIO EL SUBTOTAL DE LA FACTURA**************
-                                foreach (DataRow drIgtf in DtIGTF.Tables[0].Rows)
-                                {
-                                    subtotal = subtotal + Convert.ToDouble(drIgtf["Abo_Monto"].ToString()) / 100;
-                                    subtotalIgtf = subtotalIgtf + Convert.ToDouble(drIgtf["IGTFCALC1"].ToString());
-                                }
-                                // Verifico si la orden tiene Igtf 1
-                                if (Convert.ToBoolean(DtIGTF.Tables[0].Rows[0]["ActivaIGTF"].ToString()) == true & DtIGTF.Tables[0].Rows[0]["Abo_Monto"].ToString() != "0")
-                                    resp = objVmax.SubtotalT_sinRetorno(Convert.ToString(subtotal * 100).Replace(".", ","));
-                                else
-                                resp = objVmax.Subtotal();
-                               // *****Texto no fiscal *****
-                                resp = objVmax.TextoNoFiscal("Monto Disponible:  " + Monto.ToString());
-                                objVmax.ObtenerReporteInformativo();
-                                SerialImpresoraNC = objVmax.RetornoMI.sSerial;
-                                FechaImpresora = objVmax.RetornoMI.sFecha;
-                                resp = objVmax.Cerrar();
-                                resp = objVmax.CerrarPuerto();
-
-
+                        if (UltimoNumeroNotaCancelado == NumeroNCFiscal)
+                        {
+                            return false;
                         }
                     }
+
+                    DataSet dsDcto = _D_DetalleOrden.DescuentosNotaCreditoFiscal(NunOrden, command);
+
                     if (resp == 0)
                     {
-                            NumeroNCFiscal = objVmax.RetornoAbrirFactura.uiNumeroFactura.ToString();
-
-                        switch (NumeroNCFiscal.Length)
+                        foreach (DataRow drItemdcto in dsDcto.Tables[0].Rows)
+                        {
+                            if(Convert.ToDouble(drItemdcto["DescuentoExento"])>0)
                             {
-                                case 7:
-                                    {
-                                        NumeroNCFiscal = NumeroNCFiscal;
-                                        break;
-                                    }
 
-                                case 6:
-                                    {
-                                        NumeroNCFiscal = "0" + NumeroNCFiscal;
-                                        break;
-                                    }
+                                resp = objVmax.DescuentoCF("Descuento", drItemdcto["DescuentoExento"].ToString(), drItemdcto["DescuentoGravable"].ToString(), "", "");
+                                do
+                                {
+                                    if (_Impresora_Fiscal.VerficarConexionImpresoraFiscalSinCerrar()) break;
+                                    mensaje = _Impresora_Fiscal.stringBuilder.ToString();
+                                    _FrmMensajes.co = 2;
+                                    _FrmMensajes.avisomensaje(mensaje);
+                                    _FrmMensajes.ShowDialog();
+                                    _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, "No hay conexión con la impresora fiscal");
+                                } while (true);
 
-                                case 5:
-                                    {
-                                        NumeroNCFiscal = "00" + NumeroNCFiscal;
-                                        break;
-                                    }
+                                objVmax.ObtenerContadores();
+                                UltimoNumeroNotaCancelado = objVmax.RetornoContadores.uiUltNCAnulada.ToString().PadLeft(7, '0');
+                                //NumeroComprobanteFiscal = objVmax.RetornoAbrirFactura.uiNumeroFactura.ToString();
 
-                                case 4:
-                                    {
-                                        NumeroNCFiscal = "000" + NumeroNCFiscal;
-                                        break;
-                                    }
-
-                                case 3:
-                                    {
-                                        NumeroNCFiscal = "0000" + NumeroNCFiscal;
-                                        break;
-                                    }
-
-                                case 2:
-                                    {
-                                        NumeroNCFiscal = "00000" + NumeroNCFiscal;
-                                        break;
-                                    }
-
-                                case 1:
-                                    {
-                                        NumeroNCFiscal = "000000" + NumeroNCFiscal;
-                                        break;
-                                    }
+                                if (UltimoNumeroNotaCancelado == NumeroNCFiscal)
+                                {
+                                    return false;
+                                }
+                            }
                         }
-                        int tiempoImpTermica = Convert.ToInt32(_D_DetalleOrden.TB_PARAMETRO("TiempoImpTerm"));
-                        // Esperar un tiempo para que la impresora emita el ticket
-                        Thread.Sleep(tiempoImpTermica);  // Esperar 15 segundos (ajusta el tiempo según sea necesario)
-                        objVmax.AbrirPuerto(Convert.ToString(glbPuertoCOM));
+                    }
+                            //if (resp == 0)
+                            //{
+                    DataSet DtIGTF = _D_DetalleOrden.PagosConIGTF_NotaCredito(TB_FACTURAS.Cod_Sucursal, TB_FACTURAS.NumOrdServ, TB_FACTURAS.Revision, command);
+                    Double subtotal = 0.00;
+                    Double subtotalIgtf = 0.00;
+
+                    // ******ENVIO EL SUBTOTAL DE LA FACTURA**************
+                        foreach (DataRow drIgtf in DtIGTF.Tables[0].Rows)
+                        {
+                            subtotal = subtotal + Convert.ToDouble(drIgtf["Abo_Monto"].ToString()) / 100;
+                            subtotalIgtf = subtotalIgtf + Convert.ToDouble(drIgtf["IGTFCALC1"].ToString());
+                        }
+                        // Verifico si la orden tiene Igtf 1
+                        if (Convert.ToBoolean(DtIGTF.Tables[0].Rows[0]["ActivaIGTF"].ToString()) == true & DtIGTF.Tables[0].Rows[0]["Abo_Monto"].ToString() != "0")
+                            resp = objVmax.SubtotalT_sinRetorno(Convert.ToString(subtotal * 100).Replace(".", ","));
+                        else
+                        resp = objVmax.Subtotal();
+                        
+                        do
+                        {
+                            if (_Impresora_Fiscal.VerficarConexionImpresoraFiscalSinCerrar()) break;
+                            mensaje = _Impresora_Fiscal.stringBuilder.ToString();
+                            _FrmMensajes.co = 2;
+                            _FrmMensajes.avisomensaje(mensaje);
+                            _FrmMensajes.ShowDialog();
+                            _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, "No hay conexión con la impresora fiscal");
+                        } while (true);
+
                         objVmax.ObtenerContadores();
-                        string UltimoNumeroNotaEmitido2 = objVmax.RetornoContadores.uiUltNCAbierta.ToString().PadLeft(7, '0');
-                        string UltimoNumeroCancelado11 = objVmax.RetornoContadores.uiUltFacturaAnulada.ToString().PadLeft(7, '0');
-                        string UltimoNumeroCancelado12 = objVmax.RetornoContadores.uiUltNCAnulada.ToString().PadLeft(7, '0');
-                        objVmax.CerrarPuerto();
-                        objVmax.Cerrar();
+                        UltimoNumeroNotaCancelado = objVmax.RetornoContadores.uiUltNCAnulada.ToString().PadLeft(7, '0');
+                        //NumeroComprobanteFiscal = objVmax.RetornoAbrirFactura.uiNumeroFactura.ToString();
+
+                        if (UltimoNumeroNotaCancelado == NumeroNCFiscal)
+                        {
+                            return false;
+                        }
+                        // *****Texto no fiscal *****
+                        resp = objVmax.TextoNoFiscal("Monto Disponible:  " + Monto.ToString());
+                                        objVmax.ObtenerReporteInformativo();
+                                        SerialImpresoraNC = objVmax.RetornoMI.sSerial;
+                                        FechaImpresora = objVmax.RetornoMI.sFecha;
+                       resp = objVmax.Cerrar();
+                        do
+                        {
+                            if (_Impresora_Fiscal.VerficarConexionImpresoraFiscalSinCerrar()) break;
+                            mensaje = _Impresora_Fiscal.stringBuilder.ToString();
+                            _FrmMensajes.co = 2;
+                            _FrmMensajes.avisomensaje(mensaje);
+                            _FrmMensajes.ShowDialog();
+                            _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "090", TB_USUARIO.COD_EMPLEADO, "No hay conexión con la impresora fiscal");
+                        } while (true);
+
+                        objVmax.ObtenerContadores();
+                        UltimoNumeroNotaCancelado = objVmax.RetornoContadores.uiUltNCAnulada.ToString().PadLeft(7, '0');
+                        //NumeroComprobanteFiscal = objVmax.RetornoAbrirFactura.uiNumeroFactura.ToString();
+
+                        if (UltimoNumeroNotaCancelado == NumeroNCFiscal)
+                        {
+                            return false;
+                        }
+                        resp = objVmax.CerrarPuerto();
+
+
+                        //}
+                    //}
+                    //if (resp == 0)
+                    //{
+                           
+
+                        //switch (NumeroNCFiscal.Length)
+                        //    {
+                        //        case 7:
+                        //            {
+                        //                NumeroNCFiscal = NumeroNCFiscal;
+                        //                break;
+                        //            }
+
+                        //        case 6:
+                        //            {
+                        //                NumeroNCFiscal = "0" + NumeroNCFiscal;
+                        //                break;
+                        //            }
+
+                        //        case 5:
+                        //            {
+                        //                NumeroNCFiscal = "00" + NumeroNCFiscal;
+                        //                break;
+                        //            }
+
+                        //        case 4:
+                        //            {
+                        //                NumeroNCFiscal = "000" + NumeroNCFiscal;
+                        //                break;
+                        //            }
+
+                        //        case 3:
+                        //            {
+                        //                NumeroNCFiscal = "0000" + NumeroNCFiscal;
+                        //                break;
+                        //            }
+
+                        //        case 2:
+                        //            {
+                        //                NumeroNCFiscal = "00000" + NumeroNCFiscal;
+                        //                break;
+                        //            }
+
+                        //        case 1:
+                        //            {
+                        //                NumeroNCFiscal = "000000" + NumeroNCFiscal;
+                        //                break;
+                        //            }
+                        //}
+                        //int tiempoImpTermica = Convert.ToInt32(_D_DetalleOrden.TB_PARAMETRO("TiempoImpTerm"));
+                        //// Esperar un tiempo para que la impresora emita el ticket
+                        //Thread.Sleep(tiempoImpTermica);  // Esperar 15 segundos (ajusta el tiempo según sea necesario)
+                        //objVmax.AbrirPuerto(Convert.ToString(glbPuertoCOM));
+                        //objVmax.ObtenerContadores();
+                        //string UltimoNumeroNotaEmitido2 = objVmax.RetornoContadores.uiUltNCAbierta.ToString().PadLeft(7, '0');
+                        //string UltimoNumeroCancelado11 = objVmax.RetornoContadores.uiUltFacturaAnulada.ToString().PadLeft(7, '0');
+                        //string UltimoNumeroCancelado12 = objVmax.RetornoContadores.uiUltNCAnulada.ToString().PadLeft(7, '0');
+                        //objVmax.CerrarPuerto();
+                        //objVmax.Cerrar();
                         // Verificar si se emitió el ticket
-                        if (UltimoNumeroCancelado11 != NumeroNCFiscal & UltimoNumeroCancelado12 != NumeroNCFiscal)
+                        if (UltimoNumeroNotaCancelado != NumeroNCFiscal)// & UltimoNumeroCancelado12 != NumeroNCFiscal)
                         {
                             string Transaccionn = _D_DetalleOrden.RegistrarNCFISCAL(SucursalActual, NumeroNCFiscal, "005", TB_FACTURAS.Fact_Num, SerialImpresora, DiaActivo, SerialImpresoraNC, "", TB_FACTURAS.CTE_NacioPAG, TB_FACTURAS.CTE_CedIdenPAG, TxtObservaciones.Text.ToUpper(), Convert.ToDouble(TB_FACTURAS.Fact_MontoGravable), Convert.ToDouble(TB_FACTURAS.Fact_Total), TB_USUARIO.COD_USR, "", Convert.ToDouble(TB_FACTURAS.Fact_IGTF), Convert.ToDouble(TB_FACTURAS.Fact_AlicuotaIGTF), Convert.ToDouble(TB_FACTURAS.Fact_MontoExento), CodMotivoAnulacion, false, "" , command);
 
@@ -762,30 +876,33 @@ namespace CapaVisual_Login
 
                             return StatusNoataCredito;
                         }
-                        else
-                        {
-                            Impresora_Fiscal.AgregarAccionPendiente("100");
-                            StatusNoataCredito = false;
-                            _FrmMensajes.co = 2;
-                            _FrmMensajes.avisomensaje("No se pudo verificar la emisión del ticket.");
-                            _FrmMensajes.ShowDialog();
-                            return StatusNoataCredito;
+                //    else
+                //    {
+                ////Impresora_Fiscal.AgregarAccionPendiente("094");
+                //_D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "094", TB_USUARIO.COD_EMPLEADO, "Nota de credito fiscal reversada N° " + NumeroNCFiscal + " ,Factura:" + TB_FACTURAS.Fact_Num);
 
-                        }
-                    }
-                    else
-                    {
-                        Impresora_Fiscal.AgregarAccionPendiente("099");
-                    }
+                ////StatusNoataCredito = false;
+                //        _FrmMensajes.co = 2;
+                //        _FrmMensajes.avisomensaje("No se pudo verificar la emisión del ticket.");
+                //        _FrmMensajes.ShowDialog();
+                //        return StatusNoataCredito;
 
-                }
-                objVmax.Cancelar();
-                objVmax.Cerrar();
-                objVmax.CerrarPuerto();
-                _FrmMensajes.co = 2;
-                _FrmMensajes.avisomensaje("Error inesperado al generar la NC");
-                _FrmMensajes.ShowDialog();
-                return false;
+                //    }
+                //}
+                //else
+                //{
+                //    Impresora_Fiscal.AgregarAccionPendiente("099");
+                //}
+
+                //}
+                //objVmax.Cancelar();
+                //objVmax.Cerrar();
+                //objVmax.CerrarPuerto();
+                //_FrmMensajes.co = 2;
+                //_FrmMensajes.avisomensaje("Error inesperado al generar la NC");
+                //_FrmMensajes.ShowDialog();
+                //return false;
+                return true;
 
             }
             catch (Exception ex)
@@ -1038,7 +1155,7 @@ namespace CapaVisual_Login
                             // ✅ FUNCIÓN EXISTENTE Para Registras las nuevas Acciones
                             ProcesarAccionesPendientes();
 
-                            _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "094", TB_USUARIO.COD_EMPLEADO, "Nota de credito fiscal reversada N° " + NumeroNCFiscal.PadLeft(7, '0') + " ,Factura:" + TB_FACTURAS.Fact_Num);
+                            _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "094", TB_USUARIO.COD_EMPLEADO, "Nota de credito fiscal reversada N° " + NumeroNCFiscal + " ,Factura:" + TB_FACTURAS.Fact_Num);
 
                         }
                         else
@@ -1075,7 +1192,7 @@ namespace CapaVisual_Login
                     {
                         transaction.Rollback();
                         _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "095", TB_USUARIO.COD_EMPLEADO, "Número de factura " + TB_FACTURAS.Fact_Num + " Valor del Parametro Reverso Automático." + ReversoAutomatico.ToString(), command);
-                        _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "094", TB_USUARIO.COD_EMPLEADO, "Nota de credito fiscal reversada N° " + NumeroNCFiscal.PadLeft(7, '0') + " ,Factura:" + TB_FACTURAS.Fact_Num);
+                        _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "094", TB_USUARIO.COD_EMPLEADO, "Nota de credito fiscal reversada N° " + NumeroNCFiscal + " ,Factura:" + TB_FACTURAS.Fact_Num);
                     }
                     else
                         command.Transaction.Commit();

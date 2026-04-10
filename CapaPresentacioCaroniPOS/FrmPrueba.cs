@@ -27,6 +27,11 @@ namespace CapaVisual_Login
         private D_DetalleOrden _D_DetalleOrden = new D_DetalleOrden();
         private D_Inicio _D_Inicio = new D_Inicio();
         private D_Articulos _D_Articulos = new D_Articulos() ;
+        public class ReporteTarjetaResultado
+        {
+            public DataTable PagosTarjeta { get; set; }
+            public DataTable PagosTarjetaCredito { get; set; }
+        }
 
         private void checkedListBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -93,7 +98,6 @@ namespace CapaVisual_Login
                 NombreSucursal = Sucursal + " - " + dsSucursal.Tables[0].Rows[0]["Descripcion"].ToString();
             }
 
-
             ////ReporteTranferencia(imprimir, RifCompania, Descripcion, NombreSucursal, Sucursal, DiaActivo.AddDays(-5));
             if (cierreEnCero)
             {
@@ -104,9 +108,41 @@ namespace CapaVisual_Login
                 ReporteCierreCaja(imprimir, RifCompania, Descripcion, NombreSucursal, Sucursal, DiaActivo.Date);
                 ReporteTranferencia(imprimir, RifCompania, Descripcion, NombreSucursal, Sucursal, DiaActivo.Date);
                 ReporteVuelto(imprimir, RifCompania, Descripcion, NombreSucursal, Sucursal, DiaActivo.Date);
+                ReportePagosTarjeta(imprimir, RifCompania, Descripcion, NombreSucursal, Sucursal, DiaActivo.Date);
             }
 
         }
+        public void ReportePagosTarjeta(bool imprimir, string RifCompania, string Descripcion, string NombreSucursal, string Sucursal, DateTime DiaActivo)
+        {
+
+            var parametros = new Dictionary<string, string>
+                {
+                      { "FechaDesde", DiaActivo.ToString("dd/MM/yyyy")},
+                      { "Compania", Descripcion  },
+                      { "RifCompania", RifCompania },
+                      { "Sucursal",  Sucursal },
+                      { "NombreSucursal", NombreSucursal },
+                };
+
+            // Supón que tienes estos datos:
+            
+            var resultado = ObtenerDatosParaReporteTarjeta(conexion, DiaActivo, Sucursal);
+            DataTable pagosdebito = resultado.PagosTarjeta;
+            DataTable pagosCredito = resultado.PagosTarjetaCredito;
+
+            // Crear el Dictionary con los dos DataTables usando los nombres correctos del RDLC
+            var dataSources = new Dictionary<string, DataTable>();
+            dataSources.Add("DataSet1", resultado.PagosTarjeta);        // DataSet1 en el RDLC
+            dataSources.Add("DataSet2", resultado.PagosTarjetaCredito); // DataSet2 en el RDLC
+
+            string nombreReporte = "CapaVisual_Login.Reportes.RepPagsoPorTarjeta.rdlc";
+
+            // Instanciar y mostrar el formulario
+            FrmMostrarRep frm = new FrmMostrarRep(nombreReporte, null, imprimir, null , parametros, dataSources);
+            frm.ShowDialog();
+        }
+
+
         public void ReporteTranferencia(bool imprimir, string RifCompania, string Descripcion, string NombreSucursal, string Sucursal, DateTime DiaActivo)
         {
 
@@ -277,6 +313,55 @@ namespace CapaVisual_Login
 
             // Retorna el DataTable con los datos
             return ds.Cpos_PagoTransferencia;
+        }
+
+        //public DataTable ObtenerDatosParaReporteTarjeta(string conexion, DateTime param1, string param2)
+        //{
+        //    // Crea una instancia del DataSet y TableAdapter
+        //    Reportes.DsRepPagosPorTarjeta ds = new Reportes.DsRepPagosPorTarjeta();
+        //    Reportes.DsRepPagosPorTarjetaTableAdapters.CPOS_PagosTarjetaTableAdapter adapter = new Reportes.DsRepPagosPorTarjetaTableAdapters.CPOS_PagosTarjetaTableAdapter
+        //    Reportes.DsRepPagosPorTarjetaTableAdapters.CPOS_PagosTarjeta_CreditoTableAdapter adapter2 = new Reportes.DsRepPagosPorTarjetaTableAdapters.CPOS_PagosTarjeta_CreditoTableAdapter();
+
+        //    // Cierra cualquier conexión abierta
+        //    adapter.Connection.Close();
+
+        //    // Asigna la cadena de conexión
+        //    adapter.Connection.ConnectionString = conexion;
+
+        //    // Llena el DataTable usando el TableAdapter y los parámetros necesarios
+        //    adapter2.Fill(ds.CPOS_PagosTarjeta_Credito, param1, param2);
+        //    // Llena el DataTable usando el TableAdapter y los parámetros necesarios
+        //    adapter2.Fill(ds.CPOS_PagosTarjeta, param1, param2);
+
+        //    // Retorna el DataTable con los datos
+        //    return ds.CPOS_PagosTarjeta;
+        //}
+
+        public ReporteTarjetaResultado ObtenerDatosParaReporteTarjeta(string conexion, DateTime param1, string param2)
+        {
+            // Crea una instancia del DataSet
+            Reportes.DsRepPagosPorTarjeta ds = new Reportes.DsRepPagosPorTarjeta();
+
+            // Instancia los adapters (nota el punto y coma al final)
+            Reportes.DsRepPagosPorTarjetaTableAdapters.CPOS_PagosTarjetaTableAdapter adapter1 =
+                new Reportes.DsRepPagosPorTarjetaTableAdapters.CPOS_PagosTarjetaTableAdapter();
+
+            Reportes.DsRepPagosPorTarjetaTableAdapters.CPOS_PagosTarjeta_CreditoTableAdapter adapter2 =
+                new Reportes.DsRepPagosPorTarjetaTableAdapters.CPOS_PagosTarjeta_CreditoTableAdapter();
+
+            // Asigna la cadena de conexión a ambos adapters
+            adapter1.Connection.ConnectionString = conexion;
+            adapter2.Connection.ConnectionString = conexion;
+
+            // Llena los DataTables usando los adapters correspondientes
+            adapter1.Fill(ds.CPOS_PagosTarjeta, param1, param2);
+            adapter2.Fill(ds.CPOS_PagosTarjeta_Credito, param1, param2);
+
+            return new ReporteTarjetaResultado
+            {
+                PagosTarjeta = ds.CPOS_PagosTarjeta,
+                PagosTarjetaCredito = ds.CPOS_PagosTarjeta_Credito
+            };
         }
 
         private void FrmPrueba_Load(object sender, EventArgs e)

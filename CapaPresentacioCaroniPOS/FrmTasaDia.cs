@@ -30,7 +30,6 @@ namespace CapaVisual_Login
         {
             InitializeComponent();
         }
-        private FrmClaveAutorizada _FrmClaveAutorizada = new FrmClaveAutorizada();
         private D_TasaSecuencia _D_TasaSecuencia = new D_TasaSecuencia();
         private D_DetalleOrden _D_DetalleOrden = new D_DetalleOrden();
         private D_Inicio _D_Inicio = new D_Inicio();
@@ -51,6 +50,9 @@ namespace CapaVisual_Login
             DataSet dsGteReg = _D_TasaSecuencia.TasaDia(_D_DetalleOrden.TB_PARAMETRO("SucursalId"), _D_Inicio.DiaActivo().ToString("yyyy/MM/dd"));
             string AGteRegD = "SI"; 
             string AGteRegE = "SI";
+           
+            // Pasas el parámetro directamente en el constructor
+            FrmClaveAutorizada _FrmClaveAutorizada = new FrmClaveAutorizada("006");
 
             if (dsGteReg.Tables.Count > 1 && dsGteReg.Tables[1].Rows.Count > 0)
             {
@@ -119,7 +121,10 @@ namespace CapaVisual_Login
 
         public string Autoriz_GteReg_Activar()
         {
-        string AGteRegD = "NO";
+         // Pasas el parámetro directamente en el constructor
+         FrmClaveAutorizada _FrmClaveAutorizada = new FrmClaveAutorizada("006");
+
+            string AGteRegD = "NO";
         DataSet dsGteReg = _D_TasaSecuencia.ActivacionDia(_D_DetalleOrden.TB_PARAMETRO("SucursalId"), _D_Inicio.DiaActivo().ToString("yyyy/MM/dd"));
             if (dsGteReg.Tables[0].Rows.Count > 0)
             {

@@ -372,6 +372,13 @@ namespace CapaVisual_Login
             this.button2 = new System.Windows.Forms.Button();
             this.QuitarLimea3 = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.PnlPrisma = new System.Windows.Forms.Panel();
+            this.button15 = new System.Windows.Forms.Button();
+            this.label30 = new System.Windows.Forms.Label();
+            this.RdPrismaLeft = new System.Windows.Forms.RadioButton();
+            this.RdPrismaRight = new System.Windows.Forms.RadioButton();
+            this.RdPrismaDow = new System.Windows.Forms.RadioButton();
+            this.RdPrismaUp = new System.Windows.Forms.RadioButton();
             this.Pnl_1.SuspendLayout();
             this.Pnl_2.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -426,6 +433,7 @@ namespace CapaVisual_Login
             this.panel2.SuspendLayout();
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DgvClientes)).BeginInit();
+            this.PnlPrisma.SuspendLayout();
             this.SuspendLayout();
             // 
             // Pnl_1
@@ -3935,9 +3943,9 @@ namespace CapaVisual_Login
             this.Pnl_3_Descuento.Controls.Add(this.Btn_Tap3_Aceptar_Desc);
             this.Pnl_3_Descuento.Controls.Add(this.Lbl_Pnl3_Descuento);
             this.Pnl_3_Descuento.Controls.Add(this.Btn_Tap3_Cancelar_Desc);
-            this.Pnl_3_Descuento.Location = new System.Drawing.Point(1056, 473);
+            this.Pnl_3_Descuento.Location = new System.Drawing.Point(1124, 327);
             this.Pnl_3_Descuento.Name = "Pnl_3_Descuento";
-            this.Pnl_3_Descuento.Size = new System.Drawing.Size(461, 223);
+            this.Pnl_3_Descuento.Size = new System.Drawing.Size(519, 223);
             this.Pnl_3_Descuento.TabIndex = 105;
             this.Pnl_3_Descuento.Visible = false;
             // 
@@ -3949,7 +3957,7 @@ namespace CapaVisual_Login
             this.Txt_Pnl3_ObservacionDesc.MaxLength = 200;
             this.Txt_Pnl3_ObservacionDesc.Multiline = true;
             this.Txt_Pnl3_ObservacionDesc.Name = "Txt_Pnl3_ObservacionDesc";
-            this.Txt_Pnl3_ObservacionDesc.Size = new System.Drawing.Size(417, 46);
+            this.Txt_Pnl3_ObservacionDesc.Size = new System.Drawing.Size(479, 46);
             this.Txt_Pnl3_ObservacionDesc.TabIndex = 316;
             this.Txt_Pnl3_ObservacionDesc.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Txt_Pnl3_ObservacionDesc_KeyDown);
             // 
@@ -3971,7 +3979,7 @@ namespace CapaVisual_Login
             this.Cbx_Pnl3_MotivoDesc.FormattingEnabled = true;
             this.Cbx_Pnl3_MotivoDesc.Location = new System.Drawing.Point(292, 80);
             this.Cbx_Pnl3_MotivoDesc.Name = "Cbx_Pnl3_MotivoDesc";
-            this.Cbx_Pnl3_MotivoDesc.Size = new System.Drawing.Size(146, 25);
+            this.Cbx_Pnl3_MotivoDesc.Size = new System.Drawing.Size(212, 25);
             this.Cbx_Pnl3_MotivoDesc.TabIndex = 314;
             this.Cbx_Pnl3_MotivoDesc.SelectedIndexChanged += new System.EventHandler(this.Cbx_Pnl3_MotivoDesc_SelectedIndexChanged);
             // 
@@ -4047,7 +4055,7 @@ namespace CapaVisual_Login
             this.Btn_Tap3_Aceptar_Desc.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Btn_Tap3_Aceptar_Desc.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Btn_Tap3_Aceptar_Desc.ForeColor = System.Drawing.SystemColors.Window;
-            this.Btn_Tap3_Aceptar_Desc.Location = new System.Drawing.Point(346, 186);
+            this.Btn_Tap3_Aceptar_Desc.Location = new System.Drawing.Point(397, 186);
             this.Btn_Tap3_Aceptar_Desc.Name = "Btn_Tap3_Aceptar_Desc";
             this.Btn_Tap3_Aceptar_Desc.Size = new System.Drawing.Size(105, 31);
             this.Btn_Tap3_Aceptar_Desc.TabIndex = 307;
@@ -4063,7 +4071,7 @@ namespace CapaVisual_Login
             this.Lbl_Pnl3_Descuento.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
             this.Lbl_Pnl3_Descuento.Location = new System.Drawing.Point(4, 6);
             this.Lbl_Pnl3_Descuento.Name = "Lbl_Pnl3_Descuento";
-            this.Lbl_Pnl3_Descuento.Size = new System.Drawing.Size(454, 34);
+            this.Lbl_Pnl3_Descuento.Size = new System.Drawing.Size(510, 34);
             this.Lbl_Pnl3_Descuento.TabIndex = 31;
             this.Lbl_Pnl3_Descuento.Text = "Descuento (Precio Total Original)";
             this.Lbl_Pnl3_Descuento.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -4075,7 +4083,7 @@ namespace CapaVisual_Login
             this.Btn_Tap3_Cancelar_Desc.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Btn_Tap3_Cancelar_Desc.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Btn_Tap3_Cancelar_Desc.ForeColor = System.Drawing.SystemColors.Window;
-            this.Btn_Tap3_Cancelar_Desc.Location = new System.Drawing.Point(210, 186);
+            this.Btn_Tap3_Cancelar_Desc.Location = new System.Drawing.Point(261, 186);
             this.Btn_Tap3_Cancelar_Desc.Name = "Btn_Tap3_Cancelar_Desc";
             this.Btn_Tap3_Cancelar_Desc.Size = new System.Drawing.Size(105, 30);
             this.Btn_Tap3_Cancelar_Desc.TabIndex = 30;
@@ -4713,6 +4721,105 @@ namespace CapaVisual_Login
             this.QuitarLimea3.TabIndex = 108;
             this.QuitarLimea3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // PnlPrisma
+            // 
+            this.PnlPrisma.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PnlPrisma.Controls.Add(this.button15);
+            this.PnlPrisma.Controls.Add(this.label30);
+            this.PnlPrisma.Controls.Add(this.RdPrismaLeft);
+            this.PnlPrisma.Controls.Add(this.RdPrismaRight);
+            this.PnlPrisma.Controls.Add(this.RdPrismaDow);
+            this.PnlPrisma.Controls.Add(this.RdPrismaUp);
+            this.PnlPrisma.Location = new System.Drawing.Point(1127, 378);
+            this.PnlPrisma.Name = "PnlPrisma";
+            this.PnlPrisma.Size = new System.Drawing.Size(269, 255);
+            this.PnlPrisma.TabIndex = 168;
+            this.PnlPrisma.Visible = false;
+            // 
+            // button15
+            // 
+            this.button15.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(184)))), ((int)(((byte)(52)))));
+            this.button15.FlatAppearance.BorderSize = 0;
+            this.button15.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button15.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button15.ForeColor = System.Drawing.SystemColors.Window;
+            this.button15.Location = new System.Drawing.Point(84, 218);
+            this.button15.Name = "button15";
+            this.button15.Size = new System.Drawing.Size(105, 30);
+            this.button15.TabIndex = 30;
+            this.button15.Text = "Aceptar";
+            this.button15.UseVisualStyleBackColor = false;
+            this.button15.Click += new System.EventHandler(this.button15_Click);
+            // 
+            // label30
+            // 
+            this.label30.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(2)))), ((int)(((byte)(127)))), ((int)(((byte)(121)))));
+            this.label30.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.label30.Font = new System.Drawing.Font("Century Gothic", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label30.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this.label30.Location = new System.Drawing.Point(-1, -1);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(282, 41);
+            this.label30.TabIndex = 31;
+            this.label30.Text = "Posición del Prisma";
+            this.label30.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            // 
+            // RdPrismaLeft
+            // 
+            this.RdPrismaLeft.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold);
+            this.RdPrismaLeft.Image = global::CapaVisual_Login.Properties.Resources.Izquierda;
+            this.RdPrismaLeft.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.RdPrismaLeft.Location = new System.Drawing.Point(53, 165);
+            this.RdPrismaLeft.Name = "RdPrismaLeft";
+            this.RdPrismaLeft.Size = new System.Drawing.Size(191, 43);
+            this.RdPrismaLeft.TabIndex = 311;
+            this.RdPrismaLeft.TabStop = true;
+            this.RdPrismaLeft.Text = "          Base Externa";
+            this.RdPrismaLeft.UseVisualStyleBackColor = true;
+            this.RdPrismaLeft.CheckedChanged += new System.EventHandler(this.RadioButton_CheckedChanged);
+            // 
+            // RdPrismaRight
+            // 
+            this.RdPrismaRight.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold);
+            this.RdPrismaRight.Image = global::CapaVisual_Login.Properties.Resources.Derecha;
+            this.RdPrismaRight.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.RdPrismaRight.Location = new System.Drawing.Point(53, 123);
+            this.RdPrismaRight.Name = "RdPrismaRight";
+            this.RdPrismaRight.Size = new System.Drawing.Size(191, 43);
+            this.RdPrismaRight.TabIndex = 310;
+            this.RdPrismaRight.TabStop = true;
+            this.RdPrismaRight.Text = "          Base Interna";
+            this.RdPrismaRight.UseVisualStyleBackColor = true;
+            this.RdPrismaRight.CheckedChanged += new System.EventHandler(this.RadioButton_CheckedChanged);
+            // 
+            // RdPrismaDow
+            // 
+            this.RdPrismaDow.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold);
+            this.RdPrismaDow.Image = global::CapaVisual_Login.Properties.Resources.Abajo;
+            this.RdPrismaDow.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.RdPrismaDow.Location = new System.Drawing.Point(53, 82);
+            this.RdPrismaDow.Name = "RdPrismaDow";
+            this.RdPrismaDow.Size = new System.Drawing.Size(191, 43);
+            this.RdPrismaDow.TabIndex = 309;
+            this.RdPrismaDow.TabStop = true;
+            this.RdPrismaDow.Text = "          Base Superior";
+            this.RdPrismaDow.UseVisualStyleBackColor = true;
+            this.RdPrismaDow.CheckedChanged += new System.EventHandler(this.RadioButton_CheckedChanged);
+            // 
+            // RdPrismaUp
+            // 
+            this.RdPrismaUp.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold);
+            this.RdPrismaUp.Image = global::CapaVisual_Login.Properties.Resources.Arriba1;
+            this.RdPrismaUp.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.RdPrismaUp.Location = new System.Drawing.Point(53, 43);
+            this.RdPrismaUp.Name = "RdPrismaUp";
+            this.RdPrismaUp.Size = new System.Drawing.Size(191, 43);
+            this.RdPrismaUp.TabIndex = 308;
+            this.RdPrismaUp.TabStop = true;
+            this.RdPrismaUp.Text = "          Base Inferior";
+            this.RdPrismaUp.UseVisualStyleBackColor = true;
+            this.RdPrismaUp.CheckedChanged += new System.EventHandler(this.RadioButton_CheckedChanged);
+            // 
             // FrmCargarOrden
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -4738,8 +4845,9 @@ namespace CapaVisual_Login
             this.Controls.Add(this.tabControl);
             this.Controls.Add(this.Pnl_3_Lista_ClienteAfiliado);
             this.Controls.Add(this.pnl_MonturaPropia);
-            this.Controls.Add(this.Pnl_3_Descuento);
             this.Controls.Add(this.Pnl_3_Promociones);
+            this.Controls.Add(this.PnlPrisma);
+            this.Controls.Add(this.Pnl_3_Descuento);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FrmCargarOrden";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
@@ -4828,6 +4936,7 @@ namespace CapaVisual_Login
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DgvClientes)).EndInit();
+            this.PnlPrisma.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -5138,5 +5247,12 @@ namespace CapaVisual_Login
         private System.Windows.Forms.TextBox Txt_Pnl2_Edad;
         private System.Windows.Forms.CheckedListBox Chex_Tap1_Iva_Pagador;
         private System.Windows.Forms.CheckedListBox Chex_Tap1_Iva;
+        private System.Windows.Forms.Panel PnlPrisma;
+        private System.Windows.Forms.RadioButton RdPrismaLeft;
+        private System.Windows.Forms.RadioButton RdPrismaRight;
+        private System.Windows.Forms.RadioButton RdPrismaDow;
+        private System.Windows.Forms.Label label30;
+        private System.Windows.Forms.Button button15;
+        private System.Windows.Forms.RadioButton RdPrismaUp;
     }
 }

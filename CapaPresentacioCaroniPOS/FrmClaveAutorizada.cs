@@ -15,6 +15,7 @@ using System.Windows.Forms;
 using System;
 using CapaDatos.DetalleOrden_Datos;
 using System.Collections;
+using CapaDatos.Inicio_Datos;
 
 namespace CapaVisual_Login
 {
@@ -27,6 +28,7 @@ namespace CapaVisual_Login
         FrmMensajes _FrmMensajes = new FrmMensajes();
         FrmAnulacion _FrmAnulacion = new FrmAnulacion();
         private D_DetalleOrden _D_DetalleOrden = new D_DetalleOrden();
+        private D_Inicio _D_Inicio = new D_Inicio();
         int idespecial;
         string texto;
         int validacion;
@@ -41,9 +43,12 @@ namespace CapaVisual_Login
 
         L_Colores _L_Colores = new L_Colores();
 
-        public FrmClaveAutorizada()
+        private string CodigoTipo; // Variable privada NuevoRequerimiento
+
+        public FrmClaveAutorizada(string codigoTipo)
         {
             InitializeComponent();
+            CodigoTipo = codigoTipo; // Asignas el parámetro al constructor
             CbxSelecGerent.Text = "Seleccionar";
         }
 
@@ -93,8 +98,21 @@ namespace CapaVisual_Login
             DialogResult = DialogResult.OK;
             var gerente = CbxSelecGerent.Text;
             IngresoClaveEsp(gerente);
-            validacion = _L_ClaveAutorizada.clavegenerada + idespecial;
-            probar = validacion.ToString();
+            string clave = "";
+            if (string.IsNullOrWhiteSpace(CodigoTipo))
+            {
+                validacion = _L_ClaveAutorizada.clavegenerada + idespecial;
+                clave = validacion.ToString();
+            }
+            else if (!string.IsNullOrWhiteSpace(CodigoTipo))
+            {
+                string TipoVenta = _D_ClaveAutorizada.BuscarTipoVentaClave(CodigoTipo);
+                int Aleatoria = (int) Convert.ToInt32(LblClaveAleatoria.Text);
+                // Crea una instancia:
+                D_ClaveAutorizada dClaveAutorizada = new D_ClaveAutorizada();
+                clave = dClaveAutorizada.BuscarNuevasClave(TipoVenta, idespecial, Aleatoria);
+
+            }
 
             if (TxtClave.TextLength < 5)
             {
@@ -102,9 +120,8 @@ namespace CapaVisual_Login
                 MostrarMensajeError("El campo de clave debe tener al menos 5 carácteres");
                 return;
             }
-
             CampoCorrect = true;
-            if (TxtClave.Text == probar)
+            if (TxtClave.Text == clave)
             {
                 ClaveCorrecta = true;
                 VariablesGlobales.UsuarioAutorizado_FrmClaveAutorizada = gerente;
@@ -116,8 +133,7 @@ namespace CapaVisual_Login
                 VariablesGlobales.UsuarioAutorizado_FrmClaveAutorizada = "";
                 VariablesGlobales.CodigoUsuarioAutorizado_FrmClaveAutorizada = "";
                 MostrarMensajeError("La clave ingresada es invalida");
-            }
-
+            }   
             Limpiar();
             Nuevo_Parametro = false;
             Parametro_Nuevo = "";
@@ -129,32 +145,48 @@ namespace CapaVisual_Login
         private void FrmClaveAutorizada_Load(object sender, EventArgs e)
         {
             Limpiar();
-            CargarDatosComboBox();
+            CargarDatosComboBox(CodigoTipo);
             AplicarFormatoVisual();
         }
 
-        private void CargarDatosComboBox()
+        private void CargarDatosComboBox(string codigoTipo)
         {
             object dataSource = null;
-
-            if (Nuevo_Parametro)
+            //Logica vieja 
+            //Si codigoTipo es Null o blanco 
+            if (string.IsNullOrWhiteSpace(codigoTipo) || codigoTipo == "001")
             {
-                if (!string.IsNullOrEmpty(Parametro_Nuevo))
+                if (Nuevo_Parametro)
                 {
-                    CbxSelecGerent.DataSource = _D_ClaveAutorizada.ObtengoGerentesClaveAutorizadaII(Parametro_Nuevo);
-                }
-                else if (!string.IsNullOrEmpty(Id_Rol))
-                {
-                    CbxSelecGerent.DataSource = _D_ClaveAutorizada.ObtengoGerentesClaveAutorizadaIII(Id_Rol);
+                    if (!string.IsNullOrEmpty(Parametro_Nuevo))
+                    {
+                        CbxSelecGerent.DataSource = _D_ClaveAutorizada.ObtengoGerentesClaveAutorizadaII(Parametro_Nuevo);
+                    }
+                    else if (!string.IsNullOrEmpty(Id_Rol))
+                    {
+                        CbxSelecGerent.DataSource = _D_ClaveAutorizada.ObtengoGerentesClaveAutorizadaIII(Id_Rol);
+                    }
+                    else
+                    {
+                        CbxSelecGerent.DataSource = _D_ClaveAutorizada.ClaveAutorizadaII(_D_DetalleOrden.TB_PARAMETRO("Codigo_nomina"));
+                    }
                 }
                 else
                 {
-                    CbxSelecGerent.DataSource = _D_ClaveAutorizada.ClaveAutorizadaII(_D_DetalleOrden.TB_PARAMETRO("Codigo_nomina"));
+                    CbxSelecGerent.DataSource = _D_ClaveAutorizada.ClaveAutorizada(TB_USUARIO.COD_SUCURSAL);
                 }
             }
-            else
+            else if (!string.IsNullOrWhiteSpace(codigoTipo))
             {
-                CbxSelecGerent.DataSource = _D_ClaveAutorizada.ClaveAutorizada(TB_USUARIO.COD_SUCURSAL);
+                //// Esto es para poner los gerentes regionales por zona porque en la entidad TIPOSCLAVEAUTORIZADA estan todos 
+                //if (codigoTipo == "004" || codigoTipo== "005" || codigoTipo== "002" )
+                //{
+                //    CbxSelecGerent.DataSource = _D_ClaveAutorizada.ObtengoGerentesClaveAutorizadaII(_D_ClaveAutorizada.EmpleadosPorZona(_D_Inicio.Sucursal()));
+                //}
+                //else
+                //{ 
+                CbxSelecGerent.DataSource = _D_ClaveAutorizada.ObtengoGerentesClaveAutorizadaII(_D_ClaveAutorizada.BuscarEmpleadosClave(codigoTipo));
+                //}
             }
 
             if (CbxSelecGerent.Items.Count > 0)

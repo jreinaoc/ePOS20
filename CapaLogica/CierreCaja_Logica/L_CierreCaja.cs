@@ -73,6 +73,20 @@ namespace CapaLogica.CierreCaja_Logica
             }
         }
 
+        public void CierreSucursalObservacion(string codsuc, DateTime DiaActivo, string CodigoUusario, string Observacion)
+        {
+            try
+            {
+                _D_CierreCaja.CierreSucursal_Observacion(codsuc, DiaActivo, CodigoUusario, Observacion);
+            }
+
+            catch (Exception ex)
+            {
+                // Código para manejar el error
+                EscribirLog(ex.Message.ToString());
+            }
+        }
+
         public DataTable CierrePuntodeVenta(string codsuc, string codBanco, string nroLote, DateTime fecha)
         {
             DataTable dt = _D_CierreCaja.CierrePuntodeVenta(codsuc, codBanco, nroLote, fecha);

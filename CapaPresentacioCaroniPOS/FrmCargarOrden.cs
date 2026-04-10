@@ -79,12 +79,13 @@ namespace CapaVisual_Login
             this.KeyPreview = true;
         }
 
+        private int filaSeleccionadaPrisma = -1;
+
         private string COD_Aprueba_Desc = "";
         // Declarar la lista para almacenar los resultados
         private FrmRepOrden _FrmRepOrden = new FrmRepOrden();
         List<TB_ARTICULO> listaArticulos = new List<TB_ARTICULO>();
         FrmMostrarReporte _FrmMostrarReporte = new FrmMostrarReporte();
-        private FrmClaveAutorizada _FrmClaveAutorizada = new FrmClaveAutorizada();
         private FrmClaveGerente _FrmClaveGerente = new FrmClaveGerente();
         private L_Articulo _L_Articulo = new L_Articulo();
         private FrmMensajes _FrmMensajes = new FrmMensajes();
@@ -2342,7 +2343,7 @@ namespace CapaVisual_Login
 
         public void CancelarPorCambioExamen()
         {
-            
+            button15.PerformClick();
             LimpiarGridMantenerMedidasEsp();
         }
 
@@ -2934,6 +2935,9 @@ namespace CapaVisual_Login
 
                     if (_FrmMensajes.DialogResult == DialogResult.OK)
                     {
+                        // Pasas el parámetro directamente en el constructor
+                        FrmClaveAutorizada _FrmClaveAutorizada = new FrmClaveAutorizada("");
+
                         _FrmClaveAutorizada.ShowDialog();
 
                         if (_FrmClaveAutorizada.DialogResult == DialogResult.OK && _FrmClaveAutorizada.ClaveCorrecta == true)
@@ -3115,8 +3119,12 @@ namespace CapaVisual_Login
 
         private void Btn_Tap3_Aceptar_Desc_Click(object sender, EventArgs e)
         {
+            // Pasas el parámetro directamente en el constructor
+            FrmClaveAutorizada _FrmClaveAutorizada = new FrmClaveAutorizada("001");
+
             try
             {
+              
                 // Por descuento
                 if (!string.IsNullOrEmpty(Txt_Pnl3_ObservacionDesc.Text) && !string.IsNullOrEmpty(Txt_Pnl3_PorcDescuento.Text) && !string.IsNullOrEmpty(Txt_Pnl3_MontoDesc.Text))
                 {
@@ -4704,6 +4712,8 @@ namespace CapaVisual_Login
                         nud.KeyPress -= Nud_KeyPress_BlockDot; // evitar duplicados
                         nud.KeyPress += Nud_KeyPress_BlockDot;
                     }
+
+
                 }
             };
 
@@ -4723,8 +4733,32 @@ namespace CapaVisual_Login
             };
 
 
+            // También mantener el evento KeyDown del DataGridView para cuando no está en modo edición
+            Dgv_Pnl2_conv.KeyDown += Dgv_Pnl2_conv_KeyDown;
 
+            // También mantener el evento KeyDown del DataGridView para cuando no está en modo edición
+            Dgv_Pnl2_cont.KeyDown += Dgv_Pnl2_cont_KeyDown;
 
+            // Configurar para capturar Enter correctamente
+            Dgv_Pnl2_conv.PreviewKeyDown += (s, ev) =>
+            {
+                if (ev.KeyCode == Keys.Enter)
+                {
+                    ev.IsInputKey = true;
+                }
+            };
+
+            // Configurar para capturar Enter correctamente
+            Dgv_Pnl2_cont.PreviewKeyDown += (s, ev) =>
+            {
+                if (ev.KeyCode == Keys.Enter)
+                {
+                    ev.IsInputKey = true;
+                }
+            };
+
+            // Suscribir el evento CellContentClick
+            Dgv_Pnl2_conv.CellContentClick += Dgv_Pnl2_cont_CellContentClick;
 
         }
 
@@ -4733,12 +4767,15 @@ namespace CapaVisual_Login
 
         private void Btn_Tap3_ClienteAfiliado_Click(object sender, EventArgs e)
         {
-            //Pido Clave Autorizada
-            _FrmClaveAutorizada.Nuevo_Parametro = true;
-            _FrmClaveAutorizada.Parametro_Nuevo = _L_Articulo.BuscarCodigoGerenteDescuento("009");
-            _FrmClaveAutorizada.ShowDialog();
+            // Pasas el parámetro directamente en el constructor
+            FrmClaveAutorizada __FrmClaveAutorizada = new FrmClaveAutorizada("009");
 
-            if (_FrmClaveAutorizada.DialogResult == DialogResult.OK && _FrmClaveAutorizada.ClaveCorrecta == true)
+            //Pido Clave Autorizada
+            __FrmClaveAutorizada.Nuevo_Parametro = true;
+            __FrmClaveAutorizada.Parametro_Nuevo = _L_Articulo.BuscarCodigoGerenteDescuento("009");
+            __FrmClaveAutorizada.ShowDialog();
+
+            if (__FrmClaveAutorizada.DialogResult == DialogResult.OK && __FrmClaveAutorizada.ClaveCorrecta == true)
             {
 
                 VisualizarPanel("ClienteAfiliado");
@@ -6866,7 +6903,6 @@ namespace CapaVisual_Login
             }
 
 
-
         }
 
 
@@ -6947,6 +6983,7 @@ namespace CapaVisual_Login
             Dgv_Pnl2_conv.Columns.Add(esferaColumn);
             ///
             Dgv_Pnl2_conv.CellFormatting += (sender, e) =>
+            
             {
                 if (e.ColumnIndex == Dgv_Pnl2_conv.Columns["Esfera"].Index && e.Value != null)
                 {
@@ -7187,45 +7224,15 @@ namespace CapaVisual_Login
             grado1Column.Increment = 90; // Establece el incremento en 90
             Dgv_Pnl2_conv.Columns.Add(grado1Column);
 
-            //DataGridViewNumericUpDownColumn AlturaColumn = new DataGridViewNumericUpDownColumn();
-            //AlturaColumn.Name = "Altura";
-            //AlturaColumn.DataPropertyName = "Altura";
-            //AlturaColumn.HeaderText = "Altura";
-            //AlturaColumn.Minimum = 10;
-            //AlturaColumn.Maximum = 35;
-            //// Formato personalizado para mostrar siempre 3 dígitos
-            //AlturaColumn.DefaultCellStyle.Format = "000";
-            //Dgv_Pnl2_conv.Columns.Add(AlturaColumn);
+            DataGridViewButtonColumn BtnPrisma = new DataGridViewButtonColumn();
+            BtnPrisma.Name = "BtnPrisma";
+            BtnPrisma.HeaderText = "";  // Sin encabezado
+            BtnPrisma.Text = "";  // Texto muy corto (una letra)
+            BtnPrisma.UseColumnTextForButtonValue = true;
+            BtnPrisma.Width = 25;  // Más pequeño aún
+            BtnPrisma.Resizable = DataGridViewTriState.False;
 
-
-            // Now, add your custom DataGridViewComboBoxColumn for "Vision"
-            //DataGridViewComboBoxColumn visionComboColumn = new DataGridViewComboBoxColumn();
-            //visionComboColumn.Name = "Vision"; // Give it a distinct name for the DataGridView column
-            //visionComboColumn.DataPropertyName = "Vision"; // This must match the DataTable column name
-            //visionComboColumn.HeaderText = "Visión";
-            //visionComboColumn.Items.AddRange(new object[] { "Cerca", "Lejos", "Bifocal", "Progresivo", "Balance", "Intermedia" });
-            //visionComboColumn.ValueType = typeof(string);
-            //Dgv_Pnl2_conv.Columns.Add(visionComboColumn);
-
-            //// 2. Crear una nueva DataGridViewComboBoxColumn
-            //DataGridViewComboBoxColumn visionComboColumn = new DataGridViewComboBoxColumn();
-            //visionComboColumn.Name = "Vision";
-            //visionComboColumn.DataPropertyName = "Vision"; // Mantén el mismo DataPropertyName si es apropiado
-            //visionComboColumn.HeaderText = "Vision";
-
-            //// 3. Definir los valores que aparecerán en el ComboBox
-            //visionComboColumn.Items.AddRange(new object[] { "Cerca", "Lejos", "Bifocal", "Progresivo", "Balance", "Intermedia" });
-            //// 4. Opcionalmente, puedes establecer el tipo de dato del valor (si es relevante)
-            // visionComboColumn.ValueType = typeof(string); // Ejemplo si los valores son strings
-
-            //// 5. Agregar la nueva columna ComboBox al DataGridView
-            //Dgv_Pnl2_conv.Columns.Add(visionComboColumn);
-
-
-
-
-
-
+            Dgv_Pnl2_conv.Columns.Add(BtnPrisma);
 
             tamañoExamenGridConv();
         }
@@ -7651,6 +7658,15 @@ namespace CapaVisual_Login
                 Dgv_Pnl2_conv.Columns["aCilindro"].Width = 20; // Establecer el ancho fijo (aproximadamente 0.5 cm)
             }
 
+
+            // Configurar la columna "aEsfera" para que no se ajuste automáticamente
+            if (Dgv_Pnl2_conv.Columns.Contains("BtnPrisma"))
+            {
+                Dgv_Pnl2_conv.Columns["BtnPrisma"].Width = 25; // Establecer el ancho fijo (aproximadamente 0.5 cm)
+                Dgv_Pnl2_conv.Columns["BtnPrisma"].DisplayIndex = Dgv_Pnl2_conv.Columns.Count - 1;
+            }
+
+
             // Configurar la columna "aEsfera" para que no se ajuste automáticamente
             //if (Dgv_Pnl2_conv.Columns.Contains("aEsfera"))
             //{
@@ -7711,7 +7727,7 @@ namespace CapaVisual_Login
                     {
                         //cell.Value = -1;
                     }
-                    else if (cell.ColumnIndex != 9 && cell.ColumnIndex != 0)
+                    else if (cell.ColumnIndex != 10 && cell.ColumnIndex != 1)
                     {
                         cell.Value = "0";
                     }
@@ -12114,10 +12130,66 @@ namespace CapaVisual_Login
                 // Llama al evento CellEnter, pasando los mismos sender y argumentos
                 DataGridViewCell changedCell = Dgv_Pnl2_conv.Rows[e.RowIndex].Cells[e.ColumnIndex];
                 // Obtiene la celda que cambió
-                if (changedCell.Value != null && changedCell.Value.ToString() != string.Empty)
+              
+                if (changedCell != null && changedCell.Value != null &&
+                   !string.IsNullOrEmpty(changedCell.Value.ToString()))
                 // Verifica que el valor no sea nulo ni vacío
                 {
+                    // Guardar la posición actual ANTES de llamar a CellEnter
+                    int currentRow = e.RowIndex;
+                    int currentCol = e.ColumnIndex;
+                    object valorActual = changedCell.Value;
+
                     Dgv_Pnl2_conv_CellEnter(sender, e);
+
+                    // 👇 IMPORTANTE: Usar BeginInvoke para que la navegación ocurra
+                    // DESPUÉS de que el DataGridView termine su procesamiento interno
+                    this.BeginInvoke(new Action(() =>
+                    {
+                        // Pequeña pausa para asegurar que todo terminó
+                        System.Threading.Thread.Sleep(10);
+
+                        // VALIDACIONES ANTES DE RESTAURAR
+                        if (Dgv_Pnl2_conv != null &&
+                            Dgv_Pnl2_conv.Rows.Count > currentRow &&
+                            Dgv_Pnl2_conv.Columns.Count > currentCol && valorActual != "20/" && valorActual != "-" && valorActual.ToString() != "0")
+                        {
+                            // Verificar si necesitamos restaurar la celda original
+                            bool necesitaRestaurar = true;
+
+                            if (Dgv_Pnl2_conv.CurrentCell != null)
+                            {
+                                if (Dgv_Pnl2_conv.CurrentCell.RowIndex == currentRow &&
+                                    Dgv_Pnl2_conv.CurrentCell.ColumnIndex == currentCol)
+                                {
+                                    necesitaRestaurar = false;
+                                }
+                            }
+
+                            if (necesitaRestaurar)
+                            {
+                                var celdaOriginal = Dgv_Pnl2_conv.Rows[currentRow].Cells[currentCol];
+                                if (celdaOriginal != null)
+                                {
+                                    Dgv_Pnl2_conv.CurrentCell = celdaOriginal;
+
+                                    // Restaurar valor solo si es necesario
+                                    if (celdaOriginal.Value == null ||
+                                        celdaOriginal.Value.ToString() != valorActual)
+                                    {
+                                        celdaOriginal.Value = valorActual;
+                                    }
+
+                                    Dgv_Pnl2_conv.Refresh();
+                                }
+                            }
+
+                            // AHORA SÍ, navegar
+                            NavigateOnEnter(Dgv_Pnl2_conv,false, currentRow, currentCol);
+                        }
+                        
+                    }));
+
                 }
 
 
@@ -12389,6 +12461,7 @@ namespace CapaVisual_Login
                     }
                 }
             }
+
         }
 
         private void Dgv_Pnl2_conv_CellLeave(object sender, DataGridViewCellEventArgs e)
@@ -12779,12 +12852,66 @@ namespace CapaVisual_Login
             {
                 // Llama al evento CellEnter, pasando los mismos sender y argumentos
                 DataGridViewCell changedCell = Dgv_Pnl2_cont.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                // Guardar la posición actual ANTES de llamar a CellEnter
+                int currentRow = e.RowIndex;
+                int currentCol = e.ColumnIndex;
+                object valorActual = changedCell.Value;
+
                 // Obtiene la celda que cambió
                 if (changedCell.Value != null && changedCell.Value.ToString() != string.Empty)
                 // Verifica que el valor no sea nulo ni vacío
                 {
                     Dgv_Pnl2_cont_CellEnter(sender, e);
                 }
+
+
+                // 👇 IMPORTANTE: Usar BeginInvoke para que la navegación ocurra
+                // DESPUÉS de que el DataGridView termine su procesamiento interno
+                this.BeginInvoke(new Action(() =>
+                {
+                    // Pequeña pausa para asegurar que todo terminó
+                    System.Threading.Thread.Sleep(10);
+
+                    // VALIDACIONES ANTES DE RESTAURAR
+                    if (Dgv_Pnl2_cont != null &&
+                        Dgv_Pnl2_cont.Rows.Count > currentRow &&
+                        Dgv_Pnl2_cont.Columns.Count > currentCol && valorActual != "20/" && valorActual != "-" && valorActual.ToString() != "0")
+                    {
+                        // Verificar si necesitamos restaurar la celda original
+                        bool necesitaRestaurar = true;
+
+                        if (Dgv_Pnl2_cont.CurrentCell != null)
+                        {
+                            if (Dgv_Pnl2_cont.CurrentCell.RowIndex == currentRow &&
+                                Dgv_Pnl2_cont.CurrentCell.ColumnIndex == currentCol)
+                            {
+                                necesitaRestaurar = false;
+                            }
+                        }
+
+                        if (necesitaRestaurar)
+                        {
+                            var celdaOriginal = Dgv_Pnl2_cont.Rows[currentRow].Cells[currentCol];
+                            if (celdaOriginal != null)
+                            {
+                                Dgv_Pnl2_cont.CurrentCell = celdaOriginal;
+
+                                // Restaurar valor solo si es necesario
+                                if (celdaOriginal.Value == null ||
+                                    celdaOriginal.Value.ToString() != valorActual)
+                                {
+                                    celdaOriginal.Value = valorActual;
+                                }
+
+                                Dgv_Pnl2_cont.Refresh();
+                            }
+                        }
+
+                        // AHORA SÍ, navegar
+                        NavigateOnEnter(Dgv_Pnl2_cont, true, currentRow, currentCol);
+                    }
+
+                }));
 
             }
 
@@ -12865,6 +12992,7 @@ namespace CapaVisual_Login
 
         private void button6_Click(object sender, EventArgs e)
         {
+            button15.PerformClick();
             mantenervacio = false;
             Btn_Tap2_Derecha_Click(this.Btn_Tap2_Derecha, EventArgs.Empty);
 
@@ -13070,17 +13198,6 @@ namespace CapaVisual_Login
                     return;
                 }
 
-//                // Crear la lista primero
-//                List<(string nombre, string valor)> datosPanel2 = new List<(string nombre, string valor)>
-//{
-//    ("T_ALTD", txtAltD.Text),
-//    ("T_ALTI", txtAltI.Text),
-//    ("T_OJO", Cbx_Tap2_Ojo.Text),
-//    ("T_TIPOVISIOND", cbVisionDerecha.Enabled ? cbVisionDerecha.Text : ""),
-//    ("T_TIPOVISIONI", cbVisionIzquierda.Enabled ? cbVisionIzquierda.Text : "")
-//};
-
-//                bool Respuesta = _Asignar_Rx.AsignarRx(TB_CAORDSER.Cod_DetVta, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.CTE_Nacio, TB_CAORDSER.CTE_CedIden, Txt_Tap2_Examen.Text, TB_CAORDSER.NumOrdserv, LbResultado2, LbResultados, dgvRangoCrt, TB_CAORDSER.Cod_Laboratorio, TB_CAORDSER.Cod_Servicio, ((!string.IsNullOrEmpty(txtDistVertice.Text?.Trim())) ? "TRUE" : "FALSE"), ((!string.IsNullOrEmpty(txtAngPant.Text?.Trim())) ? "TRUE" : "FALSE"), ((!string.IsNullOrEmpty(txtAngFac.Text?.Trim())) ? "TRUE" : "FALSE"), datosPanel2);
                 bool Respuesta = _Asignar_Rx.AsignarRx(TB_CAORDSER.Cod_DetVta, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.CTE_Nacio, TB_CAORDSER.CTE_CedIden, Txt_Tap2_Examen.Text, TB_CAORDSER.NumOrdserv, LbResultado2, LbResultados, dgvRangoCrt, TB_CAORDSER.Cod_Laboratorio, TB_CAORDSER.Cod_Servicio, ((!string.IsNullOrEmpty(txtDistVertice.Text?.Trim())) ? "TRUE" : "FALSE"), ((!string.IsNullOrEmpty(txtAngPant.Text?.Trim())) ? "TRUE" : "FALSE"), ((!string.IsNullOrEmpty(txtAngFac.Text?.Trim())) ? "TRUE" : "FALSE"));
                 if (!Respuesta && _Asignar_Rx.stringBuilder.Length > 0)
                 {
@@ -14141,6 +14258,9 @@ namespace CapaVisual_Login
 
         private void btnAutorizarRangosCrt_Click(object sender, EventArgs e)
         {
+            // Pasas el parámetro directamente en el constructor
+            FrmClaveAutorizada _FrmClaveAutorizada = new FrmClaveAutorizada("008");
+
             _FrmClaveAutorizada.Nuevo_Parametro = true;
             _FrmClaveAutorizada.Id_Rol = "015";
             _FrmClaveAutorizada.ShowDialog();
@@ -14152,122 +14272,14 @@ namespace CapaVisual_Login
             }
         }
 
-        private bool ValidoAlturaMedidasRevision()
-        {
-            try
-            {
-                //var gerenteRegio = new frmClaveAutorizada();
-                bool altura = true;
-                bool resultado = false;
-
-                // Validación de altura - medida vertical de la montura
-                if (Cbx_Tap2_Ojo.Text == "Ambos")
-                {
-                    if (!string.IsNullOrWhiteSpace(txtVertical.Text) &&
-                        !string.IsNullOrWhiteSpace(txtAltD.Text) &&
-                        !string.IsNullOrWhiteSpace(txtAltI.Text))
-                    {
-                        double vertical = Convert.ToDouble(txtVertical.Text);
-                        double altD = Convert.ToDouble(txtAltD.Text);
-                        double altI = Convert.ToDouble(txtAltI.Text);
-
-                        if (cbVisionDerecha.Text == "Progresivo" && vertical - altD < 8)
-                            altura = false;
-                        else if (cbVisionIzquierda.Text == "Progresivo" && vertical - altI < 8)
-                            altura = false;
-                        else
-                        {
-                            altura = true;
-                            resultado = true;
-                        }
-                    }
-                }
-                else if (Cbx_Tap2_Ojo.Text == "Derecho")
-                {
-                    if (!string.IsNullOrWhiteSpace(txtVertical.Text) &&
-                        !string.IsNullOrWhiteSpace(txtAltD.Text))
-                    {
-                        double vertical = Convert.ToDouble(txtVertical.Text);
-                        double altD = Convert.ToDouble(txtAltD.Text);
-
-                        if (cbVisionDerecha.Text == "Progresivo" && vertical - altD < 8)
-                            altura = false;
-                        else
-                        {
-                            altura = true;
-                            resultado = true;
-                        }
-                    }
-                }
-                else if (Cbx_Tap2_Ojo.Text == "Izquierdo")
-                {
-                    if (!string.IsNullOrWhiteSpace(txtVertical.Text) &&
-                        !string.IsNullOrWhiteSpace(txtAltI.Text))
-                    {
-                        double vertical = Convert.ToDouble(txtVertical.Text);
-                        double altI = Convert.ToDouble(txtAltI.Text);
-
-                        if (cbVisionIzquierda.Text == "Progresivo" && vertical - altI < 8)
-                            altura = false;
-                        else
-                        {
-                            altura = true;
-                            resultado = true;
-                        }
-                    }
-                }
-                else
-                {
-                    altura = true;
-                    resultado = true;
-                }
-
-                if (!altura)
-                {
-                    _FrmMensajes.co = 3;
-                    _FrmMensajes.avisomensaje("La Medida Vertical de la montura menos la Altura debe ser mayor o igual a 8\n¿Desea generar la venta con clave AUTORIZADA?");
-                    _FrmMensajes.ShowDialog();
-
-                    if (_FrmMensajes.DialogResult == DialogResult.OK)
-                    {
-                        _FrmClaveAutorizada.Nuevo_Parametro = true;
-                        _FrmClaveAutorizada.Id_Rol = "015";
-                        _FrmClaveAutorizada.ShowDialog();
-
-                        if (_FrmClaveAutorizada.DialogResult == DialogResult.OK && _FrmClaveAutorizada.ClaveCorrecta == true)
-                        {
-                            resultado = true;
-                            _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "058", TB_USUARIO.COD_EMPLEADO, $"OS:  Altura D: {txtAltD.Text} Altura I: {txtAltI.Text} MVertical: {txtVertical.Text}, Autoriza: {TB_USUARIO.COD_EMPLEADO}");
-                        }
-                        else
-                        {
-                            resultado = false;
-                        }
-
-                    }
-
-                }
-                return resultado;
-            }
-            catch (Exception ex)
-            {
-                //MensajeError.MuestroMensaje(
-                //    "Error en la función",
-                //    "frmFacturas.VerificoCantidadProducto",
-                //    "Por favor comunicarse con el Dpto de Sistemas y reportar el siguiente error: ",
-                //    ex.Message,
-                //    CapaNegocio.MensajesGenerales.TiposIconos.IconoError,
-                //    glbUsuarioActual);
-
-                //MensajeError.ShowDialog();
-                return false;
-            }
-        }
 
         private bool ValidoAlturaMedidas()
         {
             try
             {
+                // Pasas el parámetro directamente en el constructor
+                FrmClaveAutorizada _FrmClaveAutorizada = new FrmClaveAutorizada("008");
+
                 bool altura = true;
                 bool resultado = true;
 
@@ -15174,40 +15186,243 @@ namespace CapaVisual_Login
             }
         }
 
-        //    private void RegresarControlesAPnl2()
-        //    {
-        //        // Crear lista temporal para evitar modificar la colección durante la iteración
-        //        var controlesARegresar = new List<Control>();
-        //        string[] nombresControles = {
-        //    "label24", "label26", "label33", "label34", "label35",
-        //    "Cbx_Tap2_Ojo", "cbVisionDerecha", "cbVisionIzquierda",
-        //    "txtAltD", "txtAltI"
-        //};
+        private void Dgv_Pnl2_conv_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.Handled = true;
+                e.SuppressKeyPress = true;
 
-        //        // Buscar todos los controles primero
-        //        foreach (string nombre in nombresControles)
-        //        {
-        //            Control control = Pnl_1.Controls[nombre];
-        //            if (control != null)
-        //            {
-        //                controlesARegresar.Add(control);
-        //            }
-        //        }
+                // Si está en modo edición, terminarlo
+                if (Dgv_Pnl2_conv.IsCurrentCellInEditMode)
+                {
+                    Dgv_Pnl2_conv.EndEdit();
+                    System.Threading.Thread.Sleep(10);
+                }
 
-        //        // Regresar todos los controles manteniendo sus posiciones
-        //        foreach (Control control in controlesARegresar)
-        //        {
-        //            Point posicionActual = control.Location;
-        //            Pnl_1.Controls.Remove(control);
-        //            Pnl_2.Controls.Add(control);
-        //            control.Location = posicionActual;
-        //            control.Visible = true; // Forzar visibilidad
-        //            control.BringToFront(); // Traer al frente
+                // Ejecutar navegación
+                NavigateOnEnter(Dgv_Pnl2_conv);
+            }
+        }
 
-        //            // Opcional: mantener el estado Enabled también
-        //            control.Enabled = true;
-        //        }
-        //    }
+        private void Dgv_Pnl2_cont_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+
+                // Si está en modo edición, terminarlo
+                if (Dgv_Pnl2_cont.IsCurrentCellInEditMode)
+                {
+                    Dgv_Pnl2_cont.EndEdit();
+                    System.Threading.Thread.Sleep(10);
+                }
+
+                // Ejecutar navegación
+                NavigateOnEnter(Dgv_Pnl2_cont,true);
+            }
+        }
+
+        // Tu método de navegación (igual que antes)
+        private void NavigateOnEnter(DataGridView dgv, bool Contacto = false , int? currentRow = null, int? currentCol = null)
+        {
+            //int currentRow = dgv.CurrentCell.RowIndex;
+            //int currentCol = dgv.CurrentCell.ColumnIndex;
+
+            // Si no se proporcionaron fila/columna, usar las del CurrentCell
+            int row = currentRow ?? dgv.CurrentCell?.RowIndex ?? 0;
+            int col = currentCol ?? dgv.CurrentCell?.ColumnIndex ?? 0;
+
+            // Validar que los índices sean válidos
+            if (row < 0 || row >= dgv.RowCount || col < 0 || col >= dgv.ColumnCount)
+            {
+                // Si son inválidos, intentar usar CurrentCell
+                if (dgv.CurrentCell != null)
+                {
+                    row = dgv.CurrentCell.RowIndex;
+                    col = dgv.CurrentCell.ColumnIndex;
+                }
+                else
+                {
+                    return; // No hay celda válida, salir
+                }
+            }
+
+
+
+            // Lógica de navegación que ya tenías
+            switch (col)
+            {
+                case 0:
+                    dgv.CurrentCell = dgv.Rows[row].Cells[2];
+                    break;
+                
+                case 1: // Posición 0 -> posición 2
+                case 2: // Posición 1 -> posición 2
+                    if (Contacto)
+                        dgv.CurrentCell = dgv.Rows[row].Cells[4];
+                    else
+                        dgv.CurrentCell = dgv.Rows[row].Cells[3];
+                    break;
+
+                case 4: // Posición 2 -> posición 4
+                case 3: // Posición 3 -> posición 4
+                    dgv.CurrentCell = dgv.Rows[row].Cells[5];
+                    break;
+
+                case 5: // Posición 4 -> posición 5
+                    dgv.CurrentCell = dgv.Rows[row].Cells[6];
+                    break;
+
+                case 13: // Posición 12
+                    if (row == 0) // Primera fila
+                    {
+                        if (dgv.RowCount > 1)
+                        {
+                            dgv.CurrentCell = dgv.Rows[1].Cells[3];
+                        }
+                        else
+                        {
+                            dgv.CurrentCell = dgv.Rows[0].Cells[3];
+                        }
+                    }
+                    else if (row == 1) // Segunda fila
+                    {
+                        dgv.CurrentCell = dgv.Rows[0].Cells[3];
+                    }
+                    else // Otras filas
+                    {
+                        int nextRow = (row + 1) % dgv.RowCount;
+                        dgv.CurrentCell = dgv.Rows[nextRow].Cells[3];
+                    }
+                    break;
+
+                default: // Columnas 5-11
+                    if (col < dgv.ColumnCount - 1)
+                    {
+                        dgv.CurrentCell = dgv.Rows[row].Cells[col + 1];
+                    }
+                    else
+                    {
+                        // Si es la última columna (11), ir a posición 2 de la siguiente fila
+                        int nextRow = row + 1;
+                        if (nextRow < dgv.RowCount)
+                        {
+                            dgv.CurrentCell = dgv.Rows[nextRow].Cells[2];
+                        }
+                        else
+                        {
+                            dgv.CurrentCell = dgv.Rows[0].Cells[2];
+                        }
+                    }
+
+                    break;
+            }
+
+            try
+            {
+                // Verificar si la celda actual tiene valor DBNull
+                if (dgv.CurrentCell != null && dgv.CurrentCell.Value == DBNull.Value)
+                {
+                    // Asignar un valor por defecto según el tipo de columna
+                    if (dgv.CurrentCell is DataGridViewNumericUpDownCell)
+                    {
+                        dgv.CurrentCell.Value = 0M;
+                    }
+                    else if (dgv.CurrentCell is DataGridViewTextBoxCell)
+                    {
+                        dgv.CurrentCell.Value = "";
+                    }
+                    else
+                    {
+                        dgv.CurrentCell.Value = null;
+                    }
+                }
+
+                // Ahora sí, iniciar edición
+                dgv.BeginEdit(false);
+                dgv.EndEdit();
+            }
+            catch (InvalidCastException)
+            {
+                // Si aún falla, intentar sin BeginEdit
+                dgv.Focus();
+            }
+            catch (Exception ex)
+            {
+                // Log del error si es necesario
+                Console.WriteLine($"Error en navegación: {ex.Message}");
+                dgv.Focus();
+            }
+
+            dgv.Focus();
+            dgv.EditMode = DataGridViewEditMode.EditOnKeystrokeOrF2;
+        }
+
+
+        private void Dgv_Pnl2_cont_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            // Verificar que el clic fue en una celda válida (no en el encabezado)
+            if (e.RowIndex < 0) return;  // Ignorar clics en el encabezado
+
+            // Verificar que el clic fue en la columna del botón "BtnPrisma"
+            if (e.ColumnIndex == Dgv_Pnl2_conv.Columns["BtnPrisma"].Index && mantenervacio)
+            {
+                // Guardar la fila donde hicieron clic
+                filaSeleccionadaPrisma = e.RowIndex;
+                PnlPrisma.Visible = true;
+                PnlPrisma.Show();
+                PnlPrisma.Location = new Point(400, 200);
+                PnlPrisma.BringToFront();
+                // Para evitar que el DataGridView entre en modo edición
+                Dgv_Pnl2_conv.EndEdit();
+
+            }
+        }
+
+        private void RadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            RadioButton rb = sender as RadioButton;
+
+            if (rb != null && rb.Checked && Dgv_Pnl2_conv.CurrentCell != null)
+            {
+                decimal valorPrisma = 0;
+
+                // Asignar valor según el RadioButton seleccionado
+                if (rb == RdPrismaUp)
+                    valorPrisma = 90;
+                else if (rb == RdPrismaDow)
+                    valorPrisma = 270;
+                else if (rb == RdPrismaRight)
+                    valorPrisma = 0;
+                else if (rb == RdPrismaLeft)
+                    valorPrisma = 180;
+
+               Dgv_Pnl2_conv.Rows[filaSeleccionadaPrisma].Cells["Grado1"].Value = valorPrisma;
+
+            }
+        }
+
+        private void button15_Click(object sender, EventArgs e)
+        {
+            PnlPrisma.Visible = false;
+            filaSeleccionadaPrisma = -1;
+            LimpiarSeleccionRadioButtons();
+
+        }
+
+        private void LimpiarSeleccionRadioButtons()
+        {
+            foreach (Control control in PnlPrisma.Controls)
+            {
+                if (control is RadioButton rb)
+                {
+                    rb.Checked = false;
+                }
+            }
+        }
+
     }
 
 }

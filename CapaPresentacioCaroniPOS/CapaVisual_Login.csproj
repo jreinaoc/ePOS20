@@ -76,6 +76,10 @@
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BibliotecaAppEnvioEmail, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\BibliotecaAppEnvioEmail.dll</HintPath>
+    </Reference>
     <Reference Include="BouncyCastle.Cryptography, Version=2.0.0.0, Culture=neutral, PublicKeyToken=072edcf4a5328938, processorArchitecture=MSIL">
       <HintPath>..\packages\BouncyCastle.Cryptography.2.4.0\lib\net461\BouncyCastle.Cryptography.dll</HintPath>
     </Reference>
@@ -254,6 +258,14 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DSCierreDeCaja.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\DsRepPagosPorTarjeta.cs">
+      <DependentUpon>DsRepPagosPorTarjeta.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\DsRepPagosPorTarjeta.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DsRepPagosPorTarjeta.xsd</DependentUpon>
     </Compile>
     <Compile Include="Reportes\DsRepPagosTranferencia.cs">
       <DependentUpon>DsRepPagosTranferencia.xsd</DependentUpon>
@@ -509,6 +521,7 @@
     <EmbeddedResource Include="Reportes\RepOrden.rdlc" />
     <EmbeddedResource Include="Reportes\RepOrdenTContacto.rdlc" />
     <EmbeddedResource Include="Reportes\ReportAbono.rdlc" />
+    <EmbeddedResource Include="Reportes\RepPagsoPorTarjeta.rdlc" />
     <EmbeddedResource Include="Reportes\RepVuelto.rdlc" />
     <EmbeddedResource Include="Reportes\RptAbono.rdlc" />
     <EmbeddedResource Include="Reportes\RptPagosTranferencia.rdlc" />
@@ -535,6 +548,17 @@
     </None>
     <None Include="Reportes\DSCierreDeCaja.xss">
       <DependentUpon>DSCierreDeCaja.xsd</DependentUpon>
+    </None>
+    <None Include="Reportes\DsRepPagosPorTarjeta.xsc">
+      <DependentUpon>DsRepPagosPorTarjeta.xsd</DependentUpon>
+    </None>
+    <None Include="Reportes\DsRepPagosPorTarjeta.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsRepPagosPorTarjeta.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Reportes\DsRepPagosPorTarjeta.xss">
+      <DependentUpon>DsRepPagosPorTarjeta.xsd</DependentUpon>
     </None>
     <None Include="Reportes\DsRepPagosTranferencia.xsc">
       <DependentUpon>DsRepPagosTranferencia.xsd</DependentUpon>
@@ -661,8 +685,17 @@
     <Folder Include="SqlServerTypes\" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\up3.png" />
+    <None Include="Resources\up2.png" />
+    <None Include="Resources\up.jfif" />
+    <None Include="Resources\Up.bmp" />
+    <None Include="Resources\Image1.bmp" />
     <None Include="bin\Debug\Codigo QR.ico" />
     <None Include="bin\Debug\Codigo QR Claro.ico" />
+    <None Include="bin\Debug\Arriba.ico" />
+    <None Include="bin\Debug\Abajo.ico" />
+    <None Include="bin\Debug\Derecha.ico" />
+    <None Include="bin\Debug\Izquierda.ico" />
     <Content Include="icono-puntoDeVenta.ico" />
     <None Include="Reportes\DSRepVuelto.xsc">
       <DependentUpon>DSRepVuelto.xsd</DependentUpon>

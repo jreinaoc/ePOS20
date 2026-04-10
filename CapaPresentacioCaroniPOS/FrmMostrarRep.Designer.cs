@@ -30,21 +30,27 @@ namespace CapaVisual_Login
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            Microsoft.Reporting.WinForms.ReportDataSource reportDataSource3 = new Microsoft.Reporting.WinForms.ReportDataSource();
+            Microsoft.Reporting.WinForms.ReportDataSource reportDataSource6 = new Microsoft.Reporting.WinForms.ReportDataSource();
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.dsCambio = new CapaVisual_Login.Reportes.DsReppCambio();
             this.reportViewer1 = new Microsoft.Reporting.WinForms.ReportViewer();
             this.TxtOrden = new System.Windows.Forms.TextBox();
             this.SP_CPOS_RepCambioTableAdapter = new CapaVisual_Login.Reportes.DsReppCambioTableAdapters.SP_CPOS_RepCambioTableAdapter();
             this.bindingSource2 = new System.Windows.Forms.BindingSource(this.components);
-            this.bindingSource3 = new System.Windows.Forms.BindingSource(this.components);
             this.dsRepPagosTranferencia1 = new CapaVisual_Login.Reportes.DsRepPagosTranferencia();
             this.cpos_PagoTransferenciaTableAdapter = new CapaVisual_Login.Reportes.DsRepPagosTranferenciaTableAdapters.Cpos_PagoTransferenciaTableAdapter();
+            this.dsRepPagosPorTarjeta = new CapaVisual_Login.Reportes.DsRepPagosPorTarjeta();
+            this.bindingSource3 = new System.Windows.Forms.BindingSource(this.components);
+            this.cPOS_PagosTarjeta_CreditoTableAdapter = new CapaVisual_Login.Reportes.DsRepPagosPorTarjetaTableAdapters.CPOS_PagosTarjeta_CreditoTableAdapter();
+            this.bindingSource4 = new System.Windows.Forms.BindingSource(this.components);
+            this.cPOS_PagosTarjetaTableAdapter = new CapaVisual_Login.Reportes.DsRepPagosPorTarjetaTableAdapters.CPOS_PagosTarjetaTableAdapter();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dsCambio)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSource3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dsRepPagosTranferencia1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dsRepPagosPorTarjeta)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSource3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSource4)).BeginInit();
             this.SuspendLayout();
             // 
             // bindingSource1
@@ -61,9 +67,9 @@ namespace CapaVisual_Login
             // reportViewer1
             // 
             this.reportViewer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            reportDataSource3.Name = "DsRepCambio";
-            reportDataSource3.Value = this.bindingSource1;
-            this.reportViewer1.LocalReport.DataSources.Add(reportDataSource3);
+            reportDataSource6.Name = "DsRepCambio";
+            reportDataSource6.Value = this.bindingSource1;
+            this.reportViewer1.LocalReport.DataSources.Add(reportDataSource6);
             this.reportViewer1.LocalReport.ReportEmbeddedResource = "CapaVisual_Login.Reportes.RepCambio.rdlc";
             this.reportViewer1.Location = new System.Drawing.Point(0, 0);
             this.reportViewer1.Name = "reportViewer1";
@@ -98,6 +104,29 @@ namespace CapaVisual_Login
             // 
             this.cpos_PagoTransferenciaTableAdapter.ClearBeforeFill = true;
             // 
+            // dsRepPagosPorTarjeta
+            // 
+            this.dsRepPagosPorTarjeta.DataSetName = "DsRepPagosPorTarjeta";
+            this.dsRepPagosPorTarjeta.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            // 
+            // bindingSource3
+            // 
+            this.bindingSource3.DataMember = "CPOS_PagosTarjeta_Credito";
+            this.bindingSource3.DataSource = this.dsRepPagosPorTarjeta;
+            // 
+            // cPOS_PagosTarjeta_CreditoTableAdapter
+            // 
+            this.cPOS_PagosTarjeta_CreditoTableAdapter.ClearBeforeFill = true;
+            // 
+            // bindingSource4
+            // 
+            this.bindingSource4.DataMember = "CPOS_PagosTarjeta";
+            this.bindingSource4.DataSource = this.dsRepPagosPorTarjeta;
+            // 
+            // cPOS_PagosTarjetaTableAdapter
+            // 
+            this.cPOS_PagosTarjetaTableAdapter.ClearBeforeFill = true;
+            // 
             // FrmMostrarRep
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -111,8 +140,10 @@ namespace CapaVisual_Login
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dsCambio)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSource3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dsRepPagosTranferencia1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dsRepPagosPorTarjeta)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSource3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSource4)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -126,8 +157,12 @@ namespace CapaVisual_Login
         private Reportes.DsReppCambio dsCambio;
         private Reportes.DsReppCambioTableAdapters.SP_CPOS_RepCambioTableAdapter SP_CPOS_RepCambioTableAdapter;
         private System.Windows.Forms.BindingSource bindingSource2;
-        private System.Windows.Forms.BindingSource bindingSource3;
         private Reportes.DsRepPagosTranferencia dsRepPagosTranferencia1;
         private Reportes.DsRepPagosTranferenciaTableAdapters.Cpos_PagoTransferenciaTableAdapter cpos_PagoTransferenciaTableAdapter;
+        private Reportes.DsRepPagosPorTarjeta dsRepPagosPorTarjeta;
+        private System.Windows.Forms.BindingSource bindingSource3;
+        private Reportes.DsRepPagosPorTarjetaTableAdapters.CPOS_PagosTarjeta_CreditoTableAdapter cPOS_PagosTarjeta_CreditoTableAdapter;
+        private System.Windows.Forms.BindingSource bindingSource4;
+        private Reportes.DsRepPagosPorTarjetaTableAdapters.CPOS_PagosTarjetaTableAdapter cPOS_PagosTarjetaTableAdapter;
     }
 }

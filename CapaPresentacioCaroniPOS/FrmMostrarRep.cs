@@ -21,6 +21,7 @@ namespace CapaVisual_Login
         private DataTable _datosReporte;
         Dictionary<string, string> _Parametros;
         Dictionary<string, DataTable> _dataSources;
+        Dictionary<string, DataTable> dataSources = new Dictionary<string, DataTable>();
 
         public FrmMostrarRep(string nombreReporte = null , string nombreDataSource = null , bool imprimir = false, DataTable datosReporte = null, Dictionary<string, string> parametros = null, Dictionary<string, DataTable> dataSources = null)
         {
@@ -180,6 +181,114 @@ namespace CapaVisual_Login
             imp.Imprime(rdlc);
 
         }
+
+        public void ImprimirPagosTarjeta( DateTime fecha,  string codSucursal,  string FechaDesde, string Compania,  string RifCompania, string Sucursal,  string NombreSucursal, bool Imprimir)
+        {
+            //    LocalReport rdlc = new LocalReport();
+            //    rdlc.ReportEmbeddedResource = "CapaVisual_Login.Reportes.RepPagsoPorTarjeta.rdlc";
+
+            //    // 🔴 TABLA 1
+            //    this.cPOS_PagosTarjetaTableAdapter.Connection.Close();
+            //    this.cPOS_PagosTarjetaTableAdapter.Connection.ConnectionString = conexion;
+            //    this.cPOS_PagosTarjetaTableAdapter.Fill(this.dsRepPagosPorTarjeta.CPOS_PagosTarjeta, fecha, codSucursal);
+            //    // 🔴 TABLA 2
+            //    this.cPOS_PagosTarjeta_CreditoTableAdapter.Connection.Close();
+            //    this.cPOS_PagosTarjeta_CreditoTableAdapter.Connection.ConnectionString = conexion;
+            //    this.cPOS_PagosTarjeta_CreditoTableAdapter.Fill(this.dsRepPagosPorTarjeta.CPOS_PagosTarjeta_Credito, fecha, codSucursal);
+
+            //    // 🔥 PARÁMETROS
+            //    ReportParameter[] parametros = new ReportParameter[]
+            //    { new ReportParameter("FechaDesde", FechaDesde),
+            //new ReportParameter("Compania", Compania),
+            //new ReportParameter("RifCompania", RifCompania),
+            //new ReportParameter("Sucursal", Sucursal),
+            //new ReportParameter("NombreSucursal", NombreSucursal)
+            //    };
+
+            //    rdlc.SetParameters(parametros);
+
+            //    // 🔥 DATA SOURCES (CLAVE)
+            //    rdlc.DataSources.Clear();
+
+
+            //    rdlc.DataSources.Add(new ReportDataSource(
+            //        "DataSet1", // 👈 nombre del RDLC
+            //        bindingSource4
+            //    ));
+
+            //    rdlc.DataSources.Add(new ReportDataSource(
+            //        "DataSet2", // 👈 nombre del RDLC
+            //        bindingSource3
+            //    ));
+
+            //    if (Imprimir)
+            //    {
+            //        reportViewer1.LocalReport.DataSources.Clear();
+            //        reportViewer1.LocalReport.ReportEmbeddedResource = "CapaVisual_Login.Reportes.RepPagsoPorTarjeta.rdlc";
+
+            //        reportViewer1.LocalReport.DataSources.Add(new ReportDataSource("CPOS_PagosTarjeta", this.DsRepPagosPorTarjeta.CPOS_PagosTarjeta));
+            //        reportViewer1.LocalReport.DataSources.Add(new ReportDataSource("CPOS_PagosTarjeta_Credito", this.DsRepPagosPorTarjeta.CPOS_PagosTarjeta_Credito));
+
+            //        reportViewer1.LocalReport.SetParameters(parametros);
+            //        reportViewer1.RefreshReport();
+            //    }
+            //    else
+            //    {
+
+            //    }
+
+
+
+
+            //    // 🔥 IMPRIMIR
+            //    Impresor imp = new Impresor();
+            //    imp.Imprime(rdlc);
+
+            // Configurar los BindingSources
+            bindingSource4.DataSource = this.dsRepPagosPorTarjeta.CPOS_PagosTarjeta;
+            bindingSource3.DataSource = this.dsRepPagosPorTarjeta.CPOS_PagosTarjeta_Credito;
+
+            // Configurar conexiones y llenar datos
+            this.cPOS_PagosTarjetaTableAdapter.Connection.ConnectionString = conexion;
+            this.cPOS_PagosTarjeta_CreditoTableAdapter.Connection.ConnectionString = conexion;
+
+            this.cPOS_PagosTarjetaTableAdapter.Fill(this.dsRepPagosPorTarjeta.CPOS_PagosTarjeta, fecha, codSucursal);
+            this.cPOS_PagosTarjeta_CreditoTableAdapter.Fill(this.dsRepPagosPorTarjeta.CPOS_PagosTarjeta_Credito, fecha, codSucursal);
+
+            // Parámetros
+            ReportParameter[] parametros = new ReportParameter[]
+            {
+            new ReportParameter("FechaDesde", FechaDesde),
+            new ReportParameter("Compania", Compania),
+            new ReportParameter("RifCompania", RifCompania),
+            new ReportParameter("Sucursal", Sucursal),
+            new ReportParameter("NombreSucursal", NombreSucursal)
+            };
+
+            LocalReport rdlc = new LocalReport();
+            rdlc.ReportEmbeddedResource = "CapaVisual_Login.Reportes.RepPagsoPorTarjeta.rdlc";
+            rdlc.SetParameters(parametros);
+            rdlc.DataSources.Clear();
+
+            rdlc.DataSources.Add(new ReportDataSource("CPOS_PagosTarjeta", bindingSource4));
+            rdlc.DataSources.Add(new ReportDataSource("CPOS_PagosTarjeta_Credito", bindingSource3));
+
+            if (Imprimir)
+            {
+                Impresor imp = new Impresor();
+                imp.Imprime(rdlc);
+            }
+            else
+            {
+                reportViewer1.LocalReport.DataSources.Clear();
+                reportViewer1.LocalReport.ReportEmbeddedResource = "CapaVisual_Login.Reportes.RepPagsoPorTarjeta.rdlc";
+                reportViewer1.LocalReport.DataSources.Add(new ReportDataSource("CPOS_PagosTarjeta", bindingSource4));
+                reportViewer1.LocalReport.DataSources.Add(new ReportDataSource("CPOS_PagosTarjeta_Credito", bindingSource3));
+                reportViewer1.LocalReport.SetParameters(parametros);
+                reportViewer1.RefreshReport();
+            }
+        }
+
 
         public void Mostrar(string Orden,string Factura, string correlativo, string Nombre_Sucursal, string Cliente, string telefono, string Banco, string Monto)
         {
