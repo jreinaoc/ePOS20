@@ -17,6 +17,7 @@ using CapaDatos.Anulacion;
 using CapaLogica.CierreCaja_Logica;
 using CapaDatos.ListaOrdenes_Datos;
 using CapaDatos.TasaDia_Datos;
+using CapaLogica.CargarOrdenes;
 
 namespace CapaVisual_Login
 {
@@ -50,6 +51,7 @@ namespace CapaVisual_Login
         FrmPrueba _frmPrueba = new FrmPrueba();
         FrmReimpresionDocumentos _FrmReimpresionDocumentos = new FrmReimpresionDocumentos();
         FrmPromoCasada _FrmPromoCasada = new FrmPromoCasada();
+        private L_Articulo _L_Articulo = new L_Articulo();
 
         private D_DetalleOrden _D_DetalleOrden = new D_DetalleOrden();
         public bool osc;
@@ -1380,12 +1382,23 @@ namespace CapaVisual_Login
 
                     if (_FrmMensajes.DialogResult == DialogResult.OK)
                     {
-                        _FrmClaveGerente.Nuevo_Parametro = true;
-                        _FrmClaveGerente.Parametro_Nuevo = _D_DetalleOrden.TB_PARAMETRO("UsClavDesbq");
-                        _FrmClaveGerente.ShowDialog();
-                        
-                        if (_FrmClaveGerente.ClaveCorrecta == true)
+
+                        // Pasas el parámetro directamente en el constructor
+                        FrmClaveAutorizada __FrmClaveAutorizada = new FrmClaveAutorizada("006");
+
+                        //Pido Clave Autorizada
+                        __FrmClaveAutorizada.Nuevo_Parametro = true;
+                        __FrmClaveAutorizada.Parametro_Nuevo = _L_Articulo.BuscarCodigoGerenteDescuento("006");
+                        __FrmClaveAutorizada.ShowDialog();
+
+                        if (__FrmClaveAutorizada.DialogResult == DialogResult.OK && __FrmClaveAutorizada.ClaveCorrecta == true)
                         {
+                        //    _FrmClaveGerente.Nuevo_Parametro = true;
+                        //_FrmClaveGerente.Parametro_Nuevo = _D_DetalleOrden.TB_PARAMETRO("UsClavDesbq");
+                        //_FrmClaveGerente.ShowDialog();
+                        
+                        //if (_FrmClaveGerente.ClaveCorrecta == true)
+                        //{
                             return true;
                             //_D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "058", TB_USUARIO.COD_EMPLEADO, $"OS:  Altura D: {txtAltD.Text} Altura I: {txtAltI.Text} MVertical: {txtVertical.Text}, Autoriza: {TB_USUARIO.COD_EMPLEADO}");
                         }
