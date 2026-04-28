@@ -765,7 +765,7 @@ namespace CapaVisual_Login
             // 
             // lblUsuario
             // 
-            this.lblUsuario.BackColor = System.Drawing.Color.Teal;
+            this.lblUsuario.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(2)))), ((int)(((byte)(127)))), ((int)(((byte)(121)))));
             this.lblUsuario.Font = new System.Drawing.Font("Century Gothic", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblUsuario.ForeColor = System.Drawing.Color.White;
             this.lblUsuario.Location = new System.Drawing.Point(357, 35);

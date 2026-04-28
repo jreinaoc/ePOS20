@@ -52,7 +52,7 @@ namespace CapaVisual_Login
             string AGteRegE = "SI";
            
             // Pasas el parámetro directamente en el constructor
-            FrmClaveAutorizada _FrmClaveAutorizada = new FrmClaveAutorizada("006");
+            FrmClaveAutorizada _FrmClaveAutorizada = new FrmClaveAutorizada("013");
 
             if (dsGteReg.Tables.Count > 1 && dsGteReg.Tables[1].Rows.Count > 0)
             {
@@ -122,7 +122,7 @@ namespace CapaVisual_Login
         public string Autoriz_GteReg_Activar()
         {
          // Pasas el parámetro directamente en el constructor
-         FrmClaveAutorizada _FrmClaveAutorizada = new FrmClaveAutorizada("006");
+         FrmClaveAutorizada _FrmClaveAutorizada = new FrmClaveAutorizada("013");
 
             string AGteRegD = "NO";
         DataSet dsGteReg = _D_TasaSecuencia.ActivacionDia(_D_DetalleOrden.TB_PARAMETRO("SucursalId"), _D_Inicio.DiaActivo().ToString("yyyy/MM/dd"));
