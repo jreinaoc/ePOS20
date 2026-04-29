@@ -4464,41 +4464,49 @@ namespace CapaVisual_Login
 
                             if (totalpagos != (TotalItems - DescuentoExento - DescuentoGravable - DescuentoGravableA - DescuentoGravableR))
                             {
-                                if (((TotalItems - DescuentoExento - DescuentoGravable - DescuentoGravableA - DescuentoGravableR) - totalpagos == 001 |
-                                    totalpagos - (TotalItems - DescuentoExento - DescuentoGravable - DescuentoGravableA - DescuentoGravableR) == 001) |
-                                    ((TotalItems - DescuentoExento - DescuentoGravable - DescuentoGravableA - DescuentoGravableR) - totalpagos == 002 |
-                                    totalpagos - (TotalItems - DescuentoExento - DescuentoGravable - DescuentoGravableA - DescuentoGravableR) == 002) |
-                                    ((TotalItems - DescuentoExento - DescuentoGravable - DescuentoGravableA - DescuentoGravableR) - totalpagos == 003 |
-                                    totalpagos - (TotalItems - DescuentoExento - DescuentoGravable - DescuentoGravableA - DescuentoGravableR) == 003) |
-                                    ((TotalItems - DescuentoExento - DescuentoGravable - DescuentoGravableA - DescuentoGravableR) - totalpagos == 004 |
-                                    totalpagos - (TotalItems - DescuentoExento - DescuentoGravable - DescuentoGravableA - DescuentoGravableR) == 004) |
-                                    ((TotalItems - DescuentoExento - DescuentoGravable - DescuentoGravableA - DescuentoGravableR) - totalpagos == 005 |
-                                    totalpagos - (TotalItems - DescuentoExento - DescuentoGravable - DescuentoGravableA - DescuentoGravableR) == 005))
+                                if (_D_DetalleOrden.TB_PARAMETRO("ValidaDifMontos") == "1")
+                                {
+                                    if (((TotalItems - DescuentoExento - DescuentoGravable - DescuentoGravableA - DescuentoGravableR) - totalpagos == 001 |
+                                       totalpagos - (TotalItems - DescuentoExento - DescuentoGravable - DescuentoGravableA - DescuentoGravableR) == 001) |
+                                       ((TotalItems - DescuentoExento - DescuentoGravable - DescuentoGravableA - DescuentoGravableR) - totalpagos == 002 |
+                                       totalpagos - (TotalItems - DescuentoExento - DescuentoGravable - DescuentoGravableA - DescuentoGravableR) == 002) |
+                                       ((TotalItems - DescuentoExento - DescuentoGravable - DescuentoGravableA - DescuentoGravableR) - totalpagos == 003 |
+                                       totalpagos - (TotalItems - DescuentoExento - DescuentoGravable - DescuentoGravableA - DescuentoGravableR) == 003) |
+                                       ((TotalItems - DescuentoExento - DescuentoGravable - DescuentoGravableA - DescuentoGravableR) - totalpagos == 004 |
+                                       totalpagos - (TotalItems - DescuentoExento - DescuentoGravable - DescuentoGravableA - DescuentoGravableR) == 004) |
+                                       ((TotalItems - DescuentoExento - DescuentoGravable - DescuentoGravableA - DescuentoGravableR) - totalpagos == 005 |
+                                       totalpagos - (TotalItems - DescuentoExento - DescuentoGravable - DescuentoGravableA - DescuentoGravableR) == 005))
 
+                                    {
+                                        sumo01 = true;
+                                    }
+
+                                    else
+                                    {
+
+                                        // SI NO COINCIDEN, ANULO EL TICKET
+                                        objVmax.Cancelar();
+                                        objVmax.Cerrar();
+                                        objVmax.CerrarPuerto();
+
+                                        objVmax.AbrirPuerto(glbPuertoCOM.ToString());
+                                        objVmax.ObtenerContadores();
+                                        objVmax.CerrarPuerto();
+                                        UltimoNumeroFacturaCancelado2 = objVmax.RetornoContadores.uiUltFacturaAnulada.ToString().PadLeft(7, '0');
+
+                                        ImprimirFacturaFiscall = false;
+                                        respuesta = false;
+                                        Impresora_Fiscal.AgregarAccionPendiente("099");
+                                        return "Error";
+
+
+                                    }
+                                }
+                                else
                                 {
                                     sumo01 = true;
                                 }
 
-                                else
-                                {
-
-                                    // SI NO COINCIDEN, ANULO EL TICKET
-                                    objVmax.Cancelar();
-                                    objVmax.Cerrar();
-                                    objVmax.CerrarPuerto();
-                                    
-                                    objVmax.AbrirPuerto(glbPuertoCOM.ToString());
-                                    objVmax.ObtenerContadores();
-                                    objVmax.CerrarPuerto();
-                                    UltimoNumeroFacturaCancelado2 = objVmax.RetornoContadores.uiUltFacturaAnulada.ToString().PadLeft(7, '0');
-                                    
-                                    ImprimirFacturaFiscall = false;
-                                    respuesta = false;
-                                    Impresora_Fiscal.AgregarAccionPendiente("099");
-                                    return "Error";
-
-
-                                }
                             }
 
                             else
