@@ -89,7 +89,14 @@ namespace CapaVisual_Login
             imp.Imprime(rdlc);
         }
 
+        private void sPCPOSREPORDENBindingSource_CurrentChanged(object sender, EventArgs e)
+        {
 
+        }
 
+        private void dsRepOrdenBindingSource_CurrentChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

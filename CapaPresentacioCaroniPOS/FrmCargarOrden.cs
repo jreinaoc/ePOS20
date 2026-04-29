@@ -21,8 +21,7 @@ using DataGridViewNumericUpDownElements;
 using System.Text.RegularExpressions;
 using CapaLogica.Servicios;
 using CapaDatos.Anulacion;
-using System.Drawing; // Necesario para Font, Color, Pen
-using System.Windows.Forms; // Necesario para DataGridView y DataGridViewCellPaintingEventArgs
+
 
 namespace CapaVisual_Login
 {
@@ -75,12 +74,7 @@ namespace CapaVisual_Login
             LlenarCbx_Tap1_Estado();
             CargarCbx_Tap1_Nacionalidad();
 
-            
-
-            
-
-
-
+  
             // Habilita la captura de eventos de teclado a nivel del formulario
             this.KeyPreview = true;
         }
@@ -4016,6 +4010,7 @@ namespace CapaVisual_Login
                 //bool esEmpresaAfiliada = empresaAfiliada == "1" || empresaAfiliada.ToLower() == "true";
                 var glbManejaExisLC = _D_DetalleOrden.TB_PARAMETRO("LCManejaExist");
 
+               
                 if (TB_USUARIO.COD_EMPLEADO == "99999")
                 {
                     _FrmMensajes.co = 2;
