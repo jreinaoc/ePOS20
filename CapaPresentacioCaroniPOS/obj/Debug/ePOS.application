@@ -14,11 +14,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-<<<<<<< HEAD
-        <dsig:DigestValue>FEWWpqPSqWAPkKvPtnBaLF+zDzHLQ4pBja1TN5E+s8o=</dsig:DigestValue>
-=======
-        <dsig:DigestValue>CfGszpfo6u8rr0Q0m7fjIuglPY9UCAruswFZD3KgZAw=</dsig:DigestValue>
->>>>>>> 64578040 (Cambios 251 fact)
+        <dsig:DigestValue>9IqlFSoMpym98OWwT48jfQQ4Gl3gss8B1idNFzJP/j0=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
