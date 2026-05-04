@@ -2610,6 +2610,7 @@ namespace CapaVisual_Login
             _L_Articulo.ActualizarTotales(Dgv_Tap3_Articulo, Dgv_Tap3_Totales);
 
 
+
             // Habilito o desabilito Botones 
             Txt_Tap3_Articulo_Codigo.Text = "Código";
             ValidarRegistrosYHabilitar_Botones();
