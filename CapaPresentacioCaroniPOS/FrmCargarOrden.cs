@@ -5858,6 +5858,17 @@ namespace CapaVisual_Login
                             Chex_Tap1_Iva_Pagador.SetItemChecked(0, false); // Desmarcar el segundo elemento si es falso o nulo
                         }
 
+
+
+                        if (dtCliente.Rows[0]["ImpuestoMunicipal"] != DBNull.Value && Convert.ToBoolean(dtCliente.Rows[0]["ImpuestoMunicipal"]))
+                        {
+                            Chex_Tap1_Municipal_Pagador.SetItemChecked(0, true); // Marcar el segundo elemento
+                        }
+                        else
+                        {
+                            Chex_Tap1_Municipal_Pagador.SetItemChecked(0, false); // Desmarcar el segundo elemento si es falso o nulo
+                        }
+
                     }
                 }
                 catch (Exception ex)
@@ -7408,6 +7419,9 @@ namespace CapaVisual_Login
 
             Chex_Tap1_Iva.SetItemChecked(0, false);
             Chex_Tap1_Iva.SetItemChecked(1, false);
+
+            Chex_Tap1_Municipal.SetItemChecked(0, false);
+            Chex_Tap1_Municipal_Pagador.SetItemChecked(0, false);
 
             Chex_Tap1_Iva_Pagador.SetItemChecked(0, false);
             Chex_Tap1_Iva_Pagador.SetItemChecked(1, false);
@@ -9308,6 +9322,8 @@ namespace CapaVisual_Login
             nuevoCliente.CTE_RETISLR = Chex_Tap1_Iva.GetItemChecked(0); // Asume que ISR está en el índice 0
             nuevoCliente.CTE_RETIVA = Chex_Tap1_Iva.GetItemChecked(1); // Asume que IVA está en el índice 1
 
+            nuevoCliente.ImpuestoMunicipal= Chex_Tap1_Municipal.GetItemChecked(0);
+
             //// Obtener los valores de los CheckBoxes de retención
             //nuevoCliente.CTE_RETISLR = Chex_Tap1_Iva.GetItemChecked(0); // Asume que ISR está en el índice 0
             //nuevoCliente.CTE_RETIMUNICIPAL = Chex_Tap1_Iva.GetItemChecked(1); // Asume que IVA está en el índice 1
@@ -9591,6 +9607,15 @@ namespace CapaVisual_Login
             else
             {
                 Chex_Tap1_Iva.SetItemChecked(0, false); // Desmarcar el primer elemento si es falso o nulo
+            }
+
+            if (dtCliente.Rows[0]["ImpuestoMunicipal"] != DBNull.Value && Convert.ToBoolean(dtCliente.Rows[0]["ImpuestoMunicipal"]))
+            {
+                Chex_Tap1_Municipal.SetItemChecked(0, true); // Marcar el primer elemento (asumiendo que es ISR)
+            }
+            else
+            {
+                Chex_Tap1_Municipal.SetItemChecked(0, false); // Desmarcar el primer elemento si es falso o nulo
             }
 
             if (dtCliente.Rows[0]["CTE_Sex"] != DBNull.Value)
@@ -10274,6 +10299,7 @@ namespace CapaVisual_Login
             // Obtener los valores de los CheckBoxes de retención
             nuevoCliente.CTE_RETISLR = Chex_Tap1_Iva_Pagador.GetItemChecked(0); // Asume que ISR está en el índice 0
             nuevoCliente.CTE_RETIVA = Chex_Tap1_Iva_Pagador.GetItemChecked(1); // Asume que IVA está en el índice 1
+            nuevoCliente.ImpuestoMunicipal= Chex_Tap1_Municipal_Pagador.GetItemChecked(0);
 
             //// Obtener los valores de los CheckBoxes de retención
             //nuevoCliente.CTE_RETISLR = Chex_Tap1_Iva_Pagador.GetItemChecked(0); // Asume que ISR está en el índice 0

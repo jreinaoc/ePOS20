@@ -58,6 +58,10 @@ namespace CapaVisual_Login
             this.DgvListadoOrdenes = new System.Windows.Forms.DataGridView();
             this.TxtCedula = new System.Windows.Forms.TextBox();
             this.PnlComprobanteRetencion = new System.Windows.Forms.Panel();
+            this.label15 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
             this.TxtRetencionFactura = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.TxtRetencionISRL = new System.Windows.Forms.TextBox();
@@ -408,6 +412,10 @@ namespace CapaVisual_Login
             // 
             this.PnlComprobanteRetencion.BackColor = System.Drawing.Color.White;
             this.PnlComprobanteRetencion.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PnlComprobanteRetencion.Controls.Add(this.label15);
+            this.PnlComprobanteRetencion.Controls.Add(this.textBox1);
+            this.PnlComprobanteRetencion.Controls.Add(this.label13);
+            this.PnlComprobanteRetencion.Controls.Add(this.label14);
             this.PnlComprobanteRetencion.Controls.Add(this.TxtRetencionFactura);
             this.PnlComprobanteRetencion.Controls.Add(this.label10);
             this.PnlComprobanteRetencion.Controls.Add(this.TxtRetencionISRL);
@@ -422,16 +430,53 @@ namespace CapaVisual_Login
             this.PnlComprobanteRetencion.Controls.Add(this.label8);
             this.PnlComprobanteRetencion.Location = new System.Drawing.Point(432, 171);
             this.PnlComprobanteRetencion.Name = "PnlComprobanteRetencion";
-            this.PnlComprobanteRetencion.Size = new System.Drawing.Size(397, 269);
+            this.PnlComprobanteRetencion.Size = new System.Drawing.Size(397, 324);
             this.PnlComprobanteRetencion.TabIndex = 51;
             this.PnlComprobanteRetencion.Visible = false;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.Location = new System.Drawing.Point(22, 179);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(87, 19);
+            this.label15.TabIndex = 119;
+            this.label15.Text = "Municipal";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox1.Location = new System.Drawing.Point(218, 157);
+            this.textBox1.MaxLength = 15;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(152, 27);
+            this.textBox1.TabIndex = 117;
+            // 
+            // label13
+            // 
+            this.label13.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(135)))), ((int)(((byte)(129)))));
+            this.label13.Location = new System.Drawing.Point(217, 156);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(154, 29);
+            this.label13.TabIndex = 118;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label14.Location = new System.Drawing.Point(21, 160);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(161, 19);
+            this.label14.TabIndex = 116;
+            this.label14.Text = "Retención Impuesto";
             // 
             // TxtRetencionFactura
             // 
             this.TxtRetencionFactura.BackColor = System.Drawing.SystemColors.ScrollBar;
             this.TxtRetencionFactura.Enabled = false;
             this.TxtRetencionFactura.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TxtRetencionFactura.Location = new System.Drawing.Point(216, 149);
+            this.TxtRetencionFactura.Location = new System.Drawing.Point(216, 209);
             this.TxtRetencionFactura.MaxLength = 15;
             this.TxtRetencionFactura.Name = "TxtRetencionFactura";
             this.TxtRetencionFactura.Size = new System.Drawing.Size(152, 27);
@@ -441,7 +486,7 @@ namespace CapaVisual_Login
             // label10
             // 
             this.label10.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(135)))), ((int)(((byte)(129)))));
-            this.label10.Location = new System.Drawing.Point(215, 148);
+            this.label10.Location = new System.Drawing.Point(215, 208);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(154, 29);
             this.label10.TabIndex = 115;
@@ -468,7 +513,7 @@ namespace CapaVisual_Login
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(22, 157);
+            this.label9.Location = new System.Drawing.Point(22, 217);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(68, 19);
             this.label9.TabIndex = 111;
@@ -491,7 +536,7 @@ namespace CapaVisual_Login
             this.BtnCancelarRetencion.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnCancelarRetencion.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnCancelarRetencion.ForeColor = System.Drawing.Color.White;
-            this.BtnCancelarRetencion.Location = new System.Drawing.Point(104, 217);
+            this.BtnCancelarRetencion.Location = new System.Drawing.Point(104, 277);
             this.BtnCancelarRetencion.Name = "BtnCancelarRetencion";
             this.BtnCancelarRetencion.Size = new System.Drawing.Size(87, 28);
             this.BtnCancelarRetencion.TabIndex = 106;
@@ -506,7 +551,7 @@ namespace CapaVisual_Login
             this.BtnGuardarRetencion.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnGuardarRetencion.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnGuardarRetencion.ForeColor = System.Drawing.Color.White;
-            this.BtnGuardarRetencion.Location = new System.Drawing.Point(226, 217);
+            this.BtnGuardarRetencion.Location = new System.Drawing.Point(226, 277);
             this.BtnGuardarRetencion.Name = "BtnGuardarRetencion";
             this.BtnGuardarRetencion.Size = new System.Drawing.Size(80, 28);
             this.BtnGuardarRetencion.TabIndex = 108;
@@ -688,5 +733,9 @@ namespace CapaVisual_Login
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.TextBox txtPagina_Fin;
         private System.Windows.Forms.Button BtnGuardar;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label14;
     }
 }

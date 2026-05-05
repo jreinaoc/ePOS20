@@ -2598,6 +2598,7 @@ namespace CapaVisual_Login
             }
         }
 
+
         private void TxtRetencionISRL_KeyPress(object sender, KeyPressEventArgs e)
         {
 
