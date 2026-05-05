@@ -237,6 +237,7 @@ namespace CapaVisual_Login
                 return;
             }
 
+           
             if (TB_USUARIO.COD_EMPLEADO != "99999")
             {
                 if (DiaActivo != DiaActual)
@@ -1111,9 +1112,15 @@ namespace CapaVisual_Login
                         if (txtTranferencia.Text.Trim().Length >= 4)
                         {
                             //CbxMetodosPago2.SelectedIndex = 10;
-                            _L_Facturacion.GuardarAbonoGrid(2,Dt_Abonos, CbxMetodosPago2.Text, CbxMoneda.Text, "CASHEA", txtMonto2Bs.Text, txtTranferencia.Text, DtpFecha.Value.ToString(), "021", "110", "110", TxtVuelto.Text, "", "", "", "", "", "", "000");
-                            
-                            BolivaresConveridos(Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos)), txtMontoBs);
+
+
+                            /*JM:100226  sustituir "021" con CbxMetodosPago2.SelectedValue.ToString()
+                            _L_Facturacion.GuardarAbonoGrid(2,Dt_Abonos, CbxMetodosPago2.Text, CbxMoneda.Text, "CASHEA", txtMonto2Bs.Text, txtTranferencia.Text, DtpFecha.Value.ToString(), "021", "110", "110", TxtVuelto.Text, "", "", "", "", "", "", "000"); */
+
+                            _L_Facturacion.GuardarAbonoGrid(2, Dt_Abonos, CbxMetodosPago2.Text, CbxMoneda.Text, "CASHEA", txtMonto2Bs.Text, txtTranferencia.Text, DtpFecha.Value.ToString(), CbxMetodosPago2.SelectedValue.ToString(), "110", "110", TxtVuelto.Text, "", "", "", "", "", "", "000");
+
+
+                             BolivaresConveridos(Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos)), txtMontoBs);
                             //-----------ConvertirBolivares---------------------------
                             //txtMontoBs.Text = _L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos);
 
@@ -1194,7 +1201,7 @@ namespace CapaVisual_Login
                 // Nuevo 09- 08- 2023 Efectivo Divisas  Guardar el abono 
                 if (CbxMetodosPago2.Text == "Efectivo Divisa" && CbxMetodosPago.Text == "Efectivo Divisa")
                 {
-
+                
                     //'Si los campos poseen valores proceso los datos
                     if (txtRef.Text.Trim() != "0.00" && txtMonto2Bs.Text.Trim() != "0,00" && txtIGTF.Text.Trim() != "0.00" && CbxBanco.Text.Trim() != "" && Convert.ToDouble(txtMonto2Bs.Text.Trim().Replace(".", "")) > 0)
                     {
@@ -1308,7 +1315,13 @@ namespace CapaVisual_Login
                                 _L_Facturacion.GuardarPagoMovilTabla(idAbonoPagoMovil, Dt_PagoMovil, CbxNacionalidadPagoMovil.Text, TxtCedulaPagoMovil.Text, CbxCelularPagoMovil.Text, TxtCedularPagoMovil.Text, TxtMontoPagoMovil.Text, CbxBancoPagoMovil.SelectedValue.ToString(), TxtRecibidoREF.Text, TxtVuelto.Text, CbxMoneda.Text);
 
                                 // Guardo el Abono y retotno a la pantalla principal 
-                                _L_Facturacion.GuardarAbonoGrid(idAbonoPagoMovil, Dt_Abonos, CbxMetodosPago2.Text, CbxMoneda.Text, CbxBanco.Text, txtMonto2Bs.Text, "0000", DtpFecha.Value.ToString(), "021", CbxBanco.SelectedValue.ToString(), "", TxtVuelto.Text, txtRef.Text, txtIGTF.Text,"","","","","000", Convert.ToString(recibidoREF));
+
+                                /*JM:100226  sustituir "021" con CbxMetodosPago2.SelectedValue.ToString()
+                                _L_Facturacion.GuardarAbonoGrid(idAbonoPagoMovil, Dt_Abonos, CbxMetodosPago2.Text, CbxMoneda.Text, CbxBanco.Text, txtMonto2Bs.Text, "0000", DtpFecha.Value.ToString(), "021", CbxBanco.SelectedValue.ToString(), "", TxtVuelto.Text, txtRef.Text, txtIGTF.Text,"","","","","000", Convert.ToString(recibidoREF));  */
+
+                                _L_Facturacion.GuardarAbonoGrid(idAbonoPagoMovil, Dt_Abonos, CbxMetodosPago2.Text, CbxMoneda.Text, CbxBanco.Text, txtMonto2Bs.Text, "0000", DtpFecha.Value.ToString(), CbxMetodosPago2.SelectedValue.ToString(), CbxBanco.SelectedValue.ToString(), "", TxtVuelto.Text, txtRef.Text, txtIGTF.Text, "", "", "", "", "000", Convert.ToString(recibidoREF));
+
+
 
                                 BolivaresConveridos(Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos)), txtMontoBs);
                                 //-----------ConvertirBolivares---------------------------
@@ -1336,7 +1349,11 @@ namespace CapaVisual_Login
                             }
                             idAbonoPagoMovil = CantAbonosPrevios + Dt_Abonos.Rows.Count + 1;
                             // Guardo el Abono y retotno a la pantalla principal 
-                            _L_Facturacion.GuardarAbonoGrid(idAbonoPagoMovil, Dt_Abonos, CbxMetodosPago2.Text, CbxMoneda.Text, CbxBanco.Text, txtMonto2Bs.Text, "0000", DtpFecha.Value.ToString(), "021", CbxBanco.SelectedValue.ToString(), "", TxtVuelto.Text, txtRef.Text, txtIGTF.Text);
+
+                            /*JM:100226  sustituir "021" con CbxMetodosPago2.SelectedValue.ToString()
+                            _L_Facturacion.GuardarAbonoGrid(idAbonoPagoMovil, Dt_Abonos, CbxMetodosPago2.Text, CbxMoneda.Text, CbxBanco.Text, txtMonto2Bs.Text, "0000", DtpFecha.Value.ToString(), "021", CbxBanco.SelectedValue.ToString(), "", TxtVuelto.Text, txtRef.Text, txtIGTF.Text);*/
+
+                            _L_Facturacion.GuardarAbonoGrid(idAbonoPagoMovil, Dt_Abonos, CbxMetodosPago2.Text, CbxMoneda.Text, CbxBanco.Text, txtMonto2Bs.Text, "0000", DtpFecha.Value.ToString(), CbxMetodosPago2.SelectedValue.ToString(), CbxBanco.SelectedValue.ToString(), "", TxtVuelto.Text, txtRef.Text, txtIGTF.Text);
 
                             BolivaresConveridos(Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos)), txtMontoBs);
                             //-----------ConvertirBolivares---------------------------
