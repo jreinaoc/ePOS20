@@ -249,10 +249,18 @@
           <DataField>SISTEMAVUELTO</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
+        <Field Name="ManualImpMun">
+          <DataField>ManualImpMun</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="SistemaImpMun">
+          <DataField>SistemaImpMun</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
       </Fields>
       <rd:DataSetInfo>
-        <rd:DataSetName>DSCierreDeCaja</rd:DataSetName>
-        <rd:SchemaPath>C:\Users\pasantedesarrollo\source\repos\EPOS20\CapaPresentacioCaroniPOS\Reportes\DSCierreDeCaja.xsd</rd:SchemaPath>
+        <rd:DataSetName>BD018FBDataSet</rd:DataSetName>
+        <rd:SchemaPath>C:\Programacion\Epos20NuevaVersion10\EPOS20\CapaPresentacioCaroniPOS\BD018FBDataSet.xsd</rd:SchemaPath>
         <rd:TableName>TB_CAJA</rd:TableName>
         <rd:TableAdapterFillMethod>Fill</rd:TableAdapterFillMethod>
         <rd:TableAdapterGetDataMethod>GetData</rd:TableAdapterGetDataMethod>
@@ -633,6 +641,14 @@
           <DataField>MANUALTICKETSALUDEFEC</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
+        <Field Name="ManualImpMun">
+          <DataField>ManualImpMun</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="SistemaImpMun">
+          <DataField>SistemaImpMun</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
         <Field Name="SISTEMATICKETSALUDEFEC">
           <DataField>SISTEMATICKETSALUDEFEC</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
@@ -655,8 +671,8 @@
         </Field>
       </Fields>
       <rd:DataSetInfo>
-        <rd:DataSetName>DSCierreDeCaja</rd:DataSetName>
-        <rd:SchemaPath>C:\Users\pasantedesarrollo\source\repos\EPOS20\CapaPresentacioCaroniPOS\Reportes\DSCierreDeCaja.xsd</rd:SchemaPath>
+        <rd:DataSetName>BD018FBDataSet1</rd:DataSetName>
+        <rd:SchemaPath>C:\Programacion\Epos20NuevaVersion10\EPOS20\CapaPresentacioCaroniPOS\BD018FBDataSet1.xsd</rd:SchemaPath>
         <rd:TableName>VW_CierreCaja</rd:TableName>
         <rd:TableAdapterFillMethod>Fill</rd:TableAdapterFillMethod>
         <rd:TableAdapterGetDataMethod>GetData</rd:TableAdapterGetDataMethod>
@@ -2086,7 +2102,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox1</rd:DefaultName>
-            <Top>7.78636cm</Top>
+            <Top>8.42136cm</Top>
             <Left>0.31758cm</Left>
             <Height>0.6cm</Height>
             <Width>3.34672cm</Width>
@@ -2118,7 +2134,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>MANUALTRANSFERENCIA</rd:DefaultName>
-            <Top>7.78636cm</Top>
+            <Top>8.42136cm</Top>
             <Left>5.0289cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
@@ -2150,7 +2166,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>SISTEMATRANSFERENCIA</rd:DefaultName>
-            <Top>7.78635cm</Top>
+            <Top>8.42135cm</Top>
             <Left>9.5988cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
@@ -2182,7 +2198,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox72</rd:DefaultName>
-            <Top>7.78635cm</Top>
+            <Top>8.42135cm</Top>
             <Left>14.0215cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
@@ -2216,7 +2232,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox1</rd:DefaultName>
-            <Top>8.38636cm</Top>
+            <Top>9.02136cm</Top>
             <Left>0.31758cm</Left>
             <Height>0.6cm</Height>
             <Width>3.34672cm</Width>
@@ -2248,7 +2264,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>SISTEMAVUELTO</rd:DefaultName>
-            <Top>8.38635cm</Top>
+            <Top>9.02135cm</Top>
             <Left>9.5988cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
@@ -2280,7 +2296,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox75</rd:DefaultName>
-            <Top>8.38635cm</Top>
+            <Top>9.02135cm</Top>
             <Left>14.0215cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
@@ -2314,7 +2330,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox1</rd:DefaultName>
-            <Top>9.39257cm</Top>
+            <Top>10.02757cm</Top>
             <Left>0.31753cm</Left>
             <Height>0.6cm</Height>
             <Width>3.34672cm</Width>
@@ -2346,7 +2362,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox77</rd:DefaultName>
-            <Top>9.39257cm</Top>
+            <Top>10.02757cm</Top>
             <Left>5.02885cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
@@ -2378,7 +2394,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox78</rd:DefaultName>
-            <Top>9.39256cm</Top>
+            <Top>10.02756cm</Top>
             <Left>9.59876cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
@@ -2410,7 +2426,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox79</rd:DefaultName>
-            <Top>9.39256cm</Top>
+            <Top>10.02756cm</Top>
             <Left>14.02145cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
@@ -2426,7 +2442,7 @@
             </Style>
           </Textbox>
           <Line Name="Line3">
-            <Top>9.16274cm</Top>
+            <Top>9.79774cm</Top>
             <Left>2.85606cm</Left>
             <Height>0cm</Height>
             <Width>13.76389cm</Width>
@@ -2456,7 +2472,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox1</rd:DefaultName>
-            <Top>9.99257cm</Top>
+            <Top>10.62757cm</Top>
             <Left>0.31751cm</Left>
             <Height>0.6cm</Height>
             <Width>3.34672cm</Width>
@@ -2488,7 +2504,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>MANUALREINTEGROS</rd:DefaultName>
-            <Top>9.99257cm</Top>
+            <Top>10.62757cm</Top>
             <Left>5.02883cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
@@ -2520,7 +2536,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>SISTEMAREINTEGRO</rd:DefaultName>
-            <Top>9.99256cm</Top>
+            <Top>10.62756cm</Top>
             <Left>9.59874cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
@@ -2552,7 +2568,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox83</rd:DefaultName>
-            <Top>9.99256cm</Top>
+            <Top>10.62756cm</Top>
             <Left>14.02143cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
@@ -2586,7 +2602,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox1</rd:DefaultName>
-            <Top>10.59257cm</Top>
+            <Top>11.22757cm</Top>
             <Left>0.31753cm</Left>
             <Height>0.6cm</Height>
             <Width>3.34672cm</Width>
@@ -2618,7 +2634,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>MANUALNOTACREDITO</rd:DefaultName>
-            <Top>10.59257cm</Top>
+            <Top>11.22757cm</Top>
             <Left>5.02885cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
@@ -2650,7 +2666,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>SISTEMANOTACREDITO</rd:DefaultName>
-            <Top>10.59256cm</Top>
+            <Top>11.22756cm</Top>
             <Left>9.59876cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
@@ -2684,7 +2700,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox1</rd:DefaultName>
-            <Top>11.69391cm</Top>
+            <Top>12.32891cm</Top>
             <Left>2.33009cm</Left>
             <Height>0.6cm</Height>
             <Width>3.34672cm</Width>
@@ -2718,7 +2734,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox1</rd:DefaultName>
-            <Top>12.29391cm</Top>
+            <Top>12.92891cm</Top>
             <Left>2.33009cm</Left>
             <Height>0.6cm</Height>
             <Width>3.34672cm</Width>
@@ -2752,7 +2768,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox1</rd:DefaultName>
-            <Top>12.89391cm</Top>
+            <Top>13.52891cm</Top>
             <Left>2.33009cm</Left>
             <Height>0.6cm</Height>
             <Width>3.34672cm</Width>
@@ -2784,7 +2800,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>TOTAL_NETO</rd:DefaultName>
-            <Top>11.6939cm</Top>
+            <Top>12.3289cm</Top>
             <Left>6.87772cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
@@ -2816,7 +2832,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>IMPUESTO</rd:DefaultName>
-            <Top>12.2939cm</Top>
+            <Top>12.9289cm</Top>
             <Left>6.87772cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
@@ -2848,7 +2864,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>TOTAL_NETO1</rd:DefaultName>
-            <Top>12.8939cm</Top>
+            <Top>13.5289cm</Top>
             <Left>6.87772cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
@@ -2882,7 +2898,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox1</rd:DefaultName>
-            <Top>12.2939cm</Top>
+            <Top>12.9289cm</Top>
             <Left>10.49825cm</Left>
             <Height>0.6cm</Height>
             <Width>3.34672cm</Width>
@@ -2914,7 +2930,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>USER_NOMBRE</rd:DefaultName>
-            <Top>12.2939cm</Top>
+            <Top>12.9289cm</Top>
             <Left>14.02136cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
@@ -2946,7 +2962,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>USER_APELLIDO</rd:DefaultName>
-            <Top>12.8939cm</Top>
+            <Top>13.5289cm</Top>
             <Left>14.02136cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
@@ -2980,7 +2996,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox1</rd:DefaultName>
-            <Top>13.6703cm</Top>
+            <Top>14.3053cm</Top>
             <Left>0.31751cm</Left>
             <Height>0.6cm</Height>
             <Width>3.34672cm</Width>
@@ -3012,7 +3028,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>OBSERVACION</rd:DefaultName>
-            <Top>13.6703cm</Top>
+            <Top>14.3053cm</Top>
             <Left>3.96881cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
@@ -3046,7 +3062,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox1</rd:DefaultName>
-            <Top>14.72864cm</Top>
+            <Top>15.36364cm</Top>
             <Left>0.3175cm</Left>
             <Height>0.6cm</Height>
             <Width>1.26534cm</Width>
@@ -3082,7 +3098,7 @@ Nombre y Apellido: ________________________ Firma: ________________ Fecha: _____
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox1</rd:DefaultName>
-            <Top>14.72864cm</Top>
+            <Top>15.36364cm</Top>
             <Left>1.37117cm</Left>
             <Height>1.52604cm</Height>
             <Width>17.29346cm</Width>
@@ -3374,7 +3390,7 @@ Nombre y Apellido: ________________________ Firma: ________________ Fecha: _____
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox75</rd:DefaultName>
-            <Top>10.59257cm</Top>
+            <Top>11.22757cm</Top>
             <Left>14.02145cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
@@ -3389,8 +3405,138 @@ Nombre y Apellido: ________________________ Firma: ________________ Fecha: _____
               <PaddingBottom>2pt</PaddingBottom>
             </Style>
           </Textbox>
+          <Textbox Name="Textbox44">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>IMPUESTO MUNICIPAL</Value>
+                    <Style>
+                      <FontFamily>Calibri</FontFamily>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Left</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox1</rd:DefaultName>
+            <Top>7.89219cm</Top>
+            <Left>0.31758cm</Left>
+            <Height>0.6cm</Height>
+            <Width>3.34672cm</Width>
+            <ZIndex>84</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Textbox Name="ManualISLRRetenido2">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=Sum(Fields!ManualImpMun.Value, "DS_VW_CierreCaja")</Value>
+                    <Style>
+                      <FontFamily>calibri</FontFamily>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>ManualISLRRetenido</rd:DefaultName>
+            <Top>7.89219cm</Top>
+            <Left>5.02891cm</Left>
+            <Height>0.6cm</Height>
+            <Width>2.5cm</Width>
+            <ZIndex>85</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Textbox Name="SistemaISLRRetenido2">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=Sum(Fields!SistemaImpMun.Value, "DS_VW_CierreCaja")</Value>
+                    <Style>
+                      <FontFamily>calibri</FontFamily>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>SistemaISLRRetenido</rd:DefaultName>
+            <Top>7.89218cm</Top>
+            <Left>9.59881cm</Left>
+            <Height>0.6cm</Height>
+            <Width>2.5cm</Width>
+            <ZIndex>86</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox69">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=Variables!SaldoImpuestoMunicipal.Value</Value>
+                    <Style>
+                      <FontFamily>calibri</FontFamily>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox68</rd:DefaultName>
+            <Top>7.89218cm</Top>
+            <Left>14.02151cm</Left>
+            <Height>0.6cm</Height>
+            <Width>2.5cm</Width>
+            <ZIndex>87</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
         </ReportItems>
-        <Height>6.49832in</Height>
+        <Height>6.9254in</Height>
         <Style />
       </Body>
       <Width>8.24051in</Width>
@@ -3832,16 +3978,19 @@ Nombre y Apellido: ________________________ Firma: ________________ Fecha: _____
       <Value>=Sum(Fields!SISTEMAVUELTO.Value, "DS_VW_CierreCaja")-Sum(Fields!SISTEMAVUELTO.Value, "DS_VW_CierreCaja")</Value>
     </Variable>
     <Variable Name="TotalManual">
-      <Value>=Sum(Fields!MANUALEFECTIVO.Value, "DS_VW_CierreCaja")+Sum(Fields!MANUALCHEQUES.Value, "DS_VW_CierreCaja")+Sum(Fields!MANUALTARJETA.Value, "DS_VW_CierreCaja")+Sum(Fields!MANUALDEBITO.Value, "DS_VW_CierreCaja")+Sum(Fields!MANUALCREDITO.Value, "DS_VW_CierreCaja")+Sum(Fields!MANUALGASTOS.Value, "DS_VW_CierreCaja")+Sum(Fields!MANUALFINANCIAMIENTO.Value, "DS_VW_CierreCaja")+Sum(Fields!ManualIVARetenido.Value, "DS_VW_CierreCaja")+Sum(Fields!ManualISLRRetenido.Value, "DS_VW_CierreCaja")+Sum(Fields!MANUALCUPONES.Value, "DS_VW_CierreCaja")+Sum(Fields!MANUALTICKETSALUD.Value, "DS_VW_CierreCaja")+Sum(Fields!MANUALTICKETSALUDEFEC.Value, "DS_VW_CierreCaja")+Sum(Fields!MANUALTRANSFERENCIA.Value, "DS_VW_CierreCaja")</Value>
+      <Value>=Sum(Fields!MANUALEFECTIVO.Value, "DS_VW_CierreCaja")+Sum(Fields!MANUALCHEQUES.Value, "DS_VW_CierreCaja")+Sum(Fields!MANUALTARJETA.Value, "DS_VW_CierreCaja")+Sum(Fields!MANUALDEBITO.Value, "DS_VW_CierreCaja")+Sum(Fields!MANUALCREDITO.Value, "DS_VW_CierreCaja")+Sum(Fields!MANUALGASTOS.Value, "DS_VW_CierreCaja")+Sum(Fields!MANUALFINANCIAMIENTO.Value, "DS_VW_CierreCaja")+Sum(Fields!ManualIVARetenido.Value, "DS_VW_CierreCaja")+Sum(Fields!ManualISLRRetenido.Value, "DS_VW_CierreCaja") + Sum(Fields!ManualImpMun.Value, "DS_VW_CierreCaja") +Sum(Fields!MANUALCUPONES.Value, "DS_VW_CierreCaja")+Sum(Fields!MANUALTICKETSALUD.Value, "DS_VW_CierreCaja")+Sum(Fields!MANUALTICKETSALUDEFEC.Value, "DS_VW_CierreCaja")+Sum(Fields!MANUALTRANSFERENCIA.Value, "DS_VW_CierreCaja")</Value>
     </Variable>
     <Variable Name="TotalSistema">
-      <Value>=Sum(Fields!SISTEMACHEQUES.Value, "DS_VW_CierreCaja")+Sum(Fields!SISTEMACREDITO.Value, "DS_VW_CierreCaja")+Sum(Fields!SISTEMADEBITO.Value, "DS_VW_CierreCaja")+Sum(Fields!SISTEMAEFECTIVO.Value, "DS_VW_CierreCaja")+Sum(Fields!SISTEMAFINANCIAMIENTO.Value, "DS_VW_CierreCaja")+Sum(Fields!SISTEMAGASTOS.Value, "DS_VW_CierreCaja")+Sum(Fields!SISTEMATARJETA.Value, "DS_VW_CierreCaja")+Sum(Fields!SISTEMACUPONES.Value, "DS_VW_CierreCaja")+Sum(Fields!SISTEMATICKETSALUD.Value, "DS_VW_CierreCaja")+Sum(Fields!SISTEMATICKETSALUDEFEC.Value, "DS_VW_CierreCaja")+Sum(Fields!SISTEMATRANSFERENCIA.Value, "DS_VW_CierreCaja")</Value>
+      <Value>=Sum(Fields!SISTEMACHEQUES.Value, "DS_VW_CierreCaja")+Sum(Fields!SISTEMACREDITO.Value, "DS_VW_CierreCaja")+Sum(Fields!SISTEMADEBITO.Value, "DS_VW_CierreCaja")+Sum(Fields!SISTEMAEFECTIVO.Value, "DS_VW_CierreCaja")+Sum(Fields!SISTEMAFINANCIAMIENTO.Value, "DS_VW_CierreCaja")+Sum(Fields!SISTEMAGASTOS.Value, "DS_VW_CierreCaja")+Sum(Fields!SISTEMATARJETA.Value, "DS_VW_CierreCaja")+Sum(Fields!SISTEMACUPONES.Value, "DS_VW_CierreCaja")+Sum(Fields!SISTEMATICKETSALUD.Value, "DS_VW_CierreCaja")+Sum(Fields!SISTEMATICKETSALUDEFEC.Value, "DS_VW_CierreCaja")+Sum(Fields!SISTEMATRANSFERENCIA.Value, "DS_VW_CierreCaja") + Sum(Fields!SistemaImpMun.Value, "DS_VW_CierreCaja")</Value>
     </Variable>
     <Variable Name="SaldoIngresos">
       <Value>=Variables!TotalManual.Value - Variables!TotalSistema.Value</Value>
     </Variable>
     <Variable Name="SaldoReintegro">
       <Value>=Sum(Fields!MANUALREINTEGROS.Value, "DS_VW_CierreCaja")-Sum(Fields!SISTEMAREINTEGRO.Value, "DS_VW_CierreCaja")</Value>
+    </Variable>
+    <Variable Name="SaldoImpuestoMunicipal">
+      <Value>=Sum(Fields!ManualImpMun.Value, "DS_VW_CierreCaja")-Sum(Fields!SistemaImpMun.Value, "DS_VW_CierreCaja")</Value>
     </Variable>
   </Variables>
   <rd:ReportUnitType>Cm</rd:ReportUnitType>

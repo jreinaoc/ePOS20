@@ -28,6 +28,7 @@ namespace CapaLogica.Servicios
                 item.DIFERENCIAGASTOS = item.MANUALGASTOS - item.SISTEMAGASTOS;
                 item.DIFERENCIAIVA = item.ManualIVARetenido - item.SistemaIVARetenido;
                 item.DIFERENCIAISLR = item.ManualISLRRetenido - item.SistemaISLRRetenido;
+                item.DIFERENCIAImpMun = item.ManualImpMun - item.SistemaImpMun;
                 item.DIFERENCIATRANSFERENCIA = item.MANUALTRANSFERENCIA - item.SISTEMATRANSFERENCIA;
             }
 

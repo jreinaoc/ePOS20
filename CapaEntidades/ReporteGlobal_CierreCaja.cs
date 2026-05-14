@@ -22,6 +22,10 @@ namespace CapaEntidades
         public decimal SistemaIVARetenido { get; set; }
         public decimal ManualISLRRetenido { get; set; }
         public decimal SistemaISLRRetenido { get; set; }
+
+        public decimal ManualImpMun { get; set; }
+        public decimal SistemaImpMun { get; set; }
+
         public decimal MANUALTRANSFERENCIA { get; set; }
         public decimal SISTEMATRANSFERENCIA { get; set; }
         public decimal MANUALVUELTO { get; set; }
@@ -42,6 +46,7 @@ namespace CapaEntidades
         public decimal DIFERENCIAGASTOS { get; set; }
         public decimal DIFERENCIAIVA { get; set; }
         public decimal DIFERENCIAISLR { get; set; }
+        public decimal DIFERENCIAImpMun { get; set; }
         public decimal DIFERENCIATRANSFERENCIA { get; set; }
 
     }

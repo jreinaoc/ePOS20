@@ -538,7 +538,7 @@ namespace CapaDatos.CierreCaja_Datos
             decimal M_Cupones, decimal M_TicketsSalud, decimal M_TicketsSaludEfec, decimal M_TarjetaC, decimal M_TarjetaD, decimal M_NotaCredito,
             decimal M_Credito, decimal M_Reintegro, decimal M_Gastos, decimal M_Financiamiento, decimal M_NotaDevolucion, decimal M_OrdenPago,
             decimal M_IVARetenido, decimal M_ISRLRetenido, decimal M_Transferencia, decimal M_Vuelto, string M_Observacion, string M_Usuario,
-            bool cierreParcial, bool trabajaDomingos, string userEntrega, string userRecibe, SqlCommand command = null)
+            bool cierreParcial, bool trabajaDomingos, string userEntrega, string userRecibe, decimal M_ImpuestoMunicipal, SqlCommand command = null)
         {
             try
             {
@@ -579,7 +579,7 @@ namespace CapaDatos.CierreCaja_Datos
                 cmd.Parameters.AddWithValue("@TrabajaDomingos", trabajaDomingos);
                 cmd.Parameters.AddWithValue("@UserEntrega", userEntrega);
                 cmd.Parameters.AddWithValue("@UserRecibe", userRecibe);
-
+                cmd.Parameters.AddWithValue("@M_ImpuestoMunicipal", M_ImpuestoMunicipal);
 
 
                 DataSet dt = new DataSet();
