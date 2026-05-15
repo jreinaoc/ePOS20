@@ -4010,13 +4010,15 @@ namespace CapaVisual_Login
                 //bool esEmpresaAfiliada = empresaAfiliada == "1" || empresaAfiliada.ToLower() == "true";
                 var glbManejaExisLC = _D_DetalleOrden.TB_PARAMETRO("LCManejaExist");
 
-               
-                if (TB_USUARIO.COD_EMPLEADO == "99999")
+                if (_D_DetalleOrden.TB_PARAMETRO("AmbDesarrollo") == "0")
                 {
-                    _FrmMensajes.co = 2;
-                    _FrmMensajes.avisomensaje("Este usuario no tiene autorización");
-                    _FrmMensajes.ShowDialog();
-                    return; // Salir 
+                    if (TB_USUARIO.COD_EMPLEADO == "99999")
+                    {
+                        _FrmMensajes.co = 2;
+                        _FrmMensajes.avisomensaje("Este usuario no tiene autorización");
+                        _FrmMensajes.ShowDialog();
+                        return; // Salir 
+                    }
                 }
 
                 Conexion cn = new Conexion();

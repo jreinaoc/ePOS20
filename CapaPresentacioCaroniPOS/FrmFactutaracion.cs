@@ -24,11 +24,15 @@ using System.Data.SqlClient;
 using CapaDatos.Conexion;
 using System.Threading;
 using CapaLogica.CierreCaja_Logica;
+using CapaLogica.Cashea_Logica;
+using CapaLogica; // Para ver a _logicaCashea
+using CapaServiciosExternos.Modelos; // Para reconocer el tipo PointOfSale
 
 namespace CapaVisual_Login
 {
     public partial class FrmFacturacion : Form
     {
+        private readonly L_Cashea _logicaCashea = new L_Cashea();
         public FrmFacturacion()
         {
             InitializeComponent();
@@ -110,13 +114,23 @@ namespace CapaVisual_Login
         public int idAbonoPagoMovil = 0;
         public string CedulaCtePagador;
         public string NombreCtePagador;
+
+        //private readonly string _cashea_Uuid_Caja = ConfigurationManager.AppSettings["Cashea_Uuid_Caja"];
+        //private readonly string _cashea_Uuid_Caja = ConfigCashea.UuidCaja;
+
+        private L_Cashea _L_Cashea = new L_Cashea();
+        private int reintentosCashea = 0;
+        int maxCantidadReintentosCahea;
+        int segundosTotalesCashea = 300;
         private void FrmDetalleOrden_Load(object sender, EventArgs e)
         {
+            maxCantidadReintentosCahea = Convert.ToInt32(_D_DetalleOrden.TB_PARAMETRO("CantReintCashea"));
             LimpiaVariablesIdAbonoPagoMovil();
             tabControl.SelectTab(0);
 
             LimpiarGrid();
             _L_Facturacion.CargarTasa();
+
             GbxVentasDia.Size = new System.Drawing.Size(1048, 154);
             _L_Facturacion.ComboboxTipoMoneda(CbxMoneda);
             _L_Facturacion.LLenarComboboxPagos(CbxMetodosPago);
@@ -129,7 +143,7 @@ namespace CapaVisual_Login
             lbTasa.Text = String.Format(CultureInfo.InvariantCulture, "{0:0.00}", Math.Round(Convert.ToDouble(TB_TASA_Dolar.Tasa), 2)).Replace(".", ",");
             _L_Facturacion.ComboboxTipoTarjeta(CbxTarjeta);
             DtpFecha.Text = DateTime.UtcNow.ToShortDateString();
-            CbxMetodosPago.SelectedIndex = 2;
+            //CbxMetodosPago.SelectedIndex = 2;
             TxtNumFact.Text = _D_DetalleOrden.ParametroSerieManual();
 
             // Monto de los billetes
@@ -138,7 +152,7 @@ namespace CapaVisual_Login
             CbxBillete.Items.Add("100");
             _L_Facturacion.CrearTablaBilletes(Dt_Billetes);
 
-            
+            CargarConfiguracionCashea();
         }
 
         public void ColorearStatus()
@@ -864,8 +878,11 @@ namespace CapaVisual_Login
             LimpiarTxbox();
         }
 
+        
         public void LimpiarTxbox()
         {
+            btnProcesar2.Enabled = true;
+
             this.PnlSecundario.Visible = false;
             this.PnlNotaCredito.Visible = false;
             this.PnlNotaDevolucion.Visible = false;
@@ -874,7 +891,8 @@ namespace CapaVisual_Login
             txtIGTF.Text = "0.00";
             TxtVuelto.Text = "0.00";
             txtTranferencia.Text = "";
-            CbxMetodosPago.SelectedIndex = 2;
+            
+            //CbxMetodosPago.SelectedIndex = 2;
             txtCVC.Text = "";
             txtCheque.Text = "";
             txtVence.Text = "";
@@ -952,6 +970,9 @@ namespace CapaVisual_Login
             Bs.Text = "Monto en Bs";
             txtTranferencia.Size = new Size(175, 21);
 
+            pnlMontoCashea.Visible = false;
+            pnlQrCashea.Visible = false;
+
 
         }
 
@@ -990,7 +1011,7 @@ namespace CapaVisual_Login
                         lbMinAbo.Text = Convert.ToString(Convert.ToDouble(lbMinAbo.Text) + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos)));
                         VisualizarPanel("MostrarPanelPrincipal");
                         LimpiarTxbox();
-                        CbxMetodosPago.SelectedIndex = 2;
+                        //CbxMetodosPago.SelectedIndex = 2;
 
 
                     }
@@ -1030,7 +1051,7 @@ namespace CapaVisual_Login
                         lbMinAbo.Text = Convert.ToString(Convert.ToDouble(lbMinAbo.Text) + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos)));
                         VisualizarPanel("MostrarPanelPrincipal");
                         LimpiarTxbox();
-                        CbxMetodosPago.SelectedIndex = 2;
+                        //CbxMetodosPago.SelectedIndex = 2;
                     }
 
                     else
@@ -1068,7 +1089,7 @@ namespace CapaVisual_Login
                             lbMinAbo.Text = Convert.ToString(Convert.ToDouble(lbMinAbo.Text) + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos)));
                             VisualizarPanel("MostrarPanelPrincipal");
                             LimpiarTxbox();
-                            CbxMetodosPago.SelectedIndex = 2;
+                            //CbxMetodosPago.SelectedIndex = 2;
 
                         }
 
@@ -1094,7 +1115,7 @@ namespace CapaVisual_Login
                 }
 
 
-                if (CbxMetodosPago2.Text == "Cashea")
+                if (CbxMetodosPago2.Text == "Cashea Mas Cuotas")
                 {
                     //'Si los campos poseen valores proceso los datos
                     if (txtMonto2Bs.Text.Trim() != "" && txtMonto2Bs.Text.Trim() != "0,00" && txtTranferencia.Text.Trim() != "" && CbxBanco.Text.Trim() != "" && (txtTranferencia.Text.Trim().Replace(" ", "")).Length > 3 && Convert.ToDouble(txtMonto2Bs.Text.Trim().Replace(".", "")) > 0)
@@ -1127,7 +1148,7 @@ namespace CapaVisual_Login
                             lbMinAbo.Text = Convert.ToString(Convert.ToDouble(lbMinAbo.Text) + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos)));
                             VisualizarPanel("MostrarPanelPrincipal");
                             LimpiarTxbox();
-                            CbxMetodosPago.SelectedIndex = 2;
+                            //CbxMetodosPago.SelectedIndex = 2;
 
                         }
 
@@ -1184,7 +1205,7 @@ namespace CapaVisual_Login
                         lbMinAbo.Text = Convert.ToString(Convert.ToDouble(lbMinAbo.Text) + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos)));
                         VisualizarPanel("MostrarPanelPrincipal");
                         LimpiarTxbox();
-                        CbxMetodosPago.SelectedIndex = 2;
+                        //CbxMetodosPago.SelectedIndex = 2;
                     }
 
                     else
@@ -1330,7 +1351,7 @@ namespace CapaVisual_Login
                                 lbMinAbo.Text = Convert.ToString(Convert.ToDouble(lbMinAbo.Text) + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos)));
                                 VisualizarPanel("MostrarPanelPrincipal");
                                 LimpiarTxbox();
-                                CbxMetodosPago.SelectedIndex = 2;
+                                //CbxMetodosPago.SelectedIndex = 2;
                             }
                             else
                             {
@@ -1362,7 +1383,7 @@ namespace CapaVisual_Login
                             lbMinAbo.Text = Convert.ToString(Convert.ToDouble(lbMinAbo.Text) + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos)));
                             VisualizarPanel("MostrarPanelPrincipal");
                             LimpiarTxbox();
-                            CbxMetodosPago.SelectedIndex = 2;
+                            //CbxMetodosPago.SelectedIndex = 2;
                         }
 
                     }
@@ -1427,7 +1448,7 @@ namespace CapaVisual_Login
                                 lbMinAbo.Text = Convert.ToString(Convert.ToDouble(lbMinAbo.Text) + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos)));
                                 VisualizarPanel("MostrarPanelPrincipal");
                                 LimpiarTxbox();
-                                CbxMetodosPago.SelectedIndex = 2;
+                               //CbxMetodosPago.SelectedIndex = 2;
                             }
 
 
@@ -1455,7 +1476,7 @@ namespace CapaVisual_Login
                                         lbMinAbo.Text = Convert.ToString(Convert.ToDouble(lbMinAbo.Text) + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos)));
                                         VisualizarPanel("MostrarPanelPrincipal");
                                         LimpiarTxbox();
-                                        CbxMetodosPago.SelectedIndex = 2;
+                                        //CbxMetodosPago.SelectedIndex = 2;
                                         //}
 
                                         // else
@@ -1507,6 +1528,11 @@ namespace CapaVisual_Login
                     }
                 }
 
+                if (CbxMetodosPago2.Text == "Cashea")
+                {
+                    reintentosCashea = 0;
+                     CrearOrdenCashea(Convert.ToDouble(TB_CAORDSER.Orser_Total_Mon), TB_CAORDSER.NumOrdserv, TB_CAORDSER.CTE_CedIden);
+                }
 
 
             }
@@ -1519,7 +1545,7 @@ namespace CapaVisual_Login
             }
         }
 
-        private void btnProcesar1_Click(object sender, EventArgs e) 
+        private async void btnProcesar1_Click(object sender, EventArgs e)
         {
             
             bool ReversoAutomatico = false;
@@ -1536,18 +1562,34 @@ namespace CapaVisual_Login
             command.Parameters.Clear();
             command.CommandTimeout = 300000;
 
-            this.Enabled = false;
+            //this.Enabled = false;
             LimpiaVariablesIdAbonoPagoMovil();
-            Cursor.Current = new Cursor(Properties.Resources.relojArena__1_.Handle);
-            //Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
+          
+            //Cursor.Current = new Cursor(Properties.Resources.relojArena__1_.Handle);
+            //this.Cursor = new Cursor(Properties.Resources.relojArena__1_.Handle);
+            // 1. Cargar el cursor personalizado
+            IntPtr cursorHandle = Properties.Resources.relojArena__1_.Handle;
+            Cursor customCursor = new Cursor(cursorHandle);
 
             string rept = "";
+            string Estado = "";
 
             bool completo;
             string concat = TB_CAORDSER.Cod_Sucursal + TB_CAORDSER.NumOrdserv + TB_CAORDSER.Revision;
 
             try
             {
+                // 2. ACTIVACIÓN DEL ESTADO DE ESPA
+                // Usamos la propiedad global que te funcionó mejor, 
+                // pero le asignamos TU cursor al objeto Cursor.Current
+                Application.UseWaitCursor = true;
+                Cursor.Current = customCursor;
+                this.Cursor = customCursor;
+
+                this.Enabled = false;
+                Application.DoEvents();
+
+
                 double TotalAbono;
                 double MinAbono;
                 double TotalOrden;
@@ -1628,7 +1670,7 @@ namespace CapaVisual_Login
 
                     if (TB_CAORDSER.Cod_Venta == "001") // Venta directa
                     {
-                        if (TotalAbono == Math.Round((TB_CAORDSER.OrSer_Saldo + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos))), 2))
+                        if (TotalAbono == Math.Round((TB_CAORDSER.OrSer_Saldo + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos))), 2)) //Factura
                         {
                             //Se valida que sea factura manual  y que el campo este vacio y que vaya a facturar para que pueda dar error 
                             if (completo == false && TotalAbono == Math.Round((TB_CAORDSER.OrSer_Saldo + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos))), 2))
@@ -1652,14 +1694,51 @@ namespace CapaVisual_Login
                                 // validar el numero de factura, solo para impprimir factura manual 
                                 completo = _L_Facturacion.ValidacionNumFact(TxtNumFact, TxtNroCorrelativo);
 
-                                // insertar abonos, actualizar caorser, ejecutar movimiento, insertar los billetes TB_BILLETE , emitir factura, Imprimir reporte, Enviar Dana, Actualizar fecha ofrecida
-                                string Estado = ProcesarPagos(TotalAbono, Math.Round((TB_CAORDSER.OrSer_Saldo + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos))), 2), ReversoAutomatico, command);
-                                return;
+                                //// insertar abonos, actualizar caorser, ejecutar movimiento, insertar los billetes TB_BILLETE , emitir factura, Imprimir reporte, Enviar Dana, Actualizar fecha ofrecida
+                                //string Estado = ProcesarPagos(TotalAbono, Math.Round((TB_CAORDSER.OrSer_Saldo + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos))), 2), ReversoAutomatico, command);
+                                //return;
+
+                                bool existeCashea = Dt_Abonos.AsEnumerable()
+                                         .Any(row => row.Field<string>("CodPago") == "024");
+
+                                if (existeCashea)
+                                {
+                                    bool casheaOk = await ConfirmarOrdenCashea();
+                                    // REAFIRMAR CURSOR AQUÍ
+                                    Cursor.Current = customCursor;
+                                    if (casheaOk)
+                                    {
+                                        // insertar abonos, actualizar caorser, ejecutar movimiento, insertar los billetes TB_BILLETE , emitir factura, Imprimir reporte, Enviar Dana, Actualizar fecha ofrecida
+                                        Estado = ProcesarPagos(TotalAbono, Math.Round((TB_CAORDSER.OrSer_Saldo + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos))), 2), ReversoAutomatico, command);
+
+                                        if (Estado == "SATISFACTORIO")
+                                        {
+                                            // RegistrarCuotasCashea
+                                            ObtenerOrdenCashea();
+                                            // REAFIRMAR CURSOR AQUÍ
+                                            Cursor.Current = customCursor;
+                                            ActualizarNroFacturaCashea();
+                                            // REAFIRMAR CURSOR AQUÍ
+                                            Cursor.Current = customCursor;
+                                            return;
+                                        }
+                                        
+                                    }
+                                    else
+                                    {
+                                        return;
+                                    }
+                                }
+                                else
+                                {
+                                    Estado = ProcesarPagos(TotalAbono, Math.Round((TB_CAORDSER.OrSer_Saldo + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos))), 2), ReversoAutomatico, command);
+                                    return;
+                                }
                             }
 
 
                         }
-                        else
+                        else //Abono
                         {
                             //mensaje = "El abono debe ser igual al total de la Orden" + lbMinAbo.Text + ",verifique";
                             mensaje = "No se permite abonar en venta directa";
@@ -1726,12 +1805,43 @@ namespace CapaVisual_Login
                                 {
                                     // validar el numero de factura, solo para impprimir factura manual 
                                     completo = _L_Facturacion.ValidacionNumFact(TxtNumFact, TxtNroCorrelativo);
+                                   
+                                    bool existeCashea = Dt_Abonos.AsEnumerable()
+                                         .Any(row => row.Field<string>("CodPago") == "024");
 
-                                    
+                                    if (existeCashea)
+                                    {
+                                        bool casheaOk = await ConfirmarOrdenCashea();
 
-                                    // insertar abonos, actualizar caorser, ejecutar movimiento, insertar los billetes TB_BILLETE , emitir factura, Imprimir reporte, Enviar Dana, Actualizar fecha ofrecida
-                                    string Estado = ProcesarPagos(TotalAbono, Math.Round((TB_CAORDSER.OrSer_Saldo + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos))), 2), ReversoAutomatico, command);
-                                    return;
+                                        if (casheaOk)
+                                        {
+                                            // insertar abonos, actualizar caorser, ejecutar movimiento, insertar los billetes TB_BILLETE , emitir factura, Imprimir reporte, Enviar Dana, Actualizar fecha ofrecida
+                                            Estado = ProcesarPagos(TotalAbono, Math.Round((TB_CAORDSER.OrSer_Saldo + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos))), 2), ReversoAutomatico, command);
+
+                                            // RegistrarCuotasCashea
+                                            ObtenerOrdenCashea();
+                                            // REAFIRMAR CURSOR AQUÍ
+                                            Cursor.Current = customCursor;
+                                            ActualizarNroFacturaCashea();
+                                            // REAFIRMAR CURSOR AQUÍ
+                                            Cursor.Current = customCursor;
+                                            return;
+                                        }
+                                        else
+                                        {
+                                            return;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        Estado = ProcesarPagos(TotalAbono, Math.Round((TB_CAORDSER.OrSer_Saldo + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos))), 2), ReversoAutomatico, command);
+                                        return;
+                                    }
+
+
+
+
+
                                 }
 
                             }
@@ -1747,7 +1857,7 @@ namespace CapaVisual_Login
                                 if (_FrmMensajes.DialogResult == DialogResult.OK)
                                 {
                                     string Autoriza = "";
-                                    string Estado = "";
+                                    Estado = "";
 
                                     // Pasas el parámetro directamente en el constructor
                                     FrmClaveAutorizada _FrmClaveAutorizada = new FrmClaveAutorizada("004");
@@ -1812,7 +1922,7 @@ namespace CapaVisual_Login
                             return;
                         }
 
-                        if (TB_CAORDSER.OrSer_Status == "005")
+                        if (TB_CAORDSER.OrSer_Status == "005") //Abonada
                         {
                             if (ValidarPagosIva(DgvAbonos) == true)
                             {
@@ -1924,12 +2034,16 @@ namespace CapaVisual_Login
                 CargarDatosOrden(txtNumeroOrden.Text, txtNombreCliente.Text, TB_CAORDSER.Revision);
 
                     this.Enabled = true;
-                if (rept == "SATISFACTORIO" || rept == "" || rept == "Error")
+                if (Estado == "SATISFACTORIO")//(rept == "SATISFACTORIO" || rept == "" || rept == "Error")
                 {
                     btnCancelar1.PerformClick();
-                    HabilitacionControl("Habilitar");
+
+                       
+
+                        HabilitacionControl("Habilitar");
                 }
                 else
+
                 {
                     HabilitacionControl("Bloquear");
                 }
@@ -1946,7 +2060,12 @@ namespace CapaVisual_Login
                     BtnClientePagador.Visible = true;
                 }
 
-                Cursor = System.Windows.Forms.Cursors.Default;
+                    // 3. LIMPIEZA
+                    Application.UseWaitCursor = false;
+                    this.Cursor = Cursors.Default;
+                    Cursor.Current = Cursors.Default;
+                    this.Enabled = true;
+
 
                 }
 
@@ -2277,7 +2396,8 @@ namespace CapaVisual_Login
 
         // nuevo 21-08-2023 llenar los texbox de vuelto en bs y dolares
         DataTable dt = _D_DetalleOrden.Buscar_Cambios_Realizados(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv);
-            foreach (DataRow row in dt.Rows)
+            foreach (DataRow row in 
+                dt.Rows)
             {
                 textBox8.Text = string.Format("{0:#,0.00}", row["TotalPagomovilBolivares"].ToString() == "" ? (Decimal?)0.00 : Convert.ToDecimal(row["TotalPagomovilBolivares"].ToString()));
                 TxtCambioRef.Text = string.Format("{0:#,0.00}", row["TotalPagomovilDolares"].ToString() == "" ? (Decimal?)0.00 : Convert.ToDecimal(row["TotalPagomovilDolares"].ToString()));
@@ -2304,6 +2424,17 @@ namespace CapaVisual_Login
 
         private void btnCancelar1_Click(object sender, EventArgs e)
         {
+            // Suponiendo que el nombre del banco se guarda en la columna "Banco"
+            
+            bool existeCashea = Dt_Abonos.AsEnumerable()
+                                         .Any(row => row.Field<string>("CodPago") == "024");
+
+            if (existeCashea && TB_CAORDSER.OrSer_Status != "002")
+            {
+                CancelarOrdenCashea();
+            }
+            
+           
             LimpiaVariablesIdAbonoPagoMovil();
             VisualizarPanel("MostrarFormulario");
             LimpiarNotasCredito();
@@ -3376,7 +3507,7 @@ namespace CapaVisual_Login
                 }
 
 
-                if (CbxMetodosPago.Text == "Cashea")
+                if (CbxMetodosPago.Text == "Cashea Mas Cuotas")
                 {
                     bool Cashea = _L_Facturacion.Verificar_Pago_CACHEA(DgvAbonos);
                     if (Cashea == false)
@@ -3464,6 +3595,8 @@ namespace CapaVisual_Login
                         label2.Size = new Size(601, 35);
                         txtMonto2Bs.Size = new Size(168, 25);
                         txtTranferencia.Size = new Size(168, 25);
+
+                        lblMensajeCashea.Visible = false;
 
                     }
 
@@ -3618,33 +3751,37 @@ namespace CapaVisual_Login
                 if (CbxMetodosPago.Text == "Nota Credito")
                 {
                     label5.Visible = false;
-                    DataTable dt = _D_DetalleOrden.ExistenNotas(txtCedula.Text.Substring(2, txtCedula.Text.Length - 2));
-
-                    if (dt.Rows.Count > 0)
+                    if (txtCedula.Text.Length > 2)
                     {
 
-                        bool rep = _L_Facturacion.BuscarNotasGrid(DgvAbonos);
-                        if (rep == true)
-                        {
-                            _FrmMensajes.co = 2;
-                            _FrmMensajes.avisomensaje(_L_Facturacion.stringBuilder.ToString());
-                            _FrmMensajes.ShowDialog();
-                            CbxMetodosPago.SelectedIndex = 2;
-                        }
-                        else
-                        {
-                            _L_Facturacion.CargarGridNotasTotales(DgvNotas, dt);
-                            CrearObjetosNotasCredito();
-                            VisualizarPanel("MostrarNotasCredito");
-                            txtNroNota.Enabled = true;
-                            //txtNroNota.Visible = true;
-                            btnProcesar3.Enabled = false;
-                            //txtBsNotaCredito.Enabled = false;
-                            txtBsNotaCredito.Visible = true;
-                            //txtNroNotaDevolucion.Visible = true;
-                            txtBsNotaCredito.Enabled = false;
-                        }
+                        DataTable dt = _D_DetalleOrden.ExistenNotas(txtCedula.Text.Substring(2, txtCedula.Text.Length - 2));
 
+                        if (dt.Rows.Count > 0)
+                        {
+
+                            bool rep = _L_Facturacion.BuscarNotasGrid(DgvAbonos);
+                            if (rep == true)
+                            {
+                                _FrmMensajes.co = 2;
+                                _FrmMensajes.avisomensaje(_L_Facturacion.stringBuilder.ToString());
+                                _FrmMensajes.ShowDialog();
+                                //CbxMetodosPago.SelectedIndex = 2;
+                            }
+                            else
+                            {
+                                _L_Facturacion.CargarGridNotasTotales(DgvNotas, dt);
+                                CrearObjetosNotasCredito();
+                                VisualizarPanel("MostrarNotasCredito");
+                                txtNroNota.Enabled = true;
+                                //txtNroNota.Visible = true;
+                                btnProcesar3.Enabled = false;
+                                //txtBsNotaCredito.Enabled = false;
+                                txtBsNotaCredito.Visible = true;
+                                //txtNroNotaDevolucion.Visible = true;
+                                txtBsNotaCredito.Enabled = false;
+                            }
+
+                        }
                     }
                     label5.Visible = false;
                     CbxMoneda.Visible = false;
@@ -3814,7 +3951,7 @@ namespace CapaVisual_Login
                             _FrmMensajes.co = 2;
                             _FrmMensajes.avisomensaje(_L_Facturacion.stringBuilder.ToString());
                             _FrmMensajes.ShowDialog();
-                            CbxMetodosPago.SelectedIndex = 2;
+                            //CbxMetodosPago.SelectedIndex = 2;
                         }
                         else
                         {
@@ -3849,6 +3986,120 @@ namespace CapaVisual_Login
                     LblBancoRecep.Visible = false;
                     CbxBancoRecp.Visible = false;
                     label45.Text = "Banco";
+                }
+
+                if (CbxMetodosPago.Text == "Cashea")
+                {
+                    bool Cashea = _L_Facturacion.Verificar_Pago_CACHEA(DgvAbonos);
+                    if (Cashea == false)
+                    {
+                        VerificarConexionCashea();
+                        _L_Facturacion.LLenarComboboxBancos2(CbxBanco, false);
+                        //CbxMetodosPago2.SelectedIndex = 0;
+                        CbxMetodosPago2.Text = CbxMetodosPago.Text;
+                        CbxMoneda.SelectedIndex = 2;
+                        BolivaresConveridos(Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos)), txtMontoBs);
+                        //-----------ConvertirBolivares---------------------------
+                        //txtMontoBs.Text = _L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos);
+                        BolivaresConveridos(Convert.ToDouble(txtMontoBs.Text.Replace(".", "")), txtMonto2Bs);
+                        //txtMonto2Bs.Text = Convert.ToString(Convert.ToDouble(txtMontoBs.Text.Replace(".","")));
+
+                        txtRef.Enabled = false;
+                        txtRef.Visible = false;
+                        txtMontoBs.Enabled = false;
+                        VisualizarPanel("MostrarPanelSecundario");
+                        //label28.Visible = true;
+                        label22.Visible = false;
+                        label4.Visible = false;
+                        label27.Visible = false;
+                        label26.Visible = false;
+                        txtCVC.Enabled = false;
+                        txtCVC.Visible = false;
+                        CbxTarjeta.Visible = false;
+                        CbxTarjeta.Enabled = false;
+                        txtVence.Enabled = false;
+                        txtVence.Visible = false;
+                        label24.Visible = false;
+                        txtCheque.Enabled = false;
+                        txtCheque.Visible = false;
+                        label15.Visible = true;
+                        CbxMoneda.Enabled = false;
+                        label5.Visible = false;
+                        CbxMoneda.Visible = false;
+                        label42.Visible = false;
+                        txtIGTF.Visible = false;
+                        label21.Visible = false;
+                        DtpFecha.Visible = false;
+                        DtpFecha.Text = DateTime.UtcNow.ToShortDateString();
+                        label6.Visible = false;
+                        TxtVuelto.Visible = false;
+                        CbxMetodosPago2.Visible = true;
+                        label41.Visible = true;
+                        _L_Facturacion.LLenarComboboxTipoPunto(CbxPunto_Venta, "TD");
+                        label49.Visible = false;
+                        CbxPunto_Venta.Visible = false;
+                        LblMontoBillete.Visible = false;
+                        CbxBillete.Visible = false;
+                        LblCodBillete.Visible = false;
+                        TxtCodBillete.Visible = false;
+                        DgvBilletes.Visible = false;
+                        LblBancoRecep.Visible = false;
+                        CbxBancoRecp.Visible = false;
+                        CbxBanco.Visible = false;
+                        txtMonto2Bs.Enabled = true;
+                        label45.Visible = false;
+                        CbxBanco.Enabled = false;
+                        LbePagoMovil.Visible = false;
+                        Bs.Visible = true;
+
+                        label28.Text = "N° Tarjeta";
+                        CbxBanco.SelectedIndex = 30;
+                        Bs.Text = "Monto";
+                        label28.Text = "Referencia";
+
+                        Bs.Font = new Font("Century Gothic", 12, FontStyle.Bold);
+                        label28.Font = new Font("Century Gothic", 12, FontStyle.Bold);
+                        label41.Font = new Font("Century Gothic", 12, FontStyle.Bold);
+
+                        //Reubicacion de los objetos 
+                        btnCancelar2.Location = new Point(241, 138);
+                        btnProcesar2.Location = new Point(361, 138);
+                        label41.Location = new Point(33, 60);
+                        CbxMetodosPago2.Location = new Point(33, 82);
+                        Bs.Location = new Point(216, 60);
+                        txtMonto2Bs.Location = new Point(216, 84);
+                        label28.Location = new Point(400, 60);
+                        txtTranferencia.Location = new Point(400, 83);
+
+
+                        // Tamaño de los Objetos 
+                        PnlSecundario.Size = new Size(502, 189);
+                        PnlSecundario.Location = new Point(300, 150);
+                        label2.Size = new Size(501, 35);
+                        txtMonto2Bs.Size = new Size(168, 25);
+                        txtTranferencia.Size = new Size(168, 25);
+
+                        lblMensajeCashea.Location = new Point(33, 150);
+
+                        txtTranferencia.Visible = false;
+                        label28.Visible = false;
+
+
+                    }
+
+                    else
+                    {
+                        if (_L_Facturacion.stringBuilder.ToString().Length > 2)
+                        {
+                            _FrmMensajes.co = 2;
+                            _FrmMensajes.avisomensaje(_L_Facturacion.stringBuilder.ToString());
+                            _FrmMensajes.ShowDialog();
+                        }
+
+                        VisualizarPanel("MostrarPanelPrincipal");
+                        LimpiarTxbox();
+                    }
+
                 }
             }
 
@@ -4485,34 +4736,37 @@ namespace CapaVisual_Login
 
                             if (totalpagos != (TotalItems - DescuentoExento - DescuentoGravable - DescuentoGravableA - DescuentoGravableR))
                             {
+                            if (_D_DetalleOrden.TB_PARAMETRO("ValidaDifMontos") == "1")
+                            {
                                 if (((TotalItems - DescuentoExento - DescuentoGravable - DescuentoGravableA - DescuentoGravableR) - totalpagos == 001 |
-                                    totalpagos - (TotalItems - DescuentoExento - DescuentoGravable - DescuentoGravableA - DescuentoGravableR) == 001) |
-                                    ((TotalItems - DescuentoExento - DescuentoGravable - DescuentoGravableA - DescuentoGravableR) - totalpagos == 002 |
-                                    totalpagos - (TotalItems - DescuentoExento - DescuentoGravable - DescuentoGravableA - DescuentoGravableR) == 002) |
-                                    ((TotalItems - DescuentoExento - DescuentoGravable - DescuentoGravableA - DescuentoGravableR) - totalpagos == 003 |
-                                    totalpagos - (TotalItems - DescuentoExento - DescuentoGravable - DescuentoGravableA - DescuentoGravableR) == 003) |
-                                    ((TotalItems - DescuentoExento - DescuentoGravable - DescuentoGravableA - DescuentoGravableR) - totalpagos == 004 |
-                                    totalpagos - (TotalItems - DescuentoExento - DescuentoGravable - DescuentoGravableA - DescuentoGravableR) == 004) |
-                                    ((TotalItems - DescuentoExento - DescuentoGravable - DescuentoGravableA - DescuentoGravableR) - totalpagos == 005 |
-                                    totalpagos - (TotalItems - DescuentoExento - DescuentoGravable - DescuentoGravableA - DescuentoGravableR) == 005))
+                                   totalpagos - (TotalItems - DescuentoExento - DescuentoGravable - DescuentoGravableA - DescuentoGravableR) == 001) |
+                                   ((TotalItems - DescuentoExento - DescuentoGravable - DescuentoGravableA - DescuentoGravableR) - totalpagos == 002 |
+                                   totalpagos - (TotalItems - DescuentoExento - DescuentoGravable - DescuentoGravableA - DescuentoGravableR) == 002) |
+                                   ((TotalItems - DescuentoExento - DescuentoGravable - DescuentoGravableA - DescuentoGravableR) - totalpagos == 003 |
+                                   totalpagos - (TotalItems - DescuentoExento - DescuentoGravable - DescuentoGravableA - DescuentoGravableR) == 003) |
+                                   ((TotalItems - DescuentoExento - DescuentoGravable - DescuentoGravableA - DescuentoGravableR) - totalpagos == 004 |
+                                   totalpagos - (TotalItems - DescuentoExento - DescuentoGravable - DescuentoGravableA - DescuentoGravableR) == 004) |
+                                   ((TotalItems - DescuentoExento - DescuentoGravable - DescuentoGravableA - DescuentoGravableR) - totalpagos == 005 |
+                                   totalpagos - (TotalItems - DescuentoExento - DescuentoGravable - DescuentoGravableA - DescuentoGravableR) == 005))
 
                                 {
                                     sumo01 = true;
                                 }
 
                                 else
+
                                 {
 
                                     // SI NO COINCIDEN, ANULO EL TICKET
                                     objVmax.Cancelar();
                                     objVmax.Cerrar();
                                     objVmax.CerrarPuerto();
-                                    
+
                                     objVmax.AbrirPuerto(glbPuertoCOM.ToString());
                                     objVmax.ObtenerContadores();
                                     objVmax.CerrarPuerto();
                                     UltimoNumeroFacturaCancelado2 = objVmax.RetornoContadores.uiUltFacturaAnulada.ToString().PadLeft(7, '0');
-                                    
+
                                     ImprimirFacturaFiscall = false;
                                     respuesta = false;
                                     Impresora_Fiscal.AgregarAccionPendiente("099");
@@ -4521,6 +4775,11 @@ namespace CapaVisual_Login
 
                                 }
                             }
+                            else
+                            {
+                                sumo01 = true;
+                            }
+                        }
 
                             else
                             {
@@ -6856,7 +7115,7 @@ namespace CapaVisual_Login
 
                 Validar_FalBod(CbxBanco, txtTranferencia);
                 //Valido que selecion estos metodos de pago para entrar en esta funcion
-                if (CbxMetodosPago2.Text == "Tarjeta de Credito" | CbxMetodosPago2.Text == "Debito" | CbxMetodosPago2.Text == "Cashea")
+                if (CbxMetodosPago2.Text == "Tarjeta de Credito" | CbxMetodosPago2.Text == "Debito" | CbxMetodosPago2.Text == "Cashea" | CbxMetodosPago2.Text == "Cashea Mas Cuotas")
                 {
                     PagarCASHEA(CbxBanco, txtMonto2Bs);
                 }
@@ -7394,7 +7653,7 @@ namespace CapaVisual_Login
         private void PagarCASHEA(System.Windows.Forms.ComboBox Banco, System.Windows.Forms.TextBox Bolivares)
         {
 
-            if (Banco.Text == "CASHEA" || Banco.SelectedValue == "110")
+            if (Banco.Text == "CASHEA" || Banco.SelectedValue == "110" ||  Banco.Text == "CASHEA MAS CUOTAS" )
             {
                 if (TB_CAORDSER.OrSer_Status == "004") //por pagar
                 {
@@ -9092,7 +9351,8 @@ namespace CapaVisual_Login
                         {
                             // Crear los parámetros para la función Validar Pagos 
                             Dictionary<string, string> parametros = CrearDictionary(CodPromo, NumOrdserv, Revision);
-                            DataSet resultado = _D_DetalleOrden.AplicarCondicionPromoFactura(parametros, command);
+                            DataSet resultado = _D_DetalleOrden.
+                                AplicarCondicionPromoFactura(parametros, command);
                             if (resultado.Tables.Count > 0 && resultado.Tables[0].Rows.Count > 0 && resultado.Tables[0].Rows[0]["Resultado"].ToString() != "APLICA" )
                             {
                                 _FrmMensajes.co = 2;
@@ -9127,6 +9387,684 @@ namespace CapaVisual_Login
                     { "@PARAMETRO05", parametro05 }
              };
         }
+
+        // Variable a nivel de formulario para recordar la última orden creada
+        private string _lastOrderUuid = "";
+        private double _montoPlanPago = 0;
+        private async void VerificarConexionCashea()
+        {
+            //this.Cursor = Cursors.WaitCursor;
+            try
+            {
+                lblMensajeCashea.Text =  "";
+                // 1. Cambiamos 'bool' por 'var' para recibir el objeto CasheaResult
+                var resultado = await _logicaCashea.ValidarEstadoServicio();
+
+                // 3. Evaluamos el éxito usando la propiedad IsSuccess del objeto
+                if (!resultado.IsSuccess)
+                {
+                    lblMensajeCashea.Text = "No hay conexión";
+                    lblMensajeCashea.ForeColor = Color.Red;
+                }
+
+                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "104", TB_USUARIO.COD_EMPLEADO, $"Url: {resultado.Url} Resultado: - HTTP {resultado.StatusCode} - {resultado.Message}");
+
+            }
+            catch (Exception ex)
+            {
+                lblMensajeCashea.Text = "Error local: " + ex.Message;
+            }
+            finally
+            {
+                //this.Cursor = Cursors.Default;
+            }
+        }
+
+        private void btnCancelarCashea_Click(object sender, EventArgs e)
+        {
+            CancelarOrdenCashea();
+            VisualizarPanel("MostrarPanelPrincipal");
+            LimpiarTxbox();
+            tmCashea.Stop();
+
+        }
+
+        private async void CrearOrdenCashea(double monto, string numFactura, string cedula)
+        {
+            // Cambiamos el cursor a espera mientras consulta la API
+            //this.Cursor = Cursors.WaitCursor;
+
+            // 1. Llamada a la lógica
+            var respuesta = await _logicaCashea.CrearOrdenCashea(monto, numFactura, cedula);
+
+            // 2. AUDITORÍA (Lo que necesitabas):
+            _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "105", TB_USUARIO.COD_EMPLEADO, $"Url: {respuesta.Url} Resultado: - HTTP {respuesta.StatusCode} - {respuesta.Message}");
+
+
+            // 3. Validación de éxito usando .IsSuccess y .Data
+            if (respuesta.IsSuccess && respuesta.Data != null)
+            {
+                // ÉXITO: Accedemos al Uuid a través de .Data
+                MessageBox.Show($"Orden creada con éxito. ID Cashea: {respuesta.Data.Uuid}");
+
+                _lastOrderUuid = respuesta.Data.Uuid; // <--- Aquí es donde daba el error
+
+                PnlSecundario.Visible = false;
+                pnlQrCashea.Visible = true;
+                IniciarConteoCashea();
+            }
+            else
+            {
+                MessageBox.Show($"Error ({respuesta.StatusCode}): {respuesta.Message}");
+            }
+
+            //this.Cursor = Cursors.Default;
+        }
+
+        private async void ObtenerPagosCashea(string Uuid)
+        {
+            if (string.IsNullOrEmpty(_lastOrderUuid)) return;
+
+            //this.Cursor = Cursors.WaitCursor;
+            try
+            {
+                // Usamos el contenedor genérico para obtener datos y códigos HTTP
+                CasheaResult<CasheaPaymentPlanResponse> resultado = null;
+
+                if (rbCodigoQR.Checked)
+                {
+                    // Flujo normal: Consultamos el plan tras el escaneo
+                    resultado = await _logicaCashea.ObtenerPlanPago(_lastOrderUuid);
+                    _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "106", TB_USUARIO.COD_EMPLEADO, $"Url: {resultado.Url} Resultado: - HTTP {resultado.StatusCode} - {resultado.Message}");
+                }
+                else if (rbSinConexion.Checked)
+                {
+                    // Flujo Alternativo: Validación por código de 6 dígitos
+                    string codigoSeguridad = txtCodigoSeguridadCashea.Text.Trim();
+
+                    if (string.IsNullOrEmpty(codigoSeguridad))
+                    {
+                        MessageBox.Show("Por favor, ingrese el código de seguridad que muestra la App del cliente.", "Código Requerido");
+                        return;
+                    }
+                    // Suponiendo que implementaste ValidarCodigoSeguridad con CasheaResult<T>
+                    resultado = await _logicaCashea.ValidarCodigoSeguridad(_lastOrderUuid, codigoSeguridad);
+                    _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "107", TB_USUARIO.COD_EMPLEADO, $"Url: {resultado.Url} Resultado: - HTTP {resultado.StatusCode} - {resultado.Message}");
+
+                }
+
+                // AUDITORÍA: Registramos el resultado de la operación en ePOS
+
+
+                if (resultado != null && resultado.IsSuccess && resultado.Data != null)
+                {
+                    pnlQrCashea.Visible = false;
+                    pnlMontoCashea.Visible = true;
+
+                    var plan = resultado.Data;
+
+                    // Llenado de campos de UI
+                    txtCedulaCashea.Text = TB_CAORDSER.CTE_Nacio + TB_CAORDSER.CTE_CedIden;
+
+                    // Usamos PascalCase para las propiedades según tu modelo definido
+                    txtMontoInicialCashea.Text = plan.DownPayment.ToString("N2");
+                    txtMontoFinanCashea.Text = plan.FinancedAmount.ToString("N2");
+
+                    _montoPlanPago = plan.DownPayment;
+
+                    if (plan.DownPaymentStatus == "PAID")
+                    {
+                        MessageBox.Show("El pago inicial ya fue realizado desde la App. Puede proceder a facturar.", "Información");
+                    }
+                }
+                else
+                {
+                    // Manejo de errores específicos según el StatusCode
+                    string mensajeError = resultado?.Message ?? "Error desconocido";
+                    if (resultado?.StatusCode == 404)
+                        mensajeError = "La orden no ha sido escaneada aún o el código es inválido.";
+
+                    MessageBox.Show($"No se pudo obtener el plan (Código {resultado?.StatusCode}): {mensajeError}", "Atención");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error crítico: " + ex.Message);
+            }
+            finally
+            {
+                //this.Cursor = Cursors.Default;
+            }
+        }
+        //private async void ObtenerPagosCashea(string Uuid)
+        //{
+        //    if (string.IsNullOrEmpty(_lastOrderUuid)) return;
+
+        //    this.Cursor = Cursors.WaitCursor;
+        //    try
+        //    {
+        //        CasheaPaymentPlanResponse plan = null;
+
+        //        // Determinamos qué endpoint llamar según la selección del cajero
+        //        if (rbCodigoQR.Checked)
+        //        {
+        //            // Flujo normal: El cliente escanea el QR y consultamos el plan
+        //            plan = await _logicaCashea.ObtenerPlanPago(_lastOrderUuid);
+        //        }
+        //        else if (rbSinConexion.Checked)
+        //        {
+        //            // Flujo Alternativo: El cajero ingresa el código de 6 dígitos que ve en el app del cliente
+        //            string codigoSeguridad = txtCodigoSeguridadCashea.Text.Trim();
+
+        //            if (string.IsNullOrEmpty(codigoSeguridad))
+        //            {
+        //                MessageBox.Show("Por favor, ingrese el código de seguridad que muestra la App del cliente.", "Código Requerido");
+        //                return;
+        //            }
+
+        //            plan = await _logicaCashea.ValidarCodigoSeguridad(_lastOrderUuid, codigoSeguridad);
+        //        }
+
+        //        pnlQrCashea.Visible = false;
+        //        pnlMontoCashea.Visible = true;
+
+        //        if (plan != null)
+        //        {
+        //            // Si el plan se obtuvo (por cualquiera de las dos vías), procesamos la UI
+
+
+        //            // Suponiendo que TB_CAORDSER es tu objeto de datos actual
+        //            txtCedulaCashea.Text = TB_CAORDSER.CTE_Nacio + TB_CAORDSER.CTE_CedIden;
+
+
+        //            // Formateamos y mostramos los montos
+        //            txtMontoInicialCashea.Text = plan.DownPayment.ToString("N2");
+        //            txtMontoFinanCashea.Text = plan.FinancedAmount.ToString("N2");
+
+        //            _montoPlanPago = plan.DownPayment;
+
+        //            // Tip de coordinación: Si el estatus es PAID, el botón de finalizar debe saberlo
+        //            // para no intentar cobrar de nuevo si ya fue pagado en la App.
+        //            if (plan.DownPaymentStatus == "PAID")
+        //            {
+        //                MessageBox.Show("El pago inicial ya fue realizado desde la App. Puede proceder a facturar.", "Información");
+        //            }
+        //        }
+        //        //else
+        //        //{
+        //        //    string mensaje = rbCodigoQR.Checked
+        //        //        ? "Aún no hay un plan de pago. ¿El cliente ya escaneó el QR?"
+        //        //        : "Código de seguridad inválido o expirado.";
+
+        //        //    MessageBox.Show(mensaje, "Esperando Cliente");
+        //        //}
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show("Error: " + ex.Message);
+        //    }
+        //    finally
+        //    {
+        //        this.Cursor = Cursors.Default;
+        //    }
+        //}
+
+        private void btnProcesarQRCashea_Click(object sender, EventArgs e)
+        {
+            tmCashea.Stop();
+            ObtenerPagosCashea(_lastOrderUuid);
+        }
+
+        private async void CancelarOrdenCashea()
+        {
+           // this.Cursor = Cursors.WaitCursor;
+            try
+            {
+                // En tu FrmFacturacion
+                //_casheaService = new CasheaService(_D_Inicio.Sucursal(), TB_USUARIO.COD_EMPLEADO);
+
+                var resultado = await _logicaCashea.CancelarOrden(_lastOrderUuid);
+
+                if (resultado.IsSuccess)
+                {
+                    MessageBox.Show("La orden ha sido anulada correctamente en Cashea.");
+                    //LimpiarInterfazCashea(); // Método para resetear paneles
+                    _lastOrderUuid = "";
+                    txtMontoInicialCashea.Text = "0,00";
+                    txtMontoFinanCashea.Text = "0,00";
+                }
+                else
+                {
+                    MessageBox.Show($"No se pudo anular en Cashea: {resultado.Message}");
+                }
+
+                // AUDITORÍA: Registro de la anulación con código HTTP
+                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "111", TB_USUARIO.COD_EMPLEADO, $"Url: {resultado.Url} Resultado: - HTTP {resultado.StatusCode} - {resultado.Message}");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cancelar: " + ex.Message);
+            }
+            finally
+            {
+                //this.Cursor = Cursors.Default;
+            }
+        }
+
+        private async Task<bool> ConfirmarOrdenCashea() // Cambiado de void a Task<bool>
+        {
+            if (string.IsNullOrEmpty(_lastOrderUuid)) return false;
+
+            //Cursor.Current = new Cursor(Properties.Resources.relojArena__1_.Handle);
+            //this.Cursor = Cursors.WaitCursor;
+            try
+            {
+                // 1. Confirmamos el pago inicial en la API
+                var resultado = await _logicaCashea.ConfirmarPago(_lastOrderUuid, _montoPlanPago);
+
+                // 2. AUDITORÍA: Registro con el StatusCode para trazabilidad
+                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(),"108",TB_USUARIO.COD_EMPLEADO, $"Url: {resultado.Url} Resultado: - HTTP {resultado.StatusCode} - {resultado.Message}");
+
+                if (resultado.IsSuccess)
+                {
+                    //MessageBox.Show("Venta procesada exitosamente con Cashea.", "Éxito");
+                    return true; // Retornamos éxito
+                }
+                else
+                {
+                    //MessageBox.Show($"Error al confirmar pago en Cashea (HTTP {resultado.StatusCode}): {resultado.Message}", "Error de Validación");
+                    return false; // Retornamos falla
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error en el cierre: " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                //this.Cursor = Cursors.Default;
+            }
+        }
+
+        private async void btnSimularEscaneo_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(_lastOrderUuid))
+            {
+                MessageBox.Show("Primero debes crear una orden para poder simular el escaneo.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Cambiamos el cursor para indicar que está procesando
+            //this.Cursor = Cursors.WaitCursor;
+
+            try
+            {
+                var resultado = await _logicaCashea.SimularEscaneoCliente(_lastOrderUuid);
+
+                // Registro en el auditor de ePOS
+                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "112", TB_USUARIO.COD_EMPLEADO, $"Url: {resultado.Url} Resultado: - HTTP {resultado.StatusCode} - {resultado.Message}");
+
+                if (resultado.IsSuccess)
+                {
+                    MessageBox.Show("QR Simulado con éxito. El cliente ya puede ver el plan de pagos.");
+                }
+                else
+                {
+                    MessageBox.Show($"Error al simular QR (Código {resultado.StatusCode}): {resultado.Message}");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al simular: " + ex.Message);
+            }
+            finally
+            {
+                //this.Cursor = Cursors.Default;
+            }
+        }
+
+        private void btnCancelarMontosCashea_Click(object sender, EventArgs e)
+        {
+            CancelarOrdenCashea();
+            VisualizarPanel("MostrarPanelPrincipal");
+            LimpiarTxbox();
+            
+        }
+
+        private void btnProcesarMontosCashea_Click(object sender, EventArgs e)
+        {
+            Double tasa = Convert.ToDouble(TB_TASA_Dolar.Tasa.ToString());
+            _L_Facturacion.GuardarAbonoGrid(2, Dt_Abonos, CbxMetodosPago2.Text, CbxMoneda.Text, "CASHEA", (Convert.ToDouble(txtMontoFinanCashea.Text) * tasa).ToString("N2"), txtTranferencia.Text, DtpFecha.Value.ToString(), CbxMetodosPago2.SelectedValue.ToString(), "110", "110", TxtVuelto.Text, "", "", "", "", "", "", "000");
+
+
+            BolivaresConveridos(Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos)), txtMontoBs);
+            //-----------ConvertirBolivares---------------------------
+            //txtMontoBs.Text = _L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos);
+
+            lbMinAbo.Text = Convert.ToString(Convert.ToDouble(lbMinAbo.Text) + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos)));
+            VisualizarPanel("MostrarPanelPrincipal");
+            LimpiarTxbox();
+        }
+
+        //private async void ObtenerOrdenCashea()
+        //{
+        //    this.Cursor = Cursors.WaitCursor;
+        //    try
+        //    {
+        //        var detalles = await _logicaCashea.ConsultarDetallesOrden(_lastOrderUuid);
+
+        //        if (detalles != null && detalles.Payment.Installments != null)
+        //        {
+        //            // Registramos en tu tabla local para auditoría interna
+        //            RegistrarCuotasCashea(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, detalles.identifierNumber, TB_USUARIO.COD_USR, detalles.Payment.Installments);
+
+        //            // Opcional: Mostrar en un DataGridView para que el cajero confirme las fechas
+        //            //dgvCuotas.DataSource = detalles.Payment.Installments;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show("Error al cancelar: " + ex.Message);
+        //    }
+        //    finally
+        //    {
+        //        this.Cursor = Cursors.Default;
+        //    }
+        //}
+
+        private async void ObtenerOrdenCashea()
+        {
+            if (string.IsNullOrEmpty(_lastOrderUuid)) return;
+
+            //Cursor.Current = new Cursor(Properties.Resources.relojArena__1_.Handle);
+            //this.Cursor = Cursors.WaitCursor;
+            try
+            {
+                // 1. Llamada a la lógica usando nuestro contenedor genérico
+                var resultado = await _logicaCashea.ConsultarDetallesOrden(_lastOrderUuid);
+
+                // 2. AUDITORÍA: Registramos el intento de consulta con el código HTTP
+                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "109", TB_USUARIO.COD_EMPLEADO, $"Url: {resultado.Url} Resultado: - HTTP {resultado.StatusCode} - {resultado.Message}");
+
+                // 3. Verificación de éxito y existencia de datos
+                if (resultado.IsSuccess && resultado.Data != null)
+                {
+                    var detalles = resultado.Data;
+
+                    // Verificamos que existan las cuotas (Installments) dentro del objeto Payment
+                    // Nota: Asegúrate que tu modelo use PascalCase o coincida con la definición
+                    if (detalles.Payment != null && detalles.Payment.Installments != null)
+                    {
+                        // Registramos en tu tabla local para auditoría interna de la sucursal
+                        RegistrarCuotasCashea(TB_CAORDSER.Cod_Sucursal , TB_CAORDSER.NumOrdserv , detalles.identifierNumber , TB_USUARIO.COD_USR , detalles.Payment.Installments);
+
+                        // Mostramos en el DataGridView para que el cajero confirme visualmente
+                        //dgvCuotas.DataSource = detalles.Payment.Installments;
+
+                        //MessageBox.Show("Plan de cuotas recuperado y registrado exitosamente.", "Sincronización OK");
+                    }
+                    else
+                    {
+                        //MessageBox.Show("La orden no contiene información de cuotas disponible.", "Aviso");
+                    }
+                }
+                else
+                {
+                    // Manejo de errores basado en la respuesta de la API
+                    //MessageBox.Show($"No se pudieron obtener los detalles (Código {resultado.StatusCode}): {resultado.Message}", "Error de Consulta");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error inesperado en la comunicación: " + ex.Message, "Error Crítico");
+            }
+            finally
+            {
+                //this.Cursor = Cursors.Default;
+            }
+        }
+
+        public void RegistrarCuotasCashea(string codSucursal, string nroOren, string nroContrato, string userCrea, List<Installment> cuotas)
+        {
+            // Usamos InvariantCulture para asegurar que el punto decimal de la API 
+            // se convierta correctamente sin importar la configuración de la PC
+            var culturaGlobal = System.Globalization.CultureInfo.InvariantCulture;
+
+            foreach (var cuota in cuotas)
+            {
+                try
+                {
+                    // 1. Convertimos el número de cuota a string
+                    // Si es 0, podrías incluso pasar "INICIAL", pero si tu DB espera número, "0" está bien.
+                    string nroCuotaString = cuota.InstallmentNumber.ToString();
+
+                    // 2. Convertimos el monto a decimal de forma segura
+                    // Usamos InvariantCulture porque las APIs suelen devolver montos con punto (120.50)
+                    decimal montoDecimal = Convert.ToDecimal(cuota.Amount, culturaGlobal);
+
+                    // 3. Llamada a tu capa lógica
+                    _L_Cashea.RegistrarCuotasCashea(codSucursal,nroOren,nroContrato,nroCuotaString,montoDecimal,userCrea);
+                }
+                catch (Exception ex)
+                {
+                    // Es buena idea loguear si una cuota específica falla para no detener todo el proceso
+                    Console.WriteLine($"Error registrando cuota {cuota.InstallmentNumber}: {ex.Message}");
+                }
+            }
+        }
+
+        private async void ActualizarNroFacturaCashea()
+        {
+            if (string.IsNullOrEmpty(_lastOrderUuid)) return;
+
+            string nroFacturaFiscal = TB_FACTURAS.Fact_Num;// txtNumeroFactura.Text; // El nro que generó tu sistema
+
+            //Cursor.Current = new Cursor(Properties.Resources.relojArena__1_.Handle);
+            //this.Cursor = Cursors.WaitCursor;
+            try
+            {
+                //bool actualizado = await _logicaCashea.ActualizarFacturaOrden(_lastOrderUuid, nroFacturaFiscal);
+                var resultado = await _logicaCashea.ActualizarFacturaOrden(_lastOrderUuid, nroFacturaFiscal);
+
+                // AUDITORÍA: Fundamental para conciliación legal posterior
+                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "110", TB_USUARIO.COD_EMPLEADO, $"Url: {resultado.Url} Resultado: - HTTP {resultado.StatusCode} - {resultado.Message}");
+
+                if (resultado.IsSuccess)
+                {
+
+                    RegistrarOrdenCashea(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, nroFacturaFiscal, true, TB_USUARIO.COD_USR);
+                    //MessageBox.Show("Número de factura sincronizado con Cashea.", "Sincronización OK");
+                }
+                else
+                {
+                    RegistrarOrdenCashea(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, nroFacturaFiscal, false, TB_USUARIO.COD_USR);
+                    // No es un error fatal para el cliente, pero sí para tu conciliación
+                    //MessageBox.Show("No se pudo actualizar el nro de factura en Cashea. Deberá hacerlo manual en el portal.", "Aviso");
+                }
+
+                
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al sincronizar factura: " + ex.Message);
+            }
+            finally
+            {
+                //this.Cursor = Cursors.Default;
+            }
+        }
+
+        public void RegistrarOrdenCashea(string codSucursal, string nroOrden, string nroFactura, bool status, string userCrea)
+        {
+           // 3. Llamada a tu capa lógica
+           _L_Cashea.RegistrarOrdenCashea(codSucursal, nroOrden, nroFactura, status, userCrea);
+               
+        }
+
+
+        private void txtCedulaCashea_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void TxtCodBillete_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label84_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pnlQrCashea_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void label85_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void rbSinConexion_CheckedChanged(object sender, EventArgs e)
+        {
+            txtCodigoSeguridadCashea.Enabled = true;
+            //rbCodigoQR.Checked = false;
+            //rbSinConexion.Checked = true;
+        }
+
+        private void rbCodigoQR_CheckedChanged(object sender, EventArgs e)
+        {
+            txtCodigoSeguridadCashea.Text = "";
+            txtCodigoSeguridadCashea.Enabled = false;
+            //rbSinConexion.Checked = false;
+            //rbCodigoQR.Checked = true;
+        }
+
+        private void btnReintentarMontosCashea_Click(object sender, EventArgs e)
+        {
+            reintentosCashea = reintentosCashea + 1;
+
+            if (maxCantidadReintentosCahea >= reintentosCashea)
+            {
+                ObtenerPagosCashea(_lastOrderUuid);
+            }
+            else
+            {
+                //btnReintentarMontosCashea.Enabled = false;
+                CancelarOrdenCashea();
+                VisualizarPanel("MostrarPanelPrincipal");
+                LimpiarTxbox();
+            }
+        }
+
+        private void IniciarConteoCashea()
+        {
+            segundosTotalesCashea = 300; // Reset a 5 minutos
+            tmCashea.Interval = 1000;    // Asegurar que sea 1 segundo
+
+            // Formato inicial 05:00
+            lblTimer.Text = "05:00";
+            lblTimer.Visible = true;
+
+            tmCashea.Start();
+        }
+
+        private void tmCashea_Tick(object sender, EventArgs e)
+        {
+            if (segundosTotalesCashea > 0)
+            {
+                segundosTotalesCashea--;
+
+                // Calculamos minutos y segundos restantes
+                int minutos = segundosTotalesCashea / 60;
+                int segundos = segundosTotalesCashea % 60;
+
+                // Formateamos como "00:00" usando D2 (decimal con 2 dígitos)
+                lblTimer.Text = string.Format("{0:D2}:{1:D2}", minutos, segundos);
+
+                // Opcional: Cambiar a rojo cuando quede menos de 1 minuto
+                if (segundosTotalesCashea <= 60)
+                {
+                    lblTimer.ForeColor = Color.Red;
+                }
+            }
+            else
+            {
+                
+                lblTimer.Text = "00:00";
+                CancelarOrdenCashea();
+                VisualizarPanel("MostrarPanelPrincipal");
+                LimpiarTxbox();
+                tmCashea.Stop();
+
+
+                //// Manejo del error por tiempo agotado
+                //_FrmMensajes.avisomensaje("El tiempo para procesar el pago con Cashea ha expirado.");
+                //_FrmMensajes.ShowDialog();
+
+                // Aquí deberías ejecutar tu lógica de cancelación de orden
+            }
+        }
+
+        public void CargarConfiguracionCashea()
+        {
+            DataTable dt = _L_Cashea.ObtenerConfigCashea();
+
+            foreach (DataRow row in dt.Rows)
+            {
+                string nombre = row["Parametro"].ToString();
+                string valorCifrado = row["Valor"].ToString();
+
+                switch (nombre)
+                {
+                    case "Cashea_ApiKey":
+                        ConfigCashea.ApiKey = ConfigCashea.Decodificar(valorCifrado);
+                        break;
+                    case "Cashea_BaseUrl":
+                        ConfigCashea.BaseUrl = ConfigCashea.Decodificar(valorCifrado);
+                        break;
+                    case "Cashea_Uuid_Caja":
+                        ConfigCashea.UuidCaja = ConfigCashea.Decodificar(valorCifrado);
+                        break;
+                }
+            }
+        }
+        //private async void CargarCajasEnCombo()
+        //{
+        //    try
+        //    {
+        //        var listaCajas = await _logicaCashea.ListarCajasPos();
+
+        //        if (listaCajas != null && listaCajas.Count > 0)
+        //        {
+        //            cmbCajasCashea.DataSource = listaCajas;
+        //            cmbCajasCashea.DisplayMember = "Name"; // Lo que ve el cajero
+        //            cmbCajasCashea.ValueMember = "Uuid";   // El ID que usaremos para el pago
+        //        }
+        //        else
+        //        {
+        //            MessageBox.Show("No se encontraron cajas configuradas para este comercio.",
+        //                            "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show($"Error al cargar cajas: {ex.Message}");
+        //    }
+        //}
 
         //Para Probar los reportes
 

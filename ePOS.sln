@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CapaVisual_Login", "CapaPre
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Script", "Actualizar\Script.csproj", "{4D28994E-859E-4B84-92CD-E086739039B9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CapaServiciosExternos", "CapaServiciosExternos\CapaServiciosExternos.csproj", "{1F6011BC-16B5-42C4-A252-2ABB80CF9DC9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{4D28994E-859E-4B84-92CD-E086739039B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4D28994E-859E-4B84-92CD-E086739039B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4D28994E-859E-4B84-92CD-E086739039B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F6011BC-16B5-42C4-A252-2ABB80CF9DC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F6011BC-16B5-42C4-A252-2ABB80CF9DC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F6011BC-16B5-42C4-A252-2ABB80CF9DC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F6011BC-16B5-42C4-A252-2ABB80CF9DC9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

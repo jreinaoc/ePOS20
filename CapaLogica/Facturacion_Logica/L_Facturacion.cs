@@ -2344,7 +2344,7 @@ namespace CapaLogica.DetalleOrden_Logica
 
                 foreach (DataGridViewRow row in Dt_Abono.Rows)
                 {
-                        if (row.Cells["CodPago"].Value.ToString() == "021" && (row.Cells["Banco"].Value.ToString() == "CASHEA"| row.Cells["CodBanco"].Value.ToString() == "110"))
+                        if ((row.Cells["CodPago"].Value.ToString() == "021" | row.Cells["CodPago"].Value.ToString() == "024") && (row.Cells["Banco"].Value.ToString() == "CASHEA"| row.Cells["CodBanco"].Value.ToString() == "110"))
                         {
                             stringBuilder.Append("Ya existe un abono con este tipo de pago");
                             return true;

@@ -990,8 +990,10 @@ namespace CapaVisual_Login
                 _FrmMensajes.ShowDialog();
                 return;
             }
+            if (_D_DetalleOrden.TB_PARAMETRO("AmbDesarrollo") == "0")
+            {
 
-            if (StatusTasa != "SI" || StatusSec != "SI")
+                if (StatusTasa != "SI" || StatusSec != "SI")
                 {
                     _FrmMensajes.co = 2;
                     _FrmMensajes.avisomensaje("Debe actualizar la tasa de las monedas y activación de secuencia diaria");
@@ -1031,6 +1033,7 @@ namespace CapaVisual_Login
                 {
                     return;
                 }
+            }
             //}
             TB_CAORDSER.Cod_DetVta = "";
             PnlListadoOrdenes.Controls.Clear();
