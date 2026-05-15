@@ -4836,6 +4836,13 @@ namespace CapaVisual_Login
 
                 // Obtener el valor de la celda "Cod_Coloracion"
                 Codigo_Promocion = filaSeleccionada.Cells["COD_Prom"].Value.ToString();
+                if (Codigo_Promocion == "259" && Garantia)
+                {
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje("No puede aplicar garantía con esta promoción");
+                    _FrmMensajes.ShowDialog();
+                    return;
+                }
                 Lbl_Tap3_Articulo1.Text= "Ingresar Articulo "+ " Promo: "+ filaSeleccionada.Cells["Prom_DESCRIP"].Value.ToString();
                 BotonesColor(false, "Promocion");
                 CerrarPanelPromocion();
@@ -4888,12 +4895,22 @@ namespace CapaVisual_Login
 
         private void Btn_Tap3_Garantia_Click(object sender, EventArgs e)
         {
-            Garantia = true;
-            HabilitacionControl("CabezeraPrincipal");
-            // Modo oscuro
-            BotonesColor(false, "Garantia");
-            Btn_Tap3_Garantia.Enabled = false;
-            Btn_Tap3_CristalPropio.Enabled = false;
+            //if (Lbl_Tap3_Articulo1.Text != "Ingresar Articulo  Promo: Seguros Mercantil")
+            if(Codigo_Promocion != "259")
+            {
+                Garantia = true;
+                HabilitacionControl("CabezeraPrincipal");
+                // Modo oscuro
+                BotonesColor(false, "Garantia");
+                Btn_Tap3_Garantia.Enabled = false;
+                Btn_Tap3_CristalPropio.Enabled = false;
+            }
+            else
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("No puede aplicar garantía con esta promoción");
+                _FrmMensajes.ShowDialog();
+            }
         }
 
         private bool AplicoGarantia(string CI, string nacio, string OS, string Suc, string exam)

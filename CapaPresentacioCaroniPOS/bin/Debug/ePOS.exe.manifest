@@ -4,7 +4,7 @@
   <description asmv2:iconFile="icono-puntoDeVenta.ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <application />
   <entryPoint>
-    <assemblyIdentity name="ePOS" version="1.0.2.4" language="neutral" processorArchitecture="msil" />
+    <assemblyIdentity name="ePOS" version="1.0.2.5" language="neutral" processorArchitecture="msil" />
     <commandLine file="ePOS.exe" parameters="" />
   </entryPoint>
   <trustInfo>
@@ -74,7 +74,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>h2QpZUr19lWMpP0s+DHxLf6xMcsS8+wncxg33G7pIRA=</dsig:DigestValue>
+        <dsig:DigestValue>1DAv3dbbkJZsAmcX5ecMkOg+YEeAQrzzn1ermvSrVSM=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -86,7 +86,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>5iJNX/SndqXjP3E5IXjfAxvPeLx3YEXGqfPSeDxG0Q4=</dsig:DigestValue>
+        <dsig:DigestValue>GO7Akwb+wOEsRcuvrU/5fwntOsKG/pfXvqMsh2XDu44=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -98,7 +98,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>YP0qzbjga5dZ9hsr/n8d6NuAN/h3LfhIq2hJTxTrsv8=</dsig:DigestValue>
+        <dsig:DigestValue>pthBtFJzcaxyePGTTYuYyKIXZmmrbYEgTLj7Q1VqZJo=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -211,14 +211,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ePOS.exe" size="3319296">
-      <assemblyIdentity name="ePOS" version="1.0.2.4" language="neutral" processorArchitecture="msil" />
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ePOS.exe" size="3322880">
+      <assemblyIdentity name="ePOS" version="1.0.2.5" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>OoyIfZevhx0Sq1oaIa6Jr5yLSkD5kmR6BEyDIAppCA8=</dsig:DigestValue>
+        <dsig:DigestValue>8TmFVIXxt2AMktVoihnDMpoF9X4drOOZgmQ1EUAXTKU=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -1184,13 +1184,13 @@
   </dependency>
   <dependency>
     <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Script.dll" size="5120">
-      <assemblyIdentity name="Script" version="1.0.1.0" language="neutral" processorArchitecture="msil" />
+      <assemblyIdentity name="Script" version="1.0.1.1" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>JO2VJ1w8Q7cj07j3/dEXap+0wrsAjAtiylsEWjKT//g=</dsig:DigestValue>
+        <dsig:DigestValue>DXKJQUK5HKgnu0fkGL/Piz5kbN3FtVin8EG550yw+uA=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -1329,7 +1329,7 @@
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>S5raj3zxJy3Vmbg14sVGzx2v5YrruDjF43MBJu+Q2Dw=</dsig:DigestValue>
+      <dsig:DigestValue>1gi9cw1POkvbvsFDZQmeM7zJYR6O3qMdFpwj9lZVIyo=</dsig:DigestValue>
     </hash>
   </file>
   <file name="icono-puntoDeVenta.ico" size="205662">
