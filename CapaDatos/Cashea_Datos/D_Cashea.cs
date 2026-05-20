@@ -10,6 +10,7 @@ namespace CapaDatos.Cashea_Datos
 {
     public class D_Cashea
     {
+        Conexion.Conexion cn = new Conexion.Conexion();
         public DataSet RegistrarCuotasCashea(string codSucursal,string nroOren, string nroContrato, string nroCuota, decimal montoCuota,string userCrea, SqlCommand command = null)
         {
             try
@@ -47,7 +48,7 @@ namespace CapaDatos.Cashea_Datos
             }
         }
 
-        public DataSet RegistrarOrdenCashea(string codSucursal, string nroOrden, string nroFactura, bool status, string userCrea, SqlCommand command = null)
+        public DataSet RegistrarOrdenCashea(string codSucursal, string nroOrden, string nroFactura, string nroOrdenCashea, bool status, string userCrea, SqlCommand command = null)
         {
             try
             {
@@ -65,6 +66,7 @@ namespace CapaDatos.Cashea_Datos
                 cmd.Parameters.AddWithValue("@CodSucursal", codSucursal);
                 cmd.Parameters.AddWithValue("@NroOrden", nroOrden);
                 cmd.Parameters.AddWithValue("@NroFactura", nroFactura);
+                cmd.Parameters.AddWithValue("@NroOrdenCashea", nroOrdenCashea);
                 cmd.Parameters.AddWithValue("@Estatus ", status);
                 cmd.Parameters.AddWithValue("@UserCrea", userCrea);
 
@@ -115,8 +117,8 @@ namespace CapaDatos.Cashea_Datos
                 return null;
             }
         }
-        
-        
+
+
         //public DataSet ObtenerConfigCashea(SqlCommand command = null)
         //{
         //    try
@@ -147,6 +149,36 @@ namespace CapaDatos.Cashea_Datos
         //        return null;
         //    }
         //}
+
+        public DataTable ObtieneOrdenesSinFacturaCashea(string codSucursal, SqlCommand command = null)
+        {
+            try
+            {
+                if (command == null)
+                {
+                    SqlConnection connection = cn.LeerCadena();
+                    command = connection.CreateCommand();
+                }
+                SqlCommand cmd = command;
+                cmd.Parameters.Clear();
+
+                cmd.CommandText = "SP_CPOS_GetOrdenCashea";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@CodSucursal", codSucursal);
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                cmd.Parameters.Clear();
+                return dt;
+
+            }
+            catch (Exception ex)
+            {
+                string Error = string.Format("Error: {0}", ex.Message);
+                EscribirLog(ex.Message.ToString());
+                return null;
+            }
+        }
 
         public static void EscribirLog(string mensaje)
         {

@@ -21,6 +21,7 @@ using CapaLogica.DanaService_Logic;
 using CapaDatos.DanaService_Datos;
 using CapaLogica.ListaOrden_Logica;
 using System.Data.SqlClient;
+using System.Text.RegularExpressions;
 using CapaDatos.Conexion;
 using System.Threading;
 using CapaLogica.CierreCaja_Logica;
@@ -338,7 +339,7 @@ namespace CapaVisual_Login
                 case "MostrarPanelPrincipal":
                     this.PnlPrimario.Enabled = true;
                     this.PnlPrimario.Visible = true;
-                    this.PnlPrimario.Location = new Point(250, 1);
+                    this.PnlPrimario.Location = new Point(316, 1);
                     this.PnlPrimario.BringToFront();
                     this.PnlSecundario.Visible = false;
                     this.PnlSecundario.Enabled = false;
@@ -366,7 +367,7 @@ namespace CapaVisual_Login
                 case "MostrarNotasCredito":
                     this.PnlNotaCredito.Enabled = true;
                     this.PnlNotaCredito.Visible = true;
-                    this.PnlNotaCredito.Location = new Point(250, 1);
+                    this.PnlNotaCredito.Location = new Point(316, 1);
                     this.PnlNotaCredito.BringToFront();
                     this.PnlPrimario.Visible = false;
                     this.PnlPrimario.Enabled = false;
@@ -376,7 +377,7 @@ namespace CapaVisual_Login
                 case "MostrarNotasDevolucion":
                     this.PnlNotaDevolucion.Enabled = true;
                     this.PnlNotaDevolucion.Visible = true;
-                    this.PnlNotaDevolucion.Location = new Point(250, 1);
+                    this.PnlNotaDevolucion.Location = new Point(316, 1);
                     this.PnlNotaDevolucion.BringToFront();
                     this.PnlPrimario.Visible = false;
                     this.PnlPrimario.Enabled = false;
@@ -758,8 +759,8 @@ namespace CapaVisual_Login
         private void txtTranferencia_KeyPress(object sender, KeyPressEventArgs e)
         {
 
-            if (CbxMetodosPago2.Text == "Transferencia Divisa")
-            {
+            if (CbxMetodosPago2.Text == "Transferencia Divisa" | (CbxMetodosPago2.Text.Trim() == "Transferencia" && CbxBancoRecp.SelectedValue.ToString() == "112" | CbxBancoRecp.Text == "SEGUROS MERCANTIL") || (CbxMetodosPago2.Text.Trim() == "Transferencia" && CbxBanco.SelectedValue.ToString() == "112" || CbxBanco.Text == "SEGUROS MERCANTIL"))
+            { 
 
 
             }
@@ -986,6 +987,17 @@ namespace CapaVisual_Login
                 Bolivares = (txtMonto2Bs.Text == "" ? (Double)0.00 : Convert.ToDouble(txtMonto2Bs.Text.Replace(".", "")));
                 TotalAbono = Convert.ToDouble(_L_Facturacion.TotalizarAbono(DgvAbonos));
 
+                if (CbxBanco.Text == "Seguros Mercantil" | CbxBanco.Text == "SEGUROS MERCANTIL")
+                {
+                    if (CbxMetodosPago2.Text != "Transferencia")
+                    {
+                        _FrmMensajes.co = 1;
+                        _FrmMensajes.avisomensaje("No puede usar este banco en este tipo de pago");
+                        _FrmMensajes.ShowDialog();
+                        return;
+                    }
+                }
+
                 if (CbxMetodosPago2.Text == "Transferencia Divisa" && CbxMetodosPago.Text == "Transferencia Divisa")
                 {
 
@@ -1031,6 +1043,53 @@ namespace CapaVisual_Login
 
                 if (CbxMetodosPago2.Text == "Transferencia")
                 {
+                    // Promocion Seguros Mercantil Nuevo desarrollo 12/05/2026
+                    if(CbxBanco.SelectedValue.ToString()== "112" | CbxBancoRecp.SelectedValue.ToString()=="112")
+                    {
+                        // Validamos que selecionaran banco seguros mercantil en banco resecto y banco emisor 
+
+                        if (CbxBanco.SelectedValue.ToString() == "112" && CbxBancoRecp.SelectedValue.ToString() != "112" || CbxBanco.SelectedValue.ToString() != "112" && CbxBancoRecp.SelectedValue.ToString() == "112")
+                        {
+                            _FrmMensajes.co = 2;
+                            _FrmMensajes.avisomensaje("Debe selecionar Seguros Mercantil en ambos bancos");
+                            _FrmMensajes.ShowDialog();
+                            return;
+                        }
+
+                        if (Bolivares > (Math.Round((TB_CAORDSER.OrSer_Saldo + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos))) - TotalAbono, 2)))
+                        {
+                            _FrmMensajes.co = 2;
+                            _FrmMensajes.avisomensaje("El monto debe ser igual o menor al saldo de la orden");
+                            _FrmMensajes.ShowDialog();
+                            return;
+                        }
+
+                        string Resultado_Parametro = _D_DetalleOrden.TB_PARAMETRO("MontoMaxSegMer");
+                        Double MontoMaximoSeguroMercantil = Convert.ToDouble(Resultado_Parametro);
+
+                        if (Convert.ToDouble(txtMonto2Bs.Text.Trim().Replace(".", "")) > MontoMaximoSeguroMercantil * TB_TASA_Dolar.Tasa | !ValidarPagosPromocionesRealizados(DgvAbonos, Convert.ToDouble(MontoMaximoSeguroMercantil * TB_TASA_Dolar.Tasa)))
+                        {
+                            _FrmMensajes.co = 2;
+                            _FrmMensajes.avisomensaje("Sobrepasa el monto permitido ");
+                            _FrmMensajes.ShowDialog();
+
+                            string DescripAuditorAbono = "OS: " + TB_CAORDSER.NumOrdserv + ", Monto ingresado no permitido: " + txtMonto2Bs.Text.Trim().Replace(".", "");
+                            _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "311", TB_USUARIO.COD_EMPLEADO, DescripAuditorAbono);
+                            return;
+                        }
+
+
+                        if (!Regex.IsMatch(txtTranferencia.Text, @"^[Aa]\d+$") || txtTranferencia.Text.Length != 11)
+                        {
+                            _FrmMensajes.co = 2;
+                            _FrmMensajes.avisomensaje("El número de referencia es incorrecto, debe tener 11 digitos");
+                            _FrmMensajes.ShowDialog();
+
+                            // Opcional: Detiene la ejecución del método si la validación falla
+                            return;
+                        }
+                    }
+
                     //'Si los campos poseen valores proceso los datos
                     if (txtMonto2Bs.Text.Trim() != "0.00" && txtTranferencia.Text.Trim() != "" && CbxBanco.Text.Trim() != "" && Convert.ToDouble(txtMonto2Bs.Text.Trim().Replace(".", "")) > 0)
                     {
@@ -1605,6 +1664,8 @@ namespace CapaVisual_Login
                 // Validar que el total de los abonos no sea Negativo
                 if (Negaivo == false)
                 {
+
+                    
                     //Validar que existan datos en el entidad Tb Tasa
                     if (TB_TASA_Dolar.Tasa == 0.00 | TB_TASA_Dolar.Tasa == null | TB_TASA_Euro.Tasa == null | TB_TASA_Euro.Tasa == 0.00)
                     {
@@ -1783,6 +1844,11 @@ namespace CapaVisual_Login
                                 }
                             }
 
+                            //if (!ValidarPagosPromociones(DgvAbonos))
+                            //{
+                            // return;                             
+                            //}
+
                             if (TotalAbono >= Convert.ToDouble(MinAbono) && TotalAbono <= Math.Round(TB_CAORDSER.OrSer_Saldo + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos)), 2))
                             {
                                 //Se valida que sea factura manual  y que el campo este vacio y que vaya a facturar para que pueda dar error 
@@ -1865,6 +1931,7 @@ namespace CapaVisual_Login
                                     //if (TotalAbono < Convert.ToDouble(MenorMinimoAbono))
                                     if (TotalAbono >= Convert.ToDouble(MenorMinimoAbono))
                                     {
+
                                         _FrmClaveGerente.ShowDialog();
                                         if (_FrmClaveGerente.ClaveCorrecta == true)
 
@@ -1951,6 +2018,12 @@ namespace CapaVisual_Login
                                     return;
                                 }
                             }
+
+                            //if (!ValidarPagosPromociones(DgvAbonos))
+                            //{
+                            //    return;
+                            //}
+
                             if (TotalAbono <= Math.Round((TB_CAORDSER.OrSer_Saldo + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos))), 2))
                             {
                                 //Se valida que sea factura manual  y que el campo este vacio y que vaya a facturar para que pueda dar error
@@ -7119,7 +7192,30 @@ namespace CapaVisual_Login
                 {
                     PagarCASHEA(CbxBanco, txtMonto2Bs);
                 }
+                int index = CbxBancoRecp.FindStringExact("Seguros Mercantil");
 
+
+                if (CbxBanco.Text == "Seguros Mercantil" | CbxBanco.Text == "SEGUROS MERCANTIL")
+                {
+                    //
+                    //txtTranferencia.MaxLength = 11;
+                    //if (CbxMetodosPago2.Text != "Transferencia")
+                    //{
+                    //    _FrmMensajes.co = 1;
+                    //    _FrmMensajes.avisomensaje("No puede usar este banco en este tipo de pago");
+                    //    _FrmMensajes.ShowDialog();
+                    //    return ;
+                    //}
+                    if (index != -1)
+                    {
+                        // El elemento existe. Puedes seleccionarlo si quieres:
+                        CbxBancoRecp.SelectedIndex = index;
+                    }
+                    else
+                    {
+                        // No se encontró el texto exacto
+                    }
+                }
 
             }
         }
@@ -7134,6 +7230,7 @@ namespace CapaVisual_Login
             }
             else
             {
+
                 Tranfere.Text = "";
                 Tranfere.Enabled = true;
 
@@ -7715,9 +7812,79 @@ namespace CapaVisual_Login
                 }
 
             }
-            return CASHEA;
+
+            string CodPromo = "";
+            // Obtengo el Examen asociado a esta orde
+            DataSet DtsDetalle_Orden_consulta = _D_DetalleOrden.OptenerDetalleOrdenCompleto(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision, null);
+
+            foreach (DataRow row in DtsDetalle_Orden_consulta.Tables[1].Rows)
+            {
+                if (row["COD_Prom"].ToString() != "" && row["COD_Prom"].ToString() != " " && row["COD_Prom"].ToString() != null)
+                {
+                    CodPromo = row["COD_Prom"].ToString();
+                    break;
+                }
+            }
+
+            if (!string.IsNullOrEmpty(CodPromo) && CodPromo.Trim()== "259")
+            {
+                CASHEA = false;
+            }
+
+                return CASHEA;
+        }
+        private bool ValidarPagosPromocionesRealizados(System.Windows.Forms.DataGridView Dt_Abono, Double MontoMaximo)
+        {
+            bool PermiteRealizarPago = true;
+            Double PagosCargados = 0;
+            foreach (DataGridViewRow row in Dt_Abono.Rows)
+            {
+                string Codigo = row.Cells["CodBanco"].Value.ToString();
+                string NombreBanco = row.Cells["Banco"].Value.ToString();
+                if (Codigo == "112" | NombreBanco == "SEGUROS MERCANTIL")
+                {
+                    PagosCargados= PagosCargados + Convert.ToDouble(row.Cells["Bs"].Value.ToString().Replace(".", ""));
+                }
+            }
+
+            if (PagosCargados > MontoMaximo)
+                PermiteRealizarPago = false;
+
+            return PermiteRealizarPago;
         }
 
+        private bool ValidarPagosPromociones(System.Windows.Forms.DataGridView Dt_Abono)
+        {
+            bool PermiteAbonar = true;
+
+            foreach (DataGridViewRow row in Dt_Abono.Rows)
+            {
+                string Codigo = row.Cells["CodBanco"].Value.ToString();
+                string NombreBanco = row.Cells["Banco"].Value.ToString();
+                if (Codigo == "112" | NombreBanco == "SEGUROS MERCANTIL")
+                {
+                    PermiteAbonar = false;
+                    Medio_Pago = "SEGUROS MERCANTIL";
+                }
+
+            }
+
+            double TotalAbono = Convert.ToDouble(_L_Facturacion.TotalizarAbono(DgvAbonos));
+
+            if (!PermiteAbonar && TotalAbono != Math.Round((TB_CAORDSER.OrSer_Saldo + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos))), 2))
+            {
+                 mensaje = "No se permite abonar con SEGUROS MERCANTIL";
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje(mensaje);
+                _FrmMensajes.ShowDialog();
+            }
+            else
+            {
+                PermiteAbonar = true;
+            }
+
+            return PermiteAbonar;
+        }
 
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -9321,7 +9488,8 @@ namespace CapaVisual_Login
 
         }
 
-        private (string Esatado, bool Facturar) ValidaPagosRequeridos (string Cod_Sucursal, string NumOrdserv, string Revision, SqlCommand command)
+        private (string Esatado, bool Facturar) 
+            ValidaPagosRequeridos (string Cod_Sucursal, string NumOrdserv, string Revision, SqlCommand command)
         {
             string Estado = "SATIFACTORIO";
            
@@ -9364,7 +9532,24 @@ namespace CapaVisual_Login
                     }
                 }
 
-            return (Estado, Factura);
+            //seguros mercantil, cuando no tiene promo no puede aplicar el banco 112
+                if (CodPromo == "   ")
+                {
+                    
+                            // Crear los parámetros para la función Validar Pagos 
+                            Dictionary<string, string> parametros = CrearDictionary(CodPromo, NumOrdserv, Revision);
+                            DataSet resultado = _D_DetalleOrden.AplicarCondicionPromoFactura(parametros, command);
+                            if (resultado.Tables.Count > 0 && resultado.Tables[0].Rows.Count > 0 && resultado.Tables[0].Rows[0]["Resultado"].ToString() != "APLICA")
+                            {
+                                _FrmMensajes.co = 2;
+                                _FrmMensajes.avisomensaje(resultado.Tables[0].Rows[0]["Resultado"].ToString());
+                                _FrmMensajes.ShowDialog();
+                                return (Estado, false);
+                            }
+                   
+                }
+
+                return (Estado, Factura);
             }
             catch (Exception ex)
             {
@@ -9451,6 +9636,9 @@ namespace CapaVisual_Login
 
                 PnlSecundario.Visible = false;
                 pnlQrCashea.Visible = true;
+                //pnlQrCashea.Location = new Point(335, -110);
+                this.pnlQrCashea.Location = new Point(335, 1);
+                pnlQrCashea.BringToFront();
                 IniciarConteoCashea();
             }
             else
@@ -9500,6 +9688,7 @@ namespace CapaVisual_Login
                 {
                     pnlQrCashea.Visible = false;
                     pnlMontoCashea.Visible = true;
+                    this.pnlMontoCashea.Location = new Point(316, 1);
 
                     var plan = resultado.Data;
 
@@ -9873,12 +10062,12 @@ namespace CapaVisual_Login
                 if (resultado.IsSuccess)
                 {
 
-                    RegistrarOrdenCashea(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, nroFacturaFiscal, true, TB_USUARIO.COD_USR);
+                    RegistrarOrdenCashea(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, nroFacturaFiscal, _lastOrderUuid, true, TB_USUARIO.COD_USR);
                     //MessageBox.Show("Número de factura sincronizado con Cashea.", "Sincronización OK");
                 }
                 else
                 {
-                    RegistrarOrdenCashea(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, nroFacturaFiscal, false, TB_USUARIO.COD_USR);
+                    RegistrarOrdenCashea(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, nroFacturaFiscal, _lastOrderUuid, false, TB_USUARIO.COD_USR);
                     // No es un error fatal para el cliente, pero sí para tu conciliación
                     //MessageBox.Show("No se pudo actualizar el nro de factura en Cashea. Deberá hacerlo manual en el portal.", "Aviso");
                 }
@@ -9895,10 +10084,10 @@ namespace CapaVisual_Login
             }
         }
 
-        public void RegistrarOrdenCashea(string codSucursal, string nroOrden, string nroFactura, bool status, string userCrea)
+        public void RegistrarOrdenCashea(string codSucursal, string nroOrden, string nroFactura, string nroOrdenCashea, bool status, string userCrea)
         {
            // 3. Llamada a tu capa lógica
-           _L_Cashea.RegistrarOrdenCashea(codSucursal, nroOrden, nroFactura, status, userCrea);
+           _L_Cashea.RegistrarOrdenCashea(codSucursal, nroOrden, nroFactura, nroOrdenCashea, status, userCrea);
                
         }
 
@@ -10064,6 +10253,27 @@ namespace CapaVisual_Login
         //    {
         //        MessageBox.Show($"Error al cargar cajas: {ex.Message}");
         //    }
+        //}
+
+        //private void CbxBancoRecp_SelectedIndexChanged(object sender, EventArgs e)
+        //{
+        //    if (CbxBancoRecp.SelectedValue.ToString() == "112" || CbxBancoRecp.Text == "SEGUROS MERCANTIL")
+        //    {
+        //        //if (TB_CAORDSER.OrSer_Status == "004") //por pagar
+        //        //{
+                   
+        //        //}
+        //        //else
+        //        //{
+
+        //        //    _FrmMensajes.co = 2;
+        //        //    _FrmMensajes.avisomensaje("No se permite utilizar SEGUROS MERCANTIL en ordenes abonadas");
+        //        //    _FrmMensajes.ShowDialog();
+
+
+        //        //}
+        //    }
+
         //}
 
         //Para Probar los reportes

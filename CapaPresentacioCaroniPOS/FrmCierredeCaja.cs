@@ -17,6 +17,9 @@ using System.Reflection;
 using System.Data.SqlClient;
 using CapaDatos.Conexion;
 using System.Text.RegularExpressions;
+using CapaLogica.Cashea_Logica;
+using CapaServiciosExternos.Modelos; // Para reconocer el tipo PointOfSale
+
 
 namespace CapaVisual_Login
 {
@@ -48,6 +51,8 @@ namespace CapaVisual_Login
 
 
         private Action _onCancelarSolicitado;
+        private readonly L_Cashea _logicaCashea = new L_Cashea();
+        private L_Cashea _L_Cashea = new L_Cashea();
 
         public void CancelarSolicitado(Action Cancelar)
         {
@@ -651,7 +656,7 @@ namespace CapaVisual_Login
                 labelVerticalPagos.ForeColor = Color.White;
                 tabPage4.Controls.Add(labelVerticalPagos);
 
-
+                CargarConfiguracionCashea();
 
 
             }
@@ -1959,6 +1964,29 @@ namespace CapaVisual_Login
 
                     _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "070", TB_USUARIO.COD_EMPLEADO, "Se generaron los ACC correctamente");
 
+                    //CASHEA
+                    DataTable dt = _L_Cashea.ObtieneOrdenesSinFacturaCashea("");
+                    
+                    if (dt.Rows.Count > 0)
+                    {
+                        dtLogCierre.Rows.Add("Actualizaando ordenes cashea", "...");
+                        dgvLogCierre.DataSource = dtLogCierre;
+                        dgvLogCierre.Refresh();
+                        foreach (DataRow fila in dt.Rows)
+                        {
+                            ActualizarNroFacturaCashea(fila["NroOrdenCashea"].ToString(), fila["NroFactura"].ToString());
+                        }
+                        foreach (DataRow row in dtLogCierre.Rows)
+                        {
+                            if (row["Descripcion"].ToString() == "Actualizaando ordenes cashea")
+                            {
+                                row["Resultado"] = "✔ Completado";
+                                dgvLogCierre.Refresh();
+                                break;
+                            }
+                        }
+                    }
+
                     int DiasAAgregar = 0;
                     DayOfWeek dia = diaActivo.DayOfWeek;
                     string TrabajaDomingos = _D_DetalleOrden.TB_PARAMETRO("TrabajaDomingo");
@@ -2041,6 +2069,47 @@ namespace CapaVisual_Login
 
         }
 
+        private async void ActualizarNroFacturaCashea(string nroOrdenCashea, string nroFacturaFiscal)
+        {
+            //if (string.IsNullOrEmpty(_lastOrderUuid)) return;
+
+            //string nroFacturaFiscal = TB_FACTURAS.Fact_Num;// txtNumeroFactura.Text; // El nro que generó tu sistema
+
+            //Cursor.Current = new Cursor(Properties.Resources.relojArena__1_.Handle);
+            //this.Cursor = Cursors.WaitCursor;
+            try
+            {
+                //bool actualizado = await _logicaCashea.ActualizarFacturaOrden(_lastOrderUuid, nroFacturaFiscal);
+                var resultado = await _logicaCashea.ActualizarFacturaOrden(nroOrdenCashea, nroFacturaFiscal);
+
+                // AUDITORÍA: Fundamental para conciliación legal posterior
+                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "110", TB_USUARIO.COD_EMPLEADO, $"Url: {resultado.Url} Resultado: - HTTP {resultado.StatusCode} - {resultado.Message}");
+
+                if (resultado.IsSuccess)
+                {
+
+                    RegistrarOrdenCashea(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, nroFacturaFiscal, nroOrdenCashea, true, TB_USUARIO.COD_USR);
+                    
+                    //MessageBox.Show("Número de factura sincronizado con Cashea.", "Sincronización OK");
+                }
+                else
+                {
+                    RegistrarOrdenCashea(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, nroFacturaFiscal, nroOrdenCashea, true, TB_USUARIO.COD_USR);
+                    // No es un error fatal para el cliente, pero sí para tu conciliación
+                    //MessageBox.Show("No se pudo actualizar el nro de factura en Cashea. Deberá hacerlo manual en el portal.", "Aviso");
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al sincronizar factura: " + ex.Message);
+            }
+            finally
+            {
+                //this.Cursor = Cursors.Default;
+            }
+        }
         private void button3_Click(object sender, EventArgs e)
         {
             tcCierreCaja.SelectedIndex = 2;
@@ -2637,6 +2706,36 @@ namespace CapaVisual_Login
 
         }
 
+        public void CargarConfiguracionCashea()
+        {
+            DataTable dt = _L_Cashea.ObtenerConfigCashea();
+
+            foreach (DataRow row in dt.Rows)
+            {
+                string nombre = row["Parametro"].ToString();
+                string valorCifrado = row["Valor"].ToString();
+
+                switch (nombre)
+                {
+                    case "Cashea_ApiKey":
+                        ConfigCashea.ApiKey = ConfigCashea.Decodificar(valorCifrado);
+                        break;
+                    case "Cashea_BaseUrl":
+                        ConfigCashea.BaseUrl = ConfigCashea.Decodificar(valorCifrado);
+                        break;
+                    case "Cashea_Uuid_Caja":
+                        ConfigCashea.UuidCaja = ConfigCashea.Decodificar(valorCifrado);
+                        break;
+                }
+            }
+        }
+
+        public void RegistrarOrdenCashea(string codSucursal, string nroOrden, string nroFactura, string nroOrdenCashea, bool status, string userCrea)
+        {
+            // 3. Llamada a tu capa lógica
+            _L_Cashea.RegistrarOrdenCashea(codSucursal, nroOrden, nroFactura, nroOrdenCashea, status, userCrea);
+
+        }
         //private void tcCierreCaja_SelectedIndexChanged(object sender, EventArgs e)
         //{
         //    if (tcCierreCaja.SelectedIndex == 0)

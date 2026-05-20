@@ -139,11 +139,11 @@ namespace CapaLogica.Cashea_Logica
         {
             return await _casheaService.ActualizarFacturaAsync(orderUuid, numeroFactura);
         }
-        public bool RegistrarOrdenCashea(string codSucursal, string nroOrden, string nroFactura, bool status, string userCrea, SqlCommand command = null)
+        public bool RegistrarOrdenCashea(string codSucursal, string nroOrden, string nroFactura, string nroOrdenCashea, bool status, string userCrea, SqlCommand command = null)
         {
             try
             {
-                DataSet dts = _D_Cashea.RegistrarOrdenCashea(codSucursal, nroOrden, nroFactura, status, userCrea, command);
+                DataSet dts = _D_Cashea.RegistrarOrdenCashea(codSucursal, nroOrden, nroFactura, nroOrdenCashea, status, userCrea, command);
 
                 //if (dts != null && dts.Tables[0] != null)
                 //{
@@ -197,6 +197,20 @@ namespace CapaLogica.Cashea_Logica
             }
         }
 
-       
+        public DataTable ObtieneOrdenesSinFacturaCashea(string codSucursal)
+        {
+            DataTable dt = _D_Cashea.ObtieneOrdenesSinFacturaCashea(codSucursal);
+
+            if (dt.Rows.Count > 0)
+            {
+                return dt;
+            }
+            else
+            {
+                return dt;
+            }
+        }
+
+
     }
 }
