@@ -2995,6 +2995,7 @@ namespace CapaVisual_Login
             this.txtObservacion.Size = new System.Drawing.Size(509, 48);
             this.txtObservacion.TabIndex = 314;
             this.txtObservacion.Click += new System.EventHandler(this.txtObservacion_Click);
+            this.txtObservacion.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtObservacion_KeyPress);
             // 
             // label21
             // 

@@ -15445,6 +15445,13 @@ namespace CapaVisual_Login
             }
         }
 
+        private void txtObservacion_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == '\'')
+            {
+                e.Handled = true;
+            }
+        }
     }
 
 }
