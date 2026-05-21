@@ -96,6 +96,7 @@ namespace CapaVisual_Login
         private string NotaNumFactura = "";
         private string NotaNumOrden = "";
         private string NotaNumNota = "";
+        private decimal NotaMontoAplicado = 0;
         private string NotaNumNotaDevolucion = "";
         private string PosicionInical = "";
         private string PosicionInicalNotaDevolucion = "";
@@ -6023,6 +6024,7 @@ namespace CapaVisual_Login
                     NotaNumFactura = DgvNotas.CurrentRow.Cells["Fact_Num"].Value.ToString();
                     NotaNumNota = DgvNotas.CurrentRow.Cells["NRONOTA"].Value.ToString();
                     MotivoNota = DgvNotas.CurrentRow.Cells["Motivo"].Value.ToString();
+                    NotaMontoAplicado = Convert.ToDecimal(DgvNotas.CurrentRow.Cells["MontoAplicado"].Value);
                     DgvNotas.CurrentRow.Cells["RdButom"].Value = true;
                     txtBsNotaCredito.Enabled = true;
                     btnProcesar3.Enabled = true;
@@ -6038,6 +6040,7 @@ namespace CapaVisual_Login
                     txtBsNotaCredito.Text = string.Format("{0:#,0.00}", Convert.ToDecimal(DgvNotas.CurrentRow.Cells["SaldoNota"].Value.ToString()));
                     NotaNumFactura = DgvNotas.CurrentRow.Cells["Fact_Num"].Value.ToString();
                     NotaNumNota = DgvNotas.CurrentRow.Cells["NRONOTA"].Value.ToString();
+                    NotaMontoAplicado = Convert.ToDecimal(DgvNotas.CurrentRow.Cells["MontoAplicado"].Value); 
                     MotivoNota = DgvNotas.CurrentRow.Cells["Motivo"].Value.ToString();
                     DgvNotas.CurrentRow.Cells["RdButom"].Value = true;
                     txtBsNotaCredito.Enabled = true;
@@ -6120,7 +6123,7 @@ namespace CapaVisual_Login
                     // Verifico que los datos del cliente de la orden sean los mismos que el de la nota 
                     // si no pido clave 
 
-                    if ((TB_CAORDSER.CTE_Nacio + "-" + TB_CAORDSER.CTE_CedIden).Replace(" ", "") != (txtCedula.Text).Replace(" ", ""))
+                    if ((TB_CAORDSER.CTE_Nacio + "-" + TB_CAORDSER.CTE_CedIden).Replace(" ", "") != (txtCedula.Text).Replace(" ", "") && NotaMontoAplicado > 0)
                     {
                         // Pasas el parámetro directamente en el constructor
                         FrmClaveAutorizada __FrmClaveAutorizada = new FrmClaveAutorizada("010");
@@ -7554,6 +7557,7 @@ namespace CapaVisual_Login
 
                 DgvNotasDevolicion.Columns["SaldoNota"].Visible = true;
                 DgvNotasDevolicion.Columns["Motivo"].Visible = false;
+                DgvNotasDevolicion.Columns["MontoAplicado"].Visible = false;
 
                 DgvNotasDevolicion.Columns["SaldoNota"].DefaultCellStyle.Format = "##,##0.00";
             }
@@ -7626,6 +7630,7 @@ namespace CapaVisual_Login
                     txtBsNotaDevolucion.Text = string.Format("{0:#,0.00}", Convert.ToDecimal(DgvNotasDevolicion.CurrentRow.Cells["SaldoNota"].Value.ToString()));
                     NotaNumOrden = DgvNotasDevolicion.CurrentRow.Cells["NumOrdserv"].Value.ToString();
                     NotaNumNotaDevolucion = DgvNotasDevolicion.CurrentRow.Cells["NRONOTA"].Value.ToString();
+                    NotaMontoAplicado = Convert.ToDecimal(DgvNotasDevolicion.CurrentRow.Cells["MontoAplicado"].Value);
                     MotivoNotaDevolucion = DgvNotasDevolicion.CurrentRow.Cells["Motivo"].Value.ToString();
                     DgvNotasDevolicion.CurrentRow.Cells["RdButom"].Value = true;
                     txtBsNotaDevolucion.Enabled = true;
@@ -7642,6 +7647,7 @@ namespace CapaVisual_Login
                     txtBsNotaDevolucion.Text = string.Format("{0:#,0.00}", Convert.ToDecimal(DgvNotasDevolicion.CurrentRow.Cells["SaldoNota"].Value.ToString()));
                     NotaNumOrden = DgvNotasDevolicion.CurrentRow.Cells["NumOrdserv"].Value.ToString();
                     NotaNumNotaDevolucion = DgvNotasDevolicion.CurrentRow.Cells["NRONOTA"].Value.ToString();
+                    NotaMontoAplicado = Convert.ToDecimal(DgvNotasDevolicion.CurrentRow.Cells["MontoAplicado"].Value);
                     MotivoNotaDevolucion = DgvNotasDevolicion.CurrentRow.Cells["Motivo"].Value.ToString();
                     DgvNotasDevolicion.CurrentRow.Cells["RdButom"].Value = true;
                     txtBsNotaDevolucion.Enabled = true;
@@ -7658,6 +7664,7 @@ namespace CapaVisual_Login
                     NotaNumOrden = "";
                     NotaNumNotaDevolucion = "";
                     MotivoNotaDevolucion = "";
+                    NotaMontoAplicado = 0;
                     DgvNotasDevolicion.CurrentRow.Cells["RdButom"].Value = false;
                     txtBsNotaDevolucion.Enabled = false;
                     btnProcesar4.Enabled = false;
@@ -7700,7 +7707,7 @@ namespace CapaVisual_Login
                     // Verifico que los datos del cliente de la orden sean los mismos que el de la nota 
                     // si no pido clave 
 
-                    if ((TB_CAORDSER.CTE_Nacio + "-" + TB_CAORDSER.CTE_CedIden).Replace(" ", "") != (txtCedula.Text).Replace(" ", ""))
+                    if ((TB_CAORDSER.CTE_Nacio + "-" + TB_CAORDSER.CTE_CedIden).Replace(" ", "") != (txtCedula.Text).Replace(" ", "") && NotaMontoAplicado > 0)
                     {
                         // Pasas el parámetro directamente en el constructor
                         FrmClaveAutorizada __FrmClaveAutorizada = new FrmClaveAutorizada("011");

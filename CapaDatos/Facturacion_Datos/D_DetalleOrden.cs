@@ -243,7 +243,7 @@ namespace CapaDatos.DetalleOrden_Datos
         public DataTable ExistenNotas(string cedulaCliente)
         {
 
-            SqlCommand cmd = new SqlCommand("SELECT NRONOTA,Fact_Num,Motivo, SaldoNota from  TB_NOTASCREDITODEBITO where CTE_CedIden= @cedulaCliente and Anulado= 0 and SaldoNota > 0 ", cn.LeerCadena());
+            SqlCommand cmd = new SqlCommand("SELECT NRONOTA,Fact_Num,Motivo, SaldoNota,MontoAplicado from  TB_NOTASCREDITODEBITO where CTE_CedIden= @cedulaCliente and Anulado= 0 and SaldoNota > 0 ", cn.LeerCadena());
             cmd.CommandType = CommandType.Text;
             cmd.Parameters.AddWithValue("@cedulaCliente", cedulaCliente);
 
@@ -1550,7 +1550,7 @@ namespace CapaDatos.DetalleOrden_Datos
         public DataTable ExistenNotasDevolucion(string cedulaCliente)
         {
 
-            SqlCommand cmd = new SqlCommand("SELECT NRONOTA,NumOrdserv,Motivo, SaldoNota from  TB_NOTASDEVOLUCION where CTE_CedIden= @cedulaCliente and Anulado= 0 ", cn.LeerCadena());
+            SqlCommand cmd = new SqlCommand("SELECT NRONOTA,NumOrdserv,Motivo,MontoAplicado, SaldoNota from  TB_NOTASDEVOLUCION where CTE_CedIden= @cedulaCliente and Anulado= 0 ", cn.LeerCadena());
             cmd.CommandType = CommandType.Text;
             cmd.Parameters.AddWithValue("@cedulaCliente", cedulaCliente);
 
