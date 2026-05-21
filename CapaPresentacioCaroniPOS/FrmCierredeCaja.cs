@@ -1550,25 +1550,32 @@ namespace CapaVisual_Login
                     }
                 }
 
-                double existenteEnCaja = GetValorFila(0);
-                double efectivo = GetValorFila(5);
-                double debito = GetValorFila(6);
-                double tarjetaCredito = GetValorFila(7);
-                double ivaRetenido = GetValorFila(8);
-                double islrRetenido = GetValorFila(9);
+                //double existenteEnCaja = GetValorFila(0);
+                //double efectivo = GetValorFila(5);
+                //double debito = GetValorFila(6);
+                //double tarjetaCredito = GetValorFila(7);
+                //double ivaRetenido = GetValorFila(8);
+                //double islrRetenido = GetValorFila(9);
 
-                double transferencia = GetValorFila(10);
-                //double transferenciaDivisa = GetValorFila(11);
+                //double transferencia = GetValorFila(10);
+                ////double transferenciaDivisa = GetValorFila(11);
 
-                double diferencia = existenteEnCaja - (efectivo + debito + tarjetaCredito + ivaRetenido + islrRetenido + transferencia);
+                //double diferencia = existenteEnCaja - (efectivo + debito + tarjetaCredito + ivaRetenido + islrRetenido + transferencia);
 
                 // Mostrar el resultado en la fila "Diferencia" (fila 6)
                 //dgvCierredecaja.Rows[11].Cells["Total"].Value = diferencia.ToString("N2");
                 decimal sumaTotal = 0;
-
+                decimal existenteEnCajaGrid = 0;
                 // Recorremos cada fila del DataGridView
                 foreach (DataGridViewRow fila in dgvCierredecaja.Rows)
                 {
+                    string tipoFila = fila.Cells["TipoTotal"].Value.ToString().Trim();
+
+                    if (string.Equals(tipoFila, "Existente en caja", StringComparison.OrdinalIgnoreCase))
+                    {
+                        existenteEnCajaGrid = Convert.ToDecimal(fila.Cells["Total"].Value ?? 0);
+                    }
+
                     // 1. Validamos que la fila no esté vacía y que las celdas tengan datos
                     if (fila.Cells["Operacion"].Value != null && fila.Cells["Total"].Value != null)
                     {
@@ -1587,8 +1594,8 @@ namespace CapaVisual_Login
                         }
                     }
                 }
-
-                //diferencia = existenteEnCaja - sumaTotal;
+                decimal diferenciaGrid;
+                diferenciaGrid = existenteEnCajaGrid - sumaTotal;
 
                 // Al salir del bucle, ya tienes el resultado en 'sumaTotal'
                 // Ejemplo para mostrarlo:
@@ -1608,7 +1615,7 @@ namespace CapaVisual_Login
                         if (string.Equals(textoColumna1, "Diferencia", StringComparison.OrdinalIgnoreCase))
                         {
                             // Asignamos el valor en esa fila específica y salimos del bucle
-                            fila.Cells["Total"].Value = diferencia.ToString("N2");
+                            fila.Cells["Total"].Value = diferenciaGrid.ToString("N2");
                             break;
                         }
                     }
