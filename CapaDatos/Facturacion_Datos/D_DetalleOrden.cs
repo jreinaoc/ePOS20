@@ -1550,7 +1550,7 @@ namespace CapaDatos.DetalleOrden_Datos
         public DataTable ExistenNotasDevolucion(string cedulaCliente)
         {
 
-            SqlCommand cmd = new SqlCommand("SELECT NRONOTA,NumOrdserv,Motivo, SaldoNota from  TB_NOTASDEVOLUCION where CTE_CedIden= @cedulaCliente and Anulado= 0 ", cn.LeerCadena());
+            SqlCommand cmd = new SqlCommand("SELECT NRONOTA,NumOrdserv,Motivo,MontoAplicado, SaldoNota from  TB_NOTASDEVOLUCION where CTE_CedIden= @cedulaCliente and Anulado= 0 ", cn.LeerCadena());
             cmd.CommandType = CommandType.Text;
             cmd.Parameters.AddWithValue("@cedulaCliente", cedulaCliente);
 
