@@ -648,7 +648,7 @@ namespace CapaVisual_Login
                     Text = "Pagos",
                     Font = new Font("Century Gothic", 13),
                     ForeColor = Color.Black,
-                    Size = new Size(30, 210),
+                    Size = new Size(30, 270),
                     Location = new Point(110, 278),
                     Invertir = true // ponlo en true si quieres que el texto vaya de abajo hacia arriba
                 };
@@ -1563,7 +1563,56 @@ namespace CapaVisual_Login
                 double diferencia = existenteEnCaja - (efectivo + debito + tarjetaCredito + ivaRetenido + islrRetenido + transferencia);
 
                 // Mostrar el resultado en la fila "Diferencia" (fila 6)
-                dgvCierredecaja.Rows[11].Cells["Total"].Value = diferencia.ToString("N2");
+                //dgvCierredecaja.Rows[11].Cells["Total"].Value = diferencia.ToString("N2");
+                decimal sumaTotal = 0;
+
+                // Recorremos cada fila del DataGridView
+                foreach (DataGridViewRow fila in dgvCierredecaja.Rows)
+                {
+                    // 1. Validamos que la fila no esté vacía y que las celdas tengan datos
+                    if (fila.Cells["Operacion"].Value != null && fila.Cells["Total"].Value != null)
+                    {
+                        string operacion = fila.Cells["Operacion"].Value.ToString().Trim();
+
+                        // 2. Si la columna Operación es exactamente "+"
+                        if (operacion == "+")
+                        {
+                            // 3. Convertimos el valor de "Total" a decimal de forma segura
+                            decimal valorTotal = 0;
+                            if (decimal.TryParse(fila.Cells["Total"].Value.ToString(), out valorTotal))
+                            {
+                                // Acumulamos el valor en nuestra variable
+                                sumaTotal += valorTotal;
+                            }
+                        }
+                    }
+                }
+
+                //diferencia = existenteEnCaja - sumaTotal;
+
+                // Al salir del bucle, ya tienes el resultado en 'sumaTotal'
+                // Ejemplo para mostrarlo:
+                // txtSumaFinal.Text = sumaTotal.ToString("N2");
+
+                // Recorremos todas las filas del DataGridView
+                foreach (DataGridViewRow fila in dgvCierredecaja.Rows)
+                {
+                    // Validamos que la fila no sea la fila nueva vacía del final (si está activa)
+                    // y que la celda de la columna 1 (índice 0) no esté vacía
+                    if (fila.Cells[0].Value != null)
+                    {
+                        // Convertimos el texto a string y eliminamos espacios extras con Trim()
+                        string textoColumna1 = fila.Cells[0].Value.ToString().Trim();
+
+                        // Si el texto es exactamente "Diferencia" (ignora mayúsculas/minúsculas)
+                        if (string.Equals(textoColumna1, "Diferencia", StringComparison.OrdinalIgnoreCase))
+                        {
+                            // Asignamos el valor en esa fila específica y salimos del bucle
+                            fila.Cells["Total"].Value = diferencia.ToString("N2");
+                            break;
+                        }
+                    }
+                }
             }
             catch (Exception ex)
             {

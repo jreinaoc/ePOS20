@@ -6,14 +6,24 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CapaDatos", "CapaDatos\CapaDatos.csproj", "{C790D085-C1C6-4D3A-BDE2-42A33A7ABF65}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CapaLogica", "CapaLogica\CapaLogica.csproj", "{CB58C77B-161D-44A8-9CB5-BD7BCD6174BA}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1F6011BC-16B5-42C4-A252-2ABB80CF9DC9} = {1F6011BC-16B5-42C4-A252-2ABB80CF9DC9}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CapaEntidades", "CapaEntidades\CapaEntidades.csproj", "{CB8568CA-111B-45A0-8FD5-4440D496FC18}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CapaVisual_Login", "CapaPresentacioCaroniPOS\CapaVisual_Login.csproj", "{F9B3D92B-6C40-4D67-8825-F5D0115F7006}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1F6011BC-16B5-42C4-A252-2ABB80CF9DC9} = {1F6011BC-16B5-42C4-A252-2ABB80CF9DC9}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Script", "Actualizar\Script.csproj", "{4D28994E-859E-4B84-92CD-E086739039B9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CapaServiciosExternos", "CapaServiciosExternos\CapaServiciosExternos.csproj", "{1F6011BC-16B5-42C4-A252-2ABB80CF9DC9}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C790D085-C1C6-4D3A-BDE2-42A33A7ABF65} = {C790D085-C1C6-4D3A-BDE2-42A33A7ABF65}
+		{CB8568CA-111B-45A0-8FD5-4440D496FC18} = {CB8568CA-111B-45A0-8FD5-4440D496FC18}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
