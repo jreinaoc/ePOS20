@@ -230,7 +230,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>UaRDu6Bl1T4HkQaylSAth+/fwo/0HStwxIn55il7jeE=</dsig:DigestValue>
+        <dsig:DigestValue>RaQ3C9GrS/rr5Zsw1Udd8YHLeL3GMLL4P5zcLeoWiBA=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -1196,13 +1196,13 @@
   </dependency>
   <dependency>
     <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Script.dll" size="5120">
-      <assemblyIdentity name="Script" version="1.0.1.2" language="neutral" processorArchitecture="msil" />
+      <assemblyIdentity name="Script" version="1.0.1.3" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>9jz/zIHAkj0APM8H7Dl8NN+e4necwIvN1f0bmeyFIKY=</dsig:DigestValue>
+        <dsig:DigestValue>iM0ot8VhTLoddbSRFfGzJMphBxiKoHhwXSiDVTtVBDo=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
