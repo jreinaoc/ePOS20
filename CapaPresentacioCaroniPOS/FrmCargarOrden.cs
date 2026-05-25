@@ -4672,7 +4672,6 @@ namespace CapaVisual_Login
             //BloquearCampos();
             LimpiarCampos2();
 
-
             ConfigurarDgv_Pnl2_conv();
             ConfigurarDgv_Pnl2_cont();
             //ConfigurarDgv_Pnl2_medconv();
@@ -7447,13 +7446,31 @@ namespace CapaVisual_Login
             //Chex_Tap1_Iva_Pagador.SetItemChecked(0, false);
             //Chex_Tap1_Iva_Pagador.SetItemChecked(1, false);
             //Chex_Tap1_Iva_Pagador2.SetItemChecked(0, false);
-
-            Cbx_Tap1_PorcentajeIVA_Pagador.Items.Clear();
+           
+            DataTable DtIva = _D_Articulos.BuscarIvaPorce();
+            // Limpiar el ComboBox antes de cargar nuevos datos
             Cbx_Tap1_PorcentajeIVA.Items.Clear();
+            Cbx_Tap1_PorcentajeIVA_Pagador.Items.Clear();
+            // Cargar los porcentajes de IVA en el ComboBox
+            foreach (DataRow row in DtIva.Rows)
+            {
+                Cbx_Tap1_PorcentajeIVA.Items.Add(row["ValorSeparado"].ToString());
+                Cbx_Tap1_PorcentajeIVA_Pagador.Items.Add(row["ValorSeparado"].ToString());
+            }
+
+            // Opcional: Seleccionar el primer elemento
+            if (Cbx_Tap1_PorcentajeIVA.Items.Count > 0)
+            {
+                Cbx_Tap1_PorcentajeIVA.SelectedIndex = 0;
+                Cbx_Tap1_PorcentajeIVA_Pagador.SelectedIndex = 0;
+            }
+
 
             Txt_Tap1_Edad.Text = ""; // Limpiar el campo de edad también
 
 
+            Cbx_Tap1_PorcentajeIVA_Pagador.Enabled = true;
+            Cbx_Tap1_PorcentajeIVA.Enabled = true;
 
             Txt_Tap1_Cedula.Enabled = true;
             Txt_Tap1_Cedula_Pagador.Enabled = true;

@@ -2417,7 +2417,7 @@ namespace CapaVisual_Login
                         if (PAGOS_IMPMU == "1" & DgvListadoOrdenes.CurrentRow.Cells["Comprobante_Municipal"].Value.ToString() == "0")
                         {
                             _D_Anulacion.CaragarAuditor(TB_USUARIO.COD_SUCURSAL, "310", TB_USUARIO.COD_EMPLEADO, "OS: " + NumeroOrdenRetencion + ", Factura: " + TxtRetencionFactura.Text + ", ComprobanteMunicipal: " + TxtRetencionMunicipal.Text + ", Autoriza: " + VariablesGlobales.UsuarioAutorizado_FrmClaveGerente);
-                            _D_DetalleOrden.Registar_ISLR_Facturacion(TxtRetencionMunicipal.Text, TxtRetencionFactura.Text, DgvListadoOrdenes.CurrentRow.Cells["Cod_Sucursal"].Value.ToString(), DgvListadoOrdenes.CurrentRow.Cells["NumOrdserv"].Value.ToString());
+                            _D_DetalleOrden.Registar_ComprobImpMu_Facturacion(TxtRetencionMunicipal.Text, TxtRetencionFactura.Text, DgvListadoOrdenes.CurrentRow.Cells["Cod_Sucursal"].Value.ToString(), DgvListadoOrdenes.CurrentRow.Cells["NumOrdserv"].Value.ToString());
                         }
 
 
