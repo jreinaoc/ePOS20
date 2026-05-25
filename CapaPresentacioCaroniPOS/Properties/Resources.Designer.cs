@@ -93,6 +93,16 @@ namespace CapaVisual_Login.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Cashea_QR {
+            get {
+                object obj = ResourceManager.GetObject("Cashea_QR", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Codigo_QR {
             get {
                 object obj = ResourceManager.GetObject("Codigo QR", resourceCulture);
@@ -156,6 +166,16 @@ namespace CapaVisual_Login.Properties {
         internal static System.Drawing.Bitmap Izquierda {
             get {
                 object obj = ResourceManager.GetObject("Izquierda", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Logo_Cashea {
+            get {
+                object obj = ResourceManager.GetObject("Logo_Cashea", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

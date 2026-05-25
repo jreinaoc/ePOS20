@@ -145,6 +145,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConfigCashea.cs" />
     <Compile Include="FacturaDTO.cs" />
     <Compile Include="FormatoLibroVentasDTO.cs" />
     <Compile Include="FormatoPdfDTO.cs" />

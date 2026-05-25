@@ -1814,6 +1814,7 @@ namespace CapaVisual_Login
             this.txt_Pnl2_cont_observa.Name = "txt_Pnl2_cont_observa";
             this.txt_Pnl2_cont_observa.Size = new System.Drawing.Size(1010, 66);
             this.txt_Pnl2_cont_observa.TabIndex = 335;
+            this.txt_Pnl2_cont_observa.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_Pnl2_cont_observa_KeyPress);
             // 
             // lbl_pnl2_con_obser
             // 
@@ -2623,6 +2624,7 @@ namespace CapaVisual_Login
             this.txt_Pnl2_observa.Name = "txt_Pnl2_observa";
             this.txt_Pnl2_observa.Size = new System.Drawing.Size(1041, 40);
             this.txt_Pnl2_observa.TabIndex = 334;
+            this.txt_Pnl2_observa.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_Pnl2_observa_KeyPress);
             // 
             // lbl_pnl2_obser
             // 
@@ -3049,6 +3051,7 @@ namespace CapaVisual_Login
             this.txtObservacion.Size = new System.Drawing.Size(509, 48);
             this.txtObservacion.TabIndex = 314;
             this.txtObservacion.Click += new System.EventHandler(this.txtObservacion_Click);
+            this.txtObservacion.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtObservacion_KeyPress);
             // 
             // label21
             // 

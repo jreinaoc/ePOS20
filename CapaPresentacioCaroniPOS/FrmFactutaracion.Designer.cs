@@ -108,6 +108,7 @@ namespace CapaVisual_Login
             this.txtMontoBs = new System.Windows.Forms.TextBox();
             this.CbxMetodosPago = new System.Windows.Forms.ComboBox();
             this.PnlSecundario = new System.Windows.Forms.Panel();
+            this.lblMensajeCashea = new System.Windows.Forms.Label();
             this.label74 = new System.Windows.Forms.Label();
             this.label73 = new System.Windows.Forms.Label();
             this.txtTotalRef = new System.Windows.Forms.TextBox();
@@ -174,6 +175,21 @@ namespace CapaVisual_Login
             this.label39 = new System.Windows.Forms.Label();
             this.btnCancelar3 = new System.Windows.Forms.Button();
             this.btnProcesar3 = new System.Windows.Forms.Button();
+            this.pnlQrCashea = new System.Windows.Forms.Panel();
+            this.lblTimer = new System.Windows.Forms.Label();
+            this.label86 = new System.Windows.Forms.Label();
+            this.rbSinConexion = new System.Windows.Forms.RadioButton();
+            this.rbCodigoQR = new System.Windows.Forms.RadioButton();
+            this.label85 = new System.Windows.Forms.Label();
+            this.txtCodigoSeguridadCashea = new System.Windows.Forms.TextBox();
+            this.label84 = new System.Windows.Forms.Label();
+            this.label83 = new System.Windows.Forms.Label();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.btnSimularEscaneo = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.btnProcesarQRCashea = new System.Windows.Forms.Button();
+            this.btnCancelarCashea = new System.Windows.Forms.Button();
+            this.label75 = new System.Windows.Forms.Label();
             this.PnlNotaDevolucion = new System.Windows.Forms.Panel();
             this.btnProcesar4 = new System.Windows.Forms.Button();
             this.btnCancelar4 = new System.Windows.Forms.Button();
@@ -191,6 +207,19 @@ namespace CapaVisual_Login
             this.label48 = new System.Windows.Forms.Label();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.pnlMontoCashea = new System.Windows.Forms.Panel();
+            this.btnReintentarMontosCashea = new System.Windows.Forms.Button();
+            this.btnProcesarMontosCashea = new System.Windows.Forms.Button();
+            this.label82 = new System.Windows.Forms.Label();
+            this.btnCancelarMontosCashea = new System.Windows.Forms.Button();
+            this.label81 = new System.Windows.Forms.Label();
+            this.label80 = new System.Windows.Forms.Label();
+            this.txtMontoFinanCashea = new System.Windows.Forms.TextBox();
+            this.txtMontoInicialCashea = new System.Windows.Forms.TextBox();
+            this.label79 = new System.Windows.Forms.Label();
+            this.CbxMetodosPagoCashea = new System.Windows.Forms.ComboBox();
+            this.label78 = new System.Windows.Forms.Label();
+            this.txtCedulaCashea = new System.Windows.Forms.TextBox();
             this.TxtSaldoRef_2 = new System.Windows.Forms.TextBox();
             this.TxtSaldoOrd_2 = new System.Windows.Forms.TextBox();
             this.label20 = new System.Windows.Forms.Label();
@@ -272,6 +301,7 @@ namespace CapaVisual_Login
             this.label108 = new System.Windows.Forms.Label();
             this.label110 = new System.Windows.Forms.Label();
             this.ttMensaje = new System.Windows.Forms.ToolTip(this.components);
+            this.tmCashea = new System.Windows.Forms.Timer(this.components);
             this.GbxVentasDia.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DgvListadoOrdenes)).BeginInit();
             this.PnlPrimario.SuspendLayout();
@@ -280,10 +310,14 @@ namespace CapaVisual_Login
             ((System.ComponentModel.ISupportInitialize)(this.DgvBilletes)).BeginInit();
             this.PnlNotaCredito.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DgvNotas)).BeginInit();
+            this.pnlQrCashea.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.PnlNotaDevolucion.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DgvNotasDevolicion)).BeginInit();
             this.tabControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.pnlMontoCashea.SuspendLayout();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DgvObservaconExamen)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DgvFormula)).BeginInit();
@@ -866,6 +900,7 @@ namespace CapaVisual_Login
             // PnlSecundario
             // 
             this.PnlSecundario.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PnlSecundario.Controls.Add(this.lblMensajeCashea);
             this.PnlSecundario.Controls.Add(this.label74);
             this.PnlSecundario.Controls.Add(this.label73);
             this.PnlSecundario.Controls.Add(this.txtTotalRef);
@@ -921,11 +956,21 @@ namespace CapaVisual_Login
             this.PnlSecundario.Controls.Add(this.label22);
             this.PnlSecundario.Controls.Add(this.txtCVC);
             this.PnlSecundario.Controls.Add(this.LbePagoMovil);
-            this.PnlSecundario.Location = new System.Drawing.Point(893, 414);
+            this.PnlSecundario.Location = new System.Drawing.Point(876, 201);
             this.PnlSecundario.Name = "PnlSecundario";
             this.PnlSecundario.Size = new System.Drawing.Size(479, 606);
             this.PnlSecundario.TabIndex = 30;
             this.PnlSecundario.Visible = false;
+            // 
+            // lblMensajeCashea
+            // 
+            this.lblMensajeCashea.AutoSize = true;
+            this.lblMensajeCashea.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold);
+            this.lblMensajeCashea.ForeColor = System.Drawing.Color.Red;
+            this.lblMensajeCashea.Location = new System.Drawing.Point(141, 44);
+            this.lblMensajeCashea.Name = "lblMensajeCashea";
+            this.lblMensajeCashea.Size = new System.Drawing.Size(0, 19);
+            this.lblMensajeCashea.TabIndex = 88;
             // 
             // label74
             // 
@@ -1153,6 +1198,7 @@ namespace CapaVisual_Login
             this.TxtCodBillete.Size = new System.Drawing.Size(175, 21);
             this.TxtCodBillete.TabIndex = 66;
             this.TxtCodBillete.WordWrap = false;
+            this.TxtCodBillete.TextChanged += new System.EventHandler(this.TxtCodBillete_TextChanged);
             // 
             // LblMontoBillete
             // 
@@ -1660,7 +1706,7 @@ namespace CapaVisual_Login
             this.PnlNotaCredito.Controls.Add(this.label39);
             this.PnlNotaCredito.Controls.Add(this.btnCancelar3);
             this.PnlNotaCredito.Controls.Add(this.btnProcesar3);
-            this.PnlNotaCredito.Location = new System.Drawing.Point(539, 476);
+            this.PnlNotaCredito.Location = new System.Drawing.Point(601, 476);
             this.PnlNotaCredito.Name = "PnlNotaCredito";
             this.PnlNotaCredito.Size = new System.Drawing.Size(480, 331);
             this.PnlNotaCredito.TabIndex = 42;
@@ -1826,6 +1872,200 @@ namespace CapaVisual_Login
             this.btnProcesar3.Text = "Procesar";
             this.btnProcesar3.UseVisualStyleBackColor = false;
             this.btnProcesar3.Click += new System.EventHandler(this.btnProcesar3_Click);
+            // 
+            // pnlQrCashea
+            // 
+            this.pnlQrCashea.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlQrCashea.Controls.Add(this.lblTimer);
+            this.pnlQrCashea.Controls.Add(this.label86);
+            this.pnlQrCashea.Controls.Add(this.rbSinConexion);
+            this.pnlQrCashea.Controls.Add(this.rbCodigoQR);
+            this.pnlQrCashea.Controls.Add(this.label85);
+            this.pnlQrCashea.Controls.Add(this.txtCodigoSeguridadCashea);
+            this.pnlQrCashea.Controls.Add(this.label84);
+            this.pnlQrCashea.Controls.Add(this.label83);
+            this.pnlQrCashea.Controls.Add(this.pictureBox2);
+            this.pnlQrCashea.Controls.Add(this.btnSimularEscaneo);
+            this.pnlQrCashea.Controls.Add(this.pictureBox1);
+            this.pnlQrCashea.Controls.Add(this.btnProcesarQRCashea);
+            this.pnlQrCashea.Controls.Add(this.btnCancelarCashea);
+            this.pnlQrCashea.Controls.Add(this.label75);
+            this.pnlQrCashea.Location = new System.Drawing.Point(774, 373);
+            this.pnlQrCashea.Name = "pnlQrCashea";
+            this.pnlQrCashea.Size = new System.Drawing.Size(407, 389);
+            this.pnlQrCashea.TabIndex = 124;
+            this.pnlQrCashea.Visible = false;
+            this.pnlQrCashea.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlQrCashea_Paint);
+            // 
+            // lblTimer
+            // 
+            this.lblTimer.AutoSize = true;
+            this.lblTimer.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTimer.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this.lblTimer.Location = new System.Drawing.Point(201, 312);
+            this.lblTimer.Name = "lblTimer";
+            this.lblTimer.Size = new System.Drawing.Size(53, 17);
+            this.lblTimer.TabIndex = 102;
+            this.lblTimer.Text = "lblTimer";
+            // 
+            // label86
+            // 
+            this.label86.AutoSize = true;
+            this.label86.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label86.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this.label86.Location = new System.Drawing.Point(148, 310);
+            this.label86.Name = "label86";
+            this.label86.Size = new System.Drawing.Size(54, 17);
+            this.label86.TabIndex = 101;
+            this.label86.Text = "Tiempo:";
+            // 
+            // rbSinConexion
+            // 
+            this.rbSinConexion.AutoSize = true;
+            this.rbSinConexion.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rbSinConexion.Location = new System.Drawing.Point(226, 91);
+            this.rbSinConexion.Name = "rbSinConexion";
+            this.rbSinConexion.Size = new System.Drawing.Size(96, 20);
+            this.rbSinConexion.TabIndex = 100;
+            this.rbSinConexion.Text = "Sin Conexión";
+            this.rbSinConexion.UseVisualStyleBackColor = true;
+            this.rbSinConexion.CheckedChanged += new System.EventHandler(this.rbSinConexion_CheckedChanged);
+            // 
+            // rbCodigoQR
+            // 
+            this.rbCodigoQR.AutoSize = true;
+            this.rbCodigoQR.Checked = true;
+            this.rbCodigoQR.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rbCodigoQR.Location = new System.Drawing.Point(93, 91);
+            this.rbCodigoQR.Name = "rbCodigoQR";
+            this.rbCodigoQR.Size = new System.Drawing.Size(86, 20);
+            this.rbCodigoQR.TabIndex = 99;
+            this.rbCodigoQR.TabStop = true;
+            this.rbCodigoQR.Text = "Código QR";
+            this.rbCodigoQR.UseVisualStyleBackColor = true;
+            this.rbCodigoQR.CheckedChanged += new System.EventHandler(this.rbCodigoQR_CheckedChanged);
+            // 
+            // label85
+            // 
+            this.label85.AutoSize = true;
+            this.label85.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label85.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this.label85.Location = new System.Drawing.Point(75, 70);
+            this.label85.Name = "label85";
+            this.label85.Size = new System.Drawing.Size(248, 17);
+            this.label85.TabIndex = 98;
+            this.label85.Text = "Seleccione el tipo de venta con cashea";
+            this.label85.Click += new System.EventHandler(this.label85_Click);
+            // 
+            // txtCodigoSeguridadCashea
+            // 
+            this.txtCodigoSeguridadCashea.Enabled = false;
+            this.txtCodigoSeguridadCashea.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtCodigoSeguridadCashea.ForeColor = System.Drawing.Color.Black;
+            this.txtCodigoSeguridadCashea.Location = new System.Drawing.Point(112, 282);
+            this.txtCodigoSeguridadCashea.MaxLength = 20;
+            this.txtCodigoSeguridadCashea.Name = "txtCodigoSeguridadCashea";
+            this.txtCodigoSeguridadCashea.Size = new System.Drawing.Size(175, 21);
+            this.txtCodigoSeguridadCashea.TabIndex = 97;
+            this.txtCodigoSeguridadCashea.WordWrap = false;
+            this.txtCodigoSeguridadCashea.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            // 
+            // label84
+            // 
+            this.label84.AutoSize = true;
+            this.label84.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label84.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this.label84.Location = new System.Drawing.Point(61, 261);
+            this.label84.Name = "label84";
+            this.label84.Size = new System.Drawing.Size(277, 17);
+            this.label84.TabIndex = 96;
+            this.label84.Text = "Ingrese el código generado por la aplicación";
+            this.label84.Click += new System.EventHandler(this.label84_Click);
+            // 
+            // label83
+            // 
+            this.label83.AutoSize = true;
+            this.label83.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label83.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this.label83.Location = new System.Drawing.Point(53, 119);
+            this.label83.Name = "label83";
+            this.label83.Size = new System.Drawing.Size(297, 17);
+            this.label83.TabIndex = 95;
+            this.label83.Text = "Indique al comprador que escanee el código QR";
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Image = global::CapaVisual_Login.Properties.Resources.Logo_Cashea;
+            this.pictureBox2.Location = new System.Drawing.Point(147, 38);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(100, 23);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox2.TabIndex = 94;
+            this.pictureBox2.TabStop = false;
+            // 
+            // btnSimularEscaneo
+            // 
+            this.btnSimularEscaneo.Location = new System.Drawing.Point(282, 170);
+            this.btnSimularEscaneo.Name = "btnSimularEscaneo";
+            this.btnSimularEscaneo.Size = new System.Drawing.Size(86, 43);
+            this.btnSimularEscaneo.TabIndex = 93;
+            this.btnSimularEscaneo.Text = "Simular Escaneo CTE";
+            this.btnSimularEscaneo.UseVisualStyleBackColor = true;
+            this.btnSimularEscaneo.Click += new System.EventHandler(this.btnSimularEscaneo_Click);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::CapaVisual_Login.Properties.Resources.Cashea_QR;
+            this.pictureBox1.Location = new System.Drawing.Point(121, 141);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(148, 110);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 92;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
+            // 
+            // btnProcesarQRCashea
+            // 
+            this.btnProcesarQRCashea.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(184)))), ((int)(((byte)(52)))));
+            this.btnProcesarQRCashea.FlatAppearance.BorderSize = 0;
+            this.btnProcesarQRCashea.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnProcesarQRCashea.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnProcesarQRCashea.ForeColor = System.Drawing.SystemColors.Window;
+            this.btnProcesarQRCashea.Location = new System.Drawing.Point(208, 341);
+            this.btnProcesarQRCashea.Name = "btnProcesarQRCashea";
+            this.btnProcesarQRCashea.Size = new System.Drawing.Size(105, 30);
+            this.btnProcesarQRCashea.TabIndex = 90;
+            this.btnProcesarQRCashea.Text = "Procesar";
+            this.btnProcesarQRCashea.UseVisualStyleBackColor = false;
+            this.btnProcesarQRCashea.Click += new System.EventHandler(this.btnProcesarQRCashea_Click);
+            // 
+            // btnCancelarCashea
+            // 
+            this.btnCancelarCashea.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(44)))), ((int)(((byte)(59)))));
+            this.btnCancelarCashea.FlatAppearance.BorderSize = 0;
+            this.btnCancelarCashea.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCancelarCashea.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCancelarCashea.ForeColor = System.Drawing.SystemColors.Window;
+            this.btnCancelarCashea.Location = new System.Drawing.Point(89, 341);
+            this.btnCancelarCashea.Name = "btnCancelarCashea";
+            this.btnCancelarCashea.Size = new System.Drawing.Size(105, 30);
+            this.btnCancelarCashea.TabIndex = 91;
+            this.btnCancelarCashea.Text = "Cancelar";
+            this.btnCancelarCashea.UseVisualStyleBackColor = false;
+            this.btnCancelarCashea.Click += new System.EventHandler(this.btnCancelarCashea_Click);
+            // 
+            // label75
+            // 
+            this.label75.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(2)))), ((int)(((byte)(127)))), ((int)(((byte)(121)))));
+            this.label75.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.label75.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label75.ForeColor = System.Drawing.Color.White;
+            this.label75.Location = new System.Drawing.Point(0, 0);
+            this.label75.Name = "label75";
+            this.label75.Size = new System.Drawing.Size(413, 35);
+            this.label75.TabIndex = 89;
+            this.label75.Text = "Realizar pago";
+            this.label75.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
             // PnlNotaDevolucion
             // 
@@ -2057,6 +2297,7 @@ namespace CapaVisual_Login
             // tabPage1
             // 
             this.tabPage1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.tabPage1.Controls.Add(this.pnlMontoCashea);
             this.tabPage1.Controls.Add(this.TxtSaldoRef_2);
             this.tabPage1.Controls.Add(this.TxtSaldoOrd_2);
             this.tabPage1.Controls.Add(this.DgvListadoOrdenes);
@@ -2096,6 +2337,180 @@ namespace CapaVisual_Login
             this.tabPage1.Size = new System.Drawing.Size(1056, 438);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // pnlMontoCashea
+            // 
+            this.pnlMontoCashea.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlMontoCashea.Controls.Add(this.btnReintentarMontosCashea);
+            this.pnlMontoCashea.Controls.Add(this.btnProcesarMontosCashea);
+            this.pnlMontoCashea.Controls.Add(this.label82);
+            this.pnlMontoCashea.Controls.Add(this.btnCancelarMontosCashea);
+            this.pnlMontoCashea.Controls.Add(this.label81);
+            this.pnlMontoCashea.Controls.Add(this.label80);
+            this.pnlMontoCashea.Controls.Add(this.txtMontoFinanCashea);
+            this.pnlMontoCashea.Controls.Add(this.txtMontoInicialCashea);
+            this.pnlMontoCashea.Controls.Add(this.label79);
+            this.pnlMontoCashea.Controls.Add(this.CbxMetodosPagoCashea);
+            this.pnlMontoCashea.Controls.Add(this.label78);
+            this.pnlMontoCashea.Controls.Add(this.txtCedulaCashea);
+            this.pnlMontoCashea.Location = new System.Drawing.Point(350, 65);
+            this.pnlMontoCashea.Name = "pnlMontoCashea";
+            this.pnlMontoCashea.Size = new System.Drawing.Size(417, 235);
+            this.pnlMontoCashea.TabIndex = 125;
+            this.pnlMontoCashea.Visible = false;
+            // 
+            // btnReintentarMontosCashea
+            // 
+            this.btnReintentarMontosCashea.BackColor = System.Drawing.Color.DarkOrange;
+            this.btnReintentarMontosCashea.FlatAppearance.BorderSize = 0;
+            this.btnReintentarMontosCashea.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnReintentarMontosCashea.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnReintentarMontosCashea.ForeColor = System.Drawing.SystemColors.Window;
+            this.btnReintentarMontosCashea.Location = new System.Drawing.Point(9, 192);
+            this.btnReintentarMontosCashea.Name = "btnReintentarMontosCashea";
+            this.btnReintentarMontosCashea.Size = new System.Drawing.Size(105, 30);
+            this.btnReintentarMontosCashea.TabIndex = 96;
+            this.btnReintentarMontosCashea.Text = "Reintentar";
+            this.btnReintentarMontosCashea.UseVisualStyleBackColor = false;
+            this.btnReintentarMontosCashea.Click += new System.EventHandler(this.btnReintentarMontosCashea_Click);
+            // 
+            // btnProcesarMontosCashea
+            // 
+            this.btnProcesarMontosCashea.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(184)))), ((int)(((byte)(52)))));
+            this.btnProcesarMontosCashea.FlatAppearance.BorderSize = 0;
+            this.btnProcesarMontosCashea.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnProcesarMontosCashea.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnProcesarMontosCashea.ForeColor = System.Drawing.SystemColors.Window;
+            this.btnProcesarMontosCashea.Location = new System.Drawing.Point(301, 193);
+            this.btnProcesarMontosCashea.Name = "btnProcesarMontosCashea";
+            this.btnProcesarMontosCashea.Size = new System.Drawing.Size(105, 30);
+            this.btnProcesarMontosCashea.TabIndex = 94;
+            this.btnProcesarMontosCashea.Text = "Procesar";
+            this.btnProcesarMontosCashea.UseVisualStyleBackColor = false;
+            this.btnProcesarMontosCashea.Click += new System.EventHandler(this.btnProcesarMontosCashea_Click);
+            // 
+            // label82
+            // 
+            this.label82.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(2)))), ((int)(((byte)(127)))), ((int)(((byte)(121)))));
+            this.label82.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.label82.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label82.ForeColor = System.Drawing.Color.White;
+            this.label82.Location = new System.Drawing.Point(-1, 0);
+            this.label82.Name = "label82";
+            this.label82.Size = new System.Drawing.Size(417, 35);
+            this.label82.TabIndex = 89;
+            this.label82.Text = "Realizar pago";
+            this.label82.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            // 
+            // btnCancelarMontosCashea
+            // 
+            this.btnCancelarMontosCashea.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(206)))), ((int)(((byte)(44)))), ((int)(((byte)(59)))));
+            this.btnCancelarMontosCashea.FlatAppearance.BorderSize = 0;
+            this.btnCancelarMontosCashea.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCancelarMontosCashea.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCancelarMontosCashea.ForeColor = System.Drawing.SystemColors.Window;
+            this.btnCancelarMontosCashea.Location = new System.Drawing.Point(182, 193);
+            this.btnCancelarMontosCashea.Name = "btnCancelarMontosCashea";
+            this.btnCancelarMontosCashea.Size = new System.Drawing.Size(105, 30);
+            this.btnCancelarMontosCashea.TabIndex = 95;
+            this.btnCancelarMontosCashea.Text = "Cancelar";
+            this.btnCancelarMontosCashea.UseVisualStyleBackColor = false;
+            this.btnCancelarMontosCashea.Click += new System.EventHandler(this.btnCancelarMontosCashea_Click);
+            // 
+            // label81
+            // 
+            this.label81.AutoSize = true;
+            this.label81.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label81.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this.label81.Location = new System.Drawing.Point(242, 115);
+            this.label81.Name = "label81";
+            this.label81.Size = new System.Drawing.Size(150, 19);
+            this.label81.TabIndex = 59;
+            this.label81.Text = "Monto Financiado";
+            // 
+            // label80
+            // 
+            this.label80.AutoSize = true;
+            this.label80.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label80.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this.label80.Location = new System.Drawing.Point(35, 115);
+            this.label80.Name = "label80";
+            this.label80.Size = new System.Drawing.Size(108, 19);
+            this.label80.TabIndex = 58;
+            this.label80.Text = "Monto Inicial";
+            // 
+            // txtMontoFinanCashea
+            // 
+            this.txtMontoFinanCashea.Enabled = false;
+            this.txtMontoFinanCashea.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtMontoFinanCashea.ForeColor = System.Drawing.Color.Black;
+            this.txtMontoFinanCashea.Location = new System.Drawing.Point(245, 137);
+            this.txtMontoFinanCashea.MaxLength = 12;
+            this.txtMontoFinanCashea.Name = "txtMontoFinanCashea";
+            this.txtMontoFinanCashea.Size = new System.Drawing.Size(112, 21);
+            this.txtMontoFinanCashea.TabIndex = 57;
+            this.txtMontoFinanCashea.Text = "0.00";
+            this.txtMontoFinanCashea.WordWrap = false;
+            // 
+            // txtMontoInicialCashea
+            // 
+            this.txtMontoInicialCashea.Enabled = false;
+            this.txtMontoInicialCashea.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtMontoInicialCashea.ForeColor = System.Drawing.Color.Black;
+            this.txtMontoInicialCashea.Location = new System.Drawing.Point(39, 137);
+            this.txtMontoInicialCashea.MaxLength = 12;
+            this.txtMontoInicialCashea.Name = "txtMontoInicialCashea";
+            this.txtMontoInicialCashea.Size = new System.Drawing.Size(112, 21);
+            this.txtMontoInicialCashea.TabIndex = 56;
+            this.txtMontoInicialCashea.Text = "0.00";
+            this.txtMontoInicialCashea.WordWrap = false;
+            // 
+            // label79
+            // 
+            this.label79.AutoSize = true;
+            this.label79.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label79.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this.label79.Location = new System.Drawing.Point(35, 54);
+            this.label79.Name = "label79";
+            this.label79.Size = new System.Drawing.Size(140, 19);
+            this.label79.TabIndex = 55;
+            this.label79.Text = "Método de pago";
+            // 
+            // CbxMetodosPagoCashea
+            // 
+            this.CbxMetodosPagoCashea.Enabled = false;
+            this.CbxMetodosPagoCashea.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CbxMetodosPagoCashea.ForeColor = System.Drawing.Color.Black;
+            this.CbxMetodosPagoCashea.FormattingEnabled = true;
+            this.CbxMetodosPagoCashea.Location = new System.Drawing.Point(39, 77);
+            this.CbxMetodosPagoCashea.Name = "CbxMetodosPagoCashea";
+            this.CbxMetodosPagoCashea.Size = new System.Drawing.Size(136, 25);
+            this.CbxMetodosPagoCashea.TabIndex = 54;
+            this.CbxMetodosPagoCashea.Text = "Cashea";
+            // 
+            // label78
+            // 
+            this.label78.AutoSize = true;
+            this.label78.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label78.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this.label78.Location = new System.Drawing.Point(245, 59);
+            this.label78.Name = "label78";
+            this.label78.Size = new System.Drawing.Size(67, 19);
+            this.label78.TabIndex = 43;
+            this.label78.Text = "Cédula";
+            // 
+            // txtCedulaCashea
+            // 
+            this.txtCedulaCashea.Enabled = false;
+            this.txtCedulaCashea.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtCedulaCashea.ForeColor = System.Drawing.Color.Black;
+            this.txtCedulaCashea.Location = new System.Drawing.Point(245, 81);
+            this.txtCedulaCashea.MaxLength = 12;
+            this.txtCedulaCashea.Name = "txtCedulaCashea";
+            this.txtCedulaCashea.Size = new System.Drawing.Size(112, 21);
+            this.txtCedulaCashea.TabIndex = 42;
+            this.txtCedulaCashea.WordWrap = false;
+            this.txtCedulaCashea.TextChanged += new System.EventHandler(this.txtCedulaCashea_TextChanged);
             // 
             // TxtSaldoRef_2
             // 
@@ -3309,6 +3724,11 @@ namespace CapaVisual_Login
             this.label110.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.label110.Click += new System.EventHandler(this.label110_Click);
             // 
+            // tmCashea
+            // 
+            this.tmCashea.Interval = 1000;
+            this.tmCashea.Tick += new System.EventHandler(this.tmCashea_Tick);
+            // 
             // FrmFacturacion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -3318,6 +3738,7 @@ namespace CapaVisual_Login
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1386, 788);
+            this.Controls.Add(this.pnlQrCashea);
             this.Controls.Add(this.PnlNotaCredito);
             this.Controls.Add(this.PnlNotaDevolucion);
             this.Controls.Add(this.PnlSecundario);
@@ -3348,12 +3769,18 @@ namespace CapaVisual_Login
             this.PnlNotaCredito.ResumeLayout(false);
             this.PnlNotaCredito.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DgvNotas)).EndInit();
+            this.pnlQrCashea.ResumeLayout(false);
+            this.pnlQrCashea.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.PnlNotaDevolucion.ResumeLayout(false);
             this.PnlNotaDevolucion.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DgvNotasDevolicion)).EndInit();
             this.tabControl.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            this.pnlMontoCashea.ResumeLayout(false);
+            this.pnlMontoCashea.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DgvObservaconExamen)).EndInit();
@@ -3579,5 +4006,35 @@ namespace CapaVisual_Login
         private System.Windows.Forms.TextBox txtTotalRef;
         private System.Windows.Forms.Label label74;
         private System.Windows.Forms.RadioButton btnQR;
+        private System.Windows.Forms.Label lblMensajeCashea;
+        private System.Windows.Forms.Panel pnlQrCashea;
+        private System.Windows.Forms.Button btnProcesarQRCashea;
+        private System.Windows.Forms.Button btnCancelarCashea;
+        private System.Windows.Forms.Label label75;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Button btnSimularEscaneo;
+        private System.Windows.Forms.Panel pnlMontoCashea;
+        private System.Windows.Forms.Button btnReintentarMontosCashea;
+        private System.Windows.Forms.Button btnProcesarMontosCashea;
+        private System.Windows.Forms.Label label82;
+        private System.Windows.Forms.Button btnCancelarMontosCashea;
+        private System.Windows.Forms.Label label81;
+        private System.Windows.Forms.Label label80;
+        private System.Windows.Forms.TextBox txtMontoFinanCashea;
+        private System.Windows.Forms.TextBox txtMontoInicialCashea;
+        private System.Windows.Forms.Label label79;
+        private System.Windows.Forms.ComboBox CbxMetodosPagoCashea;
+        private System.Windows.Forms.Label label78;
+        private System.Windows.Forms.TextBox txtCedulaCashea;
+        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.Label label84;
+        private System.Windows.Forms.Label label83;
+        private System.Windows.Forms.TextBox txtCodigoSeguridadCashea;
+        private System.Windows.Forms.Label label85;
+        private System.Windows.Forms.Label label86;
+        private System.Windows.Forms.RadioButton rbSinConexion;
+        private System.Windows.Forms.RadioButton rbCodigoQR;
+        private System.Windows.Forms.Timer tmCashea;
+        private System.Windows.Forms.Label lblTimer;
     }
 }

@@ -17,6 +17,9 @@ using System.Reflection;
 using System.Data.SqlClient;
 using CapaDatos.Conexion;
 using System.Text.RegularExpressions;
+using CapaLogica.Cashea_Logica;
+using CapaServiciosExternos.Modelos; // Para reconocer el tipo PointOfSale
+
 
 namespace CapaVisual_Login
 {
@@ -48,6 +51,8 @@ namespace CapaVisual_Login
 
 
         private Action _onCancelarSolicitado;
+        private readonly L_Cashea _logicaCashea = new L_Cashea();
+        private L_Cashea _L_Cashea = new L_Cashea();
 
         public void CancelarSolicitado(Action Cancelar)
         {
@@ -643,7 +648,7 @@ namespace CapaVisual_Login
                     Text = "Pagos",
                     Font = new Font("Century Gothic", 13),
                     ForeColor = Color.Black,
-                    Size = new Size(30, 210),
+                    Size = new Size(30, 270),
                     Location = new Point(110, 278),
                     Invertir = true // ponlo en true si quieres que el texto vaya de abajo hacia arriba
                 };
@@ -651,7 +656,7 @@ namespace CapaVisual_Login
                 labelVerticalPagos.ForeColor = Color.White;
                 tabPage4.Controls.Add(labelVerticalPagos);
 
-
+                CargarConfiguracionCashea();
 
 
             }
@@ -1545,20 +1550,76 @@ namespace CapaVisual_Login
                     }
                 }
 
-                double existenteEnCaja = GetValorFila(0);
-                double efectivo = GetValorFila(5);
-                double debito = GetValorFila(6);
-                double tarjetaCredito = GetValorFila(7);
-                double ivaRetenido = GetValorFila(8);
-                double islrRetenido = GetValorFila(9);
+                //double existenteEnCaja = GetValorFila(0);
+                //double efectivo = GetValorFila(5);
+                //double debito = GetValorFila(6);
+                //double tarjetaCredito = GetValorFila(7);
+                //double ivaRetenido = GetValorFila(8);
+                //double islrRetenido = GetValorFila(9);
 
-                double transferencia = GetValorFila(10);
-                //double transferenciaDivisa = GetValorFila(11);
+                //double transferencia = GetValorFila(10);
+                ////double transferenciaDivisa = GetValorFila(11);
 
-                double diferencia = existenteEnCaja - (efectivo + debito + tarjetaCredito + ivaRetenido + islrRetenido + transferencia);
+                //double diferencia = existenteEnCaja - (efectivo + debito + tarjetaCredito + ivaRetenido + islrRetenido + transferencia);
 
                 // Mostrar el resultado en la fila "Diferencia" (fila 6)
-                dgvCierredecaja.Rows[11].Cells["Total"].Value = diferencia.ToString("N2");
+                //dgvCierredecaja.Rows[11].Cells["Total"].Value = diferencia.ToString("N2");
+                decimal sumaTotal = 0;
+                decimal existenteEnCajaGrid = 0;
+                // Recorremos cada fila del DataGridView
+                foreach (DataGridViewRow fila in dgvCierredecaja.Rows)
+                {
+                    string tipoFila = fila.Cells["TipoTotal"].Value.ToString().Trim();
+
+                    if (string.Equals(tipoFila, "Existente en caja", StringComparison.OrdinalIgnoreCase))
+                    {
+                        existenteEnCajaGrid = Convert.ToDecimal(fila.Cells["Total"].Value ?? 0);
+                    }
+
+                    // 1. Validamos que la fila no esté vacía y que las celdas tengan datos
+                    if (fila.Cells["Operacion"].Value != null && fila.Cells["Total"].Value != null)
+                    {
+                        string operacion = fila.Cells["Operacion"].Value.ToString().Trim();
+
+                        // 2. Si la columna Operación es exactamente "+"
+                        if (operacion == "+")
+                        {
+                            // 3. Convertimos el valor de "Total" a decimal de forma segura
+                            decimal valorTotal = 0;
+                            if (decimal.TryParse(fila.Cells["Total"].Value.ToString(), out valorTotal))
+                            {
+                                // Acumulamos el valor en nuestra variable
+                                sumaTotal += valorTotal;
+                            }
+                        }
+                    }
+                }
+                decimal diferenciaGrid;
+                diferenciaGrid = existenteEnCajaGrid - sumaTotal;
+
+                // Al salir del bucle, ya tienes el resultado en 'sumaTotal'
+                // Ejemplo para mostrarlo:
+                // txtSumaFinal.Text = sumaTotal.ToString("N2");
+
+                // Recorremos todas las filas del DataGridView
+                foreach (DataGridViewRow fila in dgvCierredecaja.Rows)
+                {
+                    // Validamos que la fila no sea la fila nueva vacía del final (si está activa)
+                    // y que la celda de la columna 1 (índice 0) no esté vacía
+                    if (fila.Cells[0].Value != null)
+                    {
+                        // Convertimos el texto a string y eliminamos espacios extras con Trim()
+                        string textoColumna1 = fila.Cells[0].Value.ToString().Trim();
+
+                        // Si el texto es exactamente "Diferencia" (ignora mayúsculas/minúsculas)
+                        if (string.Equals(textoColumna1, "Diferencia", StringComparison.OrdinalIgnoreCase))
+                        {
+                            // Asignamos el valor en esa fila específica y salimos del bucle
+                            fila.Cells["Total"].Value = diferenciaGrid.ToString("N2");
+                            break;
+                        }
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -1959,6 +2020,29 @@ namespace CapaVisual_Login
 
                     _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "070", TB_USUARIO.COD_EMPLEADO, "Se generaron los ACC correctamente");
 
+                    //CASHEA
+                    DataTable dt = _L_Cashea.ObtieneOrdenesSinFacturaCashea("");
+                    
+                    if (dt.Rows.Count > 0)
+                    {
+                        dtLogCierre.Rows.Add("Actualizaando ordenes cashea", "...");
+                        dgvLogCierre.DataSource = dtLogCierre;
+                        dgvLogCierre.Refresh();
+                        foreach (DataRow fila in dt.Rows)
+                        {
+                            ActualizarNroFacturaCashea(fila["NroOrdenCashea"].ToString(), fila["NroFactura"].ToString());
+                        }
+                        foreach (DataRow row in dtLogCierre.Rows)
+                        {
+                            if (row["Descripcion"].ToString() == "Actualizaando ordenes cashea")
+                            {
+                                row["Resultado"] = "✔ Completado";
+                                dgvLogCierre.Refresh();
+                                break;
+                            }
+                        }
+                    }
+
                     int DiasAAgregar = 0;
                     DayOfWeek dia = diaActivo.DayOfWeek;
                     string TrabajaDomingos = _D_DetalleOrden.TB_PARAMETRO("TrabajaDomingo");
@@ -2041,6 +2125,47 @@ namespace CapaVisual_Login
 
         }
 
+        private async void ActualizarNroFacturaCashea(string nroOrdenCashea, string nroFacturaFiscal)
+        {
+            //if (string.IsNullOrEmpty(_lastOrderUuid)) return;
+
+            //string nroFacturaFiscal = TB_FACTURAS.Fact_Num;// txtNumeroFactura.Text; // El nro que generó tu sistema
+
+            //Cursor.Current = new Cursor(Properties.Resources.relojArena__1_.Handle);
+            //this.Cursor = Cursors.WaitCursor;
+            try
+            {
+                //bool actualizado = await _logicaCashea.ActualizarFacturaOrden(_lastOrderUuid, nroFacturaFiscal);
+                var resultado = await _logicaCashea.ActualizarFacturaOrden(nroOrdenCashea, nroFacturaFiscal);
+
+                // AUDITORÍA: Fundamental para conciliación legal posterior
+                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "110", TB_USUARIO.COD_EMPLEADO, $"Url: {resultado.Url} Resultado: - HTTP {resultado.StatusCode} - {resultado.Message}");
+
+                if (resultado.IsSuccess)
+                {
+
+                    RegistrarOrdenCashea(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, nroFacturaFiscal, nroOrdenCashea, true, TB_USUARIO.COD_USR);
+                    
+                    //MessageBox.Show("Número de factura sincronizado con Cashea.", "Sincronización OK");
+                }
+                else
+                {
+                    RegistrarOrdenCashea(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, nroFacturaFiscal, nroOrdenCashea, true, TB_USUARIO.COD_USR);
+                    // No es un error fatal para el cliente, pero sí para tu conciliación
+                    //MessageBox.Show("No se pudo actualizar el nro de factura en Cashea. Deberá hacerlo manual en el portal.", "Aviso");
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al sincronizar factura: " + ex.Message);
+            }
+            finally
+            {
+                //this.Cursor = Cursors.Default;
+            }
+        }
         private void button3_Click(object sender, EventArgs e)
         {
             tcCierreCaja.SelectedIndex = 2;
@@ -2637,6 +2762,36 @@ namespace CapaVisual_Login
 
         }
 
+        public void CargarConfiguracionCashea()
+        {
+            DataTable dt = _L_Cashea.ObtenerConfigCashea();
+
+            foreach (DataRow row in dt.Rows)
+            {
+                string nombre = row["Parametro"].ToString();
+                string valorCifrado = row["Valor"].ToString();
+
+                switch (nombre)
+                {
+                    case "Cashea_ApiKey":
+                        ConfigCashea.ApiKey = ConfigCashea.Decodificar(valorCifrado);
+                        break;
+                    case "Cashea_BaseUrl":
+                        ConfigCashea.BaseUrl = ConfigCashea.Decodificar(valorCifrado);
+                        break;
+                    case "Cashea_Uuid_Caja":
+                        ConfigCashea.UuidCaja = ConfigCashea.Decodificar(valorCifrado);
+                        break;
+                }
+            }
+        }
+
+        public void RegistrarOrdenCashea(string codSucursal, string nroOrden, string nroFactura, string nroOrdenCashea, bool status, string userCrea)
+        {
+            // 3. Llamada a tu capa lógica
+            _L_Cashea.RegistrarOrdenCashea(codSucursal, nroOrden, nroFactura, nroOrdenCashea, status, userCrea);
+
+        }
         //private void tcCierreCaja_SelectedIndexChanged(object sender, EventArgs e)
         //{
         //    if (tcCierreCaja.SelectedIndex == 0)
