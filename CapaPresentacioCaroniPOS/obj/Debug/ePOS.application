@@ -7,22 +7,14 @@
     <framework targetVersion="4.7.2" profile="Full" supportedRuntime="4.0.30319" />
   </compatibleFrameworks>
   <dependency>
-<<<<<<< HEAD
-    <dependentAssembly dependencyType="install" codebase="ePOS.exe.manifest" size="79911">
-=======
     <dependentAssembly dependencyType="install" codebase="ePOS.exe.manifest" size="80571">
->>>>>>> origin/Version13
       <assemblyIdentity name="ePOS.exe" version="1.0.0.5" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-<<<<<<< HEAD
-        <dsig:DigestValue>QhuOKq5AqKy21X4DmLhDAA/xz7cOPSuNdQNH1rzN+Q8=</dsig:DigestValue>
-=======
-        <dsig:DigestValue>wxlvRfcUhLcbxo8Wokhu/k59xcmyRIXtFY2aKP4owz4=</dsig:DigestValue>
->>>>>>> origin/Version13
+        <dsig:DigestValue>H7LK2ZhvwXVhppL2SHf0QWfSceI5ro8QVxHxcX709I4=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
