@@ -473,6 +473,14 @@ namespace CapaVisual_Login
 
                     }
 
+                    if (Status.Trim() == "Pre-Orden")
+                    {
+                        Fila.Cells["Estatus"].Style.BackColor = colporp;
+                        //Fila.Cells["Estatus"].Style.Padding = newPadding;
+                        DgvListadoOrdenes.Columns["Estatus"].DefaultCellStyle.Format = "C";
+                        Fila.Cells["Estatus"].Style.ForeColor = Color.FromArgb(89, 190, 186);
+
+                    }
 
                 }
 
@@ -955,6 +963,15 @@ namespace CapaVisual_Login
         {
             if (DgvListadoOrdenes.Columns[e.ColumnIndex].Name == "Btn") //  PARA FACTURAR
             {
+                if (DgvListadoOrdenes.CurrentRow.Cells["Estatus"].Value.ToString().Trim() == "Pre-Orden") //PRE ORDEN
+                {
+                    string mensaje = "Esta orden es parte de una promoción casada";
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje(mensaje);
+                    _FrmMensajes.ShowDialog();
+                    return;
+                }
+
                 PnlLSecundario.Visible = true;
                 PnlLSecundario.Enabled = true;
                 LblListadoOrdenes.Visible = false;
@@ -1232,7 +1249,7 @@ namespace CapaVisual_Login
 
 
                 //Para anular orden por pagar 
-                if (DgvListadoOrdenes.CurrentRow.Cells["Estatus"].Value.ToString().Trim() == "Por pagar")
+                if (DgvListadoOrdenes.CurrentRow.Cells["Estatus"].Value.ToString().Trim() == "Por pagar" || DgvListadoOrdenes.CurrentRow.Cells["Estatus"].Value.ToString().Trim() == "Pre-Orden")
                 {
                     _FrmFacturacion.CargarDatosOrden(DgvListadoOrdenes.CurrentRow.Cells["NumOrdserv"].Value.ToString(), DgvListadoOrdenes.CurrentRow.Cells["Nombre"].Value.ToString(), DgvListadoOrdenes.CurrentRow.Cells["Revision"].Value.ToString());
 
@@ -1502,6 +1519,8 @@ namespace CapaVisual_Login
             // Reimprimir Abono
             if (DgvListadoOrdenes.Columns[e.ColumnIndex].Name == "Btn4") // Cuando se da click en el boton azul de reimprimir, obtiene el reporte del abono 
             { //Se cargan los datos de la orden 
+
+              
                 string concat = DgvListadoOrdenes.CurrentRow.Cells["Cod_Sucursal"].Value.ToString() + DgvListadoOrdenes.CurrentRow.Cells["NumOrdserv"].Value.ToString() + "0";
                 // Se valida si la orden es abonada para que pueda imprimir o mostrar el reporte 
                 if (DgvListadoOrdenes.CurrentRow.Cells["Estatus"].Value.ToString().Trim() == "Abonada")
@@ -1617,6 +1636,12 @@ namespace CapaVisual_Login
             //Registrar Comprobante de IVA y ISLR
             if (DgvListadoOrdenes.Columns[e.ColumnIndex].Name == "Btn5") // Cuando se da click se despliega el Comprobante IVA y ISLR
             {
+                if (DgvListadoOrdenes.CurrentRow.Cells["Estatus"].Value.ToString().Trim() == "Pre-Orden") //PRE ORDEN
+                {
+                    return;
+                }
+
+
                 //SE VALIDA QUE LA ORDEN TENGA PAGOS CON IVA Y ISLR Y QUE NO TENGA CARGADO EL COMPROBANTE 
                 if (DgvListadoOrdenes.CurrentRow.Cells["PAGOS_IVA"].Value.ToString() == "1" | DgvListadoOrdenes.CurrentRow.Cells["PAGOS_ISLR"].Value.ToString() == "1")
                 {
