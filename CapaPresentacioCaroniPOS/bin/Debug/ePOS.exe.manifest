@@ -211,14 +211,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ePOS.exe" size="3324416">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ePOS.exe" size="3324928">
       <assemblyIdentity name="ePOS" version="1.0.2.5" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>XV4cdcCjpTTMMJcCw2zRfaMTXX9K1eje6er+BLL3kXM=</dsig:DigestValue>
+        <dsig:DigestValue>zxyYckI7JfnsrOSAQ8lsE/w+/o0ujCO14kdQMZMxO8c=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -1184,13 +1184,13 @@
   </dependency>
   <dependency>
     <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Script.dll" size="5120">
-      <assemblyIdentity name="Script" version="1.0.1.2" language="neutral" processorArchitecture="msil" />
+      <assemblyIdentity name="Script" version="1.0.1.3" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>Qv2VCfJow+Nl1Z3AH5bLipixeiD8gGX4EUCLpjNXlf4=</dsig:DigestValue>
+        <dsig:DigestValue>zWadc//PsPIRwPHZYm29ADRv6LXFimNcjwpClvUD7cg=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
