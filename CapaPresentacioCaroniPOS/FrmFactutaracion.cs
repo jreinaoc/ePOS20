@@ -220,6 +220,16 @@ namespace CapaVisual_Login
             CargarDatosOrden(TB_CAORDSER.NumOrdserv, TB_CAORDSER.Cod_DetVta, TB_CAORDSER.Revision);
             txtCedula.Text = CedulaCtePagador;
             txtNombreCliente.Text = NombreCtePagador;
+
+            if (TB_CAORDSER.OrSer_Status == "004" && TB_CAORDSER.Cod_DetVta != "02")
+            {
+                string Rep = Verificar_Existencia(TB_CAORDSER.NumOrdserv, TB_CAORDSER.Cod_DetVta, TB_CAORDSER.OrSer_Status);
+                if (Rep != "SATISFACTORIO")
+                {
+                    return;
+                }
+            }
+
             if (TB_CAORDSER.OrSer_Status == "002")
             {
                 // Cargar los Pagos de la orden 
@@ -975,30 +985,45 @@ namespace CapaVisual_Login
 
             pnlMontoCashea.Visible = false;
             pnlQrCashea.Visible = false;
+            txtCodigoSeguridadCashea.Text = "";
+            rbCodigoQR.Checked = true;
 
 
         }
-
+        private bool _procesandoPagoCashea = false;
         private void btnProcesar2_Click(object sender, EventArgs e)
         {
+
             try
             {
-               LimpiaVariablesIdAbonoPagoMovil();
+                //CbxBanco.SelectedIndex = 0;
+                LimpiaVariablesIdAbonoPagoMovil();
                 Double Bolivares = 0.00;
                 Double TotalAbono = 0.00;
                 Bolivares = (txtMonto2Bs.Text == "" ? (Double)0.00 : Convert.ToDouble(txtMonto2Bs.Text.Replace(".", "")));
                 TotalAbono = Convert.ToDouble(_L_Facturacion.TotalizarAbono(DgvAbonos));
 
-                if (CbxBanco.Text == "Seguros Mercantil" | CbxBanco.Text == "SEGUROS MERCANTIL")
-                {
-                    if (CbxMetodosPago2.Text != "Transferencia")
-                    {
-                        _FrmMensajes.co = 1;
-                        _FrmMensajes.avisomensaje("No puede usar este banco en este tipo de pago");
-                        _FrmMensajes.ShowDialog();
-                        return;
-                    }
-                }
+                //if (CbxBanco.Text == "Seguros Mercantil" | CbxBanco.Text == "SEGUROS MERCANTIL")
+                //{
+                //    if (CbxMetodosPago2.Text != "Transferencia")
+                //    {
+                //        _FrmMensajes.co = 1;
+                //        _FrmMensajes.avisomensaje("No puede usar este banco en este tipo de pago");
+                //        _FrmMensajes.ShowDialog();
+                //        return;
+                //    }
+                //}
+
+                //if (CbxBanco.Text == "Gift Card" | CbxBanco.Text == "GIFT CARD")
+                //{
+                //    if (CbxMetodosPago2.Text != "Transferencia")
+                //    {
+                //        _FrmMensajes.co = 1;
+                //        _FrmMensajes.avisomensaje("No puede usar este banco en este tipo de pago");
+                //        _FrmMensajes.ShowDialog();
+                //        return;
+                //    }
+                //}
 
                 if (CbxMetodosPago2.Text == "Transferencia Divisa" && CbxMetodosPago.Text == "Transferencia Divisa")
                 {
@@ -1046,7 +1071,7 @@ namespace CapaVisual_Login
                 if (CbxMetodosPago2.Text == "Transferencia")
                 {
                     // Promocion Seguros Mercantil Nuevo desarrollo 12/05/2026
-                    if(CbxBanco.SelectedValue.ToString()== "112" | CbxBancoRecp.SelectedValue.ToString()=="112")
+                    if(CbxBanco.SelectedValue.ToString()== "112" | CbxBancoRecp.SelectedValue.ToString()=="112" )
                     {
                         // Validamos que selecionaran banco seguros mercantil en banco resecto y banco emisor 
 
@@ -1088,6 +1113,17 @@ namespace CapaVisual_Login
                             _FrmMensajes.ShowDialog();
 
                             // Opcional: Detiene la ejecución del método si la validación falla
+                            return;
+                        }
+                    }
+
+                    if (CbxBanco.SelectedValue.ToString() == "115" | CbxBancoRecp.SelectedValue.ToString() == "115")
+                    {
+                        if (CbxBanco.SelectedValue.ToString() == "115" && CbxBancoRecp.SelectedValue.ToString() != "115" || CbxBanco.SelectedValue.ToString() != "115" && CbxBancoRecp.SelectedValue.ToString() == "115")
+                        {
+                            _FrmMensajes.co = 2;
+                            _FrmMensajes.avisomensaje("Debe selecionar Gift Card en ambos bancos");
+                            _FrmMensajes.ShowDialog();
                             return;
                         }
                     }
@@ -1176,12 +1212,14 @@ namespace CapaVisual_Login
                 }
 
 
-                if (CbxMetodosPago2.Text == "Cashea Más Cuotas")
+                if (CbxMetodosPago2.SelectedValue.ToString() == "025")
                 {
                     //'Si los campos poseen valores proceso los datos
                     if (txtMonto2Bs.Text.Trim() != "" && txtMonto2Bs.Text.Trim() != "0,00" && txtTranferencia.Text.Trim() != "" && CbxBanco.Text.Trim() != "" && (txtTranferencia.Text.Trim().Replace(" ", "")).Length > 3 && Convert.ToDouble(txtMonto2Bs.Text.Trim().Replace(".", "")) > 0)
                     {
-                        if (Bolivares > (Math.Round((TB_CAORDSER.OrSer_Saldo + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos))) - TotalAbono, 2)))
+                        bool casheaAceptaTotalFinancido = _D_DetalleOrden.TB_PARAMETRO("CasheaTotalFina").ToString().Trim() == "1";
+
+                        if (!casheaAceptaTotalFinancido && Bolivares >= (Math.Round((TB_CAORDSER.OrSer_Saldo + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos))) - TotalAbono, 2)))
                         {
                             _FrmMensajes.co = 2;
                             _FrmMensajes.avisomensaje("El monto debe ser igual o menor al saldo de la orden");
@@ -1199,7 +1237,7 @@ namespace CapaVisual_Login
                             /*JM:100226  sustituir "021" con CbxMetodosPago2.SelectedValue.ToString()
                             _L_Facturacion.GuardarAbonoGrid(2,Dt_Abonos, CbxMetodosPago2.Text, CbxMoneda.Text, "CASHEA", txtMonto2Bs.Text, txtTranferencia.Text, DtpFecha.Value.ToString(), "021", "110", "110", TxtVuelto.Text, "", "", "", "", "", "", "000"); */
 
-                            _L_Facturacion.GuardarAbonoGrid(2, Dt_Abonos, CbxMetodosPago2.Text, CbxMoneda.Text, "CASHEA", txtMonto2Bs.Text, txtTranferencia.Text, DtpFecha.Value.ToString(), CbxMetodosPago2.SelectedValue.ToString(), "110", "110", TxtVuelto.Text, "", "", "", "", "", "", "000");
+                            _L_Facturacion.GuardarAbonoGrid(2, Dt_Abonos, CbxMetodosPago2.Text, CbxMoneda.Text, "", txtMonto2Bs.Text, txtTranferencia.Text, DtpFecha.Value.ToString(), CbxMetodosPago2.SelectedValue.ToString(), "110", "110", TxtVuelto.Text, "", "", "", "", "", "", "000");
 
 
                              BolivaresConveridos(Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos)), txtMontoBs);
@@ -1257,7 +1295,7 @@ namespace CapaVisual_Login
                         }
 
                         //CbxMetodosPago2.SelectedIndex = 10;
-                        _L_Facturacion.GuardarAbonoGrid(2,Dt_Abonos, CbxMetodosPago2.Text, CbxMoneda.Text, CbxBanco.Text, txtMonto2Bs.Text, txtTranferencia.Text, DtpFecha.Value.ToString(), CbxMetodosPago2.SelectedValue.ToString(), CbxBanco.SelectedValue.ToString(), CbxBancoRecp.SelectedValue.ToString(), TxtVuelto.Text);
+                        _L_Facturacion.GuardarAbonoGrid(2,Dt_Abonos, CbxMetodosPago2.Text, CbxMoneda.Text, CbxBanco.Text, txtMonto2Bs.Text, txtTranferencia.Text, DtpFecha.Value.ToString(),"021", CbxBanco.SelectedValue.ToString(), CbxBancoRecp.SelectedValue.ToString(), TxtVuelto.Text);
                         
                         BolivaresConveridos(Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos)), txtMontoBs);
                         //-----------ConvertirBolivares---------------------------
@@ -1589,10 +1627,23 @@ namespace CapaVisual_Login
                     }
                 }
 
-                if (CbxMetodosPago2.Text == "Cashea")
+                if (CbxMetodosPago2.SelectedValue.ToString() == "024")
                 {
+                    // Si ya hay un proceso corriendo, REBOTA aquí y no hace absolutamente nada
+                    if (_procesandoPagoCashea) return;
+
+                    // Encendemos el semáforo y apagamos el botón
+                    _procesandoPagoCashea = true;
+                    btnProcesar2.Enabled = false;
+                    //btnProcesar2.Refresh();
+
                     reintentosCashea = 0;
-                     CrearOrdenCashea(Convert.ToDouble(TB_CAORDSER.Orser_Total_Mon), TB_CAORDSER.NumOrdserv, TB_CAORDSER.CTE_CedIden);
+                        txtCodigoSeguridadCashea.Text = "";
+                        rbCodigoQR.Checked = true;
+                        string cedulaCashea = txtCedula.Text.Substring(2, txtCedula.Text.Length - 2);
+                        CrearOrdenCashea(Convert.ToDouble(TB_CAORDSER.Orser_Total_Mon), TB_CAORDSER.NumOrdserv, cedulaCashea);
+                    System.Threading.Thread.Sleep(30);
+
                 }
 
 
@@ -1603,6 +1654,13 @@ namespace CapaVisual_Login
                 _FrmMensajes.co = 2;
                 _FrmMensajes.avisomensaje(string.Format("Error: {0}", ex.Message) + ", Error inesperado");
                 _FrmMensajes.ShowDialog();
+            }
+            finally
+            {
+                //_procesandoPagoCashea = false;
+                //// 4. IMPORTANTE: Reactivar el botón y el cursor al terminar todo el proceso
+                //btnProcesar2.Enabled = true;
+                //this.Cursor = Cursors.Default;
             }
         }
 
@@ -1766,7 +1824,18 @@ namespace CapaVisual_Login
 
                                 if (existeCashea)
                                 {
-                                    bool casheaOk = await ConfirmarOrdenCashea();
+                                    bool casheaOk = false;
+                                    
+
+                                    if (casheaStatusPago == "PENDING")
+                                    {
+                                        casheaOk = await ConfirmarOrdenCashea();
+                                    }
+                                    else
+                                    {
+                                        casheaOk = true;
+                                    }
+
                                     // REAFIRMAR CURSOR AQUÍ
                                     Cursor.Current = customCursor;
                                     if (casheaOk)
@@ -1850,6 +1919,10 @@ namespace CapaVisual_Login
                             //{
                             // return;                             
                             //}
+                            if (TotalAbono == 0)
+                            {
+                                return;
+                            }
 
                             if (TotalAbono >= Convert.ToDouble(MinAbono) && TotalAbono <= Math.Round(TB_CAORDSER.OrSer_Saldo + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos)), 2))
                             {
@@ -1877,9 +1950,20 @@ namespace CapaVisual_Login
                                     bool existeCashea = Dt_Abonos.AsEnumerable()
                                          .Any(row => row.Field<string>("CodPago") == "024");
 
+                                    
                                     if (existeCashea)
                                     {
-                                        bool casheaOk = await ConfirmarOrdenCashea();
+                                        bool casheaOk = false;
+
+
+                                        if (casheaStatusPago == "PENDING")
+                                        {
+                                            casheaOk = await ConfirmarOrdenCashea();
+                                        }
+                                        else
+                                        {
+                                            casheaOk = true;
+                                        }
 
                                         if (casheaOk)
                                         {
@@ -2159,6 +2243,7 @@ namespace CapaVisual_Login
         {
             try
             {
+                txtMontoBs.Enabled = false;
                 // Actualizar la entidad TB_tasa 
                 DateTime FechaActiva = _D_Inicio.DiaActivo();
                 _D_Inicio.TasaDiaEuroEntidad(FechaActiva.ToString("yyyyMMdd"));
@@ -2796,6 +2881,10 @@ namespace CapaVisual_Login
 
         private void CbxMetodosPago_SelectedIndexChanged(object sender, EventArgs e)
         {
+            _procesandoPagoCashea = false;
+
+            if (!CbxMetodosPago.Focused) return;
+
             if (CbxMetodosPago.SelectedIndex != -1)
             {
                 //Tasa
@@ -2807,10 +2896,10 @@ namespace CapaVisual_Login
 
                 if (CbxMetodosPago.Text == "Transferencia Divisa")
                 {
-                    _L_Facturacion.LLenarComboboxBancos(CbxBanco, true);
+                    _L_Facturacion.LLenarComboboxBancos(CbxBanco, true, "TRDIV");
                     //CbxMetodosPago2.SelectedIndex = CbxMetodosPago.SelectedIndex;
                     CbxMetodosPago2.SelectedIndex = CbxMetodosPago.SelectedIndex;
-                    CbxBanco.SelectedIndex = 1;
+                    //CbxBanco.SelectedIndex = 1;
                     txtMonto2Bs.Enabled = false;
                     txtRef.Enabled = true; ;
                     txtMontoBs.Enabled = false;
@@ -2952,6 +3041,7 @@ namespace CapaVisual_Login
                     label2.Size = new System.Drawing.Size(617, 35);
                     label41.Size = new System.Drawing.Size(140, 19);
                     CbxMetodosPago2.Size = new System.Drawing.Size(168, 21);
+
                     label5.Size = new System.Drawing.Size(121, 19);
                     CbxMoneda.Size = new System.Drawing.Size(168, 21);
                     label4.Size = new System.Drawing.Size(42, 19);
@@ -2967,8 +3057,12 @@ namespace CapaVisual_Login
                     label21.Size = new System.Drawing.Size(168, 21);
                     DtpFecha.Size = new System.Drawing.Size(168, 21);
 
-                }
+                    txtTranferencia.Visible = true;
+                    CbxBanco.Visible = true;
+                    CbxBanco.Enabled = true;
+                    label45.Visible = true;
 
+                }
 
                 if (CbxMetodosPago.Text == "Efectivo Divisa")
                 {
@@ -3211,8 +3305,8 @@ namespace CapaVisual_Login
 
                 if (CbxMetodosPago.Text == "Transferencia")
                 {
-                    _L_Facturacion.LLenarComboboxBancos(CbxBanco, false);
-                    _L_Facturacion.LLenarCbxBancoRecp(CbxBancoRecp, false);
+                    _L_Facturacion.LLenarComboboxBancos(CbxBanco, false,"TR");
+                    _L_Facturacion.LLenarCbxBancoRecp(CbxBancoRecp, false,"TRR");
                     //CbxMetodosPago2.SelectedIndex = CbxMetodosPago.SelectedIndex;
                     CbxMetodosPago2.SelectedIndex = CbxMetodosPago.SelectedIndex;
                     CbxMoneda.SelectedIndex = 2;
@@ -3310,12 +3404,17 @@ namespace CapaVisual_Login
                     LblBancoRecep.Size = new System.Drawing.Size(132, 19);
                     CbxBancoRecp.Size = new System.Drawing.Size(168, 25);
 
+                    txtTranferencia.Visible = true;
+                    CbxBanco.Visible = true;
+                    CbxBanco.Enabled = true;
+                    label45.Visible = true;
+
                 }
 
                 if (CbxMetodosPago.Text == "Pago Móvil")
                 {
-                    _L_Facturacion.LLenarComboboxBancos(CbxBanco, false);
-                    _L_Facturacion.LLenarCbxBancoRecp_PagoMovil(CbxBancoRecp, false);
+                    _L_Facturacion.LLenarComboboxBancos(CbxBanco, false, "PM");
+                    _L_Facturacion.LLenarCbxBancoRecp(CbxBancoRecp, false, "PMR");
                     //CbxMetodosPago2.SelectedIndex = 8;
                     CbxMetodosPago2.SelectedIndex = CbxMetodosPago.SelectedIndex;
                     CbxMoneda.SelectedIndex = 2;
@@ -3419,6 +3518,11 @@ namespace CapaVisual_Login
                     LblBancoRecep.Size = new System.Drawing.Size(132, 19);
                     CbxBancoRecp.Size = new System.Drawing.Size(168, 25);
 
+                    txtTranferencia.Visible = true;
+                    CbxBanco.Visible = true;
+                    CbxBanco.Enabled = true;
+                    label45.Visible = true;
+                    Bs.Visible = true;
 
                     //// SELECIONAR EL BANCO Plaza
                     for (int i = 0; i < CbxBancoRecp.Items.Count; i++)
@@ -3433,10 +3537,9 @@ namespace CapaVisual_Login
 
                 }
 
-
                 if (CbxMetodosPago.Text == "Cheque")
                 {
-                    _L_Facturacion.LLenarComboboxBancos(CbxBanco, false);
+                    _L_Facturacion.LLenarComboboxBancos(CbxBanco, false,"DEB");
                     CbxMetodosPago2.SelectedIndex = CbxMetodosPago.SelectedIndex;
                     //CbxMoneda.SelectedIndex = 2;
                     CbxMetodosPago2.SelectedIndex = CbxMetodosPago.SelectedIndex;
@@ -3500,7 +3603,7 @@ namespace CapaVisual_Login
 
                 if (CbxMetodosPago.Text == "Debito")
                 {
-                    _L_Facturacion.LLenarComboboxBancos(CbxBanco, false);
+                    _L_Facturacion.LLenarComboboxBancos(CbxBanco, false,"DEB");
                     //CbxMetodosPago2.SelectedIndex = CbxMetodosPago.SelectedIndex;
                     CbxMetodosPago2.SelectedIndex = CbxMetodosPago.SelectedIndex;
                     CbxMoneda.SelectedIndex = 2;
@@ -3585,10 +3688,15 @@ namespace CapaVisual_Login
                     txtTranferencia.Size = new Size(168, 25);
                     CbxPunto_Venta.Size = new Size(168, 25);
                     txtMonto2Bs.Size = new Size(168, 25);
+
+
+                    txtTranferencia.Visible = true;
+                    CbxBanco.Visible = true;
+                    CbxBanco.Enabled = true;
+                    label45.Visible = true;
                 }
-
-
-                if (CbxMetodosPago.Text == "Cashea Más Cuotas")
+                //Cashea mas cuotas
+                if (CbxMetodosPago.SelectedValue.ToString()  == "025")
                 {
                     bool Cashea = _L_Facturacion.Verificar_Pago_CACHEA(DgvAbonos);
                     if (Cashea == false)
@@ -3679,7 +3787,7 @@ namespace CapaVisual_Login
                         txtTranferencia.Size = new Size(168, 25);
 
                         lblMensajeCashea.Visible = false;
-                        txtMonto2Bs.Visible = true;
+                        txtTranferencia.Visible = true;
 
                     }
 
@@ -3700,7 +3808,7 @@ namespace CapaVisual_Login
 
                 if (CbxMetodosPago.Text == "Tarjeta de Credito")
                 {
-                    _L_Facturacion.LLenarComboboxBancos(CbxBanco, false);
+                    _L_Facturacion.LLenarComboboxBancos(CbxBanco, false, "TDC");
                     //CbxMetodosPago2.SelectedIndex = CbxMetodosPago.SelectedIndex;
                     CbxMetodosPago2.SelectedIndex = CbxMetodosPago.SelectedIndex;
                     CbxMoneda.SelectedIndex = 2;
@@ -3831,7 +3939,6 @@ namespace CapaVisual_Login
 
                 }
 
-
                 if (CbxMetodosPago.Text == "Nota Credito")
                 {
                     label5.Visible = false;
@@ -3890,7 +3997,6 @@ namespace CapaVisual_Login
                     label45.Text = "Banco";
 
                 }
-
 
                 if (CbxMetodosPago.Text == "Efectivo")
                 {
@@ -4071,119 +4177,138 @@ namespace CapaVisual_Login
                     CbxBancoRecp.Visible = false;
                     label45.Text = "Banco";
                 }
-
-                if (CbxMetodosPago.Text == "Cashea")
+                //Cashea integración API
+                if (CbxMetodosPago.SelectedValue.ToString() == "024")
                 {
-                    bool Cashea = _L_Facturacion.Verificar_Pago_CACHEA(DgvAbonos);
-                    if (Cashea == false)
+                    _procesandoPagoCashea = false;
+                    if (TB_CAORDSER.Orser_Total_Mon < 25)
                     {
-                        VerificarConexionCashea();
-                        _L_Facturacion.LLenarComboboxBancos2(CbxBanco, false);
-                        //CbxMetodosPago2.SelectedIndex = 0;
-                        //CbxMetodosPago2.Text = CbxMetodosPago.Text;
-                        CbxMetodosPago2.SelectedIndex = CbxMetodosPago.SelectedIndex;
-                        CbxMoneda.SelectedIndex = 2;
-                        BolivaresConveridos(Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos)), txtMontoBs);
-                        //-----------ConvertirBolivares---------------------------
-                        //txtMontoBs.Text = _L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos);
-                        BolivaresConveridos(Convert.ToDouble(txtMontoBs.Text.Replace(".", "")), txtMonto2Bs);
-                        //txtMonto2Bs.Text = Convert.ToString(Convert.ToDouble(txtMontoBs.Text.Replace(".","")));
-
-                        txtRef.Enabled = false;
-                        txtRef.Visible = false;
-                        txtMontoBs.Enabled = false;
-                        VisualizarPanel("MostrarPanelSecundario");
-                        //label28.Visible = true;
-                        label22.Visible = false;
-                        label4.Visible = false;
-                        label27.Visible = false;
-                        label26.Visible = false;
-                        txtCVC.Enabled = false;
-                        txtCVC.Visible = false;
-                        CbxTarjeta.Visible = false;
-                        CbxTarjeta.Enabled = false;
-                        txtVence.Enabled = false;
-                        txtVence.Visible = false;
-                        label24.Visible = false;
-                        txtCheque.Enabled = false;
-                        txtCheque.Visible = false;
-                        label15.Visible = true;
-                        CbxMoneda.Enabled = false;
-                        label5.Visible = false;
-                        CbxMoneda.Visible = false;
-                        label42.Visible = false;
-                        txtIGTF.Visible = false;
-                        label21.Visible = false;
-                        DtpFecha.Visible = false;
-                        DtpFecha.Text = DateTime.UtcNow.ToShortDateString();
-                        label6.Visible = false;
-                        TxtVuelto.Visible = false;
-                        CbxMetodosPago2.Visible = true;
-                        label41.Visible = true;
-                        _L_Facturacion.LLenarComboboxTipoPunto(CbxPunto_Venta, "TD");
-                        label49.Visible = false;
-                        CbxPunto_Venta.Visible = false;
-                        LblMontoBillete.Visible = false;
-                        CbxBillete.Visible = false;
-                        LblCodBillete.Visible = false;
-                        TxtCodBillete.Visible = false;
-                        DgvBilletes.Visible = false;
-                        LblBancoRecep.Visible = false;
-                        CbxBancoRecp.Visible = false;
-                        CbxBanco.Visible = false;
-                        txtMonto2Bs.Enabled = false;
-                        label45.Visible = false;
-                        CbxBanco.Enabled = false;
-                        LbePagoMovil.Visible = false;
-                        Bs.Visible = true;
-
-                        label28.Text = "N° Tarjeta";
-                        CbxBanco.SelectedIndex = 30;
-                        Bs.Text = "Monto";
-                        label28.Text = "Referencia";
-
-                        Bs.Font = new Font("Century Gothic", 12, FontStyle.Bold);
-                        label28.Font = new Font("Century Gothic", 12, FontStyle.Bold);
-                        label41.Font = new Font("Century Gothic", 12, FontStyle.Bold);
-
-                        //Reubicacion de los objetos 
-                        btnCancelar2.Location = new Point(241, 138);
-                        btnProcesar2.Location = new Point(361, 138);
-                        label41.Location = new Point(33, 60);
-                        CbxMetodosPago2.Location = new Point(33, 82);
-                        Bs.Location = new Point(216, 60);
-                        txtMonto2Bs.Location = new Point(216, 84);
-                        label28.Location = new Point(400, 60);
-                        txtTranferencia.Location = new Point(400, 83);
-
-
-                        // Tamaño de los Objetos 
-                        PnlSecundario.Size = new Size(502, 189);
-                        PnlSecundario.Location = new Point(300, 150);
-                        label2.Size = new Size(501, 35);
-                        txtMonto2Bs.Size = new Size(168, 25);
-                        txtTranferencia.Size = new Size(168, 25);
-
-                        lblMensajeCashea.Location = new Point(33, 150);
-
-                        txtTranferencia.Visible = false;
-                        label28.Visible = false;
-
-
+                        mostrarError("El monto mínimo para usar cashea es de 25$");
+                        return;
                     }
 
-                    else
+                    int existenabonos = Dt_Abonos.Rows.Count;
+                    if (existenabonos == 0)
                     {
-                        if (_L_Facturacion.stringBuilder.ToString().Length > 2)
+                        bool Cashea = _L_Facturacion.Verificar_Pago_CACHEA(DgvAbonos);
+                        if (Cashea == false)
                         {
-                            _FrmMensajes.co = 2;
-                            _FrmMensajes.avisomensaje(_L_Facturacion.stringBuilder.ToString());
-                            _FrmMensajes.ShowDialog();
+
+                            VerificarConexionCashea();
+                            _L_Facturacion.LLenarComboboxBancos2(CbxBanco, false);
+                            //CbxMetodosPago2.SelectedIndex = 0;
+                            //CbxMetodosPago2.Text = CbxMetodosPago.Text;
+                            CbxMetodosPago2.SelectedIndex = CbxMetodosPago.SelectedIndex;
+                            CbxMoneda.SelectedIndex = 2;
+                            BolivaresConveridos(Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos)), txtMontoBs);
+                            //-----------ConvertirBolivares---------------------------
+                            //txtMontoBs.Text = _L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos);
+                            BolivaresConveridos(Convert.ToDouble(txtMontoBs.Text.Replace(".", "")), txtMonto2Bs);
+                            //txtMonto2Bs.Text = Convert.ToString(Convert.ToDouble(txtMontoBs.Text.Replace(".","")));
+
+                            txtRef.Enabled = false;
+                            txtRef.Visible = false;
+                            txtMontoBs.Enabled = false;
+                            VisualizarPanel("MostrarPanelSecundario");
+                            //label28.Visible = true;
+                            label22.Visible = false;
+                            label4.Visible = false;
+                            label27.Visible = false;
+                            label26.Visible = false;
+                            txtCVC.Enabled = false;
+                            txtCVC.Visible = false;
+                            CbxTarjeta.Visible = false;
+                            CbxTarjeta.Enabled = false;
+                            txtVence.Enabled = false;
+                            txtVence.Visible = false;
+                            label24.Visible = false;
+                            txtCheque.Enabled = false;
+                            txtCheque.Visible = false;
+                            label15.Visible = true;
+                            CbxMoneda.Enabled = false;
+                            label5.Visible = false;
+                            CbxMoneda.Visible = false;
+                            label42.Visible = false;
+                            txtIGTF.Visible = false;
+                            label21.Visible = false;
+                            DtpFecha.Visible = false;
+                            DtpFecha.Text = DateTime.UtcNow.ToShortDateString();
+                            label6.Visible = false;
+                            TxtVuelto.Visible = false;
+                            CbxMetodosPago2.Visible = true;
+                            label41.Visible = true;
+                            _L_Facturacion.LLenarComboboxTipoPunto(CbxPunto_Venta, "TD");
+                            label49.Visible = false;
+                            CbxPunto_Venta.Visible = false;
+                            LblMontoBillete.Visible = false;
+                            CbxBillete.Visible = false;
+                            LblCodBillete.Visible = false;
+                            TxtCodBillete.Visible = false;
+                            DgvBilletes.Visible = false;
+                            LblBancoRecep.Visible = false;
+                            CbxBancoRecp.Visible = false;
+                            CbxBanco.Visible = false;
+                            txtMonto2Bs.Enabled = false;
+                            label45.Visible = false;
+                            CbxBanco.Enabled = false;
+                            LbePagoMovil.Visible = false;
+                            Bs.Visible = true;
+
+                            label28.Text = "N° Tarjeta";
+                            CbxBanco.SelectedIndex = 30;
+                            Bs.Text = "Monto";
+                            label28.Text = "Referencia";
+
+                            Bs.Font = new Font("Century Gothic", 12, FontStyle.Bold);
+                            label28.Font = new Font("Century Gothic", 12, FontStyle.Bold);
+                            label41.Font = new Font("Century Gothic", 12, FontStyle.Bold);
+
+                            //Reubicacion de los objetos 
+                            btnCancelar2.Location = new Point(241, 138);
+                            btnProcesar2.Location = new Point(361, 138);
+                            label41.Location = new Point(33, 60);
+                            CbxMetodosPago2.Location = new Point(33, 82);
+                            Bs.Location = new Point(216, 60);
+                            txtMonto2Bs.Location = new Point(216, 84);
+                            label28.Location = new Point(400, 60);
+                            txtTranferencia.Location = new Point(400, 83);
+
+
+                            // Tamaño de los Objetos 
+                            PnlSecundario.Size = new Size(502, 189);
+                            PnlSecundario.Location = new Point(300, 150);
+                            label2.Size = new Size(501, 35);
+                            txtMonto2Bs.Size = new Size(168, 25);
+                            txtTranferencia.Size = new Size(168, 25);
+
+                            lblMensajeCashea.Location = new Point(33, 150);
+
+                            txtTranferencia.Visible = false;
+                            label28.Visible = false;
+
+
                         }
 
-                        VisualizarPanel("MostrarPanelPrincipal");
-                        LimpiarTxbox();
+                        else
+                        {
+                            if (_L_Facturacion.stringBuilder.ToString().Length > 2)
+                            {
+                                _FrmMensajes.co = 2;
+                                _FrmMensajes.avisomensaje(_L_Facturacion.stringBuilder.ToString());
+                                _FrmMensajes.ShowDialog();
+                            }
+
+                            VisualizarPanel("MostrarPanelPrincipal");
+                            LimpiarTxbox();
+                        }
                     }
+                    else
+                    {
+                        _FrmMensajes.co = 2;
+                        _FrmMensajes.avisomensaje("No puede seleccionar cashea si ya tiene pagos previos");
+                        _FrmMensajes.ShowDialog();
+                    }
+
 
                 }
             }
@@ -7202,15 +7327,39 @@ namespace CapaVisual_Login
 
                 Validar_FalBod(CbxBanco, txtTranferencia);
                 //Valido que selecion estos metodos de pago para entrar en esta funcion
-                if (CbxMetodosPago2.Text == "Tarjeta de Credito" | CbxMetodosPago2.Text == "Debito" | CbxMetodosPago2.Text == "Cashea" | CbxMetodosPago2.Text == "Cashea Más Cuotas")
+                if (CbxMetodosPago2.Text == "Tarjeta de Credito" | CbxMetodosPago2.Text == "Debito" | CbxMetodosPago2.SelectedValue.ToString() == "024" | CbxMetodosPago2.SelectedValue.ToString() == "025")
                 {
                     PagarCASHEA(CbxBanco, txtMonto2Bs);
                 }
-                int index = CbxBancoRecp.FindStringExact("Seguros Mercantil");
+                
 
 
                 if (CbxBanco.Text == "Seguros Mercantil" | CbxBanco.Text == "SEGUROS MERCANTIL")
                 {
+                    int index = CbxBancoRecp.FindStringExact("Seguros Mercantil");
+                    //
+                    //txtTranferencia.MaxLength = 11;
+                    //if (CbxMetodosPago2.Text != "Transferencia")
+                    //{
+                    //    _FrmMensajes.co = 1;
+                    //    _FrmMensajes.avisomensaje("No puede usar este banco en este tipo de pago");
+                    //    _FrmMensajes.ShowDialog();
+                    //    return ;
+                    //}
+                    if (index != -1)
+                    {
+                        // El elemento existe. Puedes seleccionarlo si quieres:
+                        CbxBancoRecp.SelectedIndex = index;
+                    }
+                    else
+                    {
+                        // No se encontró el texto exacto
+                    }
+                }
+
+                if (CbxBanco.Text == "Gift Card" | CbxBanco.Text == "GIFT CARD")
+                {
+                    int index = CbxBancoRecp.FindStringExact("Gift Card");
                     //
                     //txtTranferencia.MaxLength = 11;
                     //if (CbxMetodosPago2.Text != "Transferencia")
@@ -7245,7 +7394,7 @@ namespace CapaVisual_Login
             else
             {
 
-                Tranfere.Text = "";
+                //Tranfere.Text = "";
                 Tranfere.Enabled = true;
 
             }
@@ -7768,14 +7917,14 @@ namespace CapaVisual_Login
         private void PagarCASHEA(System.Windows.Forms.ComboBox Banco, System.Windows.Forms.TextBox Bolivares)
         {
 
-            if (Banco.Text == "CASHEA" || Banco.SelectedValue == "110" ||  Banco.Text == "CASHEA MáS CUOTAS" )
+            if (CbxMetodosPago2.SelectedValue.ToString() == "024" | CbxMetodosPago2.SelectedValue.ToString() == "025")
             {
                 if (TB_CAORDSER.OrSer_Status == "004") //por pagar
                 {
                     Double MenorMinimoAbono = Math.Round(0.50 * Convert.ToDouble((String.Format(CultureInfo.InvariantCulture, "{0:0.00}", TB_CAORDSER.VtaTotal).Replace(".", ",")).Replace(".", ",")), 2);
                     Double TotalOrden = Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos));
                     // Si el saldo que pendiente es mayor al 50% de la orden 
-                    if (TotalOrden >= MenorMinimoAbono && (Banco.Text != "CASHEA"))
+                    if (TotalOrden >= MenorMinimoAbono && (CbxMetodosPago.SelectedValue.ToString() == "025"))
                     {
                         BolivaresConveridos(MenorMinimoAbono, Bolivares);
                         //Bolivares.Text = Convert.ToString(MenorMinimoAbono);
@@ -7827,6 +7976,11 @@ namespace CapaVisual_Login
                 {
                     CASHEA = true;
                     Medio_Pago = "CASHEA";
+                }
+                if (Codigo == "116" )
+                {
+                    CASHEA = true;
+                    Medio_Pago = "CASHEA MÁS CUOTAS";
                 }
 
             }
@@ -8811,7 +8965,7 @@ namespace CapaVisual_Login
 
 
                 // llenar Bancos
-                _L_Facturacion.LLenarComboboxBancos(CbxBancoPagoMovil, false);
+                _L_Facturacion.LLenarComboboxBancos(CbxBancoPagoMovil, false, "PM");
 
 
                 TxtCedulaPagoMovil.Text = txtCedula.Text.Substring(2, txtCedula.Text.Length - 2);
@@ -9629,13 +9783,13 @@ namespace CapaVisual_Login
             VisualizarPanel("MostrarPanelPrincipal");
             LimpiarTxbox();
             tmCashea.Stop();
-            txtCodigoSeguridadCashea.Text = "";
-            rbCodigoQR.Checked = true;
+
 
         }
 
         private async void CrearOrdenCashea(double monto, string numFactura, string cedula)
         {
+            
             // Cambiamos el cursor a espera mientras consulta la API
             //this.Cursor = Cursors.WaitCursor;
 
@@ -9650,9 +9804,15 @@ namespace CapaVisual_Login
             if (respuesta.IsSuccess && respuesta.Data != null)
             {
                 // ÉXITO: Accedemos al Uuid a través de .Data
-                MessageBox.Show($"Orden creada con éxito. ID Cashea: {respuesta.Data.Uuid}");
+                //MessageBox.Show($"Orden creada con éxito. ID Cashea: {respuesta.Data.Uuid}");
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("Orden cashea creada con éxito");
+                _FrmMensajes.ShowDialog();
 
                 _lastOrderUuid = respuesta.Data.Uuid; // <--- Aquí es donde daba el error
+
+                btnProcesar2.Enabled = true;
+                _procesandoPagoCashea = false;
 
                 PnlSecundario.Visible = false;
                 pnlQrCashea.Visible = true;
@@ -9663,14 +9823,20 @@ namespace CapaVisual_Login
             }
             else
             {
-                MessageBox.Show($"Error ({respuesta.StatusCode}): {respuesta.Message}");
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("Ocurrió un error generando la orden en cashea, intente de nuevo");
+                _FrmMensajes.ShowDialog();
+                _procesandoPagoCashea = false;
+                btnProcesar2.Enabled = true;
+                //MessageBox.Show($"Error ({respuesta.StatusCode}): {respuesta.Message}");
             }
 
             //this.Cursor = Cursors.Default;
         }
-
+        string casheaStatusPago = "";
         private async void ObtenerPagosCashea(string Uuid)
         {
+            casheaStatusPago = "";
             if (string.IsNullOrEmpty(_lastOrderUuid)) return;
 
             //this.Cursor = Cursors.WaitCursor;
@@ -9706,6 +9872,7 @@ namespace CapaVisual_Login
 
                 if (resultado != null && resultado.IsSuccess && resultado.Data != null)
                 {
+                    casheaStatusPago = resultado.Data.DownPaymentStatus;
                     pnlQrCashea.Visible = false;
                     pnlMontoCashea.Visible = true;
                     this.pnlMontoCashea.Location = new Point(316, 1);
@@ -9713,7 +9880,7 @@ namespace CapaVisual_Login
                     var plan = resultado.Data;
 
                     // Llenado de campos de UI
-                    txtCedulaCashea.Text = TB_CAORDSER.CTE_Nacio + TB_CAORDSER.CTE_CedIden;
+                    txtCedulaCashea.Text = txtCedula.Text;//TB_CAORDSER.CTE_Nacio + TB_CAORDSER.CTE_CedIden;
 
                     // Usamos PascalCase para las propiedades según tu modelo definido
                     txtMontoInicialCashea.Text = plan.DownPayment.ToString("N2");
@@ -9723,12 +9890,12 @@ namespace CapaVisual_Login
                     if (plan.DownPayment > 0 & plan.FinancedAmount > 0)
                     {
                         btnReintentarMontosCashea.Enabled = false;
-                        btnProcesarMontosCashea.Enabled = true;
+                        //btnProcesarMontosCashea.Enabled = true;
                     }
                     else
                     {
                         btnReintentarMontosCashea.Enabled = true;
-                        btnProcesarMontosCashea.Enabled = false;
+                        //btnProcesarMontosCashea.Enabled = false;
                     }
                     //if (plan.DownPaymentStatus == "PAID")
                     //{
@@ -9739,11 +9906,13 @@ namespace CapaVisual_Login
                 else
                 {
                     // Manejo de errores específicos según el StatusCode
-                    string mensajeError = resultado?.Message ?? "Error desconocido";
-                    if (resultado?.StatusCode == 404)
-                        mensajeError = "La orden no ha sido escaneada aún o el código es inválido.";
-
-                    MessageBox.Show($"No se pudo obtener el plan (Código {resultado?.StatusCode}): {mensajeError}", "Atención");
+                    //string mensajeError = resultado?.Message ?? "Error desconocido";
+                    //if (resultado?.StatusCode == 404)
+                    //    mensajeError = "La orden no ha sido escaneada aún o el código es inválido.";
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje("La orden no ha sido escaneada aún o el código es inválido");
+                    _FrmMensajes.ShowDialog();
+                    //MessageBox.Show($"No se pudo obtener el plan (Código {resultado?.StatusCode}): {mensajeError}", "Atención");
                 }
             }
             catch (Exception ex)
@@ -9846,7 +10015,10 @@ namespace CapaVisual_Login
 
                 if (resultado.IsSuccess)
                 {
-                    MessageBox.Show("La orden ha sido anulada correctamente en Cashea.");
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje("La orden ha sido anulada en Cashea");
+                    _FrmMensajes.ShowDialog();
+                    //MessageBox.Show("La orden ha sido anulada correctamente en Cashea.");
                     //LimpiarInterfazCashea(); // Método para resetear paneles
                     _lastOrderUuid = "";
                     txtMontoInicialCashea.Text = "0,00";
@@ -9854,7 +10026,10 @@ namespace CapaVisual_Login
                 }
                 else
                 {
-                    MessageBox.Show($"No se pudo anular en Cashea: {resultado.Message}");
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje("No se pudo anular en Cashea");
+                    _FrmMensajes.ShowDialog();
+                    //MessageBox.Show($"No se pudo anular en Cashea: {resultado.Message}");
                 }
 
                 // AUDITORÍA: Registro de la anulación con código HTTP
@@ -9891,6 +10066,9 @@ namespace CapaVisual_Login
                 }
                 else
                 {
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje("Error al confirmar pago en Cashea");
+                    _FrmMensajes.ShowDialog();
                     //MessageBox.Show($"Error al confirmar pago en Cashea (HTTP {resultado.StatusCode}): {resultado.Message}", "Error de Validación");
                     return false; // Retornamos falla
                 }
@@ -9951,19 +10129,44 @@ namespace CapaVisual_Login
             
         }
 
-        private void btnProcesarMontosCashea_Click(object sender, EventArgs e)
+        private async void btnProcesarMontosCashea_Click(object sender, EventArgs e)
         {
-            Double tasa = Convert.ToDouble(TB_TASA_Dolar.Tasa.ToString());
-            _L_Facturacion.GuardarAbonoGrid(2, Dt_Abonos, CbxMetodosPago2.Text, CbxMoneda.Text, "CASHEA", (Convert.ToDouble(txtMontoFinanCashea.Text) * tasa).ToString("N2"), txtTranferencia.Text, DtpFecha.Value.ToString(), CbxMetodosPago2.SelectedValue.ToString(), "110", "110", TxtVuelto.Text, "", "", "", "", "", "", "000");
+            //bool casheaAceptaTotalFinancido = Convert.ToBoolean(_D_DetalleOrden.TB_PARAMETRO("CasheaTotalFina"));
+            // Comparamos si el texto devuelto es exactamente "1"
+            bool casheaAceptaTotalFinancido = _D_DetalleOrden.TB_PARAMETRO("CasheaTotalFina").ToString().Trim() == "1";
+            // 1. Convertimos el texto a número una sola vez para que el código sea más limpio y eficiente
+            double montoInicial = Convert.ToDouble(txtMontoInicialCashea.Text);
 
+            // 2. Nueva condición: 
+            // Pasa si el monto es mayor a 0, O BIEN, si el monto es 0 Y la variable permite el total financiado.
+            if (montoInicial > 0 || (montoInicial == 0 && casheaAceptaTotalFinancido))
+            {
+                Double tasa = Convert.ToDouble(TB_TASA_Dolar.Tasa.ToString());
+           
+                string miReferenciaCashea = await ObtenerReferenciaCashea();
 
-            BolivaresConveridos(Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos)), txtMontoBs);
-            //-----------ConvertirBolivares---------------------------
-            //txtMontoBs.Text = _L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos);
+                if (montoInicial > 0)
+                {
+                    _L_Facturacion.GuardarAbonoGrid(2, Dt_Abonos, CbxMetodosPago2.Text, CbxMoneda.Text, "", (Convert.ToDouble(txtMontoFinanCashea.Text) * tasa).ToString("N2"), miReferenciaCashea, DtpFecha.Value.ToString(), "024"                                      , "116", "116", TxtVuelto.Text, "", "", "", "", "", "", "000");
+                }
+                else
+                {
+                    _L_Facturacion.GuardarAbonoGrid(2, Dt_Abonos, CbxMetodosPago2.Text, CbxMoneda.Text, "", Convert.ToDouble(TB_CAORDSER.OrSer_Saldo).ToString("N2"), miReferenciaCashea, DtpFecha.Value.ToString(), "024", "116", "116", TxtVuelto.Text, "", "", "", "", "", "", "000");
+                }
+                BolivaresConveridos(Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos)), txtMontoBs);
+                //-----------ConvertirBolivares---------------------------
+                //txtMontoBs.Text = _L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos);
 
-            lbMinAbo.Text = Convert.ToString(Convert.ToDouble(lbMinAbo.Text) + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos)));
-            VisualizarPanel("MostrarPanelPrincipal");
-            LimpiarTxbox();
+                lbMinAbo.Text = Convert.ToString(Convert.ToDouble(lbMinAbo.Text) + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos)));
+                VisualizarPanel("MostrarPanelPrincipal");
+                LimpiarTxbox();
+            }
+            else
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("No se permite el financiamiento del monto total de la orden");
+                _FrmMensajes.ShowDialog();
+            }
         }
 
         //private async void ObtenerOrdenCashea()
@@ -10043,6 +10246,33 @@ namespace CapaVisual_Login
                 //this.Cursor = Cursors.Default;
             }
         }
+
+        private async Task<string> ObtenerReferenciaCashea()
+        {
+            if (string.IsNullOrEmpty(_lastOrderUuid)) return string.Empty;
+
+            try
+            {
+                var resultado = await _logicaCashea.ConsultarDetallesOrden(_lastOrderUuid);
+
+                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "109", TB_USUARIO.COD_EMPLEADO, $"Url: {resultado.Url} Resultado: - HTTP {resultado.StatusCode} - {resultado.Message}");
+
+                // Retornamos el valor directamente si es exitoso
+                if (resultado.IsSuccess && resultado.Data != null)
+                {
+                    return resultado.Data.identifierNumber ?? string.Empty;
+                }
+            }
+            catch (Exception ex)
+            {
+                // En caso de error, puedes decidir si retornar vacío o lanzar la excepción
+                // Por ahora retornamos vacío para no romper el flujo
+                return string.Empty;
+            }
+
+            return string.Empty; // Retorno por defecto si nada de lo anterior funcionó
+        }
+    
 
         public void RegistrarCuotasCashea(string codSucursal, string nroOren, string nroContrato, string userCrea, List<Installment> cuotas)
         {
@@ -10261,6 +10491,21 @@ namespace CapaVisual_Login
                 }
             }
         }
+
+        private void DgvAbonos_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void txtCedula_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void PnlNotaCredito_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
         //private async void CargarCajasEnCombo()
         //{
         //    try
@@ -10291,7 +10536,7 @@ namespace CapaVisual_Login
         //    {
         //        //if (TB_CAORDSER.OrSer_Status == "004") //por pagar
         //        //{
-                   
+
         //        //}
         //        //else
         //        //{

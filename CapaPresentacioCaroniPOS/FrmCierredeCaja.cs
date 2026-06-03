@@ -648,7 +648,7 @@ namespace CapaVisual_Login
                     Text = "Pagos",
                     Font = new Font("Century Gothic", 13),
                     ForeColor = Color.Black,
-                    Size = new Size(30, 270),
+                    Size = new Size(30, 210),
                     Location = new Point(110, 278),
                     Invertir = true // ponlo en true si quieres que el texto vaya de abajo hacia arriba
                 };
@@ -978,6 +978,8 @@ namespace CapaVisual_Login
                     dgvCierredecaja.Columns["Total"].HeaderText = "Total";
 
                     dgvCierredecaja.Columns["TipoTotal"].ReadOnly = true;
+
+                    dgvCierredecaja.Columns["Operacion"].Visible = false;
 
                     dgvCierredecaja.DefaultCellStyle.Font = new Font("Century Gothic", 9);
                     // Change the font for the COLUMN HEADERS

@@ -248,16 +248,22 @@ namespace CapaLogica.DetalleOrden_Logica
         }
 
 
-        public void LLenarComboboxBancos(System.Windows.Forms.ComboBox Pago, bool Extranjera)
+        public void LLenarComboboxBancos(System.Windows.Forms.ComboBox Pago, bool Extranjera, string tipo)
         {
-            Pago.DataSource = _D_DetalleOrden.Bancos(Extranjera);
+            Pago.DataSource = _D_DetalleOrden.Bancos(Extranjera,tipo);
             Pago.DisplayMember = "Indexx";
             Pago.ValueMember = "Value";
         }
 
-        public void LLenarCbxBancoRecp(System.Windows.Forms.ComboBox Pago, bool Extranjera)
+        public void LLenarComboboxBancosTransferencia(System.Windows.Forms.ComboBox Pago, bool Extranjera)
         {
-            Pago.DataSource = _D_DetalleOrden.BancoRecp(Extranjera);
+            Pago.DataSource = _D_DetalleOrden.BancosTransferencia(Extranjera);
+            Pago.DisplayMember = "Indexx";
+            Pago.ValueMember = "Value";
+        }
+        public void LLenarCbxBancoRecp(System.Windows.Forms.ComboBox Pago, bool Extranjera, string tipo)
+        {
+            Pago.DataSource = _D_DetalleOrden.BancoRecp(Extranjera, tipo);
             Pago.DisplayMember = "Indexx";
             Pago.ValueMember = "Value";
         }
@@ -268,6 +274,8 @@ namespace CapaLogica.DetalleOrden_Logica
             Pago.DisplayMember = "Indexx";
             Pago.ValueMember = "Value";
         }
+
+      
 
         public void DatosOrden(string Orden, string Revison)
         {
@@ -753,33 +761,33 @@ namespace CapaLogica.DetalleOrden_Logica
                 Abo_Tipo = Convert.ToString(Row.Cells["TipoPago"].Value);
                 Abo_CTATARJETA = "";
                 Tasa_Dolar = Convert.ToDouble(TB_TASA_Dolar.Tasa);
-                Abo_CVCNROCHEQUE = "";
+                Abo_CVCNROCHEQUE = Convert.ToString(Row.Cells["Abo_CVCNROCHEQUE"].Value);
                 Abo_Fecha = "";
                 CodPunto = Convert.ToString(Row.Cells["Tipo_Punto"].Value);
 
 
                 // Agregado 25-08-2023
 
-                if (Row.Cells["TipoPago"].Value == "Cashea" | Row.Cells["TipoPago"].Value == "Pago Móvil")
+                if (Row.Cells["TipoPago"].Value.ToString() == "Cashea" | Row.Cells["TipoPago"].Value.ToString() == "Pago Móvil" | Row.Cells["CodPago"].Value.ToString() == "024" | Row.Cells["CodPago"].Value.ToString() == "025" | Row.Cells["CodPago"].Value.ToString() == "021" | Row.Cells["CodPago"].Value.ToString() == "022" | Row.Cells["CodPago"].Value.ToString() == "023" | Row.Cells["CodPago"].Value.ToString() == "026")
                 {
                     Abo_Tipo = "Transferencia";
                 }
 
-                if (Row.Cells["CodPago"].Value == "024")
+                if (Row.Cells["CodPago"].Value.ToString() == "024" | Row.Cells["CodPago"].Value.ToString() == "025" | Row.Cells["CodPago"].Value.ToString() == "021" | Row.Cells["CodPago"].Value.ToString() == "023" | Row.Cells["CodPago"].Value.ToString() == "022" | Row.Cells["CodPago"].Value.ToString() == "026")
                 {
                     Tipo_Pago = "021";
                 }
 
 
-                if (Row.Cells["TipoPago"].Value == "Efectivo Divisa")
+                if (Row.Cells["TipoPago"].Value.ToString() == "Efectivo Divisa" | Row.Cells["TipoPago"].Value.ToString() == "Transferencia Divisa")
                 {
                     Abo_Tipo = "Transferencia Divisa";
                 }
 
-                if (Row.Cells["CodPago"].Value == "023")
-                {
-                    Tipo_Pago = "022";
-                }
+                //if (Row.Cells["CodPago"].Value.ToString() == "023")
+                //{
+                //    Tipo_Pago = "022";
+                //}
 
                 //////////////////////////////////////
 
@@ -832,7 +840,7 @@ namespace CapaLogica.DetalleOrden_Logica
                     if (Abo_Tipo == "Transferencia Divisa")
                     {
                         Cod_BancoRecep = Cod_Banco;
-                        if (Row.Cells["Igtf"].Value != "")
+                        if (Row.Cells["Igtf"].Value.ToString() != "")
                         {
                             Abo_IGTF = Convert.ToString(Convert.ToDouble(Row.Cells["Igtf"].Value)).Replace(",", ".");
                             Abo_Monto_SinIGTF = Convert.ToString(Convert.ToDouble(Row.Cells["Bs"].Value) - Convert.ToDouble(Abo_IGTF.Replace(".", ","))).Replace(",", ".");
@@ -866,7 +874,7 @@ namespace CapaLogica.DetalleOrden_Logica
                 USER_Crea = TB_USUARIO.COD_USR;
                 USER_Mod = "";
                 Fecha = Convert.ToDateTime(Row.Cells["Fecha"].Value).ToString("yyyyMMdd");
-                if (Row.Cells["Ref"].Value != "")
+                if (Row.Cells["Ref"].Value.ToString() != "")
                 {
                     Abo_Monto_Divisa = Convert.ToDouble(Row.Cells["Ref"].Value);
                 }
@@ -876,7 +884,7 @@ namespace CapaLogica.DetalleOrden_Logica
                 }
 
 
-                if (Row.Cells["Moneda"].Value == "Euros")
+                if (Row.Cells["Moneda"].Value.ToString() == "Euros")
                 {
                     OrSer_Tipo_Mon = "02";
                     Tasa_Abono = Convert.ToDouble(TB_TASA_Euro.Tasa);
@@ -2344,13 +2352,38 @@ namespace CapaLogica.DetalleOrden_Logica
 
                 foreach (DataGridViewRow row in Dt_Abono.Rows)
                 {
-                        if ((row.Cells["CodPago"].Value.ToString() == "021" | row.Cells["CodPago"].Value.ToString() == "024") && (row.Cells["Banco"].Value.ToString() == "CASHEA"| row.Cells["CodBanco"].Value.ToString() == "110"))
+                        if ((row.Cells["CodPago"].Value.ToString() == "021" | row.Cells["CodPago"].Value.ToString() == "024" | row.Cells["CodPago"].Value.ToString() == "025") && (row.Cells["CodBanco"].Value.ToString() == "110" | row.Cells["CodBanco"].Value.ToString() == "116"))
                         {
                             stringBuilder.Append("Ya existe un abono con este tipo de pago");
                             return true;
                         }
 
                 }
+
+                bool existeCashea = false;
+
+                //foreach (DataGridViewRow fila in DgvAbonos.Rows)
+                //{
+                //    if (fila.Cells[0].Value != null)
+                //    {
+                //        string nombreAbono = fila.Cells[0].Value.ToString();
+
+                //        // El equivalente a: LIKE '%cashea%' (ignorando mayúsculas y minúsculas)
+                //        if (nombreAbono.ToLower().Contains("cashea"))
+                //        {
+                //            existeCashea = true;
+                //            break;
+                //        }
+                //    }
+                //}
+
+                //if (existeCashea)
+                //{
+                //    mostrarError("Ya existe un abono con este medio de pago");
+                //    return;
+                //    // Tu lógica aquí si encuentra la palabra
+                //}
+
 
                 return false;
             }

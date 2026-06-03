@@ -33,13 +33,27 @@ namespace CapaDatos.DetalleOrden_Datos
 
         }
 
-        public DataTable Bancos(bool MonedaExtranjera)
+        public DataTable Bancos(bool MonedaExtranjera, string tipo)
         {
             //SqlCommand cmd = new SqlCommand("select CODBAN as Value, NOMBREBANCO as Indexx from TB_BANCOS where  ST_BANCOS= 'A' and MONEDAEXTRANJERA= @Moneda and CODBAN<> '007' and CODBAN<> '110' ", cn.LeerCadena());
             SqlCommand cmd = new SqlCommand("SP_CPOS_GetBancoTipoPagoMovil", cn.LeerCadena());
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@Moneda", MonedaExtranjera);
-            cmd.Parameters.AddWithValue("@Tipo", "B2");
+            cmd.Parameters.AddWithValue("@Tipo", tipo);
+            DataTable dt = new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            da.Fill(dt);
+            return dt;
+
+        }
+
+        public DataTable BancosTransferencia(bool MonedaExtranjera)
+        {
+            //SqlCommand cmd = new SqlCommand("select CODBAN as Value, NOMBREBANCO as Indexx from TB_BANCOS where  ST_BANCOS= 'A' and MONEDAEXTRANJERA= @Moneda and CODBAN<> '007' and CODBAN<> '110' ", cn.LeerCadena());
+            SqlCommand cmd = new SqlCommand("SP_CPOS_GetBancoTipoPagoMovil", cn.LeerCadena());
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@Moneda", MonedaExtranjera);
+            cmd.Parameters.AddWithValue("@Tipo", "TR");
             DataTable dt = new DataTable();
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             da.Fill(dt);
@@ -63,18 +77,7 @@ namespace CapaDatos.DetalleOrden_Datos
         }
 
 
-        public DataTable BancoRecp(bool MonedaExtranjera)
-        {
-            //SqlCommand cmd = new SqlCommand("select CODBAN as Value, NOMBREBANCO as Indexx from TB_BANCOS where  RT_BANCOS= 'A' and MONEDAEXTRANJERA= @Moneda and CODBAN<> '007' and CODBAN<> '110'", cn.LeerCadena());
-            SqlCommand cmd = new SqlCommand("SP_CPOS_GetBancoTipoPagoMovil", cn.LeerCadena());
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@Moneda", MonedaExtranjera);
-            cmd.Parameters.AddWithValue("@Tipo", "TR");
-            DataTable dt = new DataTable();
-            SqlDataAdapter da = new SqlDataAdapter(cmd);
-            da.Fill(dt);
-            return dt;
-        }
+       
 
         public DataTable BancoRecp_Pagomovil(bool MonedaExtranjera)
         {
@@ -83,6 +86,19 @@ namespace CapaDatos.DetalleOrden_Datos
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@Moneda", MonedaExtranjera);
             cmd.Parameters.AddWithValue("@Tipo", "PM");
+            DataTable dt = new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            da.Fill(dt);
+            return dt;
+        }
+
+        public DataTable BancoRecp(bool MonedaExtranjera,string tipo)
+        {
+            //SqlCommand cmd = new SqlCommand("select CODBAN as Value, NOMBREBANCO as Indexx from TB_BANCOS where MONEDAEXTRANJERA= @Moneda and PagoMovil=1 ", cn.LeerCadena());
+            SqlCommand cmd = new SqlCommand("SP_CPOS_GetBancoTipoPagoMovil", cn.LeerCadena());
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@Moneda", MonedaExtranjera);
+            cmd.Parameters.AddWithValue("@Tipo", tipo);
             DataTable dt = new DataTable();
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             da.Fill(dt);
@@ -723,7 +739,7 @@ namespace CapaDatos.DetalleOrden_Datos
 
         public DataTable CargarPagosGrid(string sucursal, string orden, string Revision)
         {
-            SqlCommand cmd = new SqlCommand("SELECT Fecha, CASE WHEN Tipo_Pago = '021'  and (Cod_Banco = '101'or Cod_Banco = '102' or Cod_Banco = '103' or Cod_Banco = '104' or  Cod_Banco = '105' or Cod_Banco = '106'or Cod_Banco = '107' or Cod_Banco = '108' or Cod_Banco = '109' or  Cod_Banco = '111') THEN 'TRANSFERENCIA DIVISA' WHEN Tipo_Pago = '007' THEN 'TARJETA DE CREDITO ' WHEN Cod_Banco = '110' AND Tipo_Pago = '021' THEN 'CASHEA' WHEN Cod_Banco = '007' AND Tipo_Pago = '021' THEN 'EFECTIVO DIVISA' WHEN Cod_Banco = '007' AND Tipo_Pago = '022' THEN 'EFECTIVO DIVISA' ELSE Abo_Tipo END as Abo_Tipo , Abo_Monto, Tipo_Pago, Fec_Crea, ID_Abono FROM TB_ABONO WHERE Cod_Sucursal = @sucursal and NumOrdserv = @orden and Revision = @revision and Anulado = 0", cn.LeerCadena());
+            SqlCommand cmd = new SqlCommand("SELECT Fecha, UPPER(P.DescripPago) Abo_Tipo , Abo_Monto, Tipo_Pago, Fec_Crea, ID_Abono FROM TB_ABONO A INNER JOIN TB_TIPOPAGO P ON A.Tipo_Pago = P.COD_PAGO WHERE Cod_Sucursal = @sucursal and NumOrdserv = @orden and Revision = @revision and Anulado = 0", cn.LeerCadena());
             
             cmd.CommandType = CommandType.Text;
             cmd.Parameters.AddWithValue("@sucursal", sucursal);
@@ -1706,6 +1722,7 @@ namespace CapaDatos.DetalleOrden_Datos
             try
             {
                 SqlCommand cmd = command;
+
                 cmd.CommandText = ("SP_CPOS_POST_ABONO");
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@COD_SUCURSAL", Cod_Sucursal);
