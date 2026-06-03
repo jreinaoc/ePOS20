@@ -4967,23 +4967,30 @@ namespace CapaVisual_Login
 
                                 {
 
-                                    // SI NO COINCIDEN, ANULO EL TICKET
-                                    objVmax.Cancelar();
-                                    objVmax.Cerrar();
-                                    objVmax.CerrarPuerto();
+                                    if (TB_CAORDSER.Cod_Sucursal == "251" && _D_DetalleOrden.TB_PARAMETRO("ValidaDifMontos") == "0")
+                                    {
+                                        sumo01 = true;
+                                    }
+                                    else
+                                    {
+                                        // SI NO COINCIDEN, ANULO EL TICKET
+                                        objVmax.Cancelar();
+                                        objVmax.Cerrar();
+                                        objVmax.CerrarPuerto();
 
-                                    objVmax.AbrirPuerto(glbPuertoCOM.ToString());
-                                    objVmax.ObtenerContadores();
-                                    objVmax.CerrarPuerto();
-                                    UltimoNumeroFacturaCancelado2 = objVmax.RetornoContadores.uiUltFacturaAnulada.ToString().PadLeft(7, '0');
+                                        objVmax.AbrirPuerto(glbPuertoCOM.ToString());
+                                        objVmax.ObtenerContadores();
+                                        objVmax.CerrarPuerto();
+                                        UltimoNumeroFacturaCancelado2 = objVmax.RetornoContadores.uiUltFacturaAnulada.ToString().PadLeft(7, '0');
 
-                                    ImprimirFacturaFiscall = false;
-                                    respuesta = false;
-                                    Impresora_Fiscal.AgregarAccionPendiente("099");
-                                    return "Error";
+                                        ImprimirFacturaFiscall = false;
+                                        respuesta = false;
+                                        Impresora_Fiscal.AgregarAccionPendiente("099");
+                                        return "Error";
 
+                                    }
 
-                                }
+                            }
                             }
                             else
                             {

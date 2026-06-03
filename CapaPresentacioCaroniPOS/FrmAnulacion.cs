@@ -147,7 +147,7 @@ namespace CapaVisual_Login
                     //Anular Orden Por Pagar (No tiene Abonos)
                     if (AnulacionPagos == false & MontoAnulacion == 0.00)
                     {
-                        if (TB_CAORDSER.OrSer_Status == "004")
+                        if (TB_CAORDSER.OrSer_Status == "004" || TB_CAORDSER.OrSer_Status == "007")
                         {
                             Anular_Orden_Por_Pagar();
                         }
@@ -1243,6 +1243,22 @@ namespace CapaVisual_Login
 
                 CodMoti = CbxSelectMotivo.SelectedValue.ToString();
                 string observaciones = TxtObservaciones.Text;
+
+                if (TB_CAORDSER.OTCORRESPONDIENTE != "" && TB_CAORDSER.OTCORRESPONDIENTE != null)
+                {
+                    DataTable OssHijo = _D_DetalleOrden.ObtenerOrdenHijo(TB_CAORDSER.OTCORRESPONDIENTE);
+                    //DataTable oFactHijo = _D_DetalleOrden.ObtenerFacturaHijo(TB_CAORDSER.OTCORRESPONDIENTE);
+
+                    if (TB_CAORDSER.OTCORRESPONDIENTE != "" & OssHijo.Rows[0]["OrSer_Status"].ToString() != "003")
+                    {
+                            _FrmMensajes.co = 2;
+                            _FrmMensajes.avisomensaje("Esta orden es parte de una PROMOCIÓN y tiene una orden asociada. Debe anular primero la orden hijo (OS: " + TB_CAORDSER.OTCORRESPONDIENTE.ToString() + ") y luego proceda con esta anulación, Proceso no permitido");
+                            _FrmMensajes.ShowDialog();
+                            Limpiarcbx();
+                            return;
+                    }
+                }
+
                 rept = _L_Anulacion.Anulacion(TB_CAORDSER.NumOrdserv, CodMoti, CodResp, observaciones, TB_USUARIO.COD_USR, "00", command);
                 if (rept == "SATISFACTORIO")
                     _L_Anulacion.EnviarAuditor("012", VariablesGlobales.UsuarioAutorizado_FrmClaveGerente, command);

@@ -120,6 +120,8 @@ namespace CapaVisual_Login
         {
             try
             {
+                Dgv_ListOsCasadas.CellValueChanged += Dgv_ListOsCasadas_CellValueChanged;
+                btAplicarPromo.Enabled = false;
                 CargarConfiguracionPromociones();
                 CargarPromocionesEnComboBox();
             }
@@ -177,6 +179,7 @@ namespace CapaVisual_Login
                 }
 
                 ConfigurarDataGridViewOrdenes();
+                ActualizarEstadoBoton();
             }
             else
             {
@@ -521,8 +524,15 @@ namespace CapaVisual_Login
 
         private void Dgv_ListOsCasadas_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            // Solo procesar clicks en la columna de checkbox y que no sea el header
-            if (e.ColumnIndex == Dgv_ListOsCasadas.Columns[COL_SELECCION].Index)
+            if (e.ColumnIndex == Dgv_ListOsCasadas.Columns[COL_SELECCION].Index && e.RowIndex >= 0)
+            {
+                Dgv_ListOsCasadas.EndEdit();
+            }
+        }
+
+        private void Dgv_ListOsCasadas_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == Dgv_ListOsCasadas.Columns[COL_SELECCION].Index && e.RowIndex >= 0)
             {
                 ProcesarSeleccionOrden(e.RowIndex);
             }
@@ -623,23 +633,21 @@ namespace CapaVisual_Login
                     estaSeleccionada = Convert.ToBoolean(Dgv_ListOsCasadas.Rows[rowIndex].Cells[COL_SELECCION].Value);
                 }
 
-                // Contar órdenes actualmente seleccionadas
+                // Contar órdenes actualmente seleccionadas (incluye el cambio actual)
                 int cantSeleccionadas = ContarOrdenesSeleccionadas();
 
-                // Validar límite máximo ANTES de cambiar
+                // Validar límite máximo
                 if (cantSeleccionadas > config.MaxOrdenes)
                 {
                     mostrarError($"Máximo {config.MaxOrdenes} órdenes pueden ser seleccionadas");
                     Dgv_ListOsCasadas.Rows[rowIndex].Cells[COL_SELECCION].Value = false;
-                    btAplicarPromo.Enabled = cantSeleccionadas >= config.MinOrdenes;
+                    cantSeleccionadas = ContarOrdenesSeleccionadas();
+                    btAplicarPromo.Enabled = cantSeleccionadas >= config.MinOrdenes && cantSeleccionadas <= config.MaxOrdenes;
                     return;
                 }
 
-                // Alternar selección (el valor ya fue cambiado por el usuario, solo actualizamos lógica)
-                cantSeleccionadas += estaSeleccionada ? -1 : 1;
-
-                // Controlar estado del botón de aplicar
-                btAplicarPromo.Enabled = cantSeleccionadas >= config.MinOrdenes;
+                // Controlar estado del botón de aplicar (entre mínimo y máximo)
+                btAplicarPromo.Enabled = cantSeleccionadas >= config.MinOrdenes && cantSeleccionadas <= config.MaxOrdenes;
             }
             catch (Exception ex)
             {
@@ -659,6 +667,13 @@ namespace CapaVisual_Login
                 }
             }
             return count;
+        }
+
+        private void ActualizarEstadoBoton()
+        {
+            var config = ObtenerConfiguracionPromocion(promocionActual);
+            int minimo = config?.MinOrdenes ?? 1;
+            btAplicarPromo.Enabled = ContarOrdenesSeleccionadas() >= minimo;
         }
 
         private PromocionConfig ObtenerConfiguracionPromocion(string nombrePromocion)
