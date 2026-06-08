@@ -768,12 +768,12 @@ namespace CapaLogica.DetalleOrden_Logica
 
                 // Agregado 25-08-2023
 
-                if (Row.Cells["TipoPago"].Value.ToString() == "Cashea" | Row.Cells["TipoPago"].Value.ToString() == "Pago Móvil" | Row.Cells["CodPago"].Value.ToString() == "024" | Row.Cells["CodPago"].Value.ToString() == "025" | Row.Cells["CodPago"].Value.ToString() == "021" | Row.Cells["CodPago"].Value.ToString() == "022" | Row.Cells["CodPago"].Value.ToString() == "023" | Row.Cells["CodPago"].Value.ToString() == "026")
+                if (Row.Cells["TipoPago"].Value.ToString() == "Cashea" | Row.Cells["TipoPago"].Value.ToString() == "Pago Móvil" | Row.Cells["CodPago"].Value.ToString() == "024" | Row.Cells["CodPago"].Value.ToString() == "025" | Row.Cells["CodPago"].Value.ToString() == "021" | Row.Cells["CodPago"].Value.ToString() == "022" | Row.Cells["CodPago"].Value.ToString() == "023" | Row.Cells["CodPago"].Value.ToString() == "026" | Row.Cells["CodPago"].Value.ToString() == "027")
                 {
                     Abo_Tipo = "Transferencia";
                 }
 
-                if (Row.Cells["CodPago"].Value.ToString() == "024" | Row.Cells["CodPago"].Value.ToString() == "025" | Row.Cells["CodPago"].Value.ToString() == "021" | Row.Cells["CodPago"].Value.ToString() == "023" | Row.Cells["CodPago"].Value.ToString() == "022" | Row.Cells["CodPago"].Value.ToString() == "026")
+                if (Row.Cells["CodPago"].Value.ToString() == "024" | Row.Cells["CodPago"].Value.ToString() == "025" | Row.Cells["CodPago"].Value.ToString() == "021" | Row.Cells["CodPago"].Value.ToString() == "023" | Row.Cells["CodPago"].Value.ToString() == "022" | Row.Cells["CodPago"].Value.ToString() == "026" | Row.Cells["CodPago"].Value.ToString() == "027")
                 {
                     Tipo_Pago = "021";
                 }
