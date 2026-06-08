@@ -874,166 +874,171 @@ namespace CapaVisual_Login
             }
 
             // Ahora ya puedes usar 'status' sin miedo a que truene el código
-            if (!string.IsNullOrEmpty(status))
-            {
-                _FrmMensajes.co = 2;
-                _FrmMensajes.avisomensaje("Tiene ordenes pendientes por enviar");
-                _FrmMensajes.ShowDialog();
-                return;
-                // Aquí pones tu switch o tus if de los bloqueos...
-                //if (status == "BLOQUEO POR ENVIO")
-                //{
-                //    _FrmMensajes.co = 2;
-                //    _FrmMensajes.avisomensaje("Ya transcurrió el tiempo máximo de espera para el envío de ordenes\nDebe enviar las ordenes pendientes desde EPOS al laboratorio para desbloquear el sistema");
-                //    _FrmMensajes.ShowDialog();
-                //    //MessageBox.Show("Ya transcurrió el tiempo máximo de espera para el envío de ordenes\nDebe enviar las ordenes pendientes desde EPOS al laboratorio para desbloquear el sistema",
-                //    //                "Sistema Bloqueado por Envío en Epos",
-                //    //                MessageBoxButtons.OK,
-                //    //                MessageBoxIcon.Information,
-                //    //                MessageBoxDefaultButton.Button1);
-                //}
-                //else if (status == "BLOQUEO POR FAX")
-                //{
-                //    _FrmMensajes.co = 2;
-                //    _FrmMensajes.avisomensaje("Ya transcurrió el tiempo máximo de espera para el envío de ordenes\nDebe enviar las ordenes pendientes desde el MENÚ DE APLICACIONES al laboratorio para desbloquear el sistema");
-                //    _FrmMensajes.ShowDialog(); 
-                //    //MessageBox.Show("Ya transcurrió el tiempo máximo de espera para el envío de ordenes\nDebe enviar las ordenes pendientes desde el MENÚ DE APLICACIONES al laboratorio para desbloquear el sistema",
-                //    //                "Sistema Bloqueado por envío de Fax Módem",
-                //    //                MessageBoxButtons.OK,
-                //    //                MessageBoxIcon.Information,
-                //    //                MessageBoxDefaultButton.Button1);
-                //}
-                //else if (status == "BLOQUEO POR ENVIO DE ANULACIONES")
-                //{
-                //    _FrmMensajes.co = 2;
-                //    _FrmMensajes.avisomensaje("Ya transcurrió el tiempo máximo de espera para el envío de anulaciones\nDebe enviar las anulaciones pendientes desde EPOS al laboratorio para desbloquear el sistema");
-                //    _FrmMensajes.ShowDialog();
-
-                //    //MessageBox.Show("Ya transcurrió el tiempo máximo de espera para el envío de anulaciones\nDebe enviar las anulaciones pendientes desde EPOS al laboratorio para desbloquear el sistema",
-                //    //                "Sistema Bloqueado por Envío de anulaciones en Epos",
-                //    //                MessageBoxButtons.OK,
-                //    //                MessageBoxIcon.Information,
-                //    //                MessageBoxDefaultButton.Button1);
-                //}
-                //else if (status == "BLOQUEO POR ENVIO DE REVISIONES")
-                //{
-                //    _FrmMensajes.co = 2;
-                //    _FrmMensajes.avisomensaje("Ya transcurrió el tiempo máximo de espera para el envío de revisiones\nDebe enviar las revisiones pendientes desde EPOS al laboratorio para desbloquear el sistema");
-                //    _FrmMensajes.ShowDialog();
-                //    //MessageBox.Show("Ya transcurrió el tiempo máximo de espera para el envío de revisiones\nDebe enviar las revisiones pendientes desde EPOS al laboratorio para desbloquear el sistema",
-                //    //                "Sistema Bloqueado por Envío de revisiones en Epos",
-                //    //                MessageBoxButtons.OK,
-                //    //                MessageBoxIcon.Information,
-                //    //                MessageBoxDefaultButton.Button1);
-                //}
-
-            }
-
-            
-
-            
-
-            _FrmInicio.Actualizar_Tasas();
-            pnlUtilitarios.Visible = false;
-            System.Drawing.Color col2 = System.Drawing.ColorTranslator.FromHtml("#257b78");
-
-            
-
-            if (this.BackColor == col2)
-            {
-                btnCargarOrdenes.BackColor = Color.FromArgb(4, 185, 166);
-                BtnListadoOrdenes.BackColor = col2;
-                BtnInicio.BackColor = col2;
-                btnconfiguracion.BackColor = col2;
-                btnClienteEspera.BackColor = col2;
-                btnPagoMovil.BackColor = col2;
-                btnListaFactura.BackColor = col2;
-                btnUtilitarios.BackColor = col2;
-            }
-            else
-            {
-                btnCargarOrdenes.BackColor = Color.FromArgb(4, 185, 166);
-                BtnListadoOrdenes.BackColor = Color.White;
-                BtnInicio.BackColor = Color.White;
-                btnconfiguracion.BackColor = Color.White;
-                btnClienteEspera.BackColor = Color.White;
-                btnPagoMovil.BackColor = Color.White;
-                btnListaFactura.BackColor = Color.White;
-                btnUtilitarios.BackColor = Color.White;
-                btnPromoCasada.BackColor = Color.White;
-            }
-
-           
-            DateTime currentDate = _D_Inicio.DiaActivo();
-            string formattedDate = currentDate.ToString("yyyyMMdd");
-            string StatusTasa = "";
-            string StatusSec = "";
-            DataSet dsConsTasa = _D_TasaSecuencia.TasaDia(_D_DetalleOrden.TB_PARAMETRO("SucursalId"), _D_Inicio.DiaActivo().ToString("yyyy/MM/dd"));
-
-            for (int x = 0; x < dsConsTasa.Tables[0].Rows.Count; x++)
-            {
-                StatusTasa = (string)dsConsTasa.Tables[0].Rows[x]["Fecha_Activa_Ppal"];
-                StatusSec = (string)dsConsTasa.Tables[0].Rows[x]["Fecha_Activa_PpalSec"];
-            }
-            if  (_D_DetalleOrden.TB_PARAMETRO("ActivarSecAdia") == "0")
-            {
-                StatusSec = "SI";
-            }
-
-
-            //if (TB_USUARIO.COD_EMPLEADO != "99999")
-            //{
-            if (DateTime.Now.Date < currentDate.Date)
-            {
-                _FrmMensajes.co = 2;
-                _FrmMensajes.avisomensaje("El día activo es mayor a la fecha de hoy");
-                _FrmMensajes.ShowDialog();
-                return;
-            }
             if (_D_DetalleOrden.TB_PARAMETRO("AmbDesarrollo") == "0")
             {
-
-                if (StatusTasa != "SI" || StatusSec != "SI")
+                if (!string.IsNullOrEmpty(status))
                 {
                     _FrmMensajes.co = 2;
-                    _FrmMensajes.avisomensaje("Debe actualizar la tasa de las monedas y activación de secuencia diaria");
-                    _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
-                    _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                    _FrmMensajes.avisomensaje("Tiene ordenes pendientes por enviar");
                     _FrmMensajes.ShowDialog();
                     return;
+                    // Aquí pones tu switch o tus if de los bloqueos...
+                    //if (status == "BLOQUEO POR ENVIO")
+                    //{
+                    //    _FrmMensajes.co = 2;
+                    //    _FrmMensajes.avisomensaje("Ya transcurrió el tiempo máximo de espera para el envío de ordenes\nDebe enviar las ordenes pendientes desde EPOS al laboratorio para desbloquear el sistema");
+                    //    _FrmMensajes.ShowDialog();
+                    //    //MessageBox.Show("Ya transcurrió el tiempo máximo de espera para el envío de ordenes\nDebe enviar las ordenes pendientes desde EPOS al laboratorio para desbloquear el sistema",
+                    //    //                "Sistema Bloqueado por Envío en Epos",
+                    //    //                MessageBoxButtons.OK,
+                    //    //                MessageBoxIcon.Information,
+                    //    //                MessageBoxDefaultButton.Button1);
+                    //}
+                    //else if (status == "BLOQUEO POR FAX")
+                    //{
+                    //    _FrmMensajes.co = 2;
+                    //    _FrmMensajes.avisomensaje("Ya transcurrió el tiempo máximo de espera para el envío de ordenes\nDebe enviar las ordenes pendientes desde el MENÚ DE APLICACIONES al laboratorio para desbloquear el sistema");
+                    //    _FrmMensajes.ShowDialog(); 
+                    //    //MessageBox.Show("Ya transcurrió el tiempo máximo de espera para el envío de ordenes\nDebe enviar las ordenes pendientes desde el MENÚ DE APLICACIONES al laboratorio para desbloquear el sistema",
+                    //    //                "Sistema Bloqueado por envío de Fax Módem",
+                    //    //                MessageBoxButtons.OK,
+                    //    //                MessageBoxIcon.Information,
+                    //    //                MessageBoxDefaultButton.Button1);
+                    //}
+                    //else if (status == "BLOQUEO POR ENVIO DE ANULACIONES")
+                    //{
+                    //    _FrmMensajes.co = 2;
+                    //    _FrmMensajes.avisomensaje("Ya transcurrió el tiempo máximo de espera para el envío de anulaciones\nDebe enviar las anulaciones pendientes desde EPOS al laboratorio para desbloquear el sistema");
+                    //    _FrmMensajes.ShowDialog();
+
+                    //    //MessageBox.Show("Ya transcurrió el tiempo máximo de espera para el envío de anulaciones\nDebe enviar las anulaciones pendientes desde EPOS al laboratorio para desbloquear el sistema",
+                    //    //                "Sistema Bloqueado por Envío de anulaciones en Epos",
+                    //    //                MessageBoxButtons.OK,
+                    //    //                MessageBoxIcon.Information,
+                    //    //                MessageBoxDefaultButton.Button1);
+                    //}
+                    //else if (status == "BLOQUEO POR ENVIO DE REVISIONES")
+                    //{
+                    //    _FrmMensajes.co = 2;
+                    //    _FrmMensajes.avisomensaje("Ya transcurrió el tiempo máximo de espera para el envío de revisiones\nDebe enviar las revisiones pendientes desde EPOS al laboratorio para desbloquear el sistema");
+                    //    _FrmMensajes.ShowDialog();
+                    //    //MessageBox.Show("Ya transcurrió el tiempo máximo de espera para el envío de revisiones\nDebe enviar las revisiones pendientes desde EPOS al laboratorio para desbloquear el sistema",
+                    //    //                "Sistema Bloqueado por Envío de revisiones en Epos",
+                    //    //                MessageBoxButtons.OK,
+                    //    //                MessageBoxIcon.Information,
+                    //    //                MessageBoxDefaultButton.Button1);
+                    //}
+
                 }
-                else if (DateTime.Now.Date > currentDate.Date)
+
+
+
+
+
+                _FrmInicio.Actualizar_Tasas();
+                pnlUtilitarios.Visible = false;
+                System.Drawing.Color col2 = System.Drawing.ColorTranslator.FromHtml("#257b78");
+
+
+
+                if (this.BackColor == col2)
                 {
-                    _FrmMensajes.co = 2;
-                    _FrmMensajes.avisomensaje("Debe cerrar caja del día anterior para continuar");
-                    _FrmMensajes.ShowDialog();
-                    return;
+                    btnCargarOrdenes.BackColor = Color.FromArgb(4, 185, 166);
+                    BtnListadoOrdenes.BackColor = col2;
+                    BtnInicio.BackColor = col2;
+                    btnconfiguracion.BackColor = col2;
+                    btnClienteEspera.BackColor = col2;
+                    btnPagoMovil.BackColor = col2;
+                    btnListaFactura.BackColor = col2;
+                    btnUtilitarios.BackColor = col2;
+                }
+                else
+                {
+                    btnCargarOrdenes.BackColor = Color.FromArgb(4, 185, 166);
+                    BtnListadoOrdenes.BackColor = Color.White;
+                    BtnInicio.BackColor = Color.White;
+                    btnconfiguracion.BackColor = Color.White;
+                    btnClienteEspera.BackColor = Color.White;
+                    btnPagoMovil.BackColor = Color.White;
+                    btnListaFactura.BackColor = Color.White;
+                    btnUtilitarios.BackColor = Color.White;
+                    btnPromoCasada.BackColor = Color.White;
                 }
 
-                //**** Se creo una nueva Funcion para validar la Asistencia 
-                if (!_L_CierreCaja.BuscoAsistencia(DateTime.Now.ToString("yyyyMMdd"), mostrarPregunta,mostrarError))
-                    return;
 
-                //**********Funcion Vieja validar Asistencia ********************************************
-                //if (!_L_CierreCaja.ObtieneAsistenciaPendiente(formattedDate, TB_USUARIO.COD_USR))
+                DateTime currentDate = _D_Inicio.DiaActivo();
+                string formattedDate = currentDate.ToString("yyyyMMdd");
+                string StatusTasa = "";
+                string StatusSec = "";
+                DataSet dsConsTasa = _D_TasaSecuencia.TasaDia(_D_DetalleOrden.TB_PARAMETRO("SucursalId"), _D_Inicio.DiaActivo().ToString("yyyy/MM/dd"));
+
+                for (int x = 0; x < dsConsTasa.Tables[0].Rows.Count; x++)
+                {
+                    StatusTasa = (string)dsConsTasa.Tables[0].Rows[x]["Fecha_Activa_Ppal"];
+                    StatusSec = (string)dsConsTasa.Tables[0].Rows[x]["Fecha_Activa_PpalSec"];
+                }
+                if (_D_DetalleOrden.TB_PARAMETRO("ActivarSecAdia") == "0")
+                {
+                    StatusSec = "SI";
+                }
+
+
+                //if (TB_USUARIO.COD_EMPLEADO != "99999")
                 //{
-                //    _FrmMensajes.co = 2;
-                //    _FrmMensajes.avisomensaje("Debe marcar asistencia para el día activo");
-                //    _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
-                //    _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
-                //    _FrmMensajes.ShowDialog();
-                //    return;
-                //}
-
-                if (!ValidarConfirmacionDivisas())
+                if (DateTime.Now.Date < currentDate.Date)
                 {
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje("El día activo es mayor a la fecha de hoy");
+                    _FrmMensajes.ShowDialog();
                     return;
                 }
-                if (!ValidarRecepTrnSol())
+                if (_D_DetalleOrden.TB_PARAMETRO("AmbDesarrollo") == "0")
                 {
-                    return;
+
+                    if (StatusTasa != "SI" || StatusSec != "SI")
+                    {
+                        _FrmMensajes.co = 2;
+                        _FrmMensajes.avisomensaje("Debe actualizar la tasa de las monedas y activación de secuencia diaria");
+                        _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                        _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                        _FrmMensajes.ShowDialog();
+                        return;
+                    }
+                    else if (DateTime.Now.Date > currentDate.Date)
+                    {
+                        _FrmMensajes.co = 2;
+                        _FrmMensajes.avisomensaje("Debe cerrar caja del día anterior para continuar");
+                        _FrmMensajes.ShowDialog();
+                        return;
+                    }
+
+                    //**** Se creo una nueva Funcion para validar la Asistencia 
+                    if (!_L_CierreCaja.BuscoAsistencia(DateTime.Now.ToString("yyyyMMdd"), mostrarPregunta, mostrarError))
+                        return;
+
+                    //**********Funcion Vieja validar Asistencia ********************************************
+                    //if (!_L_CierreCaja.ObtieneAsistenciaPendiente(formattedDate, TB_USUARIO.COD_USR))
+                    //{
+                    //    _FrmMensajes.co = 2;
+                    //    _FrmMensajes.avisomensaje("Debe marcar asistencia para el día activo");
+                    //    _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                    //    _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                    //    _FrmMensajes.ShowDialog();
+                    //    return;
+                    //}
+
+                    if (!ValidarConfirmacionDivisas())
+                    {
+                        return;
+                    }
+                    if (!ValidarRecepTrnSol())
+                    {
+                        return;
+                    }
                 }
             }
+
+            
             //}
             TB_CAORDSER.Cod_DetVta = "";
             PnlListadoOrdenes.Controls.Clear();

@@ -325,6 +325,20 @@ namespace CapaLogica.CargarOrdenes
             return true; 
         }
 
+        public bool AgregarGiftCard(string codSucursal, string nroOrden, string revision, decimal montoDolares, string nombreBeneficiario, string correoBeneficiario, string mensaje, string codigoGiftCard, string userCrea, string userMod, SqlCommand command = null)
+        {
+            try
+            {
+                bool Respuesta = _D_Trabajo.AgregarGiftCard(codSucursal, nroOrden,revision,montoDolares, nombreBeneficiario,correoBeneficiario,mensaje, codigoGiftCard,userCrea, userMod,command);
+
+                return Respuesta;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error general al actualizar TB_TRABAJO o rebajar inventario: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+        }
 
 
 
