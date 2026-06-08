@@ -116,6 +116,7 @@ namespace CapaLogica.ExportarArchivos
                 { "Gastos", "MANUALGASTOS", "SISTEMAGASTOS" },
                 { "IVA Retenido", "ManualIVARetenido", "SistemaIVARetenido" },
                 { "ISLR Retenido", "ManualISLRRetenido", "SistemaISLRRetenido" },
+                { "Impuesto Municipal", "ManualImpMun", "SistemaImpMun" },
                 { "Transferencia", "MANUALTRANSFERENCIA", "SISTEMATRANSFERENCIA" },
                 { "Vuelto", "MANUALVUELTO", "SISTEMAVUELTO" },
                 { "Total", "MANUALTOTALINGRESOS", "SISTEMATOTALINGRESOS" },

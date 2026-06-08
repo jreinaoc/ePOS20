@@ -166,6 +166,8 @@ namespace CapaLogica.ListaFactura_Logica
                         SistemaIVARetenido = Convert.ToDecimal(row["SistemaIVARetenido"]),
                         ManualISLRRetenido = Convert.ToDecimal(row["ManualISLRRetenido"]),
                         SistemaISLRRetenido = Convert.ToDecimal(row["SistemaISLRRetenido"]),
+                        ManualImpMun = Convert.ToDecimal(row["ManualImpMun"]),
+                        SistemaImpMun = Convert.ToDecimal(row["SistemaImpMun"]),
                         MANUALTRANSFERENCIA = Convert.ToDecimal(row["MANUALTRANSFERENCIA"]),
                         SISTEMATRANSFERENCIA = Convert.ToDecimal(row["SISTEMATRANSFERENCIA"]),
                         MANUALVUELTO = Convert.ToDecimal(row["MANUALVUELTO"]),

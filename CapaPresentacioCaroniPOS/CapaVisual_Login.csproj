@@ -183,6 +183,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BD018FBDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BD018FBDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="BD018FBDataSet1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BD018FBDataSet1.xsd</DependentUpon>
+    </Compile>
     <Compile Include="CGarantiaDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -529,6 +539,28 @@
     <EmbeddedResource Include="Reportes\RptAbono.rdlc" />
     <EmbeddedResource Include="Reportes\RptPagosTranferencia.rdlc" />
     <EmbeddedResource Include="Reportes\RptProSinPag.rdlc" />
+    <None Include="BD018FBDataSet.xsc">
+      <DependentUpon>BD018FBDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="BD018FBDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>BD018FBDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="BD018FBDataSet.xss">
+      <DependentUpon>BD018FBDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="BD018FBDataSet1.xsc">
+      <DependentUpon>BD018FBDataSet1.xsd</DependentUpon>
+    </None>
+    <None Include="BD018FBDataSet1.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>BD018FBDataSet1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="BD018FBDataSet1.xss">
+      <DependentUpon>BD018FBDataSet1.xsd</DependentUpon>
+    </None>
     <None Include="CapaVisual_Login_TemporaryKey.pfx" />
     <None Include="CGarantiaDataSet.xsc">
       <DependentUpon>CGarantiaDataSet.xsd</DependentUpon>

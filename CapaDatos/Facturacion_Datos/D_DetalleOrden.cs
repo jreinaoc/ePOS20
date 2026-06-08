@@ -2021,6 +2021,28 @@ namespace CapaDatos.DetalleOrden_Datos
         }
 
 
+        public void Registar_ComprobImpMu_Facturacion(string ComprobImpMun, string Fact_Numm, string Sucursal, string NunOrden)
+        {
+            try
+            {
+                SqlCommand cmd = new SqlCommand("UPDATE TB_FACTURAS SET ComprobanteImpMun = @ComprobImpMun, FechaRegistroComImpMun = getdate()  WHERE Fact_Num=@Fact_Numm  and Cod_Sucursal=@Sucursal and NumOrdServ= @NumOrdServ  ", cn.LeerCadena());
+                cmd.CommandType = CommandType.Text;
+                cmd.Parameters.AddWithValue("@ComprobImpMun", ComprobImpMun);
+                cmd.Parameters.AddWithValue("@Fact_Numm", Fact_Numm);
+                cmd.Parameters.AddWithValue("@Sucursal", Sucursal);
+                cmd.Parameters.AddWithValue("@NumOrdServ", NunOrden);
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+
+            }
+
+            catch (Exception ex)
+            {
+                string Error = string.Format("Error: {0}", ex.Message);
+            }
+        }
+
         public void Registar_ISLR_Facturacion(string ComprobRetencionISLR, string Fact_Numm, string Sucursal, string NunOrden)
         {
             try

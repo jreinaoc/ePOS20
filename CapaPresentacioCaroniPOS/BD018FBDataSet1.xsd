@@ -1,0 +1,150 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="BD018FBDataSet1" targetNamespace="http://tempuri.org/BD018FBDataSet1.xsd" xmlns:mstns="http://tempuri.org/BD018FBDataSet1.xsd" xmlns="http://tempuri.org/BD018FBDataSet1.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="Settings" AppSettingsPropertyName="BD018FBConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="BD018FBConnectionString (Settings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.CapaVisual_Login.Properties.Settings.GlobalReference.Default.BD018FBConnectionString" Provider="System.Data.SqlClient" />
+        </Connections>
+        <Tables>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="VW_CierreCajaTableAdapter" GeneratorDataComponentClassName="VW_CierreCajaTableAdapter" Name="VW_CierreCaja" UserDataComponentName="VW_CierreCajaTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="BD018FBConnectionString (Settings)" DbObjectName="BD018FB.dbo.VW_CierreCaja" DbObjectType="View" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT Descripcion, FECHA, MANUALEFECTIVO, MANUALCHEQUES, MANUALTARJETA, MANUALDEBITO, MANUALNOTACREDITO, MANUALCREDITO, MANUALREINTEGROS, MANUALGASTOS, MANUALFINANCIAMIENTO, USER_NOMBRE, USER_APELLIDO, SISTEMAEFECTIVO, SISTEMACHEQUES, SISTEMATARJETA, SISTEMADEBITO, SISTEMANOTACREDITO, SISTEMACREDITO, SISTEMAREINTEGRO, SISTEMAGASTOS, SISTEMAFINANCIAMIENTO, IMPUESTO, OBSERVACION, TOTAL_NETO, TOTAL_BRUTO, ManualIVARetenido, SistemaIVARetenido, ManualISLRRetenido, SistemaISLRRetenido, MANUALCUPONES, SISTEMACUPONES, MANUALTICKETSALUD, SISTEMATICKETSALUD, MANUALTICKETSALUDEFEC, ManualImpMun, SistemaImpMun, SISTEMATICKETSALUDEFEC, MANUALTRANSFERENCIA, SISTEMATRANSFERENCIA, MANUALVUELTO, SISTEMAVUELTO FROM dbo.VW_CierreCaja</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="Descripcion" DataSetColumn="Descripcion" />
+              <Mapping SourceColumn="FECHA" DataSetColumn="FECHA" />
+              <Mapping SourceColumn="MANUALEFECTIVO" DataSetColumn="MANUALEFECTIVO" />
+              <Mapping SourceColumn="MANUALCHEQUES" DataSetColumn="MANUALCHEQUES" />
+              <Mapping SourceColumn="MANUALTARJETA" DataSetColumn="MANUALTARJETA" />
+              <Mapping SourceColumn="MANUALDEBITO" DataSetColumn="MANUALDEBITO" />
+              <Mapping SourceColumn="MANUALNOTACREDITO" DataSetColumn="MANUALNOTACREDITO" />
+              <Mapping SourceColumn="MANUALCREDITO" DataSetColumn="MANUALCREDITO" />
+              <Mapping SourceColumn="MANUALREINTEGROS" DataSetColumn="MANUALREINTEGROS" />
+              <Mapping SourceColumn="MANUALGASTOS" DataSetColumn="MANUALGASTOS" />
+              <Mapping SourceColumn="MANUALFINANCIAMIENTO" DataSetColumn="MANUALFINANCIAMIENTO" />
+              <Mapping SourceColumn="USER_NOMBRE" DataSetColumn="USER_NOMBRE" />
+              <Mapping SourceColumn="USER_APELLIDO" DataSetColumn="USER_APELLIDO" />
+              <Mapping SourceColumn="SISTEMAEFECTIVO" DataSetColumn="SISTEMAEFECTIVO" />
+              <Mapping SourceColumn="SISTEMACHEQUES" DataSetColumn="SISTEMACHEQUES" />
+              <Mapping SourceColumn="SISTEMATARJETA" DataSetColumn="SISTEMATARJETA" />
+              <Mapping SourceColumn="SISTEMADEBITO" DataSetColumn="SISTEMADEBITO" />
+              <Mapping SourceColumn="SISTEMANOTACREDITO" DataSetColumn="SISTEMANOTACREDITO" />
+              <Mapping SourceColumn="SISTEMACREDITO" DataSetColumn="SISTEMACREDITO" />
+              <Mapping SourceColumn="SISTEMAREINTEGRO" DataSetColumn="SISTEMAREINTEGRO" />
+              <Mapping SourceColumn="SISTEMAGASTOS" DataSetColumn="SISTEMAGASTOS" />
+              <Mapping SourceColumn="SISTEMAFINANCIAMIENTO" DataSetColumn="SISTEMAFINANCIAMIENTO" />
+              <Mapping SourceColumn="IMPUESTO" DataSetColumn="IMPUESTO" />
+              <Mapping SourceColumn="OBSERVACION" DataSetColumn="OBSERVACION" />
+              <Mapping SourceColumn="TOTAL_NETO" DataSetColumn="TOTAL_NETO" />
+              <Mapping SourceColumn="TOTAL_BRUTO" DataSetColumn="TOTAL_BRUTO" />
+              <Mapping SourceColumn="ManualIVARetenido" DataSetColumn="ManualIVARetenido" />
+              <Mapping SourceColumn="SistemaIVARetenido" DataSetColumn="SistemaIVARetenido" />
+              <Mapping SourceColumn="ManualISLRRetenido" DataSetColumn="ManualISLRRetenido" />
+              <Mapping SourceColumn="SistemaISLRRetenido" DataSetColumn="SistemaISLRRetenido" />
+              <Mapping SourceColumn="MANUALCUPONES" DataSetColumn="MANUALCUPONES" />
+              <Mapping SourceColumn="SISTEMACUPONES" DataSetColumn="SISTEMACUPONES" />
+              <Mapping SourceColumn="MANUALTICKETSALUD" DataSetColumn="MANUALTICKETSALUD" />
+              <Mapping SourceColumn="SISTEMATICKETSALUD" DataSetColumn="SISTEMATICKETSALUD" />
+              <Mapping SourceColumn="MANUALTICKETSALUDEFEC" DataSetColumn="MANUALTICKETSALUDEFEC" />
+              <Mapping SourceColumn="ManualImpMun" DataSetColumn="ManualImpMun" />
+              <Mapping SourceColumn="SistemaImpMun" DataSetColumn="SistemaImpMun" />
+              <Mapping SourceColumn="SISTEMATICKETSALUDEFEC" DataSetColumn="SISTEMATICKETSALUDEFEC" />
+              <Mapping SourceColumn="MANUALTRANSFERENCIA" DataSetColumn="MANUALTRANSFERENCIA" />
+              <Mapping SourceColumn="SISTEMATRANSFERENCIA" DataSetColumn="SISTEMATRANSFERENCIA" />
+              <Mapping SourceColumn="MANUALVUELTO" DataSetColumn="MANUALVUELTO" />
+              <Mapping SourceColumn="SISTEMAVUELTO" DataSetColumn="SISTEMAVUELTO" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+        </Tables>
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="BD018FBDataSet1" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="True" msprop:Generator_DataSetName="BD018FBDataSet1" msprop:Generator_UserDSName="BD018FBDataSet1">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="VW_CierreCaja" msprop:Generator_TableClassName="VW_CierreCajaDataTable" msprop:Generator_TableVarName="tableVW_CierreCaja" msprop:Generator_TablePropName="VW_CierreCaja" msprop:Generator_RowDeletingName="VW_CierreCajaRowDeleting" msprop:Generator_RowChangingName="VW_CierreCajaRowChanging" msprop:Generator_RowEvHandlerName="VW_CierreCajaRowChangeEventHandler" msprop:Generator_RowDeletedName="VW_CierreCajaRowDeleted" msprop:Generator_UserTableName="VW_CierreCaja" msprop:Generator_RowChangedName="VW_CierreCajaRowChanged" msprop:Generator_RowEvArgName="VW_CierreCajaRowChangeEvent" msprop:Generator_RowClassName="VW_CierreCajaRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Descripcion" msprop:Generator_ColumnVarNameInTable="columnDescripcion" msprop:Generator_ColumnPropNameInRow="Descripcion" msprop:Generator_ColumnPropNameInTable="DescripcionColumn" msprop:Generator_UserColumnName="Descripcion">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="FECHA" msprop:Generator_ColumnVarNameInTable="columnFECHA" msprop:Generator_ColumnPropNameInRow="FECHA" msprop:Generator_ColumnPropNameInTable="FECHAColumn" msprop:Generator_UserColumnName="FECHA" type="xs:dateTime" />
+              <xs:element name="MANUALEFECTIVO" msprop:Generator_ColumnVarNameInTable="columnMANUALEFECTIVO" msprop:Generator_ColumnPropNameInRow="MANUALEFECTIVO" msprop:Generator_ColumnPropNameInTable="MANUALEFECTIVOColumn" msprop:Generator_UserColumnName="MANUALEFECTIVO" type="xs:decimal" />
+              <xs:element name="MANUALCHEQUES" msprop:Generator_ColumnVarNameInTable="columnMANUALCHEQUES" msprop:Generator_ColumnPropNameInRow="MANUALCHEQUES" msprop:Generator_ColumnPropNameInTable="MANUALCHEQUESColumn" msprop:Generator_UserColumnName="MANUALCHEQUES" type="xs:decimal" />
+              <xs:element name="MANUALTARJETA" msprop:Generator_ColumnVarNameInTable="columnMANUALTARJETA" msprop:Generator_ColumnPropNameInRow="MANUALTARJETA" msprop:Generator_ColumnPropNameInTable="MANUALTARJETAColumn" msprop:Generator_UserColumnName="MANUALTARJETA" type="xs:decimal" />
+              <xs:element name="MANUALDEBITO" msprop:Generator_ColumnVarNameInTable="columnMANUALDEBITO" msprop:Generator_ColumnPropNameInRow="MANUALDEBITO" msprop:Generator_ColumnPropNameInTable="MANUALDEBITOColumn" msprop:Generator_UserColumnName="MANUALDEBITO" type="xs:decimal" />
+              <xs:element name="MANUALNOTACREDITO" msprop:Generator_ColumnVarNameInTable="columnMANUALNOTACREDITO" msprop:Generator_ColumnPropNameInRow="MANUALNOTACREDITO" msprop:Generator_ColumnPropNameInTable="MANUALNOTACREDITOColumn" msprop:Generator_UserColumnName="MANUALNOTACREDITO" type="xs:decimal" />
+              <xs:element name="MANUALCREDITO" msprop:Generator_ColumnVarNameInTable="columnMANUALCREDITO" msprop:Generator_ColumnPropNameInRow="MANUALCREDITO" msprop:Generator_ColumnPropNameInTable="MANUALCREDITOColumn" msprop:Generator_UserColumnName="MANUALCREDITO" type="xs:decimal" />
+              <xs:element name="MANUALREINTEGROS" msprop:Generator_ColumnVarNameInTable="columnMANUALREINTEGROS" msprop:Generator_ColumnPropNameInRow="MANUALREINTEGROS" msprop:Generator_ColumnPropNameInTable="MANUALREINTEGROSColumn" msprop:Generator_UserColumnName="MANUALREINTEGROS" type="xs:decimal" />
+              <xs:element name="MANUALGASTOS" msprop:Generator_ColumnVarNameInTable="columnMANUALGASTOS" msprop:Generator_ColumnPropNameInRow="MANUALGASTOS" msprop:Generator_ColumnPropNameInTable="MANUALGASTOSColumn" msprop:Generator_UserColumnName="MANUALGASTOS" type="xs:decimal" />
+              <xs:element name="MANUALFINANCIAMIENTO" msprop:Generator_ColumnVarNameInTable="columnMANUALFINANCIAMIENTO" msprop:Generator_ColumnPropNameInRow="MANUALFINANCIAMIENTO" msprop:Generator_ColumnPropNameInTable="MANUALFINANCIAMIENTOColumn" msprop:Generator_UserColumnName="MANUALFINANCIAMIENTO" type="xs:decimal" />
+              <xs:element name="USER_NOMBRE" msprop:Generator_ColumnVarNameInTable="columnUSER_NOMBRE" msprop:Generator_ColumnPropNameInRow="USER_NOMBRE" msprop:Generator_ColumnPropNameInTable="USER_NOMBREColumn" msprop:Generator_UserColumnName="USER_NOMBRE">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="25" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="USER_APELLIDO" msprop:Generator_ColumnVarNameInTable="columnUSER_APELLIDO" msprop:Generator_ColumnPropNameInRow="USER_APELLIDO" msprop:Generator_ColumnPropNameInTable="USER_APELLIDOColumn" msprop:Generator_UserColumnName="USER_APELLIDO">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="25" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="SISTEMAEFECTIVO" msprop:Generator_ColumnVarNameInTable="columnSISTEMAEFECTIVO" msprop:Generator_ColumnPropNameInRow="SISTEMAEFECTIVO" msprop:Generator_ColumnPropNameInTable="SISTEMAEFECTIVOColumn" msprop:Generator_UserColumnName="SISTEMAEFECTIVO" type="xs:decimal" />
+              <xs:element name="SISTEMACHEQUES" msprop:Generator_ColumnVarNameInTable="columnSISTEMACHEQUES" msprop:Generator_ColumnPropNameInRow="SISTEMACHEQUES" msprop:Generator_ColumnPropNameInTable="SISTEMACHEQUESColumn" msprop:Generator_UserColumnName="SISTEMACHEQUES" type="xs:decimal" />
+              <xs:element name="SISTEMATARJETA" msprop:Generator_ColumnVarNameInTable="columnSISTEMATARJETA" msprop:Generator_ColumnPropNameInRow="SISTEMATARJETA" msprop:Generator_ColumnPropNameInTable="SISTEMATARJETAColumn" msprop:Generator_UserColumnName="SISTEMATARJETA" type="xs:decimal" />
+              <xs:element name="SISTEMADEBITO" msprop:Generator_ColumnVarNameInTable="columnSISTEMADEBITO" msprop:Generator_ColumnPropNameInRow="SISTEMADEBITO" msprop:Generator_ColumnPropNameInTable="SISTEMADEBITOColumn" msprop:Generator_UserColumnName="SISTEMADEBITO" type="xs:decimal" />
+              <xs:element name="SISTEMANOTACREDITO" msprop:Generator_ColumnVarNameInTable="columnSISTEMANOTACREDITO" msprop:Generator_ColumnPropNameInRow="SISTEMANOTACREDITO" msprop:Generator_ColumnPropNameInTable="SISTEMANOTACREDITOColumn" msprop:Generator_UserColumnName="SISTEMANOTACREDITO" type="xs:decimal" />
+              <xs:element name="SISTEMACREDITO" msprop:Generator_ColumnVarNameInTable="columnSISTEMACREDITO" msprop:Generator_ColumnPropNameInRow="SISTEMACREDITO" msprop:Generator_ColumnPropNameInTable="SISTEMACREDITOColumn" msprop:Generator_UserColumnName="SISTEMACREDITO" type="xs:decimal" />
+              <xs:element name="SISTEMAREINTEGRO" msprop:Generator_ColumnVarNameInTable="columnSISTEMAREINTEGRO" msprop:Generator_ColumnPropNameInRow="SISTEMAREINTEGRO" msprop:Generator_ColumnPropNameInTable="SISTEMAREINTEGROColumn" msprop:Generator_UserColumnName="SISTEMAREINTEGRO" type="xs:decimal" />
+              <xs:element name="SISTEMAGASTOS" msprop:Generator_ColumnVarNameInTable="columnSISTEMAGASTOS" msprop:Generator_ColumnPropNameInRow="SISTEMAGASTOS" msprop:Generator_ColumnPropNameInTable="SISTEMAGASTOSColumn" msprop:Generator_UserColumnName="SISTEMAGASTOS" type="xs:decimal" />
+              <xs:element name="SISTEMAFINANCIAMIENTO" msprop:Generator_ColumnVarNameInTable="columnSISTEMAFINANCIAMIENTO" msprop:Generator_ColumnPropNameInRow="SISTEMAFINANCIAMIENTO" msprop:Generator_ColumnPropNameInTable="SISTEMAFINANCIAMIENTOColumn" msprop:Generator_UserColumnName="SISTEMAFINANCIAMIENTO" type="xs:decimal" />
+              <xs:element name="IMPUESTO" msprop:Generator_ColumnVarNameInTable="columnIMPUESTO" msprop:Generator_ColumnPropNameInRow="IMPUESTO" msprop:Generator_ColumnPropNameInTable="IMPUESTOColumn" msprop:Generator_UserColumnName="IMPUESTO" type="xs:decimal" />
+              <xs:element name="OBSERVACION" msprop:Generator_ColumnVarNameInTable="columnOBSERVACION" msprop:Generator_ColumnPropNameInRow="OBSERVACION" msprop:Generator_ColumnPropNameInTable="OBSERVACIONColumn" msprop:Generator_UserColumnName="OBSERVACION" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="200" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="TOTAL_NETO" msprop:Generator_ColumnVarNameInTable="columnTOTAL_NETO" msprop:Generator_ColumnPropNameInRow="TOTAL_NETO" msprop:Generator_ColumnPropNameInTable="TOTAL_NETOColumn" msprop:Generator_UserColumnName="TOTAL_NETO" type="xs:decimal" />
+              <xs:element name="TOTAL_BRUTO" msprop:Generator_ColumnVarNameInTable="columnTOTAL_BRUTO" msprop:Generator_ColumnPropNameInRow="TOTAL_BRUTO" msprop:Generator_ColumnPropNameInTable="TOTAL_BRUTOColumn" msprop:Generator_UserColumnName="TOTAL_BRUTO" type="xs:decimal" />
+              <xs:element name="ManualIVARetenido" msprop:Generator_ColumnVarNameInTable="columnManualIVARetenido" msprop:Generator_ColumnPropNameInRow="ManualIVARetenido" msprop:Generator_ColumnPropNameInTable="ManualIVARetenidoColumn" msprop:Generator_UserColumnName="ManualIVARetenido" type="xs:decimal" minOccurs="0" />
+              <xs:element name="SistemaIVARetenido" msprop:Generator_ColumnVarNameInTable="columnSistemaIVARetenido" msprop:Generator_ColumnPropNameInRow="SistemaIVARetenido" msprop:Generator_ColumnPropNameInTable="SistemaIVARetenidoColumn" msprop:Generator_UserColumnName="SistemaIVARetenido" type="xs:decimal" minOccurs="0" />
+              <xs:element name="ManualISLRRetenido" msprop:Generator_ColumnVarNameInTable="columnManualISLRRetenido" msprop:Generator_ColumnPropNameInRow="ManualISLRRetenido" msprop:Generator_ColumnPropNameInTable="ManualISLRRetenidoColumn" msprop:Generator_UserColumnName="ManualISLRRetenido" type="xs:decimal" minOccurs="0" />
+              <xs:element name="SistemaISLRRetenido" msprop:Generator_ColumnVarNameInTable="columnSistemaISLRRetenido" msprop:Generator_ColumnPropNameInRow="SistemaISLRRetenido" msprop:Generator_ColumnPropNameInTable="SistemaISLRRetenidoColumn" msprop:Generator_UserColumnName="SistemaISLRRetenido" type="xs:decimal" minOccurs="0" />
+              <xs:element name="MANUALCUPONES" msprop:Generator_ColumnVarNameInTable="columnMANUALCUPONES" msprop:Generator_ColumnPropNameInRow="MANUALCUPONES" msprop:Generator_ColumnPropNameInTable="MANUALCUPONESColumn" msprop:Generator_UserColumnName="MANUALCUPONES" type="xs:decimal" minOccurs="0" />
+              <xs:element name="SISTEMACUPONES" msprop:Generator_ColumnVarNameInTable="columnSISTEMACUPONES" msprop:Generator_ColumnPropNameInRow="SISTEMACUPONES" msprop:Generator_ColumnPropNameInTable="SISTEMACUPONESColumn" msprop:Generator_UserColumnName="SISTEMACUPONES" type="xs:decimal" minOccurs="0" />
+              <xs:element name="MANUALTICKETSALUD" msprop:Generator_ColumnVarNameInTable="columnMANUALTICKETSALUD" msprop:Generator_ColumnPropNameInRow="MANUALTICKETSALUD" msprop:Generator_ColumnPropNameInTable="MANUALTICKETSALUDColumn" msprop:Generator_UserColumnName="MANUALTICKETSALUD" type="xs:decimal" minOccurs="0" />
+              <xs:element name="SISTEMATICKETSALUD" msprop:Generator_ColumnVarNameInTable="columnSISTEMATICKETSALUD" msprop:Generator_ColumnPropNameInRow="SISTEMATICKETSALUD" msprop:Generator_ColumnPropNameInTable="SISTEMATICKETSALUDColumn" msprop:Generator_UserColumnName="SISTEMATICKETSALUD" type="xs:decimal" minOccurs="0" />
+              <xs:element name="MANUALTICKETSALUDEFEC" msprop:Generator_ColumnVarNameInTable="columnMANUALTICKETSALUDEFEC" msprop:Generator_ColumnPropNameInRow="MANUALTICKETSALUDEFEC" msprop:Generator_ColumnPropNameInTable="MANUALTICKETSALUDEFECColumn" msprop:Generator_UserColumnName="MANUALTICKETSALUDEFEC" type="xs:decimal" minOccurs="0" />
+              <xs:element name="ManualImpMun" msprop:Generator_ColumnVarNameInTable="columnManualImpMun" msprop:Generator_ColumnPropNameInRow="ManualImpMun" msprop:Generator_ColumnPropNameInTable="ManualImpMunColumn" msprop:Generator_UserColumnName="ManualImpMun" type="xs:decimal" minOccurs="0" />
+              <xs:element name="SistemaImpMun" msprop:Generator_ColumnVarNameInTable="columnSistemaImpMun" msprop:Generator_ColumnPropNameInRow="SistemaImpMun" msprop:Generator_ColumnPropNameInTable="SistemaImpMunColumn" msprop:Generator_UserColumnName="SistemaImpMun" type="xs:decimal" minOccurs="0" />
+              <xs:element name="SISTEMATICKETSALUDEFEC" msprop:Generator_ColumnVarNameInTable="columnSISTEMATICKETSALUDEFEC" msprop:Generator_ColumnPropNameInRow="SISTEMATICKETSALUDEFEC" msprop:Generator_ColumnPropNameInTable="SISTEMATICKETSALUDEFECColumn" msprop:Generator_UserColumnName="SISTEMATICKETSALUDEFEC" type="xs:decimal" minOccurs="0" />
+              <xs:element name="MANUALTRANSFERENCIA" msprop:Generator_ColumnVarNameInTable="columnMANUALTRANSFERENCIA" msprop:Generator_ColumnPropNameInRow="MANUALTRANSFERENCIA" msprop:Generator_ColumnPropNameInTable="MANUALTRANSFERENCIAColumn" msprop:Generator_UserColumnName="MANUALTRANSFERENCIA" type="xs:decimal" minOccurs="0" />
+              <xs:element name="SISTEMATRANSFERENCIA" msprop:Generator_ColumnVarNameInTable="columnSISTEMATRANSFERENCIA" msprop:Generator_ColumnPropNameInRow="SISTEMATRANSFERENCIA" msprop:Generator_ColumnPropNameInTable="SISTEMATRANSFERENCIAColumn" msprop:Generator_UserColumnName="SISTEMATRANSFERENCIA" type="xs:decimal" minOccurs="0" />
+              <xs:element name="MANUALVUELTO" msprop:Generator_ColumnVarNameInTable="columnMANUALVUELTO" msprop:Generator_ColumnPropNameInRow="MANUALVUELTO" msprop:Generator_ColumnPropNameInTable="MANUALVUELTOColumn" msprop:Generator_UserColumnName="MANUALVUELTO" type="xs:decimal" minOccurs="0" />
+              <xs:element name="SISTEMAVUELTO" msprop:Generator_ColumnVarNameInTable="columnSISTEMAVUELTO" msprop:Generator_ColumnPropNameInRow="SISTEMAVUELTO" msprop:Generator_ColumnPropNameInTable="SISTEMAVUELTOColumn" msprop:Generator_UserColumnName="SISTEMAVUELTO" type="xs:decimal" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

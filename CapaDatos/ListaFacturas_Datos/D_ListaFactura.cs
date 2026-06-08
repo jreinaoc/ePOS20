@@ -87,6 +87,8 @@ namespace CapaDatos.ListaFacturas_Datos
                         ISNULL(SistemaIVARetenido, 0) AS SistemaIVARetenido,
                         ISNULL(ManualISLRRetenido, 0) AS ManualISLRRetenido, 
                         ISNULL(SistemaISLRRetenido, 0) AS SistemaISLRRetenido, 
+                        ISNULL(ManualImpMun, 0) AS ManualImpMun, 
+                        ISNULL(SistemaImpMun, 0) AS SistemaImpMun, 
                         ISNULL(MANUALTRANSFERENCIA, 0) AS MANUALTRANSFERENCIA, 
                         ISNULL(SISTEMATRANSFERENCIA, 0) AS SISTEMATRANSFERENCIA, 
                         ISNULL(MANUALVUELTO, 0) AS MANUALVUELTO, 

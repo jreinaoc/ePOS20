@@ -2194,7 +2194,7 @@ namespace CapaLogica.DetalleOrden_Logica
 
 
         //Iva Retenido 
-        public bool Verificar_AgenteRetencion(System.Windows.Forms.DataGridView Dt_Abono, string Nacionalidad, string Cedula, bool Iva= false, bool ISLR= false)
+        public bool Verificar_AgenteRetencion(System.Windows.Forms.DataGridView Dt_Abono, string Nacionalidad, string Cedula, bool Iva= false, bool ISLR= false, bool Municipal= false)
         {
 
             try
@@ -2203,7 +2203,7 @@ namespace CapaLogica.DetalleOrden_Logica
                 DataTable Agente = _D_DetalleOrden.AgenteRetencion(Nacionalidad, Cedula);
                 bool AgenteIva = false;
                 bool AgenteISLR = false;
-
+                bool AgenteMunicipal = false;
 
                 foreach (DataGridViewRow row in Dt_Abono.Rows)
                 {
@@ -2220,6 +2220,14 @@ namespace CapaLogica.DetalleOrden_Logica
                             stringBuilder.Append("Ya existe un abono con este tipo de pago");
                             return false;
                         }
+
+                    if (Municipal == true)
+                        if (row.Cells["CodPago"].Value.ToString() == "026")
+                        {
+                            stringBuilder.Append("Ya existe un abono con este tipo de pago");
+                            return false;
+                        }
+
                 }
 
                 if (Agente!= null)
@@ -2237,6 +2245,11 @@ namespace CapaLogica.DetalleOrden_Logica
                                 AgenteISLR = true;
                             else
                                 AgenteISLR = false;
+
+                            if (row["Retiene_Municiapl"].ToString() != "" && row["Retiene_Municiapl"].ToString() != " " && row["Retiene_Municiapl"].ToString() != null && row["Retiene_Municiapl"].ToString() != "False")
+                                AgenteMunicipal = true;
+                            else
+                                AgenteMunicipal = false;
                             break;
                         }
 
@@ -2249,6 +2262,12 @@ namespace CapaLogica.DetalleOrden_Logica
                         {
                             return AgenteISLR;
                         }
+
+                        if (Municipal == true)
+                        {
+                            return AgenteMunicipal;
+                        }
+
                     }
                }
                 stringBuilder.Append("No se encontraron registros");

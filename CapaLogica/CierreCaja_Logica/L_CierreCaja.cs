@@ -420,6 +420,9 @@ namespace CapaLogica.CierreCaja_Logica
                 decimal M_IVARetenido = (decimal)GetValorFila(dgvCierredecaja, 8);
                 decimal M_ISRLRetenido = (decimal)GetValorFila(dgvCierredecaja, 9);
                 decimal M_Transferencia = (decimal)GetValorFila(dgvCierredecaja, 10);
+
+                decimal M_ImpuestoMunicipal = (decimal)GetValorFila(dgvCierredecaja, 11);
+
                 decimal M_Vuelto = 0;
                 string M_Observacion = observacion;
                 string M_Usuario = usuario;
@@ -428,7 +431,7 @@ namespace CapaLogica.CierreCaja_Logica
                 string userEntrega = "";
                 string userRecibe = "";
 
-                DataSet dts = _D_CierreCaja.CierreDeCaja(fecha, codSucursal, M_TotalIngresos, M_Efectivo, M_Cheques, M_Cupones, M_TicketsSalud, M_TicketsSaludEfec, M_TarjetaC, M_TarjetaD, M_NotaCredito, M_Credito, M_Reintegro, M_Gastos, M_Financiamiento, M_NotaDevolucion, M_OrdenPago, M_IVARetenido, M_ISRLRetenido, M_Transferencia, M_Vuelto, M_Observacion, M_Usuario, cierreParcial, trabajaDomingos, userEntrega, userRecibe, command);
+                DataSet dts = _D_CierreCaja.CierreDeCaja(fecha, codSucursal, M_TotalIngresos, M_Efectivo, M_Cheques, M_Cupones, M_TicketsSalud, M_TicketsSaludEfec, M_TarjetaC, M_TarjetaD, M_NotaCredito, M_Credito, M_Reintegro, M_Gastos, M_Financiamiento, M_NotaDevolucion, M_OrdenPago, M_IVARetenido, M_ISRLRetenido, M_Transferencia, M_Vuelto, M_Observacion, M_Usuario, cierreParcial, trabajaDomingos, userEntrega, userRecibe, M_ImpuestoMunicipal, command);
 
                 if (dts != null && dts.Tables[0] != null)
                 {

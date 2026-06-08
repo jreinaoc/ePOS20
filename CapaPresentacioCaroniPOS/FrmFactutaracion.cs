@@ -2903,6 +2903,31 @@ namespace CapaVisual_Login
                         }
 
                     }
+
+                    if (CbxMetodosPago.Text == "Impuesto Municipal")
+                    {
+                        if (txtMontoBs.Text != "" && txtMontoBs.Text != "0.00" && txtMontoBs.Text != "0" && Bolivares <= (Math.Round((TB_CAORDSER.OrSer_Saldo + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos))) - TotalAbono, 2)))
+                        {
+                            if (Bolivares > 0)
+                            {
+                                _L_Facturacion.GuardarAbonoGrid(2, Dt_Abonos, CbxMetodosPago.Text, "Bolivares", "", txtMontoBs.Text, "", DtpFecha.Value.ToString(), CbxMetodosPago.SelectedValue.ToString(), "000");
+                                BolivaresConveridos(Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos)), txtMontoBs);
+                                //-----------ConvertirBolivares---------------------------
+                                //txtMontoBs.Text = _L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos);
+
+                                LimpiarTxbox();
+                            }
+                        }
+                        else
+                        {
+                            _FrmMensajes.co = 2;
+                            _FrmMensajes.avisomensaje("El monto debe ser igual o menor al saldo de la orden");
+                            _FrmMensajes.ShowDialog();
+                        }
+
+                    }
+
+                    
                 }
 
             }
@@ -4147,6 +4172,35 @@ namespace CapaVisual_Login
                 }
 
                 if (CbxMetodosPago.Text == "ISLR Retenido")
+                {
+                    bool Retencion_ISLR = _L_Facturacion.Verificar_AgenteRetencion(DgvAbonos, txtCedula.Text.Substring(0, (txtCedula.Text.Length) - (txtCedula.Text.Length - 1)), txtCedula.Text.Substring(2, txtCedula.Text.Length - 2), false, true);
+                    if (Retencion_ISLR == true)
+                    {
+                        txtMontoBs.Enabled = true;
+                        label5.Visible = false;
+                        CbxMoneda.Visible = false;
+
+                        label42.Visible = false;
+                        txtIGTF.Visible = false;
+
+                        label4.Visible = false;
+                        txtRef.Visible = false;
+
+                        // agregadp para el billete de falbod  13/06/2023
+                        LblMontoBillete.Visible = false;
+                        CbxBillete.Visible = false;
+                        LblCodBillete.Visible = false;
+                        TxtCodBillete.Visible = false;
+                        DgvBilletes.Visible = false;
+
+                        // Agregadp para el banco receptor de transferencia 22/06/2023
+                        LblBancoRecep.Visible = false;
+                        CbxBancoRecp.Visible = false;
+                        label45.Text = "Banco";
+                    }
+                }
+
+                if (CbxMetodosPago.Text == "Impuesto Municipal")
                 {
                     bool Retencion_ISLR = _L_Facturacion.Verificar_AgenteRetencion(DgvAbonos, txtCedula.Text.Substring(0, (txtCedula.Text.Length) - (txtCedula.Text.Length - 1)), txtCedula.Text.Substring(2, txtCedula.Text.Length - 2), false, true);
                     if (Retencion_ISLR == true)

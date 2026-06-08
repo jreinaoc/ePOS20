@@ -208,6 +208,10 @@ namespace CapaVisual_Login
                 DgvListadoOrdenes.Columns["Comprobante_IVA"].ReadOnly = false;
                 DgvListadoOrdenes.Columns["Comprobante_ISLR"].ReadOnly = false;
 
+                DgvListadoOrdenes.Columns["PAGOS_ImpMunicipal"].ReadOnly = false;
+                DgvListadoOrdenes.Columns["Comprobante_Municipal"].ReadOnly = false;
+                DgvListadoOrdenes.Columns["Comprobante_Municipal_Numero"].ReadOnly = false;
+
                 //ordenar las colunmnas del grid 
                 DgvListadoOrdenes.Columns["Fecha"].DisplayIndex = 0;
                 DgvListadoOrdenes.Columns["NumOrdserv"].DisplayIndex = 1;
@@ -237,6 +241,11 @@ namespace CapaVisual_Login
                 DgvListadoOrdenes.Columns["Comprobante_ISLR"].Visible = false;
                 DgvListadoOrdenes.Columns["Comprobante_IVA_Numero"].Visible = false;
                 DgvListadoOrdenes.Columns["Comprobante_ISLR_Numero"].Visible = false;
+
+                DgvListadoOrdenes.Columns["PAGOS_ImpMunicipal"].Visible = false;
+                DgvListadoOrdenes.Columns["Comprobante_Municipal"].Visible = false;
+                DgvListadoOrdenes.Columns["Comprobante_Municipal_Numero"].Visible = false;
+
                 DgvListadoOrdenes.Columns["Revision"].Visible = false;
                 DgvListadoOrdenes.Columns["Numero"].Visible = false;
                 DgvListadoOrdenes.Columns["Cod_DetVta"].Visible = false;
@@ -1643,7 +1652,7 @@ namespace CapaVisual_Login
 
 
                 //SE VALIDA QUE LA ORDEN TENGA PAGOS CON IVA Y ISLR Y QUE NO TENGA CARGADO EL COMPROBANTE 
-                if (DgvListadoOrdenes.CurrentRow.Cells["PAGOS_IVA"].Value.ToString() == "1" | DgvListadoOrdenes.CurrentRow.Cells["PAGOS_ISLR"].Value.ToString() == "1")
+                if (DgvListadoOrdenes.CurrentRow.Cells["PAGOS_IVA"].Value.ToString() == "1" | DgvListadoOrdenes.CurrentRow.Cells["PAGOS_ISLR"].Value.ToString() == "1" | DgvListadoOrdenes.CurrentRow.Cells["PAGOS_ImpMunicipal"].Value.ToString() == "1")
                 {
                     //SE MUESTRA EL PANEL PARA CARGAR EL COMPROBANTE 
                     PnlComprobanteRetencion.Visible = true;
@@ -1664,6 +1673,11 @@ namespace CapaVisual_Login
                         TxtRetencionISRL.Enabled = true;
                     }
 
+                    if (DgvListadoOrdenes.CurrentRow.Cells["PAGOS_ImpMunicipal"].Value.ToString() == "1" & DgvListadoOrdenes.CurrentRow.Cells["Comprobante_Municipal"].Value.ToString() == "0")
+                    {
+                        TxtRetencionMunicipal.Enabled = true;
+                    }
+
                     if (DgvListadoOrdenes.CurrentRow.Cells["PAGOS_IVA"].Value.ToString() == "1" & DgvListadoOrdenes.CurrentRow.Cells["Comprobante_IVA"].Value.ToString() == "1")
                     {
                         TxtRetencionIVA.Enabled = false;
@@ -1675,6 +1689,12 @@ namespace CapaVisual_Login
                     {
                         TxtRetencionISRL.Enabled = false;
                         TxtRetencionISRL.Text = DgvListadoOrdenes.CurrentRow.Cells["Comprobante_ISLR_Numero"].Value.ToString();
+                    }
+
+                    if (DgvListadoOrdenes.CurrentRow.Cells["PAGOS_ImpMunicipal"].Value.ToString() == "1" & DgvListadoOrdenes.CurrentRow.Cells["Comprobante_Municipal"].Value.ToString() == "1")
+                    {
+                        TxtRetencionMunicipal.Enabled = false;
+                        TxtRetencionMunicipal.Text = DgvListadoOrdenes.CurrentRow.Cells["Comprobante_Municipal_Numero"].Value.ToString();
                     }
                     //NumeroOrdenRetencion = DgvListadoOrdenes.CurrentRow.Cells["NumOrdserv"].Value.ToString();
                     //PAGOS_IVA = DgvListadoOrdenes.CurrentRow.Cells["PAGOS_IVA"].Value.ToString();
@@ -2347,6 +2367,7 @@ namespace CapaVisual_Login
                 string NumeroOrdenRetencion = DgvListadoOrdenes.CurrentRow.Cells["NumOrdserv"].Value.ToString();
                 string PAGOS_IVA = DgvListadoOrdenes.CurrentRow.Cells["PAGOS_IVA"].Value.ToString();
                 string PAGOS_ISLR = DgvListadoOrdenes.CurrentRow.Cells["PAGOS_ISLR"].Value.ToString();
+                string PAGOS_IMPMU = DgvListadoOrdenes.CurrentRow.Cells["PAGOS_ImpMunicipal"].Value.ToString();
 
                 if (PAGOS_IVA == "1" & DgvListadoOrdenes.CurrentRow.Cells["Comprobante_IVA"].Value.ToString() == "0")
                 {
@@ -2373,8 +2394,22 @@ namespace CapaVisual_Login
 
                 }
 
-                if (PAGOS_IVA == "1" & DgvListadoOrdenes.CurrentRow.Cells["Comprobante_IVA"].Value.ToString() == "1" & TxtRetencionIVA.Enabled == false & TxtRetencionISRL.Enabled == false
-                    | PAGOS_ISLR == "1" & DgvListadoOrdenes.CurrentRow.Cells["Comprobante_ISLR"].Value.ToString() == "1" & TxtRetencionISRL.Enabled == false & TxtRetencionIVA.Enabled == false)
+                if (PAGOS_IMPMU == "1" & DgvListadoOrdenes.CurrentRow.Cells["Comprobante_Municipal"].Value.ToString() == "0")
+                {
+                    if (TxtRetencionMunicipal.Text == "" | TxtRetencionMunicipal.TextLength < 9 | TxtRetencionMunicipal.Text.Replace(" ", "") == "" | (TxtRetencionMunicipal.Text.Replace(" ", "")).Length < 9)
+                    {
+                        _FrmMensajes.co = 2;
+                        _FrmMensajes.avisomensaje("Debe llenar todos los campos, Verifique");
+                        _FrmMensajes.ShowDialog();
+                        return;
+                    }
+
+                }
+
+
+                if (PAGOS_IVA == "1" & DgvListadoOrdenes.CurrentRow.Cells["Comprobante_IVA"].Value.ToString() == "1" & TxtRetencionIVA.Enabled == false & TxtRetencionISRL.Enabled == false & TxtRetencionMunicipal.Enabled == false
+                    | PAGOS_ISLR == "1" & DgvListadoOrdenes.CurrentRow.Cells["Comprobante_ISLR"].Value.ToString() == "1" & TxtRetencionISRL.Enabled == false & TxtRetencionIVA.Enabled == false & TxtRetencionMunicipal.Enabled == false
+                  | PAGOS_IMPMU == "1" & DgvListadoOrdenes.CurrentRow.Cells["Comprobante_Municipal"].Value.ToString() == "1" & TxtRetencionMunicipal.Enabled == false & TxtRetencionIVA.Enabled == false & TxtRetencionISRL.Enabled == false)
                 {
 
                     PnlComprobanteRetencion.Enabled = false;
@@ -2393,22 +2428,30 @@ namespace CapaVisual_Login
                     {
                         if (PAGOS_IVA == "1" & DgvListadoOrdenes.CurrentRow.Cells["Comprobante_IVA"].Value.ToString() == "0")
                         {
-                            _D_Anulacion.CaragarAuditor(TB_USUARIO.COD_SUCURSAL, "086", TB_USUARIO.COD_EMPLEADO, "OS: " + NumeroOrdenRetencion + ", Factura: " + TxtRetencionFactura.Text + ", ComprobanteIVA: " + TxtRetencionIVA.Text + ", Autoriza: " + VariablesGlobales.UsuarioAutorizado_FrmClaveGerente);
+                            _D_Anulacion.CaragarAuditor(TB_USUARIO.COD_SUCURSAL, "308", TB_USUARIO.COD_EMPLEADO, "OS: " + NumeroOrdenRetencion + ", Factura: " + TxtRetencionFactura.Text + ", ComprobanteIVA: " + TxtRetencionIVA.Text + ", Autoriza: " + VariablesGlobales.UsuarioAutorizado_FrmClaveGerente);
                             _D_DetalleOrden.Registar_IVA_Facturacion(TxtRetencionIVA.Text, TxtRetencionFactura.Text, DgvListadoOrdenes.CurrentRow.Cells["Cod_Sucursal"].Value.ToString(), DgvListadoOrdenes.CurrentRow.Cells["NumOrdserv"].Value.ToString());
 
                         }
 
                         if (PAGOS_ISLR == "1" & DgvListadoOrdenes.CurrentRow.Cells["Comprobante_ISLR"].Value.ToString() == "0")
                         {
-                            _D_Anulacion.CaragarAuditor(TB_USUARIO.COD_SUCURSAL, "087", TB_USUARIO.COD_EMPLEADO, "OS: " + NumeroOrdenRetencion + ", Factura: " + TxtRetencionFactura.Text + ", ComprobanteISRL: " + TxtRetencionISRL.Text + ", Autoriza: " + VariablesGlobales.UsuarioAutorizado_FrmClaveGerente);
+                            _D_Anulacion.CaragarAuditor(TB_USUARIO.COD_SUCURSAL, "309", TB_USUARIO.COD_EMPLEADO, "OS: " + NumeroOrdenRetencion + ", Factura: " + TxtRetencionFactura.Text + ", ComprobanteISRL: " + TxtRetencionISRL.Text + ", Autoriza: " + VariablesGlobales.UsuarioAutorizado_FrmClaveGerente);
                             _D_DetalleOrden.Registar_ISLR_Facturacion(TxtRetencionISRL.Text, TxtRetencionFactura.Text, DgvListadoOrdenes.CurrentRow.Cells["Cod_Sucursal"].Value.ToString(), DgvListadoOrdenes.CurrentRow.Cells["NumOrdserv"].Value.ToString());
                         }
+
+                        if (PAGOS_IMPMU == "1" & DgvListadoOrdenes.CurrentRow.Cells["Comprobante_Municipal"].Value.ToString() == "0")
+                        {
+                            _D_Anulacion.CaragarAuditor(TB_USUARIO.COD_SUCURSAL, "310", TB_USUARIO.COD_EMPLEADO, "OS: " + NumeroOrdenRetencion + ", Factura: " + TxtRetencionFactura.Text + ", ComprobanteMunicipal: " + TxtRetencionMunicipal.Text + ", Autoriza: " + VariablesGlobales.UsuarioAutorizado_FrmClaveGerente);
+                            _D_DetalleOrden.Registar_ComprobImpMu_Facturacion(TxtRetencionMunicipal.Text, TxtRetencionFactura.Text, DgvListadoOrdenes.CurrentRow.Cells["Cod_Sucursal"].Value.ToString(), DgvListadoOrdenes.CurrentRow.Cells["NumOrdserv"].Value.ToString());
+                        }
+
 
                         PnlComprobanteRetencion.Enabled = false;
                         PnlComprobanteRetencion.Visible = false;
                         TxtRetencionIVA.Text = "";
                         TxtRetencionISRL.Text = "";
                         TxtRetencionFactura.Text = "";
+                        TxtRetencionMunicipal.Text = "";
                         Btnlupa.PerformClick();
 
                         // Seleccionar una fila del Datagridview dependiendo de la ultima selecion del usuario 
@@ -2622,6 +2665,7 @@ namespace CapaVisual_Login
                 e.Handled = true;
             }
         }
+
 
         private void TxtRetencionISRL_KeyPress(object sender, KeyPressEventArgs e)
         {

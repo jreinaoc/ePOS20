@@ -105,6 +105,10 @@ namespace CapaVisual_Login
             this.btnExamen = new System.Windows.Forms.RadioButton();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.Cbx_Tap1_PorcentajeIVA_Pagador = new System.Windows.Forms.ComboBox();
+            this.label48 = new System.Windows.Forms.Label();
+            this.Cbx_Tap1_PorcentajeIVA = new System.Windows.Forms.ComboBox();
+            this.label47 = new System.Windows.Forms.Label();
             this.Chex_Tap1_Iva_Pagador = new System.Windows.Forms.CheckedListBox();
             this.Chex_Tap1_Iva = new System.Windows.Forms.CheckedListBox();
             this.Pnl_5_Lista_ClienPagador = new System.Windows.Forms.Panel();
@@ -936,6 +940,10 @@ namespace CapaVisual_Login
             // 
             this.tabPage1.BackColor = System.Drawing.Color.White;
             this.tabPage1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.tabPage1.Controls.Add(this.Cbx_Tap1_PorcentajeIVA_Pagador);
+            this.tabPage1.Controls.Add(this.label48);
+            this.tabPage1.Controls.Add(this.Cbx_Tap1_PorcentajeIVA);
+            this.tabPage1.Controls.Add(this.label47);
             this.tabPage1.Controls.Add(this.Chex_Tap1_Iva_Pagador);
             this.tabPage1.Controls.Add(this.Chex_Tap1_Iva);
             this.tabPage1.Controls.Add(this.Pnl_5_Lista_ClienPagador);
@@ -995,6 +1003,52 @@ namespace CapaVisual_Login
             this.tabPage1.TabIndex = 4;
             this.tabPage1.ToolTipText = "Cliente";
             // 
+            // Cbx_Tap1_PorcentajeIVA_Pagador
+            // 
+            this.Cbx_Tap1_PorcentajeIVA_Pagador.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.Cbx_Tap1_PorcentajeIVA_Pagador.DropDownWidth = 115;
+            this.Cbx_Tap1_PorcentajeIVA_Pagador.Enabled = false;
+            this.Cbx_Tap1_PorcentajeIVA_Pagador.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Cbx_Tap1_PorcentajeIVA_Pagador.ForeColor = System.Drawing.Color.Black;
+            this.Cbx_Tap1_PorcentajeIVA_Pagador.FormattingEnabled = true;
+            this.Cbx_Tap1_PorcentajeIVA_Pagador.Location = new System.Drawing.Point(908, 417);
+            this.Cbx_Tap1_PorcentajeIVA_Pagador.Name = "Cbx_Tap1_PorcentajeIVA_Pagador";
+            this.Cbx_Tap1_PorcentajeIVA_Pagador.Size = new System.Drawing.Size(115, 25);
+            this.Cbx_Tap1_PorcentajeIVA_Pagador.TabIndex = 364;
+            // 
+            // label48
+            // 
+            this.label48.AutoSize = true;
+            this.label48.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label48.Location = new System.Drawing.Point(909, 394);
+            this.label48.Name = "label48";
+            this.label48.Size = new System.Drawing.Size(104, 20);
+            this.label48.TabIndex = 363;
+            this.label48.Text = "Iva Retenido";
+            // 
+            // Cbx_Tap1_PorcentajeIVA
+            // 
+            this.Cbx_Tap1_PorcentajeIVA.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.Cbx_Tap1_PorcentajeIVA.DropDownWidth = 115;
+            this.Cbx_Tap1_PorcentajeIVA.Enabled = false;
+            this.Cbx_Tap1_PorcentajeIVA.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Cbx_Tap1_PorcentajeIVA.ForeColor = System.Drawing.Color.Black;
+            this.Cbx_Tap1_PorcentajeIVA.FormattingEnabled = true;
+            this.Cbx_Tap1_PorcentajeIVA.Location = new System.Drawing.Point(908, 147);
+            this.Cbx_Tap1_PorcentajeIVA.Name = "Cbx_Tap1_PorcentajeIVA";
+            this.Cbx_Tap1_PorcentajeIVA.Size = new System.Drawing.Size(115, 25);
+            this.Cbx_Tap1_PorcentajeIVA.TabIndex = 362;
+            // 
+            // label47
+            // 
+            this.label47.AutoSize = true;
+            this.label47.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label47.Location = new System.Drawing.Point(909, 124);
+            this.label47.Name = "label47";
+            this.label47.Size = new System.Drawing.Size(104, 20);
+            this.label47.TabIndex = 361;
+            this.label47.Text = "Iva Retenido";
+            // 
             // Chex_Tap1_Iva_Pagador
             // 
             this.Chex_Tap1_Iva_Pagador.BorderStyle = System.Windows.Forms.BorderStyle.None;
@@ -1002,10 +1056,10 @@ namespace CapaVisual_Login
             this.Chex_Tap1_Iva_Pagador.FormattingEnabled = true;
             this.Chex_Tap1_Iva_Pagador.Items.AddRange(new object[] {
             "ISLR Retenido",
-            "IVA Retenido"});
-            this.Chex_Tap1_Iva_Pagador.Location = new System.Drawing.Point(762, 394);
+            "Impuesto Municipal"});
+            this.Chex_Tap1_Iva_Pagador.Location = new System.Drawing.Point(717, 395);
             this.Chex_Tap1_Iva_Pagador.Name = "Chex_Tap1_Iva_Pagador";
-            this.Chex_Tap1_Iva_Pagador.Size = new System.Drawing.Size(120, 42);
+            this.Chex_Tap1_Iva_Pagador.Size = new System.Drawing.Size(170, 42);
             this.Chex_Tap1_Iva_Pagador.TabIndex = 358;
             // 
             // Chex_Tap1_Iva
@@ -1015,10 +1069,10 @@ namespace CapaVisual_Login
             this.Chex_Tap1_Iva.FormattingEnabled = true;
             this.Chex_Tap1_Iva.Items.AddRange(new object[] {
             "ISLR Retenido",
-            "IVA Retenido"});
-            this.Chex_Tap1_Iva.Location = new System.Drawing.Point(762, 127);
+            "Impuesto Municipal"});
+            this.Chex_Tap1_Iva.Location = new System.Drawing.Point(688, 127);
             this.Chex_Tap1_Iva.Name = "Chex_Tap1_Iva";
-            this.Chex_Tap1_Iva.Size = new System.Drawing.Size(120, 42);
+            this.Chex_Tap1_Iva.Size = new System.Drawing.Size(171, 42);
             this.Chex_Tap1_Iva.TabIndex = 357;
             // 
             // Pnl_5_Lista_ClienPagador
@@ -3560,7 +3614,7 @@ namespace CapaVisual_Login
             this.Pnl_3_Lista_Articulo.Controls.Add(this.Txt_Pnl3_Articulo);
             this.Pnl_3_Lista_Articulo.Controls.Add(this.Lbl_Pnl3_Carga_Articulo);
             this.Pnl_3_Lista_Articulo.Controls.Add(this.btnCancelar3);
-            this.Pnl_3_Lista_Articulo.Location = new System.Drawing.Point(927, 165);
+            this.Pnl_3_Lista_Articulo.Location = new System.Drawing.Point(1128, 165);
             this.Pnl_3_Lista_Articulo.Name = "Pnl_3_Lista_Articulo";
             this.Pnl_3_Lista_Articulo.Size = new System.Drawing.Size(547, 331);
             this.Pnl_3_Lista_Articulo.TabIndex = 102;
@@ -5257,5 +5311,9 @@ namespace CapaVisual_Login
         private System.Windows.Forms.Label label30;
         private System.Windows.Forms.Button button15;
         private System.Windows.Forms.RadioButton RdPrismaUp;
+        public System.Windows.Forms.ComboBox Cbx_Tap1_PorcentajeIVA;
+        private System.Windows.Forms.Label label47;
+        public System.Windows.Forms.ComboBox Cbx_Tap1_PorcentajeIVA_Pagador;
+        private System.Windows.Forms.Label label48;
     }
 }
