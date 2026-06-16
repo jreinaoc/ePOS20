@@ -7477,13 +7477,6 @@ namespace CapaVisual_Login
                 Cbx_Tap1_PorcentajeIVA_Pagador.Items.Add(row["ValorSeparado"].ToString());
             }
 
-            // Opcional: Seleccionar el primer elemento
-            if (Cbx_Tap1_PorcentajeIVA.Items.Count > 0)
-            {
-                Cbx_Tap1_PorcentajeIVA.SelectedIndex = 0;
-                Cbx_Tap1_PorcentajeIVA_Pagador.SelectedIndex = 0;
-            }
-
 
             Txt_Tap1_Edad.Text = ""; // Limpiar el campo de edad también
 
@@ -7612,6 +7605,17 @@ namespace CapaVisual_Login
             Txt_Tap2_Examen.Text = "0";
             dtCliente = null;
             TopeExamen = 0;
+
+            // Opcional: Seleccionar el primer elemento
+            if (Cbx_Tap1_PorcentajeIVA.Items.Count > 0 && Txt_Tap1_Cedula.Text.Trim() != "")
+            {
+                Cbx_Tap1_PorcentajeIVA.SelectedIndex = 0;
+                Cbx_Tap1_PorcentajeIVA_Pagador.SelectedIndex = 0;
+            }
+            else
+            {
+                Cbx_Tap1_PorcentajeIVA.SelectedIndex = -1;
+            }
 
 
         }
@@ -15567,6 +15571,7 @@ namespace CapaVisual_Login
                 e.Handled = true;
             }
         }
+
     }
 
 }
