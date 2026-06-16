@@ -2362,7 +2362,7 @@ namespace CapaLogica.DetalleOrden_Logica
         }
 
 
-        public bool Verificar_Pago_CACHEA(System.Windows.Forms.DataGridView Dt_Abono)
+        public bool Verificar_Pago_CACHEA(System.Windows.Forms.DataGridView Dt_Abono, string orser_status)
         {
 
             try
@@ -2377,6 +2377,12 @@ namespace CapaLogica.DetalleOrden_Logica
                             return true;
                         }
 
+                }
+
+                if (orser_status != "004") //por pagar
+                {
+                    stringBuilder.Append("No se permite utilizar Cashea en ordenes abonadas");
+                    return true;
                 }
 
                 bool existeCashea = false;

@@ -26,6 +26,7 @@ using CapaDatos.Conexion;
 using System.Threading;
 using CapaLogica.CierreCaja_Logica;
 using CapaLogica.Cashea_Logica;
+using CapaLogica.GiftCard_Logica;
 using CapaLogica; // Para ver a _logicaCashea
 using CapaServiciosExternos.Modelos; // Para reconocer el tipo PointOfSale
 
@@ -34,6 +35,8 @@ namespace CapaVisual_Login
     public partial class FrmFacturacion : Form
     {
         private readonly L_Cashea _logicaCashea = new L_Cashea();
+        // Colócalo junto a tus otras declaraciones de lógica en FrmFactutaracion.cs
+        private readonly L_GiftCard _lGiftCard = new L_GiftCard();
         public FrmFacturacion()
         {
             InitializeComponent();
@@ -124,6 +127,7 @@ namespace CapaVisual_Login
         private int reintentosCashea = 0;
         int maxCantidadReintentosCahea;
         int segundosTotalesCashea = 300;
+        string CasheainicialAPP;
         private void FrmDetalleOrden_Load(object sender, EventArgs e)
         {
             maxCantidadReintentosCahea = Convert.ToInt32(_D_DetalleOrden.TB_PARAMETRO("CantReintCashea"));
@@ -987,6 +991,7 @@ namespace CapaVisual_Login
             pnlQrCashea.Visible = false;
             txtCodigoSeguridadCashea.Text = "";
             rbCodigoQR.Checked = true;
+            lblStatusInicial.Text = "";
 
 
         }
@@ -3772,10 +3777,10 @@ namespace CapaVisual_Login
                 //Cashea mas cuotas
                 if (CbxMetodosPago.SelectedValue.ToString()  == "025")
                 {
-                    bool Cashea = _L_Facturacion.Verificar_Pago_CACHEA(DgvAbonos);
+                    bool Cashea = _L_Facturacion.Verificar_Pago_CACHEA(DgvAbonos,TB_CAORDSER.OrSer_Status);
                     if (Cashea == false)
                     {
-
+                      
                         _L_Facturacion.LLenarComboboxBancos2(CbxBanco, false);
                         //CbxMetodosPago2.SelectedIndex = 0;
                         CbxMetodosPago2.SelectedIndex = CbxMetodosPago.SelectedIndex;
@@ -4200,7 +4205,7 @@ namespace CapaVisual_Login
                     }
                 }
 
-                if (CbxMetodosPago.Text == "Impuesto Municipal")
+                if (CbxMetodosPago.SelectedValue.ToString() == "028")
                 {
                     bool Retencion_ISLR = _L_Facturacion.Verificar_AgenteRetencion(DgvAbonos, txtCedula.Text.Substring(0, (txtCedula.Text.Length) - (txtCedula.Text.Length - 1)), txtCedula.Text.Substring(2, txtCedula.Text.Length - 2), false, true);
                     if (Retencion_ISLR == true)
@@ -4293,7 +4298,7 @@ namespace CapaVisual_Login
                     int existenabonos = Dt_Abonos.Rows.Count;
                     if (existenabonos == 0)
                     {
-                        bool Cashea = _L_Facturacion.Verificar_Pago_CACHEA(DgvAbonos);
+                        bool Cashea = _L_Facturacion.Verificar_Pago_CACHEA(DgvAbonos,TB_CAORDSER.OrSer_Status);
                         if (Cashea == false)
                         {
 
@@ -4358,7 +4363,7 @@ namespace CapaVisual_Login
                             Bs.Visible = true;
 
                             label28.Text = "N° Tarjeta";
-                            CbxBanco.SelectedIndex = 30;
+                            //CbxBanco.SelectedIndex = 30;
                             Bs.Text = "Monto";
                             label28.Text = "Referencia";
 
@@ -7411,6 +7416,7 @@ namespace CapaVisual_Login
                                 }
                                 else // si es otro tipo de trabajo 
                                 {
+                                     CrearGiftCard("jreina@opticacaroni.com","JR",100);
                                     _FrmMostrarReporte.setParametros(concat);
                                     _FrmMostrarReporte.ConfigRep(true, false);
 
@@ -10040,6 +10046,7 @@ namespace CapaVisual_Login
         string casheaStatusPago = "";
         private async void ObtenerPagosCashea(string Uuid)
         {
+            lblStatusInicial.Text = "";
             casheaStatusPago = "";
             if (string.IsNullOrEmpty(_lastOrderUuid)) return;
 
@@ -10089,7 +10096,16 @@ namespace CapaVisual_Login
                     // Usamos PascalCase para las propiedades según tu modelo definido
                     txtMontoInicialCashea.Text = plan.DownPayment.ToString("N2");
                     txtMontoFinanCashea.Text = plan.FinancedAmount.ToString("N2");
-
+                    if (plan.DownPaymentStatus.ToString() == "PAID")
+                    {
+                        lblStatusInicial.Text = "Inicial pagada en APP";
+                        CasheainicialAPP = "SI";
+                    }
+                    else
+                    {
+                        lblStatusInicial.Text = "";
+                        CasheainicialAPP = "NO";
+                    }
                     _montoPlanPago = plan.DownPayment;
                     if (plan.DownPayment > 0 & plan.FinancedAmount > 0)
                     {
@@ -10341,35 +10357,65 @@ namespace CapaVisual_Login
             // 1. Convertimos el texto a número una sola vez para que el código sea más limpio y eficiente
             double montoInicial = Convert.ToDouble(txtMontoInicialCashea.Text);
 
-            // 2. Nueva condición: 
-            // Pasa si el monto es mayor a 0, O BIEN, si el monto es 0 Y la variable permite el total financiado.
-            if (montoInicial > 0 || (montoInicial == 0 && casheaAceptaTotalFinancido))
+            if (lblStatusInicial.Text == "PENDING")
             {
-                Double tasa = Convert.ToDouble(TB_TASA_Dolar.Tasa.ToString());
-           
-                string miReferenciaCashea = await ObtenerReferenciaCashea();
-
-                if (montoInicial > 0)
+                // 2. Nueva condición: 
+                // Pasa si el monto es mayor a 0, O BIEN, si el monto es 0 Y la variable permite el total financiado.
+                if (montoInicial > 0 || (montoInicial == 0 && casheaAceptaTotalFinancido))
                 {
-                    _L_Facturacion.GuardarAbonoGrid(2, Dt_Abonos, CbxMetodosPago2.Text, CbxMoneda.Text, "", (Convert.ToDouble(txtMontoFinanCashea.Text) * tasa).ToString("N2"), miReferenciaCashea, DtpFecha.Value.ToString(), "024"                                      , "116", "116", TxtVuelto.Text, "", "", "", "", "", "", "000");
+                    Double tasa = Convert.ToDouble(TB_TASA_Dolar.Tasa.ToString());
+
+                    string miReferenciaCashea = await ObtenerReferenciaCashea();
+
+                    if (montoInicial > 0)
+                    {
+                        _L_Facturacion.GuardarAbonoGrid(2, Dt_Abonos, CbxMetodosPago2.Text, CbxMoneda.Text, "", (Convert.ToDouble(txtMontoFinanCashea.Text) * tasa).ToString("N2"), miReferenciaCashea, DtpFecha.Value.ToString(), "024", "116", "116", TxtVuelto.Text, "", "", "", "", "", "", "000");
+                    }
+                    else
+                    {
+                        _L_Facturacion.GuardarAbonoGrid(2, Dt_Abonos, CbxMetodosPago2.Text, CbxMoneda.Text, "", Convert.ToDouble(TB_CAORDSER.OrSer_Saldo).ToString("N2"), miReferenciaCashea, DtpFecha.Value.ToString(), "024", "116", "116", TxtVuelto.Text, "", "", "", "", "", "", "000");
+                    }
+                    BolivaresConveridos(Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos)), txtMontoBs);
+                    //-----------ConvertirBolivares---------------------------
+                    //txtMontoBs.Text = _L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos);
+
+                    lbMinAbo.Text = Convert.ToString(Convert.ToDouble(lbMinAbo.Text) + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos)));
+                    VisualizarPanel("MostrarPanelPrincipal");
+                    LimpiarTxbox();
                 }
                 else
                 {
-                    _L_Facturacion.GuardarAbonoGrid(2, Dt_Abonos, CbxMetodosPago2.Text, CbxMoneda.Text, "", Convert.ToDouble(TB_CAORDSER.OrSer_Saldo).ToString("N2"), miReferenciaCashea, DtpFecha.Value.ToString(), "024", "116", "116", TxtVuelto.Text, "", "", "", "", "", "", "000");
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje("No se permite el financiamiento del monto total de la orden");
+                    _FrmMensajes.ShowDialog();
                 }
-                BolivaresConveridos(Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos)), txtMontoBs);
-                //-----------ConvertirBolivares---------------------------
-                //txtMontoBs.Text = _L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos);
-
-                lbMinAbo.Text = Convert.ToString(Convert.ToDouble(lbMinAbo.Text) + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos)));
-                VisualizarPanel("MostrarPanelPrincipal");
-                LimpiarTxbox();
             }
             else
             {
-                _FrmMensajes.co = 2;
-                _FrmMensajes.avisomensaje("No se permite el financiamiento del monto total de la orden");
-                _FrmMensajes.ShowDialog();
+                if (CasheainicialAPP == "SI" && casheaAceptaTotalFinancido)
+                {
+                    
+                    Double tasa = Convert.ToDouble(TB_TASA_Dolar.Tasa.ToString());
+
+                    string miReferenciaCashea = await ObtenerReferenciaCashea();
+
+                    _L_Facturacion.GuardarAbonoGrid(2, Dt_Abonos, CbxMetodosPago2.Text, CbxMoneda.Text, "", Convert.ToDouble(TB_CAORDSER.OrSer_Saldo).ToString("N2"), miReferenciaCashea, DtpFecha.Value.ToString(), "024", "116", "116", TxtVuelto.Text, "", "", "", "", "", "", "000");
+                        
+                    BolivaresConveridos(Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos)), txtMontoBs);
+                    //-----------ConvertirBolivares---------------------------
+                    //txtMontoBs.Text = _L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos);
+
+                    lbMinAbo.Text = Convert.ToString(Convert.ToDouble(lbMinAbo.Text) + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos)));
+                    VisualizarPanel("MostrarPanelPrincipal");
+                    LimpiarTxbox();
+                }
+                else
+                {
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje("No se permite el pago de la inicial en la app de cashea");
+                    _FrmMensajes.ShowDialog();
+                }
+                
             }
         }
 
@@ -10495,9 +10541,9 @@ namespace CapaVisual_Login
                     // 2. Convertimos el monto a decimal de forma segura
                     // Usamos InvariantCulture porque las APIs suelen devolver montos con punto (120.50)
                     decimal montoDecimal = Convert.ToDecimal(cuota.Amount, culturaGlobal);
-
+                    string status = cuota.Status.ToString();
                     // 3. Llamada a tu capa lógica
-                    _L_Cashea.RegistrarCuotasCashea(codSucursal,nroOren,nroContrato,nroCuotaString,montoDecimal,userCrea);
+                    _L_Cashea.RegistrarCuotasCashea(codSucursal,nroOren,nroContrato,nroCuotaString,montoDecimal,userCrea, CasheainicialAPP);
                 }
                 catch (Exception ex)
                 {
@@ -10709,6 +10755,128 @@ namespace CapaVisual_Login
         private void PnlNotaCredito_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private async void btnQR_CheckedChanged(object sender, EventArgs e)
+        {
+
+
+            try
+            {
+                // 2. Mapear los datos reales desde los controles de tu formulario
+                // Nota: Asume que tienes campos de texto para el correo del cliente y el monto
+                var request = new CreateGiftCardRequest
+                {
+                    Recipient = "jacqueline.reina@gmail.com", // Correo de quien recibe la tarjeta
+                    Sender = "ePOS Óptica Caroní",            // Identificador de origen
+                    Balance = 100, // El saldo asignado
+                    MetaData = new List<GiftCardMeta>
+            {
+                // Metadatos útiles para auditoría en el panel de WooCommerce
+                new GiftCardMeta { Key = "sucursal", Value = "Sambil Caracas" },
+                new GiftCardMeta { Key = "operador", Value = "UsuarioPOS" }
+            }
+                };
+
+                // 3. Invocar de manera asíncrona la capa lógica
+                var resultado = await _lGiftCard.CrearNuevaGiftCard(request);
+
+                // 4. Evaluar la respuesta estandarizada
+                if (resultado.IsSuccess)
+                {
+                    // El objeto resultado.Data contiene el ID, Code y Balance que devolvió WooCommerce
+                    string codigoGenerado = resultado.Data.Code;
+                    int idInternoWoo = resultado.Data.Id;
+
+                    // Muestra mensaje de éxito al operador
+                    MessageBox.Show($"¡Gift Card generada exitosamente!\n\nCódigo: {codigoGenerado}\nSaldo: {resultado.Data.Balance:N2}",
+                                    "Proceso Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    // [AQUÍ TU LÓGICA INTERNA DE FACTURACIÓN]:
+                    // - Guardar 'codigoGenerado' en la tabla local de tu base de datos si es necesario.
+                    // - Mandar a imprimir el ticket físico con el código de barra para el cliente.
+
+                    this.DialogResult = DialogResult.OK; // O el flujo de cierre que corresponda
+                }
+                else
+                {
+                    // Si falla la validación del API o el servidor rechaza los datos (ej: código de estado 400)
+                    MessageBox.Show($"No se pudo emitir la Gift Card.\nDetalle: {resultado.Message}",
+                                    "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            catch (FormatException)
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("Por favor, introduzca un monto válido de facturación.");
+                _FrmMensajes.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje($"Ocurrió un error inesperado: {ex.Message}");
+                _FrmMensajes.ShowDialog();
+            }
+        }
+
+        private async void CrearGiftCard(string email, string nombre, int monto)
+        {
+            try
+            {
+                // 2. Mapear los datos reales desde los controles de tu formulario
+                // Nota: Asume que tienes campos de texto para el correo del cliente y el monto
+                var request = new CreateGiftCardRequest
+                {
+                    Recipient = email, // Correo de quien recibe la tarjeta
+                    Sender = nombre,            // Identificador de origen
+                    Balance = monto, // El saldo asignado
+                    MetaData = new List<GiftCardMeta>
+            {
+                // Metadatos útiles para auditoría en el panel de WooCommerce
+                new GiftCardMeta { Key = "sucursal", Value = "Sambil Caracas" },
+                new GiftCardMeta { Key = "operador", Value = "UsuarioPOS" }
+            }
+                };
+
+                // 3. Invocar de manera asíncrona la capa lógica
+                var resultado = await _lGiftCard.CrearNuevaGiftCard(request);
+
+                // 4. Evaluar la respuesta estandarizada
+                if (resultado.IsSuccess)
+                {
+                    // El objeto resultado.Data contiene el ID, Code y Balance que devolvió WooCommerce
+                    string codigoGenerado = resultado.Data.Code;
+                    int idInternoWoo = resultado.Data.Id;
+
+                    // Muestra mensaje de éxito al operador
+                    MessageBox.Show($"¡Gift Card generada exitosamente!\n\nCódigo: {codigoGenerado}\nSaldo: {resultado.Data.Balance:N2}",
+                                    "Proceso Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    // [AQUÍ TU LÓGICA INTERNA DE FACTURACIÓN]:
+                    // - Guardar 'codigoGenerado' en la tabla local de tu base de datos si es necesario.
+                    // - Mandar a imprimir el ticket físico con el código de barra para el cliente.
+
+                    this.DialogResult = DialogResult.OK; // O el flujo de cierre que corresponda
+                }
+                else
+                {
+                    // Si falla la validación del API o el servidor rechaza los datos (ej: código de estado 400)
+                    MessageBox.Show($"No se pudo emitir la Gift Card.\nDetalle: {resultado.Message}",
+                                    "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            catch (FormatException)
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("Por favor, introduzca un monto válido de facturación.");
+                _FrmMensajes.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje($"Ocurrió un error inesperado: {ex.Message}");
+                _FrmMensajes.ShowDialog();
+            }
         }
         //private async void CargarCajasEnCombo()
         //{

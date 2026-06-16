@@ -11,7 +11,7 @@ namespace CapaDatos.Cashea_Datos
     public class D_Cashea
     {
         Conexion.Conexion cn = new Conexion.Conexion();
-        public DataSet RegistrarCuotasCashea(string codSucursal,string nroOren, string nroContrato, string nroCuota, decimal montoCuota,string userCrea, SqlCommand command = null)
+        public DataSet RegistrarCuotasCashea(string codSucursal,string nroOren, string nroContrato, string nroCuota, decimal montoCuota,string userCrea,string status, SqlCommand command = null)
         {
             try
             {
@@ -32,6 +32,7 @@ namespace CapaDatos.Cashea_Datos
                 cmd.Parameters.AddWithValue("@NroCuota", nroCuota);
                 cmd.Parameters.AddWithValue("@MontoCuota", montoCuota);
                 cmd.Parameters.AddWithValue("@User_Crea", userCrea);
+                cmd.Parameters.AddWithValue("@Status", status);
 
                 DataSet dt = new DataSet();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);

@@ -86,11 +86,11 @@ namespace CapaLogica.Cashea_Logica
             return await _casheaService.GetOrderDetailsAsync(orderUuid);
         }
 
-        public bool RegistrarCuotasCashea(string codSucursal, string nroOren, string nroContrato, string nroCuota, decimal montoCuota, string userCrea, SqlCommand command = null)
+        public bool RegistrarCuotasCashea(string codSucursal, string nroOren, string nroContrato, string nroCuota, decimal montoCuota, string userCrea,string status, SqlCommand command = null)
         {
             try
             {
-                DataSet dts = _D_Cashea.RegistrarCuotasCashea(codSucursal, nroOren, nroContrato, nroCuota, montoCuota, userCrea, command);
+                DataSet dts = _D_Cashea.RegistrarCuotasCashea(codSucursal, nroOren, nroContrato, nroCuota, montoCuota, userCrea, status,command);
 
                 //if (dts != null && dts.Tables[0] != null)
                 //{

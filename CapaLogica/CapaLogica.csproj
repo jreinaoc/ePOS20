@@ -232,6 +232,7 @@
     <Compile Include="ExportarArchivos\ExportarXLSX_ReporteGlobal.cs" />
     <Compile Include="ExportarArchivos\FormatoDeArchivo.cs" />
     <Compile Include="Facturacion_Logica\L_Facturacion.cs" />
+    <Compile Include="GiftCard_Logica\L_GiftCard.cs" />
     <Compile Include="Impresora_Fiscal\Impresora_Fiscal.cs" />
     <Compile Include="Inicio_Logica\L_Inicio.cs" />
     <Compile Include="ListaFactura_Logica\L_ListaFacturas.cs" />

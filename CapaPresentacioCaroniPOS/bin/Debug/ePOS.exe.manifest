@@ -74,7 +74,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>WU/Y/H1MIf0hN/2R1XyBZ9YTdeRIcGfv4ga2QjsO93I=</dsig:DigestValue>
+        <dsig:DigestValue>LxOk8UYhyS8qfKxB1rc/ICQ41bsO+Vsayo5zi1blPCU=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -91,26 +91,26 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CapaLogica.dll" size="352768">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CapaLogica.dll" size="356864">
       <assemblyIdentity name="CapaLogica" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>d1tnrI52N4jOqiiu+yUnu6BwdV27CH54g5GqoRZZnpE=</dsig:DigestValue>
+        <dsig:DigestValue>n/b7o27dlNHrjnW8oTiKN5mfYTZY5juym/z0/iyLIo4=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CapaServiciosExternos.dll" size="32256">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CapaServiciosExternos.dll" size="36352">
       <assemblyIdentity name="CapaServiciosExternos" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>DA2bl89fIWv3xy9p2t83r+zRJNDqZZ5smg6G16LVXjs=</dsig:DigestValue>
+        <dsig:DigestValue>dutxjkbsH5YGZREAcuvu/Y6MXkS3Jl52KNgTkH7nw88=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -223,14 +223,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ePOS.exe" size="3559936">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ePOS.exe" size="3565568">
       <assemblyIdentity name="ePOS" version="1.0.2.5" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>u861K3ik8ahafBTZmWKkClj7XYkw1+dV3oNTiT481Lk=</dsig:DigestValue>
+        <dsig:DigestValue>wrfIyrU87MouM3bIlRPtjwMSwCEKHba0YQCPe0zPO3w=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

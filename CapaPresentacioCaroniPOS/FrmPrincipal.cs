@@ -873,8 +873,11 @@ namespace CapaVisual_Login
                 }
             }
 
-            // Ahora ya puedes usar 'status' sin miedo a que truene el código
-            if (!string.IsNullOrEmpty(status))
+            if (_D_DetalleOrden.TB_PARAMETRO("AmbDesarrollo") == "0")
+            {
+
+                // Ahora ya puedes usar 'status' sin miedo a que truene el código
+                if (!string.IsNullOrEmpty(status))
             {
                 _FrmMensajes.co = 2;
                 _FrmMensajes.avisomensaje("Tiene ordenes pendientes por enviar");
@@ -990,8 +993,7 @@ namespace CapaVisual_Login
                 _FrmMensajes.ShowDialog();
                 return;
             }
-            if (_D_DetalleOrden.TB_PARAMETRO("AmbDesarrollo") == "0")
-            {
+         
 
                 if (StatusTasa != "SI" || StatusSec != "SI")
                 {
