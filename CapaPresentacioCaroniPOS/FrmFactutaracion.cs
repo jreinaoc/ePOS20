@@ -10096,7 +10096,7 @@ namespace CapaVisual_Login
                     // Usamos PascalCase para las propiedades según tu modelo definido
                     txtMontoInicialCashea.Text = plan.DownPayment.ToString("N2");
                     txtMontoFinanCashea.Text = plan.FinancedAmount.ToString("N2");
-                    if (plan.DownPaymentStatus.ToString() == "PAID")
+                    if (plan.DownPayment > 0 && plan.DownPaymentStatus.ToString() == "PAID")
                     {
                         lblStatusInicial.Text = "Inicial pagada en APP";
                         CasheainicialAPP = "SI";
@@ -10357,7 +10357,7 @@ namespace CapaVisual_Login
             // 1. Convertimos el texto a número una sola vez para que el código sea más limpio y eficiente
             double montoInicial = Convert.ToDouble(txtMontoInicialCashea.Text);
 
-            if (lblStatusInicial.Text == "PENDING")
+            if (CasheainicialAPP == "NO")
             {
                 // 2. Nueva condición: 
                 // Pasa si el monto es mayor a 0, O BIEN, si el monto es 0 Y la variable permite el total financiado.
