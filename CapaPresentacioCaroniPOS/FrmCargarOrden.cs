@@ -21,6 +21,7 @@ using DataGridViewNumericUpDownElements;
 using System.Text.RegularExpressions;
 using CapaLogica.Servicios;
 using CapaDatos.Anulacion;
+using CapaLogica.GiftCard_Logica;
 
 
 namespace CapaVisual_Login
@@ -204,6 +205,8 @@ namespace CapaVisual_Login
         D_Anulacion _D_Anulacion = new D_Anulacion();
         private string ojoLenteContacto;
         private bool LcAmbosCant1 = false;
+
+        private readonly L_GiftCard _lGiftCard = new L_GiftCard();
 
         private void DgvListadoOrdenes_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -4141,7 +4144,7 @@ namespace CapaVisual_Login
 
                     if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "10")
                     {
-                        _GuardarOrdenServ.AgregarGiftCard(codSucursal, numeroOrden, "0", Convert.ToDecimal(txtMontoDolaresGiftCard.Text.Trim().Replace(".", "")), txtBeneficiarioGiftCard.Text, txtCorreoGiftCard.Text, txtMensajeGiftCard.Text, null, TB_USUARIO.COD_USR, null, command);
+                        _lGiftCard.AgregarGiftCard(codSucursal, numeroOrden, "0", Convert.ToDecimal(txtMontoDolaresGiftCard.Text.Trim().Replace(".", "")), txtBeneficiarioGiftCard.Text, txtCorreoGiftCard.Text, txtMensajeGiftCard.Text, 0 , null, TB_USUARIO.COD_USR, null, command);
                     }
 
                     transaction.Commit();

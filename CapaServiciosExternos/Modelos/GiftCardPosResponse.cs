@@ -40,5 +40,16 @@ namespace CapaServiciosExternos.Modelos
 
         [JsonProperty("balance")]
         public decimal Balance { get; set; }
+
+        // 🌟 NUEVOS CAMPOS PARA EL FLUJO DE CONSULTA:
+
+        [JsonProperty("remaining")]
+        public decimal Remaining { get; set; } // El saldo disponible que le queda en la tienda
+
+        [JsonProperty("is_active")]
+        public string IsActive { get; set; } // Viene como "on" u "off" para saber si está válida
+
+        [JsonProperty("recipient")]
+        public string Recipient { get; set; } // El correo del beneficiario por si quieres validarlo
     }
 }

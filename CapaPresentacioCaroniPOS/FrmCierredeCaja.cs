@@ -2766,7 +2766,7 @@ namespace CapaVisual_Login
 
         public void CargarConfiguracionCashea()
         {
-            DataTable dt = _L_Cashea.ObtenerConfigCashea();
+            DataTable dt = _L_Cashea.ObtenerConfigCashea("CASHEA");
 
             foreach (DataRow row in dt.Rows)
             {

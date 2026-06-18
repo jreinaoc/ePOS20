@@ -61,5 +61,27 @@ namespace CapaServiciosExternos
                 throw;
             }
         }
+
+        /// <summary>
+        /// Consulta una Gift Card existente en WooCommerce usando el mismo modelo unificado
+        /// </summary>
+        //public async Task<GiftCardPosResponse> ObtenerGiftCardPorIdAsync(int giftCardId)
+        //{
+        //    string url = $"{_baseUrl}gift-cards/{giftCardId}";
+
+        //    HttpResponseMessage response = await _httpClient.GetAsync(url);
+
+        //    if (response.IsSuccessStatusCode)
+        //    {
+        //        string jsonString = await response.Content.ReadAsStringAsync();
+        //        // Reutilizamos tu clase perfectamente
+        //        return JsonConvert.DeserializeObject<GiftCardPosResponse>(jsonString);
+        //    }
+        //    else
+        //    {
+        //        string errorContent = await response.Content.ReadAsStringAsync();
+        //        throw new HttpRequestException($"Error al consultar la Gift Card ({response.StatusCode}): {errorContent}");
+        //    }
+        //}
     }
 }

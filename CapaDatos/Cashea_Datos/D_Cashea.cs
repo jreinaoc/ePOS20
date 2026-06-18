@@ -86,7 +86,7 @@ namespace CapaDatos.Cashea_Datos
             }
         }
 
-        public DataTable ObtenerConfigCashea(SqlCommand command = null)
+        public DataTable ObtenerConfigCashea(string servicio , SqlCommand command = null)
         {
             try
             {
@@ -99,8 +99,9 @@ namespace CapaDatos.Cashea_Datos
                 SqlCommand cmd = command;
                 cmd.Parameters.Clear();
 
-                cmd.CommandText = "SP_CPOS_GetConfigCashea";
+                cmd.CommandText = "SP_CPOS_GetConfigServiciosExternos";
                 cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Servicio", servicio);
 
 
 

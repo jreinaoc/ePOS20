@@ -10736,7 +10736,7 @@ namespace CapaVisual_Login
 
         public void CargarConfiguracionCashea()
         {
-            DataTable dt = _L_Cashea.ObtenerConfigCashea();
+            DataTable dt = _L_Cashea.ObtenerConfigCashea("CASHEA");
 
             foreach (DataRow row in dt.Rows)
             {
@@ -10752,6 +10752,30 @@ namespace CapaVisual_Login
                         ConfigCashea.BaseUrl = ConfigCashea.Decodificar(valorCifrado);
                         break;
                     case "Cashea_Uuid_Caja":
+                        ConfigCashea.UuidCaja = ConfigCashea.Decodificar(valorCifrado);
+                        break;
+                }
+            }
+        }
+
+        public void CargarConfiguracionGiftCard()
+        {
+            DataTable dt = _L_Cashea.ObtenerConfigCashea("GIFTCARD");
+
+            foreach (DataRow row in dt.Rows)
+            {
+                string nombre = row["Parametro"].ToString();
+                string valorCifrado = row["Valor"].ToString();
+
+                switch (nombre)
+                {
+                    case "GiftCard_ConsumerKey":
+                        ConfigCashea.ApiKey = ConfigCashea.Decodificar(valorCifrado);
+                        break;
+                    case "GiftCard_ConsumerSecret":
+                        ConfigCashea.BaseUrl = ConfigCashea.Decodificar(valorCifrado);
+                        break;
+                    case "GiftCard_BaseUrl":
                         ConfigCashea.UuidCaja = ConfigCashea.Decodificar(valorCifrado);
                         break;
                 }
@@ -10864,7 +10888,7 @@ namespace CapaVisual_Login
                     string codigoGenerado = resultado.Data.Code;
                     int idInternoWoo = resultado.Data.Id;
 
-                    _lGiftCard.AgregarGiftCard(codSucursal, nroOrden , revision, 0, "", "", "", codigoGenerado, TB_USUARIO.COD_USR, null);
+                    _lGiftCard.AgregarGiftCard(codSucursal, nroOrden , revision, 0, "", "", "", idInternoWoo,codigoGenerado, TB_USUARIO.COD_USR, TB_USUARIO.COD_USR);
 
 
                     // Muestra mensaje de éxito al operador
