@@ -5901,16 +5901,19 @@ namespace CapaVisual_Login
                             // Limpiar el ComboBox antes de cargar nuevos datos
                             Cbx_Tap1_PorcentajeIVA_Pagador.Items.Clear();
 
+                            // Agregar item en blanco en la posición 0
+                            Cbx_Tap1_PorcentajeIVA_Pagador.Items.Insert(0, "");
+
                             // Cargar los porcentajes de IVA en el ComboBox
                             foreach (DataRow row in DtIva.Rows)
                             {
                                 Cbx_Tap1_PorcentajeIVA_Pagador.Items.Add(row["ValorSeparado"].ToString());
                             }
 
-                            // Opcional: Seleccionar el primer elemento
-                            if (Cbx_Tap1_PorcentajeIVA_Pagador.Items.Count > 0)
+                            // Seleccionar el primer porcentaje real (índice 1 porque 0 es blanco)
+                            if (Cbx_Tap1_PorcentajeIVA_Pagador.Items.Count > 1)
                             {
-                                Cbx_Tap1_PorcentajeIVA_Pagador.SelectedIndex = 0;
+                                Cbx_Tap1_PorcentajeIVA_Pagador.SelectedIndex = 1;
                             }
 
                             Cbx_Tap1_PorcentajeIVA_Pagador.Enabled = true;
@@ -7491,6 +7494,9 @@ namespace CapaVisual_Login
             // Limpiar el ComboBox antes de cargar nuevos datos
             Cbx_Tap1_PorcentajeIVA.Items.Clear();
             Cbx_Tap1_PorcentajeIVA_Pagador.Items.Clear();
+            // Agregar item en blanco en la posición 0
+            Cbx_Tap1_PorcentajeIVA.Items.Insert(0, "");
+            Cbx_Tap1_PorcentajeIVA_Pagador.Items.Insert(0, "");
             // Cargar los porcentajes de IVA en el ComboBox
             foreach (DataRow row in DtIva.Rows)
             {
@@ -7627,16 +7633,9 @@ namespace CapaVisual_Login
             dtCliente = null;
             TopeExamen = 0;
 
-            // Opcional: Seleccionar el primer elemento
-            if (Cbx_Tap1_PorcentajeIVA.Items.Count > 0 && Txt_Tap1_Cedula.Text.Trim() != "")
-            {
-                Cbx_Tap1_PorcentajeIVA.SelectedIndex = 0;
-                Cbx_Tap1_PorcentajeIVA_Pagador.SelectedIndex = 0;
-            }
-            else
-            {
-                Cbx_Tap1_PorcentajeIVA.SelectedIndex = -1;
-            }
+            // Seleccionar el item en blanco (índice 0) por defecto
+            Cbx_Tap1_PorcentajeIVA.SelectedIndex = 0;
+            Cbx_Tap1_PorcentajeIVA_Pagador.SelectedIndex = 0;
 
 
         }
@@ -9397,13 +9396,15 @@ namespace CapaVisual_Login
             nuevoCliente.CTE_RETISLR = Chex_Tap1_Iva.GetItemChecked(0); // Asume que ISR está en el índice 0
 
             //nuevoCliente.CTE_RETIVA = Chex_Tap1_Iva.GetItemChecked(1); // Asume que IVA está en el índice 1
-            if (Cbx_Tap1_PorcentajeIVA.SelectedIndex != -1)
+            if (Cbx_Tap1_PorcentajeIVA.SelectedIndex > 0)
             {
                 nuevoCliente.CTE_RETIVA = true;
+                nuevoCliente.CTE_PORCIVA = decimal.TryParse(Cbx_Tap1_PorcentajeIVA.SelectedItem.ToString(), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out decimal porc) ? porc : (decimal?)null;
             }
             else
             {
                 nuevoCliente.CTE_RETIVA = false;
+                nuevoCliente.CTE_PORCIVA = null;
             }
 
             nuevoCliente.ImpuestoMunicipal= Chex_Tap1_Iva.GetItemChecked(1);
@@ -9684,16 +9685,19 @@ namespace CapaVisual_Login
                 // Limpiar el ComboBox antes de cargar nuevos datos
                 Cbx_Tap1_PorcentajeIVA.Items.Clear();
 
+                // Agregar item en blanco en la posición 0
+                Cbx_Tap1_PorcentajeIVA.Items.Insert(0, "");
+
                 // Cargar los porcentajes de IVA en el ComboBox
                 foreach (DataRow row in DtIva.Rows)
                 {
                     Cbx_Tap1_PorcentajeIVA.Items.Add(row["ValorSeparado"].ToString());
                 }
 
-                // Opcional: Seleccionar el primer elemento
-                if (Cbx_Tap1_PorcentajeIVA.Items.Count > 0)
+                // Seleccionar el primer porcentaje real (índice 1 porque 0 es blanco)
+                if (Cbx_Tap1_PorcentajeIVA.Items.Count > 1)
                 {
-                    Cbx_Tap1_PorcentajeIVA.SelectedIndex = 0;
+                    Cbx_Tap1_PorcentajeIVA.SelectedIndex = 1;
                 }
 
                 Cbx_Tap1_PorcentajeIVA.Enabled = true;
@@ -10404,13 +10408,15 @@ namespace CapaVisual_Login
             // Obtener los valores de los CheckBoxes de retención
             nuevoCliente.CTE_RETISLR = Chex_Tap1_Iva_Pagador.GetItemChecked(0); // Asume que ISR está en el índice 0
             //nuevoCliente.CTE_RETIVA = Chex_Tap1_Iva_Pagador.GetItemChecked(1); // Asume que IVA está en el índice 1
-            if (Cbx_Tap1_PorcentajeIVA_Pagador.SelectedIndex != -1)
+            if (Cbx_Tap1_PorcentajeIVA_Pagador.SelectedIndex > 0)
             {
                 nuevoCliente.CTE_RETIVA = true;
+                nuevoCliente.CTE_PORCIVA = decimal.TryParse(Cbx_Tap1_PorcentajeIVA_Pagador.SelectedItem.ToString(), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out decimal porc) ? porc : (decimal?)null;
             }
             else
             {
                 nuevoCliente.CTE_RETIVA = false;
+                nuevoCliente.CTE_PORCIVA = null;
             }
 
             nuevoCliente.ImpuestoMunicipal= Chex_Tap1_Iva_Pagador.GetItemChecked(1);
@@ -15715,6 +15721,7 @@ namespace CapaVisual_Login
                 }
             }
         }
+
     }
 
 }

@@ -35,7 +35,8 @@ namespace CapaEntidades
         public string Instagram { get; set; }
         public bool CTE_RETISLR { get; set; }
         public bool CTE_RETIVA { get; set; }
- 
+        public decimal? CTE_PORCIVA { get; set; }
+  
         public string COD_Edo { get; set; }
         public string COD_Ciud { get; set; }
         public string EDO_Nombre { get; set; }
