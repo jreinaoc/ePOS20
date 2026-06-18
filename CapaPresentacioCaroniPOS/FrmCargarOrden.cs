@@ -2607,7 +2607,11 @@ namespace CapaVisual_Login
 
             // Habilito o desabilito Botones 
             Txt_Tap3_Articulo_Codigo.Text = "Código";
-            ValidarRegistrosYHabilitar_Botones();
+
+            if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() != "10")
+            {
+                ValidarRegistrosYHabilitar_Botones();
+            }
 
             // Actualizar_Fecha_Ofrecido 
             ActualizaFechaOfrecida(Cbx_Pnl2_Trbajo.SelectedValue.ToString(), Cbx_Pnl2_Servicio.SelectedValue?.ToString());
@@ -3845,7 +3849,7 @@ namespace CapaVisual_Login
                 //VerificoRangoDiametroCristales();
 
                 // VerificarCantidad Cantidad de Ojo y Cristal 
-                if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() != "04" && Cbx_Pnl2_Trbajo.SelectedValue.ToString() != "05" && Cristal_Propio == false && !_L_Articulo.VerificoCantidadCristales(Cbx_Tap2_Ojo.Text, Dgv_Tap3_Articulo, mostrarError))
+                if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() != "10" && Cbx_Pnl2_Trbajo.SelectedValue.ToString() != "04" && Cbx_Pnl2_Trbajo.SelectedValue.ToString() != "05" && Cristal_Propio == false && !_L_Articulo.VerificoCantidadCristales(Cbx_Tap2_Ojo.Text, Dgv_Tap3_Articulo, mostrarError))
                 {
                     return; // Salir 
                 }
@@ -4133,6 +4137,11 @@ namespace CapaVisual_Login
 
                     {
                         DataSet ds = await _GuardarOrdenServ.LlamarActualizarGarantiaAsync(Os_Garantia_Trabajo, codSucursal, numeroOrden, command);
+                    }
+
+                    if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "10")
+                    {
+                        _GuardarOrdenServ.AgregarGiftCard(codSucursal, numeroOrden, "0", Convert.ToDecimal(txtMontoDolaresGiftCard.Text.Trim().Replace(".", "")), txtBeneficiarioGiftCard.Text, txtCorreoGiftCard.Text, txtMensajeGiftCard.Text, null, TB_USUARIO.COD_USR, null, command);
                     }
 
                     transaction.Commit();
@@ -5210,6 +5219,15 @@ namespace CapaVisual_Login
                     _FrmMensajes.ShowDialog();
                 }
 
+            }
+            else if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "10")
+            {
+                txtMontoDolaresGiftCard.Text = "0";
+                txtBeneficiarioGiftCard.Text = "";
+                txtCorreoGiftCard.Text = "";
+                txtMensajeGiftCard.Text = "";
+                pnlGiftCard.Visible = true;
+                this.pnlGiftCard.Location = new Point(250, 40);
             }
             else
             {
@@ -15572,6 +15590,128 @@ namespace CapaVisual_Login
             }
         }
 
+        private void btnCancelarPanelGifCard_Click(object sender, EventArgs e)
+        {
+            pnlGiftCard.Visible = false;
+            Btn_Tap3_Cancelar.PerformClick();
+
+        }
+
+        private void btnProcesarPanelGiftCard_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(txtMontoDolaresGiftCard.Text.Trim()) || txtMontoDolaresGiftCard.Text.Trim() == "0")
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("Debe ingresar un monto mayor a cero");
+                _FrmMensajes.StartPosition = FormStartPosition.Manual;
+                _FrmMensajes.Location = new System.Drawing.Point(600, 300);
+                _FrmMensajes.ShowDialog();
+
+                txtMontoDolaresGiftCard.Focus();
+                return;
+            }
+
+            if (string.IsNullOrEmpty(txtBeneficiarioGiftCard.Text.Trim()))
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("Registre el nombre del beneficiario");
+                _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                _FrmMensajes.ShowDialog();
+
+
+                txtBeneficiarioGiftCard.Focus();
+                return;
+            }
+
+            if (string.IsNullOrEmpty(txtCorreoGiftCard.Text.Trim()))
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("Registre el correo del beneficiario");
+                _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                _FrmMensajes.ShowDialog();
+
+
+                txtCorreoGiftCard.Focus();
+                return;
+            }
+
+            pnlGiftCard.Visible = false;
+            Double MontoGiftCardBolivares = 0;
+            MontoGiftCardBolivares = Convert.ToDouble(txtMontoDolaresGiftCard.Text.Trim().Replace(".", "")) * (TB_TASA_Dolar.Tasa ?? 0);
+            _L_Articulo.CargarArticulos(Dgv_Pnl3_Articulo, listaArticulos, Cbx_Pnl2_Trbajo.SelectedValue.ToString(), _L_Articulo.ValidarExtenciaCristal(Dgv_Tap3_Articulo, Cbx_Pnl2_Trbajo.SelectedValue.ToString()));
+
+            var articulo = listaArticulos.FirstOrDefault(a => a.CodArticulo == "G000001");
+
+            _L_Articulo.AgregarFila(Dgv_Tap3_Articulo,
+                 articulo.CodArticulo, "", "",
+                 CodColorLC, "Gift Card", 1, (decimal)MontoGiftCardBolivares, 0, (decimal)MontoGiftCardBolivares, 0, "A", (decimal)0);
+
+            //if (artPadre != "")
+            //{
+            //    _L_Articulo.CargarServicioGarantia(Dgv_Tap3_Articulo);
+            //}
+            // Limpiar los TextBox después de agregar el artículo
+            pnlGiftCard.Visible = false;
+            ReiniciarBusquedaarticulo();
+        }
+
+        private void txtMontoDolaresGiftCard_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // 1. Bloquea todo lo que NO sea un número entero o la tecla de borrar (BackSpace)
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != (char)Keys.Back)
+            {
+                e.Handled = true;
+                return;
+            }
+
+            // Opcional: Si el texto actual es "0" y el usuario presiona un número, 
+            // limpiamos el "0" para que empiece a escribir el nuevo monto directamente.
+            if (txtMontoDolaresGiftCard.Text == "0" && char.IsDigit(e.KeyChar))
+            {
+                txtMontoDolaresGiftCard.Text = string.Empty;
+            }
+
+            // 2. Controlar el máximo de 4 dígitos (SOLO si se está intentando escribir un número)
+            if (char.IsDigit(e.KeyChar))
+            {
+                if (txtMontoDolaresGiftCard.Text.Length >= 4)
+                {
+                    e.Handled = true; // Bloquea el quinto número
+
+                    // Mueve el foco a la otra caja de texto
+                    Txt_Tap3_Articulo_Cantidad.Focus();
+                }
+            }
+        }
+
+        private void txtCorreoGiftCard_Leave(object sender, EventArgs e)
+        {
+            string textoIngresado = txtCorreoGiftCard.Text;
+            if (!string.IsNullOrEmpty(textoIngresado)) // Solo revisa si no está vacío
+            {
+                txtCorreoGiftCard.Text = txtCorreoGiftCard.Text.ToLower();
+                if (EsEmailValido(textoIngresado))
+                {
+                    // El valor ingresado parece una dirección de correo electrónico válida
+                    //MessageBox.Show("El formato del correo electrónico es válido.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                    // Puedes realizar alguna acción aquí
+                }
+                else
+                {
+                    // El valor ingresado no parece una dirección de correo electrónico válida
+
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje("El formato del correo electrónico no es válido");
+                    _FrmMensajes.ShowDialog();
+
+                    button3.Focus();
+
+                    txtCorreoGiftCard.Focus(); // Devolver el foco al TextBox
+                }
+            }
+        }
     }
 
 }

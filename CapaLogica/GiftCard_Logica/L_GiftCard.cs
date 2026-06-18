@@ -3,11 +3,15 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using CapaServiciosExternos;
 using CapaServiciosExternos.Modelos;
+using CapaDatos.GiftCard_Datos;
+using System.Data.SqlClient;
+using System.Data;
 
 namespace CapaLogica.GiftCard_Logica
 {
     public class L_GiftCard
     {
+        private D_GiftCard _D_GiftCard = new D_GiftCard();
         // Instancia directa del servicio externo (siguiendo el patrón tradicional del POS)
         // Nota: Si usas HttpClient en C# 7.3, compartimos la instancia para evitar agotamiento de sockets
         private static readonly HttpClient _httpClient = new HttpClient();
@@ -58,6 +62,36 @@ namespace CapaLogica.GiftCard_Logica
                 };
             }
         }
+
+        public bool AgregarGiftCard(string codSucursal, string nroOrden, string revision, decimal montoDolares, string nombreBeneficiario, string correoBeneficiario, string mensaje, string codigoGiftCard, string userCrea, string userMod, SqlCommand command = null)
+        {
+            try
+            {
+                bool Respuesta = _D_GiftCard.AgregarGiftCard(codSucursal, nroOrden, revision, montoDolares, nombreBeneficiario, correoBeneficiario, mensaje, codigoGiftCard, userCrea, userMod, command);
+
+                return Respuesta;
+            }
+            catch (Exception ex)
+            {
+                //MessageBox.Show($"Error general al actualizar TB_TRABAJO o rebajar inventario: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+        }
+
+
+        public DataTable ObtenerGiftCard(string codSucursal, string nroOrden, string revision, SqlCommand command = null)
+        {
+            DataTable dt = _D_GiftCard.ObtenerGiftCard(codSucursal, nroOrden, revision);
+
+            if (dt.Rows.Count > 0)
+            {
+                return dt;
+            }
+            else
+            {
+                return dt;
+            }
+        }
     }
 
     /// <summary>
@@ -70,4 +104,6 @@ namespace CapaLogica.GiftCard_Logica
         public string Message { get; set; }
         public T Data { get; set; }
     }
+
+    
 }

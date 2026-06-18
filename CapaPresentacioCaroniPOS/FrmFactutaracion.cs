@@ -1895,7 +1895,7 @@ namespace CapaVisual_Login
                                     if (casheaOk)
                                     {
                                         // insertar abonos, actualizar caorser, ejecutar movimiento, insertar los billetes TB_BILLETE , emitir factura, Imprimir reporte, Enviar Dana, Actualizar fecha ofrecida
-                                        Estado = ProcesarPagos(TotalAbono, Math.Round((TB_CAORDSER.OrSer_Saldo + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos))), 2), ReversoAutomatico, command);
+                                        Estado = await ProcesarPagos(TotalAbono, Math.Round((TB_CAORDSER.OrSer_Saldo + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos))), 2), ReversoAutomatico, command);
 
                                         if (Estado == "SATISFACTORIO")
                                         {
@@ -1917,7 +1917,7 @@ namespace CapaVisual_Login
                                 }
                                 else
                                 {
-                                    Estado = ProcesarPagos(TotalAbono, Math.Round((TB_CAORDSER.OrSer_Saldo + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos))), 2), ReversoAutomatico, command);
+                                    Estado = await ProcesarPagos(TotalAbono, Math.Round((TB_CAORDSER.OrSer_Saldo + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos))), 2), ReversoAutomatico, command);
                                     return;
                                 }
                             }
@@ -2022,7 +2022,7 @@ namespace CapaVisual_Login
                                         if (casheaOk)
                                         {
                                             // insertar abonos, actualizar caorser, ejecutar movimiento, insertar los billetes TB_BILLETE , emitir factura, Imprimir reporte, Enviar Dana, Actualizar fecha ofrecida
-                                            Estado = ProcesarPagos(TotalAbono, Math.Round((TB_CAORDSER.OrSer_Saldo + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos))), 2), ReversoAutomatico, command);
+                                            Estado = await ProcesarPagos(TotalAbono, Math.Round((TB_CAORDSER.OrSer_Saldo + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos))), 2), ReversoAutomatico, command);
 
                                             // RegistrarCuotasCashea
                                             ObtenerOrdenCashea();
@@ -2040,7 +2040,7 @@ namespace CapaVisual_Login
                                     }
                                     else
                                     {
-                                        Estado = ProcesarPagos(TotalAbono, Math.Round((TB_CAORDSER.OrSer_Saldo + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos))), 2), ReversoAutomatico, command);
+                                        Estado = await ProcesarPagos(TotalAbono, Math.Round((TB_CAORDSER.OrSer_Saldo + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos))), 2), ReversoAutomatico, command);
                                         return;
                                     }
 
@@ -2112,7 +2112,7 @@ namespace CapaVisual_Login
                                         completo = _L_Facturacion.ValidacionNumFact(TxtNumFact, TxtNroCorrelativo);
 
                                         // insertar abonos, actualizar caorser, ejecutar movimiento, insertar los billetes TB_BILLETE , emitir factura, Imprimir reporte, Enviar Dana, Actualizar fecha ofrecida
-                                        Estado = ProcesarPagos(TotalAbono, Math.Round((TB_CAORDSER.OrSer_Saldo + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos))), 2), ReversoAutomatico, command);
+                                        Estado = await ProcesarPagos(TotalAbono, Math.Round((TB_CAORDSER.OrSer_Saldo + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos))), 2), ReversoAutomatico, command);
 
                                         if (Estado == "SATISFACTORIO")
                                         {
@@ -2188,7 +2188,7 @@ namespace CapaVisual_Login
                                     completo = _L_Facturacion.ValidacionNumFact(TxtNumFact, TxtNroCorrelativo);
 
                                      // insertar abonos, actualizar caorser, ejecutar movimiento, insertar los billetes TB_BILLETE , emitir factura
-                                    rept = ProcesarPagos(TotalAbono, Math.Round((TB_CAORDSER.OrSer_Saldo + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos))), 2), ReversoAutomatico, command);
+                                    rept = await ProcesarPagos(TotalAbono, Math.Round((TB_CAORDSER.OrSer_Saldo + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos))), 2), ReversoAutomatico, command);
                                     return;
                                 }
 
@@ -7220,7 +7220,7 @@ namespace CapaVisual_Login
      
         }
 
-        public string ProcesarPagos(double TotalAbono, double TotalSaldoOrdenConIgtf, bool ReversoTransaccion, SqlCommand command)
+        public async Task<string> ProcesarPagos(double TotalAbono, double TotalSaldoOrdenConIgtf, bool ReversoTransaccion, SqlCommand command)
         {
             string concat = TB_CAORDSER.Cod_Sucursal + TB_CAORDSER.NumOrdserv + TB_CAORDSER.Revision;
             string rept = "";
@@ -7384,7 +7384,23 @@ namespace CapaVisual_Login
                     }
                     if (TB_CAORDSER.OrSer_Saldo != 0 || TB_CAORDSER.Cod_DetVta == "10")
                     {
-                        mensaje = "Se ha realizado correctamente el abono";
+                            if (TB_CAORDSER.Cod_DetVta == "10")
+                            {
+                                DataTable OsGiftCard = _lGiftCard.ObtenerGiftCard(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision);
+
+
+                                int MontoDolares = (int)Convert.ToDecimal(OsGiftCard.Rows[0]["MontoDolares"]);
+                                string NombreBeneficiario = OsGiftCard.Rows[0]["NombreBeneficiario"].ToString();
+                                string CorreoBeneficiario = OsGiftCard.Rows[0]["CorreoBeneficiario"].ToString();
+
+                                if ( await CrearGiftCard(CorreoBeneficiario, NombreBeneficiario, MontoDolares,TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision))
+                                {
+
+                                }
+                            }
+
+
+                            mensaje = "Se ha realizado correctamente el abono";
                         _FrmMensajes.co = 1;
                         _FrmMensajes.avisomensaje(mensaje);
                         _FrmMensajes.ShowDialog();
@@ -7416,7 +7432,7 @@ namespace CapaVisual_Login
                                 }
                                 else // si es otro tipo de trabajo 
                                 {
-                                     CrearGiftCard("jreina@opticacaroni.com","JR",100);
+                                     //CrearGiftCard("jreina@opticacaroni.com","JR",100);
                                     _FrmMostrarReporte.setParametros(concat);
                                     _FrmMostrarReporte.ConfigRep(true, false);
 
@@ -10819,7 +10835,7 @@ namespace CapaVisual_Login
             }
         }
 
-        private async void CrearGiftCard(string email, string nombre, int monto)
+        private async Task<bool> CrearGiftCard(string email, string nombre, int monto, string codSucursal, string nroOrden, string revision)
         {
             try
             {
@@ -10833,7 +10849,7 @@ namespace CapaVisual_Login
                     MetaData = new List<GiftCardMeta>
             {
                 // Metadatos útiles para auditoría en el panel de WooCommerce
-                new GiftCardMeta { Key = "sucursal", Value = "Sambil Caracas" },
+                new GiftCardMeta { Key = "sucursal", Value = "" },
                 new GiftCardMeta { Key = "operador", Value = "UsuarioPOS" }
             }
                 };
@@ -10848,34 +10864,42 @@ namespace CapaVisual_Login
                     string codigoGenerado = resultado.Data.Code;
                     int idInternoWoo = resultado.Data.Id;
 
+                    _lGiftCard.AgregarGiftCard(codSucursal, nroOrden , revision, 0, "", "", "", codigoGenerado, TB_USUARIO.COD_USR, null);
+
+
                     // Muestra mensaje de éxito al operador
                     MessageBox.Show($"¡Gift Card generada exitosamente!\n\nCódigo: {codigoGenerado}\nSaldo: {resultado.Data.Balance:N2}",
                                     "Proceso Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
+
                     // [AQUÍ TU LÓGICA INTERNA DE FACTURACIÓN]:
                     // - Guardar 'codigoGenerado' en la tabla local de tu base de datos si es necesario.
                     // - Mandar a imprimir el ticket físico con el código de barra para el cliente.
-
                     this.DialogResult = DialogResult.OK; // O el flujo de cierre que corresponda
+                    return true;
+                  
                 }
                 else
                 {
                     // Si falla la validación del API o el servidor rechaza los datos (ej: código de estado 400)
                     MessageBox.Show($"No se pudo emitir la Gift Card.\nDetalle: {resultado.Message}",
                                     "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
                 }
             }
             catch (FormatException)
             {
                 _FrmMensajes.co = 2;
-                _FrmMensajes.avisomensaje("Por favor, introduzca un monto válido de facturación.");
+                _FrmMensajes.avisomensaje($"No se pudo emitir la Gift Card");
                 _FrmMensajes.ShowDialog();
+                return false;
             }
             catch (Exception ex)
             {
                 _FrmMensajes.co = 2;
                 _FrmMensajes.avisomensaje($"Ocurrió un error inesperado: {ex.Message}");
                 _FrmMensajes.ShowDialog();
+                return false;
             }
         }
         //private async void CargarCajasEnCombo()
