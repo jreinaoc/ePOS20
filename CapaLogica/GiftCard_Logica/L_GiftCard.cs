@@ -79,9 +79,9 @@ namespace CapaLogica.GiftCard_Logica
         }
 
 
-        public DataTable ObtenerGiftCard(string codSucursal, string nroOrden, string revision, SqlCommand command = null)
+        public DataTable ObtenerGiftCard(string codSucursal, string nroOrden, string revision, string codigoGiftCard, SqlCommand command = null)
         {
-            DataTable dt = _D_GiftCard.ObtenerGiftCard(codSucursal, nroOrden, revision);
+            DataTable dt = _D_GiftCard.ObtenerGiftCard(codSucursal, nroOrden, revision, codigoGiftCard);
 
             if (dt.Rows.Count > 0)
             {

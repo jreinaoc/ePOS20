@@ -58,7 +58,7 @@ namespace CapaDatos.GiftCard_Datos
                 return false;
             }
         }
-        public DataTable ObtenerGiftCard(string codSucursal, string nroOrden, string revision, SqlCommand command1 = null)
+        public DataTable ObtenerGiftCard(string codSucursal, string nroOrden, string revision, string CodigoGiftCard, SqlCommand command1 = null)
         {
             try
             {
@@ -77,6 +77,7 @@ namespace CapaDatos.GiftCard_Datos
                 command.Parameters.AddWithValue("@CodSucursal", codSucursal ?? (object)DBNull.Value);
                 command.Parameters.AddWithValue("@NroOrden", nroOrden ?? (object)DBNull.Value);
                 command.Parameters.AddWithValue("@Revision", string.IsNullOrEmpty(revision) ? "0" : revision);
+                command.Parameters.AddWithValue("@CodigoGiftCard", CodigoGiftCard ?? (object)DBNull.Value);
 
                 // 🌟 Cambiamos a DataTable
                 DataTable dt = new DataTable();
