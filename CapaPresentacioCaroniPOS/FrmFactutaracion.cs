@@ -29,6 +29,7 @@ using CapaLogica.Cashea_Logica;
 using CapaLogica.GiftCard_Logica;
 using CapaLogica; // Para ver a _logicaCashea
 using CapaServiciosExternos.Modelos; // Para reconocer el tipo PointOfSale
+using CapaLogica.CargarClientes_Logica;
 
 namespace CapaVisual_Login
 {
@@ -73,7 +74,7 @@ namespace CapaVisual_Login
         L_DanaService _L_DanaService = new L_DanaService();
         FrmMostrarRep _FrmMostrarRep = new FrmMostrarRep();
         private L_CierreCaja _L_CierreCaja = new L_CierreCaja();
-
+        private L_Cliente _L_Cliente = new L_Cliente();
         D_Inicio _D_Inicio = new D_Inicio();
         private L_Facturacion _L_Facturacion = new L_Facturacion();
         private L_ListaOrdenes _L_ListaOrdenes = new L_ListaOrdenes();
@@ -4130,7 +4131,19 @@ namespace CapaVisual_Login
                         Double Bolivares = 0.00;
                         Double TotalAbono = 0.00;
 
-                        double porcRetencion = Convert.ToDouble(_D_DetalleOrden.TB_PARAMETRO("porcRetencion")) / 100.0;
+                        double porcRetencion;
+                        string nacio = txtCedula.Text.Substring(0, (txtCedula.Text.Length) - (txtCedula.Text.Length - 1));
+                        string cedula = txtCedula.Text.Substring(2, txtCedula.Text.Length - 2);
+                        DataTable dtClienteIva = _L_Cliente.ObtenerClientePorCedula(cedula, nacio);
+
+                        if (dtClienteIva != null && dtClienteIva.Rows.Count > 0 && dtClienteIva.Rows[0]["CTE_PORCIVA"] != DBNull.Value)
+                        {
+                            porcRetencion = Convert.ToDouble(dtClienteIva.Rows[0]["CTE_PORCIVA"]) / 100.0;
+                        }
+                        else
+                        {
+                            porcRetencion = Convert.ToDouble(_D_DetalleOrden.TB_PARAMETRO("porcRetencion")) / 100.0;
+                        }
 
                         Bolivares = Math.Round(TB_CAORDSER.VtaImpuesto * porcRetencion, 2);
                         TotalAbono = Convert.ToDouble(_L_Facturacion.TotalizarAbono(DgvAbonos));

@@ -9705,8 +9705,8 @@ namespace CapaVisual_Login
             else
             {
                 //Chex_Tap1_Iva.SetItemChecked(1, false); // Desmarcar el segundo elemento si es falso o nulo
-                Cbx_Tap1_PorcentajeIVA.Items.Clear();
-                Cbx_Tap1_PorcentajeIVA.Enabled = false;
+                //Cbx_Tap1_PorcentajeIVA.Items.Clear();
+                //Cbx_Tap1_PorcentajeIVA.Enabled = false;
             }
 
             if (dtCliente.Rows[0]["CTE_RETISLR"] != DBNull.Value && Convert.ToBoolean(dtCliente.Rows[0]["CTE_RETISLR"]))

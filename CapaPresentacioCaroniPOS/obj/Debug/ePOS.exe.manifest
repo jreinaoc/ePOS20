@@ -67,26 +67,26 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CapaDatos.dll" size="261120">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CapaDatos.dll" size="261632">
       <assemblyIdentity name="CapaDatos" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>cfohxCQd/k62ZsUyLz5uuvdWl+Vc4hZMswXXB4NZWvg=</dsig:DigestValue>
+        <dsig:DigestValue>ktQlP+3n0gMxG6lD/HN1L3FE7AOzVuznaJ2sO8tgUt0=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CapaEntidades.dll" size="120320">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CapaEntidades.dll" size="120832">
       <assemblyIdentity name="CapaEntidades" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>yBK4JqVAfiGewBuN4jSzd8PGgnAxcOKGQLlxfKu+LRA=</dsig:DigestValue>
+        <dsig:DigestValue>lAYF0jq+GO4+Ka7J4JyfN7RDif3KljccBEMTEpvutto=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -98,7 +98,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>bFZFDaUusfd3sirDHbkANFj/xgdMuev8kBvDonRHo5s=</dsig:DigestValue>
+        <dsig:DigestValue>anaxa9+Hcr8zmIlOvrETs6EWkk6Ut07KddllLg1366c=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -110,7 +110,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>Hfz1Ug0LdjPe8Az+/8faLoGV8hvV/P/ucOVd1WWfQWU=</dsig:DigestValue>
+        <dsig:DigestValue>pakyE/2SbN+OcGuMyJ0rPDh6+jmqM6BCq17rWY28PnI=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -223,14 +223,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ePOS.exe" size="3575296">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ePOS.exe" size="3575808">
       <assemblyIdentity name="ePOS" version="1.0.2.5" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>UYVmCpNabW+n8cXDV5OhsrUcDMNPyAa6ImW5u++4El4=</dsig:DigestValue>
+        <dsig:DigestValue>/bgnlE7cEgQHPKmPVKQQEHa2za1+sMPEWeuZECii1qA=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -1202,7 +1202,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>lHL/n+kMjpO7wQXVOqm35hSWRBnOKIxa+T8AywulMtk=</dsig:DigestValue>
+        <dsig:DigestValue>Q0IlGqz2DbO6+gpbbYOA1/0vaRloeVdEH14SA9XS4XQ=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
