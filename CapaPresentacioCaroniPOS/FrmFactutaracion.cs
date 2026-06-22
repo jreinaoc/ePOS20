@@ -160,6 +160,7 @@ namespace CapaVisual_Login
             _L_Facturacion.CrearTablaBilletes(Dt_Billetes);
 
             CargarConfiguracionCashea();
+            CargarConfiguracionGiftCard();
         }
 
         public void ColorearStatus()
@@ -1661,29 +1662,35 @@ namespace CapaVisual_Login
                         if (txtTranferencia.Text.Trim().Length == 19)
                         {
                             //CbxMetodosPago2.SelectedIndex = 10;
+                            DataTable OsGiftCard = _lGiftCard.ObtenerGiftCard(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision, txtTranferencia.Text.ToString());
+                            
+                            if (OsGiftCard.Rows.Count  > 0)
+                            {
+                                int idGiftCard = (int)Convert.ToDecimal(OsGiftCard.Rows[0]["MontoDolares"]);
+
+                                /*JM:100226  sustituir "021" con CbxMetodosPago2.SelectedValue.ToString()
+                                _L_Facturacion.GuardarAbonoGrid(2,Dt_Abonos, CbxMetodosPago2.Text, CbxMoneda.Text, "CASHEA", txtMonto2Bs.Text, txtTranferencia.Text, DtpFecha.Value.ToString(), "021", "110", "110", TxtVuelto.Text, "", "", "", "", "", "", "000"); */
+
+                                _L_Facturacion.GuardarAbonoGrid(2, Dt_Abonos, CbxMetodosPago2.Text, CbxMoneda.Text, "", txtMonto2Bs.Text, txtTranferencia.Text, DtpFecha.Value.ToString(), CbxMetodosPago2.SelectedValue.ToString(), "115", "115", TxtVuelto.Text, "", "", "", "", "", "", "000");
 
 
-                            /*JM:100226  sustituir "021" con CbxMetodosPago2.SelectedValue.ToString()
-                            _L_Facturacion.GuardarAbonoGrid(2,Dt_Abonos, CbxMetodosPago2.Text, CbxMoneda.Text, "CASHEA", txtMonto2Bs.Text, txtTranferencia.Text, DtpFecha.Value.ToString(), "021", "110", "110", TxtVuelto.Text, "", "", "", "", "", "", "000"); */
+                                BolivaresConveridos(Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos)), txtMontoBs);
+                                //-----------ConvertirBolivares---------------------------
+                                //txtMontoBs.Text = _L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos);
 
-                            _L_Facturacion.GuardarAbonoGrid(2, Dt_Abonos, CbxMetodosPago2.Text, CbxMoneda.Text, "", txtMonto2Bs.Text, txtTranferencia.Text, DtpFecha.Value.ToString(), CbxMetodosPago2.SelectedValue.ToString(), "115", "115", TxtVuelto.Text, "", "", "", "", "", "", "000");
+                                lbMinAbo.Text = Convert.ToString(Convert.ToDouble(lbMinAbo.Text) + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos)));
+                                VisualizarPanel("MostrarPanelPrincipal");
+                                LimpiarTxbox();
+                                //CbxMetodosPago.SelectedIndex = 2;
+                            }
 
-
-                            BolivaresConveridos(Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos)), txtMontoBs);
-                            //-----------ConvertirBolivares---------------------------
-                            //txtMontoBs.Text = _L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos);
-
-                            lbMinAbo.Text = Convert.ToString(Convert.ToDouble(lbMinAbo.Text) + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos)));
-                            VisualizarPanel("MostrarPanelPrincipal");
-                            LimpiarTxbox();
-                            //CbxMetodosPago.SelectedIndex = 2;
 
                         }
 
                         else
                         {
                             _FrmMensajes.co = 2;
-                            _FrmMensajes.avisomensaje("El código de la Gift Card debe ser de 20 digitos, Verifique");
+                            _FrmMensajes.avisomensaje("El código de la Gift Card debe ser de 19 caracteres");
                             _FrmMensajes.ShowDialog();
                             return;
                         }
@@ -7399,7 +7406,7 @@ namespace CapaVisual_Login
                     {
                             if (TB_CAORDSER.Cod_DetVta == "10")
                             {
-                                DataTable OsGiftCard = _lGiftCard.ObtenerGiftCard(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision);
+                                DataTable OsGiftCard = _lGiftCard.ObtenerGiftCard(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision,"");
 
 
                                 int MontoDolares = (int)Convert.ToDecimal(OsGiftCard.Rows[0]["MontoDolares"]);
@@ -10759,13 +10766,13 @@ namespace CapaVisual_Login
                 switch (nombre)
                 {
                     case "Cashea_ApiKey":
-                        ConfigCashea.ApiKey = ConfigCashea.Decodificar(valorCifrado);
+                        ConfigServiciosExternos.Cashea_ApiKey = ConfigServiciosExternos.Decodificar(valorCifrado);
                         break;
                     case "Cashea_BaseUrl":
-                        ConfigCashea.BaseUrl = ConfigCashea.Decodificar(valorCifrado);
+                        ConfigServiciosExternos.Cashea_BaseUrl = ConfigServiciosExternos.Decodificar(valorCifrado);
                         break;
                     case "Cashea_Uuid_Caja":
-                        ConfigCashea.UuidCaja = ConfigCashea.Decodificar(valorCifrado);
+                        ConfigServiciosExternos.Cashea_UuidCaja = ConfigServiciosExternos.Decodificar(valorCifrado);
                         break;
                 }
             }
@@ -10783,13 +10790,13 @@ namespace CapaVisual_Login
                 switch (nombre)
                 {
                     case "GiftCard_ConsumerKey":
-                        ConfigCashea.ApiKey = ConfigCashea.Decodificar(valorCifrado);
+                        ConfigServiciosExternos.GiftCard_ConsumerKey = ConfigServiciosExternos.Decodificar(valorCifrado);
                         break;
                     case "GiftCard_ConsumerSecret":
-                        ConfigCashea.BaseUrl = ConfigCashea.Decodificar(valorCifrado);
+                        ConfigServiciosExternos.GiftCard_ConsumerSecret = ConfigServiciosExternos.Decodificar(valorCifrado);
                         break;
                     case "GiftCard_BaseUrl":
-                        ConfigCashea.UuidCaja = ConfigCashea.Decodificar(valorCifrado);
+                        ConfigServiciosExternos.GiftCard_BaseUrl = ConfigServiciosExternos.Decodificar(valorCifrado);
                         break;
                 }
             }

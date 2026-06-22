@@ -74,19 +74,31 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+<<<<<<< HEAD
         <dsig:DigestValue>ktQlP+3n0gMxG6lD/HN1L3FE7AOzVuznaJ2sO8tgUt0=</dsig:DigestValue>
+=======
+        <dsig:DigestValue>sHcLbB9JgurdlE7SwjfcUhJo5EBqcgaZZlvuxRITSeU=</dsig:DigestValue>
+>>>>>>> c085a52614166cae475f3a1b9484d0365c28b179
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
+<<<<<<< HEAD
     <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CapaEntidades.dll" size="120832">
+=======
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CapaEntidades.dll" size="121856">
+>>>>>>> c085a52614166cae475f3a1b9484d0365c28b179
       <assemblyIdentity name="CapaEntidades" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+<<<<<<< HEAD
         <dsig:DigestValue>lAYF0jq+GO4+Ka7J4JyfN7RDif3KljccBEMTEpvutto=</dsig:DigestValue>
+=======
+        <dsig:DigestValue>UoT8fJgKQlSK8hlYC74W71NKfqMzhqe/IpmRo/rc2bo=</dsig:DigestValue>
+>>>>>>> c085a52614166cae475f3a1b9484d0365c28b179
       </hash>
     </dependentAssembly>
   </dependency>
@@ -98,19 +110,27 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+<<<<<<< HEAD
         <dsig:DigestValue>anaxa9+Hcr8zmIlOvrETs6EWkk6Ut07KddllLg1366c=</dsig:DigestValue>
+=======
+        <dsig:DigestValue>YN/ykzRJOOTRGCAqFf3vQz43bdWsvhSVVFLabR0fapI=</dsig:DigestValue>
+>>>>>>> c085a52614166cae475f3a1b9484d0365c28b179
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CapaServiciosExternos.dll" size="36864">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CapaServiciosExternos.dll" size="38400">
       <assemblyIdentity name="CapaServiciosExternos" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+<<<<<<< HEAD
         <dsig:DigestValue>pakyE/2SbN+OcGuMyJ0rPDh6+jmqM6BCq17rWY28PnI=</dsig:DigestValue>
+=======
+        <dsig:DigestValue>tf3kbZR9uMmwNeXZy3/VfOHbhTO0Zjn3hxfoXZmmke8=</dsig:DigestValue>
+>>>>>>> c085a52614166cae475f3a1b9484d0365c28b179
       </hash>
     </dependentAssembly>
   </dependency>
@@ -230,7 +250,11 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+<<<<<<< HEAD
         <dsig:DigestValue>/bgnlE7cEgQHPKmPVKQQEHa2za1+sMPEWeuZECii1qA=</dsig:DigestValue>
+=======
+        <dsig:DigestValue>58DekGzAXfUpenK5gVpzAqJl6QAPZ0HN4Ki3VVgdPA8=</dsig:DigestValue>
+>>>>>>> c085a52614166cae475f3a1b9484d0365c28b179
       </hash>
     </dependentAssembly>
   </dependency>

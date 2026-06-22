@@ -17,16 +17,16 @@ namespace CapaServiciosExternos
 
         // Configuración centralizada
         //private readonly string _apiKey = "6yaBo2pKwqKu4GtEkdpgDYSF8xgqQ06b";
-        //private readonly string _baseUrl = "https://staging.external.cashea.app/v2";
+        //private readonly string _Cashea_BaseUrl = "https://staging.external.cashea.app/v2";
 
         // Ahora leemos desde el archivo de configuración
         // Dinámico: Cambia según el ambiente (Staging/Prod)
         // Antes (Leyendo del archivo .config local)
-        // private readonly string _baseUrl = ConfigurationManager.AppSettings["Cashea_BaseUrl"];
+        // private readonly string _Cashea_BaseUrl = ConfigurationManager.AppSettings["Cashea_Cashea_BaseUrl"];
         // private readonly string _apiKey = ConfigurationManager.AppSettings["Cashea_ApiKey"];
 
         // Ahora (Leyendo de tu clase global cargada desde SQL)
-        //private readonly string _baseUrl = ConfigCashea.BaseUrl;
+        //private readonly string _Cashea_BaseUrl = ConfigCashea.Cashea_BaseUrl;
         //private readonly string _apiKey = ConfigCashea.ApiKey;
 
         // Estático: El recurso dentro de la API no suele cambiar
@@ -38,7 +38,7 @@ namespace CapaServiciosExternos
         public async Task<CasheaResult<string>> CheckHealthAsync()
         {
             // 1. Si no hay URL, devolvemos un error controlado 400 (Bad Request local)
-            //if (string.IsNullOrEmpty(_baseUrl))
+            //if (string.IsNullOrEmpty(_Cashea_BaseUrl))
             //{
             //    return new CasheaResult
             //    {
@@ -48,11 +48,11 @@ namespace CapaServiciosExternos
             //    };
             //}
 
-            string fullUrl = $"{ConfigCashea.BaseUrl.TrimEnd('/')}{HealthEndpoint}";
+            string fullUrl = $"{ConfigServiciosExternos.Cashea_BaseUrl.TrimEnd('/')}{HealthEndpoint}";
 
             using (HttpClient client = new HttpClient())
             {
-                client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", $"ApiKey {ConfigCashea.ApiKey}");
+                client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", $"ApiKey {ConfigServiciosExternos.Cashea_ApiKey}");
                 client.Timeout = TimeSpan.FromSeconds(10);
 
                 try
@@ -89,13 +89,13 @@ namespace CapaServiciosExternos
         public async Task<List<PointOfSale>> GetBoxesAsync()
         {
             // Validación preventiva por si el App.config falla
-            if (string.IsNullOrEmpty(ConfigCashea.BaseUrl)) return new List<PointOfSale>();
+            if (string.IsNullOrEmpty(ConfigServiciosExternos.Cashea_BaseUrl)) return new List<PointOfSale>();
 
-            string fullUrl = $"{ConfigCashea.BaseUrl.TrimEnd('/')}{PosEndpoint}";
+            string fullUrl = $"{ConfigServiciosExternos.Cashea_BaseUrl.TrimEnd('/')}{PosEndpoint}";
 
             using (HttpClient client = new HttpClient())
             {
-                client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", $"ApiKey {ConfigCashea.ApiKey}");
+                client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", $"ApiKey {ConfigServiciosExternos.Cashea_ApiKey}");
                 client.Timeout = TimeSpan.FromSeconds(15);
 
                 try
@@ -122,14 +122,14 @@ namespace CapaServiciosExternos
 
         public async Task<CasheaResult<CasheaOrderResponse>> CreateOrderAsync(CasheaOrderRequest request)
         {
-            if (string.IsNullOrEmpty(ConfigCashea.BaseUrl))
+            if (string.IsNullOrEmpty(ConfigServiciosExternos.Cashea_BaseUrl))
                 return new CasheaResult<CasheaOrderResponse> { IsSuccess = false, StatusCode = 400, Message = "URL no configurada" };
 
-            string fullUrl = $"{ConfigCashea.BaseUrl.TrimEnd('/')}{OrdersEndpoint}{ConfigCashea.UuidCaja}";
+            string fullUrl = $"{ConfigServiciosExternos.Cashea_BaseUrl.TrimEnd('/')}{OrdersEndpoint}{ConfigServiciosExternos.Cashea_UuidCaja}";
 
             using (HttpClient client = new HttpClient())
             {
-                client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", $"ApiKey {ConfigCashea.ApiKey}");
+                client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", $"ApiKey {ConfigServiciosExternos.Cashea_ApiKey}");
 
                 string jsonContent = JsonConvert.SerializeObject(request);
                 var content = new StringContent(jsonContent, System.Text.Encoding.UTF8, "application/json");
@@ -170,14 +170,14 @@ namespace CapaServiciosExternos
 
         public async Task<CasheaResult<bool>> SimularEscaneoQRAsync(string orderUuid)
         {
-            if (string.IsNullOrEmpty(ConfigCashea.BaseUrl))
+            if (string.IsNullOrEmpty(ConfigServiciosExternos.Cashea_BaseUrl))
                 return new CasheaResult<bool> { IsSuccess = false, StatusCode = 400, Message = "URL no configurada" };
 
-            string fullUrl = $"{ConfigCashea.BaseUrl.TrimEnd('/')}/v2/orders/{orderUuid}/scan-qr";
+            string fullUrl = $"{ConfigServiciosExternos.Cashea_BaseUrl.TrimEnd('/')}/v2/orders/{orderUuid}/scan-qr";
 
             using (HttpClient client = new HttpClient())
             {
-                client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", $"ApiKey {ConfigCashea.ApiKey}");
+                client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", $"ApiKey {ConfigServiciosExternos.Cashea_ApiKey}");
 
                 try
                 {
@@ -203,14 +203,14 @@ namespace CapaServiciosExternos
 
         public async Task<CasheaResult<CasheaPaymentPlanResponse>> GetPaymentPlanAsync(string orderUuid)
         {
-            if (string.IsNullOrEmpty(ConfigCashea.BaseUrl))
+            if (string.IsNullOrEmpty(ConfigServiciosExternos.Cashea_BaseUrl))
                 return new CasheaResult<CasheaPaymentPlanResponse> { IsSuccess = false, StatusCode = 400, Message = "URL no configurada" };
 
-            string fullUrl = $"{ConfigCashea.BaseUrl.TrimEnd('/')}/v2/orders/{orderUuid}/payment-plan";
+            string fullUrl = $"{ConfigServiciosExternos.Cashea_BaseUrl.TrimEnd('/')}/v2/orders/{orderUuid}/payment-plan";
 
             using (HttpClient client = new HttpClient())
             {
-                client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", $"ApiKey {ConfigCashea.ApiKey}");
+                client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", $"ApiKey {ConfigServiciosExternos.Cashea_ApiKey}");
 
                 try
                 {
@@ -247,14 +247,14 @@ namespace CapaServiciosExternos
 
         public async Task<CasheaResult<bool>> CancelarOrdenAsync(string orderUuid)
         {
-            if (string.IsNullOrEmpty(ConfigCashea.BaseUrl))
+            if (string.IsNullOrEmpty(ConfigServiciosExternos.Cashea_BaseUrl))
                 return new CasheaResult<bool> { IsSuccess = false, StatusCode = 400, Message = "URL no configurada" };
 
-            string fullUrl = $"{ConfigCashea.BaseUrl.TrimEnd('/')}/v2/orders/{orderUuid}";
+            string fullUrl = $"{ConfigServiciosExternos.Cashea_BaseUrl.TrimEnd('/')}/v2/orders/{orderUuid}";
 
             using (HttpClient client = new HttpClient())
             {
-                client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", $"ApiKey {ConfigCashea.ApiKey}");
+                client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", $"ApiKey {ConfigServiciosExternos.Cashea_ApiKey}");
 
                 try
                 {
@@ -280,15 +280,15 @@ namespace CapaServiciosExternos
 
         public async Task<CasheaResult<bool>> ConfirmarPagoInicialAsync(string orderUuid, double monto)
         {
-            if (string.IsNullOrEmpty(ConfigCashea.BaseUrl))
+            if (string.IsNullOrEmpty(ConfigServiciosExternos.Cashea_BaseUrl))
                 return new CasheaResult<bool> { IsSuccess = false, StatusCode = 400, Message = "URL no configurada" };
 
-            string fullUrl = $"{ConfigCashea.BaseUrl.TrimEnd('/')}/v2/orders/{orderUuid}/down-payment";
+            string fullUrl = $"{ConfigServiciosExternos.Cashea_BaseUrl.TrimEnd('/')}/v2/orders/{orderUuid}/down-payment";
             var request = new { amount = monto };
 
             using (HttpClient client = new HttpClient())
             {
-                client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", $"ApiKey {ConfigCashea.ApiKey}");
+                client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", $"ApiKey {ConfigServiciosExternos.Cashea_ApiKey}");
 
                 try
                 {
@@ -335,14 +335,14 @@ namespace CapaServiciosExternos
 
         public async Task<CasheaResult<CasheaOrderDetailsResponse>> GetOrderDetailsAsync(string orderUuid)
         {
-            if (string.IsNullOrEmpty(ConfigCashea.BaseUrl))
+            if (string.IsNullOrEmpty(ConfigServiciosExternos.Cashea_BaseUrl))
                 return new CasheaResult<CasheaOrderDetailsResponse> { IsSuccess = false, StatusCode = 400, Message = "URL no configurada" };
 
-            string fullUrl = $"{ConfigCashea.BaseUrl.TrimEnd('/')}/v2/orders/{orderUuid}/details";
+            string fullUrl = $"{ConfigServiciosExternos.Cashea_BaseUrl.TrimEnd('/')}/v2/orders/{orderUuid}/details";
 
             using (HttpClient client = new HttpClient())
             {
-                client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", $"ApiKey {ConfigCashea.ApiKey}");
+                client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", $"ApiKey {ConfigServiciosExternos.Cashea_ApiKey}");
 
                 try
                 {
@@ -378,17 +378,17 @@ namespace CapaServiciosExternos
 
         public async Task<CasheaResult<bool>> ActualizarFacturaAsync(string orderUuid, string numeroFactura)
         {
-            if (string.IsNullOrEmpty(ConfigCashea.BaseUrl))
+            if (string.IsNullOrEmpty(ConfigServiciosExternos.Cashea_BaseUrl))
                 return new CasheaResult<bool> { IsSuccess = false, StatusCode = 400, Message = "URL no configurada" };
 
-            string fullUrl = $"{ConfigCashea.BaseUrl.TrimEnd('/')}/v2/orders/{orderUuid}";
+            string fullUrl = $"{ConfigServiciosExternos.Cashea_BaseUrl.TrimEnd('/')}/v2/orders/{orderUuid}";
 
             // Usamos un objeto anónimo para asegurar que el JSON lleve 'invoiceId'
             var requestData = new { invoiceId = numeroFactura };
 
             using (HttpClient client = new HttpClient())
             {
-                client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", $"ApiKey {ConfigCashea.ApiKey}");
+                client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", $"ApiKey {ConfigServiciosExternos.Cashea_ApiKey}");
 
                 try
                 {
@@ -417,15 +417,15 @@ namespace CapaServiciosExternos
 
         public async Task<CasheaResult<CasheaPaymentPlanResponse>> GetPaymentPlanByCodeAsync(string orderUuid, string userCode)
         {
-            if (string.IsNullOrEmpty(ConfigCashea.BaseUrl))
+            if (string.IsNullOrEmpty(ConfigServiciosExternos.Cashea_BaseUrl))
                 return new CasheaResult<CasheaPaymentPlanResponse> { IsSuccess = false, StatusCode = 400, Message = "URL no configurada" };
 
-            string fullUrl = $"{ConfigCashea.BaseUrl.TrimEnd('/')}/v2/orders/{orderUuid}/payment-plan";
+            string fullUrl = $"{ConfigServiciosExternos.Cashea_BaseUrl.TrimEnd('/')}/v2/orders/{orderUuid}/payment-plan";
             var requestData = new { userCode = userCode }; // Asegúrate de que el JSON pida 'userCode' en minúscula
 
             using (HttpClient client = new HttpClient())
             {
-                client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", $"ApiKey {ConfigCashea.ApiKey}");
+                client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", $"ApiKey {ConfigServiciosExternos.Cashea_ApiKey}");
 
                 try
                 {
