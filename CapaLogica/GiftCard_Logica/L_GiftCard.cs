@@ -63,6 +63,107 @@ namespace CapaLogica.GiftCard_Logica
             }
         }
 
+        /// <summary>
+        /// Lógica de negocio para consultar una Gift Card en WooCommerce por su ID
+        /// </summary>
+        public async Task<GiftCardResult<GiftCardPosResponse>> ConsultarGiftCardPorId(int giftCardId)
+        {
+            try
+            {
+                // 1. Configuraciones de seguridad TLS estándar de la red del POS
+                System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
+                System.Net.ServicePointManager.ServerCertificateValidationCallback += (se, cert, chain, sslerror) => true;
+
+                // 2. Invocar el método asíncrono que creamos en la Capa de Servicios
+                GiftCardPosResponse responseData = await _giftCardService.ObtenerGiftCardPorIdAsync(giftCardId);
+
+                // 3. Validar si la API devolvió datos correctos
+                if (responseData != null)
+                {
+                    return new GiftCardResult<GiftCardPosResponse>
+                    {
+                        IsSuccess = true,
+                        StatusCode = 200,
+                        Message = "Gift Card recuperada con éxito.",
+                        Data = responseData
+                    };
+                }
+
+                return new GiftCardResult<GiftCardPosResponse>
+                {
+                    IsSuccess = false,
+                    StatusCode = 404,
+                    Message = "No se encontraron datos para la Gift Card especificada.",
+                    Data = null
+                };
+            }
+            catch (HttpRequestException httpEx)
+            {
+                // Captura fallos de credenciales Bad Request o 404 de la API web
+                return new GiftCardResult<GiftCardPosResponse>
+                {
+                    IsSuccess = false,
+                    StatusCode = 400,
+                    Message = $"Error de comunicación con WooCommerce: {httpEx.Message}",
+                    Data = null
+                };
+            }
+            catch (Exception ex)
+            {
+                // Captura cualquier otro fallo general (red, timeout, etc.)
+                return new GiftCardResult<GiftCardPosResponse>
+                {
+                    IsSuccess = false,
+                    StatusCode = 500,
+                    Message = $"Error interno en el ePOS al consultar: {ex.Message}",
+                    Data = null
+                };
+            }
+        }
+
+        /// <summary>
+        /// Lógica de negocio para buscar una Gift Card usando su código alfanumérico
+        /// </summary>
+        public async Task<GiftCardResult<GiftCardPosResponse>> ConsultarGiftCardPorCodigo(string giftCardCode)
+        {
+            try
+            {
+                System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
+
+                // Invocamos el nuevo método de búsqueda por código
+                GiftCardPosResponse responseData = await _giftCardService.ObtenerGiftCardPorCodigoAsync(giftCardCode);
+
+                if (responseData != null)
+                {
+                    return new GiftCardResult<GiftCardPosResponse>
+                    {
+                        IsSuccess = true,
+                        StatusCode = 200,
+                        Message = "Gift Card localizada con éxito.",
+                        Data = responseData // Aquí viaja el ID numérico que necesitaremos para el PUT posterior
+                    };
+                }
+
+                return new GiftCardResult<GiftCardPosResponse>
+                {
+                    IsSuccess = false,
+                    StatusCode = 404,
+                    Message = "El código de Gift Card ingresado no existe en el sistema.",
+                    Data = null
+                };
+            }
+            catch (Exception ex)
+            {
+                return new GiftCardResult<GiftCardPosResponse>
+                {
+                    IsSuccess = false,
+                    StatusCode = 500,
+                    Message = $"Error interno en el ePOS: {ex.Message}",
+                    Data = null
+                };
+            }
+        }
+
         public bool AgregarGiftCard(string codSucursal, string nroOrden, string revision, decimal montoDolares, string nombreBeneficiario, string correoBeneficiario, string mensaje, int idGiftCard, string codigoGiftCard, string userCrea, string userMod, SqlCommand command = null)
         {
             try
@@ -92,6 +193,67 @@ namespace CapaLogica.GiftCard_Logica
                 return dt;
             }
         }
+
+        /// <summary>
+        /// Lógica de negocio para procesar el cobro/débito seguro de una Gift Card creando una orden en WooCommerce
+        /// </summary>
+        public async Task<GiftCardResult<bool>> DebitarSaldoGiftCard(string giftCardCode, decimal montoADebitar, int idProductoPos)
+        {
+            try
+            {
+                // 1. Forzar TLS 1.2 o superior por si el servidor externo rechaza conexiones SSL viejas
+                System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
+
+                // 2. Omitir validación estricta de SSL temporalmente debido al bloqueo del Web Proxy / VPN
+                System.Net.ServicePointManager.ServerCertificateValidationCallback += (se, cert, chain, sslerror) => true;
+
+                // 3. Invocar el método de débito transaccional en la Capa de Servicios
+                bool exitoDebito = await _giftCardService.ProcesarDebitoGiftCardAsync(giftCardCode, montoADebitar, idProductoPos);
+
+                if (exitoDebito)
+                {
+                    return new GiftCardResult<bool>
+                    {
+                        IsSuccess = true,
+                        StatusCode = 200,
+                        Message = "El saldo de la Gift Card fue debitado correctamente en WooCommerce.",
+                        Data = true
+                    };
+                }
+
+                return new GiftCardResult<bool>
+                {
+                    IsSuccess = false,
+                    StatusCode = 400,
+                    Message = "WooCommerce no pudo procesar la solicitud de cobro.",
+                    Data = false
+                };
+            }
+            catch (HttpRequestException httpEx)
+            {
+                // Captura errores específicos devueltos por la API web (como falta de saldo o pedido no editable)
+                return new GiftCardResult<bool>
+                {
+                    IsSuccess = false,
+                    StatusCode = 400,
+                    Message = $"Error de validación en la web: {httpEx.Message}",
+                    Data = false
+                };
+            }
+            catch (Exception ex)
+            {
+                // Captura fallas generales (Caídas de internet, Timeouts de la VPN, etc.)
+                return new GiftCardResult<bool>
+                {
+                    IsSuccess = false,
+                    StatusCode = 500,
+                    Message = $"Error interno en el ePOS al debitar la Gift Card: {ex.Message}",
+                    Data = false
+                };
+            }
+        }
+
+
     }
 
     /// <summary>

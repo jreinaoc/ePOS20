@@ -52,4 +52,64 @@ namespace CapaServiciosExternos.Modelos
         [JsonProperty("recipient")]
         public string Recipient { get; set; } // El correo del beneficiario por si quieres validarlo
     }
+
+    
+
+    public class WooOrderRequest
+    {
+        [JsonProperty("status")]
+        public string Status { get; set; } = "pending";
+
+        [JsonProperty("customer_id")]
+        public int CustomerId { get; set; } = 0;
+
+        [JsonProperty("billing")]
+        public WooBilling Billing { get; set; } = new WooBilling();
+
+        [JsonProperty("line_items")]
+        public List<WooLineItem> LineItems { get; set; } = new List<WooLineItem>();
+
+        [JsonProperty("gift_cards")]
+        public List<WooGiftCardPayment> GiftCards { get; set; } = new List<WooGiftCardPayment>();
+    }
+
+    public class WooBilling
+    {
+        [JsonProperty("first_name")]
+        public string FirstName { get; set; } = "Venta ePOS";
+
+        [JsonProperty("last_name")]
+        public string LastName { get; set; } = "Punto de Venta";
+    }
+
+    public class WooLineItem
+    {
+        [JsonProperty("product_id")]
+        public int ProductId { get; set; }
+
+        [JsonProperty("quantity")]
+        public int Quantity { get; set; } = 1;
+
+        [JsonProperty("total")]
+        public string Total { get; set; }
+    }
+
+    public class WooGiftCardPayment
+    {
+        [JsonProperty("code")]
+        public string Code { get; set; }
+
+        [JsonProperty("amount")]
+        public string Amount { get; set; }
+    }
+
+    // Clase básica para capturar la respuesta y obtener el ID de la orden generada
+    public class WooOrderResponse
+    {
+        [JsonProperty("id")]
+        public int Id { get; set; }
+
+        [JsonProperty("status")]
+        public string Status { get; set; }
+    }
 }
