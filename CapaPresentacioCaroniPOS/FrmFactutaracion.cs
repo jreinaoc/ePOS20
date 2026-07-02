@@ -129,6 +129,13 @@ namespace CapaVisual_Login
         int maxCantidadReintentosCahea;
         int segundosTotalesCashea = 300;
         string CasheainicialAPP;
+
+        // Variables de estado de la Gift Card a nivel de clase
+        private decimal? _saldoGiftCardActual = null;
+        private string _codigoGiftCardValidado = string.Empty;
+        private int _idgiftCardWebValidado = 0;
+        private decimal _montoAplicadoGiftCardValidado = 0;
+
         private void FrmDetalleOrden_Load(object sender, EventArgs e)
         {
             maxCantidadReintentosCahea = Convert.ToInt32(_D_DetalleOrden.TB_PARAMETRO("CantReintCashea"));
@@ -998,7 +1005,7 @@ namespace CapaVisual_Login
 
         }
         private bool _procesandoPagoCashea = false;
-        private void btnProcesar2_Click(object sender, EventArgs e)
+        private async void btnProcesar2_Click(object sender, EventArgs e)
         {
 
             try
@@ -1658,42 +1665,76 @@ namespace CapaVisual_Login
                     //'Si los campos poseen valores proceso los datos
                     if (txtMonto2Bs.Text.Trim() != "" && txtMonto2Bs.Text.Trim() != "0,00" && txtTranferencia.Text.Trim() != ""  && Convert.ToDouble(txtMonto2Bs.Text.Trim().Replace(".", "")) > 0)
                     {
-
-                        if (txtTranferencia.Text.Trim().Length == 19)
-                        {
-                            //CbxMetodosPago2.SelectedIndex = 10;
-                            DataTable OsGiftCard = _lGiftCard.ObtenerGiftCard(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision, txtTranferencia.Text.ToString());
-                            
-                            if (OsGiftCard.Rows.Count  > 0)
-                            {
-                                int idGiftCard = (int)Convert.ToDecimal(OsGiftCard.Rows[0]["MontoDolares"]);
-
-                                /*JM:100226  sustituir "021" con CbxMetodosPago2.SelectedValue.ToString()
-                                _L_Facturacion.GuardarAbonoGrid(2,Dt_Abonos, CbxMetodosPago2.Text, CbxMoneda.Text, "CASHEA", txtMonto2Bs.Text, txtTranferencia.Text, DtpFecha.Value.ToString(), "021", "110", "110", TxtVuelto.Text, "", "", "", "", "", "", "000"); */
-
-                                _L_Facturacion.GuardarAbonoGrid(2, Dt_Abonos, CbxMetodosPago2.Text, CbxMoneda.Text, "", txtMonto2Bs.Text, txtTranferencia.Text, DtpFecha.Value.ToString(), CbxMetodosPago2.SelectedValue.ToString(), "115", "115", TxtVuelto.Text, "", "", "", "", "", "", "000");
-
-
-                                BolivaresConveridos(Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos)), txtMontoBs);
-                                //-----------ConvertirBolivares---------------------------
-                                //txtMontoBs.Text = _L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos);
-
-                                lbMinAbo.Text = Convert.ToString(Convert.ToDouble(lbMinAbo.Text) + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos)));
-                                VisualizarPanel("MostrarPanelPrincipal");
-                                LimpiarTxbox();
-                                //CbxMetodosPago.SelectedIndex = 2;
-                            }
-
-
-                        }
-
-                        else
+                        if (!_saldoGiftCardActual.HasValue)
                         {
                             _FrmMensajes.co = 2;
-                            _FrmMensajes.avisomensaje("El código de la Gift Card debe ser de 19 caracteres");
+                            _FrmMensajes.avisomensaje("Debe consultar y validar la Gift Card antes de procesar el pago.");
                             _FrmMensajes.ShowDialog();
                             return;
                         }
+
+                        // 2. Candado Anti-Fraude: Validar que no hayan cambiado el texto del código tras la consulta
+                        if (txtTranferencia.Text.Trim() != _codigoGiftCardValidado)
+                        {
+                            _FrmMensajes.co = 2;
+                            _FrmMensajes.avisomensaje("El código de la tarjeta fue modificado. Debe volver a consultarlo.");
+                            _FrmMensajes.ShowDialog();
+                            return;
+                        }
+
+                        // 3. Validar el monto que el operador va a gastar realmente
+                        if (!decimal.TryParse(txtMonto2Bs.Text, out decimal montoAPagar) || montoAPagar <= 0)
+                        {
+                            _FrmMensajes.co = 2;
+                            _FrmMensajes.avisomensaje("Por favor, ingrese un monto válido a pagar.");
+                            _FrmMensajes.ShowDialog();
+                            return;
+                        }
+
+                        // 4. Validar que no intente gastar más de lo que tiene la tarjeta
+                        if (montoAPagar > _saldoGiftCardActual.Value)
+                        {
+                            _FrmMensajes.co = 2;
+                            _FrmMensajes.avisomensaje($"El monto a pagar ({montoAPagar:N2}) supera el saldo disponible de la Gift Card ({_saldoGiftCardActual.Value:N2}).");
+                            _FrmMensajes.ShowDialog();
+                            return;
+                        }
+                        
+                            //CbxMetodosPago2.SelectedIndex = 10;
+                            //DataTable OsGiftCard = _lGiftCard.ObtenerGiftCard(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision, txtTranferencia.Text.ToString());
+
+                            //if (OsGiftCard.Rows.Count  > 0)
+                            //{
+                            //    int idGiftCard = (int)Convert.ToDecimal(OsGiftCard.Rows[0]["IdGiftCard"]);
+
+                           // _saldoGiftCardActual = await ConsultarGiftCard(txtTranferencia.Text.Trim());
+
+                                // 2. Si no es null, significa que la tarjeta pasó todas las validaciones con éxito
+                                if (_saldoGiftCardActual.HasValue)
+                                {
+                               
+                                     Double tasa = Convert.ToDouble(TB_TASA_Dolar.Tasa.ToString());
+                                    _montoAplicadoGiftCardValidado = Convert.ToDecimal(txtMonto2Bs.Text.ToString());
+                                    _L_Facturacion.GuardarAbonoGrid(2, Dt_Abonos, CbxMetodosPago2.Text, CbxMoneda.Text, "", (Convert.ToDouble(txtMonto2Bs.Text.ToString()) * tasa).ToString("N2"), txtTranferencia.Text, DtpFecha.Value.ToString(), CbxMetodosPago2.SelectedValue.ToString(), "115", "115", TxtVuelto.Text, "", "", "", "", "", "", "000");
+
+                                    BolivaresConveridos(Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos)), txtMontoBs);
+                           
+
+                                    lbMinAbo.Text = Convert.ToString(Convert.ToDouble(lbMinAbo.Text) + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos)));
+                                    VisualizarPanel("MostrarPanelPrincipal");
+                                    LimpiarTxbox();
+                                }
+                                //else
+                                //{
+                                //    _FrmMensajes.co = 2;
+                                //    _FrmMensajes.avisomensaje("El código de la Gift Card no es válido");
+                                //    _FrmMensajes.ShowDialog();
+                                //    return;
+                                //}
+                            //}
+
+
+                       
 
                     }
 
@@ -2969,7 +3010,7 @@ namespace CapaVisual_Login
         private void CbxMetodosPago_SelectedIndexChanged(object sender, EventArgs e)
         {
             _procesandoPagoCashea = false;
-
+            
             if (!CbxMetodosPago.Focused) return;
 
             if (CbxMetodosPago.SelectedIndex != -1)
@@ -4442,6 +4483,13 @@ namespace CapaVisual_Login
 
                 if (CbxMetodosPago.SelectedValue.ToString() == "027")
                 {
+                    BtnConsultarGiftCard.Visible = false;
+
+                    _saldoGiftCardActual = null;
+                    _codigoGiftCardValidado = string.Empty;
+                    _idgiftCardWebValidado = 0;
+                    _montoAplicadoGiftCardValidado = 0;
+
                     _L_Facturacion.LLenarComboboxBancos2(CbxBanco, false);
                     //CbxMetodosPago2.SelectedIndex = 0;
                     CbxMetodosPago2.SelectedIndex = CbxMetodosPago.SelectedIndex;
@@ -4502,7 +4550,7 @@ namespace CapaVisual_Login
 
                     label28.Text = "N° Tarjeta";
                     CbxBanco.SelectedIndex = 30;
-                    Bs.Text = "Monto";
+                    Bs.Text = "Monto a aplicar";
                     label28.Text = "Código Gift Card";
 
                     Bs.Font = new Font("Century Gothic", 12, FontStyle.Bold);
@@ -4515,21 +4563,24 @@ namespace CapaVisual_Login
                     label41.Location = new Point(33, 60);
                     CbxMetodosPago2.Location = new Point(33, 82);
                     Bs.Location = new Point(216, 60);
-                    txtMonto2Bs.Location = new Point(216, 84);
-                    label28.Location = new Point(400, 60);
-                    txtTranferencia.Location = new Point(400, 83);
+                    txtMonto2Bs.Location = new Point(216, 82);
+                    label28.Location = new Point(365, 60);
+                    txtTranferencia.Location = new Point(365, 82);
 
+                    BtnConsultarGiftCard.Visible = true;
+                    BtnConsultarGiftCard.Location = new Point(515, 80);
+                    //btncon
 
                     // Tamaño de los Objetos 
                     PnlSecundario.Size = new Size(602, 189);
                     label2.Size = new Size(601, 35);
-                    txtMonto2Bs.Size = new Size(168, 25);
-                    txtTranferencia.Size = new Size(168, 25);
+                    txtMonto2Bs.Size = new Size(135, 25);
+                    txtTranferencia.Size = new Size(150, 25);
 
                     lblMensajeCashea.Visible = false;
                     txtTranferencia.Visible = true;
-
-
+                    txtMonto2Bs.Text = "0,00";
+                    btnProcesar2.Enabled = false;
                 }
             }
 
@@ -7326,11 +7377,38 @@ namespace CapaVisual_Login
                         if (TB_CAORDSER.Cod_DetVta != "10")
                         {
                             rept = ImprimirFacturaFiscal(txtNumeroOrden.Text, txtCedula.Text, txtNombreCliente.Text, ReversoTransaccion, command);
+                            
                         }
 
-                    // Imprimo el Pago Movil 
-                    if (rept == "SATISFACTORIO" && PMAutomatico == "0")
-                     rept = ImprimirCambio(Correlativo, Dt_PagoMovil, TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision, Num_Factura, command);
+                        if (rept == "SATISFACTORIO")
+                        {
+                            bool existeGiftCard = Dt_Abonos.AsEnumerable()
+                                            .Any(row => row.Field<string>("CodPago") == "027");
+
+                            if (existeGiftCard)
+                            {
+                                // 3. Ejecutamos de manera síncrona controlada para el hilo UI de Windows Forms (C# 7.3 compatible)
+                                var resultado = Task.Run(async () =>
+                                    await _lGiftCard.DebitarSaldoGiftCard(_codigoGiftCardValidado, _montoAplicadoGiftCardValidado, _idgiftCardWebValidado)
+                                ).GetAwaiter().GetResult();
+
+                                // 4. Evaluamos la respuesta estandarizada
+                                if (resultado.IsSuccess)
+                                {
+                                    _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "113", TB_USUARIO.COD_EMPLEADO, "NroFact: " + Num_Factura + "Monto GiftCard: " + _montoAplicadoGiftCardValidado);
+                                    MessageBox.Show(resultado.Message, "Proceso Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                }
+                                else
+                                {
+                                    // El servidor rechazó la operación (por ejemplo, el mensaje de "tarjeta no editable" o sin fondos)
+                                    MessageBox.Show(resultado.Message, "Atención en Punto de Venta", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                }
+                            }
+                        
+                        }
+                        // Imprimo el Pago Movil 
+                        if (rept == "SATISFACTORIO" && PMAutomatico == "0")
+                         rept = ImprimirCambio(Correlativo, Dt_PagoMovil, TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision, Num_Factura, command);
 
                 }
                 else
@@ -10944,6 +11022,176 @@ namespace CapaVisual_Login
                 _FrmMensajes.avisomensaje($"Ocurrió un error inesperado: {ex.Message}");
                 _FrmMensajes.ShowDialog();
                 return false;
+            }
+        }
+
+        private async Task<decimal?> ConsultarGiftCard(string codigoGiftCard)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(codigoGiftCard))
+                {
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje("Por favor, ingrese un código de Gift Card válido.");
+                    _FrmMensajes.ShowDialog();
+                    return null; // ❌ Cambiado de false a null
+                }
+
+                var resultado = await _lGiftCard.ConsultarGiftCardPorCodigo(codigoGiftCard);
+
+                
+                if (resultado.IsSuccess && resultado.Data != null)
+                {
+                    string codigoTarjeta = resultado.Data.Code;
+                    decimal saldoRestante = resultado.Data.Remaining;
+                    string estado = resultado.Data.IsActive;
+                    int idInternoWoo = resultado.Data.Id;
+
+                    if (estado.ToLower() == "on")
+                    {
+                        if (saldoRestante <= 0)
+                        {
+                            _FrmMensajes.co = 2;
+                            _FrmMensajes.avisomensaje($"La Gift Card está ACTIVA, pero no tiene saldo disponible (Saldo: {saldoRestante:N2} USD).");
+                            _FrmMensajes.ShowDialog();
+                            return null; // ❌ Cambiado de false a null
+                        }
+
+                        // ==========================================================
+                        // 🌟 ¡LA CLAVE!: RETENEMOS LOS DATOS EN LAS VARIABLES GLOBALES
+                        // ==========================================================
+                        _idgiftCardWebValidado = idInternoWoo;
+                        _codigoGiftCardValidado = codigoTarjeta;
+                        // ==========================================================
+
+                        string mensajeExito = $"¡Gift Card válida!\n\nCódigo: {codigoTarjeta}\nSaldo Disponible: {saldoRestante:N2} USD";
+                        _FrmMensajes.co = 1;
+                        _FrmMensajes.avisomensaje(mensajeExito);
+                        _FrmMensajes.ShowDialog();
+
+                        return saldoRestante; // 🌟 ¡LA CLAVE!: Retornamos el valor decimal directamente
+                    }
+                    else
+                    {
+                        _FrmMensajes.co = 2;
+                        _FrmMensajes.avisomensaje("La Gift Card consultada se encuentra INACTIVA.");
+                        _FrmMensajes.ShowDialog();
+                        return null;
+                    }
+                }
+                else
+                {
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje($"No se pudo conocer el estado de la Gift Card.\nDetalle: {resultado.Message}");
+                    _FrmMensajes.ShowDialog();
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje($"Ocurrió un error inesperado al consultar: {ex.Message}");
+                _FrmMensajes.ShowDialog();
+                return null;
+            }
+        }
+        private async Task<bool> ConsultarGiftCardPorId(int giftCardId)
+        {
+            try
+            {
+                // 1. Invocar de manera asíncrona la capa lógica
+                var resultado = await _lGiftCard.ConsultarGiftCardPorId(giftCardId);
+
+                // 2. Evaluar la respuesta estandarizada
+                if (resultado.IsSuccess && resultado.Data != null)
+                {
+                    string codigoTarjeta = resultado.Data.Code;
+                    decimal saldoRestante = resultado.Data.Remaining;
+                    string estado = resultado.Data.IsActive; // "on" u "off"
+
+                    // 3. Validar si la tarjeta está activa para operar en caja
+                    if (estado.ToLower() == "on")
+                    {
+                        // [ASIGNACIÓN EN PANTALLA]: Mapeamos los datos a tus controles del formulario
+                        //txtCodigoBarras.Text = codigoTarjeta;
+                        //txtSaldoDisponible.Text = saldoRestante.ToString("N2");
+
+                        // Muestra mensaje informativo de éxito al operador
+                        string mensajeExito = $"¡Gift Card válida!\n\nCódigo: {codigoTarjeta}\nSaldo Disponible: {saldoRestante:N2} USD";
+                        _FrmMensajes.co = 1; // Éxito/Información
+                        _FrmMensajes.avisomensaje(mensajeExito);
+                        _FrmMensajes.ShowDialog();
+
+                        return true; // Retornamos true igual que en CrearGiftCard
+                    }
+                    else
+                    {
+                        // Si la tarjeta existe pero está vencida o desactivada ("off")
+                        _FrmMensajes.co = 2; // Alerta/Advertencia
+                        _FrmMensajes.avisomensaje("La Gift Card consultada se encuentra INACTIVA.");
+                        _FrmMensajes.ShowDialog();
+                        return false;
+                    }
+                }
+                else
+                {
+                    // Si el servidor de WooCommerce responde que no existe el ID o hay error
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje($"No se pudo consultar la Gift Card.\nDetalle: {resultado.Message}");
+                    _FrmMensajes.ShowDialog();
+                    return false;
+                }
+            }
+            catch (FormatException)
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("El ID de la Gift Card no tiene un formato numérico válido.");
+                _FrmMensajes.ShowDialog();
+                return false;
+            }
+            catch (Exception ex)
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje($"Ocurrió un error inesperado al consultar: {ex.Message}");
+                _FrmMensajes.ShowDialog();
+                return false;
+            }
+        }
+
+       
+
+        private async void BtnConsultarGiftCard_Click_1(object sender, EventArgs e)
+        {
+            if (txtTranferencia.Text.Trim().Length == 19)
+            {
+                decimal? resultadoSaldo = await ConsultarGiftCard(txtTranferencia.Text.Trim());
+
+                if (resultadoSaldo.HasValue)
+                {
+                    // 🌟 Almacenamos el estado de forma global
+                    _saldoGiftCardActual = resultadoSaldo.Value;
+                    //_codigoGiftCardValidado = txtTranferencia.Text.Trim();
+
+                    // Preparas tu interfaz
+                    txtMonto2Bs.Text = resultadoSaldo.Value.ToString("F2");
+                    txtMonto2Bs.Focus();
+                    btnProcesar2.Enabled = true;
+                }
+                else
+                {
+                    // Si la consulta falló, nos aseguramos de limpiar cualquier rastro anterior
+                    _saldoGiftCardActual = null;
+                    _codigoGiftCardValidado = string.Empty;
+                    _idgiftCardWebValidado = 0;
+                    _montoAplicadoGiftCardValidado = 0;
+                }
+            }
+            else
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("El código de la Gift Card debe ser de 19 caracteres");
+                _FrmMensajes.ShowDialog();
+                return;
             }
         }
         //private async void CargarCajasEnCombo()
