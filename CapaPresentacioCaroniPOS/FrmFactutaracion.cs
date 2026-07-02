@@ -4227,7 +4227,7 @@ namespace CapaVisual_Login
 
                 if (CbxMetodosPago.SelectedValue.ToString() == "028")
                 {
-                    bool Retencion_ISLR = _L_Facturacion.Verificar_AgenteRetencion(DgvAbonos, txtCedula.Text.Substring(0, (txtCedula.Text.Length) - (txtCedula.Text.Length - 1)), txtCedula.Text.Substring(2, txtCedula.Text.Length - 2), false, true);
+                    bool Retencion_ISLR = _L_Facturacion.Verificar_AgenteRetencion(DgvAbonos, txtCedula.Text.Substring(0, (txtCedula.Text.Length) - (txtCedula.Text.Length - 1)), txtCedula.Text.Substring(2, txtCedula.Text.Length - 2), false, false, true);
                     if (Retencion_ISLR == true)
                     {
                         txtMontoBs.Enabled = true;
