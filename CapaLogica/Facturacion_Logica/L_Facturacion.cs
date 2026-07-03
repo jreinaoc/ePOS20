@@ -2222,7 +2222,7 @@ namespace CapaLogica.DetalleOrden_Logica
                         }
 
                     if (Municipal == true)
-                        if (row.Cells["CodPago"].Value.ToString() == "026")
+                        if (row.Cells["CodPago"].Value.ToString() == "028")
                         {
                             stringBuilder.Append("Ya existe un abono con este tipo de pago");
                             return false;
