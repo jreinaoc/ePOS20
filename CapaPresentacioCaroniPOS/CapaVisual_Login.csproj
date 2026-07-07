@@ -267,7 +267,7 @@
     <Compile Include="Reportes\DSCierreDeCaja.cs">
       <DependentUpon>DSCierreDeCaja.xsd</DependentUpon>
     </Compile>
-    <Compile Include="Reportes\DSCierreDeCaja.Designer.cs">
+    <Compile Include="Reportes\DSCierreDeCaja1.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DSCierreDeCaja.xsd</DependentUpon>
@@ -579,7 +579,7 @@
     <None Include="Reportes\DSCierreDeCaja.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>DSCierreDeCaja.Designer.cs</LastGenOutput>
+      <LastGenOutput>DSCierreDeCaja1.Designer.cs</LastGenOutput>
     </None>
     <None Include="Reportes\DSCierreDeCaja.xss">
       <DependentUpon>DSCierreDeCaja.xsd</DependentUpon>

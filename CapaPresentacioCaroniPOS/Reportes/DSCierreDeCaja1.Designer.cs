@@ -514,6 +514,10 @@ namespace CapaVisual_Login.Reportes {
             
             private global::System.Data.DataColumn columnSISTEMAVUELTO;
             
+            private global::System.Data.DataColumn columnManualImpMun;
+            
+            private global::System.Data.DataColumn columnSistemaImpMun;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public TB_CAJADataTable() {
@@ -1013,6 +1017,22 @@ namespace CapaVisual_Login.Reportes {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn ManualImpMunColumn {
+                get {
+                    return this.columnManualImpMun;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn SistemaImpMunColumn {
+                get {
+                    return this.columnSistemaImpMun;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -1106,7 +1126,9 @@ namespace CapaVisual_Login.Reportes {
                         decimal PORIMPIGTF, 
                         decimal IMPUESTOIGTF, 
                         decimal MANUALVUELTO, 
-                        decimal SISTEMAVUELTO) {
+                        decimal SISTEMAVUELTO, 
+                        decimal ManualImpMun, 
+                        decimal SistemaImpMun) {
                 TB_CAJARow rowTB_CAJARow = ((TB_CAJARow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         COD_Sucursal,
@@ -1166,7 +1188,9 @@ namespace CapaVisual_Login.Reportes {
                         PORIMPIGTF,
                         IMPUESTOIGTF,
                         MANUALVUELTO,
-                        SISTEMAVUELTO};
+                        SISTEMAVUELTO,
+                        ManualImpMun,
+                        SistemaImpMun};
                 rowTB_CAJARow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowTB_CAJARow);
                 return rowTB_CAJARow;
@@ -1255,6 +1279,8 @@ namespace CapaVisual_Login.Reportes {
                 this.columnIMPUESTOIGTF = base.Columns["IMPUESTOIGTF"];
                 this.columnMANUALVUELTO = base.Columns["MANUALVUELTO"];
                 this.columnSISTEMAVUELTO = base.Columns["SISTEMAVUELTO"];
+                this.columnManualImpMun = base.Columns["ManualImpMun"];
+                this.columnSistemaImpMun = base.Columns["SistemaImpMun"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1376,6 +1402,10 @@ namespace CapaVisual_Login.Reportes {
                 base.Columns.Add(this.columnMANUALVUELTO);
                 this.columnSISTEMAVUELTO = new global::System.Data.DataColumn("SISTEMAVUELTO", typeof(decimal), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnSISTEMAVUELTO);
+                this.columnManualImpMun = new global::System.Data.DataColumn("ManualImpMun", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnManualImpMun);
+                this.columnSistemaImpMun = new global::System.Data.DataColumn("SistemaImpMun", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnSistemaImpMun);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnCOD_Sucursal,
                                 this.columnFECHA}, true));
@@ -2917,6 +2947,10 @@ namespace CapaVisual_Login.Reportes {
             
             private global::System.Data.DataColumn columnSISTEMAVUELTO;
             
+            private global::System.Data.DataColumn columnManualImpMun;
+            
+            private global::System.Data.DataColumn columnSistemaImpMun;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public VW_CierreCajaDataTable() {
@@ -3272,6 +3306,22 @@ namespace CapaVisual_Login.Reportes {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn ManualImpMunColumn {
+                get {
+                    return this.columnManualImpMun;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn SistemaImpMunColumn {
+                get {
+                    return this.columnSistemaImpMun;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -3347,7 +3397,9 @@ namespace CapaVisual_Login.Reportes {
                         decimal MANUALTRANSFERENCIA, 
                         decimal SISTEMATRANSFERENCIA, 
                         decimal MANUALVUELTO, 
-                        decimal SISTEMAVUELTO) {
+                        decimal SISTEMAVUELTO, 
+                        decimal ManualImpMun, 
+                        decimal SistemaImpMun) {
                 VW_CierreCajaRow rowVW_CierreCajaRow = ((VW_CierreCajaRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         Descripcion,
@@ -3389,7 +3441,9 @@ namespace CapaVisual_Login.Reportes {
                         MANUALTRANSFERENCIA,
                         SISTEMATRANSFERENCIA,
                         MANUALVUELTO,
-                        SISTEMAVUELTO};
+                        SISTEMAVUELTO,
+                        ManualImpMun,
+                        SistemaImpMun};
                 rowVW_CierreCajaRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowVW_CierreCajaRow);
                 return rowVW_CierreCajaRow;
@@ -3452,6 +3506,8 @@ namespace CapaVisual_Login.Reportes {
                 this.columnSISTEMATRANSFERENCIA = base.Columns["SISTEMATRANSFERENCIA"];
                 this.columnMANUALVUELTO = base.Columns["MANUALVUELTO"];
                 this.columnSISTEMAVUELTO = base.Columns["SISTEMAVUELTO"];
+                this.columnManualImpMun = base.Columns["ManualImpMun"];
+                this.columnSistemaImpMun = base.Columns["SistemaImpMun"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -3537,6 +3593,10 @@ namespace CapaVisual_Login.Reportes {
                 base.Columns.Add(this.columnMANUALVUELTO);
                 this.columnSISTEMAVUELTO = new global::System.Data.DataColumn("SISTEMAVUELTO", typeof(decimal), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnSISTEMAVUELTO);
+                this.columnManualImpMun = new global::System.Data.DataColumn("ManualImpMun", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnManualImpMun);
+                this.columnSistemaImpMun = new global::System.Data.DataColumn("SistemaImpMun", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnSistemaImpMun);
                 this.columnDescripcion.AllowDBNull = false;
                 this.columnDescripcion.MaxLength = 30;
                 this.columnFECHA.AllowDBNull = false;
@@ -4461,6 +4521,38 @@ namespace CapaVisual_Login.Reportes {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public decimal ManualImpMun {
+                get {
+                    try {
+                        return ((decimal)(this[this.tableTB_CAJA.ManualImpMunColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'ManualImpMun\' de la tabla \'TB_CAJA\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableTB_CAJA.ManualImpMunColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public decimal SistemaImpMun {
+                get {
+                    try {
+                        return ((decimal)(this[this.tableTB_CAJA.SistemaImpMunColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'SistemaImpMun\' de la tabla \'TB_CAJA\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableTB_CAJA.SistemaImpMunColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsMANUALNOTADEVOLUCIONNull() {
                 return this.IsNull(this.tableTB_CAJA.MANUALNOTADEVOLUCIONColumn);
             }
@@ -4733,6 +4825,30 @@ namespace CapaVisual_Login.Reportes {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetSISTEMAVUELTONull() {
                 this[this.tableTB_CAJA.SISTEMAVUELTOColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsManualImpMunNull() {
+                return this.IsNull(this.tableTB_CAJA.ManualImpMunColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetManualImpMunNull() {
+                this[this.tableTB_CAJA.ManualImpMunColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsSistemaImpMunNull() {
+                return this.IsNull(this.tableTB_CAJA.SistemaImpMunColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetSistemaImpMunNull() {
+                this[this.tableTB_CAJA.SistemaImpMunColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -6315,6 +6431,38 @@ namespace CapaVisual_Login.Reportes {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public decimal ManualImpMun {
+                get {
+                    try {
+                        return ((decimal)(this[this.tableVW_CierreCaja.ManualImpMunColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'ManualImpMun\' de la tabla \'VW_CierreCaja\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableVW_CierreCaja.ManualImpMunColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public decimal SistemaImpMun {
+                get {
+                    try {
+                        return ((decimal)(this[this.tableVW_CierreCaja.SistemaImpMunColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'SistemaImpMun\' de la tabla \'VW_CierreCaja\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableVW_CierreCaja.SistemaImpMunColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsOBSERVACIONNull() {
                 return this.IsNull(this.tableVW_CierreCaja.OBSERVACIONColumn);
             }
@@ -6491,6 +6639,30 @@ namespace CapaVisual_Login.Reportes {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetSISTEMAVUELTONull() {
                 this[this.tableVW_CierreCaja.SISTEMAVUELTOColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsManualImpMunNull() {
+                return this.IsNull(this.tableVW_CierreCaja.ManualImpMunColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetManualImpMunNull() {
+                this[this.tableVW_CierreCaja.ManualImpMunColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsSistemaImpMunNull() {
+                return this.IsNull(this.tableVW_CierreCaja.SistemaImpMunColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetSistemaImpMunNull() {
+                this[this.tableVW_CierreCaja.SistemaImpMunColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -6813,493 +6985,16 @@ namespace CapaVisual_Login.Reportes.DSCierreDeCajaTableAdapters {
             tableMapping.ColumnMappings.Add("IMPUESTOIGTF", "IMPUESTOIGTF");
             tableMapping.ColumnMappings.Add("MANUALVUELTO", "MANUALVUELTO");
             tableMapping.ColumnMappings.Add("SISTEMAVUELTO", "SISTEMAVUELTO");
+            tableMapping.ColumnMappings.Add("ManualImpMun", "ManualImpMun");
+            tableMapping.ColumnMappings.Add("SistemaImpMun", "SistemaImpMun");
             this._adapter.TableMappings.Add(tableMapping);
-            this._adapter.DeleteCommand = new global::System.Data.SqlClient.SqlCommand();
-            this._adapter.DeleteCommand.Connection = this.Connection;
-            this._adapter.DeleteCommand.CommandText = "DELETE FROM [TB_CAJA] WHERE (([COD_Sucursal] = @Original_COD_Sucursal) AND ([FECH" +
-                "A] = @Original_FECHA) AND ([MANUALTOTALINGRESOS] = @Original_MANUALTOTALINGRESOS" +
-                ") AND ([MANUALEFECTIVO] = @Original_MANUALEFECTIVO) AND ([MANUALCHEQUES] = @Orig" +
-                "inal_MANUALCHEQUES) AND ([MANUALTARJETA] = @Original_MANUALTARJETA) AND ([MANUAL" +
-                "DEBITO] = @Original_MANUALDEBITO) AND ([MANUALNOTACREDITO] = @Original_MANUALNOT" +
-                "ACREDITO) AND ([MANUALCREDITO] = @Original_MANUALCREDITO) AND ([MANUALDEPOSITOEF" +
-                "ECTIVO] = @Original_MANUALDEPOSITOEFECTIVO) AND ([MANUALREINTEGROS] = @Original_" +
-                "MANUALREINTEGROS) AND ([MANUALGASTOS] = @Original_MANUALGASTOS) AND ([MANUALFINA" +
-                "NCIAMIENTO] = @Original_MANUALFINANCIAMIENTO) AND ((@IsNull_MANUALNOTADEVOLUCION" +
-                " = 1 AND [MANUALNOTADEVOLUCION] IS NULL) OR ([MANUALNOTADEVOLUCION] = @Original_" +
-                "MANUALNOTADEVOLUCION)) AND ((@IsNull_MANUALORDENPAGO = 1 AND [MANUALORDENPAGO] I" +
-                "S NULL) OR ([MANUALORDENPAGO] = @Original_MANUALORDENPAGO)) AND ([SISTEMATOTALIN" +
-                "GRESOS] = @Original_SISTEMATOTALINGRESOS) AND ([SISTEMAEFECTIVO] = @Original_SIS" +
-                "TEMAEFECTIVO) AND ([SISTEMACHEQUES] = @Original_SISTEMACHEQUES) AND ([SISTEMATAR" +
-                "JETA] = @Original_SISTEMATARJETA) AND ([SISTEMADEBITO] = @Original_SISTEMADEBITO" +
-                ") AND ([SISTEMANOTACREDITO] = @Original_SISTEMANOTACREDITO) AND ([SISTEMACREDITO" +
-                "] = @Original_SISTEMACREDITO) AND ([SISTEMADEPOSITOEFECTIVO] = @Original_SISTEMA" +
-                "DEPOSITOEFECTIVO) AND ([SISTEMAREINTEGRO] = @Original_SISTEMAREINTEGRO) AND ([SI" +
-                "STEMAGASTOS] = @Original_SISTEMAGASTOS) AND ([SISTEMAFINANCIAMIENTO] = @Original" +
-                "_SISTEMAFINANCIAMIENTO) AND ((@IsNull_SISTEMANOTADEVOLUCION = 1 AND [SISTEMANOTA" +
-                "DEVOLUCION] IS NULL) OR ([SISTEMANOTADEVOLUCION] = @Original_SISTEMANOTADEVOLUCI" +
-                "ON)) AND ((@IsNull_SISTEMAORDENPAGO = 1 AND [SISTEMAORDENPAGO] IS NULL) OR ([SIS" +
-                "TEMAORDENPAGO] = @Original_SISTEMAORDENPAGO)) AND ([FONDOCAJA] = @Original_FONDO" +
-                "CAJA) AND ([VENTANETA] = @Original_VENTANETA) AND ([PORIMP] = @Original_PORIMP) " +
-                "AND ([IMPUESTO] = @Original_IMPUESTO) AND ((@IsNull_OBSERVACION = 1 AND [OBSERVA" +
-                "CION] IS NULL) OR ([OBSERVACION] = @Original_OBSERVACION)) AND ([CAMBIOCHEQUE] =" +
-                " @Original_CAMBIOCHEQUE) AND ([TOTAL_NETO] = @Original_TOTAL_NETO) AND ([TOTAL_B" +
-                "RUTO] = @Original_TOTAL_BRUTO) AND ([CONFIRMADO] = @Original_CONFIRMADO) AND ([F" +
-                "EC_CREA] = @Original_FEC_CREA) AND ((@IsNull_FEC_MOD = 1 AND [FEC_MOD] IS NULL) " +
-                "OR ([FEC_MOD] = @Original_FEC_MOD)) AND ([USER_CREA] = @Original_USER_CREA) AND " +
-                "((@IsNull_USER_MOD = 1 AND [USER_MOD] IS NULL) OR ([USER_MOD] = @Original_USER_M" +
-                "OD)) AND ([Cerrada] = @Original_Cerrada) AND ((@IsNull_ManualIVARetenido = 1 AND" +
-                " [ManualIVARetenido] IS NULL) OR ([ManualIVARetenido] = @Original_ManualIVAReten" +
-                "ido)) AND ((@IsNull_SistemaIVARetenido = 1 AND [SistemaIVARetenido] IS NULL) OR " +
-                "([SistemaIVARetenido] = @Original_SistemaIVARetenido)) AND ((@IsNull_ManualISLRR" +
-                "etenido = 1 AND [ManualISLRRetenido] IS NULL) OR ([ManualISLRRetenido] = @Origin" +
-                "al_ManualISLRRetenido)) AND ((@IsNull_SistemaISLRRetenido = 1 AND [SistemaISLRRe" +
-                "tenido] IS NULL) OR ([SistemaISLRRetenido] = @Original_SistemaISLRRetenido)) AND" +
-                " ((@IsNull_MANUALCUPONES = 1 AND [MANUALCUPONES] IS NULL) OR ([MANUALCUPONES] = " +
-                "@Original_MANUALCUPONES)) AND ((@IsNull_SISTEMACUPONES = 1 AND [SISTEMACUPONES] " +
-                "IS NULL) OR ([SISTEMACUPONES] = @Original_SISTEMACUPONES)) AND ((@IsNull_MANUALT" +
-                "ICKETSALUD = 1 AND [MANUALTICKETSALUD] IS NULL) OR ([MANUALTICKETSALUD] = @Origi" +
-                "nal_MANUALTICKETSALUD)) AND ((@IsNull_SISTEMATICKETSALUD = 1 AND [SISTEMATICKETS" +
-                "ALUD] IS NULL) OR ([SISTEMATICKETSALUD] = @Original_SISTEMATICKETSALUD)) AND ((@" +
-                "IsNull_MANUALTICKETSALUDEFEC = 1 AND [MANUALTICKETSALUDEFEC] IS NULL) OR ([MANUA" +
-                "LTICKETSALUDEFEC] = @Original_MANUALTICKETSALUDEFEC)) AND ((@IsNull_SISTEMATICKE" +
-                "TSALUDEFEC = 1 AND [SISTEMATICKETSALUDEFEC] IS NULL) OR ([SISTEMATICKETSALUDEFEC" +
-                "] = @Original_SISTEMATICKETSALUDEFEC)) AND ((@IsNull_MANUALTRANSFERENCIA = 1 AND" +
-                " [MANUALTRANSFERENCIA] IS NULL) OR ([MANUALTRANSFERENCIA] = @Original_MANUALTRAN" +
-                "SFERENCIA)) AND ((@IsNull_SISTEMATRANSFERENCIA = 1 AND [SISTEMATRANSFERENCIA] IS" +
-                " NULL) OR ([SISTEMATRANSFERENCIA] = @Original_SISTEMATRANSFERENCIA)) AND ((@IsNu" +
-                "ll_PORIMPIGTF = 1 AND [PORIMPIGTF] IS NULL) OR ([PORIMPIGTF] = @Original_PORIMPI" +
-                "GTF)) AND ((@IsNull_IMPUESTOIGTF = 1 AND [IMPUESTOIGTF] IS NULL) OR ([IMPUESTOIG" +
-                "TF] = @Original_IMPUESTOIGTF)) AND ((@IsNull_MANUALVUELTO = 1 AND [MANUALVUELTO]" +
-                " IS NULL) OR ([MANUALVUELTO] = @Original_MANUALVUELTO)) AND ((@IsNull_SISTEMAVUE" +
-                "LTO = 1 AND [SISTEMAVUELTO] IS NULL) OR ([SISTEMAVUELTO] = @Original_SISTEMAVUEL" +
-                "TO)))";
-            this._adapter.DeleteCommand.CommandType = global::System.Data.CommandType.Text;
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_COD_Sucursal", global::System.Data.SqlDbType.VarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "COD_Sucursal", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_FECHA", global::System.Data.SqlDbType.SmallDateTime, 0, global::System.Data.ParameterDirection.Input, 0, 0, "FECHA", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_MANUALTOTALINGRESOS", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALTOTALINGRESOS", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_MANUALEFECTIVO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALEFECTIVO", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_MANUALCHEQUES", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALCHEQUES", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_MANUALTARJETA", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALTARJETA", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_MANUALDEBITO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALDEBITO", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_MANUALNOTACREDITO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALNOTACREDITO", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_MANUALCREDITO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALCREDITO", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_MANUALDEPOSITOEFECTIVO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALDEPOSITOEFECTIVO", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_MANUALREINTEGROS", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALREINTEGROS", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_MANUALGASTOS", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALGASTOS", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_MANUALFINANCIAMIENTO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALFINANCIAMIENTO", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_MANUALNOTADEVOLUCION", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "MANUALNOTADEVOLUCION", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_MANUALNOTADEVOLUCION", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 0, "MANUALNOTADEVOLUCION", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_MANUALORDENPAGO", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "MANUALORDENPAGO", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_MANUALORDENPAGO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 0, "MANUALORDENPAGO", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_SISTEMATOTALINGRESOS", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMATOTALINGRESOS", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_SISTEMAEFECTIVO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMAEFECTIVO", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_SISTEMACHEQUES", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMACHEQUES", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_SISTEMATARJETA", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMATARJETA", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_SISTEMADEBITO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMADEBITO", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_SISTEMANOTACREDITO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMANOTACREDITO", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_SISTEMACREDITO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMACREDITO", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_SISTEMADEPOSITOEFECTIVO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMADEPOSITOEFECTIVO", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_SISTEMAREINTEGRO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMAREINTEGRO", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_SISTEMAGASTOS", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMAGASTOS", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_SISTEMAFINANCIAMIENTO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMAFINANCIAMIENTO", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_SISTEMANOTADEVOLUCION", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "SISTEMANOTADEVOLUCION", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_SISTEMANOTADEVOLUCION", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 0, "SISTEMANOTADEVOLUCION", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_SISTEMAORDENPAGO", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "SISTEMAORDENPAGO", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_SISTEMAORDENPAGO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 0, "SISTEMAORDENPAGO", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_FONDOCAJA", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "FONDOCAJA", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_VENTANETA", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "VENTANETA", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_PORIMP", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 10, 2, "PORIMP", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_IMPUESTO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "IMPUESTO", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_OBSERVACION", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "OBSERVACION", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_OBSERVACION", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "OBSERVACION", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_CAMBIOCHEQUE", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "CAMBIOCHEQUE", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_TOTAL_NETO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "TOTAL_NETO", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_TOTAL_BRUTO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "TOTAL_BRUTO", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_CONFIRMADO", global::System.Data.SqlDbType.Bit, 0, global::System.Data.ParameterDirection.Input, 0, 0, "CONFIRMADO", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_FEC_CREA", global::System.Data.SqlDbType.SmallDateTime, 0, global::System.Data.ParameterDirection.Input, 0, 0, "FEC_CREA", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_FEC_MOD", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "FEC_MOD", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_FEC_MOD", global::System.Data.SqlDbType.SmallDateTime, 0, global::System.Data.ParameterDirection.Input, 0, 0, "FEC_MOD", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_USER_CREA", global::System.Data.SqlDbType.Char, 0, global::System.Data.ParameterDirection.Input, 0, 0, "USER_CREA", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_USER_MOD", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "USER_MOD", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_USER_MOD", global::System.Data.SqlDbType.Char, 0, global::System.Data.ParameterDirection.Input, 0, 0, "USER_MOD", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_Cerrada", global::System.Data.SqlDbType.Bit, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Cerrada", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_ManualIVARetenido", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ManualIVARetenido", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_ManualIVARetenido", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "ManualIVARetenido", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_SistemaIVARetenido", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "SistemaIVARetenido", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_SistemaIVARetenido", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SistemaIVARetenido", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_ManualISLRRetenido", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ManualISLRRetenido", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_ManualISLRRetenido", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "ManualISLRRetenido", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_SistemaISLRRetenido", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "SistemaISLRRetenido", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_SistemaISLRRetenido", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SistemaISLRRetenido", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_MANUALCUPONES", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "MANUALCUPONES", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_MANUALCUPONES", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALCUPONES", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_SISTEMACUPONES", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "SISTEMACUPONES", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_SISTEMACUPONES", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMACUPONES", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_MANUALTICKETSALUD", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "MANUALTICKETSALUD", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_MANUALTICKETSALUD", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALTICKETSALUD", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_SISTEMATICKETSALUD", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "SISTEMATICKETSALUD", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_SISTEMATICKETSALUD", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMATICKETSALUD", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_MANUALTICKETSALUDEFEC", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "MANUALTICKETSALUDEFEC", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_MANUALTICKETSALUDEFEC", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALTICKETSALUDEFEC", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_SISTEMATICKETSALUDEFEC", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "SISTEMATICKETSALUDEFEC", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_SISTEMATICKETSALUDEFEC", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMATICKETSALUDEFEC", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_MANUALTRANSFERENCIA", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "MANUALTRANSFERENCIA", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_MANUALTRANSFERENCIA", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALTRANSFERENCIA", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_SISTEMATRANSFERENCIA", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "SISTEMATRANSFERENCIA", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_SISTEMATRANSFERENCIA", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMATRANSFERENCIA", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_PORIMPIGTF", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "PORIMPIGTF", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_PORIMPIGTF", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 18, 2, "PORIMPIGTF", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_IMPUESTOIGTF", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "IMPUESTOIGTF", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_IMPUESTOIGTF", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "IMPUESTOIGTF", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_MANUALVUELTO", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "MANUALVUELTO", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_MANUALVUELTO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALVUELTO", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_SISTEMAVUELTO", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "SISTEMAVUELTO", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_SISTEMAVUELTO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMAVUELTO", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.InsertCommand = new global::System.Data.SqlClient.SqlCommand();
-            this._adapter.InsertCommand.Connection = this.Connection;
-            this._adapter.InsertCommand.CommandText = "INSERT INTO [TB_CAJA] ([COD_Sucursal], [FECHA], [MANUALTOTALINGRESOS], [MANUALEFE" +
-                "CTIVO], [MANUALCHEQUES], [MANUALTARJETA], [MANUALDEBITO], [MANUALNOTACREDITO], [" +
-                "MANUALCREDITO], [MANUALDEPOSITOEFECTIVO], [MANUALREINTEGROS], [MANUALGASTOS], [M" +
-                "ANUALFINANCIAMIENTO], [MANUALNOTADEVOLUCION], [MANUALORDENPAGO], [SISTEMATOTALIN" +
-                "GRESOS], [SISTEMAEFECTIVO], [SISTEMACHEQUES], [SISTEMATARJETA], [SISTEMADEBITO]," +
-                " [SISTEMANOTACREDITO], [SISTEMACREDITO], [SISTEMADEPOSITOEFECTIVO], [SISTEMAREIN" +
-                "TEGRO], [SISTEMAGASTOS], [SISTEMAFINANCIAMIENTO], [SISTEMANOTADEVOLUCION], [SIST" +
-                "EMAORDENPAGO], [FONDOCAJA], [VENTANETA], [PORIMP], [IMPUESTO], [OBSERVACION], [C" +
-                "AMBIOCHEQUE], [TOTAL_NETO], [TOTAL_BRUTO], [CONFIRMADO], [FEC_CREA], [FEC_MOD], " +
-                "[USER_CREA], [USER_MOD], [Cerrada], [ManualIVARetenido], [SistemaIVARetenido], [" +
-                "ManualISLRRetenido], [SistemaISLRRetenido], [MANUALCUPONES], [SISTEMACUPONES], [" +
-                "MANUALTICKETSALUD], [SISTEMATICKETSALUD], [MANUALTICKETSALUDEFEC], [SISTEMATICKE" +
-                "TSALUDEFEC], [MANUALTRANSFERENCIA], [SISTEMATRANSFERENCIA], [PORIMPIGTF], [IMPUE" +
-                "STOIGTF], [MANUALVUELTO], [SISTEMAVUELTO]) VALUES (@COD_Sucursal, @FECHA, @MANUA" +
-                "LTOTALINGRESOS, @MANUALEFECTIVO, @MANUALCHEQUES, @MANUALTARJETA, @MANUALDEBITO, " +
-                "@MANUALNOTACREDITO, @MANUALCREDITO, @MANUALDEPOSITOEFECTIVO, @MANUALREINTEGROS, " +
-                "@MANUALGASTOS, @MANUALFINANCIAMIENTO, @MANUALNOTADEVOLUCION, @MANUALORDENPAGO, @" +
-                "SISTEMATOTALINGRESOS, @SISTEMAEFECTIVO, @SISTEMACHEQUES, @SISTEMATARJETA, @SISTE" +
-                "MADEBITO, @SISTEMANOTACREDITO, @SISTEMACREDITO, @SISTEMADEPOSITOEFECTIVO, @SISTE" +
-                "MAREINTEGRO, @SISTEMAGASTOS, @SISTEMAFINANCIAMIENTO, @SISTEMANOTADEVOLUCION, @SI" +
-                "STEMAORDENPAGO, @FONDOCAJA, @VENTANETA, @PORIMP, @IMPUESTO, @OBSERVACION, @CAMBI" +
-                "OCHEQUE, @TOTAL_NETO, @TOTAL_BRUTO, @CONFIRMADO, @FEC_CREA, @FEC_MOD, @USER_CREA" +
-                ", @USER_MOD, @Cerrada, @ManualIVARetenido, @SistemaIVARetenido, @ManualISLRReten" +
-                "ido, @SistemaISLRRetenido, @MANUALCUPONES, @SISTEMACUPONES, @MANUALTICKETSALUD, " +
-                "@SISTEMATICKETSALUD, @MANUALTICKETSALUDEFEC, @SISTEMATICKETSALUDEFEC, @MANUALTRA" +
-                "NSFERENCIA, @SISTEMATRANSFERENCIA, @PORIMPIGTF, @IMPUESTOIGTF, @MANUALVUELTO, @S" +
-                "ISTEMAVUELTO);\r\nSELECT COD_Sucursal, FECHA, MANUALTOTALINGRESOS, MANUALEFECTIVO," +
-                " MANUALCHEQUES, MANUALTARJETA, MANUALDEBITO, MANUALNOTACREDITO, MANUALCREDITO, M" +
-                "ANUALDEPOSITOEFECTIVO, MANUALREINTEGROS, MANUALGASTOS, MANUALFINANCIAMIENTO, MAN" +
-                "UALNOTADEVOLUCION, MANUALORDENPAGO, SISTEMATOTALINGRESOS, SISTEMAEFECTIVO, SISTE" +
-                "MACHEQUES, SISTEMATARJETA, SISTEMADEBITO, SISTEMANOTACREDITO, SISTEMACREDITO, SI" +
-                "STEMADEPOSITOEFECTIVO, SISTEMAREINTEGRO, SISTEMAGASTOS, SISTEMAFINANCIAMIENTO, S" +
-                "ISTEMANOTADEVOLUCION, SISTEMAORDENPAGO, FONDOCAJA, VENTANETA, PORIMP, IMPUESTO, " +
-                "OBSERVACION, CAMBIOCHEQUE, TOTAL_NETO, TOTAL_BRUTO, CONFIRMADO, FEC_CREA, FEC_MO" +
-                "D, USER_CREA, USER_MOD, Cerrada, ManualIVARetenido, SistemaIVARetenido, ManualIS" +
-                "LRRetenido, SistemaISLRRetenido, MANUALCUPONES, SISTEMACUPONES, MANUALTICKETSALU" +
-                "D, SISTEMATICKETSALUD, MANUALTICKETSALUDEFEC, SISTEMATICKETSALUDEFEC, MANUALTRAN" +
-                "SFERENCIA, SISTEMATRANSFERENCIA, PORIMPIGTF, IMPUESTOIGTF, MANUALVUELTO, SISTEMA" +
-                "VUELTO FROM TB_CAJA WHERE (COD_Sucursal = @COD_Sucursal) AND (FECHA = @FECHA)";
-            this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@COD_Sucursal", global::System.Data.SqlDbType.VarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "COD_Sucursal", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@FECHA", global::System.Data.SqlDbType.SmallDateTime, 0, global::System.Data.ParameterDirection.Input, 0, 0, "FECHA", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@MANUALTOTALINGRESOS", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALTOTALINGRESOS", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@MANUALEFECTIVO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALEFECTIVO", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@MANUALCHEQUES", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALCHEQUES", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@MANUALTARJETA", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALTARJETA", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@MANUALDEBITO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALDEBITO", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@MANUALNOTACREDITO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALNOTACREDITO", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@MANUALCREDITO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALCREDITO", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@MANUALDEPOSITOEFECTIVO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALDEPOSITOEFECTIVO", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@MANUALREINTEGROS", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALREINTEGROS", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@MANUALGASTOS", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALGASTOS", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@MANUALFINANCIAMIENTO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALFINANCIAMIENTO", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@MANUALNOTADEVOLUCION", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 0, "MANUALNOTADEVOLUCION", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@MANUALORDENPAGO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 0, "MANUALORDENPAGO", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@SISTEMATOTALINGRESOS", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMATOTALINGRESOS", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@SISTEMAEFECTIVO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMAEFECTIVO", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@SISTEMACHEQUES", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMACHEQUES", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@SISTEMATARJETA", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMATARJETA", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@SISTEMADEBITO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMADEBITO", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@SISTEMANOTACREDITO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMANOTACREDITO", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@SISTEMACREDITO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMACREDITO", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@SISTEMADEPOSITOEFECTIVO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMADEPOSITOEFECTIVO", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@SISTEMAREINTEGRO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMAREINTEGRO", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@SISTEMAGASTOS", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMAGASTOS", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@SISTEMAFINANCIAMIENTO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMAFINANCIAMIENTO", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@SISTEMANOTADEVOLUCION", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 0, "SISTEMANOTADEVOLUCION", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@SISTEMAORDENPAGO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 0, "SISTEMAORDENPAGO", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@FONDOCAJA", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "FONDOCAJA", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@VENTANETA", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "VENTANETA", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@PORIMP", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 10, 2, "PORIMP", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IMPUESTO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "IMPUESTO", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@OBSERVACION", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "OBSERVACION", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@CAMBIOCHEQUE", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "CAMBIOCHEQUE", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@TOTAL_NETO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "TOTAL_NETO", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@TOTAL_BRUTO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "TOTAL_BRUTO", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@CONFIRMADO", global::System.Data.SqlDbType.Bit, 0, global::System.Data.ParameterDirection.Input, 0, 0, "CONFIRMADO", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@FEC_CREA", global::System.Data.SqlDbType.SmallDateTime, 0, global::System.Data.ParameterDirection.Input, 0, 0, "FEC_CREA", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@FEC_MOD", global::System.Data.SqlDbType.SmallDateTime, 0, global::System.Data.ParameterDirection.Input, 0, 0, "FEC_MOD", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@USER_CREA", global::System.Data.SqlDbType.Char, 0, global::System.Data.ParameterDirection.Input, 0, 0, "USER_CREA", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@USER_MOD", global::System.Data.SqlDbType.Char, 0, global::System.Data.ParameterDirection.Input, 0, 0, "USER_MOD", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Cerrada", global::System.Data.SqlDbType.Bit, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Cerrada", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ManualIVARetenido", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "ManualIVARetenido", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@SistemaIVARetenido", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SistemaIVARetenido", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ManualISLRRetenido", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "ManualISLRRetenido", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@SistemaISLRRetenido", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SistemaISLRRetenido", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@MANUALCUPONES", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALCUPONES", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@SISTEMACUPONES", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMACUPONES", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@MANUALTICKETSALUD", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALTICKETSALUD", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@SISTEMATICKETSALUD", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMATICKETSALUD", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@MANUALTICKETSALUDEFEC", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALTICKETSALUDEFEC", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@SISTEMATICKETSALUDEFEC", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMATICKETSALUDEFEC", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@MANUALTRANSFERENCIA", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALTRANSFERENCIA", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@SISTEMATRANSFERENCIA", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMATRANSFERENCIA", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@PORIMPIGTF", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 18, 2, "PORIMPIGTF", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IMPUESTOIGTF", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "IMPUESTOIGTF", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@MANUALVUELTO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALVUELTO", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@SISTEMAVUELTO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMAVUELTO", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand = new global::System.Data.SqlClient.SqlCommand();
-            this._adapter.UpdateCommand.Connection = this.Connection;
-            this._adapter.UpdateCommand.CommandText = "UPDATE [TB_CAJA] SET [COD_Sucursal] = @COD_Sucursal, [FECHA] = @FECHA, [MANUALTOT" +
-                "ALINGRESOS] = @MANUALTOTALINGRESOS, [MANUALEFECTIVO] = @MANUALEFECTIVO, [MANUALC" +
-                "HEQUES] = @MANUALCHEQUES, [MANUALTARJETA] = @MANUALTARJETA, [MANUALDEBITO] = @MA" +
-                "NUALDEBITO, [MANUALNOTACREDITO] = @MANUALNOTACREDITO, [MANUALCREDITO] = @MANUALC" +
-                "REDITO, [MANUALDEPOSITOEFECTIVO] = @MANUALDEPOSITOEFECTIVO, [MANUALREINTEGROS] =" +
-                " @MANUALREINTEGROS, [MANUALGASTOS] = @MANUALGASTOS, [MANUALFINANCIAMIENTO] = @MA" +
-                "NUALFINANCIAMIENTO, [MANUALNOTADEVOLUCION] = @MANUALNOTADEVOLUCION, [MANUALORDEN" +
-                "PAGO] = @MANUALORDENPAGO, [SISTEMATOTALINGRESOS] = @SISTEMATOTALINGRESOS, [SISTE" +
-                "MAEFECTIVO] = @SISTEMAEFECTIVO, [SISTEMACHEQUES] = @SISTEMACHEQUES, [SISTEMATARJ" +
-                "ETA] = @SISTEMATARJETA, [SISTEMADEBITO] = @SISTEMADEBITO, [SISTEMANOTACREDITO] =" +
-                " @SISTEMANOTACREDITO, [SISTEMACREDITO] = @SISTEMACREDITO, [SISTEMADEPOSITOEFECTI" +
-                "VO] = @SISTEMADEPOSITOEFECTIVO, [SISTEMAREINTEGRO] = @SISTEMAREINTEGRO, [SISTEMA" +
-                "GASTOS] = @SISTEMAGASTOS, [SISTEMAFINANCIAMIENTO] = @SISTEMAFINANCIAMIENTO, [SIS" +
-                "TEMANOTADEVOLUCION] = @SISTEMANOTADEVOLUCION, [SISTEMAORDENPAGO] = @SISTEMAORDEN" +
-                "PAGO, [FONDOCAJA] = @FONDOCAJA, [VENTANETA] = @VENTANETA, [PORIMP] = @PORIMP, [I" +
-                "MPUESTO] = @IMPUESTO, [OBSERVACION] = @OBSERVACION, [CAMBIOCHEQUE] = @CAMBIOCHEQ" +
-                "UE, [TOTAL_NETO] = @TOTAL_NETO, [TOTAL_BRUTO] = @TOTAL_BRUTO, [CONFIRMADO] = @CO" +
-                "NFIRMADO, [FEC_CREA] = @FEC_CREA, [FEC_MOD] = @FEC_MOD, [USER_CREA] = @USER_CREA" +
-                ", [USER_MOD] = @USER_MOD, [Cerrada] = @Cerrada, [ManualIVARetenido] = @ManualIVA" +
-                "Retenido, [SistemaIVARetenido] = @SistemaIVARetenido, [ManualISLRRetenido] = @Ma" +
-                "nualISLRRetenido, [SistemaISLRRetenido] = @SistemaISLRRetenido, [MANUALCUPONES] " +
-                "= @MANUALCUPONES, [SISTEMACUPONES] = @SISTEMACUPONES, [MANUALTICKETSALUD] = @MAN" +
-                "UALTICKETSALUD, [SISTEMATICKETSALUD] = @SISTEMATICKETSALUD, [MANUALTICKETSALUDEF" +
-                "EC] = @MANUALTICKETSALUDEFEC, [SISTEMATICKETSALUDEFEC] = @SISTEMATICKETSALUDEFEC" +
-                ", [MANUALTRANSFERENCIA] = @MANUALTRANSFERENCIA, [SISTEMATRANSFERENCIA] = @SISTEM" +
-                "ATRANSFERENCIA, [PORIMPIGTF] = @PORIMPIGTF, [IMPUESTOIGTF] = @IMPUESTOIGTF, [MAN" +
-                "UALVUELTO] = @MANUALVUELTO, [SISTEMAVUELTO] = @SISTEMAVUELTO WHERE (([COD_Sucurs" +
-                "al] = @Original_COD_Sucursal) AND ([FECHA] = @Original_FECHA) AND ([MANUALTOTALI" +
-                "NGRESOS] = @Original_MANUALTOTALINGRESOS) AND ([MANUALEFECTIVO] = @Original_MANU" +
-                "ALEFECTIVO) AND ([MANUALCHEQUES] = @Original_MANUALCHEQUES) AND ([MANUALTARJETA]" +
-                " = @Original_MANUALTARJETA) AND ([MANUALDEBITO] = @Original_MANUALDEBITO) AND ([" +
-                "MANUALNOTACREDITO] = @Original_MANUALNOTACREDITO) AND ([MANUALCREDITO] = @Origin" +
-                "al_MANUALCREDITO) AND ([MANUALDEPOSITOEFECTIVO] = @Original_MANUALDEPOSITOEFECTI" +
-                "VO) AND ([MANUALREINTEGROS] = @Original_MANUALREINTEGROS) AND ([MANUALGASTOS] = " +
-                "@Original_MANUALGASTOS) AND ([MANUALFINANCIAMIENTO] = @Original_MANUALFINANCIAMI" +
-                "ENTO) AND ((@IsNull_MANUALNOTADEVOLUCION = 1 AND [MANUALNOTADEVOLUCION] IS NULL)" +
-                " OR ([MANUALNOTADEVOLUCION] = @Original_MANUALNOTADEVOLUCION)) AND ((@IsNull_MAN" +
-                "UALORDENPAGO = 1 AND [MANUALORDENPAGO] IS NULL) OR ([MANUALORDENPAGO] = @Origina" +
-                "l_MANUALORDENPAGO)) AND ([SISTEMATOTALINGRESOS] = @Original_SISTEMATOTALINGRESOS" +
-                ") AND ([SISTEMAEFECTIVO] = @Original_SISTEMAEFECTIVO) AND ([SISTEMACHEQUES] = @O" +
-                "riginal_SISTEMACHEQUES) AND ([SISTEMATARJETA] = @Original_SISTEMATARJETA) AND ([" +
-                "SISTEMADEBITO] = @Original_SISTEMADEBITO) AND ([SISTEMANOTACREDITO] = @Original_" +
-                "SISTEMANOTACREDITO) AND ([SISTEMACREDITO] = @Original_SISTEMACREDITO) AND ([SIST" +
-                "EMADEPOSITOEFECTIVO] = @Original_SISTEMADEPOSITOEFECTIVO) AND ([SISTEMAREINTEGRO" +
-                "] = @Original_SISTEMAREINTEGRO) AND ([SISTEMAGASTOS] = @Original_SISTEMAGASTOS) " +
-                "AND ([SISTEMAFINANCIAMIENTO] = @Original_SISTEMAFINANCIAMIENTO) AND ((@IsNull_SI" +
-                "STEMANOTADEVOLUCION = 1 AND [SISTEMANOTADEVOLUCION] IS NULL) OR ([SISTEMANOTADEV" +
-                "OLUCION] = @Original_SISTEMANOTADEVOLUCION)) AND ((@IsNull_SISTEMAORDENPAGO = 1 " +
-                "AND [SISTEMAORDENPAGO] IS NULL) OR ([SISTEMAORDENPAGO] = @Original_SISTEMAORDENP" +
-                "AGO)) AND ([FONDOCAJA] = @Original_FONDOCAJA) AND ([VENTANETA] = @Original_VENTA" +
-                "NETA) AND ([PORIMP] = @Original_PORIMP) AND ([IMPUESTO] = @Original_IMPUESTO) AN" +
-                "D ((@IsNull_OBSERVACION = 1 AND [OBSERVACION] IS NULL) OR ([OBSERVACION] = @Orig" +
-                "inal_OBSERVACION)) AND ([CAMBIOCHEQUE] = @Original_CAMBIOCHEQUE) AND ([TOTAL_NET" +
-                "O] = @Original_TOTAL_NETO) AND ([TOTAL_BRUTO] = @Original_TOTAL_BRUTO) AND ([CON" +
-                "FIRMADO] = @Original_CONFIRMADO) AND ([FEC_CREA] = @Original_FEC_CREA) AND ((@Is" +
-                "Null_FEC_MOD = 1 AND [FEC_MOD] IS NULL) OR ([FEC_MOD] = @Original_FEC_MOD)) AND " +
-                "([USER_CREA] = @Original_USER_CREA) AND ((@IsNull_USER_MOD = 1 AND [USER_MOD] IS" +
-                " NULL) OR ([USER_MOD] = @Original_USER_MOD)) AND ([Cerrada] = @Original_Cerrada)" +
-                " AND ((@IsNull_ManualIVARetenido = 1 AND [ManualIVARetenido] IS NULL) OR ([Manua" +
-                "lIVARetenido] = @Original_ManualIVARetenido)) AND ((@IsNull_SistemaIVARetenido =" +
-                " 1 AND [SistemaIVARetenido] IS NULL) OR ([SistemaIVARetenido] = @Original_Sistem" +
-                "aIVARetenido)) AND ((@IsNull_ManualISLRRetenido = 1 AND [ManualISLRRetenido] IS " +
-                "NULL) OR ([ManualISLRRetenido] = @Original_ManualISLRRetenido)) AND ((@IsNull_Si" +
-                "stemaISLRRetenido = 1 AND [SistemaISLRRetenido] IS NULL) OR ([SistemaISLRRetenid" +
-                "o] = @Original_SistemaISLRRetenido)) AND ((@IsNull_MANUALCUPONES = 1 AND [MANUAL" +
-                "CUPONES] IS NULL) OR ([MANUALCUPONES] = @Original_MANUALCUPONES)) AND ((@IsNull_" +
-                "SISTEMACUPONES = 1 AND [SISTEMACUPONES] IS NULL) OR ([SISTEMACUPONES] = @Origina" +
-                "l_SISTEMACUPONES)) AND ((@IsNull_MANUALTICKETSALUD = 1 AND [MANUALTICKETSALUD] I" +
-                "S NULL) OR ([MANUALTICKETSALUD] = @Original_MANUALTICKETSALUD)) AND ((@IsNull_SI" +
-                "STEMATICKETSALUD = 1 AND [SISTEMATICKETSALUD] IS NULL) OR ([SISTEMATICKETSALUD] " +
-                "= @Original_SISTEMATICKETSALUD)) AND ((@IsNull_MANUALTICKETSALUDEFEC = 1 AND [MA" +
-                "NUALTICKETSALUDEFEC] IS NULL) OR ([MANUALTICKETSALUDEFEC] = @Original_MANUALTICK" +
-                "ETSALUDEFEC)) AND ((@IsNull_SISTEMATICKETSALUDEFEC = 1 AND [SISTEMATICKETSALUDEF" +
-                "EC] IS NULL) OR ([SISTEMATICKETSALUDEFEC] = @Original_SISTEMATICKETSALUDEFEC)) A" +
-                "ND ((@IsNull_MANUALTRANSFERENCIA = 1 AND [MANUALTRANSFERENCIA] IS NULL) OR ([MAN" +
-                "UALTRANSFERENCIA] = @Original_MANUALTRANSFERENCIA)) AND ((@IsNull_SISTEMATRANSFE" +
-                "RENCIA = 1 AND [SISTEMATRANSFERENCIA] IS NULL) OR ([SISTEMATRANSFERENCIA] = @Ori" +
-                "ginal_SISTEMATRANSFERENCIA)) AND ((@IsNull_PORIMPIGTF = 1 AND [PORIMPIGTF] IS NU" +
-                "LL) OR ([PORIMPIGTF] = @Original_PORIMPIGTF)) AND ((@IsNull_IMPUESTOIGTF = 1 AND" +
-                " [IMPUESTOIGTF] IS NULL) OR ([IMPUESTOIGTF] = @Original_IMPUESTOIGTF)) AND ((@Is" +
-                "Null_MANUALVUELTO = 1 AND [MANUALVUELTO] IS NULL) OR ([MANUALVUELTO] = @Original" +
-                "_MANUALVUELTO)) AND ((@IsNull_SISTEMAVUELTO = 1 AND [SISTEMAVUELTO] IS NULL) OR " +
-                "([SISTEMAVUELTO] = @Original_SISTEMAVUELTO)));\r\nSELECT COD_Sucursal, FECHA, MANU" +
-                "ALTOTALINGRESOS, MANUALEFECTIVO, MANUALCHEQUES, MANUALTARJETA, MANUALDEBITO, MAN" +
-                "UALNOTACREDITO, MANUALCREDITO, MANUALDEPOSITOEFECTIVO, MANUALREINTEGROS, MANUALG" +
-                "ASTOS, MANUALFINANCIAMIENTO, MANUALNOTADEVOLUCION, MANUALORDENPAGO, SISTEMATOTAL" +
-                "INGRESOS, SISTEMAEFECTIVO, SISTEMACHEQUES, SISTEMATARJETA, SISTEMADEBITO, SISTEM" +
-                "ANOTACREDITO, SISTEMACREDITO, SISTEMADEPOSITOEFECTIVO, SISTEMAREINTEGRO, SISTEMA" +
-                "GASTOS, SISTEMAFINANCIAMIENTO, SISTEMANOTADEVOLUCION, SISTEMAORDENPAGO, FONDOCAJ" +
-                "A, VENTANETA, PORIMP, IMPUESTO, OBSERVACION, CAMBIOCHEQUE, TOTAL_NETO, TOTAL_BRU" +
-                "TO, CONFIRMADO, FEC_CREA, FEC_MOD, USER_CREA, USER_MOD, Cerrada, ManualIVAReteni" +
-                "do, SistemaIVARetenido, ManualISLRRetenido, SistemaISLRRetenido, MANUALCUPONES, " +
-                "SISTEMACUPONES, MANUALTICKETSALUD, SISTEMATICKETSALUD, MANUALTICKETSALUDEFEC, SI" +
-                "STEMATICKETSALUDEFEC, MANUALTRANSFERENCIA, SISTEMATRANSFERENCIA, PORIMPIGTF, IMP" +
-                "UESTOIGTF, MANUALVUELTO, SISTEMAVUELTO FROM TB_CAJA WHERE (COD_Sucursal = @COD_S" +
-                "ucursal) AND (FECHA = @FECHA)";
-            this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@COD_Sucursal", global::System.Data.SqlDbType.VarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "COD_Sucursal", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@FECHA", global::System.Data.SqlDbType.SmallDateTime, 0, global::System.Data.ParameterDirection.Input, 0, 0, "FECHA", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@MANUALTOTALINGRESOS", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALTOTALINGRESOS", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@MANUALEFECTIVO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALEFECTIVO", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@MANUALCHEQUES", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALCHEQUES", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@MANUALTARJETA", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALTARJETA", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@MANUALDEBITO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALDEBITO", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@MANUALNOTACREDITO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALNOTACREDITO", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@MANUALCREDITO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALCREDITO", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@MANUALDEPOSITOEFECTIVO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALDEPOSITOEFECTIVO", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@MANUALREINTEGROS", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALREINTEGROS", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@MANUALGASTOS", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALGASTOS", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@MANUALFINANCIAMIENTO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALFINANCIAMIENTO", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@MANUALNOTADEVOLUCION", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 0, "MANUALNOTADEVOLUCION", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@MANUALORDENPAGO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 0, "MANUALORDENPAGO", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@SISTEMATOTALINGRESOS", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMATOTALINGRESOS", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@SISTEMAEFECTIVO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMAEFECTIVO", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@SISTEMACHEQUES", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMACHEQUES", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@SISTEMATARJETA", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMATARJETA", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@SISTEMADEBITO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMADEBITO", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@SISTEMANOTACREDITO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMANOTACREDITO", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@SISTEMACREDITO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMACREDITO", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@SISTEMADEPOSITOEFECTIVO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMADEPOSITOEFECTIVO", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@SISTEMAREINTEGRO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMAREINTEGRO", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@SISTEMAGASTOS", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMAGASTOS", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@SISTEMAFINANCIAMIENTO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMAFINANCIAMIENTO", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@SISTEMANOTADEVOLUCION", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 0, "SISTEMANOTADEVOLUCION", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@SISTEMAORDENPAGO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 0, "SISTEMAORDENPAGO", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@FONDOCAJA", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "FONDOCAJA", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@VENTANETA", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "VENTANETA", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@PORIMP", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 10, 2, "PORIMP", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IMPUESTO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "IMPUESTO", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@OBSERVACION", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "OBSERVACION", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@CAMBIOCHEQUE", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "CAMBIOCHEQUE", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@TOTAL_NETO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "TOTAL_NETO", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@TOTAL_BRUTO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "TOTAL_BRUTO", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@CONFIRMADO", global::System.Data.SqlDbType.Bit, 0, global::System.Data.ParameterDirection.Input, 0, 0, "CONFIRMADO", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@FEC_CREA", global::System.Data.SqlDbType.SmallDateTime, 0, global::System.Data.ParameterDirection.Input, 0, 0, "FEC_CREA", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@FEC_MOD", global::System.Data.SqlDbType.SmallDateTime, 0, global::System.Data.ParameterDirection.Input, 0, 0, "FEC_MOD", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@USER_CREA", global::System.Data.SqlDbType.Char, 0, global::System.Data.ParameterDirection.Input, 0, 0, "USER_CREA", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@USER_MOD", global::System.Data.SqlDbType.Char, 0, global::System.Data.ParameterDirection.Input, 0, 0, "USER_MOD", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Cerrada", global::System.Data.SqlDbType.Bit, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Cerrada", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ManualIVARetenido", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "ManualIVARetenido", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@SistemaIVARetenido", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SistemaIVARetenido", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ManualISLRRetenido", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "ManualISLRRetenido", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@SistemaISLRRetenido", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SistemaISLRRetenido", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@MANUALCUPONES", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALCUPONES", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@SISTEMACUPONES", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMACUPONES", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@MANUALTICKETSALUD", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALTICKETSALUD", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@SISTEMATICKETSALUD", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMATICKETSALUD", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@MANUALTICKETSALUDEFEC", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALTICKETSALUDEFEC", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@SISTEMATICKETSALUDEFEC", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMATICKETSALUDEFEC", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@MANUALTRANSFERENCIA", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALTRANSFERENCIA", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@SISTEMATRANSFERENCIA", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMATRANSFERENCIA", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@PORIMPIGTF", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 18, 2, "PORIMPIGTF", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IMPUESTOIGTF", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "IMPUESTOIGTF", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@MANUALVUELTO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALVUELTO", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@SISTEMAVUELTO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMAVUELTO", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_COD_Sucursal", global::System.Data.SqlDbType.VarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "COD_Sucursal", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_FECHA", global::System.Data.SqlDbType.SmallDateTime, 0, global::System.Data.ParameterDirection.Input, 0, 0, "FECHA", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_MANUALTOTALINGRESOS", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALTOTALINGRESOS", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_MANUALEFECTIVO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALEFECTIVO", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_MANUALCHEQUES", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALCHEQUES", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_MANUALTARJETA", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALTARJETA", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_MANUALDEBITO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALDEBITO", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_MANUALNOTACREDITO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALNOTACREDITO", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_MANUALCREDITO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALCREDITO", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_MANUALDEPOSITOEFECTIVO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALDEPOSITOEFECTIVO", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_MANUALREINTEGROS", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALREINTEGROS", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_MANUALGASTOS", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALGASTOS", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_MANUALFINANCIAMIENTO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALFINANCIAMIENTO", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_MANUALNOTADEVOLUCION", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "MANUALNOTADEVOLUCION", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_MANUALNOTADEVOLUCION", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 0, "MANUALNOTADEVOLUCION", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_MANUALORDENPAGO", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "MANUALORDENPAGO", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_MANUALORDENPAGO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 0, "MANUALORDENPAGO", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_SISTEMATOTALINGRESOS", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMATOTALINGRESOS", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_SISTEMAEFECTIVO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMAEFECTIVO", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_SISTEMACHEQUES", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMACHEQUES", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_SISTEMATARJETA", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMATARJETA", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_SISTEMADEBITO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMADEBITO", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_SISTEMANOTACREDITO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMANOTACREDITO", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_SISTEMACREDITO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMACREDITO", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_SISTEMADEPOSITOEFECTIVO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMADEPOSITOEFECTIVO", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_SISTEMAREINTEGRO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMAREINTEGRO", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_SISTEMAGASTOS", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMAGASTOS", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_SISTEMAFINANCIAMIENTO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMAFINANCIAMIENTO", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_SISTEMANOTADEVOLUCION", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "SISTEMANOTADEVOLUCION", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_SISTEMANOTADEVOLUCION", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 0, "SISTEMANOTADEVOLUCION", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_SISTEMAORDENPAGO", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "SISTEMAORDENPAGO", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_SISTEMAORDENPAGO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 0, "SISTEMAORDENPAGO", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_FONDOCAJA", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "FONDOCAJA", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_VENTANETA", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "VENTANETA", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_PORIMP", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 10, 2, "PORIMP", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_IMPUESTO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "IMPUESTO", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_OBSERVACION", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "OBSERVACION", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_OBSERVACION", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "OBSERVACION", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_CAMBIOCHEQUE", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "CAMBIOCHEQUE", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_TOTAL_NETO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "TOTAL_NETO", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_TOTAL_BRUTO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "TOTAL_BRUTO", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_CONFIRMADO", global::System.Data.SqlDbType.Bit, 0, global::System.Data.ParameterDirection.Input, 0, 0, "CONFIRMADO", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_FEC_CREA", global::System.Data.SqlDbType.SmallDateTime, 0, global::System.Data.ParameterDirection.Input, 0, 0, "FEC_CREA", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_FEC_MOD", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "FEC_MOD", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_FEC_MOD", global::System.Data.SqlDbType.SmallDateTime, 0, global::System.Data.ParameterDirection.Input, 0, 0, "FEC_MOD", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_USER_CREA", global::System.Data.SqlDbType.Char, 0, global::System.Data.ParameterDirection.Input, 0, 0, "USER_CREA", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_USER_MOD", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "USER_MOD", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_USER_MOD", global::System.Data.SqlDbType.Char, 0, global::System.Data.ParameterDirection.Input, 0, 0, "USER_MOD", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_Cerrada", global::System.Data.SqlDbType.Bit, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Cerrada", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_ManualIVARetenido", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ManualIVARetenido", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_ManualIVARetenido", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "ManualIVARetenido", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_SistemaIVARetenido", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "SistemaIVARetenido", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_SistemaIVARetenido", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SistemaIVARetenido", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_ManualISLRRetenido", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ManualISLRRetenido", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_ManualISLRRetenido", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "ManualISLRRetenido", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_SistemaISLRRetenido", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "SistemaISLRRetenido", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_SistemaISLRRetenido", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SistemaISLRRetenido", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_MANUALCUPONES", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "MANUALCUPONES", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_MANUALCUPONES", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALCUPONES", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_SISTEMACUPONES", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "SISTEMACUPONES", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_SISTEMACUPONES", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMACUPONES", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_MANUALTICKETSALUD", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "MANUALTICKETSALUD", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_MANUALTICKETSALUD", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALTICKETSALUD", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_SISTEMATICKETSALUD", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "SISTEMATICKETSALUD", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_SISTEMATICKETSALUD", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMATICKETSALUD", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_MANUALTICKETSALUDEFEC", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "MANUALTICKETSALUDEFEC", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_MANUALTICKETSALUDEFEC", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALTICKETSALUDEFEC", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_SISTEMATICKETSALUDEFEC", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "SISTEMATICKETSALUDEFEC", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_SISTEMATICKETSALUDEFEC", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMATICKETSALUDEFEC", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_MANUALTRANSFERENCIA", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "MANUALTRANSFERENCIA", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_MANUALTRANSFERENCIA", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALTRANSFERENCIA", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_SISTEMATRANSFERENCIA", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "SISTEMATRANSFERENCIA", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_SISTEMATRANSFERENCIA", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMATRANSFERENCIA", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_PORIMPIGTF", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "PORIMPIGTF", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_PORIMPIGTF", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 18, 2, "PORIMPIGTF", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_IMPUESTOIGTF", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "IMPUESTOIGTF", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_IMPUESTOIGTF", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "IMPUESTOIGTF", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_MANUALVUELTO", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "MANUALVUELTO", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_MANUALVUELTO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "MANUALVUELTO", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_SISTEMAVUELTO", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "SISTEMAVUELTO", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_SISTEMAVUELTO", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 28, 2, "SISTEMAVUELTO", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         private void InitConnection() {
             this._connection = new global::System.Data.SqlClient.SqlConnection();
-            this._connection.ConnectionString = global::CapaVisual_Login.Properties.Settings.Default.BD095ConnectionString;
+            this._connection.ConnectionString = global::CapaVisual_Login.Properties.Settings.Default.BD117FBConnectionString;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -7313,7 +7008,7 @@ namespace CapaVisual_Login.Reportes.DSCierreDeCajaTableAdapters {
                          SISTEMANOTACREDITO, SISTEMACREDITO, SISTEMADEPOSITOEFECTIVO, SISTEMAREINTEGRO, SISTEMAGASTOS, SISTEMAFINANCIAMIENTO, SISTEMANOTADEVOLUCION, SISTEMAORDENPAGO, FONDOCAJA, VENTANETA, 
                          PORIMP, IMPUESTO, OBSERVACION, CAMBIOCHEQUE, TOTAL_NETO, TOTAL_BRUTO, CONFIRMADO, FEC_CREA, FEC_MOD, USER_CREA, USER_MOD, Cerrada, ManualIVARetenido, SistemaIVARetenido, ManualISLRRetenido, 
                          SistemaISLRRetenido, MANUALCUPONES, SISTEMACUPONES, MANUALTICKETSALUD, SISTEMATICKETSALUD, MANUALTICKETSALUDEFEC, SISTEMATICKETSALUDEFEC, MANUALTRANSFERENCIA, SISTEMATRANSFERENCIA, 
-                         PORIMPIGTF, IMPUESTOIGTF, MANUALVUELTO, SISTEMAVUELTO
+                         PORIMPIGTF, IMPUESTOIGTF, MANUALVUELTO, SISTEMAVUELTO, ManualImpMun, SistemaImpMun
 FROM            TB_CAJA
 WHERE        (FECHA = @Fecha) AND (COD_Sucursal = @CodSuc)";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
@@ -7357,1276 +7052,6 @@ WHERE        (FECHA = @Fecha) AND (COD_Sucursal = @CodSuc)";
             DSCierreDeCaja.TB_CAJADataTable dataTable = new DSCierreDeCaja.TB_CAJADataTable();
             this.Adapter.Fill(dataTable);
             return dataTable;
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual int Update(DSCierreDeCaja.TB_CAJADataTable dataTable) {
-            return this.Adapter.Update(dataTable);
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual int Update(DSCierreDeCaja dataSet) {
-            return this.Adapter.Update(dataSet, "TB_CAJA");
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual int Update(global::System.Data.DataRow dataRow) {
-            return this.Adapter.Update(new global::System.Data.DataRow[] {
-                        dataRow});
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual int Update(global::System.Data.DataRow[] dataRows) {
-            return this.Adapter.Update(dataRows);
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, true)]
-        public virtual int Delete(
-                    string Original_COD_Sucursal, 
-                    System.DateTime Original_FECHA, 
-                    decimal Original_MANUALTOTALINGRESOS, 
-                    decimal Original_MANUALEFECTIVO, 
-                    decimal Original_MANUALCHEQUES, 
-                    decimal Original_MANUALTARJETA, 
-                    decimal Original_MANUALDEBITO, 
-                    decimal Original_MANUALNOTACREDITO, 
-                    decimal Original_MANUALCREDITO, 
-                    decimal Original_MANUALDEPOSITOEFECTIVO, 
-                    decimal Original_MANUALREINTEGROS, 
-                    decimal Original_MANUALGASTOS, 
-                    decimal Original_MANUALFINANCIAMIENTO, 
-                    global::System.Nullable<decimal> Original_MANUALNOTADEVOLUCION, 
-                    global::System.Nullable<decimal> Original_MANUALORDENPAGO, 
-                    decimal Original_SISTEMATOTALINGRESOS, 
-                    decimal Original_SISTEMAEFECTIVO, 
-                    decimal Original_SISTEMACHEQUES, 
-                    decimal Original_SISTEMATARJETA, 
-                    decimal Original_SISTEMADEBITO, 
-                    decimal Original_SISTEMANOTACREDITO, 
-                    decimal Original_SISTEMACREDITO, 
-                    decimal Original_SISTEMADEPOSITOEFECTIVO, 
-                    decimal Original_SISTEMAREINTEGRO, 
-                    decimal Original_SISTEMAGASTOS, 
-                    decimal Original_SISTEMAFINANCIAMIENTO, 
-                    global::System.Nullable<decimal> Original_SISTEMANOTADEVOLUCION, 
-                    global::System.Nullable<decimal> Original_SISTEMAORDENPAGO, 
-                    decimal Original_FONDOCAJA, 
-                    decimal Original_VENTANETA, 
-                    decimal Original_PORIMP, 
-                    decimal Original_IMPUESTO, 
-                    string Original_OBSERVACION, 
-                    decimal Original_CAMBIOCHEQUE, 
-                    decimal Original_TOTAL_NETO, 
-                    decimal Original_TOTAL_BRUTO, 
-                    bool Original_CONFIRMADO, 
-                    System.DateTime Original_FEC_CREA, 
-                    global::System.Nullable<global::System.DateTime> Original_FEC_MOD, 
-                    string Original_USER_CREA, 
-                    string Original_USER_MOD, 
-                    bool Original_Cerrada, 
-                    global::System.Nullable<decimal> Original_ManualIVARetenido, 
-                    global::System.Nullable<decimal> Original_SistemaIVARetenido, 
-                    global::System.Nullable<decimal> Original_ManualISLRRetenido, 
-                    global::System.Nullable<decimal> Original_SistemaISLRRetenido, 
-                    global::System.Nullable<decimal> Original_MANUALCUPONES, 
-                    global::System.Nullable<decimal> Original_SISTEMACUPONES, 
-                    global::System.Nullable<decimal> Original_MANUALTICKETSALUD, 
-                    global::System.Nullable<decimal> Original_SISTEMATICKETSALUD, 
-                    global::System.Nullable<decimal> Original_MANUALTICKETSALUDEFEC, 
-                    global::System.Nullable<decimal> Original_SISTEMATICKETSALUDEFEC, 
-                    global::System.Nullable<decimal> Original_MANUALTRANSFERENCIA, 
-                    global::System.Nullable<decimal> Original_SISTEMATRANSFERENCIA, 
-                    global::System.Nullable<decimal> Original_PORIMPIGTF, 
-                    global::System.Nullable<decimal> Original_IMPUESTOIGTF, 
-                    global::System.Nullable<decimal> Original_MANUALVUELTO, 
-                    global::System.Nullable<decimal> Original_SISTEMAVUELTO) {
-            if ((Original_COD_Sucursal == null)) {
-                throw new global::System.ArgumentNullException("Original_COD_Sucursal");
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[0].Value = ((string)(Original_COD_Sucursal));
-            }
-            this.Adapter.DeleteCommand.Parameters[1].Value = ((System.DateTime)(Original_FECHA));
-            this.Adapter.DeleteCommand.Parameters[2].Value = ((decimal)(Original_MANUALTOTALINGRESOS));
-            this.Adapter.DeleteCommand.Parameters[3].Value = ((decimal)(Original_MANUALEFECTIVO));
-            this.Adapter.DeleteCommand.Parameters[4].Value = ((decimal)(Original_MANUALCHEQUES));
-            this.Adapter.DeleteCommand.Parameters[5].Value = ((decimal)(Original_MANUALTARJETA));
-            this.Adapter.DeleteCommand.Parameters[6].Value = ((decimal)(Original_MANUALDEBITO));
-            this.Adapter.DeleteCommand.Parameters[7].Value = ((decimal)(Original_MANUALNOTACREDITO));
-            this.Adapter.DeleteCommand.Parameters[8].Value = ((decimal)(Original_MANUALCREDITO));
-            this.Adapter.DeleteCommand.Parameters[9].Value = ((decimal)(Original_MANUALDEPOSITOEFECTIVO));
-            this.Adapter.DeleteCommand.Parameters[10].Value = ((decimal)(Original_MANUALREINTEGROS));
-            this.Adapter.DeleteCommand.Parameters[11].Value = ((decimal)(Original_MANUALGASTOS));
-            this.Adapter.DeleteCommand.Parameters[12].Value = ((decimal)(Original_MANUALFINANCIAMIENTO));
-            if ((Original_MANUALNOTADEVOLUCION.HasValue == true)) {
-                this.Adapter.DeleteCommand.Parameters[13].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[14].Value = ((decimal)(Original_MANUALNOTADEVOLUCION.Value));
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[13].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[14].Value = global::System.DBNull.Value;
-            }
-            if ((Original_MANUALORDENPAGO.HasValue == true)) {
-                this.Adapter.DeleteCommand.Parameters[15].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[16].Value = ((decimal)(Original_MANUALORDENPAGO.Value));
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[15].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[16].Value = global::System.DBNull.Value;
-            }
-            this.Adapter.DeleteCommand.Parameters[17].Value = ((decimal)(Original_SISTEMATOTALINGRESOS));
-            this.Adapter.DeleteCommand.Parameters[18].Value = ((decimal)(Original_SISTEMAEFECTIVO));
-            this.Adapter.DeleteCommand.Parameters[19].Value = ((decimal)(Original_SISTEMACHEQUES));
-            this.Adapter.DeleteCommand.Parameters[20].Value = ((decimal)(Original_SISTEMATARJETA));
-            this.Adapter.DeleteCommand.Parameters[21].Value = ((decimal)(Original_SISTEMADEBITO));
-            this.Adapter.DeleteCommand.Parameters[22].Value = ((decimal)(Original_SISTEMANOTACREDITO));
-            this.Adapter.DeleteCommand.Parameters[23].Value = ((decimal)(Original_SISTEMACREDITO));
-            this.Adapter.DeleteCommand.Parameters[24].Value = ((decimal)(Original_SISTEMADEPOSITOEFECTIVO));
-            this.Adapter.DeleteCommand.Parameters[25].Value = ((decimal)(Original_SISTEMAREINTEGRO));
-            this.Adapter.DeleteCommand.Parameters[26].Value = ((decimal)(Original_SISTEMAGASTOS));
-            this.Adapter.DeleteCommand.Parameters[27].Value = ((decimal)(Original_SISTEMAFINANCIAMIENTO));
-            if ((Original_SISTEMANOTADEVOLUCION.HasValue == true)) {
-                this.Adapter.DeleteCommand.Parameters[28].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[29].Value = ((decimal)(Original_SISTEMANOTADEVOLUCION.Value));
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[28].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[29].Value = global::System.DBNull.Value;
-            }
-            if ((Original_SISTEMAORDENPAGO.HasValue == true)) {
-                this.Adapter.DeleteCommand.Parameters[30].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[31].Value = ((decimal)(Original_SISTEMAORDENPAGO.Value));
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[30].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[31].Value = global::System.DBNull.Value;
-            }
-            this.Adapter.DeleteCommand.Parameters[32].Value = ((decimal)(Original_FONDOCAJA));
-            this.Adapter.DeleteCommand.Parameters[33].Value = ((decimal)(Original_VENTANETA));
-            this.Adapter.DeleteCommand.Parameters[34].Value = ((decimal)(Original_PORIMP));
-            this.Adapter.DeleteCommand.Parameters[35].Value = ((decimal)(Original_IMPUESTO));
-            if ((Original_OBSERVACION == null)) {
-                this.Adapter.DeleteCommand.Parameters[36].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[37].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[36].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[37].Value = ((string)(Original_OBSERVACION));
-            }
-            this.Adapter.DeleteCommand.Parameters[38].Value = ((decimal)(Original_CAMBIOCHEQUE));
-            this.Adapter.DeleteCommand.Parameters[39].Value = ((decimal)(Original_TOTAL_NETO));
-            this.Adapter.DeleteCommand.Parameters[40].Value = ((decimal)(Original_TOTAL_BRUTO));
-            this.Adapter.DeleteCommand.Parameters[41].Value = ((bool)(Original_CONFIRMADO));
-            this.Adapter.DeleteCommand.Parameters[42].Value = ((System.DateTime)(Original_FEC_CREA));
-            if ((Original_FEC_MOD.HasValue == true)) {
-                this.Adapter.DeleteCommand.Parameters[43].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[44].Value = ((System.DateTime)(Original_FEC_MOD.Value));
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[43].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[44].Value = global::System.DBNull.Value;
-            }
-            if ((Original_USER_CREA == null)) {
-                throw new global::System.ArgumentNullException("Original_USER_CREA");
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[45].Value = ((string)(Original_USER_CREA));
-            }
-            if ((Original_USER_MOD == null)) {
-                this.Adapter.DeleteCommand.Parameters[46].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[47].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[46].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[47].Value = ((string)(Original_USER_MOD));
-            }
-            this.Adapter.DeleteCommand.Parameters[48].Value = ((bool)(Original_Cerrada));
-            if ((Original_ManualIVARetenido.HasValue == true)) {
-                this.Adapter.DeleteCommand.Parameters[49].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[50].Value = ((decimal)(Original_ManualIVARetenido.Value));
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[49].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[50].Value = global::System.DBNull.Value;
-            }
-            if ((Original_SistemaIVARetenido.HasValue == true)) {
-                this.Adapter.DeleteCommand.Parameters[51].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[52].Value = ((decimal)(Original_SistemaIVARetenido.Value));
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[51].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[52].Value = global::System.DBNull.Value;
-            }
-            if ((Original_ManualISLRRetenido.HasValue == true)) {
-                this.Adapter.DeleteCommand.Parameters[53].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[54].Value = ((decimal)(Original_ManualISLRRetenido.Value));
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[53].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[54].Value = global::System.DBNull.Value;
-            }
-            if ((Original_SistemaISLRRetenido.HasValue == true)) {
-                this.Adapter.DeleteCommand.Parameters[55].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[56].Value = ((decimal)(Original_SistemaISLRRetenido.Value));
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[55].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[56].Value = global::System.DBNull.Value;
-            }
-            if ((Original_MANUALCUPONES.HasValue == true)) {
-                this.Adapter.DeleteCommand.Parameters[57].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[58].Value = ((decimal)(Original_MANUALCUPONES.Value));
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[57].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[58].Value = global::System.DBNull.Value;
-            }
-            if ((Original_SISTEMACUPONES.HasValue == true)) {
-                this.Adapter.DeleteCommand.Parameters[59].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[60].Value = ((decimal)(Original_SISTEMACUPONES.Value));
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[59].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[60].Value = global::System.DBNull.Value;
-            }
-            if ((Original_MANUALTICKETSALUD.HasValue == true)) {
-                this.Adapter.DeleteCommand.Parameters[61].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[62].Value = ((decimal)(Original_MANUALTICKETSALUD.Value));
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[61].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[62].Value = global::System.DBNull.Value;
-            }
-            if ((Original_SISTEMATICKETSALUD.HasValue == true)) {
-                this.Adapter.DeleteCommand.Parameters[63].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[64].Value = ((decimal)(Original_SISTEMATICKETSALUD.Value));
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[63].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[64].Value = global::System.DBNull.Value;
-            }
-            if ((Original_MANUALTICKETSALUDEFEC.HasValue == true)) {
-                this.Adapter.DeleteCommand.Parameters[65].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[66].Value = ((decimal)(Original_MANUALTICKETSALUDEFEC.Value));
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[65].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[66].Value = global::System.DBNull.Value;
-            }
-            if ((Original_SISTEMATICKETSALUDEFEC.HasValue == true)) {
-                this.Adapter.DeleteCommand.Parameters[67].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[68].Value = ((decimal)(Original_SISTEMATICKETSALUDEFEC.Value));
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[67].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[68].Value = global::System.DBNull.Value;
-            }
-            if ((Original_MANUALTRANSFERENCIA.HasValue == true)) {
-                this.Adapter.DeleteCommand.Parameters[69].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[70].Value = ((decimal)(Original_MANUALTRANSFERENCIA.Value));
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[69].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[70].Value = global::System.DBNull.Value;
-            }
-            if ((Original_SISTEMATRANSFERENCIA.HasValue == true)) {
-                this.Adapter.DeleteCommand.Parameters[71].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[72].Value = ((decimal)(Original_SISTEMATRANSFERENCIA.Value));
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[71].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[72].Value = global::System.DBNull.Value;
-            }
-            if ((Original_PORIMPIGTF.HasValue == true)) {
-                this.Adapter.DeleteCommand.Parameters[73].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[74].Value = ((decimal)(Original_PORIMPIGTF.Value));
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[73].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[74].Value = global::System.DBNull.Value;
-            }
-            if ((Original_IMPUESTOIGTF.HasValue == true)) {
-                this.Adapter.DeleteCommand.Parameters[75].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[76].Value = ((decimal)(Original_IMPUESTOIGTF.Value));
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[75].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[76].Value = global::System.DBNull.Value;
-            }
-            if ((Original_MANUALVUELTO.HasValue == true)) {
-                this.Adapter.DeleteCommand.Parameters[77].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[78].Value = ((decimal)(Original_MANUALVUELTO.Value));
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[77].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[78].Value = global::System.DBNull.Value;
-            }
-            if ((Original_SISTEMAVUELTO.HasValue == true)) {
-                this.Adapter.DeleteCommand.Parameters[79].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[80].Value = ((decimal)(Original_SISTEMAVUELTO.Value));
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[79].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[80].Value = global::System.DBNull.Value;
-            }
-            global::System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
-            if (((this.Adapter.DeleteCommand.Connection.State & global::System.Data.ConnectionState.Open) 
-                        != global::System.Data.ConnectionState.Open)) {
-                this.Adapter.DeleteCommand.Connection.Open();
-            }
-            try {
-                int returnValue = this.Adapter.DeleteCommand.ExecuteNonQuery();
-                return returnValue;
-            }
-            finally {
-                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
-                    this.Adapter.DeleteCommand.Connection.Close();
-                }
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
-        public virtual int Insert(
-                    string COD_Sucursal, 
-                    System.DateTime FECHA, 
-                    decimal MANUALTOTALINGRESOS, 
-                    decimal MANUALEFECTIVO, 
-                    decimal MANUALCHEQUES, 
-                    decimal MANUALTARJETA, 
-                    decimal MANUALDEBITO, 
-                    decimal MANUALNOTACREDITO, 
-                    decimal MANUALCREDITO, 
-                    decimal MANUALDEPOSITOEFECTIVO, 
-                    decimal MANUALREINTEGROS, 
-                    decimal MANUALGASTOS, 
-                    decimal MANUALFINANCIAMIENTO, 
-                    global::System.Nullable<decimal> MANUALNOTADEVOLUCION, 
-                    global::System.Nullable<decimal> MANUALORDENPAGO, 
-                    decimal SISTEMATOTALINGRESOS, 
-                    decimal SISTEMAEFECTIVO, 
-                    decimal SISTEMACHEQUES, 
-                    decimal SISTEMATARJETA, 
-                    decimal SISTEMADEBITO, 
-                    decimal SISTEMANOTACREDITO, 
-                    decimal SISTEMACREDITO, 
-                    decimal SISTEMADEPOSITOEFECTIVO, 
-                    decimal SISTEMAREINTEGRO, 
-                    decimal SISTEMAGASTOS, 
-                    decimal SISTEMAFINANCIAMIENTO, 
-                    global::System.Nullable<decimal> SISTEMANOTADEVOLUCION, 
-                    global::System.Nullable<decimal> SISTEMAORDENPAGO, 
-                    decimal FONDOCAJA, 
-                    decimal VENTANETA, 
-                    decimal PORIMP, 
-                    decimal IMPUESTO, 
-                    string OBSERVACION, 
-                    decimal CAMBIOCHEQUE, 
-                    decimal TOTAL_NETO, 
-                    decimal TOTAL_BRUTO, 
-                    bool CONFIRMADO, 
-                    System.DateTime FEC_CREA, 
-                    global::System.Nullable<global::System.DateTime> FEC_MOD, 
-                    string USER_CREA, 
-                    string USER_MOD, 
-                    bool Cerrada, 
-                    global::System.Nullable<decimal> ManualIVARetenido, 
-                    global::System.Nullable<decimal> SistemaIVARetenido, 
-                    global::System.Nullable<decimal> ManualISLRRetenido, 
-                    global::System.Nullable<decimal> SistemaISLRRetenido, 
-                    global::System.Nullable<decimal> MANUALCUPONES, 
-                    global::System.Nullable<decimal> SISTEMACUPONES, 
-                    global::System.Nullable<decimal> MANUALTICKETSALUD, 
-                    global::System.Nullable<decimal> SISTEMATICKETSALUD, 
-                    global::System.Nullable<decimal> MANUALTICKETSALUDEFEC, 
-                    global::System.Nullable<decimal> SISTEMATICKETSALUDEFEC, 
-                    global::System.Nullable<decimal> MANUALTRANSFERENCIA, 
-                    global::System.Nullable<decimal> SISTEMATRANSFERENCIA, 
-                    global::System.Nullable<decimal> PORIMPIGTF, 
-                    global::System.Nullable<decimal> IMPUESTOIGTF, 
-                    global::System.Nullable<decimal> MANUALVUELTO, 
-                    global::System.Nullable<decimal> SISTEMAVUELTO) {
-            if ((COD_Sucursal == null)) {
-                throw new global::System.ArgumentNullException("COD_Sucursal");
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[0].Value = ((string)(COD_Sucursal));
-            }
-            this.Adapter.InsertCommand.Parameters[1].Value = ((System.DateTime)(FECHA));
-            this.Adapter.InsertCommand.Parameters[2].Value = ((decimal)(MANUALTOTALINGRESOS));
-            this.Adapter.InsertCommand.Parameters[3].Value = ((decimal)(MANUALEFECTIVO));
-            this.Adapter.InsertCommand.Parameters[4].Value = ((decimal)(MANUALCHEQUES));
-            this.Adapter.InsertCommand.Parameters[5].Value = ((decimal)(MANUALTARJETA));
-            this.Adapter.InsertCommand.Parameters[6].Value = ((decimal)(MANUALDEBITO));
-            this.Adapter.InsertCommand.Parameters[7].Value = ((decimal)(MANUALNOTACREDITO));
-            this.Adapter.InsertCommand.Parameters[8].Value = ((decimal)(MANUALCREDITO));
-            this.Adapter.InsertCommand.Parameters[9].Value = ((decimal)(MANUALDEPOSITOEFECTIVO));
-            this.Adapter.InsertCommand.Parameters[10].Value = ((decimal)(MANUALREINTEGROS));
-            this.Adapter.InsertCommand.Parameters[11].Value = ((decimal)(MANUALGASTOS));
-            this.Adapter.InsertCommand.Parameters[12].Value = ((decimal)(MANUALFINANCIAMIENTO));
-            if ((MANUALNOTADEVOLUCION.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[13].Value = ((decimal)(MANUALNOTADEVOLUCION.Value));
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[13].Value = global::System.DBNull.Value;
-            }
-            if ((MANUALORDENPAGO.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[14].Value = ((decimal)(MANUALORDENPAGO.Value));
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[14].Value = global::System.DBNull.Value;
-            }
-            this.Adapter.InsertCommand.Parameters[15].Value = ((decimal)(SISTEMATOTALINGRESOS));
-            this.Adapter.InsertCommand.Parameters[16].Value = ((decimal)(SISTEMAEFECTIVO));
-            this.Adapter.InsertCommand.Parameters[17].Value = ((decimal)(SISTEMACHEQUES));
-            this.Adapter.InsertCommand.Parameters[18].Value = ((decimal)(SISTEMATARJETA));
-            this.Adapter.InsertCommand.Parameters[19].Value = ((decimal)(SISTEMADEBITO));
-            this.Adapter.InsertCommand.Parameters[20].Value = ((decimal)(SISTEMANOTACREDITO));
-            this.Adapter.InsertCommand.Parameters[21].Value = ((decimal)(SISTEMACREDITO));
-            this.Adapter.InsertCommand.Parameters[22].Value = ((decimal)(SISTEMADEPOSITOEFECTIVO));
-            this.Adapter.InsertCommand.Parameters[23].Value = ((decimal)(SISTEMAREINTEGRO));
-            this.Adapter.InsertCommand.Parameters[24].Value = ((decimal)(SISTEMAGASTOS));
-            this.Adapter.InsertCommand.Parameters[25].Value = ((decimal)(SISTEMAFINANCIAMIENTO));
-            if ((SISTEMANOTADEVOLUCION.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[26].Value = ((decimal)(SISTEMANOTADEVOLUCION.Value));
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[26].Value = global::System.DBNull.Value;
-            }
-            if ((SISTEMAORDENPAGO.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[27].Value = ((decimal)(SISTEMAORDENPAGO.Value));
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[27].Value = global::System.DBNull.Value;
-            }
-            this.Adapter.InsertCommand.Parameters[28].Value = ((decimal)(FONDOCAJA));
-            this.Adapter.InsertCommand.Parameters[29].Value = ((decimal)(VENTANETA));
-            this.Adapter.InsertCommand.Parameters[30].Value = ((decimal)(PORIMP));
-            this.Adapter.InsertCommand.Parameters[31].Value = ((decimal)(IMPUESTO));
-            if ((OBSERVACION == null)) {
-                this.Adapter.InsertCommand.Parameters[32].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[32].Value = ((string)(OBSERVACION));
-            }
-            this.Adapter.InsertCommand.Parameters[33].Value = ((decimal)(CAMBIOCHEQUE));
-            this.Adapter.InsertCommand.Parameters[34].Value = ((decimal)(TOTAL_NETO));
-            this.Adapter.InsertCommand.Parameters[35].Value = ((decimal)(TOTAL_BRUTO));
-            this.Adapter.InsertCommand.Parameters[36].Value = ((bool)(CONFIRMADO));
-            this.Adapter.InsertCommand.Parameters[37].Value = ((System.DateTime)(FEC_CREA));
-            if ((FEC_MOD.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[38].Value = ((System.DateTime)(FEC_MOD.Value));
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[38].Value = global::System.DBNull.Value;
-            }
-            if ((USER_CREA == null)) {
-                throw new global::System.ArgumentNullException("USER_CREA");
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[39].Value = ((string)(USER_CREA));
-            }
-            if ((USER_MOD == null)) {
-                this.Adapter.InsertCommand.Parameters[40].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[40].Value = ((string)(USER_MOD));
-            }
-            this.Adapter.InsertCommand.Parameters[41].Value = ((bool)(Cerrada));
-            if ((ManualIVARetenido.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[42].Value = ((decimal)(ManualIVARetenido.Value));
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[42].Value = global::System.DBNull.Value;
-            }
-            if ((SistemaIVARetenido.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[43].Value = ((decimal)(SistemaIVARetenido.Value));
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[43].Value = global::System.DBNull.Value;
-            }
-            if ((ManualISLRRetenido.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[44].Value = ((decimal)(ManualISLRRetenido.Value));
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[44].Value = global::System.DBNull.Value;
-            }
-            if ((SistemaISLRRetenido.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[45].Value = ((decimal)(SistemaISLRRetenido.Value));
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[45].Value = global::System.DBNull.Value;
-            }
-            if ((MANUALCUPONES.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[46].Value = ((decimal)(MANUALCUPONES.Value));
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[46].Value = global::System.DBNull.Value;
-            }
-            if ((SISTEMACUPONES.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[47].Value = ((decimal)(SISTEMACUPONES.Value));
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[47].Value = global::System.DBNull.Value;
-            }
-            if ((MANUALTICKETSALUD.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[48].Value = ((decimal)(MANUALTICKETSALUD.Value));
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[48].Value = global::System.DBNull.Value;
-            }
-            if ((SISTEMATICKETSALUD.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[49].Value = ((decimal)(SISTEMATICKETSALUD.Value));
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[49].Value = global::System.DBNull.Value;
-            }
-            if ((MANUALTICKETSALUDEFEC.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[50].Value = ((decimal)(MANUALTICKETSALUDEFEC.Value));
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[50].Value = global::System.DBNull.Value;
-            }
-            if ((SISTEMATICKETSALUDEFEC.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[51].Value = ((decimal)(SISTEMATICKETSALUDEFEC.Value));
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[51].Value = global::System.DBNull.Value;
-            }
-            if ((MANUALTRANSFERENCIA.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[52].Value = ((decimal)(MANUALTRANSFERENCIA.Value));
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[52].Value = global::System.DBNull.Value;
-            }
-            if ((SISTEMATRANSFERENCIA.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[53].Value = ((decimal)(SISTEMATRANSFERENCIA.Value));
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[53].Value = global::System.DBNull.Value;
-            }
-            if ((PORIMPIGTF.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[54].Value = ((decimal)(PORIMPIGTF.Value));
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[54].Value = global::System.DBNull.Value;
-            }
-            if ((IMPUESTOIGTF.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[55].Value = ((decimal)(IMPUESTOIGTF.Value));
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[55].Value = global::System.DBNull.Value;
-            }
-            if ((MANUALVUELTO.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[56].Value = ((decimal)(MANUALVUELTO.Value));
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[56].Value = global::System.DBNull.Value;
-            }
-            if ((SISTEMAVUELTO.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[57].Value = ((decimal)(SISTEMAVUELTO.Value));
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[57].Value = global::System.DBNull.Value;
-            }
-            global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
-            if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
-                        != global::System.Data.ConnectionState.Open)) {
-                this.Adapter.InsertCommand.Connection.Open();
-            }
-            try {
-                int returnValue = this.Adapter.InsertCommand.ExecuteNonQuery();
-                return returnValue;
-            }
-            finally {
-                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
-                    this.Adapter.InsertCommand.Connection.Close();
-                }
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(
-                    string COD_Sucursal, 
-                    System.DateTime FECHA, 
-                    decimal MANUALTOTALINGRESOS, 
-                    decimal MANUALEFECTIVO, 
-                    decimal MANUALCHEQUES, 
-                    decimal MANUALTARJETA, 
-                    decimal MANUALDEBITO, 
-                    decimal MANUALNOTACREDITO, 
-                    decimal MANUALCREDITO, 
-                    decimal MANUALDEPOSITOEFECTIVO, 
-                    decimal MANUALREINTEGROS, 
-                    decimal MANUALGASTOS, 
-                    decimal MANUALFINANCIAMIENTO, 
-                    global::System.Nullable<decimal> MANUALNOTADEVOLUCION, 
-                    global::System.Nullable<decimal> MANUALORDENPAGO, 
-                    decimal SISTEMATOTALINGRESOS, 
-                    decimal SISTEMAEFECTIVO, 
-                    decimal SISTEMACHEQUES, 
-                    decimal SISTEMATARJETA, 
-                    decimal SISTEMADEBITO, 
-                    decimal SISTEMANOTACREDITO, 
-                    decimal SISTEMACREDITO, 
-                    decimal SISTEMADEPOSITOEFECTIVO, 
-                    decimal SISTEMAREINTEGRO, 
-                    decimal SISTEMAGASTOS, 
-                    decimal SISTEMAFINANCIAMIENTO, 
-                    global::System.Nullable<decimal> SISTEMANOTADEVOLUCION, 
-                    global::System.Nullable<decimal> SISTEMAORDENPAGO, 
-                    decimal FONDOCAJA, 
-                    decimal VENTANETA, 
-                    decimal PORIMP, 
-                    decimal IMPUESTO, 
-                    string OBSERVACION, 
-                    decimal CAMBIOCHEQUE, 
-                    decimal TOTAL_NETO, 
-                    decimal TOTAL_BRUTO, 
-                    bool CONFIRMADO, 
-                    System.DateTime FEC_CREA, 
-                    global::System.Nullable<global::System.DateTime> FEC_MOD, 
-                    string USER_CREA, 
-                    string USER_MOD, 
-                    bool Cerrada, 
-                    global::System.Nullable<decimal> ManualIVARetenido, 
-                    global::System.Nullable<decimal> SistemaIVARetenido, 
-                    global::System.Nullable<decimal> ManualISLRRetenido, 
-                    global::System.Nullable<decimal> SistemaISLRRetenido, 
-                    global::System.Nullable<decimal> MANUALCUPONES, 
-                    global::System.Nullable<decimal> SISTEMACUPONES, 
-                    global::System.Nullable<decimal> MANUALTICKETSALUD, 
-                    global::System.Nullable<decimal> SISTEMATICKETSALUD, 
-                    global::System.Nullable<decimal> MANUALTICKETSALUDEFEC, 
-                    global::System.Nullable<decimal> SISTEMATICKETSALUDEFEC, 
-                    global::System.Nullable<decimal> MANUALTRANSFERENCIA, 
-                    global::System.Nullable<decimal> SISTEMATRANSFERENCIA, 
-                    global::System.Nullable<decimal> PORIMPIGTF, 
-                    global::System.Nullable<decimal> IMPUESTOIGTF, 
-                    global::System.Nullable<decimal> MANUALVUELTO, 
-                    global::System.Nullable<decimal> SISTEMAVUELTO, 
-                    string Original_COD_Sucursal, 
-                    System.DateTime Original_FECHA, 
-                    decimal Original_MANUALTOTALINGRESOS, 
-                    decimal Original_MANUALEFECTIVO, 
-                    decimal Original_MANUALCHEQUES, 
-                    decimal Original_MANUALTARJETA, 
-                    decimal Original_MANUALDEBITO, 
-                    decimal Original_MANUALNOTACREDITO, 
-                    decimal Original_MANUALCREDITO, 
-                    decimal Original_MANUALDEPOSITOEFECTIVO, 
-                    decimal Original_MANUALREINTEGROS, 
-                    decimal Original_MANUALGASTOS, 
-                    decimal Original_MANUALFINANCIAMIENTO, 
-                    global::System.Nullable<decimal> Original_MANUALNOTADEVOLUCION, 
-                    global::System.Nullable<decimal> Original_MANUALORDENPAGO, 
-                    decimal Original_SISTEMATOTALINGRESOS, 
-                    decimal Original_SISTEMAEFECTIVO, 
-                    decimal Original_SISTEMACHEQUES, 
-                    decimal Original_SISTEMATARJETA, 
-                    decimal Original_SISTEMADEBITO, 
-                    decimal Original_SISTEMANOTACREDITO, 
-                    decimal Original_SISTEMACREDITO, 
-                    decimal Original_SISTEMADEPOSITOEFECTIVO, 
-                    decimal Original_SISTEMAREINTEGRO, 
-                    decimal Original_SISTEMAGASTOS, 
-                    decimal Original_SISTEMAFINANCIAMIENTO, 
-                    global::System.Nullable<decimal> Original_SISTEMANOTADEVOLUCION, 
-                    global::System.Nullable<decimal> Original_SISTEMAORDENPAGO, 
-                    decimal Original_FONDOCAJA, 
-                    decimal Original_VENTANETA, 
-                    decimal Original_PORIMP, 
-                    decimal Original_IMPUESTO, 
-                    string Original_OBSERVACION, 
-                    decimal Original_CAMBIOCHEQUE, 
-                    decimal Original_TOTAL_NETO, 
-                    decimal Original_TOTAL_BRUTO, 
-                    bool Original_CONFIRMADO, 
-                    System.DateTime Original_FEC_CREA, 
-                    global::System.Nullable<global::System.DateTime> Original_FEC_MOD, 
-                    string Original_USER_CREA, 
-                    string Original_USER_MOD, 
-                    bool Original_Cerrada, 
-                    global::System.Nullable<decimal> Original_ManualIVARetenido, 
-                    global::System.Nullable<decimal> Original_SistemaIVARetenido, 
-                    global::System.Nullable<decimal> Original_ManualISLRRetenido, 
-                    global::System.Nullable<decimal> Original_SistemaISLRRetenido, 
-                    global::System.Nullable<decimal> Original_MANUALCUPONES, 
-                    global::System.Nullable<decimal> Original_SISTEMACUPONES, 
-                    global::System.Nullable<decimal> Original_MANUALTICKETSALUD, 
-                    global::System.Nullable<decimal> Original_SISTEMATICKETSALUD, 
-                    global::System.Nullable<decimal> Original_MANUALTICKETSALUDEFEC, 
-                    global::System.Nullable<decimal> Original_SISTEMATICKETSALUDEFEC, 
-                    global::System.Nullable<decimal> Original_MANUALTRANSFERENCIA, 
-                    global::System.Nullable<decimal> Original_SISTEMATRANSFERENCIA, 
-                    global::System.Nullable<decimal> Original_PORIMPIGTF, 
-                    global::System.Nullable<decimal> Original_IMPUESTOIGTF, 
-                    global::System.Nullable<decimal> Original_MANUALVUELTO, 
-                    global::System.Nullable<decimal> Original_SISTEMAVUELTO) {
-            if ((COD_Sucursal == null)) {
-                throw new global::System.ArgumentNullException("COD_Sucursal");
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[0].Value = ((string)(COD_Sucursal));
-            }
-            this.Adapter.UpdateCommand.Parameters[1].Value = ((System.DateTime)(FECHA));
-            this.Adapter.UpdateCommand.Parameters[2].Value = ((decimal)(MANUALTOTALINGRESOS));
-            this.Adapter.UpdateCommand.Parameters[3].Value = ((decimal)(MANUALEFECTIVO));
-            this.Adapter.UpdateCommand.Parameters[4].Value = ((decimal)(MANUALCHEQUES));
-            this.Adapter.UpdateCommand.Parameters[5].Value = ((decimal)(MANUALTARJETA));
-            this.Adapter.UpdateCommand.Parameters[6].Value = ((decimal)(MANUALDEBITO));
-            this.Adapter.UpdateCommand.Parameters[7].Value = ((decimal)(MANUALNOTACREDITO));
-            this.Adapter.UpdateCommand.Parameters[8].Value = ((decimal)(MANUALCREDITO));
-            this.Adapter.UpdateCommand.Parameters[9].Value = ((decimal)(MANUALDEPOSITOEFECTIVO));
-            this.Adapter.UpdateCommand.Parameters[10].Value = ((decimal)(MANUALREINTEGROS));
-            this.Adapter.UpdateCommand.Parameters[11].Value = ((decimal)(MANUALGASTOS));
-            this.Adapter.UpdateCommand.Parameters[12].Value = ((decimal)(MANUALFINANCIAMIENTO));
-            if ((MANUALNOTADEVOLUCION.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[13].Value = ((decimal)(MANUALNOTADEVOLUCION.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[13].Value = global::System.DBNull.Value;
-            }
-            if ((MANUALORDENPAGO.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[14].Value = ((decimal)(MANUALORDENPAGO.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[14].Value = global::System.DBNull.Value;
-            }
-            this.Adapter.UpdateCommand.Parameters[15].Value = ((decimal)(SISTEMATOTALINGRESOS));
-            this.Adapter.UpdateCommand.Parameters[16].Value = ((decimal)(SISTEMAEFECTIVO));
-            this.Adapter.UpdateCommand.Parameters[17].Value = ((decimal)(SISTEMACHEQUES));
-            this.Adapter.UpdateCommand.Parameters[18].Value = ((decimal)(SISTEMATARJETA));
-            this.Adapter.UpdateCommand.Parameters[19].Value = ((decimal)(SISTEMADEBITO));
-            this.Adapter.UpdateCommand.Parameters[20].Value = ((decimal)(SISTEMANOTACREDITO));
-            this.Adapter.UpdateCommand.Parameters[21].Value = ((decimal)(SISTEMACREDITO));
-            this.Adapter.UpdateCommand.Parameters[22].Value = ((decimal)(SISTEMADEPOSITOEFECTIVO));
-            this.Adapter.UpdateCommand.Parameters[23].Value = ((decimal)(SISTEMAREINTEGRO));
-            this.Adapter.UpdateCommand.Parameters[24].Value = ((decimal)(SISTEMAGASTOS));
-            this.Adapter.UpdateCommand.Parameters[25].Value = ((decimal)(SISTEMAFINANCIAMIENTO));
-            if ((SISTEMANOTADEVOLUCION.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[26].Value = ((decimal)(SISTEMANOTADEVOLUCION.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[26].Value = global::System.DBNull.Value;
-            }
-            if ((SISTEMAORDENPAGO.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[27].Value = ((decimal)(SISTEMAORDENPAGO.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[27].Value = global::System.DBNull.Value;
-            }
-            this.Adapter.UpdateCommand.Parameters[28].Value = ((decimal)(FONDOCAJA));
-            this.Adapter.UpdateCommand.Parameters[29].Value = ((decimal)(VENTANETA));
-            this.Adapter.UpdateCommand.Parameters[30].Value = ((decimal)(PORIMP));
-            this.Adapter.UpdateCommand.Parameters[31].Value = ((decimal)(IMPUESTO));
-            if ((OBSERVACION == null)) {
-                this.Adapter.UpdateCommand.Parameters[32].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[32].Value = ((string)(OBSERVACION));
-            }
-            this.Adapter.UpdateCommand.Parameters[33].Value = ((decimal)(CAMBIOCHEQUE));
-            this.Adapter.UpdateCommand.Parameters[34].Value = ((decimal)(TOTAL_NETO));
-            this.Adapter.UpdateCommand.Parameters[35].Value = ((decimal)(TOTAL_BRUTO));
-            this.Adapter.UpdateCommand.Parameters[36].Value = ((bool)(CONFIRMADO));
-            this.Adapter.UpdateCommand.Parameters[37].Value = ((System.DateTime)(FEC_CREA));
-            if ((FEC_MOD.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[38].Value = ((System.DateTime)(FEC_MOD.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[38].Value = global::System.DBNull.Value;
-            }
-            if ((USER_CREA == null)) {
-                throw new global::System.ArgumentNullException("USER_CREA");
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[39].Value = ((string)(USER_CREA));
-            }
-            if ((USER_MOD == null)) {
-                this.Adapter.UpdateCommand.Parameters[40].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[40].Value = ((string)(USER_MOD));
-            }
-            this.Adapter.UpdateCommand.Parameters[41].Value = ((bool)(Cerrada));
-            if ((ManualIVARetenido.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[42].Value = ((decimal)(ManualIVARetenido.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[42].Value = global::System.DBNull.Value;
-            }
-            if ((SistemaIVARetenido.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[43].Value = ((decimal)(SistemaIVARetenido.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[43].Value = global::System.DBNull.Value;
-            }
-            if ((ManualISLRRetenido.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[44].Value = ((decimal)(ManualISLRRetenido.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[44].Value = global::System.DBNull.Value;
-            }
-            if ((SistemaISLRRetenido.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[45].Value = ((decimal)(SistemaISLRRetenido.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[45].Value = global::System.DBNull.Value;
-            }
-            if ((MANUALCUPONES.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[46].Value = ((decimal)(MANUALCUPONES.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[46].Value = global::System.DBNull.Value;
-            }
-            if ((SISTEMACUPONES.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[47].Value = ((decimal)(SISTEMACUPONES.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[47].Value = global::System.DBNull.Value;
-            }
-            if ((MANUALTICKETSALUD.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[48].Value = ((decimal)(MANUALTICKETSALUD.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[48].Value = global::System.DBNull.Value;
-            }
-            if ((SISTEMATICKETSALUD.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[49].Value = ((decimal)(SISTEMATICKETSALUD.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[49].Value = global::System.DBNull.Value;
-            }
-            if ((MANUALTICKETSALUDEFEC.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[50].Value = ((decimal)(MANUALTICKETSALUDEFEC.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[50].Value = global::System.DBNull.Value;
-            }
-            if ((SISTEMATICKETSALUDEFEC.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[51].Value = ((decimal)(SISTEMATICKETSALUDEFEC.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[51].Value = global::System.DBNull.Value;
-            }
-            if ((MANUALTRANSFERENCIA.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[52].Value = ((decimal)(MANUALTRANSFERENCIA.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[52].Value = global::System.DBNull.Value;
-            }
-            if ((SISTEMATRANSFERENCIA.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[53].Value = ((decimal)(SISTEMATRANSFERENCIA.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[53].Value = global::System.DBNull.Value;
-            }
-            if ((PORIMPIGTF.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[54].Value = ((decimal)(PORIMPIGTF.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[54].Value = global::System.DBNull.Value;
-            }
-            if ((IMPUESTOIGTF.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[55].Value = ((decimal)(IMPUESTOIGTF.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[55].Value = global::System.DBNull.Value;
-            }
-            if ((MANUALVUELTO.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[56].Value = ((decimal)(MANUALVUELTO.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[56].Value = global::System.DBNull.Value;
-            }
-            if ((SISTEMAVUELTO.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[57].Value = ((decimal)(SISTEMAVUELTO.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[57].Value = global::System.DBNull.Value;
-            }
-            if ((Original_COD_Sucursal == null)) {
-                throw new global::System.ArgumentNullException("Original_COD_Sucursal");
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[58].Value = ((string)(Original_COD_Sucursal));
-            }
-            this.Adapter.UpdateCommand.Parameters[59].Value = ((System.DateTime)(Original_FECHA));
-            this.Adapter.UpdateCommand.Parameters[60].Value = ((decimal)(Original_MANUALTOTALINGRESOS));
-            this.Adapter.UpdateCommand.Parameters[61].Value = ((decimal)(Original_MANUALEFECTIVO));
-            this.Adapter.UpdateCommand.Parameters[62].Value = ((decimal)(Original_MANUALCHEQUES));
-            this.Adapter.UpdateCommand.Parameters[63].Value = ((decimal)(Original_MANUALTARJETA));
-            this.Adapter.UpdateCommand.Parameters[64].Value = ((decimal)(Original_MANUALDEBITO));
-            this.Adapter.UpdateCommand.Parameters[65].Value = ((decimal)(Original_MANUALNOTACREDITO));
-            this.Adapter.UpdateCommand.Parameters[66].Value = ((decimal)(Original_MANUALCREDITO));
-            this.Adapter.UpdateCommand.Parameters[67].Value = ((decimal)(Original_MANUALDEPOSITOEFECTIVO));
-            this.Adapter.UpdateCommand.Parameters[68].Value = ((decimal)(Original_MANUALREINTEGROS));
-            this.Adapter.UpdateCommand.Parameters[69].Value = ((decimal)(Original_MANUALGASTOS));
-            this.Adapter.UpdateCommand.Parameters[70].Value = ((decimal)(Original_MANUALFINANCIAMIENTO));
-            if ((Original_MANUALNOTADEVOLUCION.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[71].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[72].Value = ((decimal)(Original_MANUALNOTADEVOLUCION.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[71].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[72].Value = global::System.DBNull.Value;
-            }
-            if ((Original_MANUALORDENPAGO.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[73].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[74].Value = ((decimal)(Original_MANUALORDENPAGO.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[73].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[74].Value = global::System.DBNull.Value;
-            }
-            this.Adapter.UpdateCommand.Parameters[75].Value = ((decimal)(Original_SISTEMATOTALINGRESOS));
-            this.Adapter.UpdateCommand.Parameters[76].Value = ((decimal)(Original_SISTEMAEFECTIVO));
-            this.Adapter.UpdateCommand.Parameters[77].Value = ((decimal)(Original_SISTEMACHEQUES));
-            this.Adapter.UpdateCommand.Parameters[78].Value = ((decimal)(Original_SISTEMATARJETA));
-            this.Adapter.UpdateCommand.Parameters[79].Value = ((decimal)(Original_SISTEMADEBITO));
-            this.Adapter.UpdateCommand.Parameters[80].Value = ((decimal)(Original_SISTEMANOTACREDITO));
-            this.Adapter.UpdateCommand.Parameters[81].Value = ((decimal)(Original_SISTEMACREDITO));
-            this.Adapter.UpdateCommand.Parameters[82].Value = ((decimal)(Original_SISTEMADEPOSITOEFECTIVO));
-            this.Adapter.UpdateCommand.Parameters[83].Value = ((decimal)(Original_SISTEMAREINTEGRO));
-            this.Adapter.UpdateCommand.Parameters[84].Value = ((decimal)(Original_SISTEMAGASTOS));
-            this.Adapter.UpdateCommand.Parameters[85].Value = ((decimal)(Original_SISTEMAFINANCIAMIENTO));
-            if ((Original_SISTEMANOTADEVOLUCION.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[86].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[87].Value = ((decimal)(Original_SISTEMANOTADEVOLUCION.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[86].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[87].Value = global::System.DBNull.Value;
-            }
-            if ((Original_SISTEMAORDENPAGO.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[88].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[89].Value = ((decimal)(Original_SISTEMAORDENPAGO.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[88].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[89].Value = global::System.DBNull.Value;
-            }
-            this.Adapter.UpdateCommand.Parameters[90].Value = ((decimal)(Original_FONDOCAJA));
-            this.Adapter.UpdateCommand.Parameters[91].Value = ((decimal)(Original_VENTANETA));
-            this.Adapter.UpdateCommand.Parameters[92].Value = ((decimal)(Original_PORIMP));
-            this.Adapter.UpdateCommand.Parameters[93].Value = ((decimal)(Original_IMPUESTO));
-            if ((Original_OBSERVACION == null)) {
-                this.Adapter.UpdateCommand.Parameters[94].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[95].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[94].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[95].Value = ((string)(Original_OBSERVACION));
-            }
-            this.Adapter.UpdateCommand.Parameters[96].Value = ((decimal)(Original_CAMBIOCHEQUE));
-            this.Adapter.UpdateCommand.Parameters[97].Value = ((decimal)(Original_TOTAL_NETO));
-            this.Adapter.UpdateCommand.Parameters[98].Value = ((decimal)(Original_TOTAL_BRUTO));
-            this.Adapter.UpdateCommand.Parameters[99].Value = ((bool)(Original_CONFIRMADO));
-            this.Adapter.UpdateCommand.Parameters[100].Value = ((System.DateTime)(Original_FEC_CREA));
-            if ((Original_FEC_MOD.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[101].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[102].Value = ((System.DateTime)(Original_FEC_MOD.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[101].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[102].Value = global::System.DBNull.Value;
-            }
-            if ((Original_USER_CREA == null)) {
-                throw new global::System.ArgumentNullException("Original_USER_CREA");
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[103].Value = ((string)(Original_USER_CREA));
-            }
-            if ((Original_USER_MOD == null)) {
-                this.Adapter.UpdateCommand.Parameters[104].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[105].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[104].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[105].Value = ((string)(Original_USER_MOD));
-            }
-            this.Adapter.UpdateCommand.Parameters[106].Value = ((bool)(Original_Cerrada));
-            if ((Original_ManualIVARetenido.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[107].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[108].Value = ((decimal)(Original_ManualIVARetenido.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[107].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[108].Value = global::System.DBNull.Value;
-            }
-            if ((Original_SistemaIVARetenido.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[109].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[110].Value = ((decimal)(Original_SistemaIVARetenido.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[109].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[110].Value = global::System.DBNull.Value;
-            }
-            if ((Original_ManualISLRRetenido.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[111].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[112].Value = ((decimal)(Original_ManualISLRRetenido.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[111].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[112].Value = global::System.DBNull.Value;
-            }
-            if ((Original_SistemaISLRRetenido.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[113].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[114].Value = ((decimal)(Original_SistemaISLRRetenido.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[113].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[114].Value = global::System.DBNull.Value;
-            }
-            if ((Original_MANUALCUPONES.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[115].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[116].Value = ((decimal)(Original_MANUALCUPONES.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[115].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[116].Value = global::System.DBNull.Value;
-            }
-            if ((Original_SISTEMACUPONES.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[117].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[118].Value = ((decimal)(Original_SISTEMACUPONES.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[117].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[118].Value = global::System.DBNull.Value;
-            }
-            if ((Original_MANUALTICKETSALUD.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[119].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[120].Value = ((decimal)(Original_MANUALTICKETSALUD.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[119].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[120].Value = global::System.DBNull.Value;
-            }
-            if ((Original_SISTEMATICKETSALUD.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[121].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[122].Value = ((decimal)(Original_SISTEMATICKETSALUD.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[121].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[122].Value = global::System.DBNull.Value;
-            }
-            if ((Original_MANUALTICKETSALUDEFEC.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[123].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[124].Value = ((decimal)(Original_MANUALTICKETSALUDEFEC.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[123].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[124].Value = global::System.DBNull.Value;
-            }
-            if ((Original_SISTEMATICKETSALUDEFEC.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[125].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[126].Value = ((decimal)(Original_SISTEMATICKETSALUDEFEC.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[125].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[126].Value = global::System.DBNull.Value;
-            }
-            if ((Original_MANUALTRANSFERENCIA.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[127].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[128].Value = ((decimal)(Original_MANUALTRANSFERENCIA.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[127].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[128].Value = global::System.DBNull.Value;
-            }
-            if ((Original_SISTEMATRANSFERENCIA.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[129].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[130].Value = ((decimal)(Original_SISTEMATRANSFERENCIA.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[129].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[130].Value = global::System.DBNull.Value;
-            }
-            if ((Original_PORIMPIGTF.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[131].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[132].Value = ((decimal)(Original_PORIMPIGTF.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[131].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[132].Value = global::System.DBNull.Value;
-            }
-            if ((Original_IMPUESTOIGTF.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[133].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[134].Value = ((decimal)(Original_IMPUESTOIGTF.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[133].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[134].Value = global::System.DBNull.Value;
-            }
-            if ((Original_MANUALVUELTO.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[135].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[136].Value = ((decimal)(Original_MANUALVUELTO.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[135].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[136].Value = global::System.DBNull.Value;
-            }
-            if ((Original_SISTEMAVUELTO.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[137].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[138].Value = ((decimal)(Original_SISTEMAVUELTO.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[137].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[138].Value = global::System.DBNull.Value;
-            }
-            global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
-            if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 
-                        != global::System.Data.ConnectionState.Open)) {
-                this.Adapter.UpdateCommand.Connection.Open();
-            }
-            try {
-                int returnValue = this.Adapter.UpdateCommand.ExecuteNonQuery();
-                return returnValue;
-            }
-            finally {
-                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
-                    this.Adapter.UpdateCommand.Connection.Close();
-                }
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(
-                    decimal MANUALTOTALINGRESOS, 
-                    decimal MANUALEFECTIVO, 
-                    decimal MANUALCHEQUES, 
-                    decimal MANUALTARJETA, 
-                    decimal MANUALDEBITO, 
-                    decimal MANUALNOTACREDITO, 
-                    decimal MANUALCREDITO, 
-                    decimal MANUALDEPOSITOEFECTIVO, 
-                    decimal MANUALREINTEGROS, 
-                    decimal MANUALGASTOS, 
-                    decimal MANUALFINANCIAMIENTO, 
-                    global::System.Nullable<decimal> MANUALNOTADEVOLUCION, 
-                    global::System.Nullable<decimal> MANUALORDENPAGO, 
-                    decimal SISTEMATOTALINGRESOS, 
-                    decimal SISTEMAEFECTIVO, 
-                    decimal SISTEMACHEQUES, 
-                    decimal SISTEMATARJETA, 
-                    decimal SISTEMADEBITO, 
-                    decimal SISTEMANOTACREDITO, 
-                    decimal SISTEMACREDITO, 
-                    decimal SISTEMADEPOSITOEFECTIVO, 
-                    decimal SISTEMAREINTEGRO, 
-                    decimal SISTEMAGASTOS, 
-                    decimal SISTEMAFINANCIAMIENTO, 
-                    global::System.Nullable<decimal> SISTEMANOTADEVOLUCION, 
-                    global::System.Nullable<decimal> SISTEMAORDENPAGO, 
-                    decimal FONDOCAJA, 
-                    decimal VENTANETA, 
-                    decimal PORIMP, 
-                    decimal IMPUESTO, 
-                    string OBSERVACION, 
-                    decimal CAMBIOCHEQUE, 
-                    decimal TOTAL_NETO, 
-                    decimal TOTAL_BRUTO, 
-                    bool CONFIRMADO, 
-                    System.DateTime FEC_CREA, 
-                    global::System.Nullable<global::System.DateTime> FEC_MOD, 
-                    string USER_CREA, 
-                    string USER_MOD, 
-                    bool Cerrada, 
-                    global::System.Nullable<decimal> ManualIVARetenido, 
-                    global::System.Nullable<decimal> SistemaIVARetenido, 
-                    global::System.Nullable<decimal> ManualISLRRetenido, 
-                    global::System.Nullable<decimal> SistemaISLRRetenido, 
-                    global::System.Nullable<decimal> MANUALCUPONES, 
-                    global::System.Nullable<decimal> SISTEMACUPONES, 
-                    global::System.Nullable<decimal> MANUALTICKETSALUD, 
-                    global::System.Nullable<decimal> SISTEMATICKETSALUD, 
-                    global::System.Nullable<decimal> MANUALTICKETSALUDEFEC, 
-                    global::System.Nullable<decimal> SISTEMATICKETSALUDEFEC, 
-                    global::System.Nullable<decimal> MANUALTRANSFERENCIA, 
-                    global::System.Nullable<decimal> SISTEMATRANSFERENCIA, 
-                    global::System.Nullable<decimal> PORIMPIGTF, 
-                    global::System.Nullable<decimal> IMPUESTOIGTF, 
-                    global::System.Nullable<decimal> MANUALVUELTO, 
-                    global::System.Nullable<decimal> SISTEMAVUELTO, 
-                    string Original_COD_Sucursal, 
-                    System.DateTime Original_FECHA, 
-                    decimal Original_MANUALTOTALINGRESOS, 
-                    decimal Original_MANUALEFECTIVO, 
-                    decimal Original_MANUALCHEQUES, 
-                    decimal Original_MANUALTARJETA, 
-                    decimal Original_MANUALDEBITO, 
-                    decimal Original_MANUALNOTACREDITO, 
-                    decimal Original_MANUALCREDITO, 
-                    decimal Original_MANUALDEPOSITOEFECTIVO, 
-                    decimal Original_MANUALREINTEGROS, 
-                    decimal Original_MANUALGASTOS, 
-                    decimal Original_MANUALFINANCIAMIENTO, 
-                    global::System.Nullable<decimal> Original_MANUALNOTADEVOLUCION, 
-                    global::System.Nullable<decimal> Original_MANUALORDENPAGO, 
-                    decimal Original_SISTEMATOTALINGRESOS, 
-                    decimal Original_SISTEMAEFECTIVO, 
-                    decimal Original_SISTEMACHEQUES, 
-                    decimal Original_SISTEMATARJETA, 
-                    decimal Original_SISTEMADEBITO, 
-                    decimal Original_SISTEMANOTACREDITO, 
-                    decimal Original_SISTEMACREDITO, 
-                    decimal Original_SISTEMADEPOSITOEFECTIVO, 
-                    decimal Original_SISTEMAREINTEGRO, 
-                    decimal Original_SISTEMAGASTOS, 
-                    decimal Original_SISTEMAFINANCIAMIENTO, 
-                    global::System.Nullable<decimal> Original_SISTEMANOTADEVOLUCION, 
-                    global::System.Nullable<decimal> Original_SISTEMAORDENPAGO, 
-                    decimal Original_FONDOCAJA, 
-                    decimal Original_VENTANETA, 
-                    decimal Original_PORIMP, 
-                    decimal Original_IMPUESTO, 
-                    string Original_OBSERVACION, 
-                    decimal Original_CAMBIOCHEQUE, 
-                    decimal Original_TOTAL_NETO, 
-                    decimal Original_TOTAL_BRUTO, 
-                    bool Original_CONFIRMADO, 
-                    System.DateTime Original_FEC_CREA, 
-                    global::System.Nullable<global::System.DateTime> Original_FEC_MOD, 
-                    string Original_USER_CREA, 
-                    string Original_USER_MOD, 
-                    bool Original_Cerrada, 
-                    global::System.Nullable<decimal> Original_ManualIVARetenido, 
-                    global::System.Nullable<decimal> Original_SistemaIVARetenido, 
-                    global::System.Nullable<decimal> Original_ManualISLRRetenido, 
-                    global::System.Nullable<decimal> Original_SistemaISLRRetenido, 
-                    global::System.Nullable<decimal> Original_MANUALCUPONES, 
-                    global::System.Nullable<decimal> Original_SISTEMACUPONES, 
-                    global::System.Nullable<decimal> Original_MANUALTICKETSALUD, 
-                    global::System.Nullable<decimal> Original_SISTEMATICKETSALUD, 
-                    global::System.Nullable<decimal> Original_MANUALTICKETSALUDEFEC, 
-                    global::System.Nullable<decimal> Original_SISTEMATICKETSALUDEFEC, 
-                    global::System.Nullable<decimal> Original_MANUALTRANSFERENCIA, 
-                    global::System.Nullable<decimal> Original_SISTEMATRANSFERENCIA, 
-                    global::System.Nullable<decimal> Original_PORIMPIGTF, 
-                    global::System.Nullable<decimal> Original_IMPUESTOIGTF, 
-                    global::System.Nullable<decimal> Original_MANUALVUELTO, 
-                    global::System.Nullable<decimal> Original_SISTEMAVUELTO) {
-            return this.Update(Original_COD_Sucursal, Original_FECHA, MANUALTOTALINGRESOS, MANUALEFECTIVO, MANUALCHEQUES, MANUALTARJETA, MANUALDEBITO, MANUALNOTACREDITO, MANUALCREDITO, MANUALDEPOSITOEFECTIVO, MANUALREINTEGROS, MANUALGASTOS, MANUALFINANCIAMIENTO, MANUALNOTADEVOLUCION, MANUALORDENPAGO, SISTEMATOTALINGRESOS, SISTEMAEFECTIVO, SISTEMACHEQUES, SISTEMATARJETA, SISTEMADEBITO, SISTEMANOTACREDITO, SISTEMACREDITO, SISTEMADEPOSITOEFECTIVO, SISTEMAREINTEGRO, SISTEMAGASTOS, SISTEMAFINANCIAMIENTO, SISTEMANOTADEVOLUCION, SISTEMAORDENPAGO, FONDOCAJA, VENTANETA, PORIMP, IMPUESTO, OBSERVACION, CAMBIOCHEQUE, TOTAL_NETO, TOTAL_BRUTO, CONFIRMADO, FEC_CREA, FEC_MOD, USER_CREA, USER_MOD, Cerrada, ManualIVARetenido, SistemaIVARetenido, ManualISLRRetenido, SistemaISLRRetenido, MANUALCUPONES, SISTEMACUPONES, MANUALTICKETSALUD, SISTEMATICKETSALUD, MANUALTICKETSALUDEFEC, SISTEMATICKETSALUDEFEC, MANUALTRANSFERENCIA, SISTEMATRANSFERENCIA, PORIMPIGTF, IMPUESTOIGTF, MANUALVUELTO, SISTEMAVUELTO, Original_COD_Sucursal, Original_FECHA, Original_MANUALTOTALINGRESOS, Original_MANUALEFECTIVO, Original_MANUALCHEQUES, Original_MANUALTARJETA, Original_MANUALDEBITO, Original_MANUALNOTACREDITO, Original_MANUALCREDITO, Original_MANUALDEPOSITOEFECTIVO, Original_MANUALREINTEGROS, Original_MANUALGASTOS, Original_MANUALFINANCIAMIENTO, Original_MANUALNOTADEVOLUCION, Original_MANUALORDENPAGO, Original_SISTEMATOTALINGRESOS, Original_SISTEMAEFECTIVO, Original_SISTEMACHEQUES, Original_SISTEMATARJETA, Original_SISTEMADEBITO, Original_SISTEMANOTACREDITO, Original_SISTEMACREDITO, Original_SISTEMADEPOSITOEFECTIVO, Original_SISTEMAREINTEGRO, Original_SISTEMAGASTOS, Original_SISTEMAFINANCIAMIENTO, Original_SISTEMANOTADEVOLUCION, Original_SISTEMAORDENPAGO, Original_FONDOCAJA, Original_VENTANETA, Original_PORIMP, Original_IMPUESTO, Original_OBSERVACION, Original_CAMBIOCHEQUE, Original_TOTAL_NETO, Original_TOTAL_BRUTO, Original_CONFIRMADO, Original_FEC_CREA, Original_FEC_MOD, Original_USER_CREA, Original_USER_MOD, Original_Cerrada, Original_ManualIVARetenido, Original_SistemaIVARetenido, Original_ManualISLRRetenido, Original_SistemaISLRRetenido, Original_MANUALCUPONES, Original_SISTEMACUPONES, Original_MANUALTICKETSALUD, Original_SISTEMATICKETSALUD, Original_MANUALTICKETSALUDEFEC, Original_SISTEMATICKETSALUDEFEC, Original_MANUALTRANSFERENCIA, Original_SISTEMATRANSFERENCIA, Original_PORIMPIGTF, Original_IMPUESTOIGTF, Original_MANUALVUELTO, Original_SISTEMAVUELTO);
         }
     }
     
@@ -11146,7 +9571,7 @@ WHERE        (COD_SUCURSAL = @CodSuc)";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         private void InitConnection() {
             this._connection = new global::System.Data.SqlClient.SqlConnection();
-            this._connection.ConnectionString = global::CapaVisual_Login.Properties.Settings.Default.BD095ConnectionString;
+            this._connection.ConnectionString = global::CapaVisual_Login.Properties.Settings.Default.BD117FBConnectionString;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -11158,7 +9583,8 @@ WHERE        (COD_SUCURSAL = @CodSuc)";
             this._commandCollection[0].CommandText = @"SELECT        Descripcion, FECHA, MANUALEFECTIVO, MANUALCHEQUES, MANUALTARJETA, MANUALDEBITO, MANUALNOTACREDITO, MANUALCREDITO, MANUALREINTEGROS, MANUALGASTOS, MANUALFINANCIAMIENTO, 
                          USER_NOMBRE, USER_APELLIDO, SISTEMAEFECTIVO, SISTEMACHEQUES, SISTEMATARJETA, SISTEMADEBITO, SISTEMANOTACREDITO, SISTEMACREDITO, SISTEMAREINTEGRO, SISTEMAGASTOS, 
                          SISTEMAFINANCIAMIENTO, IMPUESTO, OBSERVACION, TOTAL_NETO, TOTAL_BRUTO, ManualIVARetenido, SistemaIVARetenido, ManualISLRRetenido, SistemaISLRRetenido, MANUALCUPONES, SISTEMACUPONES, 
-                         MANUALTICKETSALUD, SISTEMATICKETSALUD, MANUALTICKETSALUDEFEC, SISTEMATICKETSALUDEFEC, MANUALTRANSFERENCIA, SISTEMATRANSFERENCIA, MANUALVUELTO, SISTEMAVUELTO
+                         MANUALTICKETSALUD, SISTEMATICKETSALUD, ManualImpMun, SistemaImpMun, MANUALTICKETSALUDEFEC, SISTEMATICKETSALUDEFEC, MANUALTRANSFERENCIA, SISTEMATRANSFERENCIA, MANUALVUELTO, 
+                         SISTEMAVUELTO
 FROM            VW_CierreCaja
 WHERE        (FECHA = @Fecha)";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
@@ -11204,8 +9630,6 @@ WHERE        (FECHA = @Fecha)";
         
         private UpdateOrderOption _updateOrder;
         
-        private TB_CAJATableAdapter _tB_CAJATableAdapter;
-        
         private TB_SUCURSALESTableAdapter _tB_SUCURSALESTableAdapter;
         
         private TB_USUARIOTableAdapter _tB_USUARIOTableAdapter;
@@ -11222,20 +9646,6 @@ WHERE        (FECHA = @Fecha)";
             }
             set {
                 this._updateOrder = value;
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        [global::System.ComponentModel.EditorAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterManagerPropertyEditor, Microso" +
-            "ft.VSDesigner, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3" +
-            "a", "System.Drawing.Design.UITypeEditor")]
-        public TB_CAJATableAdapter TB_CAJATableAdapter {
-            get {
-                return this._tB_CAJATableAdapter;
-            }
-            set {
-                this._tB_CAJATableAdapter = value;
             }
         }
         
@@ -11286,10 +9696,6 @@ WHERE        (FECHA = @Fecha)";
                 if ((this._connection != null)) {
                     return this._connection;
                 }
-                if (((this._tB_CAJATableAdapter != null) 
-                            && (this._tB_CAJATableAdapter.Connection != null))) {
-                    return this._tB_CAJATableAdapter.Connection;
-                }
                 if (((this._tB_SUCURSALESTableAdapter != null) 
                             && (this._tB_SUCURSALESTableAdapter.Connection != null))) {
                     return this._tB_SUCURSALESTableAdapter.Connection;
@@ -11311,9 +9717,6 @@ WHERE        (FECHA = @Fecha)";
         public int TableAdapterInstanceCount {
             get {
                 int count = 0;
-                if ((this._tB_CAJATableAdapter != null)) {
-                    count = (count + 1);
-                }
                 if ((this._tB_SUCURSALESTableAdapter != null)) {
                     count = (count + 1);
                 }
@@ -11331,15 +9734,6 @@ WHERE        (FECHA = @Fecha)";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         private int UpdateUpdatedRows(DSCierreDeCaja dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
             int result = 0;
-            if ((this._tB_CAJATableAdapter != null)) {
-                global::System.Data.DataRow[] updatedRows = dataSet.TB_CAJA.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
-                updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
-                if (((updatedRows != null) 
-                            && (0 < updatedRows.Length))) {
-                    result = (result + this._tB_CAJATableAdapter.Update(updatedRows));
-                    allChangedRows.AddRange(updatedRows);
-                }
-            }
             if ((this._tB_SUCURSALESTableAdapter != null)) {
                 global::System.Data.DataRow[] updatedRows = dataSet.TB_SUCURSALES.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
                 updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
@@ -11371,14 +9765,6 @@ WHERE        (FECHA = @Fecha)";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         private int UpdateInsertedRows(DSCierreDeCaja dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
             int result = 0;
-            if ((this._tB_CAJATableAdapter != null)) {
-                global::System.Data.DataRow[] addedRows = dataSet.TB_CAJA.Select(null, null, global::System.Data.DataViewRowState.Added);
-                if (((addedRows != null) 
-                            && (0 < addedRows.Length))) {
-                    result = (result + this._tB_CAJATableAdapter.Update(addedRows));
-                    allAddedRows.AddRange(addedRows);
-                }
-            }
             if ((this._tB_SUCURSALESTableAdapter != null)) {
                 global::System.Data.DataRow[] addedRows = dataSet.TB_SUCURSALES.Select(null, null, global::System.Data.DataViewRowState.Added);
                 if (((addedRows != null) 
@@ -11427,14 +9813,6 @@ WHERE        (FECHA = @Fecha)";
                     allChangedRows.AddRange(deletedRows);
                 }
             }
-            if ((this._tB_CAJATableAdapter != null)) {
-                global::System.Data.DataRow[] deletedRows = dataSet.TB_CAJA.Select(null, null, global::System.Data.DataViewRowState.Deleted);
-                if (((deletedRows != null) 
-                            && (0 < deletedRows.Length))) {
-                    result = (result + this._tB_CAJATableAdapter.Update(deletedRows));
-                    allChangedRows.AddRange(deletedRows);
-                }
-            }
             return result;
         }
         
@@ -11473,11 +9851,6 @@ WHERE        (FECHA = @Fecha)";
             }
             if ((dataSet.HasChanges() == false)) {
                 return 0;
-            }
-            if (((this._tB_CAJATableAdapter != null) 
-                        && (this.MatchTableAdapterConnection(this._tB_CAJATableAdapter.Connection) == false))) {
-                throw new global::System.ArgumentException("Todos los TableAdapters administrados por un TableAdapterManager deben usar la mi" +
-                        "sma cadena de conexión.");
             }
             if (((this._tB_SUCURSALESTableAdapter != null) 
                         && (this.MatchTableAdapterConnection(this._tB_SUCURSALESTableAdapter.Connection) == false))) {
@@ -11521,15 +9894,6 @@ WHERE        (FECHA = @Fecha)";
             try {
                 // ---- Prepare for update -----------
                 //
-                if ((this._tB_CAJATableAdapter != null)) {
-                    revertConnections.Add(this._tB_CAJATableAdapter, this._tB_CAJATableAdapter.Connection);
-                    this._tB_CAJATableAdapter.Connection = ((global::System.Data.SqlClient.SqlConnection)(workConnection));
-                    this._tB_CAJATableAdapter.Transaction = ((global::System.Data.SqlClient.SqlTransaction)(workTransaction));
-                    if (this._tB_CAJATableAdapter.Adapter.AcceptChangesDuringUpdate) {
-                        this._tB_CAJATableAdapter.Adapter.AcceptChangesDuringUpdate = false;
-                        adaptersWithAcceptChangesDuringUpdate.Add(this._tB_CAJATableAdapter.Adapter);
-                    }
-                }
                 if ((this._tB_SUCURSALESTableAdapter != null)) {
                     revertConnections.Add(this._tB_SUCURSALESTableAdapter, this._tB_SUCURSALESTableAdapter.Connection);
                     this._tB_SUCURSALESTableAdapter.Connection = ((global::System.Data.SqlClient.SqlConnection)(workConnection));
@@ -11605,10 +9969,6 @@ WHERE        (FECHA = @Fecha)";
             finally {
                 if (workConnOpened) {
                     workConnection.Close();
-                }
-                if ((this._tB_CAJATableAdapter != null)) {
-                    this._tB_CAJATableAdapter.Connection = ((global::System.Data.SqlClient.SqlConnection)(revertConnections[this._tB_CAJATableAdapter]));
-                    this._tB_CAJATableAdapter.Transaction = null;
                 }
                 if ((this._tB_SUCURSALESTableAdapter != null)) {
                     this._tB_SUCURSALESTableAdapter.Connection = ((global::System.Data.SqlClient.SqlConnection)(revertConnections[this._tB_SUCURSALESTableAdapter]));
