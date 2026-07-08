@@ -1782,7 +1782,7 @@ namespace CapaVisual_Login
             command.Connection = connection;
             command.Transaction = transaction;
             command.Parameters.Clear();
-            command.CommandTimeout = 300000;
+            command.CommandTimeout = 120;
 
             //this.Enabled = false;
             LimpiaVariablesIdAbonoPagoMovil();
@@ -1865,7 +1865,7 @@ namespace CapaVisual_Login
 
 
                     // Valido si el el saldo es 0 para relizar la validacion de la impresora 
-                    if (TotalAbono == Math.Round(TB_CAORDSER.OrSer_Saldo + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos)), 2))
+                    if (TotalAbono == Math.Round(TB_CAORDSER.OrSer_Saldo + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos)), 2) && TB_CAORDSER.Cod_DetVta != "10")
                     {
                         if (_L_Facturacion.ValidaFactManual() == false)
                         {
@@ -7418,8 +7418,31 @@ namespace CapaVisual_Login
                         rept = ImprimirCambio(Correlativo, Dt_PagoMovil, TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision, Num_Factura, command);
                 }
 
-                //Attempt to commit the transaction.
                 if (rept == "SATISFACTORIO")
+                {
+                    if (TB_CAORDSER.Cod_DetVta == "10")
+                    {
+                        DataTable OsGiftCard = _lGiftCard.ObtenerGiftCard(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision, "");
+
+
+                        int MontoDolares = (int)Convert.ToDecimal(OsGiftCard.Rows[0]["MontoDolares"]);
+                        string NombreBeneficiario = OsGiftCard.Rows[0]["NombreBeneficiario"].ToString();
+                        string CorreoBeneficiario = OsGiftCard.Rows[0]["CorreoBeneficiario"].ToString();
+
+                        if (await CrearGiftCard(CorreoBeneficiario, NombreBeneficiario, MontoDolares, TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision))
+                        {
+                            rept = "SATISFACTORIO";
+                        }
+                        else
+                        {
+                            mostrarError("Error generando la Gift Card");
+                            rept = "FALLIDO";
+                        }
+                    }
+                }
+
+                //Attempt to commit the transaction.
+            if (rept == "SATISFACTORIO")
                     command.Transaction.Commit();
                 else if ((command.Transaction != null && !rollbackRealizado))
                 {
@@ -7482,20 +7505,7 @@ namespace CapaVisual_Login
                     }
                     if (TB_CAORDSER.OrSer_Saldo != 0 || TB_CAORDSER.Cod_DetVta == "10")
                     {
-                            if (TB_CAORDSER.Cod_DetVta == "10")
-                            {
-                                DataTable OsGiftCard = _lGiftCard.ObtenerGiftCard(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision,"");
-
-
-                                int MontoDolares = (int)Convert.ToDecimal(OsGiftCard.Rows[0]["MontoDolares"]);
-                                string NombreBeneficiario = OsGiftCard.Rows[0]["NombreBeneficiario"].ToString();
-                                string CorreoBeneficiario = OsGiftCard.Rows[0]["CorreoBeneficiario"].ToString();
-
-                                if ( await CrearGiftCard(CorreoBeneficiario, NombreBeneficiario, MontoDolares,TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision))
-                                {
-
-                                }
-                            }
+                           
 
 
                             mensaje = "Se ha realizado correctamente el abono";
@@ -10961,6 +10971,7 @@ namespace CapaVisual_Login
         {
             try
             {
+                MessageBox.Show("entro a función CrearGiftCard");
                 // 2. Mapear los datos reales desde los controles de tu formulario
                 // Nota: Asume que tienes campos de texto para el correo del cliente y el monto
                 var request = new CreateGiftCardRequest
@@ -10976,9 +10987,11 @@ namespace CapaVisual_Login
             }
                 };
 
+                MessageBox.Show("entro capa lógica CrearNuevaGiftCard");
                 // 3. Invocar de manera asíncrona la capa lógica
                 var resultado = await _lGiftCard.CrearNuevaGiftCard(request);
 
+                MessageBox.Show("paso capa lógica CrearNuevaGiftCard");
                 // 4. Evaluar la respuesta estandarizada
                 if (resultado.IsSuccess)
                 {

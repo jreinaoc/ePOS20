@@ -37,7 +37,7 @@ namespace CapaDatos.GiftCard_Datos
                 command.Parameters.AddWithValue("@NombreBeneficiario", nombreBeneficiario ?? (object)DBNull.Value);
                 command.Parameters.AddWithValue("@CorreoBeneficiario", correoBeneficiario ?? (object)DBNull.Value);
                 command.Parameters.AddWithValue("@Mensaje", mensaje ?? (object)DBNull.Value); 
-                command.Parameters.AddWithValue("@idGiftCard", idGiftCard);
+                //command.Parameters.AddWithValue("@idGiftCard", idGiftCard);
                 command.Parameters.AddWithValue("@CodigoGiftCard", codigoGiftCard ?? (object)DBNull.Value);
                 command.Parameters.AddWithValue("@UserCrea", userCrea ?? (object)DBNull.Value);
                 command.Parameters.AddWithValue("@UserMod", userMod ?? (object)DBNull.Value);
