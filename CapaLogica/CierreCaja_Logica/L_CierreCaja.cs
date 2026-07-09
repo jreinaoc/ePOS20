@@ -421,7 +421,7 @@ namespace CapaLogica.CierreCaja_Logica
                 decimal M_ISRLRetenido = (decimal)GetValorFila(dgvCierredecaja, 9);
                 decimal M_Transferencia = (decimal)GetValorFila(dgvCierredecaja, 10);
 
-                decimal M_ImpuestoMunicipal = (decimal)GetValorFila(dgvCierredecaja, 11);
+                decimal M_ImpuestoMunicipal = (decimal)GetValorFila(dgvCierredecaja, 12);
 
                 decimal M_Vuelto = 0;
                 string M_Observacion = observacion;

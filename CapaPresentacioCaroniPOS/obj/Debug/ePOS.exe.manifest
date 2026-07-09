@@ -1335,13 +1335,13 @@
       <dsig:DigestValue>V/mIEnaNA7+y6AYCdZ7ovh0pOL9ya/R1ocUuN+BTkHw=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="ePOS.exe.config" size="4855">
+  <file name="ePOS.exe.config" size="2522">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>YjLxBTODqJoDT5ERtCHUfxZ+p0jsDBhNXsc6sT3naec=</dsig:DigestValue>
+      <dsig:DigestValue>xd9mxjrkpFq5Z0Ovx5fQUNFkABFnq8XVPi/Kn7xxQOg=</dsig:DigestValue>
     </hash>
   </file>
   <file name="icono-puntoDeVenta.ico" size="205662">
