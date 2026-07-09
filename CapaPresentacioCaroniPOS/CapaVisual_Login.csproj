@@ -264,9 +264,6 @@
     <Compile Include="FrmTasaDia.Designer.cs">
       <DependentUpon>FrmTasaDia.cs</DependentUpon>
     </Compile>
-    <Compile Include="Reportes\DSCierreDeCaja.cs">
-      <DependentUpon>DSCierreDeCaja.xsd</DependentUpon>
-    </Compile>
     <Compile Include="Reportes\DSCierreDeCaja1.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

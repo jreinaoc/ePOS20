@@ -86,7 +86,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>hNbxuTb0mdLSaaNQVmZsqw7eFUF8PkbCtFXL2MI17uY=</dsig:DigestValue>
+        <dsig:DigestValue>XAruk3GHuoi/h92m0PvvRAGrc4+Pep/mWYiHnstcIPU=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -98,7 +98,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>MGJBmNwMeF86XKympGs8N8WIl7YzwT0XH3fElNB8hn8=</dsig:DigestValue>
+        <dsig:DigestValue>j/6QbSsEHy5gl7iTonIhJ98pIQwjVyA67Uy8F3EDa28=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -110,7 +110,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>VVSMXGSmEo3ynZFtwOin1WraQ+bhwIKZ7w0bPm024SE=</dsig:DigestValue>
+        <dsig:DigestValue>Z0XpbSbOssREdkK4MD6eovSYpSJi/srQr9LyNeaMJz4=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -230,7 +230,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>J3J+2bPlcRdPHeF71ZVvH/MragYRtefQem6cBY10hfw=</dsig:DigestValue>
+        <dsig:DigestValue>89cQX47/SDZZ/gllpjBzsV7oFBst2JagY0ix2D64PLM=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -1202,7 +1202,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>lHL/n+kMjpO7wQXVOqm35hSWRBnOKIxa+T8AywulMtk=</dsig:DigestValue>
+        <dsig:DigestValue>Q0IlGqz2DbO6+gpbbYOA1/0vaRloeVdEH14SA9XS4XQ=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -1335,17 +1335,13 @@
       <dsig:DigestValue>V/mIEnaNA7+y6AYCdZ7ovh0pOL9ya/R1ocUuN+BTkHw=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="ePOS.exe.config" size="2522">
+  <file name="ePOS.exe.config" size="2478">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-<<<<<<< HEAD
-      <dsig:DigestValue>xd9mxjrkpFq5Z0Ovx5fQUNFkABFnq8XVPi/Kn7xxQOg=</dsig:DigestValue>
-=======
-      <dsig:DigestValue>NP3YkFpR32noAj3vab9cA6QQdEJffkloDWWzQJRJWEE=</dsig:DigestValue>
->>>>>>> dc4174087d6c5fcdf0e19d5d983fe6449159e404
+      <dsig:DigestValue>XRVIBgcDihy3/uJadZECIQSY4nbgaDybH57ArTbQnD0=</dsig:DigestValue>
     </hash>
   </file>
   <file name="icono-puntoDeVenta.ico" size="205662">
