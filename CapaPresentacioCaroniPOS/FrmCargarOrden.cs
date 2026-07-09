@@ -5225,6 +5225,38 @@ namespace CapaVisual_Login
             }
             else if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "10")
             {
+                Cbx_Pnl2_Laboratorio.Visible = false;
+                this.Cbx_Tap2_Ojo.Visible = false;
+                this.Txt_Pnl2_Examen.Visible = false;
+
+                label24.Visible = false;
+                Lbl_Pnl2_Fecha_Ofre.Visible = false;
+                Txt_Pnl2_Fecha_Ofre.Visible = false;
+                Lbl_Pnl2_Laboratorio.Visible = false;
+                Lbl_Pnl2_Servicio.Visible = false;
+                Cbx_Pnl2_Servicio.Visible = false;
+                Txt_Pnl2_Examen.Visible = false;
+
+                //_FechaHoraOfrecida = _L_Articulo.ObtenerFechaHoraOfrecida("", Cbx_Pnl2_Trbajo.SelectedValue.ToString());
+                //if (_FechaHoraOfrecida != null && _FechaHoraOfrecida.Count > 0)
+                //{
+                //    FechaHoraOfrecida resultado = _FechaHoraOfrecida.First();
+                //    Txt_Pnl2_Fecha_Ofre.Text = $"{resultado.FechaOfrecida:dd/MM/yyyy}";
+                //}
+
+
+                label34.Visible = false;
+                label35.Visible = false;
+                txtAltD.Visible = false;
+                txtAltI.Visible = false;
+
+                label24.Visible = false;
+                Cbx_Tap2_Ojo.Visible = false;
+                label26.Visible = false;
+                cbVisionDerecha.Visible = false;
+                label33.Visible = false;
+                cbVisionIzquierda.Visible = false;
+
                 txtMontoDolaresGiftCard.Text = "0";
                 txtBeneficiarioGiftCard.Text = "";
                 txtCorreoGiftCard.Text = "";
@@ -15619,6 +15651,19 @@ namespace CapaVisual_Login
                 txtMontoDolaresGiftCard.Focus();
                 return;
             }
+            int TopeMaxGiftCard = Convert.ToInt32(_D_DetalleOrden.TB_PARAMETRO("TopeMaxGiftCard"));
+
+            if (Convert.ToInt32(txtMontoDolaresGiftCard.Text) > TopeMaxGiftCard)
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("EL monto máximo de una gitf card es de: " + TopeMaxGiftCard + " dólares");
+                _FrmMensajes.StartPosition = FormStartPosition.Manual;
+                _FrmMensajes.Location = new System.Drawing.Point(600, 300);
+                _FrmMensajes.ShowDialog();
+
+                txtMontoDolaresGiftCard.Focus();
+                return;
+            }
 
             if (string.IsNullOrEmpty(txtBeneficiarioGiftCard.Text.Trim()))
             {
@@ -15645,25 +15690,38 @@ namespace CapaVisual_Login
                 txtCorreoGiftCard.Focus();
                 return;
             }
+           
+            _FrmMensajes.co = 3;
+            _FrmMensajes.avisomensaje("¿Está seguro que el correo es: " + txtCorreoGiftCard.Text + "?");
+            _FrmMensajes.ShowDialog();
 
-            pnlGiftCard.Visible = false;
-            Double MontoGiftCardBolivares = 0;
-            MontoGiftCardBolivares = Convert.ToDouble(txtMontoDolaresGiftCard.Text.Trim().Replace(".", "")) * (TB_TASA_Dolar.Tasa ?? 0);
-            _L_Articulo.CargarArticulos(Dgv_Pnl3_Articulo, listaArticulos, Cbx_Pnl2_Trbajo.SelectedValue.ToString(), _L_Articulo.ValidarExtenciaCristal(Dgv_Tap3_Articulo, Cbx_Pnl2_Trbajo.SelectedValue.ToString()));
+            //Preguta
+            if (_FrmMensajes.DialogResult == DialogResult.OK)
+            {
+                 pnlGiftCard.Visible = false;
+                Double MontoGiftCardBolivares = 0;
+                MontoGiftCardBolivares = Convert.ToDouble(txtMontoDolaresGiftCard.Text.Trim().Replace(".", "")) * (TB_TASA_Dolar.Tasa ?? 0);
+                _L_Articulo.CargarArticulos(Dgv_Pnl3_Articulo, listaArticulos, Cbx_Pnl2_Trbajo.SelectedValue.ToString(), _L_Articulo.ValidarExtenciaCristal(Dgv_Tap3_Articulo, Cbx_Pnl2_Trbajo.SelectedValue.ToString()));
 
-            var articulo = listaArticulos.FirstOrDefault(a => a.CodArticulo == "G000001");
+                var articulo = listaArticulos.FirstOrDefault(a => a.CodArticulo == "G000001");
 
-            _L_Articulo.AgregarFila(Dgv_Tap3_Articulo,
-                 articulo.CodArticulo, "", "",
-                 CodColorLC, "Gift Card", 1, (decimal)MontoGiftCardBolivares, 0, (decimal)MontoGiftCardBolivares, 0, "A", (decimal)0);
+                _L_Articulo.AgregarFila(Dgv_Tap3_Articulo,
+                     articulo.CodArticulo, "", "",
+                     CodColorLC, "Gift Card", 1, (decimal)MontoGiftCardBolivares, 0, (decimal)MontoGiftCardBolivares, 0, "A", (decimal)0);
 
-            //if (artPadre != "")
-            //{
-            //    _L_Articulo.CargarServicioGarantia(Dgv_Tap3_Articulo);
-            //}
-            // Limpiar los TextBox después de agregar el artículo
-            pnlGiftCard.Visible = false;
-            ReiniciarBusquedaarticulo();
+                //if (artPadre != "")
+                //{
+                //    _L_Articulo.CargarServicioGarantia(Dgv_Tap3_Articulo);
+                //}
+                // Limpiar los TextBox después de agregar el artículo
+                pnlGiftCard.Visible = false;
+                ReiniciarBusquedaarticulo();
+            }
+            else
+            {
+                txtCorreoGiftCard.Focus();
+                return;
+            }
         }
 
         private void txtMontoDolaresGiftCard_KeyPress(object sender, KeyPressEventArgs e)
@@ -15722,6 +15780,13 @@ namespace CapaVisual_Login
             }
         }
 
+        private void txtBeneficiarioGiftCard_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsLetter(e.KeyChar) && !char.IsControl(e.KeyChar) && e.KeyChar != ' ')
+            {
+                e.Handled = true; // Bloquea todo lo que NO sea letra, espacio o tecla de control (como borrar)
+            }
+        }
     }
 
 }

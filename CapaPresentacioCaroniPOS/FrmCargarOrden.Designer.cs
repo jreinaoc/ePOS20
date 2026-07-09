@@ -4992,7 +4992,7 @@ namespace CapaVisual_Login
             this.txtCorreoGiftCard.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtCorreoGiftCard.ForeColor = System.Drawing.Color.Black;
             this.txtCorreoGiftCard.Location = new System.Drawing.Point(27, 151);
-            this.txtCorreoGiftCard.MaxLength = 12;
+            this.txtCorreoGiftCard.MaxLength = 200;
             this.txtCorreoGiftCard.Name = "txtCorreoGiftCard";
             this.txtCorreoGiftCard.Size = new System.Drawing.Size(222, 21);
             this.txtCorreoGiftCard.TabIndex = 63;
@@ -5015,11 +5015,12 @@ namespace CapaVisual_Login
             this.txtBeneficiarioGiftCard.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtBeneficiarioGiftCard.ForeColor = System.Drawing.Color.Black;
             this.txtBeneficiarioGiftCard.Location = new System.Drawing.Point(269, 76);
-            this.txtBeneficiarioGiftCard.MaxLength = 12;
+            this.txtBeneficiarioGiftCard.MaxLength = 200;
             this.txtBeneficiarioGiftCard.Name = "txtBeneficiarioGiftCard";
             this.txtBeneficiarioGiftCard.Size = new System.Drawing.Size(222, 21);
             this.txtBeneficiarioGiftCard.TabIndex = 61;
             this.txtBeneficiarioGiftCard.WordWrap = false;
+            this.txtBeneficiarioGiftCard.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtBeneficiarioGiftCard_KeyPress);
             // 
             // lblMonto
             // 
