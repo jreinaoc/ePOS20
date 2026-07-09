@@ -783,7 +783,7 @@ namespace CapaVisual_Login
 
         private void txtTranferencia_KeyPress(object sender, KeyPressEventArgs e)
         {
-
+            txtTranferencia.ForeColor = System.Drawing.Color.Black;
             if (CbxMetodosPago2.Text == "Transferencia Divisa" | (CbxMetodosPago2.Text.Trim() == "Transferencia" && CbxBancoRecp.SelectedValue.ToString() == "112" | CbxBancoRecp.Text == "SEGUROS MERCANTIL") || (CbxMetodosPago2.Text.Trim() == "Transferencia" && CbxBanco.SelectedValue.ToString() == "112" || CbxBanco.Text == "SEGUROS MERCANTIL"))
             { 
 
@@ -908,6 +908,7 @@ namespace CapaVisual_Login
         public void LimpiarTxbox()
         {
             btnProcesar2.Enabled = true;
+            txtMonto2Bs.Enabled = true;
 
             this.PnlSecundario.Visible = false;
             this.PnlNotaCredito.Visible = false;
@@ -1695,35 +1696,50 @@ namespace CapaVisual_Login
                         if (montoAPagar > _saldoGiftCardActual.Value)
                         {
                             _FrmMensajes.co = 2;
-                            _FrmMensajes.avisomensaje($"El monto a pagar ({montoAPagar:N2}) supera el saldo disponible de la Gift Card ({_saldoGiftCardActual.Value:N2}).");
+                            _FrmMensajes.avisomensaje($"El monto a pagar {montoAPagar:N2} supera el saldo disponible de la Gift Card {_saldoGiftCardActual.Value:N2}");
+                            _FrmMensajes.ShowDialog();
+                            txtMonto2Bs.Text = (Convert.ToDouble(_saldoGiftCardActual.Value).ToString("N2"));
+                            return;
+                        }
+
+                        if (montoAPagar > Convert.ToDecimal(TxtSaldoRef_2.Text))
+                        {
+                            _FrmMensajes.co = 2;
+                            _FrmMensajes.avisomensaje($"El monto a pagar {montoAPagar:N2} supera el saldo de la orden {TxtSaldoRef_2.Text:N2}");
                             _FrmMensajes.ShowDialog();
                             return;
                         }
-                        
-                            //CbxMetodosPago2.SelectedIndex = 10;
-                            //DataTable OsGiftCard = _lGiftCard.ObtenerGiftCard(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision, txtTranferencia.Text.ToString());
 
-                            //if (OsGiftCard.Rows.Count  > 0)
-                            //{
-                            //    int idGiftCard = (int)Convert.ToDecimal(OsGiftCard.Rows[0]["IdGiftCard"]);
+                        //CbxMetodosPago2.SelectedIndex = 10;
+                        //DataTable OsGiftCard = _lGiftCard.ObtenerGiftCard(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision, txtTranferencia.Text.ToString());
 
-                           // _saldoGiftCardActual = await ConsultarGiftCard(txtTranferencia.Text.Trim());
+                        //if (OsGiftCard.Rows.Count  > 0)
+                        //{
+                        //    int idGiftCard = (int)Convert.ToDecimal(OsGiftCard.Rows[0]["IdGiftCard"]);
 
-                                // 2. Si no es null, significa que la tarjeta pasó todas las validaciones con éxito
-                                if (_saldoGiftCardActual.HasValue)
-                                {
-                               
-                                     Double tasa = Convert.ToDouble(TB_TASA_Dolar.Tasa.ToString());
-                                    _montoAplicadoGiftCardValidado = Convert.ToDecimal(txtMonto2Bs.Text.ToString());
-                                    _L_Facturacion.GuardarAbonoGrid(2, Dt_Abonos, CbxMetodosPago2.Text, CbxMoneda.Text, "", (Convert.ToDouble(txtMonto2Bs.Text.ToString()) * tasa).ToString("N2"), txtTranferencia.Text, DtpFecha.Value.ToString(), CbxMetodosPago2.SelectedValue.ToString(), "115", "115", TxtVuelto.Text, "", "", "", "", "", "", "000");
+                        // _saldoGiftCardActual = await ConsultarGiftCard(txtTranferencia.Text.Trim());
 
-                                    BolivaresConveridos(Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos)), txtMontoBs);
+                        // 2. Si no es null, significa que la tarjeta pasó todas las validaciones con éxito
+                        if (_saldoGiftCardActual.HasValue)
+                        {
+                             
+                            Double tasa = Convert.ToDouble(TB_TASA_Dolar.Tasa.ToString());
+                            _montoAplicadoGiftCardValidado = Convert.ToDecimal(txtMonto2Bs.Text.ToString());
+                            if (montoAPagar == Convert.ToDecimal(TxtSaldoRef_2.Text))
+                            {
+                                _L_Facturacion.GuardarAbonoGrid(2, Dt_Abonos, CbxMetodosPago2.Text, CbxMoneda.Text, "", Convert.ToDouble(TxtSaldoOrd_2.Text.ToString()).ToString("N2"), txtTranferencia.Text, DtpFecha.Value.ToString(), CbxMetodosPago2.SelectedValue.ToString(), "115", "115", TxtVuelto.Text, "", "", "", "", "", "", "000");
+                            }
+                            else
+                            {
+                                _L_Facturacion.GuardarAbonoGrid(2, Dt_Abonos, CbxMetodosPago2.Text, CbxMoneda.Text, "", (Convert.ToDouble(txtMonto2Bs.Text.ToString()) * tasa).ToString("N2"), txtTranferencia.Text, DtpFecha.Value.ToString(), CbxMetodosPago2.SelectedValue.ToString(), "115", "115", TxtVuelto.Text, "", "", "", "", "", "", "000");
+                            }
+
+                                BolivaresConveridos(Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos)), txtMontoBs);
                            
-
-                                    lbMinAbo.Text = Convert.ToString(Convert.ToDouble(lbMinAbo.Text) + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos)));
-                                    VisualizarPanel("MostrarPanelPrincipal");
-                                    LimpiarTxbox();
-                                }
+                                lbMinAbo.Text = Convert.ToString(Convert.ToDouble(lbMinAbo.Text) + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos)));
+                                VisualizarPanel("MostrarPanelPrincipal");
+                                LimpiarTxbox();
+                            }
                                 //else
                                 //{
                                 //    _FrmMensajes.co = 2;
@@ -3010,7 +3026,10 @@ namespace CapaVisual_Login
         private void CbxMetodosPago_SelectedIndexChanged(object sender, EventArgs e)
         {
             _procesandoPagoCashea = false;
-            
+            BtnConsultarGiftCard.Visible = false;
+            txtTranferencia.Text = "";
+            txtTranferencia.ForeColor = System.Drawing.Color.Black;
+
             if (!CbxMetodosPago.Focused) return;
 
             if (CbxMetodosPago.SelectedIndex != -1)
@@ -4483,7 +4502,7 @@ namespace CapaVisual_Login
 
                 if (CbxMetodosPago.SelectedValue.ToString() == "027")
                 {
-                    BtnConsultarGiftCard.Visible = false;
+                    
 
                     _saldoGiftCardActual = null;
                     _codigoGiftCardValidado = string.Empty;
@@ -4581,6 +4600,9 @@ namespace CapaVisual_Login
                     txtTranferencia.Visible = true;
                     txtMonto2Bs.Text = "0,00";
                     btnProcesar2.Enabled = false;
+                    txtMonto2Bs.Enabled = false;
+                    txtTranferencia.Text = "XXXX-XXXX-XXXX-XXXX";
+                    txtTranferencia.ForeColor = System.Drawing.Color.LightGray;
                 }
             }
 
@@ -10971,7 +10993,7 @@ namespace CapaVisual_Login
         {
             try
             {
-                MessageBox.Show("entro a función CrearGiftCard");
+                //MessageBox.Show("entro a función CrearGiftCard");
                 // 2. Mapear los datos reales desde los controles de tu formulario
                 // Nota: Asume que tienes campos de texto para el correo del cliente y el monto
                 var request = new CreateGiftCardRequest
@@ -10987,11 +11009,11 @@ namespace CapaVisual_Login
             }
                 };
 
-                MessageBox.Show("entro capa lógica CrearNuevaGiftCard");
+                //MessageBox.Show("entro capa lógica CrearNuevaGiftCard");
                 // 3. Invocar de manera asíncrona la capa lógica
                 var resultado = await _lGiftCard.CrearNuevaGiftCard(request);
 
-                MessageBox.Show("paso capa lógica CrearNuevaGiftCard");
+                //MessageBox.Show("paso capa lógica CrearNuevaGiftCard");
                 // 4. Evaluar la respuesta estandarizada
                 if (resultado.IsSuccess)
                 {
@@ -11186,6 +11208,7 @@ namespace CapaVisual_Login
                     //_codigoGiftCardValidado = txtTranferencia.Text.Trim();
 
                     // Preparas tu interfaz
+                    txtMonto2Bs.Enabled = true;
                     txtMonto2Bs.Text = resultadoSaldo.Value.ToString("F2");
                     txtMonto2Bs.Focus();
                     btnProcesar2.Enabled = true;
