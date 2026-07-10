@@ -4989,14 +4989,17 @@ namespace CapaVisual_Login
             // 
             // txtCorreoGiftCard
             // 
+            this.txtCorreoGiftCard.CharacterCasing = System.Windows.Forms.CharacterCasing.Lower;
             this.txtCorreoGiftCard.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtCorreoGiftCard.ForeColor = System.Drawing.Color.Black;
+            this.txtCorreoGiftCard.ForeColor = System.Drawing.Color.Gray;
             this.txtCorreoGiftCard.Location = new System.Drawing.Point(27, 151);
             this.txtCorreoGiftCard.MaxLength = 200;
             this.txtCorreoGiftCard.Name = "txtCorreoGiftCard";
             this.txtCorreoGiftCard.Size = new System.Drawing.Size(222, 21);
             this.txtCorreoGiftCard.TabIndex = 63;
+            this.txtCorreoGiftCard.Text = "usuario@dominio.com";
             this.txtCorreoGiftCard.WordWrap = false;
+            this.txtCorreoGiftCard.Click += new System.EventHandler(this.txtCorreoGiftCard_Click);
             this.txtCorreoGiftCard.Leave += new System.EventHandler(this.txtCorreoGiftCard_Leave);
             // 
             // lblNombre
@@ -5012,6 +5015,7 @@ namespace CapaVisual_Login
             // 
             // txtBeneficiarioGiftCard
             // 
+            this.txtBeneficiarioGiftCard.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.txtBeneficiarioGiftCard.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtBeneficiarioGiftCard.ForeColor = System.Drawing.Color.Black;
             this.txtBeneficiarioGiftCard.Location = new System.Drawing.Point(269, 76);

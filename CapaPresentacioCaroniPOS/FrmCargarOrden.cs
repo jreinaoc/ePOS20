@@ -5259,7 +5259,8 @@ namespace CapaVisual_Login
 
                 txtMontoDolaresGiftCard.Text = "0";
                 txtBeneficiarioGiftCard.Text = "";
-                txtCorreoGiftCard.Text = "";
+                txtCorreoGiftCard.Text = "usuario@dominio.com";
+                txtCorreoGiftCard.ForeColor = System.Drawing.Color.Gray;
                 txtMensajeGiftCard.Text = "";
                 pnlGiftCard.Visible = true;
                 this.pnlGiftCard.Location = new Point(250, 40);
@@ -15778,6 +15779,11 @@ namespace CapaVisual_Login
                     txtCorreoGiftCard.Focus(); // Devolver el foco al TextBox
                 }
             }
+            else
+            {
+                txtCorreoGiftCard.Text = "usuario@dominio.com";
+                txtCorreoGiftCard.ForeColor = System.Drawing.Color.Gray;
+            }
         }
 
         private void txtBeneficiarioGiftCard_KeyPress(object sender, KeyPressEventArgs e)
@@ -15785,6 +15791,15 @@ namespace CapaVisual_Login
             if (!char.IsLetter(e.KeyChar) && !char.IsControl(e.KeyChar) && e.KeyChar != ' ')
             {
                 e.Handled = true; // Bloquea todo lo que NO sea letra, espacio o tecla de control (como borrar)
+            }
+        }
+
+        private void txtCorreoGiftCard_Click(object sender, EventArgs e)
+        {
+            if (txtCorreoGiftCard.Text == "usuario@dominio.com")
+            {
+                txtCorreoGiftCard.Text = ""; // Limpiamos la caja por completo
+                txtCorreoGiftCard.ForeColor = System.Drawing.Color.Black; // Volvemos al color normal
             }
         }
     }

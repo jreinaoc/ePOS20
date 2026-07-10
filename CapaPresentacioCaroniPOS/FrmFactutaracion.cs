@@ -4602,7 +4602,7 @@ namespace CapaVisual_Login
                     btnProcesar2.Enabled = false;
                     txtMonto2Bs.Enabled = false;
                     txtTranferencia.Text = "XXXX-XXXX-XXXX-XXXX";
-                    txtTranferencia.ForeColor = System.Drawing.Color.LightGray;
+                    txtTranferencia.ForeColor = System.Drawing.Color.Gray;
                 }
             }
 
@@ -10180,7 +10180,7 @@ namespace CapaVisual_Login
             else
             {
                 _FrmMensajes.co = 2;
-                _FrmMensajes.avisomensaje("Ocurrió un error generando la orden en cashea, intente de nuevo");
+                _FrmMensajes.avisomensaje("No hay conexión, no se creo la orden en cashea, intente de nuevo");
                 _FrmMensajes.ShowDialog();
                 _procesandoPagoCashea = false;
                 btnProcesar2.Enabled = true;
@@ -10959,8 +10959,12 @@ namespace CapaVisual_Login
                     int idInternoWoo = resultado.Data.Id;
 
                     // Muestra mensaje de éxito al operador
-                    MessageBox.Show($"¡Gift Card generada exitosamente!\n\nCódigo: {codigoGenerado}\nSaldo: {resultado.Data.Balance:N2}",
-                                    "Proceso Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    //MessageBox.Show($"¡Gift Card generada exitosamente!\n\nCódigo: {codigoGenerado}\nSaldo: {resultado.Data.Balance:N2}",
+                    //                "Proceso Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    string mensajeExito = $"¡Gift Card generada exitosamente!\n\nCódigo: {codigoGenerado}\nSaldo: {resultado.Data.Balance:N2}";
+                    _FrmMensajes.co = 1; // Éxito/Información
+                    _FrmMensajes.avisomensaje(mensajeExito);
+                    _FrmMensajes.ShowDialog();
 
                     // [AQUÍ TU LÓGICA INTERNA DE FACTURACIÓN]:
                     // - Guardar 'codigoGenerado' en la tabla local de tu base de datos si es necesario.
@@ -10971,8 +10975,12 @@ namespace CapaVisual_Login
                 else
                 {
                     // Si falla la validación del API o el servidor rechaza los datos (ej: código de estado 400)
-                    MessageBox.Show($"No se pudo emitir la Gift Card.\nDetalle: {resultado.Message}",
-                                    "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                   // MessageBox.Show($"No se pudo emitir la Gift Card.\nDetalle: {resultado.Message}",
+                                //    "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    string mensajeExito = $"No se pudo emitir la Gift Card.\nDetalle: {resultado.Message}";
+                    _FrmMensajes.co = 1; // Éxito/Información
+                    _FrmMensajes.avisomensaje(mensajeExito);
+                    _FrmMensajes.ShowDialog();
                 }
             }
             catch (FormatException)
@@ -11025,9 +11033,13 @@ namespace CapaVisual_Login
 
 
                     // Muestra mensaje de éxito al operador
-                    MessageBox.Show($"¡Gift Card generada exitosamente!\n\nCódigo: {codigoGenerado}\nSaldo: {resultado.Data.Balance:N2}",
-                                    "Proceso Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    //MessageBox.Show($"¡Gift Card generada exitosamente!\n\nCódigo: {codigoGenerado}\nSaldo: {resultado.Data.Balance:N2}",
+                    //                "Proceso Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
+                    string mensajeExito = $"¡Gift Card generada exitosamente!\n\nCódigo: {codigoGenerado}\nSaldo: {resultado.Data.Balance:N2}";
+                    _FrmMensajes.co = 1; // Éxito/Información
+                    _FrmMensajes.avisomensaje(mensajeExito);
+                    _FrmMensajes.ShowDialog();
 
                     // [AQUÍ TU LÓGICA INTERNA DE FACTURACIÓN]:
                     // - Guardar 'codigoGenerado' en la tabla local de tu base de datos si es necesario.
@@ -11228,6 +11240,15 @@ namespace CapaVisual_Login
                 _FrmMensajes.avisomensaje("El código de la Gift Card debe ser de 19 caracteres");
                 _FrmMensajes.ShowDialog();
                 return;
+            }
+        }
+
+        private void txtTranferencia_Click(object sender, EventArgs e)
+        {
+            if (txtTranferencia.Text == "XXXX-XXXX-XXXX-XXXX")
+            {
+                txtTranferencia.Text = ""; // Limpiamos la caja por completo
+                txtTranferencia.ForeColor = System.Drawing.Color.Black; // Volvemos al color normal
             }
         }
         //private async void CargarCajasEnCombo()
