@@ -832,7 +832,7 @@ namespace CapaVisual_Login
                 //Validar la fecha activa para poner un iciono o otro 
 
                 //if (DgvListadoOrdenes.Rows[e.RowIndex].Cells["PAGOS_IVA"].Value.ToString() == "1" & DgvListadoOrdenes.Rows[e.RowIndex].Cells["Comprobante_IVA"].Value.ToString() == "0"| DgvListadoOrdenes.Rows[e.RowIndex].Cells["PAGOS_ISLR"].Value.ToString() == "1" & DgvListadoOrdenes.Rows[e.RowIndex].Cells["Comprobante_ISLR"].Value.ToString() == "0")
-                if (DgvListadoOrdenes.Rows[e.RowIndex].Cells["PAGOS_IVA"].Value.ToString() == "1" | DgvListadoOrdenes.Rows[e.RowIndex].Cells["PAGOS_ISLR"].Value.ToString() == "1")
+                if (DgvListadoOrdenes.Rows[e.RowIndex].Cells["PAGOS_IVA"].Value.ToString() == "1" | DgvListadoOrdenes.Rows[e.RowIndex].Cells["PAGOS_ISLR"].Value.ToString() == "1" | DgvListadoOrdenes.Rows[e.RowIndex].Cells["PAGOS_ImpMunicipal"].Value.ToString() == "1") 
                 {
                     IconAtomico = new Icon(Environment.CurrentDirectory + @"\\Boton Registro Comprobante.ico");
                 }
