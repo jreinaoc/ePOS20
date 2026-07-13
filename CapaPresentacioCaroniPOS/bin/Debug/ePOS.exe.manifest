@@ -4,7 +4,7 @@
   <description asmv2:iconFile="icono-puntoDeVenta.ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <application />
   <entryPoint>
-    <assemblyIdentity name="ePOS" version="1.0.2.5" language="neutral" processorArchitecture="msil" />
+    <assemblyIdentity name="ePOS" version="1.0.0.2" language="neutral" processorArchitecture="msil" />
     <commandLine file="ePOS.exe" parameters="" />
   </entryPoint>
   <trustInfo>
@@ -224,13 +224,13 @@
   </dependency>
   <dependency>
     <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ePOS.exe" size="3533824">
-      <assemblyIdentity name="ePOS" version="1.0.2.5" language="neutral" processorArchitecture="msil" />
+      <assemblyIdentity name="ePOS" version="1.0.0.2" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>qX2pa/vabrOE99JuFQpc75FNlQiipC47GcZgkVYeClk=</dsig:DigestValue>
+        <dsig:DigestValue>oOGxENL3Z5JUguc7fvW53Yhc5bE4pM9POTG5zviYlMM=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

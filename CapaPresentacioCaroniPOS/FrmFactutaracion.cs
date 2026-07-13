@@ -10961,10 +10961,10 @@ namespace CapaVisual_Login
                     // Muestra mensaje de éxito al operador
                     //MessageBox.Show($"¡Gift Card generada exitosamente!\n\nCódigo: {codigoGenerado}\nSaldo: {resultado.Data.Balance:N2}",
                     //                "Proceso Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    string mensajeExito = $"¡Gift Card generada exitosamente!\n\nCódigo: {codigoGenerado}\nSaldo: {resultado.Data.Balance:N2}";
-                    _FrmMensajes.co = 1; // Éxito/Información
-                    _FrmMensajes.avisomensaje(mensajeExito);
-                    _FrmMensajes.ShowDialog();
+                    //string mensajeExito = $"¡Gift Card generada exitosamente!\n\nCódigo: {codigoGenerado}\nSaldo: {resultado.Data.Balance:N2}";
+                    //_FrmMensajes.co = 1; // Éxito/Información
+                    //_FrmMensajes.avisomensaje(mensajeExito);
+                    //_FrmMensajes.ShowDialog();
 
                     // [AQUÍ TU LÓGICA INTERNA DE FACTURACIÓN]:
                     // - Guardar 'codigoGenerado' en la tabla local de tu base de datos si es necesario.
