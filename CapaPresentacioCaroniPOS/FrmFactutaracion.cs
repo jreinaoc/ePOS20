@@ -4219,7 +4219,7 @@ namespace CapaVisual_Login
                         {
                             if (Bolivares > 0)
                             {
-                                _L_Facturacion.GuardarAbonoGrid(2,Dt_Abonos, CbxMetodosPago.Text, "Bolivares", "", Bolivares.ToString(), "", DtpFecha.Value.ToString(), CbxMetodosPago.SelectedValue.ToString(), "000");
+                                _L_Facturacion.GuardarAbonoGrid(2,Dt_Abonos, CbxMetodosPago.Text, "Bolivares", "", Convert.ToDouble(Bolivares).ToString("N2"), "", DtpFecha.Value.ToString(), CbxMetodosPago.SelectedValue.ToString(), "000");
                                 BolivaresConveridos(Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos)), txtMontoBs);
                                 //-----------ConvertirBolivares---------------------------
                                 //txtMontoBs.Text = _L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos);

@@ -407,14 +407,16 @@ namespace CapaVisual_Login
 
 
                     string Status = Fila.Cells["Estatus"].Value.ToString();
+                    string PAGOS_Muni = Fila.Cells["PAGOS_ImpMunicipal"].Value.ToString();
                     string PAGOS_IVA = Fila.Cells["PAGOS_IVA"].Value.ToString();
                     string PAGOS_ISLR = Fila.Cells["PAGOS_ISLR"].Value.ToString();
+                    string Comprobante_Muni = Fila.Cells["Comprobante_Municipal"].Value.ToString();
                     string Comprobante_IVA = Fila.Cells["Comprobante_IVA"].Value.ToString();
                     string Comprobante_ISLR = Fila.Cells["Comprobante_ISLR"].Value.ToString();
                     Status = Status.Trim();
                     if (Status == "Facturada")
                     {
-                        if (PAGOS_IVA == "1" | PAGOS_ISLR == "1")
+                        if (PAGOS_IVA == "1" | PAGOS_ISLR == "1" | PAGOS_Muni == "1")
                         {
                             if (PAGOS_IVA == "1" && Comprobante_IVA == "0")
                             {
@@ -432,7 +434,15 @@ namespace CapaVisual_Login
                                 Fila.Cells["Estatus"].Style.ForeColor = Color.White;
                             }
 
-                            if (PAGOS_IVA == "1" & Comprobante_IVA == "1" | PAGOS_ISLR == "1" & Comprobante_ISLR == "1")
+                            if (PAGOS_Muni == "1" && Comprobante_Muni == "0")
+                            {
+                                Fila.Cells["Estatus"].Style.BackColor = IVAS_ISLR;
+                                //Fila.Cells["Estatus"].Style.Padding = newPadding;
+                                DgvListadoOrdenes.Columns["Estatus"].DefaultCellStyle.Format = "C";
+                                Fila.Cells["Estatus"].Style.ForeColor = Color.White;
+                            }
+
+                            if (PAGOS_IVA == "1" & Comprobante_IVA == "1" | PAGOS_ISLR == "1" & Comprobante_ISLR == "1" | PAGOS_Muni == "1" && Comprobante_Muni == "1")
                             {
                                 Fila.Cells["Estatus"].Style.BackColor = colfact;
                                 //Fila.Cells["Estatus"].Style.Padding = newPadding;
@@ -2415,6 +2425,7 @@ namespace CapaVisual_Login
                     PnlComprobanteRetencion.Enabled = false;
                     PnlComprobanteRetencion.Visible = false;
                     TxtRetencionIVA.Text = "";
+                    TxtRetencionMunicipal.Text = "";
                     TxtRetencionISRL.Text = "";
                     TxtRetencionFactura.Text = "";
                     return;
