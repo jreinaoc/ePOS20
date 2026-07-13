@@ -5943,10 +5943,33 @@ namespace CapaVisual_Login
                                 Cbx_Tap1_PorcentajeIVA_Pagador.Items.Add(row["ValorSeparado"].ToString());
                             }
 
-                            // Seleccionar el primer porcentaje real (índice 1 porque 0 es blanco)
-                            if (Cbx_Tap1_PorcentajeIVA_Pagador.Items.Count > 1)
+                            int indexSeleccionado = -1;
+                            // --- NUEVA LÓGICA DE SELECCIÓN ---
+                            if (dtCliente.Rows[0]["CTE_PORCIVA"] != DBNull.Value && Convert.ToDecimal(dtCliente.Rows[0]["CTE_PORCIVA"]) > 0)
                             {
-                                Cbx_Tap1_PorcentajeIVA_Pagador.SelectedIndex = 1;
+                                decimal porcentajeCliente = Convert.ToDecimal(dtCliente.Rows[0]["CTE_PORCIVA"]);
+                                // Recorremos los items del combobox para buscar la coincidencia exacta
+                                for (int i = 0; i < Cbx_Tap1_PorcentajeIVA_Pagador.Items.Count; i++)
+                                {
+                                    decimal valorItem = string.IsNullOrWhiteSpace(Cbx_Tap1_PorcentajeIVA_Pagador.Items[i].ToString()) ? 0 : Convert.ToDecimal(Cbx_Tap1_PorcentajeIVA_Pagador.Items[i].ToString());
+
+                                    if (Math.Abs(valorItem - porcentajeCliente) < 0.001m)
+                                    {
+                                        indexSeleccionado = i;
+                                        break;
+                                    }
+                                }
+                            }
+
+                            if (indexSeleccionado != -1)
+                            {
+                                Cbx_Tap1_PorcentajeIVA_Pagador.SelectedIndex = indexSeleccionado;
+                            }
+                            else
+                            {
+                                // Si no encuentra el porcentaje, selecciona el primer porcentaje real (índice 1) como respaldo
+                                if (Cbx_Tap1_PorcentajeIVA_Pagador.Items.Count > 1)
+                                    Cbx_Tap1_PorcentajeIVA_Pagador.SelectedIndex = 1;
                             }
 
                             Cbx_Tap1_PorcentajeIVA_Pagador.Enabled = true;
@@ -9600,96 +9623,6 @@ namespace CapaVisual_Login
         private void llenarcampos()
         {
 
-            //LimpiarCampos2();
-            //limpearExamen();
-
-
-
-            //Txt_Pnl2_Cedula.Text = dtCliente.Rows[0]["CTE_Nacio"].ToString() +"-"+dtCliente.Rows[0]["CTE_CedIden"].ToString(); // Ajusta el nombre de la columna
-            //Txt_Pnl_2_Nombre.Text = dtCliente.Rows[0]["CTE_PNombre"].ToString(); // Ajusta el nombre de la columna
-
-
-            //// Asigna los valores de la base de datos a las cajas de texto
-            //Cbx_Tap1_Nacionalidad.Text = dtCliente.Rows[0]["CTE_Nacio"].ToString();
-            //Txt_Tap1_Cedula.Text = dtCliente.Rows[0]["CTE_CedIden"].ToString(); // Ajusta el nombre de la columna
-            //Txt_Tap1_Nombre.Text = dtCliente.Rows[0]["CTE_PNombre"].ToString(); // Ajusta el nombre de la columna
-
-
-            //Dtp_Tap1_Nacimiento.Text = dtCliente.Rows[0]["CTE_FNac"].ToString();
-
-            //// ... Asigna los demás campos según tu estructura de base de datos
-
-            //if (dtCliente.Rows[0]["CTE_RETIMUNICIPAL"] != DBNull.Value && Convert.ToBoolean(dtCliente.Rows[0]["CTE_RETIMUNICIPAL"]))
-            //{
-            //    Chex_Tap1_Iva.SetItemChecked(1, true); // Marcar el segundo elemento
-            //}
-            //else
-            //{
-            //    Chex_Tap1_Iva.SetItemChecked(1, false); // Desmarcar el segundo elemento si es falso o nulo
-            //}
-
-            //if (dtCliente.Rows[0]["CTE_RETISLR"] != DBNull.Value && Convert.ToBoolean(dtCliente.Rows[0]["CTE_RETISLR"]))
-            //{
-            //    Chex_Tap1_Iva.SetItemChecked(0, true); // Marcar el primer elemento (asumiendo que es ISR)
-            //}
-            //else
-            //{
-            //    Chex_Tap1_Iva.SetItemChecked(0, false); // Desmarcar el primer elemento si es falso o nulo
-            //}
-
-            //if (dtCliente.Rows[0]["CTE_RETIVA"] != DBNull.Value && Convert.ToBoolean(dtCliente.Rows[0]["CTE_RETIVA"]))
-            //{
-            //    Chex_Tap1_Iva2.SetItemChecked(0, true); // Marcar el segundo elemento
-
-            //    DataTable DtIva = _D_Articulos.BuscarIvaPorce();
-
-            //    // Limpiar el ComboBox antes de cargar nuevos datos
-            //    Cbx_Tap1_PorcentajeIVA.Items.Clear();
-
-            //    // Cargar los porcentajes de IVA en el ComboBox
-            //    foreach (DataRow row in DtIva.Rows)
-            //    {
-            //        Cbx_Tap1_PorcentajeIVA.Items.Add(row["ValorSeparado"].ToString());
-            //    }
-
-            //    // Opcional: Seleccionar el primer elemento
-            //    if (Cbx_Tap1_PorcentajeIVA.Items.Count > 0)
-            //    {
-            //        Cbx_Tap1_PorcentajeIVA.SelectedIndex = 0;
-            //    }
-
-            //    Cbx_Tap1_PorcentajeIVA.Enabled = true;
-            //}
-            //else
-            //{
-            //    Chex_Tap1_Iva2.SetItemChecked(0, false); // Desmarcar el segundo elemento si es falso o nulo
-            //                                             // Limpiar el ComboBox antes de cargar nuevos datos
-            //    Cbx_Tap1_PorcentajeIVA.Items.Clear();
-            //    Cbx_Tap1_PorcentajeIVA.Enabled = false;
-            //}
-
-            //if (dtCliente.Rows[0]["CTE_Sex"] != DBNull.Value)
-            //{
-            //    string sexo = dtCliente.Rows[0]["CTE_Sex"].ToString().Trim().ToUpper();
-
-            //    if (sexo == "F")
-            //    {
-            //        Rd_Tap1_SexoF.Checked = true;
-            //        Rd_Tap1_SexoM.Checked = false;
-            //    }
-            //    else if (sexo == "M")
-            //    {
-            //        Rd_Tap1_SexoM.Checked = true;
-            //        Rd_Tap1_SexoF.Checked = false;
-            //    }
-            //}
-            //else
-            //{
-            //    Rd_Tap1_SexoF.Checked = false;
-            //    Rd_Tap1_SexoM.Checked = true;
-            //}
-
-
             LimpiarCampos2();
             limpearExamen();
 
@@ -9727,10 +9660,33 @@ namespace CapaVisual_Login
                     Cbx_Tap1_PorcentajeIVA.Items.Add(row["ValorSeparado"].ToString());
                 }
 
-                // Seleccionar el primer porcentaje real (índice 1 porque 0 es blanco)
-                if (Cbx_Tap1_PorcentajeIVA.Items.Count > 1)
+                int indexSeleccionado = -1;
+                // --- NUEVA LÓGICA DE SELECCIÓN ---
+                if (dtCliente.Rows[0]["CTE_PORCIVA"] != DBNull.Value && Convert.ToDecimal(dtCliente.Rows[0]["CTE_PORCIVA"])> 0 )
                 {
-                    Cbx_Tap1_PorcentajeIVA.SelectedIndex = 1;
+                    decimal porcentajeCliente = Convert.ToDecimal(dtCliente.Rows[0]["CTE_PORCIVA"]); 
+                    // Recorremos los items del combobox para buscar la coincidencia exacta
+                    for (int i = 0; i < Cbx_Tap1_PorcentajeIVA.Items.Count; i++)
+                    {
+                        decimal valorItem = string.IsNullOrWhiteSpace(Cbx_Tap1_PorcentajeIVA.Items[i].ToString()) ? 0 : Convert.ToDecimal(Cbx_Tap1_PorcentajeIVA.Items[i].ToString());
+
+                        if (Math.Abs(valorItem - porcentajeCliente) < 0.001m)
+                        {
+                            indexSeleccionado = i;
+                            break;
+                        }
+                    }
+                }
+
+                if (indexSeleccionado != -1)
+                {
+                    Cbx_Tap1_PorcentajeIVA.SelectedIndex = indexSeleccionado;
+                }
+                else
+                {
+                    // Si no encuentra el porcentaje, selecciona el primer porcentaje real (índice 1) como respaldo
+                    if (Cbx_Tap1_PorcentajeIVA.Items.Count > 1)
+                        Cbx_Tap1_PorcentajeIVA.SelectedIndex = 1;
                 }
 
                 Cbx_Tap1_PorcentajeIVA.Enabled = true;
