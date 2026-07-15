@@ -2272,7 +2272,6 @@ namespace CapaVisual_Login
             {
                 if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() != "10")
                 {
-                    MessageBox.Show("Valida tipo venta 10 linea 2275");
                     if (e.KeyCode == Keys.F2)
                     {
                         VisualizarPanel("Lista_Articulo");
@@ -2618,7 +2617,6 @@ namespace CapaVisual_Login
 
             if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() != "10")
             {
-                MessageBox.Show("Valida tipo venta 10 linea 2621");
                 ValidarRegistrosYHabilitar_Botones();
             }
 
@@ -3571,7 +3569,6 @@ namespace CapaVisual_Login
             }
             if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() != "10")
             {
-                MessageBox.Show("Valida tipo venta 10 linea 3571");
                 // Mostar o no el tipo de laboratirio y srevicio 
                 ValidarTipoVenta(Cbx_Pnl2_Trbajo.Text);
             }
@@ -4152,7 +4149,6 @@ namespace CapaVisual_Login
 
                     if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "10")
                     {
-                        MessageBox.Show("Valida tipo venta 10 linea 4153");
                         _lGiftCard.AgregarGiftCard(codSucursal, numeroOrden, "0", Convert.ToDecimal(txtMontoDolaresGiftCard.Text.Trim().Replace(".", "")), txtBeneficiarioGiftCard.Text, txtCorreoGiftCard.Text, txtMensajeGiftCard.Text, 0 , null, TB_USUARIO.COD_USR, null, command);
                     }
 
@@ -5234,7 +5230,6 @@ namespace CapaVisual_Login
             }
             else if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "10")
             {
-                MessageBox.Show("Valida tipo venta 10 linea 5234");
                 Cbx_Pnl2_Laboratorio.Visible = false;
                 this.Cbx_Tap2_Ojo.Visible = false;
                 this.Txt_Pnl2_Examen.Visible = false;

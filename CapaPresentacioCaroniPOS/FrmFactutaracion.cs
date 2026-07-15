@@ -1044,7 +1044,7 @@ namespace CapaVisual_Login
                 {
 
                     //'Si los campos poseen valores proceso los datos
-                    if (txtRef.Text.Trim() != "0.00" && txtMonto2Bs.Text.Trim() != "0,00" && txtIGTF.Text.Trim() != "0.00" && txtTranferencia.Text.Trim() != "" && CbxBanco.Text.Trim() != "" && Convert.ToDouble(txtMonto2Bs.Text.Trim().Replace(".", "")) >= 1)
+                    if (txtRef.Text.Trim() != "0.00" && txtMonto2Bs.Text.Trim() != "0,00" && txtTranferencia.Text.Trim() != "" && CbxBanco.Text.Trim() != "" && Convert.ToDouble(txtMonto2Bs.Text.Trim().Replace(".", "")) >= 1)
                     {
 
                         if (Bolivares > (Math.Round((TB_CAORDSER.OrSer_Saldo + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos)) + Convert.ToDouble(txtIGTF.Text.Replace(".", ","))) - TotalAbono, 2)))
@@ -1338,7 +1338,7 @@ namespace CapaVisual_Login
                 {
                 
                     //'Si los campos poseen valores proceso los datos
-                    if (txtRef.Text.Trim() != "0.00" && txtMonto2Bs.Text.Trim() != "0,00" && txtIGTF.Text.Trim() != "0.00" && CbxBanco.Text.Trim() != "" && Convert.ToDouble(txtMonto2Bs.Text.Trim().Replace(".", "")) > 0)
+                    if (txtRef.Text.Trim() != "0.00" && txtMonto2Bs.Text.Trim() != "0,00"  && CbxBanco.Text.Trim() != "" && Convert.ToDouble(txtMonto2Bs.Text.Trim().Replace(".", "")) > 0)
                     {
 
 
@@ -1416,7 +1416,7 @@ namespace CapaVisual_Login
                                 if (TxtRecibidoREF.Text.Trim() != "" && TxtRecibidoREF.Text.Trim() != "0.00")
                                 {
 
-                                    if (Convert.ToDouble(TxtRecibidoREF.Text) <= Convert.ToDouble(txtRef.Text))
+                                    if (Convert.ToDouble(TxtRecibidoREF.Text) <= Convert.ToDouble(txtRef.Text) && TB_CAORDSER.Cod_DetVta != "10")
                                     {
                                         _FrmMensajes.co = 2;
                                         _FrmMensajes.avisomensaje("El Monto recibido debe ser mayor a: " + txtRef.Text + "");
@@ -2374,7 +2374,7 @@ namespace CapaVisual_Login
                 _L_Facturacion.DatosOrden(NumeroOrden, Revison);
 
                 ////agregado 19-05-2023 Para que se Actualize el Igtf de la Orden que viene de Epos
-                if (TB_CAORDSER.OrSer_Status == "005")
+                if (TB_CAORDSER.OrSer_Status == "005" && TB_CAORDSER.Cod_DetVta !="10")
                 {
                     DataTable Abonos = _D_DetalleOrden.RevisarAbonosIGTF_Epos(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision);
                     bool Actualizar = false;
