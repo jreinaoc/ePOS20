@@ -780,12 +780,13 @@ namespace CapaVisual_Login
             // 
             this.label3.AutoSize = true;
             this.label3.BackColor = System.Drawing.Color.Teal;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.White;
-            this.label3.Location = new System.Drawing.Point(56, 53);
+            this.label3.Location = new System.Drawing.Point(32, 51);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(61, 13);
+            this.label3.Size = new System.Drawing.Size(84, 15);
             this.label3.TabIndex = 16;
-            this.label3.Text = "POWER IA";
+            this.label3.Text = "Powered by AI";
             // 
             // FrmPrincipal
             // 
