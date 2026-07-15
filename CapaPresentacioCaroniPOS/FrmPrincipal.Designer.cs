@@ -76,6 +76,7 @@ namespace CapaVisual_Login
             this.BtnMinimizar = new System.Windows.Forms.Button();
             this.PnlListadoOrdenes = new System.Windows.Forms.Panel();
             this.lblUsuario = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.GbxMenuPrincipal.SuspendLayout();
             this.pnlUtilitarios.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
@@ -775,6 +776,17 @@ namespace CapaVisual_Login
             this.lblUsuario.Text = "label3";
             this.lblUsuario.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.BackColor = System.Drawing.Color.Teal;
+            this.label3.ForeColor = System.Drawing.Color.White;
+            this.label3.Location = new System.Drawing.Point(56, 53);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(61, 13);
+            this.label3.TabIndex = 16;
+            this.label3.Text = "POWER IA";
+            // 
             // FrmPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -782,6 +794,7 @@ namespace CapaVisual_Login
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1370, 722);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.lblUsuario);
             this.Controls.Add(this.BtnMinimizar);
             this.Controls.Add(this.label1);
@@ -870,5 +883,6 @@ namespace CapaVisual_Login
         private System.Windows.Forms.PictureBox pictureBox6;
         private System.Windows.Forms.PictureBox pictBoxUtilitarioOscuro;
         private System.Windows.Forms.Label lblUsuario;
+        private System.Windows.Forms.Label label3;
     }
 }

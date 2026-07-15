@@ -3063,11 +3063,13 @@ namespace CapaVisual_Login
                     string Resultado_Parametro = _D_DetalleOrden.TB_PARAMETRO("ActivaIGTF");
                     bool Cobro_IGTF = Convert.ToBoolean(Convert.ToInt32(Resultado_Parametro));
 
-                    if(Cobro_IGTF == true)
+                    if(Cobro_IGTF == true && TB_CAORDSER.Cod_DetVta != "10")
                     {
                         double MontoFaltanteIgtfbs = (Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) - Igtf_TotalAboTranferenciaDolar) * 0.03;
 
                         txtRef.Text = Convert.ToString(Math.Round(((Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) + MontoFaltanteIgtfbs) / Convert.ToDouble(TB_TASA_Dolar.Tasa)), 2));
+                        txtIGTF.Text = Convert.ToString(_L_Facturacion.CalculoIgtf(txtNumeroOrden, Convert.ToString(Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) - Igtf_TotalAboTranferenciaDolar), DgvAbonos));
+
                     }
                     else
                     {
@@ -3077,7 +3079,7 @@ namespace CapaVisual_Login
 
 
                     //modificado 17-05-2023
-                    txtIGTF.Text = Convert.ToString(_L_Facturacion.CalculoIgtf(txtNumeroOrden, Convert.ToString(Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) - Igtf_TotalAboTranferenciaDolar), DgvAbonos));
+                    //txtIGTF.Text = Convert.ToString(_L_Facturacion.CalculoIgtf(txtNumeroOrden, Convert.ToString(Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) - Igtf_TotalAboTranferenciaDolar), DgvAbonos));
                     BolivaresConveridos(Convert.ToDouble(Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) + Convert.ToDouble(txtIGTF.Text)), txtMonto2Bs);
                     //txtMonto2Bs.Text = Convert.ToString(Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) + Convert.ToDouble(txtIGTF.Text));
                     VisualizarPanel("MostrarPanelSecundario");
@@ -3231,18 +3233,20 @@ namespace CapaVisual_Login
                     string Resultado_Parametro = _D_DetalleOrden.TB_PARAMETRO("ActivaIGTF");
                     bool Cobro_IGTF = Convert.ToBoolean(Convert.ToInt32(Resultado_Parametro));
 
-                    if (Cobro_IGTF == true)
+                    if (Cobro_IGTF == true && TB_CAORDSER.Cod_DetVta != "10")
                     {
                         double MontoFaltanteIgtfbs = (Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) - Igtf_TotalAboTranferenciaDolar) * 0.03;
 
                         txtRef.Text = Convert.ToString(Math.Round(((Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) + MontoFaltanteIgtfbs) / Convert.ToDouble(TB_TASA_Dolar.Tasa)), 2));
+                        txtIGTF.Text = Convert.ToString(_L_Facturacion.CalculoIgtf(txtNumeroOrden, Convert.ToString(Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) - Igtf_TotalAboTranferenciaDolar), DgvAbonos));
+
                     }
                     else
                     {
                         txtRef.Text = Convert.ToString(Math.Round((Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) / Convert.ToDouble(TB_TASA_Dolar.Tasa)), 2));
                     }
 
-                    txtIGTF.Text = Convert.ToString(_L_Facturacion.CalculoIgtf(txtNumeroOrden, Convert.ToString(Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) - Igtf_TotalAboTranferenciaDolar), DgvAbonos));
+                    //txtIGTF.Text = Convert.ToString(_L_Facturacion.CalculoIgtf(txtNumeroOrden, Convert.ToString(Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) - Igtf_TotalAboTranferenciaDolar), DgvAbonos));
 
                     BolivaresConveridos(Convert.ToDouble(Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) + Convert.ToDouble(txtIGTF.Text)), txtMonto2Bs);
                     //txtMonto2Bs.Text = Convert.ToString(Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) + Convert.ToDouble(txtIGTF.Text));
@@ -3845,6 +3849,11 @@ namespace CapaVisual_Login
                 //Cashea mas cuotas
                 if (CbxMetodosPago.SelectedValue.ToString()  == "025")
                 {
+                    if (TB_CAORDSER.Cod_DetVta == "10")
+                    {
+                        mostrarError("No puede usar este tipo de pago");
+                        return;
+                    }
                     bool Cashea = _L_Facturacion.Verificar_Pago_CACHEA(DgvAbonos,TB_CAORDSER.OrSer_Status);
                     if (Cashea == false)
                     {
@@ -4369,6 +4378,12 @@ namespace CapaVisual_Login
                 if (CbxMetodosPago.SelectedValue.ToString() == "024")
                 {
                     _procesandoPagoCashea = false;
+                    if (TB_CAORDSER.Cod_DetVta == "10")
+                    {
+                        mostrarError("No puede usar este tipo de pago");
+                        return;
+                    }
+
                     if (TB_CAORDSER.Orser_Total_Mon < 25)
                     {
                         mostrarError("El monto mínimo para usar cashea es de 25$");
@@ -4502,7 +4517,12 @@ namespace CapaVisual_Login
 
                 if (CbxMetodosPago.SelectedValue.ToString() == "027")
                 {
-                    
+
+                    if (TB_CAORDSER.Cod_DetVta  == "10")
+                    {
+                        mostrarError("No puede usar este tipo de pago");
+                        return;
+                    }
 
                     _saldoGiftCardActual = null;
                     _codigoGiftCardValidado = string.Empty;
@@ -7050,12 +7070,14 @@ namespace CapaVisual_Login
                     string Resultado_Parametro = _D_DetalleOrden.TB_PARAMETRO("ActivaIGTF");
                     bool Cobro_IGTF = Convert.ToBoolean(Convert.ToInt32(Resultado_Parametro));
 
-                    
-                    if (Cobro_IGTF == true)
+
+                    if (Cobro_IGTF == true && TB_CAORDSER.Cod_DetVta != "10")
                     {
                         double MontoFaltanteIgtfbs = (Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) - Igtf_TotalAboTranferenciaDolar) * 0.03;
 
                         txtRef.Text = Convert.ToString(Math.Round(((Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) + MontoFaltanteIgtfbs) / Convert.ToDouble(TB_TASA_Dolar.Tasa)), 2));
+                        txtIGTF.Text = Convert.ToString(_L_Facturacion.CalculoIgtf(txtNumeroOrden, Convert.ToString(Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) - Igtf_TotalAboTranferenciaDolar), DgvAbonos));
+
                     }
                     else
                     {
@@ -7064,7 +7086,7 @@ namespace CapaVisual_Login
 
 
                     //modificado 17-05-2023
-                    txtIGTF.Text = Convert.ToString(_L_Facturacion.CalculoIgtf(txtNumeroOrden, Convert.ToString(Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) - Igtf_TotalAboTranferenciaDolar), DgvAbonos));
+                    //txtIGTF.Text = Convert.ToString(_L_Facturacion.CalculoIgtf(txtNumeroOrden, Convert.ToString(Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) - Igtf_TotalAboTranferenciaDolar), DgvAbonos));
                     BolivaresConveridos(Convert.ToDouble(Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) + Convert.ToDouble(txtIGTF.Text)), txtMonto2Bs);
                     //txtMonto2Bs.Text = Convert.ToString(Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) + Convert.ToDouble(txtIGTF.Text));
 
@@ -7089,11 +7111,13 @@ namespace CapaVisual_Login
                         string Resultado_Parametro = _D_DetalleOrden.TB_PARAMETRO("ActivaIGTF");
                         bool Cobro_IGTF = Convert.ToBoolean(Convert.ToInt32(Resultado_Parametro));
 
-                        if (Cobro_IGTF == true)
+                        if (Cobro_IGTF == true && TB_CAORDSER.Cod_DetVta != "10")
                         {
                             double MontoFaltanteIgtfbs = (Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) - Igtf_TotalAboTranferenciaDolar) * 0.03;
 
                             txtRef.Text = Convert.ToString(Math.Round(((Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) + MontoFaltanteIgtfbs) / Convert.ToDouble(TB_TASA_Euro.Tasa)), 2));
+                            txtIGTF.Text = Convert.ToString(_L_Facturacion.CalculoIgtf(txtNumeroOrden, Convert.ToString(Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) - Igtf_TotalAboTranferenciaDolar), DgvAbonos));
+
                         }
                         else
                         {
@@ -7102,7 +7126,7 @@ namespace CapaVisual_Login
 
 
                         //modificado 17-05-2023
-                        txtIGTF.Text = Convert.ToString(_L_Facturacion.CalculoIgtf(txtNumeroOrden, Convert.ToString(Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) - Igtf_TotalAboTranferenciaDolar), DgvAbonos));
+                        //txtIGTF.Text = Convert.ToString(_L_Facturacion.CalculoIgtf(txtNumeroOrden, Convert.ToString(Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) - Igtf_TotalAboTranferenciaDolar), DgvAbonos));
                         BolivaresConveridos(Convert.ToDouble(Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) + Convert.ToDouble(txtIGTF.Text)), txtMonto2Bs);
                         //txtMonto2Bs.Text = Convert.ToString(Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) + Convert.ToDouble(txtIGTF.Text));
 
@@ -10930,71 +10954,7 @@ namespace CapaVisual_Login
         private async void btnQR_CheckedChanged(object sender, EventArgs e)
         {
 
-
-            try
-            {
-                // 2. Mapear los datos reales desde los controles de tu formulario
-                // Nota: Asume que tienes campos de texto para el correo del cliente y el monto
-                var request = new CreateGiftCardRequest
-                {
-                    Recipient = "jacqueline.reina@gmail.com", // Correo de quien recibe la tarjeta
-                    Sender = "ePOS Óptica Caroní",            // Identificador de origen
-                    Balance = 100, // El saldo asignado
-                    MetaData = new List<GiftCardMeta>
-            {
-                // Metadatos útiles para auditoría en el panel de WooCommerce
-                new GiftCardMeta { Key = "sucursal", Value = "Sambil Caracas" },
-                new GiftCardMeta { Key = "operador", Value = "UsuarioPOS" }
-            }
-                };
-
-                // 3. Invocar de manera asíncrona la capa lógica
-                var resultado = await _lGiftCard.CrearNuevaGiftCard(request);
-
-                // 4. Evaluar la respuesta estandarizada
-                if (resultado.IsSuccess)
-                {
-                    // El objeto resultado.Data contiene el ID, Code y Balance que devolvió WooCommerce
-                    string codigoGenerado = resultado.Data.Code;
-                    int idInternoWoo = resultado.Data.Id;
-
-                    // Muestra mensaje de éxito al operador
-                    //MessageBox.Show($"¡Gift Card generada exitosamente!\n\nCódigo: {codigoGenerado}\nSaldo: {resultado.Data.Balance:N2}",
-                    //                "Proceso Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    //string mensajeExito = $"¡Gift Card generada exitosamente!\n\nCódigo: {codigoGenerado}\nSaldo: {resultado.Data.Balance:N2}";
-                    //_FrmMensajes.co = 1; // Éxito/Información
-                    //_FrmMensajes.avisomensaje(mensajeExito);
-                    //_FrmMensajes.ShowDialog();
-
-                    // [AQUÍ TU LÓGICA INTERNA DE FACTURACIÓN]:
-                    // - Guardar 'codigoGenerado' en la tabla local de tu base de datos si es necesario.
-                    // - Mandar a imprimir el ticket físico con el código de barra para el cliente.
-
-                    this.DialogResult = DialogResult.OK; // O el flujo de cierre que corresponda
-                }
-                else
-                {
-                    // Si falla la validación del API o el servidor rechaza los datos (ej: código de estado 400)
-                   // MessageBox.Show($"No se pudo emitir la Gift Card.\nDetalle: {resultado.Message}",
-                                //    "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    string mensajeExito = $"No se pudo emitir la Gift Card.\nDetalle: {resultado.Message}";
-                    _FrmMensajes.co = 1; // Éxito/Información
-                    _FrmMensajes.avisomensaje(mensajeExito);
-                    _FrmMensajes.ShowDialog();
-                }
-            }
-            catch (FormatException)
-            {
-                _FrmMensajes.co = 2;
-                _FrmMensajes.avisomensaje("Por favor, introduzca un monto válido de facturación.");
-                _FrmMensajes.ShowDialog();
-            }
-            catch (Exception ex)
-            {
-                _FrmMensajes.co = 2;
-                _FrmMensajes.avisomensaje($"Ocurrió un error inesperado: {ex.Message}");
-                _FrmMensajes.ShowDialog();
-            }
+                
         }
 
         private async Task<bool> CrearGiftCard(string email, string nombre, int monto, string codSucursal, string nroOrden, string revision)
@@ -11036,7 +10996,7 @@ namespace CapaVisual_Login
                     //MessageBox.Show($"¡Gift Card generada exitosamente!\n\nCódigo: {codigoGenerado}\nSaldo: {resultado.Data.Balance:N2}",
                     //                "Proceso Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    string mensajeExito = $"¡Gift Card generada exitosamente!\n\nCódigo: {codigoGenerado}\nSaldo: {resultado.Data.Balance:N2}";
+                    string mensajeExito = $"Gift Card generada exitosamente";
                     _FrmMensajes.co = 1; // Éxito/Información
                     _FrmMensajes.avisomensaje(mensajeExito);
                     _FrmMensajes.ShowDialog();
@@ -11111,10 +11071,10 @@ namespace CapaVisual_Login
                         _codigoGiftCardValidado = codigoTarjeta;
                         // ==========================================================
 
-                        string mensajeExito = $"¡Gift Card válida!\n\nCódigo: {codigoTarjeta}\nSaldo Disponible: {saldoRestante:N2} USD";
-                        _FrmMensajes.co = 1;
-                        _FrmMensajes.avisomensaje(mensajeExito);
-                        _FrmMensajes.ShowDialog();
+                        //string mensajeExito = $"¡Gift Card válida!\n\nCódigo: {codigoTarjeta}\nSaldo Disponible: {saldoRestante:N2} USD";
+                        //_FrmMensajes.co = 1;
+                        //_FrmMensajes.avisomensaje(mensajeExito);
+                        //_FrmMensajes.ShowDialog();
 
                         return saldoRestante; // 🌟 ¡LA CLAVE!: Retornamos el valor decimal directamente
                     }
