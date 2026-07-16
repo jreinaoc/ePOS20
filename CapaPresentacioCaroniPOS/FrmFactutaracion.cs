@@ -3850,7 +3850,7 @@ namespace CapaVisual_Login
                 //Cashea mas cuotas
                 if (CbxMetodosPago.SelectedValue.ToString()  == "025")
                 {
-                    if (TB_CAORDSER.Cod_DetVta == "10")
+                    if (TB_CAORDSER.Cod_DetVta == "10" && _D_DetalleOrden.TB_PARAMETRO("GiftCardCashea") == "0")
                     {
                         mostrarError("No puede usar este tipo de pago");
                         return;
@@ -4379,7 +4379,7 @@ namespace CapaVisual_Login
                 if (CbxMetodosPago.SelectedValue.ToString() == "024")
                 {
                     _procesandoPagoCashea = false;
-                    if (TB_CAORDSER.Cod_DetVta == "10")
+                    if (TB_CAORDSER.Cod_DetVta == "10" && _D_DetalleOrden.TB_PARAMETRO("GiftCardCashea") == "0")
                     {
                         mostrarError("No puede usar este tipo de pago");
                         return;
@@ -4515,7 +4515,7 @@ namespace CapaVisual_Login
 
 
                 }
-
+                //GiftCard
                 if (CbxMetodosPago.SelectedValue.ToString() == "027")
                 {
 
