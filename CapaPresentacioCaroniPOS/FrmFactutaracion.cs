@@ -3029,6 +3029,7 @@ namespace CapaVisual_Login
             BtnConsultarGiftCard.Visible = false;
             txtTranferencia.Text = "";
             txtTranferencia.ForeColor = System.Drawing.Color.Black;
+            lblMensajeCashea.Visible = false;
 
             if (!CbxMetodosPago.Focused) return;
 
@@ -10140,6 +10141,7 @@ namespace CapaVisual_Login
                 // 3. Evaluamos el éxito usando la propiedad IsSuccess del objeto
                 if (!resultado.IsSuccess)
                 {
+                    lblMensajeCashea.Visible = true;
                     lblMensajeCashea.Text = "No hay conexión";
                     lblMensajeCashea.ForeColor = Color.Red;
                 }
