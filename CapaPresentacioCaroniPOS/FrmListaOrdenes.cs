@@ -418,12 +418,15 @@ namespace CapaVisual_Login
                     {
                         if (PAGOS_IVA == "1" | PAGOS_ISLR == "1" | PAGOS_Muni == "1")
                         {
+                            bool faltaComprobante = false;
+
                             if (PAGOS_IVA == "1" && Comprobante_IVA == "0")
                             {
                                 Fila.Cells["Estatus"].Style.BackColor = IVAS_ISLR;
                                 //Fila.Cells["Estatus"].Style.Padding = newPadding;
                                 DgvListadoOrdenes.Columns["Estatus"].DefaultCellStyle.Format = "C";
                                 Fila.Cells["Estatus"].Style.ForeColor = Color.White;
+                                faltaComprobante = true;
                             }
 
                             if (PAGOS_ISLR == "1" && Comprobante_ISLR == "0")
@@ -432,6 +435,7 @@ namespace CapaVisual_Login
                                 //Fila.Cells["Estatus"].Style.Padding = newPadding;
                                 DgvListadoOrdenes.Columns["Estatus"].DefaultCellStyle.Format = "C";
                                 Fila.Cells["Estatus"].Style.ForeColor = Color.White;
+                                faltaComprobante = true;
                             }
 
                             if (PAGOS_Muni == "1" && Comprobante_Muni == "0")
@@ -440,22 +444,34 @@ namespace CapaVisual_Login
                                 //Fila.Cells["Estatus"].Style.Padding = newPadding;
                                 DgvListadoOrdenes.Columns["Estatus"].DefaultCellStyle.Format = "C";
                                 Fila.Cells["Estatus"].Style.ForeColor = Color.White;
+                                faltaComprobante = true;
                             }
 
-                            if (PAGOS_IVA == "1" & Comprobante_IVA == "1" | PAGOS_ISLR == "1" & Comprobante_ISLR == "1" | PAGOS_Muni == "1" && Comprobante_Muni == "1")
+                            if (faltaComprobante)
                             {
-                                Fila.Cells["Estatus"].Style.BackColor = colfact;
+                                Fila.Cells["Estatus"].Style.BackColor = IVAS_ISLR;
                                 //Fila.Cells["Estatus"].Style.Padding = newPadding;
                                 DgvListadoOrdenes.Columns["Estatus"].DefaultCellStyle.Format = "C";
                                 Fila.Cells["Estatus"].Style.ForeColor = Color.White;
                             }
+                            else
+                            {
+                                if (PAGOS_IVA == "1" && Comprobante_IVA == "1" || PAGOS_ISLR == "1" && Comprobante_ISLR == "1" || PAGOS_Muni == "1" && Comprobante_Muni == "1")
+                                {
+                                    Fila.Cells["Estatus"].Style.BackColor = colfact;
+                                    //Fila.Cells["Estatus"].Style.Padding = newPadding;
+                                    DgvListadoOrdenes.Columns["Estatus"].DefaultCellStyle.Format = "C";
+                                    Fila.Cells["Estatus"].Style.ForeColor = Color.White;
+                                }
+                            }
                         }
                         else
-                            Fila.Cells["Estatus"].Style.BackColor = colfact;
+                        { 
+                        Fila.Cells["Estatus"].Style.BackColor = colfact;
                         //Fila.Cells["Estatus"].Style.Padding = newPadding;
                         DgvListadoOrdenes.Columns["Estatus"].DefaultCellStyle.Format = "C";
                         Fila.Cells["Estatus"].Style.ForeColor = Color.White;
-
+                         }
                     }
 
                     if (Status == "Anulada")
@@ -1672,6 +1688,7 @@ namespace CapaVisual_Login
                     PnlComprobanteRetencion.BringToFront();
                     TxtRetencionIVA.Enabled = false;
                     TxtRetencionISRL.Enabled = false;
+                    TxtRetencionMunicipal.Enabled = false;
 
                     TxtRetencionFactura.Text = _D_DetalleOrden.ComprobantesRegistardos_IVA_ISLR(DgvListadoOrdenes.CurrentRow.Cells["NumOrdserv"].Value.ToString());
                     if (DgvListadoOrdenes.CurrentRow.Cells["PAGOS_IVA"].Value.ToString() == "1" & DgvListadoOrdenes.CurrentRow.Cells["Comprobante_IVA"].Value.ToString() == "0")
