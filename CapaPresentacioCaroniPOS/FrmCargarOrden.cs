@@ -2292,10 +2292,14 @@ namespace CapaVisual_Login
                         listaTemporal = new List<TB_ARTICULO>(listaArticulos);
                         Dgv_Pnl3_Articulo.DataSource = listaTemporal;
                         Formato_Dgv_Busqueda_Articulo();
+
                     }
 
                     // Establecer el foco en el TextBox de cantidad
                     Txt_Pnl3_Articulo.Focus();
+
+
+                   
 
                     _L_Articulo.stringBuilder.Clear();
 
@@ -2332,6 +2336,10 @@ namespace CapaVisual_Login
                     // Evitar que el evento se propague
                     e.Handled = true;
                 }
+
+               
+
+             
             }
            
 
@@ -3565,7 +3573,23 @@ namespace CapaVisual_Login
             // Mostar o no el tipo de laboratirio y srevicio 
             ValidarTipoVenta(Cbx_Pnl2_Trbajo.Text);
 
-            if (_D_DetalleOrden.TB_PARAMETRO("EditarGridFact") == "1" && Txt_Tap3_Articulo_Codigo.Text.Trim() != "Código")
+            bool esDonacion = false;
+
+            if (Txt_Tap3_Articulo_Codigo.Text.Substring(0, 1) == "H")
+            {
+                string tiposArticulosActivanPrecio = _D_DetalleOrden.TB_PARAMETRO("ArtActivaPrecio");
+                string tipoArticuloSeleccionado = Txt_Tap3_Articulo_Codigo.Text.Substring(0, 1);
+
+                // Separamos el string por comas y lo convertimos en un arreglo
+                string[] tiposArticulo = tiposArticulosActivanPrecio.Split(',');
+
+                if (tiposArticulo.Contains(tipoArticuloSeleccionado))
+                {
+                    esDonacion = true;
+                }
+            }
+
+            if ((_D_DetalleOrden.TB_PARAMETRO("EditarGridFact") == "1" && Txt_Tap3_Articulo_Codigo.Text.Trim() != "Código") || esDonacion )
             {
                 Txt_Tap3_Articulo_Precio.Enabled = true;
                 Txt_Tap3_Articulo_Precio.ForeColor = Color.Black;

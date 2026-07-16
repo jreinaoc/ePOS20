@@ -74,7 +74,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>vi4rTvwsurfAo75sLHOGnDDEAwdF4TxxbxO62jnREVE=</dsig:DigestValue>
+        <dsig:DigestValue>F/U4u1/dgo+J+AYO3N9+zDltTSW2ZN3zl9S8wnVUl7Q=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -86,7 +86,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>JPoJwihK/UIVjdfYNbkAk8LcsFXd+bVwYp+VyTfwyCY=</dsig:DigestValue>
+        <dsig:DigestValue>yqkONxB63IG0hGdN1oihc1DqFUtDNAUBq5uY+MEgBpU=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -98,7 +98,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>KExCdEGQtUS1oAzHJ/cPHDD3z/QwEywzfnB8mTvOpek=</dsig:DigestValue>
+        <dsig:DigestValue>EtMNa4/VITOPvz1vQJ9X+djCPAmnZ9/h/5+vOcBAFB4=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -218,7 +218,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>f/SgUwnfKDbBMZEoaHOGNzoTFjeR/Yyln4zMY2xOgQM=</dsig:DigestValue>
+        <dsig:DigestValue>+Kv25QK4FovROFlfQlA3+nuuICy1LxABtRlhe3CfMLU=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -1184,13 +1184,13 @@
   </dependency>
   <dependency>
     <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Script.dll" size="5120">
-      <assemblyIdentity name="Script" version="1.0.1.3" language="neutral" processorArchitecture="msil" />
+      <assemblyIdentity name="Script" version="1.0.1.4" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>zWadc//PsPIRwPHZYm29ADRv6LXFimNcjwpClvUD7cg=</dsig:DigestValue>
+        <dsig:DigestValue>0GhObmWqqq5BZyLiOqNFNOKhikJrA+cFtV5B52o83LA=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -1329,7 +1329,7 @@
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>1aT8DXngu/Yoicxc3p0+4IQWKIjIZtCJNfdOd9ua4AQ=</dsig:DigestValue>
+      <dsig:DigestValue>8Mmc8Eo49HO6hPNh9kkQ81Z2l1j8amps2KZlGrAHab0=</dsig:DigestValue>
     </hash>
   </file>
   <file name="icono-puntoDeVenta.ico" size="205662">
