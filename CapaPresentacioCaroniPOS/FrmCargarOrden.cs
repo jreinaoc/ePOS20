@@ -2270,65 +2270,69 @@ namespace CapaVisual_Login
             // Verificar si se presionó la tecla F2
             if (ValidarTipoTrabajoTipoExamen(Cbx_Pnl2_Trbajo.SelectedValue.ToString(), Cbx_Tap2_Tipo_Examen.Text) == true)
             {
-                if (e.KeyCode == Keys.F2)
+                if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() != "10")
                 {
-                    VisualizarPanel("Lista_Articulo");
-                    HabilitacionControl("Habilitar_Lista_Articulo");
-                    LimpiarControles("Abrir_Busqueda_Articulos");
-
-                    _L_Articulo.CargarArticulos(Dgv_Pnl3_Articulo, listaArticulos, Cbx_Pnl2_Trbajo.SelectedValue.ToString(), _L_Articulo.ValidarExtenciaCristal(Dgv_Tap3_Articulo, Cbx_Pnl2_Trbajo.SelectedValue.ToString()));
-                    if (_L_Articulo.stringBuilder.Length > 0)
+                    if (e.KeyCode == Keys.F2)
                     {
-                        _FrmMensajes.co = 2;
-                        _FrmMensajes.avisomensaje(_L_Articulo.stringBuilder.ToString());
-                        _FrmMensajes.ShowDialog();
+                        VisualizarPanel("Lista_Articulo");
+                        HabilitacionControl("Habilitar_Lista_Articulo");
+                        LimpiarControles("Abrir_Busqueda_Articulos");
+
+                        _L_Articulo.CargarArticulos(Dgv_Pnl3_Articulo, listaArticulos, Cbx_Pnl2_Trbajo.SelectedValue.ToString(), _L_Articulo.ValidarExtenciaCristal(Dgv_Tap3_Articulo, Cbx_Pnl2_Trbajo.SelectedValue.ToString()));
+                        if (_L_Articulo.stringBuilder.Length > 0)
+                        {
+                            _FrmMensajes.co = 2;
+                            _FrmMensajes.avisomensaje(_L_Articulo.stringBuilder.ToString());
+                            _FrmMensajes.ShowDialog();
+                        }
+                        else
+                        {
+
+                            listaTemporal = new List<TB_ARTICULO>(listaArticulos);
+                            Dgv_Pnl3_Articulo.DataSource = listaTemporal;
+                            Formato_Dgv_Busqueda_Articulo();
+                        }
+
+                        // Establecer el foco en el TextBox de cantidad
+                        Txt_Pnl3_Articulo.Focus();
+
+                        _L_Articulo.stringBuilder.Clear();
+
+                        // Evitar que el evento se propague
+                        e.Handled = true;
                     }
-                    else
+
+                    else if (e.KeyCode == Keys.Enter)
                     {
 
-                        listaTemporal = new List<TB_ARTICULO>(listaArticulos);
-                        Dgv_Pnl3_Articulo.DataSource = listaTemporal;
-                        Formato_Dgv_Busqueda_Articulo();
+                        if (Txt_Tap3_Articulo_Codigo.Text.StartsWith("W") || Txt_Tap3_Articulo_Codigo.Text.StartsWith("w"))
+                        {
+                            DataSet dsColorLC = _L_Articulo.CargarColoresLC(Dgv_Pnl3_ColoresLC, Txt_Tap3_Articulo_Codigo.Text);
+                            Dgv_Pnl3_ColoresLC.DataSource = dsColorLC.Tables[0];
+                            Formato_Dgv_Pnl3_ColoresLC();
+                            Pnl_3_Lista_ColoresLC.Visible = true;
+                            Pnl_3_Lista_ColoresLC.Location = new Point(250, 1);
+                            Pnl_3_Lista_ColoresLC.BringToFront();
+                        }
+                        // Acción para Enter
+                        _L_Articulo.CargarArticulos(Dgv_Pnl3_Articulo, listaArticulos, Cbx_Pnl2_Trbajo.SelectedValue.ToString(), _L_Articulo.ValidarExtenciaCristal(Dgv_Tap3_Articulo, Cbx_Pnl2_Trbajo.SelectedValue.ToString()));
+
+                        //Formatear los caracteres a 7 Digitos cuando es un cristal 
+                        _L_Articulo.FormatearCampo7Digitos(Txt_Tap3_Articulo_Codigo);
+
+                        // Buscar el articulo 
+                        _L_Articulo.FiltrarArticulos_Tap3(Txt_Tap3_Articulo_Codigo.Text, listaArticulos, listaTemporal, Txt_Tap3_Articulo_Codigo, Txt_Tap3_Articulo_Descripcion, Txt_Tap3_Articulo_Precio, Txt_Tap3_Articulo_Cantidad, Cbx_Tap2_Ojo.Text);
+
+                        //if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "09")
+                        //{
+                        //    AplicoGarantia(Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Txt_Pnl2_Cedula.Text.Substring(0, 1), "", Txt_Pnl2_Examen.Text, _D_Inicio.Sucursal());
+                        //}
+
+                        // Evitar que el evento se propague
+                        e.Handled = true;
                     }
-
-                    // Establecer el foco en el TextBox de cantidad
-                    Txt_Pnl3_Articulo.Focus();
-
-                    _L_Articulo.stringBuilder.Clear();
-
-                    // Evitar que el evento se propague
-                    e.Handled = true;
                 }
-
-                else if (e.KeyCode == Keys.Enter)
-                {
-
-                    if (Txt_Tap3_Articulo_Codigo.Text.StartsWith("W") ||  Txt_Tap3_Articulo_Codigo.Text.StartsWith("w"))
-                    {
-                        DataSet dsColorLC = _L_Articulo.CargarColoresLC(Dgv_Pnl3_ColoresLC, Txt_Tap3_Articulo_Codigo.Text);
-                        Dgv_Pnl3_ColoresLC.DataSource = dsColorLC.Tables[0];
-                        Formato_Dgv_Pnl3_ColoresLC();
-                        Pnl_3_Lista_ColoresLC.Visible = true;
-                        Pnl_3_Lista_ColoresLC.Location = new Point(250, 1);
-                        Pnl_3_Lista_ColoresLC.BringToFront();
-                    }
-                    // Acción para Enter
-                    _L_Articulo.CargarArticulos(Dgv_Pnl3_Articulo, listaArticulos, Cbx_Pnl2_Trbajo.SelectedValue.ToString(), _L_Articulo.ValidarExtenciaCristal(Dgv_Tap3_Articulo, Cbx_Pnl2_Trbajo.SelectedValue.ToString()));
-
-                    //Formatear los caracteres a 7 Digitos cuando es un cristal 
-                    _L_Articulo.FormatearCampo7Digitos(Txt_Tap3_Articulo_Codigo);
-
-                    // Buscar el articulo 
-                    _L_Articulo.FiltrarArticulos_Tap3(Txt_Tap3_Articulo_Codigo.Text, listaArticulos, listaTemporal, Txt_Tap3_Articulo_Codigo, Txt_Tap3_Articulo_Descripcion, Txt_Tap3_Articulo_Precio, Txt_Tap3_Articulo_Cantidad, Cbx_Tap2_Ojo.Text);
-
-                    //if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "09")
-                    //{
-                    //    AplicoGarantia(Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Txt_Pnl2_Cedula.Text.Substring(0, 1), "", Txt_Pnl2_Examen.Text, _D_Inicio.Sucursal());
-                    //}
-
-                    // Evitar que el evento se propague
-                    e.Handled = true;
-                }
+                
             }
            
 
@@ -3563,10 +3567,11 @@ namespace CapaVisual_Login
                 Btn_Tap3_Garantia.Enabled = Garantia ? false : true;
                 Btn_Tap3_CristalPropio.Enabled = true;
             }
-
-            // Mostar o no el tipo de laboratirio y srevicio 
-            ValidarTipoVenta(Cbx_Pnl2_Trbajo.Text);
-
+            if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() != "10")
+            {
+                // Mostar o no el tipo de laboratirio y srevicio 
+                ValidarTipoVenta(Cbx_Pnl2_Trbajo.Text);
+            }
             if (_D_DetalleOrden.TB_PARAMETRO("EditarGridFact") == "1" && Txt_Tap3_Articulo_Codigo.Text.Trim() != "Código")
             {
                 Txt_Tap3_Articulo_Precio.Enabled = true;
@@ -4597,7 +4602,7 @@ namespace CapaVisual_Login
                 txtPuente.Enabled = true;
                 CerrarPanelMonturaPropia();
 
-                if (Montura_Propia == true && Cbx_Pnl2_Trbajo.SelectedValue.ToString() != "09")
+                if (Montura_Propia == true && Cbx_Pnl2_Trbajo.SelectedValue.ToString() != "09" && Cbx_Pnl2_Trbajo.SelectedValue.ToString() != "10")
                 {
                     _L_Articulo.CargarServicioMonturaPropia(Dgv_Tap3_Articulo, TipoMonturaPropia == "Completa");
 
@@ -5264,6 +5269,9 @@ namespace CapaVisual_Login
                 txtMensajeGiftCard.Text = "";
                 pnlGiftCard.Visible = true;
                 this.pnlGiftCard.Location = new Point(250, 40);
+                Garantia = false;
+                BotonesColor(true, "Garantia");
+                Btn_Tap3_Garantia.Enabled = false;
             }
             else
             {
@@ -15756,6 +15764,30 @@ namespace CapaVisual_Login
             {
                 txtCorreoGiftCard.Text = ""; // Limpiamos la caja por completo
                 txtCorreoGiftCard.ForeColor = System.Drawing.Color.Black; // Volvemos al color normal
+            }
+        }
+
+        private void txtMontoDolaresGiftCard_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                txtBeneficiarioGiftCard.Focus();
+            }
+        }
+
+        private void txtBeneficiarioGiftCard_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                txtCorreoGiftCard.Focus();
+            }
+        }
+
+        private void txtCorreoGiftCard_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                txtMensajeGiftCard.Focus();
             }
         }
     }
