@@ -5984,9 +5984,9 @@ namespace CapaVisual_Login
                         }
                         else
                         {
-                            //Limpiar el ComboBox si no es retenedor de IVA
-                            Cbx_Tap1_PorcentajeIVA_Pagador.Items.Clear();
-                            Cbx_Tap1_PorcentajeIVA_Pagador.Enabled = false;
+                            ////Limpiar el ComboBox si no es retenedor de IVA
+                            //Cbx_Tap1_PorcentajeIVA_Pagador.Items.Clear();
+                            //Cbx_Tap1_PorcentajeIVA_Pagador.Enabled = false;
                         }
 
                     }
