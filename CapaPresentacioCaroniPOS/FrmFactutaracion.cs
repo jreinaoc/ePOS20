@@ -7443,12 +7443,18 @@ namespace CapaVisual_Login
                                 if (resultado.IsSuccess)
                                 {
                                     _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "113", TB_USUARIO.COD_EMPLEADO, "NroFact: " + Num_Factura + "Monto GiftCard: " + _montoAplicadoGiftCardValidado);
-                                    MessageBox.Show(resultado.Message, "Proceso Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    _FrmMensajes.co = 2;
+                                    _FrmMensajes.avisomensaje(resultado.Message);
+                                    _FrmMensajes.ShowDialog();
+                                   //MessageBox.Show(resultado.Message, "Proceso Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                 }
                                 else
                                 {
-                                    // El servidor rechazó la operación (por ejemplo, el mensaje de "tarjeta no editable" o sin fondos)
-                                    MessageBox.Show(resultado.Message, "Atención en Punto de Venta", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                // El servidor rechazó la operación (por ejemplo, el mensaje de "tarjeta no editable" o sin fondos)
+                                    _FrmMensajes.co = 2;
+                                    _FrmMensajes.avisomensaje(resultado.Message);
+                                    _FrmMensajes.ShowDialog();
+                                    //MessageBox.Show(resultado.Message, "Atención en Punto de Venta", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                 }
                             }
                         
