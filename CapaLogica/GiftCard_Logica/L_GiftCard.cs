@@ -216,7 +216,7 @@ namespace CapaLogica.GiftCard_Logica
                     {
                         IsSuccess = true,
                         StatusCode = 200,
-                        Message = "El saldo de la Gift Card fue debitado correctamente en WooCommerce.",
+                        Message = "El monto de la Gift Card fue aplicado correctamente",
                         Data = true
                     };
                 }
@@ -248,6 +248,49 @@ namespace CapaLogica.GiftCard_Logica
                     IsSuccess = false,
                     StatusCode = 500,
                     Message = $"Error interno en el ePOS al debitar la Gift Card: {ex.Message}",
+                    Data = false
+                };
+            }
+        }
+
+        /// <summary>
+        /// Lógica de negocio para eliminar una Gift Card usando su ID numérico
+        /// </summary>
+        public async Task<GiftCardResult<bool>> EliminarGiftCardPorId(int giftCardId)
+        {
+            try
+            {
+                System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
+
+                // Invocamos el método de eliminación por ID de tu GiftCardService
+                bool isDeleted = await _giftCardService.EliminarGiftCardPorIdAsync(giftCardId);
+
+                if (isDeleted)
+                {
+                    return new GiftCardResult<bool>
+                    {
+                        IsSuccess = true,
+                        StatusCode = 200,
+                        Message = "Gift Card eliminada con éxito",
+                        Data = true
+                    };
+                }
+
+                return new GiftCardResult<bool>
+                {
+                    IsSuccess = false,
+                    StatusCode = 404,
+                    Message = "El ID de la Gift Card no existe o no pudo ser eliminada",
+                    Data = false
+                };
+            }
+            catch (Exception ex)
+            {
+                return new GiftCardResult<bool>
+                {
+                    IsSuccess = false,
+                    StatusCode = 500,
+                    Message = $"Error interno en el ePOS al intentar eliminar: {ex.Message}",
                     Data = false
                 };
             }

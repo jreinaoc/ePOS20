@@ -11061,7 +11061,7 @@ namespace CapaVisual_Login
                         if (saldoRestante <= 0)
                         {
                             _FrmMensajes.co = 2;
-                            _FrmMensajes.avisomensaje($"La Gift Card está ACTIVA, pero no tiene saldo disponible (Saldo: {saldoRestante:N2} USD).");
+                            _FrmMensajes.avisomensaje($"La Gift Card está activa, pero no tiene saldo disponible");
                             _FrmMensajes.ShowDialog();
                             return null; // ❌ Cambiado de false a null
                         }
@@ -11083,7 +11083,7 @@ namespace CapaVisual_Login
                     else
                     {
                         _FrmMensajes.co = 2;
-                        _FrmMensajes.avisomensaje("La Gift Card consultada se encuentra INACTIVA.");
+                        _FrmMensajes.avisomensaje("La Gift Card consultada se encuentra inactiva.");
                         _FrmMensajes.ShowDialog();
                         return null;
                     }
@@ -11091,7 +11091,7 @@ namespace CapaVisual_Login
                 else
                 {
                     _FrmMensajes.co = 2;
-                    _FrmMensajes.avisomensaje($"No se pudo conocer el estado de la Gift Card.\nDetalle: {resultado.Message}");
+                    _FrmMensajes.avisomensaje($"Código de Gift Card inválido");
                     _FrmMensajes.ShowDialog();
                     return null;
                 }

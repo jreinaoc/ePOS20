@@ -254,5 +254,47 @@ namespace CapaServiciosExternos
                 throw;
             }
         }
+
+        public async Task<bool> EliminarGiftCardPorIdAsync(int giftCardId)
+        {
+            try
+            {
+                // 1. Inyectar las credenciales dinámicas de WooCommerce
+                string consumerKey = ConfigServiciosExternos.GiftCard_ConsumerKey;
+                string consumerSecret = ConfigServiciosExternos.GiftCard_ConsumerSecret;
+
+                var credentials = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{consumerKey}:{consumerSecret}"));
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", credentials);
+
+                // 2. Construir la URL con el ID nativo según la documentación oficial
+                string urlBase = ConfigServiciosExternos.GiftCard_BaseUrl; // Ej: "https://elementor-dev.optiserver.co.uk"
+                string fullUrl = $"{urlBase}/wp-json/wc/v3/gift-cards/{giftCardId}";
+
+                // 3. Enviar la solicitud DELETE
+                var response = await _httpClient.DeleteAsync(fullUrl);
+
+                // Si el ID de la tarjeta no existe, WooCommerce devolverá un 404 Not Found
+                if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                {
+                    return false;
+                }
+
+                // Si la petición fue exitosa (usualmente responde con 200 OK y el JSON del objeto eliminado)
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+                else
+                {
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    throw new HttpRequestException($"No se pudo eliminar la Gift Card (Status: {response.StatusCode}): {errorContent}");
+                }
+            }
+            catch (Exception ex)
+            {
+                // Manejo de errores de red o excepciones internas
+                throw;
+            }
+        }
     }
 }
