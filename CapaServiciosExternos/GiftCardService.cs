@@ -121,36 +121,44 @@ namespace CapaServiciosExternos
 
                 // 2. Construimos la URL pasando el código como Query Parameter
                 string urlBase = ConfigServiciosExternos.GiftCard_BaseUrl;
-                string fullUrl = $"{urlBase}wp-json/wc/v3/gift-cards?code={Uri.EscapeDataString(giftCardCode)}";
+                //string fullUrl = $"{urlBase}wp-json/wc/v3/gift-cards?code={Uri.EscapeDataString(giftCardCode)}";
+                string fullUrl = $"{urlBase}wp-json/wc/v3/gift-cards/code/{giftCardCode}";
 
-                // 3. Ejecutamos el GET
+           
+                // 3. Ejecutamos la petición GET asíncrona
                 var response = await _httpClient.GetAsync(fullUrl);
 
+                // 4. Validamos si la API respondió con algún error
                 if (!response.IsSuccessStatusCode)
                 {
                     var errorContent = await response.Content.ReadAsStringAsync();
-                    throw new HttpRequestException($"Error al buscar por código ({response.StatusCode}): {errorContent}");
+                    throw new HttpRequestException($"Error al consultar la Gift Card ({response.StatusCode}): {errorContent}");
                 }
 
+                // 5. Deserializamos la respuesta usando tu misma clase unificada
                 var responseBody = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<GiftCardPosResponse>(responseBody);
 
-                // 4. Deserializamos la lista completa que arroja WooCommerce
-                var listaGiftCards = JsonConvert.DeserializeObject<List<GiftCardPosResponse>>(responseBody);
 
-                if (listaGiftCards != null && listaGiftCards.Count > 0)
-                {
-                    // 🌟 LA CLAVE DE LA SOLUCIÓN:
-                    // Forzamos un filtrado estricto comparando el código limpio ignorando mayúsculas/minúsculas.
-                    var tarjetaExacta = listaGiftCards.Find(gc =>
-                        gc.Code.Trim().ToLower() == giftCardCode.Trim().ToLower()
-                    );
+                //var responseBody = await response.Content.ReadAsStringAsync();
 
-                    // Si se encontró la coincidencia exacta, devolvemos esa.
-                    if (tarjetaExacta != null)
-                    {
-                        return tarjetaExacta;
-                    }
-                }
+                //// 4. Deserializamos la lista completa que arroja WooCommerce
+                //var listaGiftCards = JsonConvert.DeserializeObject<List<GiftCardPosResponse>>(responseBody);
+
+                //if (listaGiftCards != null && listaGiftCards.Count > 0)
+                //{
+                //    // 🌟 LA CLAVE DE LA SOLUCIÓN:
+                //    // Forzamos un filtrado estricto comparando el código limpio ignorando mayúsculas/minúsculas.
+                //    var tarjetaExacta = listaGiftCards.Find(gc =>
+                //        gc.Code.Trim().ToLower() == giftCardCode.Trim().ToLower()
+                //    );
+
+                //    // Si se encontró la coincidencia exacta, devolvemos esa.
+                //    if (tarjetaExacta != null)
+                //    {
+                //        return tarjetaExacta;
+                //    }
+                //}
 
                 // Si la lista vino vacía o ninguna coincidió exactamente letra por letra, es null
                 return null;
