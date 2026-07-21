@@ -5166,8 +5166,8 @@ namespace CapaVisual_Login
                                     }
                                 }
 
-                        resp = objVmax.TextoNoFiscal("Propina/Donación      " + "5.000,00");
-                        resp = objVmax.TextoNoFiscal("Monto a pagar         " + "5.000,00");
+                        resp = objVmax.TextoNoFiscal("Propina/Donación " + "849,99");
+                        resp = objVmax.TextoNoFiscal("Monto a pagar " + "89.834,47");
                         do
                             {
                                 if (_Impresora_Fiscal.VerficarConexionImpresoraFiscalSinCerrar()) break;
