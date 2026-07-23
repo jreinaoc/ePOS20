@@ -296,5 +296,73 @@ namespace CapaServiciosExternos
                 throw;
             }
         }
+
+        /// <summary>
+        /// Desactiva/Anula una Gift Card en WooCommerce cambiando su propiedad is_active a 'off'
+        /// </summary>
+        public async Task<bool> AnularGiftCardPorIdAsync(int giftCardId)
+        {
+            try
+            {
+                string consumerKey = ConfigServiciosExternos.GiftCard_ConsumerKey;
+                string consumerSecret = ConfigServiciosExternos.GiftCard_ConsumerSecret;
+
+                string urlBase = ConfigServiciosExternos.GiftCard_BaseUrl.TrimEnd('/');
+                if (urlBase.StartsWith("http://", StringComparison.OrdinalIgnoreCase))
+                {
+                    urlBase = urlBase.Replace("http://", "https://");
+                }
+
+                string fullUrl = $"{urlBase}/wp-json/wc/v3/gift-cards/{giftCardId}";
+
+                var request = new HttpRequestMessage(HttpMethod.Put, fullUrl);
+
+                var credentials = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{consumerKey}:{consumerSecret}"));
+                request.Headers.Authorization = new AuthenticationHeaderValue("Basic", credentials);
+
+                var payload = new { is_active = "off" };
+                string jsonPayload = JsonConvert.SerializeObject(payload);
+                request.Content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
+
+                var response = await _httpClient.SendAsync(request);
+
+                // Si el servidor responde 200/204 OK, perfecto
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+
+                // Si devuelve 401 pero sabemos que el plugin actualiza la BD de todos modos:
+                if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    // Hacemos una rápida comprobación de respaldo para confirmar el estado en BD
+                    var checkRequest = new HttpRequestMessage(HttpMethod.Get, fullUrl);
+                    checkRequest.Headers.Authorization = new AuthenticationHeaderValue("Basic", credentials);
+
+                    var checkResponse = await _httpClient.SendAsync(checkRequest);
+                    if (checkResponse.IsSuccessStatusCode)
+                    {
+                        string checkContent = await checkResponse.Content.ReadAsStringAsync();
+                        // Si la tarjeta ya aparece desactivada en el servidor, la operación fue un ÉXITO
+                        if (checkContent.Contains("\"is_active\":\"off\""))
+                        {
+                            return true;
+                        }
+                    }
+                }
+
+                if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                {
+                    return false;
+                }
+
+                var errorContent = await response.Content.ReadAsStringAsync();
+                throw new HttpRequestException($"No se pudo desactivar la Gift Card (Status: {response.StatusCode}): {errorContent}");
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

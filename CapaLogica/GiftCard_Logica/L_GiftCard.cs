@@ -296,7 +296,81 @@ namespace CapaLogica.GiftCard_Logica
             }
         }
 
+        /// <summary>
+        /// Lógica de negocio para anular/desactivar una Gift Card a partir de su código alfanumérico (Proceso en 2 pasos)
+        /// </summary>
+        public async Task<GiftCardResult<bool>> AnularGiftCardPorCodigo(string giftCardCode)
+        {
+            try
+            {
+                System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
 
+                // -------------------------------------------------------------
+                // PASO 1: Consultar la Gift Card por su código alfanumérico
+                // -------------------------------------------------------------
+                GiftCardPosResponse cardData = await _giftCardService.ObtenerGiftCardPorCodigoAsync(giftCardCode);
+
+                if (cardData == null)
+                {
+                    return new GiftCardResult<bool>
+                    {
+                        IsSuccess = false,
+                        StatusCode = 404,
+                        Message = "El código de Gift Card ingresado no existe en el sistema.",
+                        Data = false
+                    };
+                }
+
+                // Verificamos si la tarjeta ya se encontraba desactivada previamente
+                if (cardData.IsActive  == "off")
+                {
+                    return new GiftCardResult<bool>
+                    {
+                        IsSuccess = true,
+                        StatusCode = 200,
+                        Message = "La Gift Card ya se encontraba anulada/inactiva previamente.",
+                        Data = true
+                    };
+                }
+
+                // Extraemos el ID numérico devuelto por la API (P. ej., 55)
+                int giftCardId = cardData.Id;
+
+                // -------------------------------------------------------------
+                // PASO 2: Enviar el PUT usando el ID numérico para cambiar is_active a 'off'
+                // -------------------------------------------------------------
+                bool isDeactivated = await _giftCardService.AnularGiftCardPorIdAsync(giftCardId);
+
+                if (isDeactivated)
+                {
+                    return new GiftCardResult<bool>
+                    {
+                        IsSuccess = true,
+                        StatusCode = 200,
+                        Message = "Gift Card anulada con éxito en WooCommerce.",
+                        Data = true
+                    };
+                }
+
+                return new GiftCardResult<bool>
+                {
+                    IsSuccess = false,
+                    StatusCode = 500,
+                    Message = "No se pudo actualizar el estado de la Gift Card en el servidor web.",
+                    Data = false
+                };
+            }
+            catch (Exception ex)
+            {
+                return new GiftCardResult<bool>
+                {
+                    IsSuccess = false,
+                    StatusCode = 500,
+                    Message = $"Error interno en el ePOS al intentar anular: {ex.Message}",
+                    Data = false
+                };
+            }
+        }
     }
 
     /// <summary>

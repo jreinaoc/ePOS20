@@ -22,6 +22,8 @@ using System.Management;
 using CapaDatos.Conexion;
 using System.Data.SqlClient;
 using System.Threading;
+using CapaLogica.GiftCard_Logica;
+using CapaLogica.Cashea_Logica;
 
 namespace CapaVisual_Login
 {
@@ -38,6 +40,8 @@ namespace CapaVisual_Login
         Impresora_Fiscal _Impresora_Fiscal = new Impresora_Fiscal();
         L_Facturacion _L_Facturacion = new L_Facturacion();
         FrmRepNotaDev _FrmRepNotaDev = new FrmRepNotaDev();
+        private readonly L_GiftCard _lGiftCard = new L_GiftCard();
+        private L_Cashea _L_Cashea = new L_Cashea();
 
         private int glbPuertoCOM = Convert.ToInt16(ConfigurationManager.AppSettings.Get("PuertoCOMimpresora"));
         public string NumeroOrden;
@@ -53,6 +57,9 @@ namespace CapaVisual_Login
         public string ResultadoNCManual = "";
         public string NumeroNCFiscal = "";
         public string ManualNroNotaCreditonNunControl = "";
+        public string codBanco = "";
+        public string Abo_CVCNROCHEQUE = "";
+
         public FrmAnulacion()
         {
             InitializeComponent();
@@ -95,7 +102,7 @@ namespace CapaVisual_Login
                 FormatoClar();
             }
 
-
+            CargarConfiguracionGiftCard();
 
 
 
@@ -116,7 +123,7 @@ namespace CapaVisual_Login
 
         }
 
-        public void BtnGuardar_Click(object sender, EventArgs e)
+        public async void BtnGuardar_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.OK;
 
@@ -208,7 +215,7 @@ namespace CapaVisual_Login
                                     return;
                                    }
 
-                                Nota_Credito_Automatica(_D_Inicio.DiaActivo().ToString("yyyy/MM/dd"));
+                                    Nota_Credito_Automatica(_D_Inicio.DiaActivo().ToString("yyyy/MM/dd"));
                                 }
                                 else
                                 {
@@ -241,130 +248,276 @@ namespace CapaVisual_Login
                     {
                         bool Proceso = false;
 
-                        //abonada
-                        if (TB_CAORDSER.OrSer_Status == "005")
+                        //Es un pago gift card, anulo la giftcard antes de anular el pago
+                        if (codBanco == "115")
                         {
+                            var resultado = await _lGiftCard.AnularGiftCardPorCodigo(Abo_CVCNROCHEQUE);
 
-                            bool resp = _L_Anulacion.EliminarPagosActualizarSaldo(IdAbono, TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision, TB_USUARIO.COD_USR, MontoAnulacion, TxtObservaciones.Text, CbxSelectMotivo.SelectedValue.ToString(), CbxSelecResp.SelectedValue.ToString());
-                            string mensaje = _L_Anulacion.stringBuilder.ToString();
-
-                            if (resp == true)
+                            if (resultado.IsSuccess)
                             {
-                                if (_L_Anulacion.ElimineOrden == true)
+                                //abonada
+                                if (TB_CAORDSER.OrSer_Status == "005")
                                 {
 
-                                    if (_D_DetalleOrden.TB_PARAMETRO("LCManejaExist") == "1" & TB_CAORDSER.Cod_Venta.ToString() == "02")
+                                    bool resp = _L_Anulacion.EliminarPagosActualizarSaldo(IdAbono, TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision, TB_USUARIO.COD_USR, MontoAnulacion, TxtObservaciones.Text, CbxSelectMotivo.SelectedValue.ToString(), CbxSelecResp.SelectedValue.ToString());
+                                    string mensaje = _L_Anulacion.stringBuilder.ToString();
+
+                                    if (resp == true)
                                     {
-                                        //// Verificar una transferencia de inventario NUEVO 23-07-2024
-                                        //if()
-                                        //{
+                                        if (_L_Anulacion.ElimineOrden == true)
+                                        {
 
-                                        //}
+                                            if (_D_DetalleOrden.TB_PARAMETRO("LCManejaExist") == "1" & TB_CAORDSER.Cod_Venta.ToString() == "02")
+                                            {
+                                                //// Verificar una transferencia de inventario NUEVO 23-07-2024
+                                                //if()
+                                                //{
 
-                                        DataSet dsEjecutaMovimiento = _D_DetalleOrden.MovimientosAnulacionOSLC(TB_FACTURAS.NumOrdServ, "005", "N", _D_Inicio.DiaActivo().ToString("yyyyMMdd"), _Impresora_Fiscal.NumeroNCFiscal, TB_USUARIO.COD_USR);
+                                                //}
+
+                                                DataSet dsEjecutaMovimiento = _D_DetalleOrden.MovimientosAnulacionOSLC(TB_FACTURAS.NumOrdServ, "005", "N", _D_Inicio.DiaActivo().ToString("yyyyMMdd"), _Impresora_Fiscal.NumeroNCFiscal, TB_USUARIO.COD_USR);
+                                            }
+
+                                            else
+                                            {
+                                                //_L_Anulacion.CargarDetalleOrd(TB_CAORDSER.NumOrdserv, "ND", "003");
+                                                _L_Anulacion.CargarDetalleOrd(TB_CAORDSER.NumOrdserv, "AN", "003");
+                                                if (_L_Anulacion.GuardoMovimientoArticulo == false)
+                                                {
+                                                    _FrmMensajes.co = 2;
+                                                    _FrmMensajes.avisomensaje("Ocurrio un error creando el movimiento de la orden");
+                                                    _FrmMensajes.ShowDialog();
+
+                                                }
+                                                if (_L_Anulacion.MontRecib == true)
+                                                {
+                                                    _FrmMensajes.co = 1;
+                                                    _FrmMensajes.avisomensaje("Si recibió la montura, recuerde enviarla al laboratorio");
+                                                    _FrmMensajes.ShowDialog();
+                                                }
+                                            }
+
+                                        }
                                     }
 
                                     else
                                     {
-                                        //_L_Anulacion.CargarDetalleOrd(TB_CAORDSER.NumOrdserv, "ND", "003");
-                                        _L_Anulacion.CargarDetalleOrd(TB_CAORDSER.NumOrdserv, "AN", "003");
-                                        if (_L_Anulacion.GuardoMovimientoArticulo == false)
+                                        _FrmMensajes.co = 2;
+                                        _FrmMensajes.avisomensaje(mensaje);
+                                        _FrmMensajes.ShowDialog();
+                                    }
+
+
+                                    _D_Anulacion.CaragarAuditor(TB_USUARIO.COD_SUCURSAL, "029", TB_USUARIO.COD_EMPLEADO, "OS: " + TB_CAORDSER.NumOrdserv + ", Monto: " + Convert.ToString(MontoAnulacion) + " Autoriza: " + GerenteAutoriza);
+                                    _FrmMensajes.co = 1;
+                                    _FrmMensajes.avisomensaje("Los pagos han sido eliminados");
+                                    _FrmMensajes.ShowDialog();
+
+                                    Limpiarcbx();
+                                }
+
+
+                                //facturada
+                                if (TB_CAORDSER.OrSer_Status == "002")
+                                {
+                                    bool resp = _L_Anulacion.EliminarPagosActualizarSaldo(IdAbono, TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision, TB_USUARIO.COD_USR, MontoAnulacion, TxtObservaciones.Text, CbxSelectMotivo.SelectedValue.ToString(), CbxSelecResp.SelectedValue.ToString());
+                                    string mensaje = _L_Anulacion.stringBuilder.ToString();
+
+                                    if (resp == true)
+                                    {
+                                        if (_L_Anulacion.ElimineOrden == true)
                                         {
-                                            _FrmMensajes.co = 2;
-                                            _FrmMensajes.avisomensaje("Ocurrio un error creando el movimiento de la orden");
-                                            _FrmMensajes.ShowDialog();
+                                            if (_D_DetalleOrden.TB_PARAMETRO("LCManejaExist") == "1" & TB_CAORDSER.Cod_Venta.ToString() == "02")
+                                            {
+                                                DataSet dsEjecutaMovimiento = _D_DetalleOrden.MovimientosAnulacionOSLC(TB_FACTURAS.NumOrdServ, "005", "N", _D_Inicio.DiaActivo().ToString("yyyyMMdd"), _Impresora_Fiscal.NumeroNCFiscal, TB_USUARIO.COD_USR);
+                                            }
+
+                                            else
+                                            {
+                                                _L_Anulacion.CargarDetalleOrd(TB_CAORDSER.NumOrdserv, "ND", "003");
+                                                if (_L_Anulacion.GuardoMovimientoArticulo == false)
+                                                {
+                                                    _FrmMensajes.co = 2;
+                                                    _FrmMensajes.avisomensaje("Ocurrio un error creando el movimiento de la orden");
+                                                    _FrmMensajes.ShowDialog();
+
+                                                }
+                                                if (_L_Anulacion.MontRecib == true)
+                                                {
+                                                    _FrmMensajes.co = 1;
+                                                    _FrmMensajes.avisomensaje("Si recibió la montura, recuerde enviarla al laboratorio");
+                                                    _FrmMensajes.ShowDialog();
+                                                }
+                                            }
 
                                         }
-                                        if (_L_Anulacion.MontRecib == true)
+
+
+                                        resp = _L_Anulacion.EliminarFacturaLogico(TB_FACTURAS.Cod_Sucursal, TB_FACTURAS.Fact_Num, TB_FACTURAS.Fact_SerialImpresora, TB_USUARIO.COD_USR);
+                                        mensaje = _L_Anulacion.stringBuilder.ToString();
+
+                                        if (resp == false)
                                         {
-                                            _FrmMensajes.co = 1;
-                                            _FrmMensajes.avisomensaje("Si recibió la montura, recuerde enviarla al laboratorio");
+                                            _FrmMensajes.co = 2;
+                                            _FrmMensajes.avisomensaje(mensaje);
                                             _FrmMensajes.ShowDialog();
                                         }
+
+                                        _D_Anulacion.CaragarAuditor(TB_USUARIO.COD_SUCURSAL, "029", TB_USUARIO.COD_EMPLEADO, TB_CAORDSER.NumOrdserv + ", Monto: " + Convert.ToString(MontoAnulacion) + " Autoriza: " + GerenteAutoriza);
+                                        _FrmMensajes.co = 1;
+                                        _FrmMensajes.avisomensaje("La factura y sus pagos han sido eliminados");
+                                        _FrmMensajes.ShowDialog();
+
+                                        Limpiarcbx();
+                                    }
+
+                                    else
+                                    {
+                                        _FrmMensajes.co = 2;
+                                        _FrmMensajes.avisomensaje(mensaje);
+                                        _FrmMensajes.ShowDialog();
                                     }
 
                                 }
                             }
-
                             else
                             {
-                                _FrmMensajes.co = 2;
-                                _FrmMensajes.avisomensaje(mensaje);
+                                _FrmMensajes.co = 1;
+                                _FrmMensajes.avisomensaje("La Gift Card no pudo ser anulada");
                                 _FrmMensajes.ShowDialog();
                             }
-
-
-                            _D_Anulacion.CaragarAuditor(TB_USUARIO.COD_SUCURSAL, "029", TB_USUARIO.COD_EMPLEADO, "OS: "+ TB_CAORDSER.NumOrdserv + ", Monto: " + Convert.ToString(MontoAnulacion) + " Autoriza: " + GerenteAutoriza);
-                            _FrmMensajes.co = 1;
-                            _FrmMensajes.avisomensaje("La orden y sus pagos han sido eliminados");
-                            _FrmMensajes.ShowDialog();
-
-                            Limpiarcbx();
                         }
 
-
-                        //facturada
-                        if (TB_CAORDSER.OrSer_Status == "002")
+                        else
                         {
-                            bool resp = _L_Anulacion.EliminarPagosActualizarSaldo(IdAbono, TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision, TB_USUARIO.COD_USR, MontoAnulacion, TxtObservaciones.Text, CbxSelectMotivo.SelectedValue.ToString(), CbxSelecResp.SelectedValue.ToString());
-                            string mensaje = _L_Anulacion.stringBuilder.ToString();
-
-                            if (resp == true)
+                            //abonada
+                            if (TB_CAORDSER.OrSer_Status == "005")
                             {
-                                if (_L_Anulacion.ElimineOrden == true)
+
+                                bool resp = _L_Anulacion.EliminarPagosActualizarSaldo(IdAbono, TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision, TB_USUARIO.COD_USR, MontoAnulacion, TxtObservaciones.Text, CbxSelectMotivo.SelectedValue.ToString(), CbxSelecResp.SelectedValue.ToString());
+                                string mensaje = _L_Anulacion.stringBuilder.ToString();
+
+                                if (resp == true)
                                 {
-                                    if (_D_DetalleOrden.TB_PARAMETRO("LCManejaExist") == "1" & TB_CAORDSER.Cod_Venta.ToString() == "02")
+                                    if (_L_Anulacion.ElimineOrden == true)
                                     {
-                                        DataSet dsEjecutaMovimiento = _D_DetalleOrden.MovimientosAnulacionOSLC(TB_FACTURAS.NumOrdServ, "005", "N", _D_Inicio.DiaActivo().ToString("yyyyMMdd"), _Impresora_Fiscal.NumeroNCFiscal, TB_USUARIO.COD_USR);
-                                    }
 
-                                    else
-                                    {
-                                        _L_Anulacion.CargarDetalleOrd(TB_CAORDSER.NumOrdserv, "ND", "003");
-                                        if (_L_Anulacion.GuardoMovimientoArticulo == false)
+                                        if (_D_DetalleOrden.TB_PARAMETRO("LCManejaExist") == "1" & TB_CAORDSER.Cod_Venta.ToString() == "02")
                                         {
-                                            _FrmMensajes.co = 2;
-                                            _FrmMensajes.avisomensaje("Ocurrio un error creando el movimiento de la orden");
-                                            _FrmMensajes.ShowDialog();
+                                            //// Verificar una transferencia de inventario NUEVO 23-07-2024
+                                            //if()
+                                            //{
 
+                                            //}
+
+                                            DataSet dsEjecutaMovimiento = _D_DetalleOrden.MovimientosAnulacionOSLC(TB_FACTURAS.NumOrdServ, "005", "N", _D_Inicio.DiaActivo().ToString("yyyyMMdd"), _Impresora_Fiscal.NumeroNCFiscal, TB_USUARIO.COD_USR);
                                         }
-                                        if (_L_Anulacion.MontRecib == true)
+
+                                        else
                                         {
-                                            _FrmMensajes.co = 1;
-                                            _FrmMensajes.avisomensaje("Si recibió la montura, recuerde enviarla al laboratorio");
-                                            _FrmMensajes.ShowDialog();
-                                        }
-                                    }
+                                            //_L_Anulacion.CargarDetalleOrd(TB_CAORDSER.NumOrdserv, "ND", "003");
+                                            _L_Anulacion.CargarDetalleOrd(TB_CAORDSER.NumOrdserv, "AN", "003");
+                                            if (_L_Anulacion.GuardoMovimientoArticulo == false)
+                                            {
+                                                _FrmMensajes.co = 2;
+                                                _FrmMensajes.avisomensaje("Ocurrio un error creando el movimiento de la orden");
+                                                _FrmMensajes.ShowDialog();
 
+                                            }
+                                            if (_L_Anulacion.MontRecib == true)
+                                            {
+                                                _FrmMensajes.co = 1;
+                                                _FrmMensajes.avisomensaje("Si recibió la montura, recuerde enviarla al laboratorio");
+                                                _FrmMensajes.ShowDialog();
+                                            }
+                                        }
+
+                                    }
                                 }
 
-
-                                resp = _L_Anulacion.EliminarFacturaLogico(TB_FACTURAS.Cod_Sucursal, TB_FACTURAS.Fact_Num, TB_FACTURAS.Fact_SerialImpresora, TB_USUARIO.COD_USR);
-                                mensaje = _L_Anulacion.stringBuilder.ToString();
-
-                                if (resp == false)
+                                else
                                 {
                                     _FrmMensajes.co = 2;
                                     _FrmMensajes.avisomensaje(mensaje);
                                     _FrmMensajes.ShowDialog();
                                 }
 
-                                _D_Anulacion.CaragarAuditor(TB_USUARIO.COD_SUCURSAL, "029", TB_USUARIO.COD_EMPLEADO, TB_CAORDSER.NumOrdserv + ", Monto: " + Convert.ToString(MontoAnulacion) + " Autoriza: " + GerenteAutoriza);
+
+                                _D_Anulacion.CaragarAuditor(TB_USUARIO.COD_SUCURSAL, "029", TB_USUARIO.COD_EMPLEADO, "OS: " + TB_CAORDSER.NumOrdserv + ", Monto: " + Convert.ToString(MontoAnulacion) + " Autoriza: " + GerenteAutoriza);
                                 _FrmMensajes.co = 1;
-                                _FrmMensajes.avisomensaje("La factura y sus pagos han sido eliminados");
+                                _FrmMensajes.avisomensaje("Los pagos han sido eliminados");
                                 _FrmMensajes.ShowDialog();
 
                                 Limpiarcbx();
                             }
 
-                            else
-                            {
-                                _FrmMensajes.co = 2;
-                                _FrmMensajes.avisomensaje(mensaje);
-                                _FrmMensajes.ShowDialog();
-                            }
 
+                            //facturada
+                            if (TB_CAORDSER.OrSer_Status == "002")
+                            {
+                                bool resp = _L_Anulacion.EliminarPagosActualizarSaldo(IdAbono, TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision, TB_USUARIO.COD_USR, MontoAnulacion, TxtObservaciones.Text, CbxSelectMotivo.SelectedValue.ToString(), CbxSelecResp.SelectedValue.ToString());
+                                string mensaje = _L_Anulacion.stringBuilder.ToString();
+
+                                if (resp == true)
+                                {
+                                    if (_L_Anulacion.ElimineOrden == true)
+                                    {
+                                        if (_D_DetalleOrden.TB_PARAMETRO("LCManejaExist") == "1" & TB_CAORDSER.Cod_Venta.ToString() == "02")
+                                        {
+                                            DataSet dsEjecutaMovimiento = _D_DetalleOrden.MovimientosAnulacionOSLC(TB_FACTURAS.NumOrdServ, "005", "N", _D_Inicio.DiaActivo().ToString("yyyyMMdd"), _Impresora_Fiscal.NumeroNCFiscal, TB_USUARIO.COD_USR);
+                                        }
+
+                                        else
+                                        {
+                                            _L_Anulacion.CargarDetalleOrd(TB_CAORDSER.NumOrdserv, "ND", "003");
+                                            if (_L_Anulacion.GuardoMovimientoArticulo == false)
+                                            {
+                                                _FrmMensajes.co = 2;
+                                                _FrmMensajes.avisomensaje("Ocurrio un error creando el movimiento de la orden");
+                                                _FrmMensajes.ShowDialog();
+
+                                            }
+                                            if (_L_Anulacion.MontRecib == true)
+                                            {
+                                                _FrmMensajes.co = 1;
+                                                _FrmMensajes.avisomensaje("Si recibió la montura, recuerde enviarla al laboratorio");
+                                                _FrmMensajes.ShowDialog();
+                                            }
+                                        }
+
+                                    }
+
+
+                                    resp = _L_Anulacion.EliminarFacturaLogico(TB_FACTURAS.Cod_Sucursal, TB_FACTURAS.Fact_Num, TB_FACTURAS.Fact_SerialImpresora, TB_USUARIO.COD_USR);
+                                    mensaje = _L_Anulacion.stringBuilder.ToString();
+
+                                    if (resp == false)
+                                    {
+                                        _FrmMensajes.co = 2;
+                                        _FrmMensajes.avisomensaje(mensaje);
+                                        _FrmMensajes.ShowDialog();
+                                    }
+
+                                    _D_Anulacion.CaragarAuditor(TB_USUARIO.COD_SUCURSAL, "029", TB_USUARIO.COD_EMPLEADO, TB_CAORDSER.NumOrdserv + ", Monto: " + Convert.ToString(MontoAnulacion) + " Autoriza: " + GerenteAutoriza);
+                                    _FrmMensajes.co = 1;
+                                    _FrmMensajes.avisomensaje("La factura y sus pagos han sido eliminados");
+                                    _FrmMensajes.ShowDialog();
+
+                                    Limpiarcbx();
+                                }
+
+                                else
+                                {
+                                    _FrmMensajes.co = 2;
+                                    _FrmMensajes.avisomensaje(mensaje);
+                                    _FrmMensajes.ShowDialog();
+                                }
+
+                            }
                         }
+                        
+
+                       
 
                     }
 
@@ -396,7 +549,76 @@ namespace CapaVisual_Login
             }
         }
 
+        private async Task<decimal?> ConsultarGiftCard(string codigoGiftCard)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(codigoGiftCard))
+                {
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje("Por favor, ingrese un código de Gift Card válido.");
+                    _FrmMensajes.ShowDialog();
+                    return null; // ❌ Cambiado de false a null
+                }
 
+                var resultado = await _lGiftCard.ConsultarGiftCardPorCodigo(codigoGiftCard);
+
+
+                if (resultado.IsSuccess && resultado.Data != null)
+                {
+                    string codigoTarjeta = resultado.Data.Code;
+                    decimal saldoRestante = resultado.Data.Remaining;
+                    string estado = resultado.Data.IsActive;
+                    int idInternoWoo = resultado.Data.Id;
+
+                    if (estado.ToLower() == "on")
+                    {
+                        if (saldoRestante <= 0)
+                        {
+                            _FrmMensajes.co = 2;
+                            _FrmMensajes.avisomensaje($"La Gift Card está activa, pero no tiene saldo disponible");
+                            _FrmMensajes.ShowDialog();
+                            return null; // ❌ Cambiado de false a null
+                        }
+
+                        // ==========================================================
+                        // 🌟 ¡LA CLAVE!: RETENEMOS LOS DATOS EN LAS VARIABLES GLOBALES
+                        // ==========================================================
+                        //_idgiftCardWebValidado = idInternoWoo;
+                        //_codigoGiftCardValidado = codigoTarjeta;
+                        // ==========================================================
+
+                        //string mensajeExito = $"¡Gift Card válida!\n\nCódigo: {codigoTarjeta}\nSaldo Disponible: {saldoRestante:N2} USD";
+                        //_FrmMensajes.co = 1;
+                        //_FrmMensajes.avisomensaje(mensajeExito);
+                        //_FrmMensajes.ShowDialog();
+
+                        return saldoRestante; // 🌟 ¡LA CLAVE!: Retornamos el valor decimal directamente
+                    }
+                    else
+                    {
+                        _FrmMensajes.co = 2;
+                        _FrmMensajes.avisomensaje("La Gift Card consultada se encuentra inactiva.");
+                        _FrmMensajes.ShowDialog();
+                        return null;
+                    }
+                }
+                else
+                {
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje($"Código de Gift Card inválido");
+                    _FrmMensajes.ShowDialog();
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje($"Ocurrió un error inesperado al consultar: {ex.Message}");
+                _FrmMensajes.ShowDialog();
+                return null;
+            }
+        }
 
         public void AnulacionNCManual(string NroNotaCredito) // para realizar anulacion con la nota de credito manual
         {
@@ -1070,7 +1292,7 @@ namespace CapaVisual_Login
             }
         }
 
-        public void Nota_Credito_Automatica(string DiaActivo) // para realizar anulacion con la nota de credito manual
+        public async void Nota_Credito_Automatica(string DiaActivo) // para realizar anulacion con la nota de credito manual
         {
             // Si hay commit, limpiamos acciones pendientes
             Impresora_Fiscal.LimpiarAccionesPendientes();
@@ -1142,8 +1364,42 @@ namespace CapaVisual_Login
                 }
                 if (rept == "SATISFACTORIO")
                 {
-                    bool Impresion = ImprimirNCFiscal_Local(TB_FACTURAS.Cod_Sucursal, TB_FACTURAS.Fact_Num, TB_FACTURAS.Fact_SerialImpresora, Convert.ToDouble(TB_FACTURAS.Fact_Total), DiaActivo, CbxSelectMotivo.SelectedValue.ToString(), command, transaction);
+                    bool Impresion = false;
 
+                    DataTable Pagos = _L_Facturacion.MostarPagosGrid(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision);
+
+                    // Verifica directamente si al menos una fila cumple la condición
+                    // Busca la primera fila que coincida con el banco 115 (retorna null si no la encuentra)
+                    DataRow filaBanco = Pagos.AsEnumerable()
+                                             .FirstOrDefault(row => row["cod_banco"].ToString() == "115");
+
+                    
+                    if (filaBanco != null)
+                    {
+                        // Obtenemos el valor de la columna Abo_CVCNROCHEQUE
+                        string codGiftCard = filaBanco["Abo_CVCNROCHEQUE"].ToString();
+
+                        var resultado = await _lGiftCard.AnularGiftCardPorCodigo(codGiftCard);
+
+                        if (resultado.IsSuccess)
+                        {
+                             Impresion = ImprimirNCFiscal_Local(TB_FACTURAS.Cod_Sucursal, TB_FACTURAS.Fact_Num, TB_FACTURAS.Fact_SerialImpresora, Convert.ToDouble(TB_FACTURAS.Fact_Total), DiaActivo, CbxSelectMotivo.SelectedValue.ToString(), command, transaction);
+
+                        }
+                        else
+                        {
+                            mensaje = "No se pudo anular la Gift Card";
+                            _FrmMensajes.co = 1;
+                            _FrmMensajes.avisomensaje(mensaje);
+                            _FrmMensajes.ShowDialog();
+                            return;
+                        }
+                    }
+                    else
+                    {
+                         Impresion = ImprimirNCFiscal_Local(TB_FACTURAS.Cod_Sucursal, TB_FACTURAS.Fact_Num, TB_FACTURAS.Fact_SerialImpresora, Convert.ToDouble(TB_FACTURAS.Fact_Total), DiaActivo, CbxSelectMotivo.SelectedValue.ToString(), command, transaction);
+
+                    }
                     if (Impresion == false)
                     {
 
@@ -1297,7 +1553,7 @@ namespace CapaVisual_Login
 
         }
 
-         public void Anular_Orden_Abonada() // para realizar anulacion con la nota de credito manual
+         public async void Anular_Orden_Abonada() // para realizar anulacion con la nota de credito manual
          {
             try
             {
@@ -1341,6 +1597,36 @@ namespace CapaVisual_Login
 
                CodMoti = CbxSelectMotivo.SelectedValue.ToString();
                 string observaciones = TxtObservaciones.Text;
+
+                DataTable Pagos = _L_Facturacion.MostarPagosGrid(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision);
+
+                // Verifica directamente si al menos una fila cumple la condición
+                // Busca la primera fila que coincida con el banco 115 (retorna null si no la encuentra)
+                DataRow filaBanco = Pagos.AsEnumerable()
+                                         .FirstOrDefault(row => row["cod_banco"].ToString() == "115");
+
+
+                if (filaBanco != null)
+                {
+                    // Obtenemos el valor de la columna Abo_CVCNROCHEQUE
+                    string codGiftCard = filaBanco["Abo_CVCNROCHEQUE"].ToString();
+
+                    var resultado = await _lGiftCard.AnularGiftCardPorCodigo(codGiftCard);
+
+                    if (resultado.IsSuccess)
+                    {
+
+                    }
+                    else
+                    {
+                        string mensaje = "No se pudo anular la Gift Card";
+                        _FrmMensajes.co = 1;
+                        _FrmMensajes.avisomensaje(mensaje);
+                        _FrmMensajes.ShowDialog();
+                        return;
+                    }
+                }
+
                 rept = _L_Anulacion.Anulacion(TB_CAORDSER.NumOrdserv, CodMoti, CodResp, observaciones, TB_USUARIO.COD_USR, "01", command);
                 if (rept == "SATISFACTORIO")
                     rept = MovInventario(command);
@@ -1419,6 +1705,28 @@ namespace CapaVisual_Login
             }
          }
 
+        public void CargarConfiguracionGiftCard()
+        {
+            DataTable dt = _L_Cashea.ObtenerConfigCashea("GIFTCARD");
 
+            foreach (DataRow row in dt.Rows)
+            {
+                string nombre = row["Parametro"].ToString();
+                string valorCifrado = row["Valor"].ToString();
+
+                switch (nombre)
+                {
+                    case "GiftCard_ConsumerKey":
+                        ConfigServiciosExternos.GiftCard_ConsumerKey = ConfigServiciosExternos.Decodificar(valorCifrado);
+                        break;
+                    case "GiftCard_ConsumerSecret":
+                        ConfigServiciosExternos.GiftCard_ConsumerSecret = ConfigServiciosExternos.Decodificar(valorCifrado);
+                        break;
+                    case "GiftCard_BaseUrl":
+                        ConfigServiciosExternos.GiftCard_BaseUrl = ConfigServiciosExternos.Decodificar(valorCifrado);
+                        break;
+                }
+            }
+        }
     }
 }

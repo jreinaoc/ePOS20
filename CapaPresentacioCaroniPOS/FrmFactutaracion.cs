@@ -4769,6 +4769,8 @@ namespace CapaVisual_Login
                 DgvListadoOrdenes.Columns["Tipo_Pago"].Visible = false;
                 DgvListadoOrdenes.Columns["Fec_Crea"].Visible = false;
                 DgvListadoOrdenes.Columns["ID_Abono"].Visible = false;
+                DgvListadoOrdenes.Columns["Cod_Banco"].Visible = false;
+                DgvListadoOrdenes.Columns["Abo_CVCNROCHEQUE"].Visible = false;
                 DgvListadoOrdenes.Columns["Eliminar"].Visible = true;
 
                 if (TB_CAORDSER.OrSer_Status != "005")
@@ -6791,6 +6793,8 @@ namespace CapaVisual_Login
 
                                     _FrmAnulacion.AnulacionPagos = true;
                                     _FrmAnulacion.IdAbono = Convert.ToInt32(DgvListadoOrdenes.CurrentRow.Cells["ID_Abono"].Value.ToString());
+                                    _FrmAnulacion.codBanco = DgvListadoOrdenes.CurrentRow.Cells["Cod_Banco"].Value.ToString();
+                                    _FrmAnulacion.Abo_CVCNROCHEQUE = DgvListadoOrdenes.CurrentRow.Cells["Abo_CVCNROCHEQUE"].Value.ToString();
                                     _FrmAnulacion.MontoAnulacion = Convert.ToDouble(DgvListadoOrdenes.CurrentRow.Cells["Abo_Monto"].Value.ToString());
                                     _FrmAnulacion.TipoPagoAnular = DgvListadoOrdenes.CurrentRow.Cells["Tipo_Pago"].Value.ToString();
                                     _FrmAnulacion.GerenteAutoriza = VariablesGlobales.UsuarioAutorizado_FrmClaveAutorizada;

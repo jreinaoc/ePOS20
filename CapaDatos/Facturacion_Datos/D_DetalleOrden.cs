@@ -739,7 +739,7 @@ namespace CapaDatos.DetalleOrden_Datos
 
         public DataTable CargarPagosGrid(string sucursal, string orden, string Revision)
         {
-            SqlCommand cmd = new SqlCommand("SELECT Fecha, UPPER(P.DescripPago) Abo_Tipo , Abo_Monto, Tipo_Pago, Fec_Crea, ID_Abono FROM TB_ABONO A INNER JOIN TB_TIPOPAGO P ON A.Tipo_Pago = P.COD_PAGO WHERE Cod_Sucursal = @sucursal and NumOrdserv = @orden and Revision = @revision and Anulado = 0", cn.LeerCadena());
+            SqlCommand cmd = new SqlCommand("SELECT Fecha, UPPER(P.DescripPago) Abo_Tipo , Abo_Monto, Tipo_Pago, Fec_Crea, ID_Abono, Cod_Banco,Abo_CVCNROCHEQUE FROM TB_ABONO A INNER JOIN TB_TIPOPAGO P ON A.Tipo_Pago = P.COD_PAGO WHERE Cod_Sucursal = @sucursal and NumOrdserv = @orden and Revision = @revision and Anulado = 0", cn.LeerCadena());
             
             cmd.CommandType = CommandType.Text;
             cmd.Parameters.AddWithValue("@sucursal", sucursal);
