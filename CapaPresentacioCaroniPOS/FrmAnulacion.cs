@@ -125,8 +125,8 @@ namespace CapaVisual_Login
 
         public async void BtnGuardar_Click(object sender, EventArgs e)
         {
-            DialogResult = DialogResult.OK;
-
+            //DialogResult = DialogResult.OK;
+            this.Cursor = Cursors.WaitCursor;
             try
             {
                 if (CbxSelecResp.Text != "" & CbxSelectMotivo.Text != "" & TxtObservaciones.Text != "")
@@ -157,6 +157,7 @@ namespace CapaVisual_Login
                         if (TB_CAORDSER.OrSer_Status == "004" || TB_CAORDSER.OrSer_Status == "007")
                         {
                             Anular_Orden_Por_Pagar();
+                            //this.DialogResult = DialogResult.OK;
                         }
                     }
 
@@ -248,13 +249,21 @@ namespace CapaVisual_Login
                     {
                         bool Proceso = false;
 
-                        //Es un pago gift card, anulo la giftcard antes de anular el pago
-                        if (codBanco == "115")
+                        //Es un pago gift card o una os tipo giftCard, anulo la giftcard antes de anular el pago
+                        if (codBanco == "115" || TB_CAORDSER.Cod_DetVta == "10")
                         {
                             var resultado = await _lGiftCard.AnularGiftCardPorCodigo(Abo_CVCNROCHEQUE);
 
                             if (resultado.IsSuccess)
                             {
+                                _FrmMensajes.co = 1;
+                                _FrmMensajes.avisomensaje("La Gift Card ha sido anulada exitosamente");
+                                _FrmMensajes.ShowDialog();
+
+                                _lGiftCard.AgregarGiftCard(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision, 0, "", "", "", 0, Abo_CVCNROCHEQUE, false, TB_USUARIO.COD_USR, TB_USUARIO.COD_USR);
+                                
+                                //return;
+
                                 //abonada
                                 if (TB_CAORDSER.OrSer_Status == "005")
                                 {
@@ -314,6 +323,9 @@ namespace CapaVisual_Login
                                     _FrmMensajes.ShowDialog();
 
                                     Limpiarcbx();
+
+                                    this.DialogResult = DialogResult.OK;
+                                    this.Close();
                                 }
 
 
@@ -538,14 +550,20 @@ namespace CapaVisual_Login
                     }
                 }
 
-
+                this.Cursor = Cursors.Default;
+               
             }
             catch (Exception ex)
             {
+                this.Cursor = Cursors.Default;
                 _FrmMensajes.co = 2;
                 _FrmMensajes.avisomensaje(string.Format("Error: {0}", ex.Message) + ", Error inesperado");
                 _FrmMensajes.ShowDialog();
                 
+            }
+            finally
+            {
+                this.DialogResult = DialogResult.OK;
             }
         }
 
@@ -726,19 +744,44 @@ namespace CapaVisual_Login
         }
 
 
+        //public void Limpiarcbx()
+        //{
+        //    this.Hide();
+        //    CbxSelecResp.DataSource = _L_Anulacion.CargarResponsables(TB_USUARIO.COD_SUCURSAL);
+        //    CbxSelecResp.DisplayMember = "Descripcion";
+        //    CbxSelecResp.ValueMember = "Codigo";
+        //    CodResp = CbxSelecResp.SelectedValue.ToString();
+        //    CbxSelectMotivo.DataSource = _L_Anulacion.CargarMotivos(CodResp);
+        //    CbxSelectMotivo.DisplayMember = "Descripcion";
+        //    CbxSelectMotivo.ValueMember = "Codigo";
+        //    TxtObservaciones.Text = "";
+
+
+        //}
+
         public void Limpiarcbx()
         {
-            this.Hide();
+            // 1. Cargamos el ComboBox de Responsables
             CbxSelecResp.DataSource = _L_Anulacion.CargarResponsables(TB_USUARIO.COD_SUCURSAL);
             CbxSelecResp.DisplayMember = "Descripcion";
             CbxSelecResp.ValueMember = "Codigo";
-            CodResp = CbxSelecResp.SelectedValue.ToString();
+
+            // 2. Validación SEGURA contra Null antes de hacer ToString()
+            if (CbxSelecResp.SelectedValue != null)
+            {
+                CodResp = CbxSelecResp.SelectedValue.ToString();
+            }
+            else
+            {
+                CodResp = string.Empty; // o null, según cómo manejes la variable
+            }
+
+            // 3. Cargamos el ComboBox de Motivos
             CbxSelectMotivo.DataSource = _L_Anulacion.CargarMotivos(CodResp);
             CbxSelectMotivo.DisplayMember = "Descripcion";
             CbxSelectMotivo.ValueMember = "Codigo";
+
             TxtObservaciones.Text = "";
-
-
         }
 
 
@@ -1383,7 +1426,9 @@ namespace CapaVisual_Login
 
                         if (resultado.IsSuccess)
                         {
-                             Impresion = ImprimirNCFiscal_Local(TB_FACTURAS.Cod_Sucursal, TB_FACTURAS.Fact_Num, TB_FACTURAS.Fact_SerialImpresora, Convert.ToDouble(TB_FACTURAS.Fact_Total), DiaActivo, CbxSelectMotivo.SelectedValue.ToString(), command, transaction);
+                            _lGiftCard.AgregarGiftCard(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision, 0, "", "", "", 0, codGiftCard, false, TB_USUARIO.COD_USR, TB_USUARIO.COD_USR);
+
+                            Impresion = ImprimirNCFiscal_Local(TB_FACTURAS.Cod_Sucursal, TB_FACTURAS.Fact_Num, TB_FACTURAS.Fact_SerialImpresora, Convert.ToDouble(TB_FACTURAS.Fact_Total), DiaActivo, CbxSelectMotivo.SelectedValue.ToString(), command, transaction);
 
                         }
                         else
@@ -1615,7 +1660,7 @@ namespace CapaVisual_Login
 
                     if (resultado.IsSuccess)
                     {
-
+                        _lGiftCard.AgregarGiftCard(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision, 0, "", "", "",0, codGiftCard, false, TB_USUARIO.COD_USR, TB_USUARIO.COD_USR);
                     }
                     else
                     {

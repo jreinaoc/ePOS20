@@ -164,11 +164,11 @@ namespace CapaLogica.GiftCard_Logica
             }
         }
 
-        public bool AgregarGiftCard(string codSucursal, string nroOrden, string revision, decimal montoDolares, string nombreBeneficiario, string correoBeneficiario, string mensaje, int idGiftCard, string codigoGiftCard, string userCrea, string userMod, SqlCommand command = null)
+        public bool AgregarGiftCard(string codSucursal, string nroOrden, string revision, decimal montoDolares, string nombreBeneficiario, string correoBeneficiario, string mensaje, int idGiftCard, string codigoGiftCard, bool activo, string userCrea, string userMod, SqlCommand command = null)
         {
             try
             {
-                bool Respuesta = _D_GiftCard.AgregarGiftCard(codSucursal, nroOrden, revision, montoDolares, nombreBeneficiario, correoBeneficiario, mensaje, idGiftCard,codigoGiftCard, userCrea, userMod, command);
+                bool Respuesta = _D_GiftCard.AgregarGiftCard(codSucursal, nroOrden, revision, montoDolares, nombreBeneficiario, correoBeneficiario, mensaje, idGiftCard,codigoGiftCard, userCrea, userMod, activo , command);
 
                 return Respuesta;
             }

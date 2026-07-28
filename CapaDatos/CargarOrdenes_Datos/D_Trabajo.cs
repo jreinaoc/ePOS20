@@ -258,50 +258,50 @@ namespace CapaDatos.CargarOrdenes_Datos // O el namespace que prefieras para tus
             };
         }
 
-        public bool AgregarGiftCard(string codSucursal, string nroOrden, string revision, decimal montoDolares, string nombreBeneficiario, string correoBeneficiario, string mensaje, string codigoGiftCard, string userCrea, string userMod, SqlCommand command1 = null)
-        {
-            stringBuilder.Clear();
+        //public bool AgregarGiftCard(string codSucursal, string nroOrden, string revision, decimal montoDolares, string nombreBeneficiario, string correoBeneficiario, string mensaje, string codigoGiftCard, string userCrea, string userMod, SqlCommand command1 = null)
+        //{
+        //    stringBuilder.Clear();
 
-            try
-            {
-                if (command1 == null)
-                {
-                    SqlConnection connection = cn.LeerCadena();
-                    command1 = connection.CreateCommand();
-                }
+        //    try
+        //    {
+        //        if (command1 == null)
+        //        {
+        //            SqlConnection connection = cn.LeerCadena();
+        //            command1 = connection.CreateCommand();
+        //        }
 
-                SqlCommand command = command1;
-                command.Parameters.Clear();
-                command.CommandText = "SP_CPOS_AddOrdenGiftfCard";
-                command.CommandType = CommandType.StoredProcedure;
+        //        SqlCommand command = command1;
+        //        command.Parameters.Clear();
+        //        command.CommandText = "SP_CPOS_AddOrdenGiftfCard";
+        //        command.CommandType = CommandType.StoredProcedure;
 
-                // Agregar los parámetros individuales al comando
-                command.Parameters.AddWithValue("@CodSucursal", codSucursal ?? (object)DBNull.Value);
-                command.Parameters.AddWithValue("@NroOrden", nroOrden ?? (object)DBNull.Value);
-                command.Parameters.AddWithValue("@Revision", string.IsNullOrEmpty(revision) ? "0" : revision);
-                command.Parameters.AddWithValue("@MontoDolares", montoDolares);
-                command.Parameters.AddWithValue("@NombreBeneficiario", nombreBeneficiario ?? (object)DBNull.Value);
-                command.Parameters.AddWithValue("@CorreoBeneficiario", correoBeneficiario ?? (object)DBNull.Value);
-                command.Parameters.AddWithValue("@Mensaje", mensaje ?? (object)DBNull.Value);
-                command.Parameters.AddWithValue("@CodigoGiftCard", codigoGiftCard ?? (object)DBNull.Value);
-                command.Parameters.AddWithValue("@UserCrea", userCrea ?? (object)DBNull.Value);
-                command.Parameters.AddWithValue("@UserMod", userMod ?? (object)DBNull.Value);
+        //        // Agregar los parámetros individuales al comando
+        //        command.Parameters.AddWithValue("@CodSucursal", codSucursal ?? (object)DBNull.Value);
+        //        command.Parameters.AddWithValue("@NroOrden", nroOrden ?? (object)DBNull.Value);
+        //        command.Parameters.AddWithValue("@Revision", string.IsNullOrEmpty(revision) ? "0" : revision);
+        //        command.Parameters.AddWithValue("@MontoDolares", montoDolares);
+        //        command.Parameters.AddWithValue("@NombreBeneficiario", nombreBeneficiario ?? (object)DBNull.Value);
+        //        command.Parameters.AddWithValue("@CorreoBeneficiario", correoBeneficiario ?? (object)DBNull.Value);
+        //        command.Parameters.AddWithValue("@Mensaje", mensaje ?? (object)DBNull.Value);
+        //        command.Parameters.AddWithValue("@CodigoGiftCard", codigoGiftCard ?? (object)DBNull.Value);
+        //        command.Parameters.AddWithValue("@UserCrea", userCrea ?? (object)DBNull.Value);
+        //        command.Parameters.AddWithValue("@UserMod", userMod ?? (object)DBNull.Value);
 
-                // Ejecutar el Stored Procedure
-                SqlDataAdapter da = new SqlDataAdapter(command);
-                DataSet dts = new DataSet();
-                da.Fill(dts);
+        //        // Ejecutar el Stored Procedure
+        //        SqlDataAdapter da = new SqlDataAdapter(command);
+        //        DataSet dts = new DataSet();
+        //        da.Fill(dts);
 
-                command.Parameters.Clear();
+        //        command.Parameters.Clear();
 
-                return true;
-            }
-            catch (Exception ex)
-            {
-                stringBuilder.Append(Environment.NewLine + string.Format("Error al agregar Orden GiftCard: {0}", ex.Message));
-                return false;
-            }
-        }
+        //        return true;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        stringBuilder.Append(Environment.NewLine + string.Format("Error al agregar Orden GiftCard: {0}", ex.Message));
+        //        return false;
+        //    }
+        //}
         public bool ObtenerGiftCard(string codSucursal, string nroOrden, string revision, SqlCommand command1 = null)
         {
             stringBuilder.Clear();

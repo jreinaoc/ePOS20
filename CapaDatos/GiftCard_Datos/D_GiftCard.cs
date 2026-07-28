@@ -12,7 +12,7 @@ namespace CapaDatos.GiftCard_Datos
     {
         Conexion.Conexion cn = new Conexion.Conexion();
 
-        public bool AgregarGiftCard(string codSucursal, string nroOrden, string revision, decimal montoDolares, string nombreBeneficiario, string correoBeneficiario, string mensaje, int idGiftCard , string codigoGiftCard, string userCrea, string userMod, SqlCommand command1 = null)
+        public bool AgregarGiftCard(string codSucursal, string nroOrden, string revision, decimal montoDolares, string nombreBeneficiario, string correoBeneficiario, string mensaje, int idGiftCard , string codigoGiftCard, string userCrea, string userMod, bool activo, SqlCommand command1 = null)
         {
             //stringBuilder.Clear();
 
@@ -37,8 +37,9 @@ namespace CapaDatos.GiftCard_Datos
                 command.Parameters.AddWithValue("@NombreBeneficiario", nombreBeneficiario ?? (object)DBNull.Value);
                 command.Parameters.AddWithValue("@CorreoBeneficiario", correoBeneficiario ?? (object)DBNull.Value);
                 command.Parameters.AddWithValue("@Mensaje", mensaje ?? (object)DBNull.Value); 
-                //command.Parameters.AddWithValue("@idGiftCard", idGiftCard);
+                command.Parameters.AddWithValue("@idGiftCard", idGiftCard);
                 command.Parameters.AddWithValue("@CodigoGiftCard", codigoGiftCard ?? (object)DBNull.Value);
+                command.Parameters.AddWithValue("@Activo", activo);
                 command.Parameters.AddWithValue("@UserCrea", userCrea ?? (object)DBNull.Value);
                 command.Parameters.AddWithValue("@UserMod", userMod ?? (object)DBNull.Value);
 

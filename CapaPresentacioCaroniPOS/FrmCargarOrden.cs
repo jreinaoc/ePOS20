@@ -4149,7 +4149,7 @@ namespace CapaVisual_Login
 
                     if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "10")
                     {
-                        _lGiftCard.AgregarGiftCard(codSucursal, numeroOrden, "0", Convert.ToDecimal(txtMontoDolaresGiftCard.Text.Trim().Replace(".", "")), txtBeneficiarioGiftCard.Text, txtCorreoGiftCard.Text, txtMensajeGiftCard.Text, 0 , null, TB_USUARIO.COD_USR, null, command);
+                        _lGiftCard.AgregarGiftCard(codSucursal, numeroOrden, "0", Convert.ToDecimal(txtMontoDolaresGiftCard.Text.Trim().Replace(".", "")), txtBeneficiarioGiftCard.Text, txtCorreoGiftCard.Text, txtMensajeGiftCard.Text, 0 , null, true, TB_USUARIO.COD_USR, null, command);
                     }
 
                     transaction.Commit();

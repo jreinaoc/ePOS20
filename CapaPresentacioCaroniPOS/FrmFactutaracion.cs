@@ -2373,6 +2373,10 @@ namespace CapaVisual_Login
                 btnDetalleOrden.Enabled = false;
                 _L_Facturacion.DatosOrden(NumeroOrden, Revison);
 
+                // Cambia la línea 2376 a esto:
+                TB_FACTURAS.Nota  = null;
+                _D_DetalleOrden.ObtenerFactura(TB_CAORDSER.NumOrdserv);
+
                 ////agregado 19-05-2023 Para que se Actualize el Igtf de la Orden que viene de Epos
                 if (TB_CAORDSER.OrSer_Status == "005" && TB_CAORDSER.Cod_DetVta !="10")
                 {
@@ -2510,7 +2514,7 @@ namespace CapaVisual_Login
                 //El numero de Factura a las ordenes Facturadas o Anuladas 
                 if (TB_CAORDSER.OrSer_Status == "002" | TB_CAORDSER.OrSer_Status == "003")
                 {
-                    _D_DetalleOrden.ObtenerFactura(TB_CAORDSER.NumOrdserv);
+                    //_D_DetalleOrden.ObtenerFactura(TB_CAORDSER.NumOrdserv);
                     label3.Location = new Point(20, 12);
                     txtNumeroOrden.Location = new Point(24, 37);
                     txtNumeroFactura.Text = TB_FACTURAS.Fact_Num;
@@ -6748,6 +6752,14 @@ namespace CapaVisual_Login
 
                 if (TB_CAORDSER.OrSer_Status == "005")
                 {
+                    if ((Convert.ToDateTime(DgvListadoOrdenes.CurrentRow.Cells["Fecha"].Value).ToString("yyyyMMdd") == _D_Inicio.DiaActivo().ToString("yyyyMMdd")) && DgvListadoOrdenes.CurrentRow.Cells["Cod_Banco"].Value.ToString() == "115")
+                    {
+                        string mensajer = "No es posible anular el pago con Gift Card del mismo día activo";
+                        _FrmMensajes.co = 2;
+                        _FrmMensajes.avisomensaje(mensajer);
+                        _FrmMensajes.ShowDialog();
+                        return;
+                    }
                     if (Convert.ToDateTime(DgvListadoOrdenes.CurrentRow.Cells["Fecha"].Value).ToString("yyyyMMdd") == _D_Inicio.DiaActivo().ToString("yyyyMMdd"))
                     {
                         if (TB_CAORDSER.OTCORRESPONDIENTE != "" && TB_CAORDSER.OTCORRESPONDIENTE != null)
@@ -6790,15 +6802,59 @@ namespace CapaVisual_Login
 
                                 if (_FrmMensajes.DialogResult == DialogResult.OK)
                                 {
+                                    using (FrmAnulacion frmAnulacion = new FrmAnulacion())
+                                    {
+                                        frmAnulacion.AnulacionPagos = true;
+                                        frmAnulacion.IdAbono = Convert.ToInt32(DgvListadoOrdenes.CurrentRow.Cells["ID_Abono"].Value.ToString());
+                                        frmAnulacion.codBanco = DgvListadoOrdenes.CurrentRow.Cells["Cod_Banco"].Value.ToString();
+                                        //Si es una orden GiftCard
+                                        if (TB_CAORDSER.Cod_DetVta == "10")
+                                        {
+                                            DataTable OsGiftCard = _lGiftCard.ObtenerGiftCard(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision, "");
 
-                                    _FrmAnulacion.AnulacionPagos = true;
-                                    _FrmAnulacion.IdAbono = Convert.ToInt32(DgvListadoOrdenes.CurrentRow.Cells["ID_Abono"].Value.ToString());
-                                    _FrmAnulacion.codBanco = DgvListadoOrdenes.CurrentRow.Cells["Cod_Banco"].Value.ToString();
-                                    _FrmAnulacion.Abo_CVCNROCHEQUE = DgvListadoOrdenes.CurrentRow.Cells["Abo_CVCNROCHEQUE"].Value.ToString();
-                                    _FrmAnulacion.MontoAnulacion = Convert.ToDouble(DgvListadoOrdenes.CurrentRow.Cells["Abo_Monto"].Value.ToString());
-                                    _FrmAnulacion.TipoPagoAnular = DgvListadoOrdenes.CurrentRow.Cells["Tipo_Pago"].Value.ToString();
-                                    _FrmAnulacion.GerenteAutoriza = VariablesGlobales.UsuarioAutorizado_FrmClaveAutorizada;
-                                    _FrmAnulacion.ShowDialog();
+                                            frmAnulacion.Abo_CVCNROCHEQUE = OsGiftCard.Rows[0]["CodigoGiftCard"].ToString();
+                                        }
+                                        //Si el pago a anular es de GiftCard
+                                        if (DgvListadoOrdenes.CurrentRow.Cells["Cod_Banco"].Value.ToString() == "015")
+                                        {
+                                            frmAnulacion.Abo_CVCNROCHEQUE = DgvListadoOrdenes.CurrentRow.Cells["Abo_CVCNROCHEQUE"].Value.ToString();
+                                        }
+                                        frmAnulacion.MontoAnulacion = Convert.ToDouble(DgvListadoOrdenes.CurrentRow.Cells["Abo_Monto"].Value.ToString());
+                                        frmAnulacion.TipoPagoAnular = DgvListadoOrdenes.CurrentRow.Cells["Tipo_Pago"].Value.ToString();
+                                        frmAnulacion.GerenteAutoriza = VariablesGlobales.UsuarioAutorizado_FrmClaveAutorizada;
+                                        // 2. Abrimos el formulario de forma modal (bloquea la facturación hasta que se cierre)
+                                        DialogResult resultado = frmAnulacion.ShowDialog();
+
+                                        // 3. Evaluamos si la anulación en FrmAnulacion fue exitosa
+                                        if (resultado == DialogResult.OK)
+                                        {
+                                            // ¡AQUÍ continúa la lógica de facturación SÓLO si la anulación fue exitosa!
+                                            LimpiarGrid();
+
+                                            DataTable Pagos = _L_Facturacion.MostarPagosGrid(TB_CAORDSER.Cod_Sucursal, txtNumeroOrden.Text, TB_CAORDSER.Revision);
+
+                                            if (Pagos.Rows.Count > 0)
+                                            {
+                                                CantAbonosPrevios = Pagos.Rows.Count;
+                                                DgvListadoOrdenes.DataSource = Pagos;
+                                                CrearObjetos();
+                                            }
+
+                                            CargarDatosOrden(txtNumeroOrden.Text, txtNombreCliente.Text, TB_CAORDSER.Revision);
+
+                                            // ... resto de tu código de facturación ...
+                                        }
+                                        else
+                                        {
+                                            // Si el usuario canceló o falló la anulación en WooCommerce, interrumppes el flujo
+                                            //MessageBox.Show("La anulación fue cancelada o no se pudo completar. El proceso de facturación se detendrá.");
+                                            return;
+                                        }
+                                    }
+
+
+                                    
+                                    //_FrmAnulacion.ShowDialog();
 
                                 }
                                 else
@@ -6809,18 +6865,7 @@ namespace CapaVisual_Login
                                     _FrmMensajes.ShowDialog();
                                 }
 
-                                LimpiarGrid();
-
-                                DataTable Pagos = _L_Facturacion.MostarPagosGrid(TB_CAORDSER.Cod_Sucursal, txtNumeroOrden.Text, TB_CAORDSER.Revision);
-
-                                if (Pagos.Rows.Count > 0)
-                                {
-                                    CantAbonosPrevios = Pagos.Rows.Count;
-                                    DgvListadoOrdenes.DataSource = Pagos;
-                                    CrearObjetos();
-                                }
-
-                                CargarDatosOrden(txtNumeroOrden.Text, txtNombreCliente.Text, TB_CAORDSER.Revision);
+                                
 
                             }
 
@@ -7470,6 +7515,39 @@ namespace CapaVisual_Login
                 }
                 else
                 {
+                    if (rept == "SATISFACTORIO")
+                    {
+                        bool existeGiftCard = Dt_Abonos.AsEnumerable()
+                                        .Any(row => row.Field<string>("CodPago") == "027");
+
+                        if (existeGiftCard)
+                        {
+                            // 3. Ejecutamos de manera síncrona controlada para el hilo UI de Windows Forms (C# 7.3 compatible)
+                            var resultado = Task.Run(async () =>
+                                await _lGiftCard.DebitarSaldoGiftCard(_codigoGiftCardValidado, _montoAplicadoGiftCardValidado, _idgiftCardWebValidado)
+                            ).GetAwaiter().GetResult();
+
+                            // 4. Evaluamos la respuesta estandarizada
+                            if (resultado.IsSuccess)
+                            {
+                                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "113", TB_USUARIO.COD_EMPLEADO, "NroFact: " + Num_Factura + "Monto GiftCard: " + _montoAplicadoGiftCardValidado);
+                                _FrmMensajes.co = 2;
+                                _FrmMensajes.avisomensaje(resultado.Message);
+                                _FrmMensajes.ShowDialog();
+                                //MessageBox.Show(resultado.Message, "Proceso Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
+                            else
+                            {
+                                // El servidor rechazó la operación (por ejemplo, el mensaje de "tarjeta no editable" o sin fondos)
+                                _FrmMensajes.co = 2;
+                                _FrmMensajes.avisomensaje(resultado.Message);
+                                _FrmMensajes.ShowDialog();
+                                //MessageBox.Show(resultado.Message, "Atención en Punto de Venta", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            }
+                        }
+
+                    }
+
                     // Imprimo el Pago Movil 
                     if (rept == "SATISFACTORIO" && PMAutomatico == "0")
                         rept = ImprimirCambio(Correlativo, Dt_PagoMovil, TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision, Num_Factura, command);
@@ -11001,7 +11079,7 @@ namespace CapaVisual_Login
                     string codigoGenerado = resultado.Data.Code;
                     int idInternoWoo = resultado.Data.Id;
 
-                    _lGiftCard.AgregarGiftCard(codSucursal, nroOrden , revision, 0, "", "", "", idInternoWoo,codigoGenerado, TB_USUARIO.COD_USR, TB_USUARIO.COD_USR);
+                    _lGiftCard.AgregarGiftCard(codSucursal, nroOrden , revision, 0, "", "", "", idInternoWoo,codigoGenerado, true, TB_USUARIO.COD_USR, TB_USUARIO.COD_USR);
 
 
                     // Muestra mensaje de éxito al operador
