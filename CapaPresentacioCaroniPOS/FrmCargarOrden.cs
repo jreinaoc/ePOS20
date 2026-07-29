@@ -2333,6 +2333,7 @@ namespace CapaVisual_Login
                     }
                 }
                 
+
             }
            
 
@@ -3560,13 +3561,12 @@ namespace CapaVisual_Login
                 Btn_Tap3_Garantia.Enabled = false;
                 Btn_Tap3_CristalPropio.Enabled = false;
             }
-            else
+            if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() != "10")
             {
-                //bool deshabilitarBoton = Garantia || _D_DetalleOrden.TB_PARAMETROSPGE("PGEActivo") == "1";
-                //Btn_Tap3_Garantia.Enabled = !deshabilitarBoton;
-                Btn_Tap3_Garantia.Enabled = Garantia ? false : true;
-                Btn_Tap3_CristalPropio.Enabled = true;
+                // Mostar o no el tipo de laboratirio y srevicio 
+                ValidarTipoVenta(Cbx_Pnl2_Trbajo.Text);
             }
+            if (_D_DetalleOrden.TB_PARAMETRO("EditarGridFact") == "1" && Txt_Tap3_Articulo_Codigo.Text.Trim() != "Código")
 
             // Mostar o no el tipo de laboratirio y srevicio 
             ValidarTipoVenta(Cbx_Pnl2_Trbajo.Text);
@@ -3587,7 +3587,14 @@ namespace CapaVisual_Login
                 }
             }
 
-            if ((_D_DetalleOrden.TB_PARAMETRO("EditarGridFact") == "1" && Txt_Tap3_Articulo_Codigo.Text.Trim() != "Código") || esDonacion )
+            if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() != "10")
+            {
+                // Mostar o no el tipo de laboratirio y srevicio 
+                ValidarTipoVenta(Cbx_Pnl2_Trbajo.Text);
+            }
+      
+            if (_D_DetalleOrden.TB_PARAMETRO("EditarGridFact") == "1" && Txt_Tap3_Articulo_Codigo.Text.Trim() != "Código")
+
             {
                 Txt_Tap3_Articulo_Precio.Enabled = true;
                 Txt_Tap3_Articulo_Precio.ForeColor = Color.Black;
