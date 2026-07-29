@@ -835,7 +835,7 @@ namespace CapaLogica.CargarOrdenes
                 var articulo = listaArticulos.FirstOrDefault(a => a.CodArticulo == codigoProducto);
 
                 // Validar si el código del producto no comienza con "A", "C", "S" o "W"
-                if (!(codigoProducto.StartsWith("A") || codigoProducto.StartsWith("C") || codigoProducto.StartsWith("S") || codigoProducto.StartsWith("W") || codigoProducto.StartsWith("E")))
+                if (!(codigoProducto.StartsWith("A") || codigoProducto.StartsWith("C") || codigoProducto.StartsWith("S") || codigoProducto.StartsWith("W") || codigoProducto.StartsWith("E") || codigoProducto.StartsWith("H")))
                 {
                     if (articulo == null)
                     {

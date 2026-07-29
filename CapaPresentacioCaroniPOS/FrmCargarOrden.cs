@@ -3567,12 +3567,27 @@ namespace CapaVisual_Login
                 Btn_Tap3_Garantia.Enabled = Garantia ? false : true;
                 Btn_Tap3_CristalPropio.Enabled = true;
             }
-            if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() != "10")
+
+            // Mostar o no el tipo de laboratirio y srevicio 
+            ValidarTipoVenta(Cbx_Pnl2_Trbajo.Text);
+
+            bool esDonacion = false;
+
+            if (Txt_Tap3_Articulo_Codigo.Text.Substring(0, 1) == "H")
             {
-                // Mostar o no el tipo de laboratirio y srevicio 
-                ValidarTipoVenta(Cbx_Pnl2_Trbajo.Text);
+                string tiposArticulosActivanPrecio = _D_DetalleOrden.TB_PARAMETRO("ArtActivaPrecio");
+                string tipoArticuloSeleccionado = Txt_Tap3_Articulo_Codigo.Text.Substring(0, 1);
+
+                // Separamos el string por comas y lo convertimos en un arreglo
+                string[] tiposArticulo = tiposArticulosActivanPrecio.Split(',');
+
+                if (tiposArticulo.Contains(tipoArticuloSeleccionado))
+                {
+                    esDonacion = true;
+                }
             }
-            if (_D_DetalleOrden.TB_PARAMETRO("EditarGridFact") == "1" && Txt_Tap3_Articulo_Codigo.Text.Trim() != "Código")
+
+            if ((_D_DetalleOrden.TB_PARAMETRO("EditarGridFact") == "1" && Txt_Tap3_Articulo_Codigo.Text.Trim() != "Código") || esDonacion )
             {
                 Txt_Tap3_Articulo_Precio.Enabled = true;
                 Txt_Tap3_Articulo_Precio.ForeColor = Color.Black;
