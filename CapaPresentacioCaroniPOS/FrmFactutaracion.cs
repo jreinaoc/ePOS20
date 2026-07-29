@@ -5170,10 +5170,15 @@ namespace CapaVisual_Login
                         /// **********'IMPRIMO LOS ITEMS *********************
 
                         string desart;
+                        double MontoDonacion = 0;
 
                         foreach (DataRow drItem in dt.Rows)
                         {
 
+                            if (drItem["CodArticulo"].ToString().StartsWith("H") )
+                            {
+                                MontoDonacion = Convert.ToDouble(drItem["Ordserv_Bruto"]);
+                            }
                             // EL DESCUENTO DE LOS ARTICULOS SE ENVIARA AL FINAL, ANTES DE CERRAR EL CF
 
                             if (Convert.ToInt64(drItem["Ordserv_Dto"]) > 0)
@@ -5287,7 +5292,7 @@ namespace CapaVisual_Login
 
                                 {
 
-                                    if (TB_CAORDSER.Cod_Sucursal == "251" && _D_DetalleOrden.TB_PARAMETRO("ValidaDifMontos") == "0")
+                                    if ( _D_DetalleOrden.TB_PARAMETRO("ValidaDifMontos") == "0")
                                     {
                                         sumo01 = true;
                                     }
@@ -5887,19 +5892,23 @@ namespace CapaVisual_Login
                                 
                             string ImpTextNoFiscal = _D_DetalleOrden.TB_PARAMETRO("ImpTextNoFiscal");
 
-                                if (ImpTextNoFiscal == "1")
-                                {
+                            if (ImpTextNoFiscal == "1")
+                            {
                                     //// Texto de GRACIAS POR SU COMPRA
-                                    DataTable DtTexto = _D_DetalleOrden.TB_INUTILIZADO();
+                                DataTable DtTexto = _D_DetalleOrden.TB_INUTILIZADO();
 
-                                    foreach (DataRow row in DtTexto.Rows)
-                                    {
+                                 foreach (DataRow row in DtTexto.Rows)
+                                 {
                                         resp = objVmax.TextoNoFiscal(row["texto"].ToString());
-                                    }
+                                 }
+                            }
+                                if(MontoDonacion > 0)
+                                {
+                                    resp = objVmax.TextoNoFiscal("Propina/Donación " + MontoDonacion.ToString("N2"));
+                                    resp = objVmax.TextoNoFiscal("Monto a pagar " + TxtMontoBs2.Text.ToString());
                                 }
-
-
-                            do
+                       
+                        do
                             {
                                 if (_Impresora_Fiscal.VerficarConexionImpresoraFiscalSinCerrar()) break;
                             ImprimirFacturaFiscall = false;
