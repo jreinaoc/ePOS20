@@ -1322,10 +1322,18 @@ namespace CapaVisual_Login
                         this.Pnl_3_Lista_Articulo.Visible = false;
                         HabilitacionControl("CabezeraPrincipal");
 
-                        // Establecer el f
-                        // oco en el TextBox de cantidad
-                        Txt_Tap3_Articulo_Cantidad.Focus();
-                    }
+                            if (articulo.CodArticulo.StartsWith("H"))
+                            {
+                                Txt_Tap3_Articulo_Precio.Focus();
+                            }
+                            else
+                            {
+                                Txt_Tap3_Articulo_Cantidad.Focus();
+                            }
+                            // Establecer el f
+                            // oco en el TextBox de cantidad
+
+                        }
 
                     //if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "09")
                     //{
@@ -1586,6 +1594,10 @@ namespace CapaVisual_Login
         {
             if (e.KeyCode == Keys.Enter)
             {
+                if (Txt_Tap3_Articulo_Precio.Text == "0" || Txt_Tap3_Articulo_Precio.Text == "0,00")
+                {
+                    return;
+                }
                 // Validar que el texto sea un número válido y mayor que 0
                 if (int.TryParse(Txt_Tap3_Articulo_Cantidad.Text, out int cantidad) && cantidad > 0)
                 {
@@ -2278,7 +2290,7 @@ namespace CapaVisual_Login
                         HabilitacionControl("Habilitar_Lista_Articulo");
                         LimpiarControles("Abrir_Busqueda_Articulos");
 
-                        _L_Articulo.CargarArticulos(Dgv_Pnl3_Articulo, listaArticulos, Cbx_Pnl2_Trbajo.SelectedValue.ToString(), _L_Articulo.ValidarExtenciaCristal(Dgv_Tap3_Articulo, Cbx_Pnl2_Trbajo.SelectedValue.ToString()));
+                        _L_Articulo.CargarArticulos(Dgv_Pnl3_Articulo, listaArticulos, Cbx_Pnl2_Trbajo.SelectedValue.ToString(), _L_Articulo.ValidarExtenciaCristal(Dgv_Tap3_Articulo, Cbx_Pnl2_Trbajo.SelectedValue.ToString()),chkSugerencia.Checked);
                         if (_L_Articulo.stringBuilder.Length > 0)
                         {
                             _FrmMensajes.co = 2;
@@ -2315,7 +2327,7 @@ namespace CapaVisual_Login
                             Pnl_3_Lista_ColoresLC.BringToFront();
                         }
                         // Acción para Enter
-                        _L_Articulo.CargarArticulos(Dgv_Pnl3_Articulo, listaArticulos, Cbx_Pnl2_Trbajo.SelectedValue.ToString(), _L_Articulo.ValidarExtenciaCristal(Dgv_Tap3_Articulo, Cbx_Pnl2_Trbajo.SelectedValue.ToString()));
+                        _L_Articulo.CargarArticulos(Dgv_Pnl3_Articulo, listaArticulos, Cbx_Pnl2_Trbajo.SelectedValue.ToString(), _L_Articulo.ValidarExtenciaCristal(Dgv_Tap3_Articulo, Cbx_Pnl2_Trbajo.SelectedValue.ToString()), chkSugerencia.Checked);
 
                         //Formatear los caracteres a 7 Digitos cuando es un cristal 
                         _L_Articulo.FormatearCampo7Digitos(Txt_Tap3_Articulo_Codigo);
@@ -3519,8 +3531,8 @@ namespace CapaVisual_Login
         private void ValidarRegistrosYHabilitar_Botones()
         {
             // Verificar si el DataGridView tiene filas que no sean nuevas
-           
-           //// Descuento  
+
+            //// Descuento  
             if (Dgv_Tap3_Articulo.Rows.Count > 0 && PorcDctoEmpresaAfiliada <= 0 && string.IsNullOrEmpty(Codigo_Promocion))
             {
                 Btn_Tap3_Descuento.Enabled = true; // Habilitar el TextBox o botón descuento
@@ -3567,12 +3579,27 @@ namespace CapaVisual_Login
                 Btn_Tap3_Garantia.Enabled = Garantia ? false : true;
                 Btn_Tap3_CristalPropio.Enabled = true;
             }
-            if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() != "10")
+
+            // Mostar o no el tipo de laboratirio y srevicio 
+            ValidarTipoVenta(Cbx_Pnl2_Trbajo.Text);
+
+            bool esDonacion = false;
+
+            if (Txt_Tap3_Articulo_Codigo.Text.Substring(0, 1) == "H")
             {
-                // Mostar o no el tipo de laboratirio y srevicio 
-                ValidarTipoVenta(Cbx_Pnl2_Trbajo.Text);
+                string tiposArticulosActivanPrecio = _D_DetalleOrden.TB_PARAMETRO("ArtActivaPrecio");
+                string tipoArticuloSeleccionado = Txt_Tap3_Articulo_Codigo.Text.Substring(0, 1);
+
+                // Separamos el string por comas y lo convertimos en un arreglo
+                string[] tiposArticulo = tiposArticulosActivanPrecio.Split(',');
+
+                if (tiposArticulo.Contains(tipoArticuloSeleccionado))
+                {
+                    esDonacion = true;
+                }
             }
-            if (_D_DetalleOrden.TB_PARAMETRO("EditarGridFact") == "1" && Txt_Tap3_Articulo_Codigo.Text.Trim() != "Código")
+
+            if ((_D_DetalleOrden.TB_PARAMETRO("EditarGridFact") == "1" && Txt_Tap3_Articulo_Codigo.Text.Trim() != "Código") || esDonacion)
             {
                 Txt_Tap3_Articulo_Precio.Enabled = true;
                 Txt_Tap3_Articulo_Precio.ForeColor = Color.Black;
@@ -15666,7 +15693,7 @@ namespace CapaVisual_Login
                  pnlGiftCard.Visible = false;
                 Double MontoGiftCardBolivares = 0;
                 MontoGiftCardBolivares = Convert.ToDouble(txtMontoDolaresGiftCard.Text.Trim().Replace(".", "")) * (TB_TASA_Dolar.Tasa ?? 0);
-                _L_Articulo.CargarArticulos(Dgv_Pnl3_Articulo, listaArticulos, Cbx_Pnl2_Trbajo.SelectedValue.ToString(), _L_Articulo.ValidarExtenciaCristal(Dgv_Tap3_Articulo, Cbx_Pnl2_Trbajo.SelectedValue.ToString()));
+                _L_Articulo.CargarArticulos(Dgv_Pnl3_Articulo, listaArticulos, Cbx_Pnl2_Trbajo.SelectedValue.ToString(), _L_Articulo.ValidarExtenciaCristal(Dgv_Tap3_Articulo, Cbx_Pnl2_Trbajo.SelectedValue.ToString()), chkSugerencia.Checked);
 
                 var articulo = listaArticulos.FirstOrDefault(a => a.CodArticulo == "G000001");
 
@@ -15788,6 +15815,55 @@ namespace CapaVisual_Login
             if (e.KeyCode == Keys.Enter)
             {
                 txtMensajeGiftCard.Focus();
+            }
+        }
+
+        private void chkSugerencia_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Txt_Tap3_Articulo_Precio_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                if (!decimal.TryParse(Txt_Tap3_Articulo_Precio.Text, out decimal precio) || precio < 1m)
+                {
+                    return;
+                }
+                // Validar que el texto sea un número válido y mayor que 0
+                if (int.TryParse(Txt_Tap3_Articulo_Cantidad.Text, out int cantidad) && cantidad > 0)
+                {
+                    if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "09")
+                    {
+                        if (!_L_Articulo.AplicoGarantia(Dgv_Tap3_Articulo, Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2), Os_Garantia_Trabajo, Numero_Examen_Garantia_Trabajo))
+                        {
+                            _FrmMensajes.co = 2;
+                            _FrmMensajes.avisomensaje("Esta orden no aplica para reposición de garantia");
+                            _FrmMensajes.StartPosition = FormStartPosition.Manual; // Permite posicionarlo manualmente
+                            _FrmMensajes.Location = new System.Drawing.Point(600, 300); // Coordenadas específ
+                            _FrmMensajes.ShowDialog();
+
+                            return;
+                        }
+                    }
+
+                    if (Txt_Tap3_Articulo_Codigo.Text.StartsWith("W") && string.IsNullOrEmpty(CodColorLC) && Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "02")
+                    {
+                        DataSet dsColorLC = _L_Articulo.CargarColoresLC(Dgv_Pnl3_ColoresLC, Txt_Tap3_Articulo_Codigo.Text);
+                        Dgv_Pnl3_ColoresLC.DataSource = dsColorLC.Tables[0];
+                        Formato_Dgv_Pnl3_ColoresLC();
+                        Pnl_3_Lista_ColoresLC.Visible = true;
+                        Pnl_3_Lista_ColoresLC.Location = new Point(250, 150);
+                        Pnl_3_Lista_ColoresLC.BringToFront();
+                        return;
+                    }
+
+                    CargarArticulos_Girdvew();
+
+                    Dgv_Tap3_Articulo.ClearSelection();
+
+                }
             }
         }
     }

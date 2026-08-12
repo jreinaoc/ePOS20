@@ -922,10 +922,15 @@ namespace CapaVisual_Login
 
                     DataSet dsArti = _D_DetalleOrden.DetalleNotaCreditoFiscal(NumeroFactura, SerialImpresora,command);
                     string desart;
+                double MontoDonacion = 0;
 
-                    foreach (DataRow drItem in dsArti.Tables[0].Rows)
+                foreach (DataRow drItem in dsArti.Tables[0].Rows)
                     {
-                        if (Convert.ToUInt32(drItem["Ordserv_Dto"].ToString()) > 0)
+                    if (drItem["CodArticulo"].ToString().StartsWith("H"))
+                    {
+                        MontoDonacion = Convert.ToDouble(drItem["Ordserv_Bruto"]) - 0.01;
+                    }
+                    if (Convert.ToUInt32(drItem["Ordserv_Dto"].ToString()) > 0)
                         {
                         }
 
@@ -1033,7 +1038,7 @@ namespace CapaVisual_Login
                             return false;
                         }
                         // *****Texto no fiscal *****
-                        resp = objVmax.TextoNoFiscal("Monto Disponible:  " + Monto.ToString());
+                        resp = objVmax.TextoNoFiscal("Monto Disponible:  " + (Monto).ToString());
                                         objVmax.ObtenerReporteInformativo();
                                         SerialImpresoraNC = objVmax.RetornoMI.sSerial;
                                         FechaImpresora = objVmax.RetornoMI.sFecha;

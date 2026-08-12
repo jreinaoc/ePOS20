@@ -64,7 +64,7 @@ namespace CapaLogica.CargarOrdenes
 
         }
 
-        public void CargarArticulos(System.Windows.Forms.DataGridView DgvArticulo, List<TB_ARTICULO> listaArticulos, string TipoTrabajo, string CodArticulo = "")
+        public void CargarArticulos(System.Windows.Forms.DataGridView DgvArticulo, List<TB_ARTICULO> listaArticulos, string TipoTrabajo, string CodArticulo = "", bool sugerenciaIA = false)
         {
             stringBuilder.Clear();
             Conexion cn = new Conexion();
@@ -80,8 +80,9 @@ namespace CapaLogica.CargarOrdenes
 
             try
             {
+
                 // Obtener los artículos desde la base de datos
-                var articulosObtenidos = _D_Articulos.ObtenerArticulos(TipoTrabajo, CodArticulo, command);
+                var articulosObtenidos = _D_Articulos.ObtenerArticulos(TipoTrabajo, CodArticulo,  command, sugerenciaIA);
 
                 // Limpiar la lista pasada como parámetro y llenarla con los nuevos datos
                 listaArticulos.Clear(); // Limpiar la lista para evitar duplicados
@@ -835,7 +836,7 @@ namespace CapaLogica.CargarOrdenes
                 var articulo = listaArticulos.FirstOrDefault(a => a.CodArticulo == codigoProducto);
 
                 // Validar si el código del producto no comienza con "A", "C", "S" o "W"
-                if (!(codigoProducto.StartsWith("A") || codigoProducto.StartsWith("C") || codigoProducto.StartsWith("S") || codigoProducto.StartsWith("W") || codigoProducto.StartsWith("E")))
+                if (!(codigoProducto.StartsWith("A") || codigoProducto.StartsWith("C") || codigoProducto.StartsWith("S") || codigoProducto.StartsWith("W") || codigoProducto.StartsWith("E") || codigoProducto.StartsWith("H")))
                 {
                     if (articulo == null)
                     {
@@ -1088,6 +1089,10 @@ namespace CapaLogica.CargarOrdenes
                 {
                     decimal cantidad = Convert.ToDecimal(row.Cells["ART_EXIST"].Value);
                     decimal precio = Convert.ToDecimal(row.Cells["ART_PVP"].Value);
+                    if (Aritculo.StartsWith("H"))
+                    {
+                        precio += 0.01m;
+                    }
                     subtotal += cantidad * precio;
                 }
 

@@ -2521,7 +2521,7 @@ namespace CapaVisual_Login
                     label72.Location = new Point(126, 12);
                     txtNumeroFactura.Location = new Point(130, 37);
 
-                    if (TB_CAORDSER.OrSer_Status == "002")
+                    if (TB_CAORDSER.OrSer_Status == "002" || (TB_CAORDSER.OrSer_Status == "003" && TB_CAORDSER.Nota == true))
                     {
                         txtNombreVendedor.Text = _D_DetalleOrden.BuscarUsuarioOrden(TB_FACTURAS.USER_Crea);
                         txtNumeroFactura.Visible = true;
@@ -3060,7 +3060,7 @@ namespace CapaVisual_Login
                     DataTable dt = _D_DetalleOrden.BucarTotalAbonosRealizados(TB_CAORDSER.NumOrdserv);
                     Double Igtf_TotalAboTranferenciaDolar = Math.Round(Convert.ToDouble(dt.Rows[0]["TotalPagoIgtf"].ToString()), 2);
                     Igtf_TotalAboTranferenciaDolar = Igtf_TotalAboTranferenciaDolar + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos));
-
+                    Double montoDonacion = Convert.ToDouble(dt.Rows[0]["PrecioDonacion"].ToString());
                     BolivaresConveridos(Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos)), txtMontoBs);
                     //-----------ConvertirBolivares---------------------------
                     //txtMontoBs.Text = _L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos);
@@ -3073,7 +3073,7 @@ namespace CapaVisual_Login
                         double MontoFaltanteIgtfbs = (Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) - Igtf_TotalAboTranferenciaDolar) * 0.03;
 
                         txtRef.Text = Convert.ToString(Math.Round(((Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) + MontoFaltanteIgtfbs) / Convert.ToDouble(TB_TASA_Dolar.Tasa)), 2));
-                        txtIGTF.Text = Convert.ToString(_L_Facturacion.CalculoIgtf(txtNumeroOrden, Convert.ToString(Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) - Igtf_TotalAboTranferenciaDolar), DgvAbonos));
+                        txtIGTF.Text = Convert.ToString(_L_Facturacion.CalculoIgtf(txtNumeroOrden, Convert.ToString(Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) - montoDonacion - Igtf_TotalAboTranferenciaDolar), DgvAbonos));
 
                     }
                     else
@@ -3230,7 +3230,7 @@ namespace CapaVisual_Login
                     DataTable dt = _D_DetalleOrden.BucarTotalAbonosRealizados(TB_CAORDSER.NumOrdserv);
                     Double Igtf_TotalAboTranferenciaDolar = Math.Round(Convert.ToDouble(dt.Rows[0]["TotalPagoIgtf"].ToString()), 2);
                     Igtf_TotalAboTranferenciaDolar = Igtf_TotalAboTranferenciaDolar + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos));
-
+                    Double montoDonacion = Convert.ToDouble(dt.Rows[0]["PrecioDonacion"].ToString());
                     BolivaresConveridos(Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos)), txtMontoBs);
                     //-----------ConvertirBolivares---------------------------
                     //txtMontoBs.Text = _L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos);
@@ -3243,7 +3243,7 @@ namespace CapaVisual_Login
                         double MontoFaltanteIgtfbs = (Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) - Igtf_TotalAboTranferenciaDolar) * 0.03;
 
                         txtRef.Text = Convert.ToString(Math.Round(((Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) + MontoFaltanteIgtfbs) / Convert.ToDouble(TB_TASA_Dolar.Tasa)), 2));
-                        txtIGTF.Text = Convert.ToString(_L_Facturacion.CalculoIgtf(txtNumeroOrden, Convert.ToString(Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) - Igtf_TotalAboTranferenciaDolar), DgvAbonos));
+                        txtIGTF.Text = Convert.ToString(_L_Facturacion.CalculoIgtf(txtNumeroOrden, Convert.ToString(Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) - montoDonacion - Igtf_TotalAboTranferenciaDolar), DgvAbonos));
 
                     }
                     else
@@ -5079,6 +5079,7 @@ namespace CapaVisual_Login
                 Double Fact_MontoExento = 0;
                 Double Fact_MontoGravable = 0;
                 Double iGTF = 0.00;
+                double MontoDonacion = 0;
 
                 uint resp = 0;
 
@@ -5170,10 +5171,14 @@ namespace CapaVisual_Login
                         /// **********'IMPRIMO LOS ITEMS *********************
 
                         string desart;
+                        
 
                         foreach (DataRow drItem in dt.Rows)
                         {
-
+                            if (drItem["CodArticulo"].ToString().StartsWith("H"))
+                            {
+                                MontoDonacion = Convert.ToDouble(drItem["Ordserv_Bruto"]) - 0.01;
+                            }
                             // EL DESCUENTO DE LOS ARTICULOS SE ENVIARA AL FINAL, ANTES DE CERRAR EL CF
 
                             if (Convert.ToInt64(drItem["Ordserv_Dto"]) > 0)
@@ -5607,7 +5612,7 @@ namespace CapaVisual_Login
 
                                         if (DtIGTF.Tables[0].Rows[0]["IGTFCAORDSER"].ToString().Replace(",", "") == (subtotalIgtf * 100).ToString().Replace(",", ""))
                                         {
-                                            resp = objVmax.SubtotalT_sinRetorno(Convert.ToString(subtotal * 100).Replace(".", ","));
+                                            resp = objVmax.SubtotalT_sinRetorno(Convert.ToString(subtotal  * 100).Replace(".", ","));
                                         }
                                         else
                                         {
@@ -5897,13 +5902,18 @@ namespace CapaVisual_Login
                                         resp = objVmax.TextoNoFiscal(row["texto"].ToString());
                                     }
                                 }
+                        if (MontoDonacion > 0)
+                        {
+                            resp = objVmax.TextoNoFiscal("Propina/Donacion " + MontoDonacion.ToString("N2"));
+                            resp = objVmax.TextoNoFiscal("Monto a pagar " + (PagosEnviados / 100m).ToString("N2"));
+                        }
 
-
-                            do
+                        do
                             {
                                 if (_Impresora_Fiscal.VerficarConexionImpresoraFiscalSinCerrar()) break;
                             ImprimirFacturaFiscall = false;
                             mensaje = _Impresora_Fiscal.stringBuilder.ToString();
+
                                 _FrmMensajes.co = 2;
                                 _FrmMensajes.avisomensaje(mensaje);
                                 _FrmMensajes.ShowDialog();
@@ -6060,9 +6070,9 @@ namespace CapaVisual_Login
 
 
                                     Transaccion = _D_DetalleOrden.GetFactura(TB_CAORDSER.Cod_Sucursal, NumeroComprobanteFiscal, Fecha2, Nacionalidad,
-                                 txtCedula.Text.Substring(2, txtCedula.Text.Length - 2), TB_CAORDSER.COD_EMPLEADO, TB_CAORDSER.Cod_Venta, txtNumeroOrden.Text, Convert.ToString(TB_CAORDSER.Fec_ofrecido.ToString("yyyyMMdd")), TB_CAORDSER.Hor_ofrecido, Convert.ToDouble(String.Format(CultureInfo.InvariantCulture, "{0:0.00}", Convert.ToDouble(DtIGTF.Tables[0].Rows[0]["BaseImponible"].ToString()) / 100).Replace(".", ",")),
-                                  Convert.ToDouble(String.Format(CultureInfo.InvariantCulture, "{0:0.00}", Convert.ToDouble(DtIGTF.Tables[0].Rows[0]["Alicuota"].ToString()) / 100).Replace(".", ",")), TB_CAORDSER.VtaDescuento, (totalpagos / 100), TB_USUARIO.COD_USR, 0, 0, SerialImpresora,
-                                 Fact_MontoExento, Fact_MontoGravable, 0, iGTF, "A", command);
+                                 txtCedula.Text.Substring(2, txtCedula.Text.Length - 2), TB_CAORDSER.COD_EMPLEADO, TB_CAORDSER.Cod_Venta, txtNumeroOrden.Text, Convert.ToString(TB_CAORDSER.Fec_ofrecido.ToString("yyyyMMdd")), TB_CAORDSER.Hor_ofrecido, Convert.ToDouble(String.Format(CultureInfo.InvariantCulture, "{0:0.00}", (Convert.ToDouble(DtIGTF.Tables[0].Rows[0]["BaseImponible"].ToString()) / 100) - MontoDonacion).Replace(".", ",")),
+                                  Convert.ToDouble(String.Format(CultureInfo.InvariantCulture, "{0:0.00}", Convert.ToDouble(DtIGTF.Tables[0].Rows[0]["Alicuota"].ToString()) / 100).Replace(".", ",")), TB_CAORDSER.VtaDescuento, ((totalpagos / 100)-MontoDonacion), TB_USUARIO.COD_USR, 0, 0, SerialImpresora,
+                                 Fact_MontoExento-MontoDonacion, Fact_MontoGravable, 0, iGTF, "A", command);
 
                                     _D_DetalleOrden.PostFactManual(NumeroComprobanteFiscal, txtNumeroOrden.Text, SerialImpresora, "VENEZUELA", command);
                                     Num_Factura = NumeroComprobanteFiscal;
@@ -6182,9 +6192,10 @@ namespace CapaVisual_Login
                     string Nacionalidad = txtCedula.Text.Substring(0, 1);
 
                     Transaccion = _D_DetalleOrden.GetFactura(TB_CAORDSER.Cod_Sucursal, TxtNumFact.Text, Fecha2, Nacionalidad,
-                                     txtCedula.Text.Substring(2, txtCedula.Text.Length - 2), TB_CAORDSER.COD_EMPLEADO, TB_CAORDSER.Cod_Venta, txtNumeroOrden.Text, Convert.ToString(TB_CAORDSER.Fec_ofrecido.ToString("yyyyMMdd")), TB_CAORDSER.Hor_ofrecido, Convert.ToDouble(String.Format(CultureInfo.InvariantCulture, "{0:0.00}", Convert.ToDouble(DtIGTF.Tables[0].Rows[0]["BaseImponible"].ToString()) / 100).Replace(".", ",")),
-                                      Convert.ToDouble(String.Format(CultureInfo.InvariantCulture, "{0:0.00}", Convert.ToDouble(DtIGTF.Tables[0].Rows[0]["Alicuota"].ToString()) / 100).Replace(".", ",")), TB_CAORDSER.VtaDescuento, (totalpagosManual / 100), TB_USUARIO.COD_USR, 0, 0, "FACTMANUAL",
-                                     Fact_MontoExento, Fact_MontoExento, 0, iGTF, "A", command, true, _L_ListaOrdenes.Completar_Numero_Control(TxtNroCorrelativo.Text));
+                                     txtCedula.Text.Substring(2, txtCedula.Text.Length - 2), TB_CAORDSER.COD_EMPLEADO, TB_CAORDSER.Cod_Venta, txtNumeroOrden.Text, Convert.ToString(TB_CAORDSER.Fec_ofrecido.ToString("yyyyMMdd")), TB_CAORDSER.Hor_ofrecido, Convert.ToDouble(String.Format(CultureInfo.InvariantCulture, "{0:0.00}", Convert.ToDouble(DtIGTF.Tables[0].Rows[0]["BaseImponible"].ToString())- MontoDonacion / 100).Replace(".", ",")),
+                                      Convert.ToDouble(String.Format(CultureInfo.InvariantCulture, "{0:0.00}", Convert.ToDouble(DtIGTF.Tables[0].Rows[0]["Alicuota"].ToString()) / 100).Replace(".", ",")), TB_CAORDSER.VtaDescuento, (totalpagosManual- MontoDonacion / 100), TB_USUARIO.COD_USR, 0, 0, "FACTMANUAL",
+                                     Fact_MontoExento-MontoDonacion, Fact_MontoExento, 0, iGTF, "A", command, true, _L_ListaOrdenes.Completar_Numero_Control(TxtNroCorrelativo.Text));
+
 
                     _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "071", TB_USUARIO.COD_EMPLEADO, "OS: " + txtNumeroOrden.Text + ", Factura: " + TxtNumFact.Text + ", Serial: " + "FACTMANUAL");
 
@@ -7114,7 +7125,7 @@ namespace CapaVisual_Login
                     DataTable dt = _D_DetalleOrden.BucarTotalAbonosRealizados(TB_CAORDSER.NumOrdserv);
                     Double Igtf_TotalAboTranferenciaDolar = Math.Round(Convert.ToDouble(dt.Rows[0]["TotalPagoIgtf"].ToString()), 2);
                     Igtf_TotalAboTranferenciaDolar = Igtf_TotalAboTranferenciaDolar + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos));
-
+                    Double montoDonacion = Convert.ToDouble(dt.Rows[0]["PrecioDonacion"].ToString());
                     BolivaresConveridos(Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos)), txtMontoBs);
 
                     string Resultado_Parametro = _D_DetalleOrden.TB_PARAMETRO("ActivaIGTF");
@@ -7126,7 +7137,7 @@ namespace CapaVisual_Login
                         double MontoFaltanteIgtfbs = (Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) - Igtf_TotalAboTranferenciaDolar) * 0.03;
 
                         txtRef.Text = Convert.ToString(Math.Round(((Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) + MontoFaltanteIgtfbs) / Convert.ToDouble(TB_TASA_Dolar.Tasa)), 2));
-                        txtIGTF.Text = Convert.ToString(_L_Facturacion.CalculoIgtf(txtNumeroOrden, Convert.ToString(Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) - Igtf_TotalAboTranferenciaDolar), DgvAbonos));
+                        txtIGTF.Text = Convert.ToString(_L_Facturacion.CalculoIgtf(txtNumeroOrden, Convert.ToString(Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) - montoDonacion - Igtf_TotalAboTranferenciaDolar), DgvAbonos));
 
                     }
                     else
@@ -7153,7 +7164,7 @@ namespace CapaVisual_Login
                         DataTable dt = _D_DetalleOrden.BucarTotalAbonosRealizados(TB_CAORDSER.NumOrdserv);
                         Double Igtf_TotalAboTranferenciaDolar = Math.Round(Convert.ToDouble(dt.Rows[0]["TotalPagoIgtf"].ToString()), 2);
                         Igtf_TotalAboTranferenciaDolar = Igtf_TotalAboTranferenciaDolar + Convert.ToDouble(_L_Facturacion.TotalIgtf(DgvAbonos));
-
+                        Double montoDonacion = Convert.ToDouble(dt.Rows[0]["PrecioDonacion"].ToString());
                         BolivaresConveridos(Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos)), txtMontoBs);
                         //-----------ConvertirBolivares---------------------------
                         //txtMontoBs.Text = _L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos);
@@ -7166,7 +7177,7 @@ namespace CapaVisual_Login
                             double MontoFaltanteIgtfbs = (Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) - Igtf_TotalAboTranferenciaDolar) * 0.03;
 
                             txtRef.Text = Convert.ToString(Math.Round(((Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) + MontoFaltanteIgtfbs) / Convert.ToDouble(TB_TASA_Euro.Tasa)), 2));
-                            txtIGTF.Text = Convert.ToString(_L_Facturacion.CalculoIgtf(txtNumeroOrden, Convert.ToString(Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) - Igtf_TotalAboTranferenciaDolar), DgvAbonos));
+                            txtIGTF.Text = Convert.ToString(_L_Facturacion.CalculoIgtf(txtNumeroOrden, Convert.ToString(Convert.ToDouble(txtMontoBs.Text.Replace(".", "")) - montoDonacion - Igtf_TotalAboTranferenciaDolar), DgvAbonos));
 
                         }
                         else
@@ -8421,15 +8432,15 @@ namespace CapaVisual_Login
 
                 }
             }
-            else
-            {
-                Bolivares.Enabled = true;
-                BolivaresConveridos(Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos)), txtMontoBs);
-                //-----------ConvertirBolivares---------------------------
-                //txtMontoBs.Text = _L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos);
-                Bolivares.Text = Convert.ToString(Convert.ToDouble(txtMontoBs.Text.Replace(".","")));
-                Bolivares.Text = string.Format("{0:#,0.00}", Convert.ToDecimal(Bolivares.Text));
-            }
+            //else
+            //{
+            //    Bolivares.Enabled = true;
+            //    BolivaresConveridos(Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos)), txtMontoBs);
+            //    //-----------ConvertirBolivares---------------------------
+            //    //txtMontoBs.Text = _L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos);
+            //    Bolivares.Text = Convert.ToString(Convert.ToDouble(txtMontoBs.Text.Replace(".","")));
+            //    Bolivares.Text = string.Format("{0:#,0.00}", Convert.ToDecimal(Bolivares.Text));
+            //}
 
         }
 
@@ -9412,10 +9423,10 @@ namespace CapaVisual_Login
             foreach (DataGridViewRow row in Dt_Abono.Rows)
             {
                 string Codigo = row.Cells["CodPago"].Value.ToString();
-                if (Codigo == "013")
+                if (Codigo == "013" | Codigo == "027")
                 {
                     IVA = true;
-                    Medio_Pago = "Iva Retenido";
+                    Medio_Pago = row.Cells["TipoPago"].Value.ToString();
                 }
 
             }

@@ -16,7 +16,7 @@ namespace CapaDatos.CargarOrdenes_Datos
         //El uso de la clase StringBuilder nos ayudara a devolver los mensajes 
         public readonly StringBuilder stringBuilder = new StringBuilder();
 
-        public List <TB_ARTICULO> ObtenerArticulos(string TipoTrabajo, string CodArticulo = "", SqlCommand command = null)  // Trae el detalle del articulo 
+        public List <TB_ARTICULO> ObtenerArticulos(string TipoTrabajo, string CodArticulo = "", SqlCommand command = null, bool sugerenciaIA = false)  // Trae el detalle del articulo 
         {
             // Declarar la lista para almacenar los resultados
             List<TB_ARTICULO> listaArticulos = new List<TB_ARTICULO>();
@@ -34,6 +34,7 @@ namespace CapaDatos.CargarOrdenes_Datos
             cmd.CommandType = CommandType.StoredProcedure;
             command.Parameters.AddWithValue("@CodArticulo", CodArticulo);
             command.Parameters.AddWithValue("@TipoTrabajo", TipoTrabajo);
+            command.Parameters.AddWithValue("@Sugerencia", sugerenciaIA);
 
                 // Ejecutar el comando y leer los resultados
                 using (SqlDataReader reader = command.ExecuteReader())

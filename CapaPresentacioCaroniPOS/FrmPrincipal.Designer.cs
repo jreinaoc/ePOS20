@@ -786,7 +786,7 @@ namespace CapaVisual_Login
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(84, 15);
             this.label3.TabIndex = 16;
-            this.label3.Text = "Powered by AI";
+            this.label3.Text = "Powered by IA";
             // 
             // FrmPrincipal
             // 
