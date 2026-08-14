@@ -4937,20 +4937,23 @@ namespace CapaVisual_Login
         private void Btn_Tap3_Garantia_Click(object sender, EventArgs e)
         {
             //if (Lbl_Tap3_Articulo1.Text != "Ingresar Articulo  Promo: Seguros Mercantil")
-            if(Codigo_Promocion != "259")
+            if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01" || Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "08")
             {
-                Garantia = true;
-                HabilitacionControl("CabezeraPrincipal");
-                // Modo oscuro
-                BotonesColor(false, "Garantia");
-                Btn_Tap3_Garantia.Enabled = false;
-                Btn_Tap3_CristalPropio.Enabled = false;
-            }
-            else
-            {
-                _FrmMensajes.co = 2;
-                _FrmMensajes.avisomensaje("No puede aplicar garantía con esta promoción");
-                _FrmMensajes.ShowDialog();
+                if (Codigo_Promocion != "259")
+                {
+                    Garantia = true;
+                    HabilitacionControl("CabezeraPrincipal");
+                    // Modo oscuro
+                    BotonesColor(false, "Garantia");
+                    Btn_Tap3_Garantia.Enabled = false;
+                    Btn_Tap3_CristalPropio.Enabled = false;
+                }
+                else
+                {
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje("No puede aplicar garantía con esta promoción");
+                    _FrmMensajes.ShowDialog();
+                }
             }
         }
 
