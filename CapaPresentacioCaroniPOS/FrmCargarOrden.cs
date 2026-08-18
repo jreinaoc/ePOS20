@@ -1594,7 +1594,7 @@ namespace CapaVisual_Login
         {
             if (e.KeyCode == Keys.Enter)
             {
-                if (Txt_Tap3_Articulo_Precio.Text == "0" || Txt_Tap3_Articulo_Precio.Text == "0,00")
+                if (Txt_Tap3_Articulo_Codigo.Text.StartsWith("H") && (Txt_Tap3_Articulo_Precio.Text == "0" || Txt_Tap3_Articulo_Precio.Text == "0,00"))
                 {
                     return;
                 }
@@ -5179,6 +5179,8 @@ namespace CapaVisual_Login
 
         private void ValidarTipoVenta(string TipoVenta)
         {
+            chkSugerencia.Enabled = false;
+            chkSugerencia.Checked  = false;
             if (TipoVenta == "Venta Directa")
             {
                 Cbx_Pnl2_Laboratorio.Visible = false;
@@ -5243,7 +5245,9 @@ namespace CapaVisual_Login
                 cbVisionIzquierda.Visible = false;
             }
             else if (TipoVenta == "TC- Reposicion de Garantia" && string.IsNullOrEmpty(Os_Garantia_Trabajo) && string.IsNullOrEmpty(Numero_Examen_Garantia_Trabajo))
+
             {
+                chkSugerencia.Enabled = true;
                 _L_Articulo.BucarTipoMotivoGarantia(Cbx_Pnl3_Garantia);
                 if (_L_Articulo.BucarGarantiaCliente(Dgv_Pnl3_Garantia, Txt_Pnl2_Cedula.Text.Substring(0, 1), Txt_Pnl2_Cedula.Text.Substring(2, Txt_Pnl2_Cedula.Text.Length - 2)))
                 {
@@ -5302,6 +5306,10 @@ namespace CapaVisual_Login
                 Garantia = false;
                 BotonesColor(true, "Garantia");
                 Btn_Tap3_Garantia.Enabled = false;
+            }
+            else if (Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "01" || Cbx_Pnl2_Trbajo.SelectedValue.ToString() == "08")
+            {
+                chkSugerencia.Enabled = true;
             }
             else
             {

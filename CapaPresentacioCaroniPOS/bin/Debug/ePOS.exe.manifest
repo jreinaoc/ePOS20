@@ -223,14 +223,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ePOS.exe" size="3547648">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ePOS.exe" size="3548160">
       <assemblyIdentity name="ePOS" version="1.0.0.2" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>5CuIWUIKVzYkfoCJ/os0QUEx4jOW05vFZdBLBCm3zNM=</dsig:DigestValue>
+        <dsig:DigestValue>xKYfH3P32w/th5GaSDNsNjFwoa+l4hcY7/Qee5WtKSQ=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

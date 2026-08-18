@@ -10296,6 +10296,17 @@ namespace CapaVisual_Login
                 _procesandoPagoCashea = false;
 
                 PnlSecundario.Visible = false;
+               
+                string pruebaCashea = _D_DetalleOrden.TB_PARAMETRO("PruebaCashea");
+
+                if (pruebaCashea == "1")
+                {
+                    btnSimularEscaneo.Visible = true;
+                }
+                else
+                {
+                    btnSimularEscaneo.Visible = false;
+                }
                 pnlQrCashea.Visible = true;
                 //pnlQrCashea.Location = new Point(335, -110);
                 this.pnlQrCashea.Location = new Point(335, 1);
