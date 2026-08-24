@@ -518,10 +518,10 @@ namespace CapaLogica.CierreCaja_Logica
             try
             {
                 DataTable dt = _D_CierreCaja.LibroVenta(fechaIni, fechaFin, command);
-                if (dt == null || dt.Rows.Count == 0)
-                {
-                    return false;
-                }
+                //if (dt == null || dt.Rows.Count == 0)
+                //{
+                //    return false;
+                //}
                 return true;
             }
             catch (Exception ex)

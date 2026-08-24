@@ -1757,7 +1757,8 @@ namespace CapaVisual_Login
 
         public void CargarConfiguracionGiftCard()
         {
-            DataTable dt = _L_Cashea.ObtenerConfigCashea("GIFTCARD");
+            string nombreCajaActual = Environment.MachineName;
+            DataTable dt = _L_Cashea.ObtenerConfigCashea("GIFTCARD", nombreCajaActual);
 
             foreach (DataRow row in dt.Rows)
             {

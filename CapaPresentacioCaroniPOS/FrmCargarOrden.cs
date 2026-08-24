@@ -39,9 +39,140 @@ namespace CapaVisual_Login
             _onCierreSolicitado = onCierre;
         }
 
+        // Filtro de mensajes: al hacer clic en cualquier parte, cierra la edición
+        // de cualquier DataGridView en modo edición del formulario activo, para que
+        // el primer clic llegue completo al control destino (ej. btnDetalleOrden).
+        private FiltroFinEdicionGrids filtroFinEdicionGrids;
+
+        private sealed class FiltroFinEdicionGrids : IMessageFilter
+        {
+            private const int WM_LBUTTONDOWN = 0x0201;
+            private const int WM_RBUTTONDOWN = 0x0204;
+            private const uint INPUT_MOUSE = 0;
+            private const uint MOUSEEVENTF_LEFTDOWN = 0x0002;
+            private const uint MOUSEEVENTF_LEFTUP = 0x0004;
+            private const uint MOUSEEVENTF_RIGHTDOWN = 0x0008;
+            private const uint MOUSEEVENTF_RIGHTUP = 0x0010;
+
+            [System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)]
+            private struct MOUSEINPUT
+            {
+                public int dx;
+                public int dy;
+                public uint mouseData;
+                public uint dwFlags;
+                public uint time;
+                public System.IntPtr dwExtraInfo;
+            }
+
+            [System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Explicit)]
+            private struct InputUnion
+            {
+                [System.Runtime.InteropServices.FieldOffset(0)]
+                public MOUSEINPUT mi;
+            }
+
+            [System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)]
+            private struct INPUT
+            {
+                public uint type;
+                public InputUnion u;
+            }
+
+            [System.Runtime.InteropServices.DllImport("user32.dll", SetLastError = true)]
+            private static extern uint SendInput(uint numeroEntradas, INPUT[] entradas, int tamano);
+
+            public bool PreFilterMessage(ref Message m)
+            {
+                if (m.Msg != WM_LBUTTONDOWN && m.Msg != WM_RBUTTONDOWN)
+                {
+                    return false;
+                }
+
+                // Buscar el grid en edición entre todos los formularios abiertos.
+                List<Form> formularios = new List<Form>();
+                foreach (Form formulario in Application.OpenForms)
+                {
+                    formularios.Add(formulario);
+                }
+
+                DataGridView grid = null;
+                foreach (Form formulario in formularios)
+                {
+                    grid = BuscarGridEnEdicion(formulario);
+                    if (grid != null)
+                    {
+                        break;
+                    }
+                }
+
+                if (grid == null)
+                {
+                    return false;
+                }
+
+                try { grid.EndEdit(); }
+                catch { }
+
+                // Si la celda salió de edición, el clic original quedó roto
+                // (el "down" iba dirigido al control de edición destruido).
+                // Consumirlo y reinyectar SOLO el "down" bajo el cursor actual;
+                // el "up" físico del usuario completa el clic de forma natural.
+                // (Inyectar down+up en un ComboBox DropDownList abre y cierra el
+                // desplegable al instante, sin efecto visible.)
+                if (!grid.IsCurrentCellInEditMode)
+                {
+                    bool esDerecho = m.Msg == WM_RBUTTONDOWN;
+                    INPUT[] entradas = new INPUT[1];
+                    entradas[0].type = INPUT_MOUSE;
+                    entradas[0].u.mi.dwFlags = esDerecho ? MOUSEEVENTF_RIGHTDOWN : MOUSEEVENTF_LEFTDOWN;
+                    SendInput((uint)entradas.Length, entradas, System.Runtime.InteropServices.Marshal.SizeOf(typeof(INPUT)));
+
+                    // Consumir el clic original ya inválido.
+                    return true;
+                }
+
+                // La validación mantuvo la celda en edición: dejar pasar el clic
+                // original (comportamiento clásico, sin riesgo de bucles).
+                return false;
+            }
+
+            private static DataGridView BuscarGridEnEdicion(Control raiz)
+            {
+                foreach (Control control in raiz.Controls)
+                {
+                    DataGridView dgv = control as DataGridView;
+                    if (dgv != null && dgv.IsCurrentCellInEditMode)
+                    {
+                        return dgv;
+                    }
+                    DataGridView hijo = BuscarGridEnEdicion(control);
+                    if (hijo != null)
+                    {
+                        return hijo;
+                    }
+                }
+                return null;
+            }
+        }
+
+        private void FrmCargarOrden_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if (filtroFinEdicionGrids != null)
+            {
+                Application.RemoveMessageFilter(filtroFinEdicionGrids);
+                filtroFinEdicionGrids = null;
+            }
+        }
+
         public FrmCargarOrden()
         {
             InitializeComponent();
+
+            // Registrar el filtro que cierra la edición de grids antes del primer clic.
+            filtroFinEdicionGrids = new FiltroFinEdicionGrids();
+            Application.AddMessageFilter(filtroFinEdicionGrids);
+            this.FormClosed += FrmCargarOrden_FormClosed;
             //mcll 13 06 25
             this.MaximumSize = new Size(0, 0); // Sin límite máximo
             this.MinimumSize = new Size(0, 0); // Sin límite mínimo
@@ -136,6 +267,10 @@ namespace CapaVisual_Login
         List<FechaHoraOfrecida> _FechaHoraOfrecida = new List<FechaHoraOfrecida>();
         private string mensaje = "";
         private bool validandoCambioTab = false; // Variable de control
+
+        // Marca que se está creando un examen nuevo sin guardar aún (botón "+"),
+        // aunque el campo ya muestre el próximo número real asignado.
+        private bool examenNuevo = false;
         /*MEIFER*/
         string ValidarPanel;
         int TopeExamen;
@@ -2183,6 +2318,38 @@ namespace CapaVisual_Login
 
         private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
+            // Sincronizar los radio buttons de navegación con la pestaña activa.
+            // CheckedChanged solo se dispara cuando cambia el estado; sin esta
+            // sincronización, un radio marcado en una pestaña distinta produce
+            // clics que no ejecutan ningún código.
+            bool guardPrevio = validandoCambioTab;
+            validandoCambioTab = true;
+            try
+            {
+                switch (tabControl.SelectedIndex)
+                {
+                    case 0:
+                        btnExamen.Checked = false;
+                        btnCargarOrden.Checked = false;
+                        btnPrincipal.Checked = true;
+                        break;
+                    case 1:
+                        btnPrincipal.Checked = false;
+                        btnCargarOrden.Checked = false;
+                        btnExamen.Checked = true;
+                        break;
+                    case 2:
+                        btnPrincipal.Checked = false;
+                        btnExamen.Checked = false;
+                        btnCargarOrden.Checked = true;
+                        break;
+                }
+            }
+            finally
+            {
+                validandoCambioTab = guardPrevio;
+            }
+
             /*MEIFER*/
             //limpearExamen();
 
@@ -2254,6 +2421,17 @@ namespace CapaVisual_Login
             // Verificar si la pestaña seleccionada es la pestaña 3
             if (tabControl.SelectedIndex == 2) // El índice es 0-based, por lo que la pestaña 3 tiene índice 2
             {
+                // Al entrar al tab 3, si hay un examen nuevo sin guardar (número "0"),
+                // guardarlo para que quede numerado y conserve los datos al volver al tab 2.
+                if ((examenNuevo || Txt_Tap2_Examen.Text == "0") && !string.IsNullOrWhiteSpace(Txt_Tap1_Cedula.Text))
+                {
+                    if (!GuardarExamenActual())
+                    {
+                        tabControl.SelectedIndex = 1;
+                        return;
+                    }
+                }
+
                 VisualizarPanel("MostrarCabezeraSecundaria");
                 _L_Articulo.InicializarDataGridViewTotales(Dgv_Tap3_Totales);
                 Formato_Dgv_Totales();
@@ -2270,10 +2448,11 @@ namespace CapaVisual_Login
             {
                 VisualizarPanel("MostrarCabezeraPrincipal");
             }
-            else if (tabControl.SelectedIndex == 1)
+else if (tabControl.SelectedIndex == 1)
             {
 
-                VisualizarPanel("MostrarCabezeraExamen");
+                VisualizarPanel("MostrarCabeceraExamen");
+                ActualizarEstadoTipoExamen();
             }
         }
 
@@ -2458,12 +2637,38 @@ namespace CapaVisual_Login
 
             if (tabControl.SelectedIndex == 1)
             {
-                CancelarPorCambioExamen();
+                // Guardar el examen (mismas validaciones que el botón Guardar) antes de
+                // crear el trabajo. Si falla, NO navegar al tab 3: se queda en el tab 1 para
+                // corregir la validación (validando los mismos requisitos que el botón Guardar).
+                bool examenGuardado;
+                try
+                {
+                    examenGuardado = GuardarExamenActual();
+                }
+                catch (Exception ex)
+                {
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje("No se pudo pre-guardar el examen: " + ex.Message);
+                    _FrmMensajes.ShowDialog();
+                    examenGuardado = false;
+                }
+
+                if (!examenGuardado)
+                {
+                    // Revertir el radio para que coincida con el tab 1. Si queda
+                    // marcado btnCargarOrden, el próximo clic no cambia su estado
+                    // y CheckedChanged no se dispara (clic "muerto").
+                    btnCargarOrden.Checked = false;
+                    btnExamen.Checked = true;
+                    btnExamen.Focus();
+                    return;
+                }
+
                 LLenar_TbTrabajo();
                 _L_Trabajo.AgregarTrabajo(nuevoTrabajo);
-                btnCargarOrden.Focus(); 
+                btnCargarOrden.Focus();
                 tabControl.SelectedIndex = 2;
-                
+
                 //ValidarTipoTrabajoTipoExamen(Cbx_Pnl2_Trbajo.SelectedValue.ToString(), Cbx_Tap2_Tipo_Examen.Text);
                 return;
             }
@@ -4664,11 +4869,9 @@ namespace CapaVisual_Login
 
                 guardacliente();
 
-                Btn_Tap2_Derecha_Click(this.Btn_Tap2_Derecha, EventArgs.Empty);
+                IrAlUltimoExamen();
                 btnExamen.Focus();
                 tabControl.SelectedIndex = 1;
-                Txt_Tap2_Examen.Text = TopeExamen.ToString(); // Opcional: Restablecer el valor al máximo
-                                                              //Btn_Tap2_Derecha_Click(this.Btn_Tap2_Derecha, EventArgs.Empty);
                 Cbx_Tap2_Tipo_Examen_SelectedIndexChanged(Cbx_Tap2_Tipo_Examen, EventArgs.Empty);
                 VisualizarPanel("MostrarCabeceraExamen");
             }
@@ -4722,6 +4925,8 @@ namespace CapaVisual_Login
             ConfigurarDgv_Pnl2_cont();
             //ConfigurarDgv_Pnl2_medconv();
             ConfigurarDgv_Pnl2_Quera();
+
+            Cbx_Tap2_Tipo_Examen.SelectedIndex = 1; // CONVENCIONAL por defecto
 
             DataTable dtMotivosGarantia = _L_Cliente.ObtenerMotivosReposicion(); // Usa la instancia _L_Cliente
 
@@ -4805,6 +5010,18 @@ namespace CapaVisual_Login
 
             // Suscribir el evento CellContentClick
             Dgv_Pnl2_conv.CellContentClick += Dgv_Pnl2_cont_CellContentClick;
+
+            Dgv_Pnl2_conv.CellFormatting += (s, ev) =>
+            {
+                if (ev.ColumnIndex >= 0 && Dgv_Pnl2_conv.Columns[ev.ColumnIndex].Name == "Adicion" && ev.RowIndex >= 0)
+                {
+                    object subyacente = Dgv_Pnl2_conv.Rows[ev.RowIndex].Cells[ev.ColumnIndex].Value;
+                    if (Convert.ToString(ev.Value) != "0" || Convert.ToString(subyacente) != "0")
+                    {
+                        LogDebugGrids($"FORMAT conv Adicion fila={ev.RowIndex} muestra='{ev.Value}' celda='{subyacente}'");
+                    }
+                }
+            };
 
         }
 
@@ -7665,6 +7882,7 @@ namespace CapaVisual_Login
 
         private void limpearExamen()
         {
+            examenNuevo = false;
 
             grp_pln2_Cont1.Visible = true;
             grp_pln2_Cont1.BringToFront();
@@ -7674,8 +7892,27 @@ namespace CapaVisual_Login
             AsignarCeroDgv_Pnl2_Querato();
 
             this.Txt_Pnl2_Examen.Text = "0";
-            Txt_Tap2_Examen.Text = "0";
-            //TopeExamen = 0;
+
+            // No dejar el número en 0 si el cliente ya tiene exámenes guardados:
+            // el campo NumExamen del cliente queda en 0 tras guardar el primer examen.
+            if (mantenervacio == false)
+            {
+                if (!string.IsNullOrEmpty(Txt_Tap1_Cedula.Text))
+                {
+                    List<int> examenesExistentes = ObtenerExamenesDelCliente();
+                    TopeExamen = examenesExistentes.Count > 0 ? examenesExistentes.Max() : 0;
+                }
+                else
+                {
+                    TopeExamen = 0;
+                }
+                Txt_Tap2_Examen.Text = TopeExamen > 0 ? TopeExamen.ToString() : "0";
+            }
+            else
+            {
+                Txt_Tap2_Examen.Text = "0";
+            }
+
             CargarExamenConv();
             CargarExamenCont();
             //CargarDgvPnl2MedConv();
@@ -8363,7 +8600,7 @@ namespace CapaVisual_Login
 
 
                 }
-                else
+                else if (idExamen > 0)
                 {
 
                     MostrarMensajeTemporal("No se encontró ningún examen con la nacionalidad, cédula e ID de examen proporcionados.", 9000); // 5000 ms = 5 segundos
@@ -8377,19 +8614,25 @@ namespace CapaVisual_Login
 
 
 
-                // Asignar el DataTable como fuente de datos del DataGridView
-                Dgv_Pnl2_conv.DataSource = dt;
-                Dgv_Pnl2_conv.AutoGenerateColumns = false;
+                // Asignar el DataTable como fuente de datos del DataGridView solo si se
+                // encontraron datos en BD o si el grid no tiene datos escritos aún.
+                // Esto evita borrar la fórmula en pantalla cuando la consulta no devuelve el examen.
+                bool encontroDatos = (con != null || examen != null);
+                if (encontroDatos || !GridPnl2ConvConDatos())
+                {
+                    Dgv_Pnl2_conv.DataSource = dt;
+                    Dgv_Pnl2_conv.AutoGenerateColumns = false;
 
-                tamañoExamenGridConv();
-                AsignarCeroSiVacioDgv_Pnl2_conv();
+                    tamañoExamenGridConv();
+                    AsignarCeroSiVacioDgv_Pnl2_conv();
+                }
                 if (Formulario_ListaOrdenes == true && (Dgv_Pnl2_conv != null && Dgv_Pnl2_conv.Rows.Count > 0 || Dgv_Pnl2_cont != null && Dgv_Pnl2_cont.Rows.Count > 0))
                 {
                     btnCargarOrden.Enabled = false;
                     //MoverControlesAPnl1();
                 }
-                // Habilitar la pestaña de Carga ordenes 
-                else if (Dgv_Pnl2_conv != null && Dgv_Pnl2_conv.Rows.Count > 0 || Dgv_Pnl2_cont != null && Dgv_Pnl2_cont.Rows.Count > 0)
+                // Habilitar la pestaña de Carga ordenes
+                else if (examenNuevo || Dgv_Pnl2_conv != null && Dgv_Pnl2_conv.Rows.Count > 0 || Dgv_Pnl2_cont != null && Dgv_Pnl2_cont.Rows.Count > 0)
                 {
                     btnCargarOrden.Enabled = true;
                 }
@@ -8399,7 +8642,7 @@ namespace CapaVisual_Login
                 }
             }
 
-
+            ActualizarEstadoTipoExamen();
         }
 
         private void CargarExamenCont()
@@ -8451,6 +8694,7 @@ namespace CapaVisual_Login
                     return;
                 }
 
+                bool encontroDatos = false;
                 try
                 {
 
@@ -8475,6 +8719,7 @@ namespace CapaVisual_Login
                     // ***CORRECCIÓN:***
                     // Convierte idExamen a string antes de pasarlo al método.
                     TB_FICCONT con = dFiccont.ObtenerFicCont(nacionalidad, cedula, idExamen);
+                    encontroDatos = (con != null);
 
 
                     if (con != null)
@@ -8640,17 +8885,24 @@ namespace CapaVisual_Login
                     MessageBox.Show("Error al cargar el examen: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
                 }
 
-                // Asignar el DataTable como fuente de datos del DataGridView
-                Dgv_Pnl2_cont.DataSource = dt;
-                Dgv_Pnl2_cont.AutoGenerateColumns = false;
+                // Asignar el DataTable como fuente de datos del DataGridView solo si se
+                // encontraron datos en BD o si el grid no tiene datos escritos aún.
+                if (encontroDatos || !GridPnl2ContConDatos())
+                {
+                    Dgv_Pnl2_cont.DataSource = dt;
+                    Dgv_Pnl2_cont.AutoGenerateColumns = false;
+
+                    tamañoExamenGridCont();
+                    AsignarCeroSiVacioDgv_Pnl2_cont();
+                }
 
 
-                // Habilitar la pestaña de Carga ordenes 
+                // Habilitar la pestaña de Carga ordenes
                 if (Formulario_ListaOrdenes && (Dgv_Pnl2_conv != null && Dgv_Pnl2_conv.Rows.Count > 0 || Dgv_Pnl2_cont != null && Dgv_Pnl2_cont.Rows.Count > 0))
                 {
                     btnCargarOrden.Enabled = false;
                 }
-                else if (Dgv_Pnl2_conv != null && Dgv_Pnl2_conv.Rows.Count > 0 || Dgv_Pnl2_cont != null && Dgv_Pnl2_cont.Rows.Count > 0)
+                else if (examenNuevo || Dgv_Pnl2_conv != null && Dgv_Pnl2_conv.Rows.Count > 0 || Dgv_Pnl2_cont != null && Dgv_Pnl2_cont.Rows.Count > 0)
                 {
                     btnCargarOrden.Enabled = true;
                 }
@@ -8658,11 +8910,51 @@ namespace CapaVisual_Login
                 {
                     btnCargarOrden.Enabled = false;
                 }
-
-
-                tamañoExamenGridCont();
-                AsignarCeroSiVacioDgv_Pnl2_cont();
             }
+
+            ActualizarEstadoTipoExamen();
+        }
+
+        // Indica si el grid de convencional tiene datos escritos (no solo ceros o vacíos).
+        private bool GridPnl2ConvConDatos()
+        {
+            if (Dgv_Pnl2_conv == null || Dgv_Pnl2_conv.Rows.Count == 0) return false;
+            string[] columnasRelevantes = { "Esfera", "Cilindro", "Eje", "Adicion", "Lejos", "Cerca", "Visual", "Prisma1", "Grado1" };
+            foreach (DataGridViewRow row in Dgv_Pnl2_conv.Rows)
+            {
+                foreach (string nombre in columnasRelevantes)
+                {
+                    if (!Dgv_Pnl2_conv.Columns.Contains(nombre)) continue;
+                    object v = row.Cells[nombre].Value;
+                    if (v == null || v == DBNull.Value) continue;
+                    string s = v.ToString();
+                    if (string.IsNullOrWhiteSpace(s)) continue;
+                    if (decimal.TryParse(s, out decimal d) && d == 0M) continue;
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        // Indica si el grid de contacto tiene datos escritos (no solo ceros o vacíos).
+        private bool GridPnl2ContConDatos()
+        {
+            if (Dgv_Pnl2_cont == null || Dgv_Pnl2_cont.Rows.Count == 0) return false;
+            string[] columnasRelevantes = { "Esfera", "Cilindro", "Eje", "Adicion", "C_base", "Diametro" };
+            foreach (DataGridViewRow row in Dgv_Pnl2_cont.Rows)
+            {
+                foreach (string nombre in columnasRelevantes)
+                {
+                    if (!Dgv_Pnl2_cont.Columns.Contains(nombre)) continue;
+                    object v = row.Cells[nombre].Value;
+                    if (v == null || v == DBNull.Value) continue;
+                    string s = v.ToString();
+                    if (string.IsNullOrWhiteSpace(s)) continue;
+                    if (decimal.TryParse(s, out decimal d) && d == 0M) continue;
+                    return true;
+                }
+            }
+            return false;
         }
 
         //private void CargarDgvPnl2MedConv()
@@ -9806,23 +10098,14 @@ namespace CapaVisual_Login
                 Cbx_Tap1_Estado.SelectedIndex = -1; // No selecciona nada si el DataTable está vacío
             }
 
-            Txt_Tap2_Examen.Text = dtCliente.Rows[0]["NumExamen"].ToString();
+            // El campo NumExamen del cliente no se actualiza al guardar el examen,
+            // por lo que queda en 0 tras el primer examen. Se calcula desde TB_Examen.
+            List<int> examenesExistentes = ObtenerExamenesDelCliente();
+            TopeExamen = examenesExistentes.Count > 0 ? examenesExistentes.Max() : 0;
 
-            //TopeExamen = dtCliente.Rows[0]["NumExamen"].ToString();
+            Txt_Tap2_Examen.Text = TopeExamen > 0 ? TopeExamen.ToString() : "0";
 
-
-            if (dtCliente.Rows.Count > 0 && dtCliente.Rows[0]["NumExamen"] != DBNull.Value)
-            {
-                if (int.TryParse(dtCliente.Rows[0]["NumExamen"].ToString(), out int topeExamenInt))
-                {
-                    TopeExamen = topeExamenInt;
-                    
-                    btnExamen.Enabled = true;
-                    // Ahora la variable TopeExamen (que debe ser de tipo int)
-                    // contiene el valor entero extraído de la DataTable.
-                }
-
-            }
+            btnExamen.Enabled = true;
 
 
             CargarExamenConv();
@@ -10287,7 +10570,7 @@ namespace CapaVisual_Login
             try
             {
 
-                DataTable dtExamenes = _L_Cliente.ObtenerExamenes(Txt_Tap1_Cedula.Text, Cbx_Tap1_Nacionalidad.SelectedItem?.ToString()); // Usa la instancia _L_Cliente 
+                DataTable dtExamenes = _L_Cliente.ObtenerExamenes(Txt_Tap1_Cedula.Text, Cbx_Tap1_Nacionalidad.Text.Trim()); // Usa la instancia _L_Cliente 
 
                 foreach (DataRow row in dtExamenes.Rows)
                 {
@@ -10307,9 +10590,26 @@ namespace CapaVisual_Login
             return examenes.OrderBy(x => x).ToList();
         }
 
+        private void IrAlUltimoExamen()
+        {
+            examenNuevo = false;
+            mantenervacio = false;
+
+            List<int> examenesExistentes = ObtenerExamenesDelCliente();
+            TopeExamen = examenesExistentes.Count > 0 ? examenesExistentes.Max() : 0;
+            Txt_Tap2_Examen.Text = TopeExamen > 0 ? TopeExamen.ToString() : "0";
+
+            CargarExamenConv();
+            CargarExamenCont();
+            CargarFicconvOFT();
+            CargarDgv_Pnl2_Querato();
+        }
+
         public void Btn_Tap2_Derecha_Click(object sender, EventArgs e)
         {
             CancelarPorCambioExamen();
+            examenNuevo = false;
+            mantenervacio = false;
 
             if (string.IsNullOrEmpty(Txt_Tap2_Examen.Text))
             {
@@ -10372,6 +10672,8 @@ namespace CapaVisual_Login
             {
                 Txt_Tap2_Examen.Text = "1";
             }
+
+            ActualizarEstadoTipoExamen();
 
             CargarExamenConv();
             CargarExamenCont();
@@ -10641,9 +10943,16 @@ namespace CapaVisual_Login
             Pnl_5_Lista_ClienPagador.Visible = false;
         }
 
+        // El combo de tipo de examen solo se habilita cuando el examen es nuevo (número "0").
+        // No se puede cambiar el tipo de un examen ya creado; la fecha de hoy solo habilita los grids.
+        private void ActualizarEstadoTipoExamen()
+        {
+            Cbx_Tap2_Tipo_Examen.Enabled = ((examenNuevo || Txt_Tap2_Examen.Text == "0") && !string.IsNullOrWhiteSpace(Txt_Tap1_Cedula.Text));
+        }
+
         private void DesbloquearCamposE()
         {
-            Cbx_Tap2_Tipo_Examen.Enabled = true;
+            ActualizarEstadoTipoExamen();
             Cbx_Tap2_Tipo_Optome.Enabled = true;
             Cbx_Tap2_Nombre_Optome.Enabled = true;
 
@@ -11040,10 +11349,111 @@ namespace CapaVisual_Login
             btn_pln2_quer.BringToFront();
         }
 
+        private static readonly string RutaLogDebugGrids = System.IO.Path.Combine(
+            System.Environment.GetEnvironmentVariable("TEMP") ?? @"C:\Temp",
+            "opencode", "epos_grid_debug.log");
+
+        private void LogDebugGrids(string mensaje)
+        {
+            try
+            {
+                System.IO.File.AppendAllText(RutaLogDebugGrids,
+                    DateTime.Now.ToString("HH:mm:ss.fff") + " | " + mensaje + Environment.NewLine);
+            }
+            catch
+            {
+            }
+        }
+
+        private void BlanquearGridsNuevoExamen()
+        {
+            DataTable dtConv = new DataTable();
+            dtConv.Columns.Add("Ojo", typeof(string));
+            dtConv.Columns.Add("aEsfera", typeof(string));
+            dtConv.Columns.Add("Esfera", typeof(decimal));
+            dtConv.Columns.Add("aCilindro", typeof(string));
+            dtConv.Columns.Add("Cilindro", typeof(decimal));
+            dtConv.Columns.Add("Eje", typeof(int));
+            dtConv.Columns.Add("Adicion", typeof(decimal));
+            dtConv.Columns.Add("Lejos", typeof(decimal));
+            dtConv.Columns.Add("Cerca", typeof(decimal));
+            dtConv.Columns.Add("Agudeza", typeof(string));
+            dtConv.Columns.Add("Visual", typeof(string));
+            dtConv.Columns.Add("Prisma1", typeof(decimal));
+            dtConv.Columns.Add("Grado1", typeof(decimal));
+
+            DataRow convDerecha = dtConv.NewRow();
+            convDerecha["Ojo"] = "Derecho";
+            dtConv.Rows.Add(convDerecha);
+
+            DataRow convIzquierda = dtConv.NewRow();
+            convIzquierda["Ojo"] = "Izquierdo";
+            dtConv.Rows.Add(convIzquierda);
+
+            foreach (DataRow row in dtConv.Rows)
+            {
+                row["Esfera"] = 0;
+                row["Cilindro"] = 0;
+                row["Eje"] = 0;
+                row["Adicion"] = 0;
+                row["Lejos"] = 0;
+                row["Cerca"] = 0;
+                row["Agudeza"] = "20/";
+                row["Visual"] = 0;
+                row["Prisma1"] = 0;
+                row["Grado1"] = 0;
+            }
+
+            Dgv_Pnl2_conv.DataSource = dtConv;
+            Dgv_Pnl2_conv.AutoGenerateColumns = false;
+            tamañoExamenGridConv();
+
+            DataTable dtCont = new DataTable();
+            dtCont.Columns.Add("Ojo", typeof(string));
+            dtCont.Columns.Add("aEsfera", typeof(string));
+            dtCont.Columns.Add("Esfera", typeof(decimal));
+            dtCont.Columns.Add("aCilindro", typeof(string));
+            dtCont.Columns.Add("Cilindro", typeof(decimal));
+            dtCont.Columns.Add("Eje", typeof(decimal));
+            dtCont.Columns.Add("Adicion", typeof(decimal));
+            dtCont.Columns.Add("C_base", typeof(decimal));
+            dtCont.Columns.Add("Diametro", typeof(decimal));
+
+            DataRow contDerecha = dtCont.NewRow();
+            contDerecha["Ojo"] = "Derecho";
+            dtCont.Rows.Add(contDerecha);
+
+            DataRow contIzquierda = dtCont.NewRow();
+            contIzquierda["Ojo"] = "Izquierdo";
+            dtCont.Rows.Add(contIzquierda);
+
+            foreach (DataRow row in dtCont.Rows)
+            {
+                row["Esfera"] = 0;
+                row["Cilindro"] = 0;
+                row["Eje"] = 0;
+                row["Adicion"] = 0;
+                row["C_base"] = 0;
+                row["Diametro"] = 0;
+            }
+
+            Dgv_Pnl2_cont.DataSource = dtCont;
+            Dgv_Pnl2_cont.AutoGenerateColumns = false;
+
+            try
+            {
+                LogDebugGrids($"REBIND OK | conv Adicion D='{Dgv_Pnl2_conv.Rows[0].Cells[6].Value}' I='{Dgv_Pnl2_conv.Rows[1].Cells[6].Value}' | cont Adicion D='{Dgv_Pnl2_cont.Rows[0].Cells[6].Value}' I='{Dgv_Pnl2_cont.Rows[1].Cells[6].Value}'");
+            }
+            catch (Exception ex)
+            {
+                LogDebugGrids("REBIND ERROR: " + ex.Message);
+            }
+        }
+
         private void Btn_Tap2_Examen_Click(object sender, EventArgs e)
         {
+            LogDebugGrids("BOTON + inicio");
             CancelarPorCambioExamen();
-            Txt_Tap2_Examen.Text = "0";
             mantenervacio = true;
             // Asumiendo que Dtp_Tap2_FecExam es de tipo DateTime
 
@@ -11051,6 +11461,14 @@ namespace CapaVisual_Login
             Dtp_Tap2_FecExam.Text = DateTime.Today.ToString();
 
             limpearExamen();
+
+            // Mostrar de una vez el próximo número real de examen (en vez de "0").
+            List<int> examenesExistentesNuevo = ObtenerExamenesDelCliente();
+            int proximoNumero = examenesExistentesNuevo.Count > 0 ? examenesExistentesNuevo.Max() + 1 : 1;
+            Txt_Tap2_Examen.Text = proximoNumero.ToString();
+            TopeExamen = proximoNumero;
+            examenNuevo = true;
+
             CargarExamenConv();
             CargarExamenCont();
 //            CargarDgvPnl2MedConv();
@@ -11058,7 +11476,6 @@ namespace CapaVisual_Login
             CargarFicconvOFT();
             CargarDgv_Pnl2_Querato();
             DesbloquearCamposE();
-            btnCargarOrden.Enabled = false;
             if (Cbx_Tap2_Tipo_Examen.Text == "CONTACTO")
             {
                 grp_pln2_Cont1.Visible = true;
@@ -11074,11 +11491,15 @@ namespace CapaVisual_Login
             btn_pln2_reti.BringToFront();
             btn_pln2_quer.BringToFront();
 
+            BlanquearGridsNuevoExamen();
+            LogDebugGrids("BOTON + fin");
         }
 
         private void Btn_Tap2_Izquierda_Click(object sender, EventArgs e)
         {
             CancelarPorCambioExamen();
+            examenNuevo = false;
+            mantenervacio = false;
 
 
 
@@ -11146,6 +11567,8 @@ namespace CapaVisual_Login
             {
                 Txt_Tap2_Examen.Text = "1";
             }
+
+            ActualizarEstadoTipoExamen();
 
             CargarExamenConv();
 
@@ -11606,7 +12029,7 @@ namespace CapaVisual_Login
             // borrar 
 
             //Validar Cbx_Tap2_Tipo_Optome si se esta creando uno nuevo
-            if (Txt_Tap2_Examen.Text == "0" & Cbx_Tap2_Tipo_Optome.SelectedItem?.ToString() != "EXTERNO")
+            if ((examenNuevo || Txt_Tap2_Examen.Text == "0") & Cbx_Tap2_Tipo_Optome.SelectedItem?.ToString() != "EXTERNO")
             {
                 // Validar Cbx_Tap2_Nombre_Optome
                 if (Cbx_Tap2_Nombre_Optome.SelectedItem == null || string.IsNullOrEmpty(Cbx_Tap2_Nombre_Optome.Text))
@@ -11620,7 +12043,7 @@ namespace CapaVisual_Login
                     return todosValidos; // Salir anticipadamente si este no es válido
                 }
             }
-            else if (Txt_Tap2_Examen.Text == "0" & Cbx_Tap2_Tipo_Optome.SelectedItem?.ToString() == "EXTERNO" & string.IsNullOrEmpty(TXT_Tap2_Nombre_Optome.Text))
+            else if ((examenNuevo || Txt_Tap2_Examen.Text == "0") & Cbx_Tap2_Tipo_Optome.SelectedItem?.ToString() == "EXTERNO" & string.IsNullOrEmpty(TXT_Tap2_Nombre_Optome.Text))
             {
                 _FrmMensajes.co = 2;
                 _FrmMensajes.avisomensaje("Debe llenar un Nombre de optometría");
@@ -11669,7 +12092,182 @@ namespace CapaVisual_Login
             txt_Pnl2_ofti.Text = txt_Pnl2_oftd.Text;
         }
 
-        private void Btn_Tap2_GuardarExam_Click(object sender, EventArgs e)
+        // Normaliza el valor de una celda/campo a decimal; vacío o nulo cuenta como 0.
+        private static decimal ValorDecimal(object valor)
+        {
+            if (valor == null || valor == DBNull.Value) return 0m;
+            return decimal.TryParse(valor.ToString(), out decimal resultado) ? resultado : 0m;
+        }
+
+        private static bool DistintoDecimal(decimal nuevo, decimal actual)
+        {
+            return Math.Abs(nuevo - actual) > 0.001m;
+        }
+
+        // Compara textos tratando nulo y vacío como equivalentes.
+        private static bool DistintoTexto(string nuevo, string actual)
+        {
+            return ((nuevo ?? "").Trim()) != ((actual ?? "").Trim());
+        }
+
+        // Réplica del mapeo de la columna Grado1 hacia PBASED/PBASEI.
+        private static string GradoBase(object valor)
+        {
+            switch (valor?.ToString())
+            {
+                case "90": return "90";
+                case "270": return "270";
+                case "360": return "360";
+                case "180": return "180";
+                default: return "";
+            }
+        }
+
+        // Detecta los datos seguidos del examen que cambiaron respecto a lo guardado en BD.
+        // Campos seguidos: fórmula (esfera/cilindro/eje/adición), observaciones (general,
+        // de contacto y de queratometría), tipo/nombre optometrista, DP lejos/cerca,
+        // prisma, grado(base), alturas, agudeza visual, retinoscopia, oftalmología,
+        // curva base, diámetro y queratometría.
+        // Devuelve las diferencias con formato "Campo: anterior -> nuevo".
+        private List<string> ObtenerCambiosExamen()
+        {
+            List<string> cambios = new List<string>();
+            try
+            {
+                string nacionalidad = Cbx_Tap1_Nacionalidad.Text.Trim();
+                string cedula = Txt_Tap1_Cedula.Text.Trim();
+
+                D_Examen dExamen = new D_Examen();
+                TB_EXAMENCTE actual = dExamen.ObtenerExamenPorNumeroYNacionalidadCedula(numeroExamen, nacionalidad, cedula);
+                if (actual == null || dExamen.stringBuilder.Length > 0)
+                {
+                    // Sin fila en BD es un examen nuevo: no hay nada que estampar.
+                    if (actual != null)
+                    {
+                        cambios.Add("No se pudieron leer los valores anteriores del examen");
+                    }
+                    return cambios;
+                }
+
+                void CompararDecimal(string campo, decimal nuevo, decimal anterior)
+                {
+                    if (DistintoDecimal(nuevo, anterior))
+                    {
+                        cambios.Add(campo + ": " + anterior.ToString("0.##") + " -> " + nuevo.ToString("0.##"));
+                    }
+                }
+
+                void CompararTexto(string campo, string nuevo, string anterior)
+                {
+                    if (DistintoTexto(nuevo, anterior))
+                    {
+                        cambios.Add(campo + ": [" + (anterior ?? "").Trim() + "] -> [" + (nuevo ?? "").Trim() + "]");
+                    }
+                }
+
+                bool convConDatos = Dgv_Pnl2_conv.Rows.Count >= 2;
+                bool contConDatos = Dgv_Pnl2_cont.Rows.Count >= 2;
+                bool queratoConDatos =
+                    Dgv_Pnl2_Querato.Rows.Count >= 2 &&
+                    (ValorDecimal(Dgv_Pnl2_Querato.Rows[0].Cells[0].Value) != 0 || ValorDecimal(Dgv_Pnl2_Querato.Rows[0].Cells[1].Value) != 0 ||
+                     ValorDecimal(Dgv_Pnl2_Querato.Rows[0].Cells[2].Value) != 0 || ValorDecimal(Dgv_Pnl2_Querato.Rows[0].Cells[3].Value) != 0 ||
+                     ValorDecimal(Dgv_Pnl2_Querato.Rows[1].Cells[0].Value) != 0 || ValorDecimal(Dgv_Pnl2_Querato.Rows[1].Cells[1].Value) != 0 ||
+                     ValorDecimal(Dgv_Pnl2_Querato.Rows[1].Cells[2].Value) != 0 || ValorDecimal(Dgv_Pnl2_Querato.Rows[1].Cells[3].Value) != 0);
+
+                // TB_EXAMEN: fórmula convencional + observación general + optometrista.
+                if (convConDatos)
+                {
+                    CompararDecimal("Esfera OD", ValorDecimal(Dgv_Pnl2_conv.Rows[0].Cells["Esfera"].Value), actual.ESFD);
+                    CompararDecimal("Esfera OI", ValorDecimal(Dgv_Pnl2_conv.Rows[1].Cells["Esfera"].Value), actual.ESFI);
+                    CompararDecimal("Cilindro OD", ValorDecimal(Dgv_Pnl2_conv.Rows[0].Cells["Cilindro"].Value), actual.CILD);
+                    CompararDecimal("Cilindro OI", ValorDecimal(Dgv_Pnl2_conv.Rows[1].Cells["Cilindro"].Value), actual.CILI);
+                    CompararDecimal("Eje OD", ValorDecimal(Dgv_Pnl2_conv.Rows[0].Cells["Eje"].Value), actual.EJED);
+                    CompararDecimal("Eje OI", ValorDecimal(Dgv_Pnl2_conv.Rows[1].Cells["Eje"].Value), actual.EJEI);
+                    CompararDecimal("Adición OD", ValorDecimal(Dgv_Pnl2_conv.Rows[0].Cells["Adicion"].Value), actual.ADDD);
+                    CompararDecimal("Adición OI", ValorDecimal(Dgv_Pnl2_conv.Rows[1].Cells["Adicion"].Value), actual.ADDI);
+                }
+
+                CompararTexto("Observación", txt_Pnl2_observa.Text, actual.OBSERVACIONES);
+
+                // El SP persiste el tipo de optometrista como código
+                // (EXTERNO -> '02', cualquier otro valor -> '01'); se compara con ese código.
+                string tipoOptmCodigo = Cbx_Tap2_Tipo_Optome.Text == "EXTERNO" ? "02" : "01";
+                CompararTexto("Tipo optometrista", tipoOptmCodigo, actual.TIPO_Optm);
+
+                string nombreOptmNuevo = string.IsNullOrEmpty(TXT_Tap2_Nombre_Optome.Text)
+                    ? Cbx_Tap2_Nombre_Optome.Text
+                    : TXT_Tap2_Nombre_Optome.Text;
+                CompararTexto("Nombre optometría", nombreOptmNuevo, actual.NOM_Optm);
+
+                // TB_FICCONV: DP lejos/cerca, prisma, grado(base), alturas, agudeza visual.
+                TB_FICCONVCTE ficconv = _L_Ficconv.ObtenerFicconvPorClave(nacionalidad, cedula, numeroExamen) ?? new TB_FICCONVCTE();
+                if (convConDatos)
+                {
+                    CompararDecimal("DP Lejos OD", ValorDecimal(Dgv_Pnl2_conv.Rows[0].Cells["Lejos"].Value), ficconv.DPDL ?? 0);
+                    CompararDecimal("DP Lejos OI", ValorDecimal(Dgv_Pnl2_conv.Rows[1].Cells["Lejos"].Value), ficconv.DPIL ?? 0);
+                    CompararDecimal("DP Cerca OD", ValorDecimal(Dgv_Pnl2_conv.Rows[0].Cells["Cerca"].Value), ficconv.DPDC ?? 0);
+                    CompararDecimal("DP Cerca OI", ValorDecimal(Dgv_Pnl2_conv.Rows[1].Cells["Cerca"].Value), ficconv.DPIC ?? 0);
+                    CompararDecimal("Prisma OD", ValorDecimal(Dgv_Pnl2_conv.Rows[0].Cells["Prisma1"].Value), ficconv.PRISMAD ?? 0);
+                    CompararDecimal("Prisma OI", ValorDecimal(Dgv_Pnl2_conv.Rows[1].Cells["Prisma1"].Value), ficconv.PRISMAI ?? 0);
+                    CompararDecimal("Altura OD", ValorDecimal(txtAltD.Text), ficconv.ALTD ?? 0);
+                    CompararDecimal("Altura OI", ValorDecimal(txtAltI.Text), ficconv.ALTI ?? 0);
+                    CompararDecimal("Agudeza visual OD", ValorDecimal(Dgv_Pnl2_conv.Rows[0].Cells["VISUAL"].Value), ficconv.AVD ?? 0);
+                    CompararDecimal("Agudeza visual OI", ValorDecimal(Dgv_Pnl2_conv.Rows[1].Cells["VISUAL"].Value), ficconv.AVI ?? 0);
+
+                    CompararTexto("Base prisma OD", GradoBase(Dgv_Pnl2_conv.Rows[0].Cells["Grado1"].Value), ficconv.PBASED);
+                    CompararTexto("Base prisma OI", GradoBase(Dgv_Pnl2_conv.Rows[1].Cells["Grado1"].Value), ficconv.PBASEI);
+                }
+
+                CompararTexto("Retinoscopia OD", txt_Pnl2_retd.Text, ficconv.RETD);
+                CompararTexto("Retinoscopia OI", txt_Pnl2_reti.Text, ficconv.RETI);
+                CompararTexto("Oftalmoscopia OD", txt_Pnl2_oftd.Text, ficconv.OFTD);
+                CompararTexto("Oftalmoscopia OI", txt_Pnl2_ofti.Text, ficconv.OFTI);
+
+                // TB_FICCONT: fórmula de contacto, curva base, diámetro y observación de contacto.
+                TB_FICCONT ficcont = _L_Ficcont.ObtenerFiccontPorClave(nacionalidad, cedula, numeroExamen) ?? new TB_FICCONT();
+                if (contConDatos)
+                {
+                    CompararDecimal("Esfera OD", ValorDecimal(Dgv_Pnl2_cont.Rows[0].Cells["Esfera"].Value), ficcont.ESFD ?? 0);
+                    CompararDecimal("Esfera OI", ValorDecimal(Dgv_Pnl2_cont.Rows[1].Cells["Esfera"].Value), ficcont.ESFI ?? 0);
+                    CompararDecimal("Cilindro OD", ValorDecimal(Dgv_Pnl2_cont.Rows[0].Cells["Cilindro"].Value), ficcont.CILD ?? 0);
+                    CompararDecimal("Cilindro OI", ValorDecimal(Dgv_Pnl2_cont.Rows[1].Cells["Cilindro"].Value), ficcont.CILI ?? 0);
+                    CompararDecimal("Eje OD", ValorDecimal(Dgv_Pnl2_cont.Rows[0].Cells["Eje"].Value), ficcont.EJED ?? 0);
+                    CompararDecimal("Eje OI", ValorDecimal(Dgv_Pnl2_cont.Rows[1].Cells["Eje"].Value), ficcont.EJEI ?? 0);
+                    CompararDecimal("Adición OD", ValorDecimal(Dgv_Pnl2_cont.Rows[0].Cells["Adicion"].Value), ficcont.ADDD ?? 0);
+                    CompararDecimal("Adición OI", ValorDecimal(Dgv_Pnl2_cont.Rows[1].Cells["Adicion"].Value), ficcont.ADDI ?? 0);
+                    CompararDecimal("Curva base OD", ValorDecimal(Dgv_Pnl2_cont.Rows[0].Cells["C_BASE"].Value), ficcont.CBD ?? 0);
+                    CompararDecimal("Curva base OI", ValorDecimal(Dgv_Pnl2_cont.Rows[1].Cells["C_BASE"].Value), ficcont.CBI ?? 0);
+                    CompararDecimal("Diámetro OD", ValorDecimal(Dgv_Pnl2_cont.Rows[0].Cells["Diametro"].Value), ficcont.DIAMD ?? 0);
+                    CompararDecimal("Diámetro OI", ValorDecimal(Dgv_Pnl2_cont.Rows[1].Cells["Diametro"].Value), ficcont.DIAMI ?? 0);
+                }
+                CompararTexto("Observación", txt_Pnl2_cont_observa.Text, ficcont.OBSERVACIONES);
+
+                // TB_QUERATO: meridianos/grados y su observación (solo cuando el guardado la escribirá).
+                if (queratoConDatos)
+                {
+                    TB_QUERATO querato = _L_Querato.ObtenerQueratoPorClave(nacionalidad, cedula, numeroExamen) ?? new TB_QUERATO();
+                    CompararDecimal("Querato OD M1", ValorDecimal(Dgv_Pnl2_Querato.Rows[0].Cells[0].Value), querato.QUERATOMD1 ?? 0);
+                    CompararDecimal("Querato OD G1", ValorDecimal(Dgv_Pnl2_Querato.Rows[0].Cells[1].Value), querato.QUERATOGD1 ?? 0);
+                    CompararDecimal("Querato OD M2", ValorDecimal(Dgv_Pnl2_Querato.Rows[0].Cells[2].Value), querato.QUERATOMD2 ?? 0);
+                    CompararDecimal("Querato OD G2", ValorDecimal(Dgv_Pnl2_Querato.Rows[0].Cells[3].Value), querato.QUERATOGD2 ?? 0);
+                    CompararDecimal("Querato OI M1", ValorDecimal(Dgv_Pnl2_Querato.Rows[1].Cells[0].Value), querato.QUERATOMI1 ?? 0);
+                    CompararDecimal("Querato OI G1", ValorDecimal(Dgv_Pnl2_Querato.Rows[1].Cells[1].Value), querato.QUERATOGI1 ?? 0);
+                    CompararDecimal("Querato OI M2", ValorDecimal(Dgv_Pnl2_Querato.Rows[1].Cells[2].Value), querato.QUERATOMI2 ?? 0);
+                    CompararDecimal("Querato OI G2", ValorDecimal(Dgv_Pnl2_Querato.Rows[1].Cells[3].Value), querato.QUERATOGI2 ?? 0);
+                    CompararTexto("Observación querato", txt_Pnl2_obsQuero.Text, querato.QUE_OBSERV);
+                }
+
+                return cambios;
+            }
+            catch
+            {
+                // Ante cualquier error de lectura se asume que hubo cambios para no perder auditoría.
+                cambios.Add("No se pudieron comparar los valores del examen");
+                return cambios;
+            }
+        }
+
+        private bool GuardarExamenActual()
         {
 
             CancelarPorCambioExamen();
@@ -11695,7 +12293,7 @@ namespace CapaVisual_Login
                 _FrmMensajes.co = 2;
                 _FrmMensajes.avisomensaje("Valores de Queratometria Incompletos");
                 _FrmMensajes.ShowDialog();
-                return;
+                return false;
             }
 
             if (string.IsNullOrWhiteSpace(Txt_Tap2_Examen.Text))
@@ -11707,13 +12305,19 @@ namespace CapaVisual_Login
             if (int.Parse(Txt_Tap2_Examen.Text) == 0)
             {
 
-                Txt_Tap2_Examen.Text = (TopeExamen + 1).ToString();
-                TopeExamen = TopeExamen + 1;
+                // Calcular el siguiente número desde los exámenes reales en BD,
+                // no desde TopeExamen (puede estar en 0 si el campo NumExamen del cliente quedó sin actualizar).
+                List<int> examenesExistentes = ObtenerExamenesDelCliente();
+                int tope = examenesExistentes.Count > 0 ? examenesExistentes.Max() : 0;
+
+                Txt_Tap2_Examen.Text = (tope + 1).ToString();
+                TopeExamen = tope + 1;
                 numeroExamen = TopeExamen;
             }
             else
             { numeroExamen = int.Parse(Txt_Tap2_Examen.Text); }
 
+            ActualizarEstadoTipoExamen();
 
             nuevoExamen.NUM_Examen = numeroExamen;
 
@@ -11743,12 +12347,10 @@ namespace CapaVisual_Login
 
             nuevoTrabajo.TFECCREA = Dtp_Tap2_FecExam.Value;
             nuevoExamen.FEC_Examen = Dtp_Tap2_FecExam.Value;
-            //nuevoExamen.FEC_Examen = Dtp_Tap2_Examen.Value;
-            //nuevoExamen.FEC_Examen = Dtp_Tap2_Examen.Value;
-            //nuevoExamen.FEC_Examen = Dtp_Tap2_Examen.Value;
 
-            // Continuar con el resto de la lógica de tu método
-
+            // Estampar EXA_Fecmod / USER_MOD y auditar (acción 007) solo si algún dato cambió realmente.
+            List<string> cambiosExamen = ObtenerCambiosExamen();
+            nuevoExamen.ActualizarAuditoria = cambiosExamen.Count > 0;
 
             if (validarvacioExam())
             {
@@ -11757,24 +12359,22 @@ namespace CapaVisual_Login
                 // Procesar el resultado de la operación de guardado
                 if (resultado.Equals("Guardado"))
                 {
+                    examenNuevo = false;
 
                     if (Txt_Tap2_Examen.Text == "0")
                     {
                         Txt_Tap2_Examen.Text = numeroExamen.ToString();
                     }
 
+                    // Auditoría de modificación del examen con detalle de valores anteriores/nuevos.
+                    if (cambiosExamen.Count > 0)
+                    {
+                        _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "007", TB_USUARIO.COD_EMPLEADO,
+                            "Examen N° " + numeroExamen + ", Cliente: " + Cbx_Tap1_Nacionalidad.Text.Trim() + "-" + Txt_Tap1_Cedula.Text.Trim() +
+                            ". Cambios: " + string.Join("; ", cambiosExamen));
+                    }
+
                 }
-
-                //if (!ValidarCont_AllOrNoneZero())
-                //{
-
-                //    //Pnl_2_Msj.Visible = true;
-                //    //txt_pl2_msj.Text = " Error  valores de la tabla de lentes de contacto";
-                //    ////pb_pl2_mj.Visible = true;
-                //    //return; // Stop further processing if validation fails
-                //}
-
-
 
                 guardaExamenCont();
 
@@ -11784,57 +12384,56 @@ namespace CapaVisual_Login
                 guardaExamenreti();
                 guardaExamenoft();
 
+                return resultado.Equals("Guardado");
+            }
+
+            return false;
+        }
+
+        private void Btn_Tap2_GuardarExam_Click(object sender, EventArgs e)
+        {
+
+            if (GuardarExamenActual())
+            {
+
+                if (tabControl.SelectedIndex == 1 && !Formulario_ListaOrdenes)
+                {
+                    btnCargarOrden.Enabled = true;
+                    //btnCargarOrden.Focus();
+                    tabControl.SelectedIndex = 2;
+                    this.btnCargarOrden.Checked = true;
+                    btnDetalleOrden_CheckedChanged(btnCargarOrden, EventArgs.Empty);
+                }
+                else
+                {
+                    btnExamen.Focus();
+                    tabControl.SelectedIndex = 1;
+                }
+                //btnCargarOrden.Enabled = true;
+                //tabControl.SelectedIndex = 2;
 
 
-                if (resultado.Equals("Guardado"))
+                if (TB_CAORDSER.Cod_DetVta == "08")
                 {
 
-                    //Pnl_2_Msj.Visible = true;
-                    //txt_pl2_msj.Text = "Examen guardado con éxito ";
-                    //pb_pl2_mj.Visible = false;
-                    if (tabControl.SelectedIndex == 1 && !Formulario_ListaOrdenes)
-                    {
-                        btnCargarOrden.Enabled = true;
-                        //btnCargarOrden.Focus();
-                        tabControl.SelectedIndex = 2;
-                        this.btnCargarOrden.Checked = true;
-                        btnDetalleOrden_CheckedChanged(btnCargarOrden, EventArgs.Empty);
-                    }
-                    else
-                    {
-                        btnExamen.Focus();
-                        tabControl.SelectedIndex = 1;
-                    }
-                    //btnCargarOrden.Enabled = true;
-                    //tabControl.SelectedIndex = 2;
+                    LLenar_TbTrabajo();
+                    nuevoTrabajo.TNumOrdserv = TB_CAORDSER.NumOrdserv;
+                    nuevoTrabajo.TCEDIDEN = TB_CAORDSER.CTE_CedIden;
+                    nuevoTrabajo.TNACIO = TB_CAORDSER.CTE_Nacio;
+                    nuevoTrabajo.TEXAMEN = nuevoExamen.NUM_Examen.ToString();
+                    _L_Trabajo.ActualizarTrabajoRx(nuevoTrabajo);
 
-
-                    if (TB_CAORDSER.Cod_DetVta == "08")
-                    {
-
-                        LLenar_TbTrabajo();
-                        nuevoTrabajo.TNumOrdserv = TB_CAORDSER.NumOrdserv;
-                        nuevoTrabajo.TCEDIDEN = TB_CAORDSER.CTE_CedIden;
-                        nuevoTrabajo.TNACIO = TB_CAORDSER.CTE_Nacio;
-                        nuevoTrabajo.TEXAMEN = nuevoExamen.NUM_Examen.ToString();
-                        _L_Trabajo.ActualizarTrabajoRx(nuevoTrabajo);
-
-                        AgregarRx();
-                        
-                    }
-                    else
-                    {
-                        LLenar_TbTrabajo();
-                        _L_Trabajo.AgregarTrabajo(nuevoTrabajo);
-                    }
-
+                    AgregarRx();
+                    
+                }
+                else
+                {
+                    LLenar_TbTrabajo();
+                    _L_Trabajo.AgregarTrabajo(nuevoTrabajo);
                 }
 
             }
-            //nuevoTrabajo.TEXAMEN = Txt_Tap2_Exa
-            //men.Text;
-            
-            
+
         }
 
         private bool ValidarCont_AllOrNoneZero()
@@ -12188,6 +12787,8 @@ namespace CapaVisual_Login
             if (e.ColumnIndex >= 0 && Dgv_Pnl2_conv.Columns[e.ColumnIndex].Name == "Adicion" && e.RowIndex >= 0)
             {
                 DataGridViewCell cell = Dgv_Pnl2_conv.Rows[e.RowIndex].Cells[e.ColumnIndex];
+
+                LogDebugGrids($"CellValueChanged ADICION conv fila={e.RowIndex} valorCrudo='{cell.Value}' stack=" + Environment.NewLine + new System.Diagnostics.StackTrace(true));
 
                 // Verifica si la celda está vacía (Value es null o una cadena vacía)
                 if (cell.Value == null || string.IsNullOrEmpty(cell.Value.ToString()))
@@ -12832,9 +13433,9 @@ namespace CapaVisual_Login
         private void Dgv_Pnl2_cont_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
 
-            if (e.ColumnIndex >= 0 && Dgv_Pnl2_conv.Columns[e.ColumnIndex].Name == "Adicion" && e.RowIndex >= 0)
+            if (e.ColumnIndex >= 0 && Dgv_Pnl2_cont.Columns[e.ColumnIndex].Name == "Adicion" && e.RowIndex >= 0)
             {
-                DataGridViewCell cell = Dgv_Pnl2_conv.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                DataGridViewCell cell = Dgv_Pnl2_cont.Rows[e.RowIndex].Cells[e.ColumnIndex];
 
                 // Verifica si la celda está vacía (Value es null o una cadena vacía)
                 if (cell.Value == null || string.IsNullOrEmpty(cell.Value.ToString()))
@@ -13180,8 +13781,7 @@ namespace CapaVisual_Login
         private void button6_Click(object sender, EventArgs e)
         {
             button15.PerformClick();
-            mantenervacio = false;
-            Btn_Tap2_Derecha_Click(this.Btn_Tap2_Derecha, EventArgs.Empty);
+            IrAlUltimoExamen();
 
             txtDistVertice.Text = "";
             txtAngFac.Text = "";
@@ -13725,14 +14325,14 @@ namespace CapaVisual_Login
                 btn_pln2_quer.BringToFront();
                 if (mantengoexamenseleccionado == false) // Voy al ultimo
                 {
-                    Btn_Tap2_Derecha_Click(this.Btn_Tap2_Derecha, EventArgs.Empty);
+                    IrAlUltimoExamen();
                 }
 
                 // Opcional: Llamar al evento directamente si la selección no lo dispara
                 // tabControl_SelectedIndexChanged(tabControl, EventArgs.Empty);
 
             Pnl_2.Visible = true;
-            grp_pln2_Conv2.Visible = true;
+            Cbx_Tap2_Tipo_Examen_SelectedIndexChanged(Cbx_Tap2_Tipo_Examen, EventArgs.Empty);
         }
 
         private void Dgv_Pnl3_Garantia_CurrentCellDirtyStateChanged(object sender, EventArgs e)
@@ -15876,6 +16476,11 @@ namespace CapaVisual_Login
 
                 }
             }
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 

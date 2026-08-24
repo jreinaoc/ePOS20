@@ -11002,7 +11002,8 @@ namespace CapaVisual_Login
 
         public void CargarConfiguracionCashea()
         {
-            DataTable dt = _L_Cashea.ObtenerConfigCashea("CASHEA");
+            string nombreCajaActual = Environment.MachineName;
+            DataTable dt = _L_Cashea.ObtenerConfigCashea("CASHEA", nombreCajaActual);
 
             foreach (DataRow row in dt.Rows)
             {
@@ -11026,7 +11027,8 @@ namespace CapaVisual_Login
 
         public void CargarConfiguracionGiftCard()
         {
-            DataTable dt = _L_Cashea.ObtenerConfigCashea("GIFTCARD");
+            string nombreCajaActual = Environment.MachineName;
+            DataTable dt = _L_Cashea.ObtenerConfigCashea("GIFTCARD", nombreCajaActual);
 
             foreach (DataRow row in dt.Rows)
             {

@@ -169,7 +169,26 @@ namespace CapaDatos.CargarOrdenes_Datos
             {
                 using (SqlConnection connection = cn.LeerCadena())
                 {
+                    // Determinar si el examen ya existe (modificación) o es una creación,
+                    // para tocar EXA_Fecmod únicamente cuando se modifica.
+                    bool esModificacion = false;
+                    using (SqlCommand commandExist = new SqlCommand(
+                        "SELECT COUNT(1) FROM [dbo].[TB_EXAMEN] WHERE CTE_Nacio = @E_Nacio AND CTE_CedIden = @E_CedIden AND COD_Sucursal = @E_Sucursal AND NUM_Examen = @E_Numero",
+                        connection))
+                    {
+                        commandExist.Parameters.AddWithValue("@E_Nacio", nuevoExamen.CTE_Nacio ?? (object)DBNull.Value);
+                        commandExist.Parameters.AddWithValue("@E_CedIden", nuevoExamen.CTE_CedIden ?? (object)DBNull.Value);
+                        commandExist.Parameters.AddWithValue("@E_Sucursal", nuevoExamen.COD_Sucursal ?? (object)DBNull.Value);
+                        commandExist.Parameters.AddWithValue("@E_Numero", nuevoExamen.NUM_Examen);
+                        esModificacion = Convert.ToInt32(commandExist.ExecuteScalar()) > 0;
+                    }
+
                     //connection.Open();
+
+                    // La auditoría (EXA_Fecmod / USER_MOD) solo se estampa cuando el examen
+                    // existe y el formulario detectó cambios reales en los datos seguidos.
+                    bool auditar = esModificacion && nuevoExamen.ActualizarAuditoria;
+
                     using (SqlCommand command = new SqlCommand("SP_CPOSC_AgregarActualizarExamen", connection))
                     {
                         command.CommandType = CommandType.StoredProcedure;
@@ -192,9 +211,18 @@ namespace CapaDatos.CargarOrdenes_Datos
                         command.Parameters.AddWithValue("@TIPO_Optm", nuevoExamen.TIPO_Optm ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@NOM_Optm", nuevoExamen.NOM_Optm ?? (object)DBNull.Value);
                          command.Parameters.AddWithValue("@EXA_Feccreacion", nuevoExamen.FEC_Examen);
-                         command.Parameters.AddWithValue("@EXA_Fecmod", nuevoExamen.FEC_Examen);
+                         // EXA_Fecmod solo se llena al modificar un examen con cambios reales;
+                         // en creación o autoguardado sin cambios queda NULL (el SP preserva el valor).
+                         command.Parameters.Add(new SqlParameter("@EXA_Fecmod", SqlDbType.DateTime)
+                         {
+                             Value = auditar ? (object)DateTime.Now : DBNull.Value
+                         });
                         command.Parameters.AddWithValue("@USER_CREA", nuevoExamen.USER_CREA ?? (object)DBNull.Value);
-                        command.Parameters.AddWithValue("@USER_MOD", nuevoExamen.USER_MOD ?? (object)DBNull.Value);
+                         // USER_MOD sigue la misma regla que EXA_Fecmod.
+                         command.Parameters.Add(new SqlParameter("@USER_MOD", SqlDbType.VarChar, 20)
+                         {
+                             Value = auditar ? (object)(nuevoExamen.USER_MOD ?? (object)DBNull.Value) : DBNull.Value
+                         });
                         command.Parameters.AddWithValue("@TIPOEXAMEN", nuevoExamen.TIPOEXAMEN ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@NOMBRE_CLINICA_OPTM", nuevoExamen.NOMBRE_CLINICA_OPTM ?? (object)DBNull.Value);
                         //command.Parameters.AddWithValue("@TLF_TIPO", nuevoExamen.TLF_TIPO ?? (object)DBNull.Value);

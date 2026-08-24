@@ -42,7 +42,11 @@ namespace CapaEntidades
         public decimal EJED2 { get; set; }
         public decimal EJEI2 { get; set; }
         public string CodigoMimesys { get; set; }
-       
+
+        // Indica si este guardado corresponde a una modificación real de datos
+        // y por tanto debe estampar EXA_Fecmod / USER_MOD.
+        public bool ActualizarAuditoria { get; set; }
+
 
         //  agregar constructores, métodos de validación, etc., si es necesario.
 

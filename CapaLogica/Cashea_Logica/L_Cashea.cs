@@ -183,9 +183,9 @@ namespace CapaLogica.Cashea_Logica
             return await _casheaService.GetPaymentPlanByCodeAsync(orderUuid, codigoSeguridad);
         }
 
-        public DataTable ObtenerConfigCashea(string servicio, SqlCommand command = null)
+        public DataTable ObtenerConfigCashea(string servicio, string nombreCajaActual, SqlCommand command = null)
         {
-            DataTable dt = _D_Cashea.ObtenerConfigCashea(servicio);
+            DataTable dt = _D_Cashea.ObtenerConfigCashea(servicio, nombreCajaActual);
 
             if (dt.Rows.Count > 0)
             {
