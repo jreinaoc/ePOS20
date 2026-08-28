@@ -3239,13 +3239,13 @@ namespace CapaLogica.CargarOrdenes
                             decimal precioOriginal = articuloEncontrado.ART_PVP;
 
                             // Si PORC_DESC tiene valor, aplicar porcentaje sobre el precio original
-                            if (descRow["PORC_DESC"] != DBNull.Value && Convert.ToDecimal(descRow["PORC_DESC"]) > 0)
+                            if (dtDescEspecial.Columns.Contains("PORC_DESC") && descRow["PORC_DESC"] != DBNull.Value && Convert.ToDecimal(descRow["PORC_DESC"]) > 0)
                             {
                                 decimal porcDesc = Convert.ToDecimal(descRow["PORC_DESC"]);
                                 row.Cells["ART_PVP"].Value = precioOriginal - (precioOriginal * porcDesc / 100);
                             }
                             // Si PRECIO_CON_DESC tiene valor, usarlo directamente
-                            else if (descRow["PRECIO_CON_DESC"] != DBNull.Value && Convert.ToDecimal(descRow["PRECIO_CON_DESC"]) > 0)
+                            else if (dtDescEspecial.Columns.Contains("PRECIO_CON_DESC") && descRow["PRECIO_CON_DESC"] != DBNull.Value && Convert.ToDecimal(descRow["PRECIO_CON_DESC"]) > 0)
                             {
                                 row.Cells["ART_PVP"].Value = Convert.ToDecimal(descRow["PRECIO_CON_DESC"]);
                             }
