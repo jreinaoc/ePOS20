@@ -1095,6 +1095,22 @@ namespace CapaVisual_Login
                             _FrmMensajes.ShowDialog();
                             return;
                         }
+
+                        // Valida que el monto del cupon no supere el porcentaje del parametro MaxCasheaCupon
+                        // sobre el saldo ref (saldo en dolares), luego se convierte a bolivares con la tasa
+                        Double PorcenMaxCasheaCupon = 0;
+                        Double.TryParse(_D_DetalleOrden.TB_PARAMETRO("MaxCasheaCupon"), out PorcenMaxCasheaCupon);
+                        Double SaldoRefDolar = TB_CAORDSER.OrSer_Saldo_Mon.HasValue ? Convert.ToDouble(TB_CAORDSER.OrSer_Saldo_Mon.Value) : 0;
+                        Double MontoMaxCuponDolar = Math.Round((SaldoRefDolar * PorcenMaxCasheaCupon) / 100, 2);
+                        Double MontoMaxCuponBs = Math.Round(MontoMaxCuponDolar * Convert.ToDouble(TB_TASA_Dolar.Tasa), 2);
+
+                        if (Bolivares > MontoMaxCuponBs)
+                        {
+                            _FrmMensajes.co = 2;
+                            _FrmMensajes.avisomensaje("El monto del cupón supera el máximo permitido (" + PorcenMaxCasheaCupon.ToString("0.##") + "% del saldo de la orden, máximo " + MontoMaxCuponBs.ToString("N2") + ")");
+                            _FrmMensajes.ShowDialog();
+                            return;
+                        }
                     }
 
                     // Promocion Seguros Mercantil Nuevo desarrollo 12/05/2026
