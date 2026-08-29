@@ -1085,6 +1085,18 @@ namespace CapaVisual_Login
 
                 if (CbxMetodosPago2.Text == "Transferencia")
                 {
+                    // Cupon requiere un pago de CASHEA previo en la orden
+                    if (CbxBanco.SelectedValue.ToString() == "117" | CbxBancoRecp.SelectedValue.ToString() == "117")
+                    {
+                        if (!ExistePagoCashea(DgvAbonos))
+                        {
+                            _FrmMensajes.co = 2;
+                            _FrmMensajes.avisomensaje("No puede agregar un cupón sin tener un pago de cashea previo");
+                            _FrmMensajes.ShowDialog();
+                            return;
+                        }
+                    }
+
                     // Promocion Seguros Mercantil Nuevo desarrollo 12/05/2026
                     if(CbxBanco.SelectedValue.ToString()== "112" | CbxBancoRecp.SelectedValue.ToString()=="112" )
                     {
@@ -7860,6 +7872,15 @@ namespace CapaVisual_Login
                     }
                 }
 
+                if (CbxBanco.Text == "Cupon" | CbxBanco.Text == "CUPON")
+                {
+                    int index = CbxBancoRecp.FindStringExact("Cupon");
+                    if (index != -1)
+                    {
+                        CbxBancoRecp.SelectedIndex = index;
+                    }
+                }
+
             }
         }
 
@@ -8503,6 +8524,19 @@ namespace CapaVisual_Login
                 PermiteRealizarPago = false;
 
             return PermiteRealizarPago;
+        }
+
+        private bool ExistePagoCashea(System.Windows.Forms.DataGridView Dt_Abono)
+        {
+            foreach (DataGridViewRow row in Dt_Abono.Rows)
+            {
+                string Codigo = row.Cells["CodBanco"].Value?.ToString() ?? "";
+                string NombreBanco = row.Cells["Banco"].Value?.ToString() ?? "";
+                string CodPago = row.Cells["CodPago"].Value?.ToString() ?? "";
+                if (Codigo == "116" | Codigo == "110" | NombreBanco.Trim().ToUpper() == "CASHEA" | CodPago == "024" | CodPago == "025")
+                    return true;
+            }
+            return false;
         }
 
         private bool ValidarPagosPromociones(System.Windows.Forms.DataGridView Dt_Abono)
