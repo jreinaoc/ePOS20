@@ -2423,7 +2423,9 @@ namespace CapaVisual_Login
             {
                 // Al entrar al tab 3, si hay un examen nuevo sin guardar (número "0"),
                 // guardarlo para que quede numerado y conserve los datos al volver al tab 2.
-                if ((examenNuevo || Txt_Tap2_Examen.Text == "0") && !string.IsNullOrWhiteSpace(Txt_Tap1_Cedula.Text))
+                //Corrección IA: solo pre-guardar si se INICIÓ la creación del examen (examenNuevo),
+                //no cuando el número quedó en "0" pasivamente (cliente sin exámenes que va directo a órdenes).
+                if (examenNuevo && !string.IsNullOrWhiteSpace(Txt_Tap1_Cedula.Text))
                 {
                     if (!GuardarExamenActual())
                     {
@@ -2431,6 +2433,7 @@ namespace CapaVisual_Login
                         return;
                     }
                 }
+                //Fin Corrección IA
 
                 VisualizarPanel("MostrarCabezeraSecundaria");
                 _L_Articulo.InicializarDataGridViewTotales(Dgv_Tap3_Totales);
@@ -2637,6 +2640,19 @@ else if (tabControl.SelectedIndex == 1)
 
             if (tabControl.SelectedIndex == 1)
             {
+                //Corrección IA: Cte sin examenes pedia optom en carga de os
+                //Si el cliente no tiene exámenes y no se inició la creación de uno,
+                //ir directo a la carga de órdenes sin pre-guardar (y sin pedir optometrista).
+                var examenesClienteDirecto = ObtenerExamenesDelCliente();
+                bool clienteSinExamenesDirecto = (examenesClienteDirecto == null || examenesClienteDirecto.Count == 0);
+                if (clienteSinExamenesDirecto && !examenNuevo)
+                {
+                    tabControl.SelectedIndex = 2;
+                    btnCargarOrden.Focus();
+                    return;
+                }
+                //Fin Corrección IA
+
                 // Guardar el examen (mismas validaciones que el botón Guardar) antes de
                 // crear el trabajo. Si falla, NO navegar al tab 3: se queda en el tab 1 para
                 // corregir la validación (validando los mismos requisitos que el botón Guardar).
