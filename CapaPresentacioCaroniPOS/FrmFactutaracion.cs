@@ -6177,14 +6177,14 @@ namespace CapaVisual_Login
 
                     }
 
-                    Double totalpagosManual = 0;
+                    decimal totalpagosManual = 0; //Corrección IA: Montos Factura manual
 
                     // OBTENGO LA SUMATORIA DE LOS ABONOS PARA enviarlos en la factura manual  
                     DataTable dtPago = _D_DetalleOrden.TEMP_ABONO(TB_CAORDSER.Cod_Sucursal, txtNumeroOrden.Text, TB_CAORDSER.Revision, command);
 
                     foreach (DataRow drPago in dtPago.Rows)
                     {
-                        totalpagosManual = totalpagosManual + (Convert.ToDouble(drPago["Abo_Monto"].ToString().Replace(",", "")));
+                        totalpagosManual = totalpagosManual + Convert.ToDecimal(drPago["Abo_Monto"]); //Corrección IA: Montos Factura manual
                     }
 
 
@@ -6220,8 +6220,8 @@ namespace CapaVisual_Login
                     string Nacionalidad = txtCedula.Text.Substring(0, 1);
 
                     Transaccion = _D_DetalleOrden.GetFactura(TB_CAORDSER.Cod_Sucursal, TxtNumFact.Text, Fecha2, Nacionalidad,
-                                     txtCedula.Text.Substring(2, txtCedula.Text.Length - 2), TB_CAORDSER.COD_EMPLEADO, TB_CAORDSER.Cod_Venta, txtNumeroOrden.Text, Convert.ToString(TB_CAORDSER.Fec_ofrecido.ToString("yyyyMMdd")), TB_CAORDSER.Hor_ofrecido, Convert.ToDouble(String.Format(CultureInfo.InvariantCulture, "{0:0.00}", Convert.ToDouble(DtIGTF.Tables[0].Rows[0]["BaseImponible"].ToString())- MontoDonacion / 100).Replace(".", ",")),
-                                      Convert.ToDouble(String.Format(CultureInfo.InvariantCulture, "{0:0.00}", Convert.ToDouble(DtIGTF.Tables[0].Rows[0]["Alicuota"].ToString()) / 100).Replace(".", ",")), TB_CAORDSER.VtaDescuento, (totalpagosManual- MontoDonacion / 100), TB_USUARIO.COD_USR, 0, 0, "FACTMANUAL",
+                                     txtCedula.Text.Substring(2, txtCedula.Text.Length - 2), TB_CAORDSER.COD_EMPLEADO, TB_CAORDSER.Cod_Venta, txtNumeroOrden.Text, Convert.ToString(TB_CAORDSER.Fec_ofrecido.ToString("yyyyMMdd")), TB_CAORDSER.Hor_ofrecido, Convert.ToDouble(Convert.ToDecimal(DtIGTF.Tables[0].Rows[0]["BaseImponible"]) / 100 - Convert.ToDecimal(MontoDonacion) / 100), //Corrección IA: Montos Factura manual
+                                      Convert.ToDouble(Convert.ToDecimal(DtIGTF.Tables[0].Rows[0]["Alicuota"]) / 100), TB_CAORDSER.VtaDescuento, Convert.ToDouble(totalpagosManual - Convert.ToDecimal(MontoDonacion) / 100), TB_USUARIO.COD_USR, 0, 0, "FACTMANUAL", //Corrección IA: Montos Factura manual
                                      Fact_MontoExento-MontoDonacion, Fact_MontoExento, 0, iGTF, "A", command, true, _L_ListaOrdenes.Completar_Numero_Control(TxtNroCorrelativo.Text));
 
 
