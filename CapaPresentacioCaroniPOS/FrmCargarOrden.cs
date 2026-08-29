@@ -8453,6 +8453,20 @@ else if (tabControl.SelectedIndex == 1)
 
                     TXT_Tap2_Nombre_Optome.Text = examen.NOM_Optm.ToString(); // Deseleccionar cualquier elemento si examen.TIPO_Optm es null
 
+                    if (Cbx_Tap2_Tipo_Optome.Text == "INTERNO" && examen.NOM_Optm != null)
+                    {
+                        string nombreOptmGuardado = examen.NOM_Optm.ToString().Trim();
+                        foreach (var itemOptome in Cbx_Tap2_Nombre_Optome.Items)
+                        {
+                            TBF_USUARIO_OPTOMETRI optoItem = itemOptome as TBF_USUARIO_OPTOMETRI;
+                            if (optoItem != null && optoItem.USER_NOMBRE != null && optoItem.USER_NOMBRE.Trim() == nombreOptmGuardado)
+                            {
+                                Cbx_Tap2_Nombre_Optome.SelectedItem = optoItem;
+                                break;
+                            }
+                        }
+                    }
+
 
 
                     //    TXT_Tap2_Nombre_Optome.Text = examen.NOMBRE_CLINICA_OPTM != null ? examen.NOMBRE_CLINICA_OPTM : string.Empty;
@@ -11248,7 +11262,7 @@ else if (tabControl.SelectedIndex == 1)
         private void Cbx_Tap2_Tipo_Optome_SelectedIndexChanged(object sender, EventArgs e)
         {
 
-            if (Cbx_Tap2_Tipo_Optome.Enabled == true && Cbx_Tap2_Tipo_Optome.SelectedItem != null && Cbx_Tap2_Tipo_Optome.SelectedItem.ToString() == "INTERNO")
+            if (Cbx_Tap2_Tipo_Optome.SelectedItem != null && Cbx_Tap2_Tipo_Optome.SelectedItem.ToString() == "INTERNO")
             {
                 LlenarCbxTap2NombreOptome();
                 TXT_Tap2_Nombre_Optome.Visible = false;
