@@ -2969,6 +2969,8 @@ namespace CapaLogica.CargarOrdenes
             bool PromoARObligatorio = false;
             // Dictionary para nuevas variables dinámicas
              Dictionary<string, string> nuevasVariables = new Dictionary<string, string>();
+             List<string> serviciosSNoAR = new List<string>();
+             Dictionary<string, string> otrasVariables = new Dictionary<string, string>();
 
              DataTable respuesta = _D_Articulos.BucarTipoVenta(Cod_DetVta);
 
@@ -3037,6 +3039,11 @@ namespace CapaLogica.CargarOrdenes
                                 }
                             }
                         }
+
+                        if (!promoAplicaAR)
+                        {
+                            serviciosSNoAR.Add(codigo);
+                        }
                     }
 
                     else
@@ -3055,13 +3062,23 @@ namespace CapaLogica.CargarOrdenes
                                     {
                                         // Crear variable dinámica basada en el tipo
                                         string nombreVariable = "Tipo_" + codigoTipo;
-                                        nuevasVariables[nombreVariable] = codigo;
+                                        otrasVariables[nombreVariable] = codigo;
                                         break; // Salir del loop una vez encontrado el tipo
                                     }
                                 }
                             }
                     }
                 }
+            }
+
+            for (int i = 0; i < serviciosSNoAR.Count; i++)
+            {
+                nuevasVariables[$"Tipo_S_{i}"] = serviciosSNoAR[i];
+            }
+
+            foreach (var otra in otrasVariables)
+            {
+                nuevasVariables[otra.Key] = otra.Value;
             }
 
             // Crear los parámetros para la función AplicarPromociones
@@ -3200,6 +3217,13 @@ namespace CapaLogica.CargarOrdenes
                 }
             }
 
+            // Obtener la tercera tabla de descuento especial (si existe)
+            DataTable dtDescEspecial = null;
+            if (dsLl1so.Tables.Count > 2 && dsLl1so.Tables[2].Columns.Contains("CodArticulo"))
+            {
+                dtDescEspecial = dsLl1so.Tables[2];
+            }
+
             string Montura = ArticulosEvaluados.ContainsKey("@PARAMETRO01") ? ArticulosEvaluados["@PARAMETRO01"] : string.Empty;
             string Cristal = ArticulosEvaluados.ContainsKey("@PARAMETRO02") ? ArticulosEvaluados["@PARAMETRO02"] : string.Empty;
             string LC = ArticulosEvaluados.ContainsKey("@PARAMETRO03") ? ArticulosEvaluados["@PARAMETRO03"] : string.Empty;
@@ -3210,6 +3234,39 @@ namespace CapaLogica.CargarOrdenes
                 if (row.Cells["CodArticulo"].Value != null)
                 {
                     string codigo = row.Cells["CodArticulo"].Value.ToString();
+
+                    // Si existe la tercera tabla y el código coincide, aplicar descuento especial
+                    if (dtDescEspecial != null && dsLl1so.Tables[0].Rows[0]["Resultado"].ToString() == "APLICA")
+                    {
+                        DataRow descRow = dtDescEspecial.AsEnumerable()
+                            .FirstOrDefault(r => r["CodArticulo"].ToString() == codigo);
+
+                        if (descRow != null)
+                        {
+                            TB_ARTICULO articuloEncontrado = ObtenerArticuloPorCodigo(listaArticulos, codigo, DgvArticulo);
+                            decimal precioOriginal = articuloEncontrado.ART_PVP;
+
+                            // Si PORC_DESC tiene valor, aplicar porcentaje sobre el precio original
+                            if (dtDescEspecial.Columns.Contains("PORC_DESC") && descRow["PORC_DESC"] != DBNull.Value && Convert.ToDecimal(descRow["PORC_DESC"]) > 0)
+                            {
+                                decimal porcDesc = Convert.ToDecimal(descRow["PORC_DESC"]);
+                                row.Cells["ART_PVP"].Value = precioOriginal - (precioOriginal * porcDesc / 100);
+                            }
+                            // Si PRECIO_CON_DESC tiene valor, usarlo directamente
+                            else if (dtDescEspecial.Columns.Contains("PRECIO_CON_DESC") && descRow["PRECIO_CON_DESC"] != DBNull.Value && Convert.ToDecimal(descRow["PRECIO_CON_DESC"]) > 0)
+                            {
+                                row.Cells["ART_PVP"].Value = Convert.ToDecimal(descRow["PRECIO_CON_DESC"]);
+                            }
+
+                            row.Cells["Total"].Value = Convert.ToDecimal(row.Cells["ART_PVP"].Value) * Convert.ToDecimal(row.Cells["ART_EXIST"].Value);
+                            row.Cells["TienePromo"].Value = "Si";
+                            row.Cells["CodPromo"].Value = dsLl1so.Tables[0].Rows[0]["CODPROM"];
+                            row.Cells["PromoEvaluada"].Value = "Si";
+                            PromoAplicada = true;
+
+                            continue;
+                        }
+                    }
 
                     // Verificar si el resultado de la promoción es "APLICA"
                     if (dsLl1so.Tables[0].Rows[0]["Resultado"].ToString() == "APLICA")

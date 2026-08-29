@@ -91,14 +91,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CapaLogica.dll" size="365568">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CapaLogica.dll" size="366592">
       <assemblyIdentity name="CapaLogica" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>8Jsn6md5yS5nXPuwOvC2l3XUqjuTyyrVJMftPAV3pqQ=</dsig:DigestValue>
+        <dsig:DigestValue>WiVwEZ/UJpJWAquuZXwc9c/+xqFXMsjSSfdUTO3pAfA=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
