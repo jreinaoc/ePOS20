@@ -2421,6 +2421,11 @@ namespace CapaVisual_Login
             // Verificar si la pestaña seleccionada es la pestaña 3
             if (tabControl.SelectedIndex == 2) // El índice es 0-based, por lo que la pestaña 3 tiene índice 2
             {
+                //Corrección IA: Controlar la visibilidad del chkSugerencia por parametro VerSugerencia
+                //Se valida cada vez que se entra al tab de cargar orden. Valor "1" muestra el check; "0" lo oculta y lo deselecciona.
+                ActualizarVisibilidadSugerencia();
+                //Fin Corrección IA
+
                 // Al entrar al tab 3, si hay un examen nuevo sin guardar (número "0"),
                 // guardarlo para que quede numerado y conserve los datos al volver al tab 2.
                 //Corrección IA: solo pre-guardar si se INICIÓ la creación del examen (examenNuevo),
@@ -12420,6 +12425,19 @@ else if (tabControl.SelectedIndex == 1)
             return false;
         }
 
+        //Corrección IA: Controlar la visibilidad del chkSugerencia por parametro VerSugerencia
+        //Valor "1" muestra el check; "0" lo oculta y lo deselecciona.
+        private void ActualizarVisibilidadSugerencia()
+        {
+            string verSugerencia = _D_DetalleOrden.TB_PARAMETRO("VerSugerencia");
+            chkSugerencia.Visible = (verSugerencia == "1");
+            if (!chkSugerencia.Visible)
+            {
+                chkSugerencia.Checked = false;
+            }
+        }
+        //Fin Corrección IA
+
         private void Btn_Tap2_GuardarExam_Click(object sender, EventArgs e)
         {
 
@@ -12431,6 +12449,9 @@ else if (tabControl.SelectedIndex == 1)
                     btnCargarOrden.Enabled = true;
                     //btnCargarOrden.Focus();
                     tabControl.SelectedIndex = 2;
+                    //Corrección IA: Al guardar el examen también se valida la visibilidad del chkSugerencia al ir a carga de órdenes.
+                    ActualizarVisibilidadSugerencia();
+                    //Fin Corrección IA
                     this.btnCargarOrden.Checked = true;
                     btnDetalleOrden_CheckedChanged(btnCargarOrden, EventArgs.Empty);
                 }

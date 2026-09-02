@@ -15,6 +15,9 @@ namespace CapaServiciosExternos.Modelos
         [JsonProperty("balance")]
         public decimal Balance { get; set; }
 
+        [JsonProperty("message")]
+        public string Message { get; set; }
+
         [JsonProperty("meta_data")]
         public List<GiftCardMeta> MetaData { get; set; } = new List<GiftCardMeta>(); // Arreglado para C# 7.3
     }

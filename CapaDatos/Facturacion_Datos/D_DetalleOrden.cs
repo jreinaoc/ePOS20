@@ -2397,12 +2397,24 @@ namespace CapaDatos.DetalleOrden_Datos
                 cmd.Parameters.AddWithValue("@CodPromo", CodPromo);
                 cmd.CommandTimeout = 120;
                 cmd.CommandType = CommandType.Text;
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-                return dt;
+            DataTable dt = new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            da.Fill(dt);
+            return dt;
 
         }
+
+        // Corrección IA: Verifica si la orden tiene alguna línea con COD_Prom = '259' (autocompletar cliente pagador)
+        public bool OrdenTieneProm259(string codSucursal, string numOrden)
+        {
+            SqlCommand cmd = new SqlCommand("SELECT TOP 1 COD_Prom FROM TB_DEORDSER WHERE CodSucursal = @Sucursal AND NumOrdserv = @NumOrden AND COD_Prom = '259'", cn.LeerCadena());
+            cmd.CommandType = CommandType.Text;
+            cmd.Parameters.AddWithValue("@Sucursal", codSucursal);
+            cmd.Parameters.AddWithValue("@NumOrden", numOrden);
+            object result = cmd.ExecuteScalar();
+            return result != null && result != DBNull.Value;
+        }
+
 
         public DataSet AplicarCondicionPromoFactura(Dictionary<string, string> parametros = null, SqlCommand command = null)
         {

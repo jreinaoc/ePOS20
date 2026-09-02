@@ -74,7 +74,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>Ee2Aqh4p8Fb/CWqQAO0RQi3ChtUbzC6lBm/q/J/un04=</dsig:DigestValue>
+        <dsig:DigestValue>yHRUPRIVMS7Yiaksz0HZYfDwDxkXE95cbvIEjJxIrRE=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -110,7 +110,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>pkOPsrtDcItBj1wGA2WZeA2RJzkSjWwnd8RCALTtjLs=</dsig:DigestValue>
+        <dsig:DigestValue>JzjMwJimVCQTGPQn2sMM/q7vhnliBunJ8DYulJg70qQ=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -230,7 +230,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>fIE/EN8OpQUXt1fUqshYyt/NOxaDhxRdbm46E/Xh9gk=</dsig:DigestValue>
+        <dsig:DigestValue>4/MI8TLACNdIS+w6LAgsbDZQ0WPkDKlb1ARooUqFaRs=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -1335,13 +1335,13 @@
       <dsig:DigestValue>V/mIEnaNA7+y6AYCdZ7ovh0pOL9ya/R1ocUuN+BTkHw=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="ePOS.exe.config" size="2476">
+  <file name="ePOS.exe.config" size="2479">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>SSuAJdwc7ibRYV3F1fRIYxewU60AAgBa+aqGlKkU7JM=</dsig:DigestValue>
+      <dsig:DigestValue>JcCylzaYzVnvxlFIkbVM/aLMC113bE16uXo29Ol97rI=</dsig:DigestValue>
     </hash>
   </file>
   <file name="icono-puntoDeVenta.ico" size="205662">

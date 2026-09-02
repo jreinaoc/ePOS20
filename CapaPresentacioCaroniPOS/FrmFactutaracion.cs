@@ -1096,18 +1096,17 @@ namespace CapaVisual_Login
                             return;
                         }
 
-                        // Valida que el monto del cupon no supere el porcentaje del parametro MaxCasheaCupon
-                        // sobre el saldo ref (saldo en dolares), luego se convierte a bolivares con la tasa
-                        Double PorcenMaxCasheaCupon = 0;
-                        Double.TryParse(_D_DetalleOrden.TB_PARAMETRO("MaxCasheaCupon"), out PorcenMaxCasheaCupon);
-                        Double SaldoRefDolar = TB_CAORDSER.OrSer_Saldo_Mon.HasValue ? Convert.ToDouble(TB_CAORDSER.OrSer_Saldo_Mon.Value) : 0;
-                        Double MontoMaxCuponDolar = Math.Round((SaldoRefDolar * PorcenMaxCasheaCupon) / 100, 2);
+                        // Corrección IA: MaxCasheaCupon ahora es un monto fijo en dolares (ya no es porcentaje del saldo).
+                        // El tope del cupon en bolivares = valor del parametro (USD) * tasa.
+                        Double MaxCasheaCuponUsd = 0;
+                        Double.TryParse(_D_DetalleOrden.TB_PARAMETRO("MaxCasheaCupon"), out MaxCasheaCuponUsd);
+                        Double MontoMaxCuponDolar = Math.Round(MaxCasheaCuponUsd, 2);
                         Double MontoMaxCuponBs = Math.Round(MontoMaxCuponDolar * Convert.ToDouble(TB_TASA_Dolar.Tasa), 2);
 
                         if (Bolivares > MontoMaxCuponBs)
                         {
                             _FrmMensajes.co = 2;
-                            _FrmMensajes.avisomensaje("El monto del cupón supera el máximo permitido (" + PorcenMaxCasheaCupon.ToString("0.##") + "% del saldo de la orden, máximo " + MontoMaxCuponBs.ToString("N2") + ")");
+                            _FrmMensajes.avisomensaje("El monto del cupón supera el máximo permitido");
                             _FrmMensajes.ShowDialog();
                             return;
                         }
@@ -2461,7 +2460,19 @@ namespace CapaVisual_Login
                 {
                     txtNombreCliente.Text = NombreCliente;
                 }
-                    
+
+                // Corrección IA: Autocompletar cliente pagador si la orden tiene alguna línea con promoción 259
+                // y se inactiva el botón BtnClientePagador en ese caso; en ordenes normales se habilita de nuevo
+                if (_D_DetalleOrden.OrdenTieneProm259(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv))
+                {
+                    txtCedula.Text = "J-000901805";
+                    txtNombreCliente.Text = "SEGUROS MERCANTIL C.A";
+                    BtnClientePagador.Enabled = false;
+                }
+                else
+                {
+                    BtnClientePagador.Enabled = true;
+                }
 
                 _L_Facturacion.BuscarTlfCorreo(NumeroOrden);
                 TxtTelefono.Text = _L_Facturacion.TlfCliente;
@@ -3542,6 +3553,15 @@ namespace CapaVisual_Login
                     LblBancoRecep.Visible = true;
                     CbxBancoRecp.Visible = true;
                     CbxBancoRecp.Enabled = true;
+
+                    // Corrección IA: Promo 259 -> preseleccionar bancos emisor y receptor con CODBAN 112 (SEGUROS MERCANTIL),
+                    // sin depender del nombre
+                    if (_D_DetalleOrden.OrdenTieneProm259(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv))
+                    {
+                        CbxBanco.SelectedValue = "112";
+                        CbxBancoRecp.SelectedValue = "112";
+                    }
+
                     Bs.Visible = true;
                     
 
@@ -7602,8 +7622,9 @@ namespace CapaVisual_Login
                         int MontoDolares = (int)Convert.ToDecimal(OsGiftCard.Rows[0]["MontoDolares"]);
                         string NombreBeneficiario = OsGiftCard.Rows[0]["NombreBeneficiario"].ToString();
                         string CorreoBeneficiario = OsGiftCard.Rows[0]["CorreoBeneficiario"].ToString();
+                        string Mensaje = OsGiftCard.Rows[0]["Mensaje"].ToString();
 
-                        if (await CrearGiftCard(CorreoBeneficiario, NombreBeneficiario, MontoDolares, TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision))
+                        if (await CrearGiftCard(CorreoBeneficiario, NombreBeneficiario, MontoDolares, TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision,Mensaje))
                         {
                             rept = "SATISFACTORIO";
                         }
@@ -11121,7 +11142,7 @@ namespace CapaVisual_Login
                 
         }
 
-        private async Task<bool> CrearGiftCard(string email, string nombre, int monto, string codSucursal, string nroOrden, string revision)
+        private async Task<bool> CrearGiftCard(string email, string nombre, int monto, string codSucursal, string nroOrden, string revision, string mensaje)
         {
             try
             {
@@ -11133,6 +11154,7 @@ namespace CapaVisual_Login
                     Recipient = email, // Correo de quien recibe la tarjeta
                     Sender = nombre,            // Identificador de origen
                     Balance = monto, // El saldo asignado
+                    Message = mensaje,
                     MetaData = new List<GiftCardMeta>
             {
                 // Metadatos útiles para auditoría en el panel de WooCommerce
