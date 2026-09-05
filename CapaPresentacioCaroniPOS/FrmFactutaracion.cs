@@ -2463,7 +2463,7 @@ namespace CapaVisual_Login
 
                 // Corrección IA: Autocompletar cliente pagador si la orden tiene alguna línea con promoción 259
                 // y se inactiva el botón BtnClientePagador en ese caso; en ordenes normales se habilita de nuevo
-                if (_D_DetalleOrden.OrdenTieneProm259(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv))
+                if (_D_DetalleOrden.OrdenTieneProm259(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv) && TB_CAORDSER.OrSer_Saldo_Mon <= 300)
                 {
                     txtCedula.Text = "J-000901805";
                     txtNombreCliente.Text = "SEGUROS MERCANTIL C.A";
@@ -3556,7 +3556,7 @@ namespace CapaVisual_Login
 
                     // Corrección IA: Promo 259 -> preseleccionar bancos emisor y receptor con CODBAN 112 (SEGUROS MERCANTIL),
                     // sin depender del nombre
-                    if (_D_DetalleOrden.OrdenTieneProm259(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv))
+                    if (_D_DetalleOrden.OrdenTieneProm259(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv) && TB_CAORDSER.OrSer_Saldo_Mon <= 300)
                     {
                         CbxBanco.SelectedValue = "112";
                         CbxBancoRecp.SelectedValue = "112";
@@ -8115,7 +8115,12 @@ namespace CapaVisual_Login
             {
                 case "Habilitar":
                     this.DgvListadoOrdenes.Enabled = true;
-                    this.BtnClientePagador.Enabled = true;
+                    //Corrección IA: No habilitar BtnClientePagador si promo 259 y saldo ref <= 300
+                    if (_D_DetalleOrden.OrdenTieneProm259(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv) && TB_CAORDSER.OrSer_Saldo_Mon <= 300)
+                        this.BtnClientePagador.Enabled = false;
+                    else
+                        this.BtnClientePagador.Enabled = true;
+                    //Fin Corrección IA
                     this.btnIngresar.Enabled = true;
                     LLenar_Datos_Convencional();
                     LLenar_Datos_Orden();
