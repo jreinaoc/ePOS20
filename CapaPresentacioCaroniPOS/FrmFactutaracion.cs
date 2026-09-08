@@ -6846,7 +6846,7 @@ namespace CapaVisual_Login
                         }
 
                         // Pasas el parámetro directamente en el constructor
-                        FrmClaveAutorizada _FrmClaveAutorizada = new FrmClaveAutorizada("");
+                        FrmClaveAutorizada _FrmClaveAutorizada = new FrmClaveAutorizada("002");
 
                         _FrmClaveAutorizada.ShowDialog();
 
