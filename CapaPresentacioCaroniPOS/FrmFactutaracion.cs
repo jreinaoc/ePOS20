@@ -1112,6 +1112,17 @@ namespace CapaVisual_Login
                         }
                     }
 
+                    //Corrección IA: Si promo 259 y saldo ref <= 300, solo puede usar Seguros Mercantil
+                    if (_D_DetalleOrden.OrdenTieneProm259(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv) && TB_CAORDSER.OrSer_Saldo_Mon <= 300
+                        && (CbxBanco.SelectedValue.ToString() != "112" || CbxBancoRecp.SelectedValue.ToString() != "112"))
+                    {
+                        _FrmMensajes.co = 2;
+                        _FrmMensajes.avisomensaje("Solo puede usar el banco Seguros Mercantil en esta orden");
+                        _FrmMensajes.ShowDialog();
+                        return;
+                    }
+                    //Fin Corrección IA
+
                     // Promocion Seguros Mercantil Nuevo desarrollo 12/05/2026
                     if(CbxBanco.SelectedValue.ToString()== "112" | CbxBancoRecp.SelectedValue.ToString()=="112" )
                     {
@@ -3560,6 +3571,8 @@ namespace CapaVisual_Login
                     {
                         CbxBanco.SelectedValue = "112";
                         CbxBancoRecp.SelectedValue = "112";
+                        CbxBanco.Enabled = false;
+                        CbxBancoRecp.Enabled = false;
                     }
 
                     Bs.Visible = true;
@@ -3610,7 +3623,12 @@ namespace CapaVisual_Login
 
                     txtTranferencia.Visible = true;
                     CbxBanco.Visible = true;
-                    CbxBanco.Enabled = true;
+                    //Corrección IA: No habilitar si promo 259 y saldo ref <= 300
+                    if (_D_DetalleOrden.OrdenTieneProm259(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv) && TB_CAORDSER.OrSer_Saldo_Mon <= 300)
+                        CbxBanco.Enabled = false;
+                    else
+                        CbxBanco.Enabled = true;
+                    //Fin Corrección IA
                     label45.Visible = true;
 
                 }
@@ -3898,6 +3916,7 @@ namespace CapaVisual_Login
                     CbxBanco.Visible = true;
                     CbxBanco.Enabled = true;
                     label45.Visible = true;
+
                 }
                 //Cashea mas cuotas
                 if (CbxMetodosPago.SelectedValue.ToString()  == "025")
@@ -6846,7 +6865,7 @@ namespace CapaVisual_Login
                         }
 
                         // Pasas el parámetro directamente en el constructor
-                        FrmClaveAutorizada _FrmClaveAutorizada = new FrmClaveAutorizada("");
+                        FrmClaveAutorizada _FrmClaveAutorizada = new FrmClaveAutorizada("002");
 
                         _FrmClaveAutorizada.ShowDialog();
 
@@ -8117,9 +8136,13 @@ namespace CapaVisual_Login
                     this.DgvListadoOrdenes.Enabled = true;
                     //Corrección IA: No habilitar BtnClientePagador si promo 259 y saldo ref <= 300
                     if (_D_DetalleOrden.OrdenTieneProm259(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv) && TB_CAORDSER.OrSer_Saldo_Mon <= 300)
+                    {
                         this.BtnClientePagador.Enabled = false;
+                    }
                     else
+                    {
                         this.BtnClientePagador.Enabled = true;
+                    }
                     //Fin Corrección IA
                     this.btnIngresar.Enabled = true;
                     LLenar_Datos_Convencional();
