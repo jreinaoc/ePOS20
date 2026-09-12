@@ -54,6 +54,8 @@
   <ItemGroup>
     <Compile Include="Class1.cs" />
     <Compile Include="GiftCardService.cs" />
+    <Compile Include="ConsolidadosService.cs" />
+    <Compile Include="Modelos\AccCtePpalResponse.cs" />
     <Compile Include="Modelos\CasheaPosResponse.cs" />
     <Compile Include="CasheaService.cs" />
     <Compile Include="Modelos\GiftCardPosResponse.cs" />

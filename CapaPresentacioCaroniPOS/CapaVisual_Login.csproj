@@ -746,6 +746,18 @@
     <None Include="Resources\icons8-salir-96.png" />
     <None Include="Resources\icons8-verificar-100.png" />
     <None Include="Resources\icons8-eye-test-100.1.png" />
+    <Content Include="Resources\quorum_consulta.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\quorum_ok.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\quorum_error.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\quorum_sinconexion.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="bin\Debug\relojArena.ico" />
     <None Include="bin\Debug\relojArena %281%29.ico" />
     <Content Include="CaroniposLogoAplicacion.ico" />

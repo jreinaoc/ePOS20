@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +23,9 @@ using System.Text.RegularExpressions;
 using CapaLogica.Servicios;
 using CapaDatos.Anulacion;
 using CapaLogica.GiftCard_Logica;
+using CapaLogica.Cashea_Logica;
+using CapaServiciosExternos;
+using CapaServiciosExternos.Modelos;
 
 
 namespace CapaVisual_Login
@@ -289,6 +293,21 @@ namespace CapaVisual_Login
         private L_Cliente l_Cliente = new L_Cliente();
         private L_Laboratorio _L_Laboratorio = new L_Laboratorio();
         private L_ServicioLab _servicioLogica = new L_ServicioLab();
+        private L_Cashea _L_Cashea = new L_Cashea();
+        private ConsolidadosService _ConsolidadosService = new ConsolidadosService();
+        private bool _consultandoConsolidado = false;
+        private bool _clienteDesdeConsolidado = false;
+        private AccCtePpalResponse _clienteConsolidadoOriginal = null;
+        private bool _clientePostPendiente = false;
+        private string _ultimaCedulaBusqueda = "";
+        private string _ultimaNacioBusqueda = "";
+
+        // Imágenes de estado del consolidado
+        private Image _imgConsulta;
+        private Image _imgOk;
+        private Image _imgError;
+        private Image _imgSinConexion;
+        private Timer _timerConsolidado;
 
 
 
@@ -304,7 +323,7 @@ namespace CapaVisual_Login
         private CapaLogica.CargarOrdenes_Logica.L_Examen _L_Examen = new CapaLogica.CargarOrdenes_Logica.L_Examen(); // Especifica el namespace completo
 
 
-        //        private L_Cliente _L_Cliente = new L_Cliente(); // Instancia de la capa lógica
+        //        private L_Cliente _L_Cliente = new L_Cliente();
 
 
         private List<TB_CTEPPAL> listaDeClientes = new List<TB_CTEPPAL>();
@@ -4887,8 +4906,24 @@ else if (tabControl.SelectedIndex == 1)
             //TopeExamen = 0;
             if (validarvacio())
             {
+                // Evita doble clic: deshabilita el botón mientras se procesa
+                Btn_Tap1_Guardar.Enabled = false;
 
                 guardacliente();
+
+                // [PENDIENTE FUTURO] Sincronización con el consolidado (PUT/POST al guardar)
+                // Descomentar cuando se requiera sincronizar con el consolidado.
+                //
+                // PUT: si el cliente vino del consolidado y hubo cambios en Nombre/Mail/Teléfonos
+                //if (_clienteDesdeConsolidado && ClienteConsolidadoTieneCambios())
+                //{
+                //    ActualizarClienteConsolidadoAsync();
+                //}
+                // POST: si el cliente no existe ni local ni en consolidado (GET 404 confirmado)
+                //else if (_clientePostPendiente)
+                //{
+                //    CrearClienteConsolidadoAsync();
+                //}
 
                 IrAlUltimoExamen();
                 btnExamen.Focus();
@@ -4931,6 +4966,42 @@ else if (tabControl.SelectedIndex == 1)
               // Optional: Set the background color for the content area of each tab page
               // (This is separate from the tab headers handled by DrawItem)
               codigoSucursal = _D_DetalleOrden.TB_PARAMETRO("SucursalId");
+
+            // Carga la URL del API de consolidados desde la BD (SP_CPOS_GetConfigServiciosExternos)
+            CargarConfiguracionConsolidados();
+
+            // Evento click para reintento de consulta al consolidado (timeout)
+            Txt_Tap1_Nombre.Click += Txt_Tap1_Nombre_Click_Retry;
+
+            // Al interactuar con cualquier campo del Tab1, se limpia el mensaje informativo
+            // de quorum (timeout o "no registrado") para que no se guarde como nombre.
+            Txt_Tap1_Cedula.Enter += (s, ev) => LimpiarMensajeConsolidado();
+            Cbx_Tap1_Nacionalidad.Enter += (s, ev) => LimpiarMensajeConsolidado();
+            Txt_Tap1_TLF_Celular.Enter += (s, ev) => LimpiarMensajeConsolidado();
+            Txt_Tap1_TLF_Local.Enter += (s, ev) => LimpiarMensajeConsolidado();
+
+            // Carga imágenes de estado del consolidado y configura timer de parpadeo
+            // Producción: imágenes junto al exe | Desarrollo: en subcarpeta Resources
+            string basePath = Application.StartupPath;
+            string resourcesPath = Path.Combine(basePath, "Resources");
+            if (File.Exists(Path.Combine(resourcesPath, "quorum_consulta.png")))
+            {
+                // Desarrollo (VS): bin\Debug\Resources\
+            }
+            else if (File.Exists(Path.Combine(basePath, "quorum_consulta.png")))
+            {
+                // Producción: junto al exe
+                resourcesPath = basePath;
+            }
+
+            _imgConsulta = LoadImageSafe(resourcesPath, "quorum_consulta.png");
+            _imgOk = LoadImageSafe(resourcesPath, "quorum_ok.png");
+            _imgError = LoadImageSafe(resourcesPath, "quorum_error.png");
+            _imgSinConexion = LoadImageSafe(resourcesPath, "quorum_sinconexion.png");
+
+            _timerConsolidado = new Timer();
+            _timerConsolidado.Interval = 600;
+            _timerConsolidado.Tick += TimerConsolidado_Tick;
 
             foreach (TabPage page in tabControl.TabPages)
             {
@@ -6374,15 +6445,32 @@ else if (tabControl.SelectedIndex == 1)
 
 
 
-            if (e.KeyCode == Keys.Enter)
+if (e.KeyCode == Keys.Enter)
             {
+                // Siempre limpia el indicador visual del consolidado al intentar buscar
+                _timerConsolidado.Stop();
+                Pic_ConsolidadoStatus.Visible = false;
+                Pic_ConsolidadoStatus.Image = null;
+
+                string cedulaActual = Txt_Tap1_Cedula.Text.Trim();
+                string cedulaAnterior = _clienteConsolidadoOriginal?.Cedula ?? "";
+
+                // Si la cédula cambió (ej: se escribió otra cédula sobre la del consolidado),
+                // limpiar el nombre y relanzar la búsqueda.
+                if (!string.IsNullOrEmpty(Txt_Tap1_Nombre.Text) && cedulaActual != cedulaAnterior)
+                {
+                    LimpiarCampos2();
+                    Txt_Tap1_Nombre.Text = "";
+                    Txt_Tap1_Cedula.Enabled = true;
+                    Cbx_Tap1_Nacionalidad.Enabled = true;
+                }
 
                 if (string.IsNullOrEmpty(Txt_Tap1_Nombre.Text))
                 {
                     LimpiarCampos2();
                     // Llama al evento MouseLeave de Txt_Tap1_Cedula
                     Txt_Tap1_Cedula_MouseLeave(sender, e); // Llama al evento como si fuera un MouseLeave
-                                                           // Establece el foco en Txt_Tap1_Nombre
+                                                            // Establece el foco en Txt_Tap1_Nombre
                     Txt_Tap1_Nombre.Focus();
                 }
                 // Verifica si Txt_Tap1_Nombre no está vacío y bloquea los campos si es necesario
@@ -6445,7 +6533,7 @@ else if (tabControl.SelectedIndex == 1)
             limpearExamen();
         }
 
-        public void Txt_Tap1_Cedula_MouseLeave(object sender, EventArgs e)
+        public async void Txt_Tap1_Cedula_MouseLeave(object sender, EventArgs e)
         {
 
             if (string.IsNullOrEmpty(Txt_Tap1_Nombre.Text))
@@ -6504,6 +6592,11 @@ else if (tabControl.SelectedIndex == 1)
                             LimpiarCampos2();
                             //llenarcampos();
                             // Opcionalmente, puedes limpiar las otras cajas de texto o deshabilitarlas.
+                            // No se encontró en la BD local -> consultar el consolidado vía API
+                            if (chkConsultaConsolidado.Checked)
+                            {
+                                await BuscarClienteEnConsolidadoAsync(cedula, nacio);
+                            }
                         }
                     }
                     catch (Exception ex)
@@ -6511,6 +6604,390 @@ else if (tabControl.SelectedIndex == 1)
                         MessageBox.Show($"Ocurrió un error al obtener la información del cliente: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// Carga la URL del API de consolidados desde la BD local (SP_CPOS_GetConfigServiciosExternos,
+        /// servicio "CONSOLIDADOS"), mismo patrón que CargarConfiguracionCashea/GiftCard.
+        /// </summary>
+        public void CargarConfiguracionConsolidados()
+        {
+            try
+            {
+                string nombreCajaActual = Environment.MachineName;
+                DataTable dt = _L_Cashea.ObtenerConfigCashea("CONSOLIDADOS", nombreCajaActual);
+
+                if (dt == null || dt.Rows.Count == 0)
+                {
+                    ConfigServiciosExternos.Consolidados_BaseUrl = "";
+                    return;
+                }
+
+                foreach (DataRow row in dt.Rows)
+                {
+                    string nombre = row["Parametro"].ToString();
+                    string valorCifrado = row["Valor"].ToString();
+
+                    switch (nombre)
+                    {
+                        case "Consolidados_BaseUrl":
+                            ConfigServiciosExternos.Consolidados_BaseUrl = ConfigServiciosExternos.Decodificar(valorCifrado);
+                            break;
+                    }
+                }
+
+                if (string.IsNullOrEmpty(ConfigServiciosExternos.Consolidados_BaseUrl))
+                {
+                    ConfigServiciosExternos.Consolidados_BaseUrl = "";
+                }
+            }
+            catch (Exception ex)
+            {
+                ConfigServiciosExternos.Consolidados_BaseUrl = "";
+                // No se interrumpe el flujo del formulario si falla la carga de configuración.
+            }
+        }
+
+        /// <summary>
+        /// Consulta el cliente en el consolidado (API WebApplication5) cuando no existe en la BD local.
+        /// Si lo encuentra, rellena los campos disponibles; si no, no hace nada.
+        /// </summary>
+        private async Task BuscarClienteEnConsolidadoAsync(string cedula, string nacio)
+        {
+            // Evita doble envío mientras hay una consulta en curso
+            if (_consultandoConsolidado)
+            {
+                return;
+            }
+            _consultandoConsolidado = true;
+
+            try
+            {
+                // Guarda los parámetros por si se necesita reintentar
+                _ultimaCedulaBusqueda = cedula;
+                _ultimaNacioBusqueda = nacio;
+
+                // Indicador visual minimalista mientras consulta el consolidado
+                Txt_Tap1_Cedula.Enabled = false;
+                MostrarEstadoConsolidado(_imgConsulta, animar: true);
+                Application.DoEvents();
+
+                var resultado = await _ConsolidadosService.GetClienteAsync(cedula, nacio);
+
+                if (resultado.IsSuccess && resultado.Data != null)
+                {
+                    var cli = resultado.Data;
+
+                    // Registra que este cliente vino del consolidado y guarda los valores
+                    // originales para poder comparar cambios y reconstruir el body del PUT.
+                    _clienteDesdeConsolidado = true;
+                    _clienteConsolidadoOriginal = cli;
+                    // No aplica POST: el cliente sí existe en el consolidado
+                    _clientePostPendiente = false;
+
+                    // Nacionalidad
+                    if (!string.IsNullOrEmpty(cli.CtENacio))
+                    {
+                        Cbx_Tap1_Nacionalidad.Text = cli.CtENacio;
+                    }
+
+                    // Cédula
+                    if (!string.IsNullOrEmpty(cli.Cedula))
+                    {
+                        Txt_Tap1_Cedula.Text = cli.Cedula;
+                        Txt_Pnl2_Cedula.Text = cli.CtENacio + "-" + cli.Cedula;
+                    }
+
+                    // Nombre
+                    if (!string.IsNullOrEmpty(cli.Nombre))
+                    {
+                        Txt_Tap1_Nombre.Enabled = true;
+                        Txt_Tap1_Nombre.Text = cli.Nombre;
+                        Txt_Pnl_2_Nombre.Text = cli.Nombre;
+                    }
+
+                    // Apellido (si el formulario tiene campo, no lo usa; se conserva en Txt_Tap1_Nombre)
+                    if (!string.IsNullOrEmpty(cli.Apellido) && string.IsNullOrEmpty(Txt_Tap1_Nombre.Text))
+                    {
+                        Txt_Tap1_Nombre.Enabled = true;
+                        Txt_Tap1_Nombre.Text = cli.Apellido;
+                        Txt_Pnl_2_Nombre.Text = cli.Apellido;
+                    }
+
+                    // Mail
+                    if (!string.IsNullOrEmpty(cli.Mail))
+                    {
+                        Txt_Tap1_Email.Text = cli.Mail;
+                        Txt_Tap1_Email.Enabled = true;
+                    }
+
+                    // Teléfonos
+                    AsignarTelefonoConsolidado(Cbx_Tap1_TLF_Celular, Txt_Tap1_TLF_Celular, cli.TlfCel);
+                    if (string.IsNullOrEmpty(cli.TlfHab))
+                    {
+                        AsignarTelefonoConsolidado(Cbx_Tap1_TLF_Local, Txt_Tap1_TLF_Local, cli.TlfOfic);
+                    }
+                    else
+                    {
+                        AsignarTelefonoConsolidado(Cbx_Tap1_TLF_Local, Txt_Tap1_TLF_Local, cli.TlfHab);
+                    }
+
+                    btnExamen.Enabled = true;
+
+                    // ✅ Check verde: cliente encontrado en quorum
+                    _timerConsolidado.Stop();
+                    Pic_ConsolidadoStatus.Image = _imgOk;
+                    Pic_ConsolidadoStatus.Visible = true;
+                }
+                else
+                {
+                    // El cliente NO existe en el consolidado:
+                    //  - 404 (confirmado) -> al Guardar se creará con POST
+                    //  - 400/500 (API caída, timeout, sin config) -> NO se hace POST
+                    //    porque no se pudo confirmar que el cliente no exista (evita duplicados).
+                    _clientePostPendiente = (resultado.StatusCode == 404);
+
+                    _timerConsolidado.Stop();
+                    if (resultado.StatusCode == 404)
+                    {
+                        // X roja: cliente no registrado en quorum
+                        Pic_ConsolidadoStatus.Image = _imgError;
+                    }
+                    else
+                    {
+                        // X con nube: timeout o sin conexión
+                        Pic_ConsolidadoStatus.Image = _imgSinConexion;
+                    }
+                    Pic_ConsolidadoStatus.Visible = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                // Silencioso: no romper el flujo de carga de la orden
+                // (se deja el formulario limpio, igual que si no hubiera cliente)
+            }
+            finally
+            {
+                _consultandoConsolidado = false;
+                Txt_Tap1_Cedula.Enabled = true;
+
+                // Si el nombre se llenó desde el consolidado, detiene la animación.
+                // Si hubo error (404/timeout), la imagen se queda visible.
+                if (!string.IsNullOrEmpty(Txt_Tap1_Nombre.Text))
+                {
+                    _timerConsolidado.Stop();
+                    Pic_ConsolidadoStatus.Visible = true;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Asigna un teléfono completo (ej: 04141234567) separando el código del número
+        /// en los controles Cbx (código) + Txt (número), igual que hace llenarcampos().
+        /// </summary>
+        private void AsignarTelefonoConsolidado(ComboBox cbCodigo, TextBox txtNumero, string telefonoCompleto)
+        {
+            if (string.IsNullOrEmpty(telefonoCompleto))
+            {
+                return;
+            }
+
+            string telefonoLimpio = new string(telefonoCompleto.Where(char.IsDigit).ToArray());
+
+            // Separar código (4 dígitos) del número (resto) si el largo lo permite
+            if (telefonoLimpio.Length >= 7)
+            {
+                string codigo2 = telefonoLimpio.Substring(0, telefonoLimpio.Length - 7);
+                string numero = telefonoLimpio.Substring(telefonoLimpio.Length - 7);
+
+                bool encontrado = false;
+                foreach (object item in cbCodigo.Items)
+                {
+                    if (item != null && item.ToString() == codigo2)
+                    {
+                        cbCodigo.SelectedItem = item;
+                        encontrado = true;
+                        break;
+                    }
+                }
+
+                txtNumero.Text = numero;
+                txtNumero.Enabled = true;
+            }
+            else
+            {
+                txtNumero.Text = telefonoLimpio;
+                txtNumero.Enabled = true;
+            }
+        }
+
+        /// <summary>
+        /// Compara los campos editables del formulario contra los valores originales
+        /// que vinieron del consolidado (GET). True = hay cambios que sincronizar vía PUT.
+        /// </summary>
+        private bool ClienteConsolidadoTieneCambios()
+        {
+            if (!_clienteDesdeConsolidado || _clienteConsolidadoOriginal == null)
+            {
+                return false;
+            }
+
+            string nombreActual = Txt_Tap1_Nombre.Text.Trim();
+            string mailActual = Txt_Tap1_Email.Text.Trim();
+            string celularActual = ObtenerTelefonoCompleto(Cbx_Tap1_TLF_Celular, Txt_Tap1_TLF_Celular);
+            string localActual = ObtenerTelefonoCompleto(Cbx_Tap1_TLF_Local, Txt_Tap1_TLF_Local);
+
+            bool nombreCambio = !string.Equals(nombreActual, _clienteConsolidadoOriginal.Nombre ?? "", StringComparison.OrdinalIgnoreCase);
+            bool mailCambio = !string.Equals(mailActual, _clienteConsolidadoOriginal.Mail ?? "", StringComparison.OrdinalIgnoreCase);
+            bool celularCambio = !string.Equals(celularActual, _clienteConsolidadoOriginal.TlfCel ?? "", StringComparison.OrdinalIgnoreCase);
+            bool localCambio = !string.Equals(localActual, _clienteConsolidadoOriginal.TlfHab ?? "", StringComparison.OrdinalIgnoreCase);
+
+            return nombreCambio || mailCambio || celularCambio || localCambio;
+        }
+
+        /// <summary>
+        /// Concatena el código (ComboBox) + número (TextBox) de un teléfono del formulario.
+        /// Ej: Cbx="0414" + Txt="1234567" -> "04141234567".
+        /// </summary>
+        private string ObtenerTelefonoCompleto(ComboBox cbCodigo, TextBox txtNumero)
+        {
+            string codigo = cbCodigo != null ? cbCodigo.Text.Trim() : "";
+            string numero = txtNumero != null ? txtNumero.Text.Trim() : "";
+            return (codigo + numero).Trim();
+        }
+
+        /// <summary>
+        /// Dispara el PUT al consolidado (fire-and-forget). Solo se llama cuando el cliente
+        /// vino del consolidado y hubo cambios. No bloquea el flujo del Guardar.
+        /// </summary>
+        private async void ActualizarClienteConsolidadoAsync()
+        {
+            string cedula = "";
+            string nacio = "";
+
+            try
+            {
+                // Datos de ruta: la PK en el consolidado (original del GET), no la que pueda
+                // haber quedado en pantalla.
+                if (_clienteConsolidadoOriginal == null || string.IsNullOrEmpty(_clienteConsolidadoOriginal.Cedula))
+                {
+                    return;
+                }
+
+                cedula = _clienteConsolidadoOriginal.Cedula;
+                nacio = _clienteConsolidadoOriginal.CtENacio;
+
+                // Reconstruir el DTO completo: originales + campos editables del formulario.
+                // IMPORTANTE: la API sobrescribe TODOS los atributos con el body, por eso se
+                // deben enviar también los campos no editables (tal cual vinieron del GET).
+                var actualizado = new AccCtePpalResponse
+                {
+                    CodSucursal = _clienteConsolidadoOriginal.CodSucursal,
+                    Cedula = _clienteConsolidadoOriginal.Cedula,
+                    CtENacio = _clienteConsolidadoOriginal.CtENacio,
+                    UltCompra = _clienteConsolidadoOriginal.UltCompra,
+                    Nombre = Txt_Tap1_Nombre.Text.Trim(),
+                    Apellido = _clienteConsolidadoOriginal.Apellido,
+                    TipVen = _clienteConsolidadoOriginal.TipVen,
+                    TlfHab = ObtenerTelefonoCompleto(Cbx_Tap1_TLF_Local, Txt_Tap1_TLF_Local),
+                    TlfOfic = _clienteConsolidadoOriginal.TlfOfic,
+                    TlfCel = ObtenerTelefonoCompleto(Cbx_Tap1_TLF_Celular, Txt_Tap1_TLF_Celular),
+                    Facebook = _clienteConsolidadoOriginal.Facebook,
+                    Twitter = _clienteConsolidadoOriginal.Twitter,
+                    Instagram = _clienteConsolidadoOriginal.Instagram,
+                    Mail = Txt_Tap1_Email.Text.Trim(),
+                    IpEnvio = _clienteConsolidadoOriginal.IpEnvio,
+                    FechaRegistroWeb = _clienteConsolidadoOriginal.FechaRegistroWeb
+                };
+
+                var resultado = await _ConsolidadosService.ActualizarClienteAsync(cedula, nacio, actualizado);
+
+                if (resultado.IsSuccess)
+                {
+                    // Tras el PUT exitoso, el "original" pasa a ser el estado actual del form,
+                    // evitando reenviar el PUT si se vuelve a pulsar Guardar sin nuevos cambios.
+                    _clienteConsolidadoOriginal = actualizado;
+                }
+                else
+                {
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje("No se pudo actualizar el cliente en el consolidado." + Environment.NewLine + resultado.Message);
+                    if (!_FrmMensajes.Visible) _FrmMensajes.ShowDialog();
+                }
+            }
+            catch (Exception ex)
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("Error al actualizar el consolidado: " + ex.Message);
+                if (!_FrmMensajes.Visible) _FrmMensajes.ShowDialog();
+            }
+        }
+
+        /// <summary>
+        /// Crea el cliente en el consolidado vía POST (fire-and-forget).
+        /// Solo se llama cuando el GET del consolidado devolvió 404 (nos consta que no existe).
+        /// </summary>
+        private async void CrearClienteConsolidadoAsync()
+        {
+            try
+            {
+                string codSucursal = _D_DetalleOrden.TB_PARAMETRO("SucursalId");
+                string cedula = Txt_Tap1_Cedula.Text.Trim();
+                string nacio = Cbx_Tap1_Nacionalidad.Text.Trim();
+
+                if (string.IsNullOrEmpty(codSucursal) || string.IsNullOrEmpty(cedula) || string.IsNullOrEmpty(nacio))
+                {
+                    return;
+                }
+
+                var nuevoCliente = new AccCtePpalResponse
+                {
+                    CodSucursal = codSucursal,
+                    Cedula = cedula,
+                    CtENacio = nacio,
+                    UltCompra = DateTime.Now,          // getdate()
+                    Nombre = Txt_Tap1_Nombre.Text.Trim(),
+                    Apellido = "",
+                    TipVen = "",
+                    TlfHab = ObtenerTelefonoCompleto(Cbx_Tap1_TLF_Local, Txt_Tap1_TLF_Local),
+                    TlfOfic = "",
+                    TlfCel = ObtenerTelefonoCompleto(Cbx_Tap1_TLF_Celular, Txt_Tap1_TLF_Celular),
+                    Facebook = "",
+                    Twitter = "",
+                    Instagram = "",
+                    Mail = Txt_Tap1_Email.Text.Trim(),
+                    IpEnvio = ConfigServiciosExternos.Consolidados_BaseUrl,   // la IP por donde salió (ej: http://localhost:49010)
+                    FechaRegistroWeb = DateTime.Now   // getdate()
+                };
+
+                var resultado = await _ConsolidadosService.CrearClienteAsync(nuevoCliente);
+
+                if (resultado.IsSuccess)
+                {
+                    // Creado correctamente; ya no debe intentarse otro POST.
+                    _clientePostPendiente = false;
+                }
+                else if (resultado.StatusCode == 409)
+                {
+                    // 409 Conflict -> el cliente ya existe en consolidado (no es error real).
+                    _clientePostPendiente = false;
+                }
+                else
+                {
+                    // 409 -> ya existe en consolidado (no debería pasar si el GET dio 404,
+                    //        pero puede ocurrir por concurrencia).
+                    // 400/500 -> API caída, timeout o sin config.
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje("No se pudo crear el cliente en el consolidado." + Environment.NewLine + resultado.Message);
+                    if (!_FrmMensajes.Visible) _FrmMensajes.ShowDialog();
+                }
+            }
+            catch (Exception ex)
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("Error al crear el cliente en el consolidado: " + ex.Message);
+                if (!_FrmMensajes.Visible) _FrmMensajes.ShowDialog();
             }
         }
 
@@ -7793,6 +8270,17 @@ else if (tabControl.SelectedIndex == 1)
 
         private void LimpiarCampos2()
         {
+            // Reinicia el rastreo del cliente proveniente del consolidado (GET/PUT/POST)
+            _clienteDesdeConsolidado = false;
+            _clienteConsolidadoOriginal = null;
+            _clientePostPendiente = false;
+            Btn_Tap1_Guardar.Enabled = true;
+
+            // Limpia el indicador visual del consolidado
+            _timerConsolidado.Stop();
+            Pic_ConsolidadoStatus.Visible = false;
+            Pic_ConsolidadoStatus.Image = null;
+
             if (Cbx_Tap1_Nacionalidad.Text == "")
             {
                 Cbx_Tap1_Nacionalidad.Text = "V";
@@ -16178,18 +16666,24 @@ else if (tabControl.SelectedIndex == 1)
                     }
                 }
 
-                // Ahora sí, iniciar edición
-                dgv.BeginEdit(false);
-                dgv.EndEdit();
+                // Solo intentar editar si el grid está completamente listo
+                if (dgv.Rows.Count > 0 && dgv.CurrentCell != null && dgv.IsCurrentCellInEditMode)
+                {
+                    dgv.EndEdit();
+                }
+            }
+            catch (NullReferenceException)
+            {
+                // El control de edición no está disponible (grid recién cargado)
+                dgv.Focus();
             }
             catch (InvalidCastException)
             {
-                // Si aún falla, intentar sin BeginEdit
+                // Si aún falla, intentar sin EndEdit
                 dgv.Focus();
             }
             catch (Exception ex)
             {
-                // Log del error si es necesario
                 Console.WriteLine($"Error en navegación: {ex.Message}");
                 dgv.Focus();
             }
@@ -16532,6 +17026,65 @@ else if (tabControl.SelectedIndex == 1)
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        /// <summary>
+        /// Click en Txt_Tap1_Nombre: limpia el estado del consolidado.
+        /// </summary>
+        private void Txt_Tap1_Nombre_Click_Retry(object sender, EventArgs e)
+        {
+            LimpiarMensajeConsolidado();
+        }
+
+        /// <summary>
+        /// Limpia el PictureBox de estado del consolidado y detiene la animación.
+        /// </summary>
+        private void LimpiarMensajeConsolidado()
+        {
+            _timerConsolidado.Stop();
+            Pic_ConsolidadoStatus.Visible = false;
+            Pic_ConsolidadoStatus.Image = null;
+        }
+
+        /// <summary>
+        /// Muestra una imagen de estado en el PictureBox junto al nombre.
+        /// </summary>
+        private void MostrarEstadoConsolidado(Image img, bool animar = false)
+        {
+            _timerConsolidado.Stop();
+            Pic_ConsolidadoStatus.Image = img;
+            Pic_ConsolidadoStatus.Visible = true;
+
+            if (animar)
+            {
+                Pic_ConsolidadoStatus.Visible = true;
+                _timerConsolidado.Start();
+            }
+        }
+
+        /// <summary>
+        /// Evento del Timer: parpadeo de la imagen de búsqueda.
+        /// </summary>
+        private void TimerConsolidado_Tick(object sender, EventArgs e)
+        {
+            Pic_ConsolidadoStatus.Visible = !Pic_ConsolidadoStatus.Visible;
+        }
+
+        /// <summary>
+        /// Carga una imagen de forma segura. Si no existe, retorna null.
+        /// </summary>
+        private Image LoadImageSafe(string folder, string fileName)
+        {
+            string path = Path.Combine(folder, fileName);
+            if (File.Exists(path))
+            {
+                // Carga en memoria para no bloquear el archivo
+                using (var fs = new FileStream(path, FileMode.Open, FileAccess.Read))
+                {
+                    return Image.FromStream(fs);
+                }
+            }
+            return null;
         }
     }
 

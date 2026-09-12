@@ -16,6 +16,8 @@ namespace CapaEntidades
         public static string GiftCard_ConsumerKey { get; set; }
         public static string GiftCard_ConsumerSecret { get; set; }
         public static string GiftCard_BaseUrl { get; set; }
+
+        public static string Consolidados_BaseUrl { get; set; }
       
 
         /// <summary>

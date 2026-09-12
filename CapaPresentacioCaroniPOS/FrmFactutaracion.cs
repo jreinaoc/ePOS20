@@ -156,7 +156,7 @@ namespace CapaVisual_Login
             FormatoDataGrid();
             lbTasa.Text = String.Format(CultureInfo.InvariantCulture, "{0:0.00}", Math.Round(Convert.ToDouble(TB_TASA_Dolar.Tasa), 2)).Replace(".", ",");
             _L_Facturacion.ComboboxTipoTarjeta(CbxTarjeta);
-            DtpFecha.Text = DateTime.UtcNow.ToShortDateString();
+            DtpFecha.Text = DateTime.Now.ToShortDateString();
             //CbxMetodosPago.SelectedIndex = 2;
             TxtNumFact.Text = _D_DetalleOrden.ParametroSerieManual();
 
@@ -989,7 +989,7 @@ namespace CapaVisual_Login
             TxtCedularPagoMovil.Text = "";
             TxtRecibidoREF.Text = "";
 
-            DtpFecha.Text = DateTime.UtcNow.ToShortDateString();
+            DtpFecha.Text = DateTime.Now.ToShortDateString();
 
             // ----------------------14/08/2023--------------------------------------
             label41.Location = new Point(4, 43);
@@ -1526,7 +1526,7 @@ namespace CapaVisual_Login
                             /*JM:100226  sustituir "021" con CbxMetodosPago2.SelectedValue.ToString()
                             _L_Facturacion.GuardarAbonoGrid(idAbonoPagoMovil, Dt_Abonos, CbxMetodosPago2.Text, CbxMoneda.Text, CbxBanco.Text, txtMonto2Bs.Text, "0000", DtpFecha.Value.ToString(), "021", CbxBanco.SelectedValue.ToString(), "", TxtVuelto.Text, txtRef.Text, txtIGTF.Text);*/
 
-                            _L_Facturacion.GuardarAbonoGrid(idAbonoPagoMovil, Dt_Abonos, CbxMetodosPago2.Text, CbxMoneda.Text, CbxBanco.Text, txtMonto2Bs.Text, "0000", DtpFecha.Value.ToString(), CbxMetodosPago2.SelectedValue.ToString(), CbxBanco.SelectedValue.ToString(), "", TxtVuelto.Text, txtRef.Text, txtIGTF.Text);
+                            _L_Facturacion.GuardarAbonoGrid(idAbonoPagoMovil, Dt_Abonos, CbxMetodosPago2.Text, CbxMoneda.Text, CbxBanco.Text, txtMonto2Bs.Text, "0000", DtpFecha.Value.ToString(), CbxMetodosPago2.SelectedValue.ToString(), "007", "007", TxtVuelto.Text, txtRef.Text, txtIGTF.Text);
 
                             BolivaresConveridos(Convert.ToDouble(_L_Facturacion.CalcularNuevoTotalOrden(DgvAbonos)), txtMontoBs);
                             //-----------ConvertirBolivares---------------------------
@@ -3966,7 +3966,7 @@ namespace CapaVisual_Login
                         txtIGTF.Visible = false;
                         label21.Visible = false;
                         DtpFecha.Visible = false;
-                        DtpFecha.Text = DateTime.UtcNow.ToShortDateString();
+                        DtpFecha.Text = DateTime.Now.ToShortDateString();
                         label6.Visible = false;
                         TxtVuelto.Visible = false;
                         CbxMetodosPago2.Visible = true;
@@ -4507,7 +4507,7 @@ namespace CapaVisual_Login
                             txtIGTF.Visible = false;
                             label21.Visible = false;
                             DtpFecha.Visible = false;
-                            DtpFecha.Text = DateTime.UtcNow.ToShortDateString();
+                            DtpFecha.Text = DateTime.Now.ToShortDateString();
                             label6.Visible = false;
                             TxtVuelto.Visible = false;
                             CbxMetodosPago2.Visible = true;
@@ -4637,7 +4637,7 @@ namespace CapaVisual_Login
                     txtIGTF.Visible = false;
                     label21.Visible = false;
                     DtpFecha.Visible = false;
-                    DtpFecha.Text = DateTime.UtcNow.ToShortDateString();
+                    DtpFecha.Text = DateTime.Now.ToShortDateString();
                     label6.Visible = false;
                     TxtVuelto.Visible = false;
                     CbxMetodosPago2.Visible = true;

@@ -79,14 +79,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CapaEntidades.dll" size="121856">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CapaEntidades.dll" size="122368">
       <assemblyIdentity name="CapaEntidades" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>C7KMym6hr6LpHE3eFFrXViytH7vLQSbkckt2fYq4xfc=</dsig:DigestValue>
+        <dsig:DigestValue>jSwbpg8hxRIjoJFoHPzEICeL02zjql4VDtCRJ3S/3cs=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -103,14 +103,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CapaServiciosExternos.dll" size="55296">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CapaServiciosExternos.dll" size="64512">
       <assemblyIdentity name="CapaServiciosExternos" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>JzjMwJimVCQTGPQn2sMM/q7vhnliBunJ8DYulJg70qQ=</dsig:DigestValue>
+        <dsig:DigestValue>mqgSRRkSXfKXEVqhJ3Fn+Aq5MtZmcdAXidpklp0L13w=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -223,14 +223,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ePOS.exe" size="3564544">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ePOS.exe" size="3576320">
       <assemblyIdentity name="ePOS" version="1.0.0.2" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>+Fe8NUHoioqZuvLn0OcGrDH2QHgXYdYJ5EF0YEuhgh0=</dsig:DigestValue>
+        <dsig:DigestValue>+ENB+aaB+4+y+mQ1PfqQGy4npM9kibkQWQAmy0yg6h8=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -1351,6 +1351,42 @@
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
       <dsig:DigestValue>mYmRr1Hf5m9SnYeBcg/9GlM3+8x0TYtQQIEC/82FSog=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Resources\quorum_consulta.png" size="15624">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>WnRwOkTDsLoHBuibvlfi8yF4Pb048uqUlfjgFB2q3J0=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Resources\quorum_error.png" size="303">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>IHCB/sXB2Ci1nnvaMSBg+nt+byeavKF0I3TOwvRYtOI=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Resources\quorum_ok.png" size="445">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>W2c1emN/uDV0hM0NNSbG8PAKae454KD5XfHpDV0C/cA=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Resources\quorum_sinconexion.png" size="652">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>fckW7CBVqFJbvZuvZ8Nc7uf1yBMqPVnNudZF1RNXXLw=</dsig:DigestValue>
     </hash>
   </file>
   <file name="x64\SqlServerSpatial160.dll" size="681904">
