@@ -1029,19 +1029,38 @@ namespace CapaDatos.CierreCaja_Datos
                 da.Fill(dt);
                 cmd.Parameters.Clear();
                 return dt;
+}
+        catch (Exception ex)
+        {
+            string Error = string.Format("Error: {0}", ex.Message);
+            EscribirLog(ex.Message.ToString());
+            return null;
+        }
+    }
 
+        //Corrección IA: Backup de base de datos al finalizar cierre de caja
+        public bool EjecutarBackupBD(string rutaCompleta)
+        {
+            try
+            {
+                // BACKUP DATABASE no puede ejecutarse dentro de una transacción,
+                // así que se abre una conexión propia
+                SqlCommand cmd = new SqlCommand(
+                    string.Format("BACKUP DATABASE [{0}] TO DISK = '{1}' WITH INIT, COMPRESSION",
+                        cn.LeerCadena().Database,  // nombre de la BD actual
+                        rutaCompleta),
+                    cn.LeerCadena());
+                cmd.CommandTimeout = 300; // 5 minutos para BDs grandes
+                cmd.ExecuteNonQuery();
+                return true;
             }
             catch (Exception ex)
             {
-                string Error = string.Format("Error: {0}", ex.Message);
-                EscribirLog(ex.Message.ToString());
-                return null;
+                EscribirLog("Backup BD: " + ex.Message);
+                return false;
             }
         }
-
-
-
-
+        //Fin Corrección IA
 
     }
 }

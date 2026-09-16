@@ -1097,5 +1097,32 @@ namespace CapaLogica.CierreCaja_Logica
                 return null;
             }
         }
+
+        //Corrección IA: Ejecuta backup de BD usando parámetro RutaRespaldo
+        public bool EjecutarBackupCierreCaja()
+        {
+            try
+            {
+                // Obtener ruta del parámetro
+                string rutaBackup = _D_DetalleOrden.TB_PARAMETRO("RutaRespaldo");
+                if (string.IsNullOrWhiteSpace(rutaBackup))
+                {
+                    EscribirLog("Backup: Parámetro RutaRespaldo vacío");
+                    return false;
+                }
+
+                string nombreArchivo = string.Format("BDEPOS_{0:yyyyMMdd_HHmmss}.bak", DateTime.Now);
+                string rutaCompleta = Path.Combine(rutaBackup, nombreArchivo);
+
+                return _D_CierreCaja.EjecutarBackupBD(rutaCompleta);
+            }
+            catch (Exception ex)
+            {
+                EscribirLog("Backup Cierre: " + ex.Message);
+                return false;
+            }
+        }
+        //Fin Corrección IA
+
     }
 }

@@ -1164,10 +1164,11 @@ namespace CapaVisual_Login
             string DiaActivo = _D_Inicio.DiaActivo().ToShortDateString();
 
 
-
-            //if (TB_USUARIO.COD_EMPLEADO != "99999")
-            //{
-            if (_D_Inicio.DiaActivo() >= DateTime.Now)
+            if (_D_DetalleOrden.TB_PARAMETRO("AmbDesarrollo") == "0")
+            {
+                //if (TB_USUARIO.COD_EMPLEADO != "99999")
+                //{
+                if (_D_Inicio.DiaActivo() >= DateTime.Now)
             {
                 _FrmMensajes.co = 2;
                 _FrmMensajes.avisomensaje("Imposible cerrar la caja, el día activo es mayor a la fecha de hoy");
@@ -1223,7 +1224,7 @@ namespace CapaVisual_Login
                         return;
                     }
                 }
-            //}
+            }
 
             _FrmCierreDeCaja.CancelarSolicitado(() => BtnInicio.PerformClick());
             PnlListadoOrdenes.Controls.Clear();

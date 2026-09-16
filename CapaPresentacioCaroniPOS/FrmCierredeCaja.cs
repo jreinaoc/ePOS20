@@ -2105,11 +2105,43 @@ namespace CapaVisual_Login
                     FrmPrueba frmReportes = new FrmPrueba();
 
                     frmReportes.ReportesCierreCaja(cierreEncero);
+
+                    //Corrección IA: Backup de base de datos al finalizar cierre de caja
+                    dtLogCierre.Rows.Add("Backup de Base de Datos", "...");
+                    dgvLogCierre.Refresh();
+
+                    if (_L_CierreCaja.EjecutarBackupCierreCaja())
+                    {
+                        foreach (DataRow row in dtLogCierre.Rows)
+                        {
+                            if (row["Descripcion"].ToString() == "Backup de Base de Datos")
+                            {
+                                row["Resultado"] = "✔ Completado";
+                                dgvLogCierre.Refresh();
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        foreach (DataRow row in dtLogCierre.Rows)
+                        {
+                            if (row["Descripcion"].ToString() == "Backup de Base de Datos")
+                            {
+                                row["Resultado"] = "⚠ Fallido (informativo)";
+                                dgvLogCierre.Refresh();
+                                break;
+                            }
+                        }
+                    }
+                    //Fin Corrección IA
+
                 }
                 catch (Exception ex)
                 {
                     button3.Enabled = true;
                     btnCancelar.Enabled = true;
+                    
                     command.Transaction.Rollback();
                     Cursor = System.Windows.Forms.Cursors.Default;
                     //button3.Enabled = true;
