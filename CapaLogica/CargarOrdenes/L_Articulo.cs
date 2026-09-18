@@ -5300,6 +5300,78 @@ namespace CapaLogica.CargarOrdenes
             }
         }
 
+        /// <summary>
+        /// Verifica si la orden con Cristal Propio contiene una montura (codigo que inicia con "M")
+        /// cuyo CodRango pertenece a la lista de rangos restringidos.
+        /// Devuelve true y entrega por referencia la montura y el rango detectados.
+        /// </summary>
+        public bool RequiereClaveGerenteCristalPropio(DataGridView Dgv_Tap3_Articulo, string rangosRestringidos,
+            out string codMonturaDetectada, out string codRangoDetectado)
+        {
+            codMonturaDetectada = "";
+            codRangoDetectado = "";
+
+            try
+            {
+                if (string.IsNullOrWhiteSpace(rangosRestringidos))
+                {
+                    return false;
+                }
+
+                List<string> listaRangos = rangosRestringidos
+                    .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                    .Select(r => r.Trim().ToUpperInvariant())
+                    .Where(r => r.Length > 0)
+                    .ToList();
+
+                if (listaRangos.Count == 0)
+                {
+                    return false;
+                }
+
+                foreach (DataGridViewRow row in Dgv_Tap3_Articulo.Rows)
+                {
+                    if (row.Cells["CodArticulo"].Value == null)
+                    {
+                        continue;
+                    }
+
+                    string codArticulo = row.Cells["CodArticulo"].Value.ToString();
+
+                    // Solo monturas: el codigo inicia con "M"
+                    if (!codArticulo.StartsWith("M", StringComparison.OrdinalIgnoreCase))
+                    {
+                        continue;
+                    }
+
+                    DataTable dt = _D_Articulos.ObtenerCODrango(codArticulo);
+
+                    if (dt != null && dt.Rows.Count > 0 && dt.Columns.Contains("CODrango"))
+                    {
+                        string codRango = (dt.Rows[0]["CODrango"] == null)
+                            ? ""
+                            : dt.Rows[0]["CODrango"].ToString().Trim().ToUpperInvariant();
+
+                        if (listaRangos.Contains(codRango))
+                        {
+                            codMonturaDetectada = codArticulo;
+                            codRangoDetectado = codRango;
+                            return true;
+                        }
+                    }
+                }
+
+                return false;
+            }
+            catch (Exception)
+            {
+                // Si falla la consulta del rango no se bloquea el procesamiento
+                codMonturaDetectada = "";
+                codRangoDetectado = "";
+                return false;
+            }
+        }
+
         public string GuardoDescuento_TB_Log(System.Windows.Forms.DataGridView Dgv_Tap3_Totales, System.Windows.Forms.DataGridView Dgv_Tap3_Articulo, string sucursal, string COD_Aprueba , string NumOrden, string DescripcionLog, Action<string> mostrarError, SqlCommand command)
         {
             try

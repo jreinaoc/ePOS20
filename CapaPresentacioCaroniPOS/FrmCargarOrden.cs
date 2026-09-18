@@ -4224,6 +4224,48 @@ else if (tabControl.SelectedIndex == 1)
                 }
 
 
+                // ===== Cristal Propio: clave de gerente por rango de montura (AR, BR, CR, ZR) =====
+                if (Cristal_Propio == true)
+                {
+                    string rangosClaveGerente;
+                    try
+                    {
+                        rangosClaveGerente = _D_DetalleOrden.TB_PARAMETRO("RangoClaveGer");
+                    }
+                    catch
+                    {
+                        rangosClaveGerente = "";
+                    }
+
+                    // Si el parametro esta vacio o no existe, no se pide clave.
+                    if (!string.IsNullOrWhiteSpace(rangosClaveGerente))
+                    {
+                        string monturaClaveGerente;
+                        string rangoClaveGerente;
+                        if (_L_Articulo.RequiereClaveGerenteCristalPropio(Dgv_Tap3_Articulo, rangosClaveGerente, out monturaClaveGerente, out rangoClaveGerente))
+                        {
+                            FrmClaveAutorizada frmClaveCristalPropio = new FrmClaveAutorizada("019");
+                            frmClaveCristalPropio.ShowDialog();
+
+                            if (!(frmClaveCristalPropio.DialogResult == DialogResult.OK && frmClaveCristalPropio.ClaveCorrecta == true))
+                            {
+                                return;
+                            }
+
+                            try
+                            {
+                                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "117", TB_USUARIO.COD_EMPLEADO,
+                                    $"Cristal Propio con montura {monturaClaveGerente} (Rango {rangoClaveGerente}). Autorizado por: {VariablesGlobales.UsuarioAutorizado_FrmClaveAutorizada} ({VariablesGlobales.CodigoUsuarioAutorizado_FrmClaveAutorizada})");
+                            }
+                            catch
+                            {
+                                // La auditoria no debe bloquear el procesamiento
+                            }
+                        }
+                    }
+                }
+                // ===== Fin Cristal Propio: clave de gerente por rango de montura =====
+
                 string codModo = Cbx_Pnl2_Trbajo.SelectedValue?.ToString();
                 string tipoTrabajoVenta = _L_Articulo.ObtenerTipoVentaPorModo(codModo);
 
