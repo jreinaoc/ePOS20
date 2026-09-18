@@ -7566,6 +7566,9 @@ namespace CapaVisual_Login
                                     await _lGiftCard.DebitarSaldoGiftCard(_codigoGiftCardValidado, _montoAplicadoGiftCardValidado, _idgiftCardWebValidado)
                                 ).GetAwaiter().GetResult();
 
+                                // Auditoría: trazabilidad de llamada al API GiftCard - Débito (patrón Cashea)
+                                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "115", TB_USUARIO.COD_EMPLEADO, $"Url: {resultado.Url} Resultado: - HTTP {resultado.StatusCode} - {resultado.Message}");
+
                                 // 4. Evaluamos la respuesta estandarizada
                                 if (resultado.IsSuccess)
                                 {
@@ -7604,6 +7607,9 @@ namespace CapaVisual_Login
                             var resultado = Task.Run(async () =>
                                 await _lGiftCard.DebitarSaldoGiftCard(_codigoGiftCardValidado, _montoAplicadoGiftCardValidado, _idgiftCardWebValidado)
                             ).GetAwaiter().GetResult();
+
+                            // Auditoría: trazabilidad de llamada al API GiftCard - Débito (patrón Cashea)
+                            _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "115", TB_USUARIO.COD_EMPLEADO, $"Url: {resultado.Url} Resultado: - HTTP {resultado.StatusCode} - {resultado.Message}");
 
                             // 4. Evaluamos la respuesta estandarizada
                             if (resultado.IsSuccess)
@@ -11195,6 +11201,9 @@ namespace CapaVisual_Login
                 // 3. Invocar de manera asíncrona la capa lógica
                 var resultado = await _lGiftCard.CrearNuevaGiftCard(request);
 
+                // Auditoría: trazabilidad de llamada al API GiftCard - Creación (patrón Cashea)
+                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "116", TB_USUARIO.COD_EMPLEADO, $"Url: {resultado.Url} Resultado: - HTTP {resultado.StatusCode} - {resultado.Message}");
+
                 //MessageBox.Show("paso capa lógica CrearNuevaGiftCard");
                 // 4. Evaluar la respuesta estandarizada
                 if (resultado.IsSuccess)
@@ -11259,6 +11268,9 @@ namespace CapaVisual_Login
                 }
 
                 var resultado = await _lGiftCard.ConsultarGiftCardPorCodigo(codigoGiftCard);
+
+                // Auditoría: trazabilidad de llamada al API GiftCard (patrón Cashea)
+                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "114", TB_USUARIO.COD_EMPLEADO, $"Url: {resultado.Url} Resultado: - HTTP {resultado.StatusCode} - {resultado.Message}");
 
                 
                 if (resultado.IsSuccess && resultado.Data != null)

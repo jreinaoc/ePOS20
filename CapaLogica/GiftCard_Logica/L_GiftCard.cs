@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using CapaServiciosExternos;
 using CapaServiciosExternos.Modelos;
+using CapaEntidades;
 using CapaDatos.GiftCard_Datos;
 using System.Data.SqlClient;
 using System.Data;
@@ -24,6 +25,9 @@ namespace CapaLogica.GiftCard_Logica
         {
             try
             {
+                // URL del endpoint de creación (para trazabilidad en auditoría, patrón Cashea)
+                string urlEndpoint = ConfigServiciosExternos.GiftCard_BaseUrl + "wp-json/wc/v3/gift-cards";
+
                 // Forzar TLS 1.2 o superior por si el servidor externo rechaza conexiones SSL viejas en .NET Framework
                 System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
 
@@ -35,6 +39,7 @@ namespace CapaLogica.GiftCard_Logica
 
                 return new GiftCardResult<GiftCardPosResponse>
                 {
+                    Url = urlEndpoint,
                     IsSuccess = true,
                     StatusCode = 200,
                     Data = resultadoApi,
@@ -46,6 +51,7 @@ namespace CapaLogica.GiftCard_Logica
                 // Captura errores de respuesta HTTP (ej: 400 Bad Request, 401 Unauthorized de WooCommerce)
                 return new GiftCardResult<GiftCardPosResponse>
                 {
+                    Url = ConfigServiciosExternos.GiftCard_BaseUrl + "wp-json/wc/v3/gift-cards",
                     IsSuccess = false,
                     StatusCode = 400,
                     Message = $"Error de API externa: {httpEx.Message}"
@@ -56,6 +62,7 @@ namespace CapaLogica.GiftCard_Logica
                 // Captura fallas generales (ej: Pérdida de conexión, Timeout por la VPN)
                 return new GiftCardResult<GiftCardPosResponse>
                 {
+                    Url = ConfigServiciosExternos.GiftCard_BaseUrl + "wp-json/wc/v3/gift-cards",
                     IsSuccess = false,
                     StatusCode = 500,
                     Message = $"Error interno en el ePOS al procesar Gift Card: {ex.Message}"
@@ -130,6 +137,9 @@ namespace CapaLogica.GiftCard_Logica
             {
                 System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
 
+                // URL del endpoint de consulta por código (para trazabilidad en auditoría, patrón Cashea)
+                string urlEndpoint = ConfigServiciosExternos.GiftCard_BaseUrl + "wp-json/wc/v3/gift-cards/code/" + giftCardCode;
+
                 // Invocamos el nuevo método de búsqueda por código
                 GiftCardPosResponse responseData = await _giftCardService.ObtenerGiftCardPorCodigoAsync(giftCardCode);
 
@@ -137,6 +147,7 @@ namespace CapaLogica.GiftCard_Logica
                 {
                     return new GiftCardResult<GiftCardPosResponse>
                     {
+                        Url = urlEndpoint,
                         IsSuccess = true,
                         StatusCode = 200,
                         Message = "Gift Card localizada con éxito.",
@@ -146,6 +157,7 @@ namespace CapaLogica.GiftCard_Logica
 
                 return new GiftCardResult<GiftCardPosResponse>
                 {
+                    Url = urlEndpoint,
                     IsSuccess = false,
                     StatusCode = 404,
                     Message = "El código de Gift Card ingresado no existe en el sistema.",
@@ -156,6 +168,7 @@ namespace CapaLogica.GiftCard_Logica
             {
                 return new GiftCardResult<GiftCardPosResponse>
                 {
+                    Url = ConfigServiciosExternos.GiftCard_BaseUrl + "wp-json/wc/v3/gift-cards/code/" + giftCardCode,
                     IsSuccess = false,
                     StatusCode = 500,
                     Message = $"Error interno en el ePOS: {ex.Message}",
@@ -201,6 +214,9 @@ namespace CapaLogica.GiftCard_Logica
         {
             try
             {
+                // URLs de los endpoints de débito (para trazabilidad en auditoría, patrón Cashea)
+                string urlEndpoint = ConfigServiciosExternos.GiftCard_BaseUrl + "wp-json/wc/v3/orders";
+
                 // 1. Forzar TLS 1.2 o superior por si el servidor externo rechaza conexiones SSL viejas
                 System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
 
@@ -214,6 +230,7 @@ namespace CapaLogica.GiftCard_Logica
                 {
                     return new GiftCardResult<bool>
                     {
+                        Url = urlEndpoint,
                         IsSuccess = true,
                         StatusCode = 200,
                         Message = "El monto de la Gift Card fue aplicado correctamente",
@@ -223,6 +240,7 @@ namespace CapaLogica.GiftCard_Logica
 
                 return new GiftCardResult<bool>
                 {
+                    Url = urlEndpoint,
                     IsSuccess = false,
                     StatusCode = 400,
                     Message = "WooCommerce no pudo procesar la solicitud de cobro.",
@@ -234,6 +252,7 @@ namespace CapaLogica.GiftCard_Logica
                 // Captura errores específicos devueltos por la API web (como falta de saldo o pedido no editable)
                 return new GiftCardResult<bool>
                 {
+                    Url = ConfigServiciosExternos.GiftCard_BaseUrl + "wp-json/wc/v3/orders",
                     IsSuccess = false,
                     StatusCode = 400,
                     Message = $"Error de validación en la web: {httpEx.Message}",
@@ -245,6 +264,7 @@ namespace CapaLogica.GiftCard_Logica
                 // Captura fallas generales (Caídas de internet, Timeouts de la VPN, etc.)
                 return new GiftCardResult<bool>
                 {
+                    Url = ConfigServiciosExternos.GiftCard_BaseUrl + "wp-json/wc/v3/orders",
                     IsSuccess = false,
                     StatusCode = 500,
                     Message = $"Error interno en el ePOS al debitar la Gift Card: {ex.Message}",
@@ -378,6 +398,7 @@ namespace CapaLogica.GiftCard_Logica
     /// </summary>
     public class GiftCardResult<T>
     {
+        public string Url { get; set; }
         public bool IsSuccess { get; set; }
         public int StatusCode { get; set; }
         public string Message { get; set; }

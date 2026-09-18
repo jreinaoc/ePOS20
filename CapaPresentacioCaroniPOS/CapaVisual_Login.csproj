@@ -523,6 +523,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Reportes\RepExistenciaArticulo.rdlc" />
     <EmbeddedResource Include="Reportes\RepCambio.rdlc" />
     <EmbeddedResource Include="Reportes\RepCierreDeCaja.rdlc" />
     <EmbeddedResource Include="Reportes\RepContratoGarantia.rdlc" />
