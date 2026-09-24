@@ -5301,11 +5301,12 @@ namespace CapaLogica.CargarOrdenes
         }
 
         /// <summary>
-        /// Verifica si la orden con Cristal Propio contiene una montura (codigo que inicia con "M")
+        /// Verifica si la orden contiene una montura (codigo que inicia con "M" o con "L")
         /// cuyo CodRango pertenece a la lista de rangos restringidos.
+        /// Aplica a ordenes de Cristal Propio y de Venta Directa.
         /// Devuelve true y entrega por referencia la montura y el rango detectados.
         /// </summary>
-        public bool RequiereClaveGerenteCristalPropio(DataGridView Dgv_Tap3_Articulo, string rangosRestringidos,
+        public bool RequiereClaveGerenteMonturaRango(DataGridView Dgv_Tap3_Articulo, string rangosRestringidos,
             out string codMonturaDetectada, out string codRangoDetectado)
         {
             codMonturaDetectada = "";
@@ -5338,8 +5339,9 @@ namespace CapaLogica.CargarOrdenes
 
                     string codArticulo = row.Cells["CodArticulo"].Value.ToString();
 
-                    // Solo monturas: el codigo inicia con "M"
-                    if (!codArticulo.StartsWith("M", StringComparison.OrdinalIgnoreCase))
+                    // Solo monturas: el codigo inicia con "M" o con "L"
+                    if (!(codArticulo.StartsWith("M", StringComparison.OrdinalIgnoreCase)
+                        || codArticulo.StartsWith("L", StringComparison.OrdinalIgnoreCase)))
                     {
                         continue;
                     }
@@ -5396,6 +5398,29 @@ namespace CapaLogica.CargarOrdenes
             {
                 mostrarError($"Error agregando descuento: {ex.Message}");
                 return "error";
+            }
+        }
+
+        public void CargarConvenios(
+            System.Windows.Forms.DataGridView DgvConvenio,
+            System.Windows.Forms.DataGridView DgvNoConvenio)
+        {
+            DgvConvenio.Rows.Clear();
+            DgvNoConvenio.Rows.Clear();
+
+            DataTable dt = _D_Articulos.ObtenerConvenios();
+            if (dt == null || dt.Rows.Count == 0) return;
+
+            foreach (DataRow row in dt.Rows)
+            {
+                string codigo   = row["Codigo"].ToString();
+                string nombre   = row["Nombre"].ToString();
+                bool esConvenio = Convert.ToBoolean(row["EsConvenio"]);
+
+                if (esConvenio)
+                    DgvConvenio.Rows.Add(false, codigo, nombre);
+                else
+                    DgvNoConvenio.Rows.Add(false, codigo, nombre);
             }
         }
 

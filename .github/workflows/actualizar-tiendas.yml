@@ -1,0 +1,44 @@
+name: Despliegue ePOS20 a Tiendas Local
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  despliegue-tiendas:
+    runs-on: [self-hosted, tienda]
+
+    steps:
+      - name: 1. Obtener código actualizado del repositorio
+        uses: actions/checkout@v4
+
+      - name: 2. Backup preventivo de SQL Server
+        run: |
+          New-Item -ItemType Directory -Force -Path "C:\Backups_ePOS20"
+          $fecha = Get-Date -Format "yyyyMMdd_HHmmss"
+          sqlcmd -S "localhost" -Q "BACKUP DATABASE [ePOS20_DB] TO DISK = 'C:\Backups_ePOS20\Backup_$fecha.bak' WITH FORMAT, INIT;"
+
+      - name: 3. Aplicar scripts de migración SQL
+        run: |
+          if (Test-Path ".\scripts\*.sql") {
+              Get-ChildItem -Path ".\scripts\*.sql" | Sort-Object Name | ForEach-Object {
+                  Write-Host "Ejecutando script: $($_.Name)"
+                  sqlcmd -S "localhost" -d "ePOS20_DB" -i $_.FullName -b
+              }
+          } else {
+              Write-Host "No se encontraron scripts SQL nuevos para aplicar."
+          }
+
+      - name: 4. Cerrar la aplicación ePOS20 si está abierta
+        run: |
+          Stop-Process -Name "ePOS20" -ErrorAction SilentlyContinue -Force
+          Start-Sleep -Seconds 3
+
+      - name: 5. Reemplazar ejecutable y archivos binarios
+        run: |
+          Copy-Item -Path ".\publish\*" -Destination "C:\ePOS20\" -Recurse -Force
+
+      - name: 6. Iniciar ePOS20 actualizado
+        run: |
+          Start-Process -FilePath "C:\ePOS20\ePOS20.exe"

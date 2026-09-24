@@ -359,6 +359,7 @@ namespace CapaVisual_Login
         D_Anulacion _D_Anulacion = new D_Anulacion();
         private string ojoLenteContacto;
         private bool LcAmbosCant1 = false;
+        private string codConveniosCliente = null;
 
         private readonly L_GiftCard _lGiftCard = new L_GiftCard();
 
@@ -4224,8 +4225,11 @@ else if (tabControl.SelectedIndex == 1)
                 }
 
 
-                // ===== Cristal Propio: clave de gerente por rango de montura (AR, BR, CR, ZR) =====
-                if (Cristal_Propio == true)
+                // ===== Cristal Propio / Venta Directa: clave de gerente por rango de montura (AR, BR, CR, ZR) =====
+                string codModo = Cbx_Pnl2_Trbajo.SelectedValue?.ToString();
+                bool esVentaDirecta = (codModo == "04"); // 04 = Venta Directa (SP_CPOS_TipoVenta)
+
+                if (Cristal_Propio == true || esVentaDirecta)
                 {
                     string rangosClaveGerente;
                     try
@@ -4242,7 +4246,7 @@ else if (tabControl.SelectedIndex == 1)
                     {
                         string monturaClaveGerente;
                         string rangoClaveGerente;
-                        if (_L_Articulo.RequiereClaveGerenteCristalPropio(Dgv_Tap3_Articulo, rangosClaveGerente, out monturaClaveGerente, out rangoClaveGerente))
+                        if (_L_Articulo.RequiereClaveGerenteMonturaRango(Dgv_Tap3_Articulo, rangosClaveGerente, out monturaClaveGerente, out rangoClaveGerente))
                         {
                             FrmClaveAutorizada frmClaveCristalPropio = new FrmClaveAutorizada("019");
                             frmClaveCristalPropio.ShowDialog();
@@ -4254,8 +4258,9 @@ else if (tabControl.SelectedIndex == 1)
 
                             try
                             {
+                                string tipoOrden = Cristal_Propio ? "Cristal Propio" : "Venta Directa";
                                 _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "117", TB_USUARIO.COD_EMPLEADO,
-                                    $"Cristal Propio con montura {monturaClaveGerente} (Rango {rangoClaveGerente}). Autorizado por: {VariablesGlobales.UsuarioAutorizado_FrmClaveAutorizada} ({VariablesGlobales.CodigoUsuarioAutorizado_FrmClaveAutorizada})");
+                                    $"{tipoOrden} con montura {monturaClaveGerente} (Rango {rangoClaveGerente}). Autorizado por: {VariablesGlobales.UsuarioAutorizado_FrmClaveAutorizada} ({VariablesGlobales.CodigoUsuarioAutorizado_FrmClaveAutorizada})");
                             }
                             catch
                             {
@@ -4264,9 +4269,8 @@ else if (tabControl.SelectedIndex == 1)
                         }
                     }
                 }
-                // ===== Fin Cristal Propio: clave de gerente por rango de montura =====
+                // ===== Fin Cristal Propio / Venta Directa: clave de gerente por rango de montura =====
 
-                string codModo = Cbx_Pnl2_Trbajo.SelectedValue?.ToString();
                 string tipoTrabajoVenta = _L_Articulo.ObtenerTipoVentaPorModo(codModo);
 
                 //Obtener datos para GuardarOrdenServicioAsync
@@ -6775,6 +6779,13 @@ if (e.KeyCode == Keys.Enter)
                         AsignarTelefonoConsolidado(Cbx_Tap1_TLF_Local, Txt_Tap1_TLF_Local, cli.TlfHab);
                     }
 
+                    // Convenios: el cliente consolidado trae sus códigos; se marcan en los
+                    // grids del panel para que el guardado local herede los convenios
+                    // (aunque el panel no se abra).
+                    codConveniosCliente = cli.CodConvenios;
+                    CargarConvenios();
+                    MarcarConveniosEnGrids();
+
                     btnExamen.Enabled = true;
 
                     // ✅ Check verde: cliente encontrado en quorum
@@ -6939,6 +6950,7 @@ if (e.KeyCode == Keys.Enter)
                     Twitter = _clienteConsolidadoOriginal.Twitter,
                     Instagram = _clienteConsolidadoOriginal.Instagram,
                     Mail = Txt_Tap1_Email.Text.Trim(),
+                    CodConvenios = _clienteConsolidadoOriginal.CodConvenios,
                     IpEnvio = _clienteConsolidadoOriginal.IpEnvio,
                     FechaRegistroWeb = _clienteConsolidadoOriginal.FechaRegistroWeb
                 };
@@ -6999,6 +7011,7 @@ if (e.KeyCode == Keys.Enter)
                     Twitter = "",
                     Instagram = "",
                     Mail = Txt_Tap1_Email.Text.Trim(),
+                    CodConvenios = ObtenerCodConvenios(),
                     IpEnvio = ConfigServiciosExternos.Consolidados_BaseUrl,   // la IP por donde salió (ej: http://localhost:49010)
                     FechaRegistroWeb = DateTime.Now   // getdate()
                 };
@@ -7182,6 +7195,12 @@ if (e.KeyCode == Keys.Enter)
        
             //Btn_Tap3_Cancelar.PerformClick();
             BloquearCamposE();
+
+            // Limpiar grids de convenios y seleccion del cliente
+            DgvConvenio.Rows.Clear();
+            DgvNoConvenio.Rows.Clear();
+            codConveniosCliente = null;
+            Pnl_Convenio.Visible = false;
         }
 
         private void Cbx_Tap1_Nacionalidad_SelectedIndexChanged(object sender, EventArgs e)
@@ -10306,6 +10325,35 @@ if (e.KeyCode == Keys.Enter)
             }
         }
 
+        private string ObtenerCodConvenios()
+        {
+            List<string> codigos = new List<string>();
+
+            // Convenios (grid superior)
+            foreach (DataGridViewRow row in DgvConvenio.Rows)
+            {
+                if (row.Cells["ColSeleccionar"].Value != null)
+                {
+                    bool seleccionado = Convert.ToBoolean(row.Cells["ColSeleccionar"].Value);
+                    if (seleccionado)
+                        codigos.Add(row.Cells["ColCodigo"].Value.ToString());
+                }
+            }
+
+            // No convenios (grid inferior)
+            foreach (DataGridViewRow row in DgvNoConvenio.Rows)
+            {
+                if (row.Cells["ColNoSeleccionar"].Value != null)
+                {
+                    bool seleccionado = Convert.ToBoolean(row.Cells["ColNoSeleccionar"].Value);
+                    if (seleccionado)
+                        codigos.Add(row.Cells["ColNoCodigo"].Value.ToString());
+                }
+            }
+
+            return codigos.Count > 0 ? string.Join(",", codigos) : null;
+        }
+
         private void guardacliente()
         {
 
@@ -10376,6 +10424,8 @@ if (e.KeyCode == Keys.Enter)
             nuevoCliente.COD_Edo = Cbx_Tap1_Estado.SelectedValue != null ? Cbx_Tap1_Estado.SelectedValue.ToString() : null;
 
             nuevoCliente.COD_Ciud = Cbx_Tap1_Ciudad.SelectedValue != null ? Cbx_Tap1_Ciudad.SelectedValue.ToString() : null;
+
+            nuevoCliente.CodConvenios = ObtenerCodConvenios();
 
             //   nuevoCliente.CTE_CedIdenP = Txt_Tap1_Cedula_Pagador.Text.Trim();
             // nuevoCliente.CTE_NacioP = Cbx_Tap1_Nacionalidad_Pagador.Text.Trim(); // Ajusta según cómo manejas la nacionalidad
@@ -10760,6 +10810,9 @@ if (e.KeyCode == Keys.Enter)
             //if (dtClienteconGarantia.Rows.Count > 0)
             //{
             //}
+
+            // Guardar los codigos de convenio del cliente para marcarlos en los grids al abrir el panel
+            codConveniosCliente = _L_Cliente.ObtenerCodConveniosCliente(Txt_Tap1_Cedula.Text.Trim(), Cbx_Tap1_Nacionalidad.Text.Trim());
 
 
         }
@@ -11330,6 +11383,8 @@ if (e.KeyCode == Keys.Enter)
 
             nuevoCliente.COD_Edo = Cbx_Tap1_Estado.SelectedValue.ToString(); // 
             nuevoCliente.COD_Ciud = Cbx_Tap1_Ciudad.SelectedValue.ToString(); // 
+
+            nuevoCliente.CodConvenios = ObtenerCodConvenios();
 
             // Llamar al método de la capa lógica para guardar el cliente
             resultado = _L_Cliente.GuardarClienteP(nuevoCliente);
@@ -17127,6 +17182,53 @@ if (e.KeyCode == Keys.Enter)
                 }
             }
             return null;
+        }
+
+        // ===== Convenios: panel con grid =====
+
+        private void lblConvenio_Click(object sender, EventArgs e)
+        {
+            CargarConvenios();
+            MarcarConveniosEnGrids();
+            Pnl_Convenio.Visible = true;
+            Pnl_Convenio.BringToFront();
+        }
+
+        private void Btn_VolverConvenio_Click(object sender, EventArgs e)
+        {
+            Pnl_Convenio.Visible = false;
+        }
+
+        private void CargarConvenios()
+        {
+            _L_Articulo.CargarConvenios(DgvConvenio, DgvNoConvenio);
+        }
+
+        /// <summary>
+        /// Marca los checkboxes de los grids de convenios segun los codigos
+        /// almacenados en el campo CodConvenios del cliente cargado.
+        /// </summary>
+        private void MarcarConveniosEnGrids()
+        {
+            if (string.IsNullOrWhiteSpace(codConveniosCliente))
+                return;
+
+            string[] codigos = codConveniosCliente.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            HashSet<string> set = new HashSet<string>(codigos.Select(c => c.Trim()));
+
+            foreach (DataGridViewRow row in DgvConvenio.Rows)
+            {
+                string codigo = row.Cells["ColCodigo"].Value?.ToString();
+                if (!string.IsNullOrEmpty(codigo) && set.Contains(codigo.Trim()))
+                    row.Cells["ColSeleccionar"].Value = true;
+            }
+
+            foreach (DataGridViewRow row in DgvNoConvenio.Rows)
+            {
+                string codigo = row.Cells["ColNoCodigo"].Value?.ToString();
+                if (!string.IsNullOrEmpty(codigo) && set.Contains(codigo.Trim()))
+                    row.Cells["ColNoSeleccionar"].Value = true;
+            }
         }
     }
 

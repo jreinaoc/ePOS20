@@ -365,5 +365,11 @@ public string InsertarEmail(TB_CTEMAIL email)
             return motivo;
         }
 
+        public string ObtenerCodConveniosCliente(string cedula, string nacio)
+        {
+            stringBuilder.Clear();
+            return _D_Cliente.ObtenerCodConveniosCliente(cedula, nacio);
+        }
+
     }
 }

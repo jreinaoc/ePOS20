@@ -2704,6 +2704,26 @@ EXEC pValidoParametrosCRT
             }
 
         }
+
+        public DataTable ObtenerConvenios()
+        {
+            try
+            {
+                SqlConnection connection = cn.LeerCadena();
+                SqlCommand cmd = connection.CreateCommand();
+                cmd.CommandText = "SELECT Codigo, Nombre, EsConvenio FROM TB_CONVENIOS";
+                cmd.CommandType = CommandType.Text;
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                string error = $"Error: {ex.Message}";
+                return null;
+            }
+        }
     }
 
 }

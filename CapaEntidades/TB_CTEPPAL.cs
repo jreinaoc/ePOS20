@@ -54,5 +54,7 @@ namespace CapaEntidades
         public string Mail_Loogin { get; set; }
 
         public bool ImpuestoMunicipal { get; set; }
+
+        public string CodConvenios { get; set; }
     }
 }

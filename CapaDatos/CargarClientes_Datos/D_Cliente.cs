@@ -56,6 +56,7 @@ namespace CapaDatos.CargarClientes_Datos
                     command.Parameters.AddWithValue("@CTE_PORCIVA", cliente.CTE_PORCIVA ?? (object)DBNull.Value);
                     command.Parameters.AddWithValue("@COD_Edo", cliente.COD_Edo);
                     command.Parameters.AddWithValue("@COD_Ciud", cliente.COD_Ciud);
+                    command.Parameters.AddWithValue("@CodConvenios", cliente.CodConvenios ?? (object)DBNull.Value);
                     command.ExecuteNonQuery();
                 }
             }
@@ -106,6 +107,7 @@ namespace CapaDatos.CargarClientes_Datos
                     command.Parameters.AddWithValue("@CTE_PORCIVA", cliente.CTE_PORCIVA ?? (object)DBNull.Value);
                     command.Parameters.AddWithValue("@COD_Edo", cliente.COD_Edo);
                     command.Parameters.AddWithValue("@COD_Ciud", cliente.COD_Ciud);
+                    command.Parameters.AddWithValue("@CodConvenios", cliente.CodConvenios ?? (object)DBNull.Value);
 
                     command.ExecuteNonQuery();
                 }
@@ -258,6 +260,47 @@ namespace CapaDatos.CargarClientes_Datos
                     connection.Close();
                 }
             }
+        }
+
+        public string ObtenerCodConveniosCliente(string cedula, string nacio)
+        {
+            string resultado = null;
+            SqlConnection connection = null;
+            SqlCommand command = null;
+
+            try
+            {
+                connection = cn.LeerCadena();
+                if (connection.State != ConnectionState.Open)
+                {
+                    connection.Open();
+                }
+
+                command = new SqlCommand(
+                    "SELECT CodConvenios FROM TB_CTEPPAL WHERE CTE_CedIden = @CTE_CedIden AND CTE_Nacio = @CTE_Nacio",
+                    connection);
+                command.Parameters.AddWithValue("@CTE_CedIden", cedula);
+                command.Parameters.AddWithValue("@CTE_Nacio", nacio);
+
+                object valor = command.ExecuteScalar();
+                if (valor != null && valor != DBNull.Value)
+                {
+                    resultado = valor.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                stringBuilder.AppendLine(string.Format("Error al obtener convenios del cliente: {0}", ex.Message));
+            }
+            finally
+            {
+                if (connection != null && connection.State == ConnectionState.Open)
+                {
+                    connection.Close();
+                }
+            }
+
+            return resultado;
         }
 
         public List<TB_MAESEDO> ObtenerEstados()

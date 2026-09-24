@@ -51,6 +51,9 @@ namespace CapaServiciosExternos.Modelos
         [JsonProperty("mail")]
         public string Mail { get; set; }
 
+        [JsonProperty("codConvenios")]
+        public string CodConvenios { get; set; }
+
         [JsonProperty("ip_envio")]
         public string IpEnvio { get; set; }
 
