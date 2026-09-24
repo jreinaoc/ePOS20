@@ -2477,7 +2477,19 @@ namespace CapaVisual_Login
                 if (_D_DetalleOrden.OrdenTieneProm259(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv) && Math.Round(TB_CAORDSER.OrSer_Saldo_Mon ?? 0, 2) <= 300)
                 {
                     txtCedula.Text = "J-000901805";
-                    txtNombreCliente.Text = "SEGUROS MERCANTIL C.A";
+
+                    // IA: el nombre del cliente pagador se lee desde TB_CTEPPAL (J-000901805) en lugar de quedar fijo
+                    DataTable dtSegurosMercantil = _D_DetalleOrden.BucarTB_CTEPPAL("000901805", "J");
+                    string nombreMercantil = "MERCANTIL SEGUROS, C.A.";
+                    if (dtSegurosMercantil != null && dtSegurosMercantil.Rows.Count > 0)
+                    {
+                        string pNombre = dtSegurosMercantil.Rows[0]["CTE_PNombre"].ToString().Trim();
+                        string pApellido = dtSegurosMercantil.Rows[0]["CTE_PApellido"].ToString().Trim();
+                        string nombreCompleto = (pNombre + " " + pApellido).Trim();
+                        if (!string.IsNullOrEmpty(nombreCompleto))
+                            nombreMercantil = nombreCompleto;
+                    }
+                    txtNombreCliente.Text = nombreMercantil;
                     BtnClientePagador.Enabled = false;
                 }
                 else
