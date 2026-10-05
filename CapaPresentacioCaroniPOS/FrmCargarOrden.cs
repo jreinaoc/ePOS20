@@ -301,6 +301,9 @@ namespace CapaVisual_Login
         private bool _clientePostPendiente = false;
         private string _ultimaCedulaBusqueda = "";
         private string _ultimaNacioBusqueda = "";
+        // Detalle de la ultima falla al cargar el catalogo de convenios. Se conserva en
+        // memoria (no se relanza a la UI) para poder inspeccionarlo al depurar.
+        private string _errorCargaConvenios = "";
 
         // Imágenes de estado del consolidado
         private Image _imgConsulta;
@@ -360,6 +363,13 @@ namespace CapaVisual_Login
         private string ojoLenteContacto;
         private bool LcAmbosCant1 = false;
         private string codConveniosCliente = null;
+
+        // Flag de supresion para el panel de Alianzas (Pnl_Convenio).
+        // Las asignaciones PROGRAMATICAS de los checkboxes de DgvConvenio
+        // (CargarConvenios, MarcarConveniosEnGrids y las propias reversiones del
+        // handler) NO deben abrir el dialogo de clave autorizada: de lo contrario,
+        // al cargar un cliente que ya tiene convenio se le pediria clave al cajero.
+        private bool _suprimirSolicitudClave = false;
 
         private readonly L_GiftCard _lGiftCard = new L_GiftCard();
 
@@ -2856,7 +2866,7 @@ else if (tabControl.SelectedIndex == 1)
             /// 
                 if (!string.IsNullOrEmpty(Codigo_Promocion))
             {
-                 Promocion_Aplicada = _L_Articulo.EjecutarPromociones(listaArticulos, Dgv_Tap3_Articulo, Cbx_Pnl2_Trbajo.Text, Cbx_Pnl2_Trbajo.SelectedValue.ToString(), Codigo_Promocion, Montura_Propia, Cristal_Propio);
+                 Promocion_Aplicada = _L_Articulo.EjecutarPromociones(listaArticulos, Dgv_Tap3_Articulo, Cbx_Pnl2_Trbajo.Text, Cbx_Pnl2_Trbajo.SelectedValue.ToString(), Codigo_Promocion, Montura_Propia, Cristal_Propio, Cbx_Tap1_Nacionalidad.Text.Trim(), Txt_Tap1_Cedula.Text.Trim());
                 if (!Promocion_Aplicada && _L_Articulo.stringBuilder.Length > 0)
                 {
                     _FrmMensajes.co = 2;
@@ -6779,12 +6789,28 @@ if (e.KeyCode == Keys.Enter)
                         AsignarTelefonoConsolidado(Cbx_Tap1_TLF_Local, Txt_Tap1_TLF_Local, cli.TlfHab);
                     }
 
-                    // Convenios: el cliente consolidado trae sus códigos; se marcan en los
-                    // grids del panel para que el guardado local herede los convenios
-                    // (aunque el panel no se abra).
-                    codConveniosCliente = cli.CodConvenios;
-                    CargarConvenios();
-                    MarcarConveniosEnGrids();
+                    // Convenios: el cliente consolidado trae sus codigos y solo se copia el
+                    // string a codConveniosCliente, que es el cache que usa el panel para
+                    // marcar las casillas al abrirse. OJO: el guardado local NO lee este
+                    // cache, lee los checkboxes directamente (ver ObtenerCodConvenios).
+                    //
+                    // NO se tocan DgvConvenio / DgvNoConvenio aqui: la continuacion de este
+                    // metodo async puede ejecutarse fuera del hilo de UI y escribir en un
+                    // DataGridView desde otro hilo lanza InvalidOperationException
+                    // ("Cross-thread operation not valid"). La carga del panel es lazy:
+                    // lblConvenio_Click vuelve a llamar CargarConvenios + MarcarConveniosEnGrids
+                    // cada vez que se abre, asi que aqui esas llamadas serian redundantes.
+                    //
+                    // Esta asignacion NO puede pisar lo que ya trajo la BD local
+                    // (TB_CTEPPAL.CodConvenios). Este metodo es async y la linea corre en la
+                    // continuacion del await de GetClienteAsync: la respuesta del consolidado
+                    // llega DESPUES de que el cajero ya pudo abrir el panel una vez. Si el
+                    // consolidado devuelve CodConvenios vacio, sobrescribir aqui dejaba el
+                    // cache sin los codigos que si estan en la BD, y la segunda apertura del
+                    // panel se veia sin marcas. Un valor vacio del consolidado no aporta nada,
+                    // asi que solo se copia cuando trae algo.
+                    if (!string.IsNullOrWhiteSpace(cli.CodConvenios))
+                        codConveniosCliente = cli.CodConvenios;
 
                     btnExamen.Enabled = true;
 
@@ -11982,6 +12008,51 @@ if (e.KeyCode == Keys.Enter)
             }
             catch
             {
+            }
+        }
+
+        // Log de fallas del panel de convenios: fecha, tipo + mensaje y stack trace.
+        private static readonly string RutaLogConvenios = Path.Combine(
+            Path.GetTempPath(), "convenios_error.log");
+
+        /// <summary>
+        /// Escribe en %TEMP%\convenios_error.log el detalle de una excepcion de la carga
+        /// de convenios, para poder leer la causa exacta cuando el cajero reporte el fallo.
+        /// Nunca propaga la excepcion: fallar al escribir el log no debe romper la UI.
+        /// </summary>
+        private void LogErrorCargaConvenios(Exception ex)
+        {
+            try
+            {
+                File.AppendAllText(RutaLogConvenios,
+                    DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff") + " | " +
+                    ex.GetType().Name + ": " + ex.Message + Environment.NewLine +
+                    (ex.StackTrace ?? "(sin stack trace)") + Environment.NewLine +
+                    Environment.NewLine);
+            }
+            catch
+            {
+                // Sin log no hay diagnostico, pero la operacion del cajero continua igual.
+            }
+        }
+
+        /// <summary>
+        /// Anade al mismo log de convenios una linea de la capa de presentacion, con
+        /// su propia etiqueta para distinguirlas de las de datos y de logica. Se usa
+        /// para dejar el detalle detras del codigo corto que ve el cajero.
+        /// Nunca propaga la excepcion.
+        /// </summary>
+        private void LogDetalleCargaConvenios(string origen, string mensaje)
+        {
+            try
+            {
+                File.AppendAllText(RutaLogConvenios,
+                    DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff") +
+                    " | [" + origen + "] " + mensaje + Environment.NewLine);
+            }
+            catch
+            {
+                // Sin log no hay diagnostico, pero la operacion del cajero continua igual.
             }
         }
 
@@ -17186,12 +17257,134 @@ if (e.KeyCode == Keys.Enter)
 
         // ===== Convenios: panel con grid =====
 
+        // Codigos cortos de diagnostico que ve el cajero en el MessageBox. El detalle
+        // de cada uno queda en %TEMP%\convenios_error.log; nunca se le muestra al
+        // cajero el mensaje crudo de SQL ni el stack trace.
+        private const int CodigoConveniosSinFilas = 1;   // la consulta corrio pero no devolvio filas
+        private const int CodigoConveniosErrorBase = 2;  // fallo de lectura contra la base
+        private const int CodigoConveniosErrorPanel = 3; // fallo inesperado al poblar los grids
+        private const int CodigoConveniosDesconocido = 4; // el panel quedo vacio sin causa registrada
+
+        /// <summary>
+        /// Deja codConveniosCliente con lo que dice la BASE DE DATOS (TB_CTEPPAL.CodConvenios)
+        /// para el cliente que esta en pantalla. Se llama en cada apertura del panel.
+        ///
+        /// El cache en memoria no es fuente de verdad: hay al menos un camino que lo pisa con
+        /// datos de otra fuente (la respuesta del consolidado, despues del await) y otro que lo
+        /// re-deriva del propio grid, asi que para la segunda apertura en adelante podia no
+        /// contener los codigos del cliente aunque en la BD si estuvieran.
+        ///
+        /// Si la BD devuelve algo, ese valor manda. Si devuelve vacio se conserva el cache
+        /// actual: es el caso legitimo del cliente que todavia no existe en TB_CTEPPAL y cuyos
+        /// convenios solo conoce el consolidado, y pisarlo con null le borraria las marcas.
+        ///
+        /// Nunca propaga la excepcion: abrir el panel no puede fallar por esto.
+        /// </summary>
+        private void RefrescarCodConveniosDesdeBase()
+        {
+            string cedula = Txt_Tap1_Cedula.Text.Trim();
+            string nacionalidad = Cbx_Tap1_Nacionalidad.Text.Trim();
+
+            // Sin cedula y nacionalidad no hay registro que leer: se deja el cache como esta.
+            if (string.IsNullOrWhiteSpace(cedula) || string.IsNullOrWhiteSpace(nacionalidad))
+                return;
+
+            try
+            {
+                string desdeBase = _L_Cliente.ObtenerCodConveniosCliente(cedula, nacionalidad);
+
+                if (!string.IsNullOrWhiteSpace(desdeBase))
+                {
+                    codConveniosCliente = desdeBase;
+                    return;
+                }
+
+                // La BD no tiene codigos para este cliente. Se deja el cache intacto.
+                LogDetalleCargaConvenios("FrmCargarOrden.RefrescarCodConveniosDesdeBase",
+                    "TB_CTEPPAL no devolvio CodConvenios; se conserva el cache en memoria. Cedula="
+                    + cedula + " Nacionalidad=" + nacionalidad
+                    + " CacheEnMemoria=" + (string.IsNullOrEmpty(codConveniosCliente) ? "(vacio)" : codConveniosCliente));
+            }
+            catch (Exception ex)
+            {
+                // La lectura fallo: se sigue con el cache en memoria y queda rastro. No se
+                // interrumpe la apertura del panel.
+                _errorCargaConvenios = ex.GetType().Name + ": " + ex.Message;
+                LogErrorCargaConvenios(ex);
+            }
+        }
+
         private void lblConvenio_Click(object sender, EventArgs e)
         {
-            CargarConvenios();
-            MarcarConveniosEnGrids();
+            // La fuente de verdad al abrir el panel es la BD, no el cache en memoria: se
+            // relee siempre, no solo cuando el cache viene vacio. La lectura anterior solo
+            // cubria el caso nulo, y el cache puede pisarse con un valor no vacio que no
+            // corresponde (respuesta del consolidado) o perderse al cerrar la orden.
+            RefrescarCodConveniosDesdeBase();
+
+            // El panel se muestra ANTES de cargar y de marcar, a proposito. DataGridView solo
+            // calcula el rectangulo de pintado de una celda cuando esa celda esta visible: si se
+            // marca con el panel oculto, la invalidacion se descarta y al mostrarlo el control
+            // repinta con el estado cacheado, que es el false que trae Rows.Add. Eso explica
+            // exactamente el sintoma reportado: la primera apertura se veia correcta porque el
+            // control aun nunca se habia pintado (el primer paint lee el modelo entero), de la
+            // segunda en adelante repinta desde cache, y un click en cualquier lado lo arreglaba
+            // porque cualquier interaccion del mouse recalcula el rectangulo y vuelve a pintar.
             Pnl_Convenio.Visible = true;
             Pnl_Convenio.BringToFront();
+
+            bool cargaOk = CargarConvenios();
+
+            // Se marca siempre que haya filas que marcar, haya tenido bien la lectura o no:
+            // si la lectura fallo, L_Articulo no limpio los grids y conservan las filas de la
+            // lectura anterior, que tambien hay que refrescar contra la BD.
+            if (DgvConvenio.Rows.Count > 0 || DgvNoConvenio.Rows.Count > 0)
+            {
+                MarcarConveniosEnGrids();
+            }
+            else if (!cargaOk)
+            {
+                // Sin data utilizable en el panel: el cajero necesita saber que reintente.
+                // Se muestra solo el codigo corto de diagnostico; el motivo real, el
+                // mensaje de SQL y el stack trace se dejan en el log de %TEMP%.
+                int codigo = CodigoDiagnosticoCargaConvenios();
+
+                LogDetalleCargaConvenios("FrmCargarOrden.lblConvenio_Click",
+                    "se muestra el aviso al cajero. CodigoMostrado=" + codigo
+                    + " CodigoCapaDatos=" + _L_Articulo.UltimoCodigoCargaConvenios
+                    + " _errorCargaConvenios=" + (string.IsNullOrEmpty(_errorCargaConvenios) ? "(vacio)" : _errorCargaConvenios)
+                    + " DgvConvenio=" + DgvConvenio.Rows.Count
+                    + " DgvNoConvenio=" + DgvNoConvenio.Rows.Count);
+
+                MessageBox.Show(
+                    "No se pudieron cargar los convenios. Reintente." + Environment.NewLine
+                    + "Codigo de diagnostico: " + codigo,
+                    "Alianzas", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            // Si la carga fallo pero los grids conservan filas de una lectura anterior,
+            // se abre el panel con lo que hay y no se molesta al cajero con un error.
+            // El panel ya quedo visible mas arriba, antes de cargar y marcar.
+        }
+
+        /// <summary>
+        /// Traduce a un codigo corto la causa de la ultima carga fallida. Se decide
+        /// aqui, en la capa que ya tiene las tres pistas, para no repetir el
+        /// diagnostico en la logica ni en los datos.
+        /// </summary>
+        private int CodigoDiagnosticoCargaConvenios()
+        {
+            // El catch del wrapper solo corre si la excepcion escapo de la capa logica
+            // (por ejemplo, una columna que no llego): eso no lo reporta la capa de datos.
+            if (!string.IsNullOrEmpty(_errorCargaConvenios))
+                return CodigoConveniosErrorPanel;
+
+            int codigoDatos = _L_Articulo.UltimoCodigoCargaConvenios;
+            if (codigoDatos == D_Articulos.CodigoConveniosExcepcion)
+                return CodigoConveniosErrorBase;
+            if (codigoDatos == D_Articulos.CodigoConveniosSinFilas)
+                return CodigoConveniosSinFilas;
+
+            return CodigoConveniosDesconocido;
         }
 
         private void Btn_VolverConvenio_Click(object sender, EventArgs e)
@@ -17199,14 +17392,45 @@ if (e.KeyCode == Keys.Enter)
             Pnl_Convenio.Visible = false;
         }
 
-        private void CargarConvenios()
+        /// <summary>
+        /// Carga los grids de convenios con la solicitud de clave suprimida.
+        /// Devuelve true si la lectura fue exitosa.
+        /// </summary>
+        private bool CargarConvenios()
         {
-            _L_Articulo.CargarConvenios(DgvConvenio, DgvNoConvenio);
+            // Las filas se agregan por codigo con la casilla en false: se suprime la
+            // solicitud de clave para que la carga nunca pida autorizacion al cajero.
+            _suprimirSolicitudClave = true;
+            // Se limpia la falla del intento anterior: si no, un codigo de diagnostico
+            // viejo podria quedar pegado al mensaje de una carga que si funciono.
+            _errorCargaConvenios = "";
+            try
+            {
+                return _L_Articulo.CargarConvenios(DgvConvenio, DgvNoConvenio);
+            }
+            catch (Exception ex)
+            {
+                // No se relanza a la UI: el panel se abre igual con lo que ya haya en los
+                // grids. Antes la excepcion se descartaba y el cajero solo veia un mensaje
+                // generico; ahora se guarda el detalle en la forma y se deja rastro en el
+                // log de %TEMP% para poder leer la causa real del fallo.
+                _errorCargaConvenios = ex.GetType().Name + ": " + ex.Message;
+                LogErrorCargaConvenios(ex);
+                return false;
+            }
+            finally
+            {
+                _suprimirSolicitudClave = false;
+            }
         }
 
         /// <summary>
         /// Marca los checkboxes de los grids de convenios segun los codigos
         /// almacenados en el campo CodConvenios del cliente cargado.
+        ///
+        /// Solo marca, nunca desmarca: el panel es de "solo agregar" y las filas se
+        /// agregan con la casilla en false, asi que dejar el resto sin tocar mantiene
+        /// ese comportamiento.
         /// </summary>
         private void MarcarConveniosEnGrids()
         {
@@ -17216,19 +17440,168 @@ if (e.KeyCode == Keys.Enter)
             string[] codigos = codConveniosCliente.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
             HashSet<string> set = new HashSet<string>(codigos.Select(c => c.Trim()));
 
-            foreach (DataGridViewRow row in DgvConvenio.Rows)
+            // Marcado por codigo segun lo ya guardado en el cliente: es una
+            // restauracion de estado, no una accion del usuario, por lo que se
+            // suprime la solicitud de clave autorizada.
+            // Esa misma supresion impide que CellValueChanged re-derive el cache
+            // desde el grid: la fuente de verdad sigue siendo la BD.
+            int marcadas = 0;
+            _suprimirSolicitudClave = true;
+            try
             {
-                string codigo = row.Cells["ColCodigo"].Value?.ToString();
-                if (!string.IsNullOrEmpty(codigo) && set.Contains(codigo.Trim()))
-                    row.Cells["ColSeleccionar"].Value = true;
+                foreach (DataGridViewRow row in DgvConvenio.Rows)
+                {
+                    string codigo = row.Cells["ColCodigo"].Value?.ToString();
+                    if (!string.IsNullOrEmpty(codigo) && set.Contains(codigo.Trim()))
+                    {
+                        row.Cells["ColSeleccionar"].Value = true;
+                        marcadas++;
+                    }
+                }
+
+                foreach (DataGridViewRow row in DgvNoConvenio.Rows)
+                {
+                    string codigo = row.Cells["ColNoCodigo"].Value?.ToString();
+                    if (!string.IsNullOrEmpty(codigo) && set.Contains(codigo.Trim()))
+                    {
+                        row.Cells["ColNoSeleccionar"].Value = true;
+                        marcadas++;
+                    }
+                }
+            }
+            finally
+            {
+                _suprimirSolicitudClave = false;
             }
 
-            foreach (DataGridViewRow row in DgvNoConvenio.Rows)
+            // Repintado inmediato, y despues de los finally para que ningun repaint se dispare
+            // con el flag de supresion todavia activo.
+            //
+            // Invalidate() no alcanza y por eso el fix anterior no servo: es coalescente y
+            // sobre una celda sin rectangulo de pintado se descarta sin hacer nada. Refresh()
+            // fuerza el paint de inmediato. Ademas se suelta la celda actual antes de refrescar,
+            // porque si queda seleccionada y dirty el DataGridView retiene el estado de pintado
+            // anterior a la asignacion del Value y el checkbox se sigue viendo en false hasta
+            // que algo lo invalida.
+            DgvConvenio.CurrentCell = null;
+            DgvNoConvenio.CurrentCell = null;
+            DgvConvenio.Refresh();
+            DgvNoConvenio.Refresh();
+
+            // Log de SOLO FALLA: el cliente tiene codigos y ninguno calzo con las filas
+            // del panel, que es el caso en que se abriria mostrando menos de lo guardado.
+            if (marcadas == 0)
             {
-                string codigo = row.Cells["ColNoCodigo"].Value?.ToString();
-                if (!string.IsNullOrEmpty(codigo) && set.Contains(codigo.Trim()))
-                    row.Cells["ColNoSeleccionar"].Value = true;
+                LogDetalleCargaConvenios("FrmCargarOrden.MarcarConveniosEnGrids",
+                    "el cliente tiene convenios pero ninguno coincidio con las filas del panel. "
+                    + "CSV=" + codConveniosCliente
+                    + " DgvConvenio=" + DgvConvenio.Rows.Count
+                    + " DgvNoConvenio=" + DgvNoConvenio.Rows.Count
+                    + " Cedula=" + Txt_Tap1_Cedula.Text.Trim()
+                    + " Nacionalidad=" + Cbx_Tap1_Nacionalidad.Text.Trim());
             }
+        }
+
+        /// <summary>
+        /// Fuerza el commit de la casilla para que CellValueChanged se dispare
+        /// en el momento de hacer clic, sin esperar a que la celda pierda el foco.
+        /// </summary>
+        private void DgvConvenio_CurrentCellDirtyStateChanged(object sender, EventArgs e)
+        {
+            if (DgvConvenio.IsCurrentCellDirty)
+            {
+                DgvConvenio.CommitEdit(DataGridViewDataErrorContexts.Commit);
+            }
+        }
+
+        /// <summary>
+        /// Alianzas / DgvConvenio: solo se permite AGREGAR convenios y cada marca
+        /// requiere clave autorizada tipo "020" (se pide en cada casilla, sin
+        /// cachear la autorizacion). Desmarcar esta prohibido.
+        /// </summary>
+        private void DgvConvenio_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            // Solo nos interesa la columna del checkbox
+            if (e.ColumnIndex < 0 || e.RowIndex < 0)
+                return;
+
+            if (DgvConvenio.Columns[e.ColumnIndex].Name != "ColSeleccionar")
+                return;
+
+            // Cambios programaticos (carga, marcado inicial y reversiones):
+            // no son accion del usuario, no se pide clave.
+            if (_suprimirSolicitudClave)
+                return;
+
+            DataGridViewRow row = DgvConvenio.Rows[e.RowIndex];
+            string codigo = Convert.ToString(row.Cells["ColCodigo"].Value);
+            string nombre = Convert.ToString(row.Cells["ColNombre"].Value);
+            bool marcado = Convert.ToBoolean(row.Cells["ColSeleccionar"].Value);
+
+            if (!marcado)
+            {
+                // Solo agregar: se revierte la casilla y se informa al usuario.
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("Solo se pueden agregar convenios, no quitarlos");
+                _FrmMensajes.ShowDialog();
+                //MessageBox.Show("Solo se pueden agregar convenios, no quitarlos.", "Alianzas", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                AsignarCasillaConvenio(row, true);
+                return;
+            }
+
+            // Se solicita la clave autorizada en CADA casilla marcada (opcion ii).
+            bool claveCorrecta;
+            using (FrmClaveAutorizada FrmClave = new FrmClaveAutorizada("020"))
+            {
+                FrmClave.ShowDialog();
+                claveCorrecta = FrmClave.ClaveCorrecta == true && FrmClave.DialogResult == DialogResult.OK;
+            }
+
+            if (!claveCorrecta)
+            {
+                // Clave incorrecta o cancelada: la casilla vuelve a false.
+                AsignarCasillaConvenio(row, false);
+                return;
+            }
+
+            // Sincroniza en memoria el CSV para que ObtenerCodConvenios() vea el
+            // estado correcto despues de cada check autorizado.
+            // Se conserva el CSV previo para que la auditoria muestre el antes y el despues.
+            string conveniosAntes = string.IsNullOrWhiteSpace(codConveniosCliente) ? "(vacio)" : codConveniosCliente;
+            codConveniosCliente = ObtenerCodConvenios();
+
+            try
+            {
+                _D_Anulacion.CaragarAuditor(_D_Inicio.Sucursal(), "118", TB_USUARIO.COD_EMPLEADO,
+                    $"Alianza agregada: {nombre} ({codigo}). Convenios: '{conveniosAntes}' -> '{codConveniosCliente}'. Autorizado por: {VariablesGlobales.UsuarioAutorizado_FrmClaveAutorizada} ({VariablesGlobales.CodigoUsuarioAutorizado_FrmClaveAutorizada})");
+            }
+            catch
+            {
+                // La auditoria no debe bloquear la operacion
+            }
+        }
+
+        /// <summary>
+        /// Asigna el valor de la casilla con la solicitud de clave suprimida, para
+        /// que la reversion no vuelva a disparar el dialogo ni la auditoria.
+        /// El flag se restaura siempre (try/finally) para no dejar el panel bloqueado.
+        /// </summary>
+        private void AsignarCasillaConvenio(DataGridViewRow row, bool valor)
+        {
+            _suprimirSolicitudClave = true;
+            try
+            {
+                row.Cells["ColSeleccionar"].Value = valor;
+            }
+            finally
+            {
+                _suprimirSolicitudClave = false;
+            }
+        }
+
+        private void tabPage1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 

@@ -977,6 +977,7 @@ namespace CapaVisual_Login
             // 
             this.tabPage1.BackColor = System.Drawing.Color.White;
             this.tabPage1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.tabPage1.Controls.Add(this.pnlGiftCard);
             this.tabPage1.Controls.Add(this.Pnl_Convenio);
             this.tabPage1.Controls.Add(this.chkConsultaConsolidado);
             this.tabPage1.Controls.Add(this.Cbx_Tap1_PorcentajeIVA_Pagador);
@@ -1043,6 +1044,7 @@ namespace CapaVisual_Login
             this.tabPage1.Size = new System.Drawing.Size(1043, 513);
             this.tabPage1.TabIndex = 4;
             this.tabPage1.ToolTipText = "Cliente";
+            this.tabPage1.Click += new System.EventHandler(this.tabPage1_Click);
             // 
             // Pnl_Convenio
             // 
@@ -1054,7 +1056,7 @@ namespace CapaVisual_Login
             this.Pnl_Convenio.Controls.Add(this.DgvNoConvenio);
             this.Pnl_Convenio.Controls.Add(this.Btn_VolverConvenio);
             this.Pnl_Convenio.Font = new System.Drawing.Font("Century Gothic", 11.25F);
-            this.Pnl_Convenio.Location = new System.Drawing.Point(285, 43);
+            this.Pnl_Convenio.Location = new System.Drawing.Point(302, 40);
             this.Pnl_Convenio.Name = "Pnl_Convenio";
             this.Pnl_Convenio.Size = new System.Drawing.Size(465, 429);
             this.Pnl_Convenio.TabIndex = 502;
@@ -1064,13 +1066,13 @@ namespace CapaVisual_Login
             // 
             this.label50.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(166)))), ((int)(((byte)(156)))));
             this.label50.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.label50.Font = new System.Drawing.Font("Century Gothic", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label50.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label50.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
             this.label50.Location = new System.Drawing.Point(-1, 0);
             this.label50.Name = "label50";
             this.label50.Size = new System.Drawing.Size(465, 34);
             this.label50.TabIndex = 98;
-            this.label50.Text = "Convenios";
+            this.label50.Text = "¿Cómo nos conoció?";
             this.label50.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
             // Lbl_Convenio_Titulo
@@ -1078,11 +1080,11 @@ namespace CapaVisual_Login
             this.Lbl_Convenio_Titulo.AutoSize = true;
             this.Lbl_Convenio_Titulo.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Bold);
             this.Lbl_Convenio_Titulo.ForeColor = System.Drawing.Color.Black;
-            this.Lbl_Convenio_Titulo.Location = new System.Drawing.Point(10, 54);
+            this.Lbl_Convenio_Titulo.Location = new System.Drawing.Point(12, 211);
             this.Lbl_Convenio_Titulo.Name = "Lbl_Convenio_Titulo";
-            this.Lbl_Convenio_Titulo.Size = new System.Drawing.Size(86, 18);
+            this.Lbl_Convenio_Titulo.Size = new System.Drawing.Size(154, 18);
             this.Lbl_Convenio_Titulo.TabIndex = 0;
-            this.Lbl_Convenio_Titulo.Text = "Convenios";
+            this.Lbl_Convenio_Titulo.Text = "Alianzas/Convenios";
             // 
             // DgvConvenio
             // 
@@ -1107,19 +1109,20 @@ namespace CapaVisual_Login
             this.ColNombre});
             this.DgvConvenio.EnableHeadersVisualStyles = false;
             this.DgvConvenio.GridColor = System.Drawing.SystemColors.ControlLightLight;
-            this.DgvConvenio.Location = new System.Drawing.Point(10, 72);
+            this.DgvConvenio.Location = new System.Drawing.Point(12, 229);
             this.DgvConvenio.Name = "DgvConvenio";
             this.DgvConvenio.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.DgvConvenio.RowHeadersVisible = false;
             this.DgvConvenio.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.DgvConvenio.Size = new System.Drawing.Size(443, 131);
             this.DgvConvenio.TabIndex = 1;
+            this.DgvConvenio.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvConvenio_CellValueChanged);
+            this.DgvConvenio.CurrentCellDirtyStateChanged += new System.EventHandler(this.DgvConvenio_CurrentCellDirtyStateChanged);
             // 
             // ColSeleccionar
             // 
             this.ColSeleccionar.HeaderText = "Seleccione";
             this.ColSeleccionar.Name = "ColSeleccionar";
-            this.ColSeleccionar.ReadOnly = true;
             this.ColSeleccionar.Width = 90;
             // 
             // ColCodigo
@@ -1141,7 +1144,7 @@ namespace CapaVisual_Login
             this.Lbl_NoConvenio_Titulo.AutoSize = true;
             this.Lbl_NoConvenio_Titulo.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Bold);
             this.Lbl_NoConvenio_Titulo.ForeColor = System.Drawing.Color.Black;
-            this.Lbl_NoConvenio_Titulo.Location = new System.Drawing.Point(10, 222);
+            this.Lbl_NoConvenio_Titulo.Location = new System.Drawing.Point(12, 45);
             this.Lbl_NoConvenio_Titulo.Name = "Lbl_NoConvenio_Titulo";
             this.Lbl_NoConvenio_Titulo.Size = new System.Drawing.Size(166, 18);
             this.Lbl_NoConvenio_Titulo.TabIndex = 2;
@@ -1170,7 +1173,7 @@ namespace CapaVisual_Login
             this.ColNoNombre});
             this.DgvNoConvenio.EnableHeadersVisualStyles = false;
             this.DgvNoConvenio.GridColor = System.Drawing.SystemColors.ControlLightLight;
-            this.DgvNoConvenio.Location = new System.Drawing.Point(10, 242);
+            this.DgvNoConvenio.Location = new System.Drawing.Point(12, 65);
             this.DgvNoConvenio.Name = "DgvNoConvenio";
             this.DgvNoConvenio.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.DgvNoConvenio.RowHeadersVisible = false;
@@ -1998,13 +2001,13 @@ namespace CapaVisual_Login
             // 
             this.lblConvenio.AutoSize = true;
             this.lblConvenio.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblConvenio.Font = new System.Drawing.Font("Century Gothic", 10F, System.Drawing.FontStyle.Underline);
+            this.lblConvenio.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblConvenio.ForeColor = System.Drawing.Color.Blue;
-            this.lblConvenio.Location = new System.Drawing.Point(545, 315);
+            this.lblConvenio.Location = new System.Drawing.Point(500, 306);
             this.lblConvenio.Name = "lblConvenio";
-            this.lblConvenio.Size = new System.Drawing.Size(155, 19);
+            this.lblConvenio.Size = new System.Drawing.Size(343, 17);
             this.lblConvenio.TabIndex = 501;
-            this.lblConvenio.Text = "¿Cómo nos conoció?";
+            this.lblConvenio.Text = " ¿Cómo nos conoció? : Alianzas, Convenios y Otros";
             this.lblConvenio.Click += new System.EventHandler(this.lblConvenio_Click);
             // 
             // tabPage2
@@ -5148,7 +5151,7 @@ namespace CapaVisual_Login
             this.pnlGiftCard.Controls.Add(this.txtBeneficiarioGiftCard);
             this.pnlGiftCard.Controls.Add(this.lblMonto);
             this.pnlGiftCard.Controls.Add(this.txtMontoDolaresGiftCard);
-            this.pnlGiftCard.Location = new System.Drawing.Point(271, 213);
+            this.pnlGiftCard.Location = new System.Drawing.Point(282, 74);
             this.pnlGiftCard.Name = "pnlGiftCard";
             this.pnlGiftCard.Size = new System.Drawing.Size(522, 287);
             this.pnlGiftCard.TabIndex = 170;
@@ -5306,7 +5309,6 @@ namespace CapaVisual_Login
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1386, 788);
-            this.Controls.Add(this.pnlGiftCard);
             this.Controls.Add(this.Pnl_3_Lista_Articulo);
             this.Controls.Add(this.QuitarLimea2);
             this.Controls.Add(this.Pnl_3_Lista_ColoresLC);

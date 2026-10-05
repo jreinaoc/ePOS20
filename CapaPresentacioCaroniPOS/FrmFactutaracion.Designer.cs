@@ -1495,7 +1495,7 @@ namespace CapaVisual_Login
             this.txtTranferencia.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtTranferencia.ForeColor = System.Drawing.Color.Black;
             this.txtTranferencia.Location = new System.Drawing.Point(8, 178);
-            this.txtTranferencia.MaxLength = 20;
+            this.txtTranferencia.MaxLength = 15;
             this.txtTranferencia.Name = "txtTranferencia";
             this.txtTranferencia.Size = new System.Drawing.Size(175, 21);
             this.txtTranferencia.TabIndex = 34;

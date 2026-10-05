@@ -2951,7 +2951,7 @@ namespace CapaLogica.CargarOrdenes
              };
         }
 
-        public bool EjecutarPromociones(List<TB_ARTICULO> listaArticulos,DataGridView DgvArticulo, string TipoExamen, string Cod_DetVta, string CodPromo, bool MonturaPropia, bool CristalPropio)
+        public bool EjecutarPromociones(List<TB_ARTICULO> listaArticulos,DataGridView DgvArticulo, string TipoExamen, string Cod_DetVta, string CodPromo, bool MonturaPropia, bool CristalPropio, string Nacionalidad = "", string Cedula = "")
         {
             stringBuilder.Clear();
             try 
@@ -3001,11 +3001,17 @@ namespace CapaLogica.CargarOrdenes
                 {
                     string codigo = row.Cells["CodArticulo"].Value.ToString();
 
-                    // Verificar si es Montura o Lente de Contacto
+                    // Verificar si es Montura o Lente de sol
+                    //Por regla de NEGOCIO hay una sola montura y un solo cristal
+                    //por venta, asi que este es el unico candidato y el SP alcanza
+                    //a ver la montura completa. El IF solo evita que, si alguna vez
+                    //se cargaran dos M/L, el ultimo pise al articulo al que el SP
+                    //le evalua la marca para el veto Cartier / Montblanc.
                     if (codigo.StartsWith("M") || codigo.StartsWith("L"))
                     {
                         MLS = true;
-                        Montura = codigo;
+                        if (Montura == string.Empty)
+                            Montura = codigo;
                     }
                     // Verificar si es Cristal
                     else if (codigo.StartsWith("C"))
@@ -3104,6 +3110,15 @@ namespace CapaLogica.CargarOrdenes
                 // Contar cuántos parámetros ya hemos usado
                 int parametrosUsados = 10; // Los 10 parámetros fijos que ya estableciste
                 int ConteoParametros = 10;
+
+                // Cédula y nacionalidad del cliente: se envían SIEMPRE para todas las
+                // promociones. Cada SP de convenio las usa para consultar
+                // TB_CTEPPAL.CodConvenios por la llave compuesta (CTE_CedIden, CTE_Nacio).
+                // Se reemplazan los slots @PARAMETRO11/@PARAMETRO12 porque esos los
+                // consumen las variables dinámicas de la orden (ver promoción 264).
+                parametros["@CEDULA"] = Cedula;
+                parametros["@NACIONALIDAD"] = Nacionalidad;
+
                 // Agregar las nuevas variables dinámicas a los parámetros siguientes
                 foreach (var nuevaVariable in nuevasVariables)
                 {
@@ -3137,7 +3152,29 @@ namespace CapaLogica.CargarOrdenes
                     PromoAplica= AplicarPromocionesEnGrid(listaArticulos, DgvArticulo, resultado, parametros, glbTipoTrabajo, TipoExamen);
                 }
                 else
+                {
                     PromoAplica= false;
+
+                    // Promocion 267 (alianza Mapfre): el SP devuelve el motivo por el que no aplico
+                    // en la columna MOTIVO_NO_APLICA. Esa columna todavia no esta desplegada en todas
+                    // las bases de datos, por eso se valida que exista antes de leerla; si el SP es
+                    // la version anterior y la columna no esta, se mantiene el comportamiento mudo.
+                    if (CodPromo == "267" && resultado.Tables[0].Columns.Contains("MOTIVO_NO_APLICA"))
+                    {
+                        // DBNull.ToString() devuelve cadena vacia, asi que un motiv
+                        // o nulo no lanza excepcion.
+                        string motivoNoAplica = resultado.Tables[0].Rows[0]["MOTIVO_NO_APLICA"].ToString().Trim();
+
+                        // Unico motivo con mensaje: el cliente no esta marcado con el convenio 001.
+                        // Los demas motivos (ES_CONTACTO, VETO_MARCA_CR_MB, SIN_PAR_MONTURA_CRISTAL)
+                        // quedan mudos por requisito de negocio. El stringBuilder se limpio al inicio
+                        // de este metodo y aqui se escribe una sola vez, por lo que el texto no se duplica.
+                        if (motivoNoAplica == "SIN_CONVENIO_001")
+                        {
+                            stringBuilder.Append("Para aplicar esta promoción agregue el cliente a la alianza Mapfre");
+                        }
+                    }
+                }
             }
 
             return PromoAplica;
@@ -5401,27 +5438,75 @@ namespace CapaLogica.CargarOrdenes
             }
         }
 
-        public void CargarConvenios(
+        /// <summary>
+        /// Codigo de diagnostico de la ultima carga de convenios (ver
+        /// D_Articulos.UltimoCodigoConvenios). La UI solo lo muestra al cajero,
+        /// no decide ni interpreta: el detalle real queda en el log de %TEMP%.
+        /// </summary>
+        public int UltimoCodigoCargaConvenios
+        {
+            get { return _D_Articulos.UltimoCodigoConvenios; }
+        }
+
+        /// <summary>
+        /// Carga el catalogo de convenios en los dos grids del panel.
+        /// Devuelve true si se cargo data valida, false si la lectura fallo.
+        /// Los grids NO se vacian hasta contar con data valida: asi un fallo
+        /// transitorio de conexion no deja el panel vacio frente al cajero.
+        /// Las filas se agregan con la casilla en false, por lo que la solicitud
+        /// de clave autorizada no debe dispararse durante la carga.
+        /// Instrumentacion: cuando devuelve false se deja en el log de %TEMP% el
+        /// motivo exacto (DataTable null o sin filas) y el UltimoError de la capa
+        /// de datos, porque la UI solo puede mostrar un codigo corto. En el camino
+        /// feliz no se escribe nada: el log es solo para fallas.
+        /// </summary>
+        public bool CargarConvenios(
             System.Windows.Forms.DataGridView DgvConvenio,
             System.Windows.Forms.DataGridView DgvNoConvenio)
         {
-            DgvConvenio.Rows.Clear();
-            DgvNoConvenio.Rows.Clear();
-
+            // Primero la lectura: hasta saber que hay data no se toca la vista.
             DataTable dt = _D_Articulos.ObtenerConvenios();
-            if (dt == null || dt.Rows.Count == 0) return;
+            if (dt == null || dt.Rows.Count == 0)
+            {
+                // Se devuelve false sin excepcion. Este es el punto exacto donde se
+                // perdia la causa, asi que queda registrada antes de salir.
+                D_Articulos.EscribirLogConvenios("L_Articulo.CargarConvenios",
+                    "retorna false. Motivo=" + (dt == null ? "DataTable null" : "DataTable con 0 filas")
+                    + " Filas=" + (dt == null ? -1 : dt.Rows.Count)
+                    + " CodigoDatos=" + _D_Articulos.UltimoCodigoConvenios
+                    + " UltimoError=" + (string.IsNullOrEmpty(_D_Articulos.UltimoError) ? "(vacio)" : _D_Articulos.UltimoError)
+                    + " TrazaD_Articulos=" + _D_Articulos.stringBuilder.ToString().Replace(Environment.NewLine, " | "));
+
+                return false;
+            }
+
+            // Se separa en dos listas antes de escribir, para que un dato
+            // inesperado no deje los grids a medio poblar.
+            List<DataRow> convenios = new List<DataRow>();
+            List<DataRow> noConvenios = new List<DataRow>();
 
             foreach (DataRow row in dt.Rows)
             {
-                string codigo   = row["Codigo"].ToString();
-                string nombre   = row["Nombre"].ToString();
-                bool esConvenio = Convert.ToBoolean(row["EsConvenio"]);
+                bool esConvenio = row["EsConvenio"] != DBNull.Value && Convert.ToBoolean(row["EsConvenio"]);
 
                 if (esConvenio)
-                    DgvConvenio.Rows.Add(false, codigo, nombre);
+                    convenios.Add(row);
                 else
-                    DgvNoConvenio.Rows.Add(false, codigo, nombre);
+                    noConvenios.Add(row);
             }
+
+            DgvConvenio.Rows.Clear();
+            DgvNoConvenio.Rows.Clear();
+
+            foreach (DataRow row in convenios)
+                DgvConvenio.Rows.Add(false, Convert.ToString(row["Codigo"]), Convert.ToString(row["Nombre"]));
+
+            foreach (DataRow row in noConvenios)
+                DgvNoConvenio.Rows.Add(false, Convert.ToString(row["Codigo"]), Convert.ToString(row["Nombre"]));
+
+            // No se escribe nada aqui: la carga fue exitosa y el log de %TEMP% es
+            // solo para fallas. Si aparece una linea de esta capa, hubo un problema.
+            return true;
         }
 
     }

@@ -1011,6 +1011,9 @@ namespace CapaVisual_Login
 
             try
             {
+                //Banco 112 (SEGUROS MERCANTIL) solo se permite en ordenes con la promo 259
+                if (!ValidarBancoSegurosMercantil()) return;
+
                 //CbxBanco.SelectedIndex = 0;
                 LimpiaVariablesIdAbonoPagoMovil();
                 Double Bolivares = 0.00;
@@ -1086,7 +1089,7 @@ namespace CapaVisual_Login
                 if (CbxMetodosPago2.Text == "Transferencia")
                 {
                     // Cupon requiere un pago de CASHEA previo en la orden
-                    if (CbxBanco.SelectedValue.ToString() == "117" | CbxBancoRecp.SelectedValue.ToString() == "117")
+                    if (CbxBanco.SelectedValue?.ToString() == "117" | CbxBancoRecp.SelectedValue?.ToString() == "117")
                     {
                         if (!ExistePagoCashea(DgvAbonos))
                         {
@@ -1114,7 +1117,7 @@ namespace CapaVisual_Login
 
                     //Corrección IA: Si promo 259 y saldo ref <= 300, solo puede usar Seguros Mercantil
                     if (_D_DetalleOrden.OrdenTieneProm259(TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv) && Math.Round(TB_CAORDSER.OrSer_Saldo_Mon ?? 0, 2) <= 300
-                        && (CbxBanco.SelectedValue.ToString() != "112" || CbxBancoRecp.SelectedValue.ToString() != "112"))
+                        && (CbxBanco.SelectedValue?.ToString() != "112" || CbxBancoRecp.SelectedValue?.ToString() != "112"))
                     {
                         _FrmMensajes.co = 2;
                         _FrmMensajes.avisomensaje("Solo puede usar el banco Seguros Mercantil en esta orden");
@@ -1124,11 +1127,11 @@ namespace CapaVisual_Login
                     //Fin Corrección IA
 
                     // Promocion Seguros Mercantil Nuevo desarrollo 12/05/2026
-                    if(CbxBanco.SelectedValue.ToString()== "112" | CbxBancoRecp.SelectedValue.ToString()=="112" )
+                    if(CbxBanco.SelectedValue?.ToString()== "112" | CbxBancoRecp.SelectedValue?.ToString()=="112" )
                     {
                         // Validamos que selecionaran banco seguros mercantil en banco resecto y banco emisor 
 
-                        if (CbxBanco.SelectedValue.ToString() == "112" && CbxBancoRecp.SelectedValue.ToString() != "112" || CbxBanco.SelectedValue.ToString() != "112" && CbxBancoRecp.SelectedValue.ToString() == "112")
+                        if (CbxBanco.SelectedValue?.ToString() == "112" && CbxBancoRecp.SelectedValue?.ToString() != "112" || CbxBanco.SelectedValue?.ToString() != "112" && CbxBancoRecp.SelectedValue?.ToString() == "112")
                         {
                             _FrmMensajes.co = 2;
                             _FrmMensajes.avisomensaje("Debe selecionar Seguros Mercantil en ambos bancos");
@@ -1170,9 +1173,9 @@ namespace CapaVisual_Login
                         }
                     }
 
-                    if (CbxBanco.SelectedValue.ToString() == "115" | CbxBancoRecp.SelectedValue.ToString() == "115")
+                    if (CbxBanco.SelectedValue?.ToString() == "115" | CbxBancoRecp.SelectedValue?.ToString() == "115")
                     {
-                        if (CbxBanco.SelectedValue.ToString() == "115" && CbxBancoRecp.SelectedValue.ToString() != "115" || CbxBanco.SelectedValue.ToString() != "115" && CbxBancoRecp.SelectedValue.ToString() == "115")
+                        if (CbxBanco.SelectedValue?.ToString() == "115" && CbxBancoRecp.SelectedValue?.ToString() != "115" || CbxBanco.SelectedValue?.ToString() != "115" && CbxBancoRecp.SelectedValue?.ToString() == "115")
                         {
                             _FrmMensajes.co = 2;
                             _FrmMensajes.avisomensaje("Debe selecionar Gift Card en ambos bancos");
@@ -1561,6 +1564,17 @@ namespace CapaVisual_Login
                         string yearactual = DateTime.Now.Year.ToString();
                         //Obtengo los dos ultimos digitos del año para validar 
                         yearactual = yearactual.Substring(2, 2);
+
+                        // Valido que el campo vence tenga exactamente 4 caracteres (MMAA)
+                        // para evitar que Substring(2,2) lanze excepcion con datos incompletos
+                        if (txtVence.Text.Trim().Length != 4)
+                        {
+                            _FrmMensajes.co = 2;
+                            _FrmMensajes.avisomensaje("El formato del campo vence debe ser mes año (MMAA)" +
+                                "");
+                            _FrmMensajes.ShowDialog();
+                            return;
+                        }
 
                         // Obtengo los dos primeros digitos del campo vence para validar el mes 
                         string mesvence = txtVence.Text.Substring(0, 2);
@@ -4710,6 +4724,36 @@ namespace CapaVisual_Login
                 }
             }
 
+            // Al final de todos los casos: si el metodo de pago dejo oculto el combo de
+            // banco, se le borra la seleccion. Varias ramas asignan
+            // "CbxBanco.SelectedIndex = 30" sobre un combo que ya estaba en Visible = false
+            // (L4018 y L4689), y ese valor sobrevive al cambio de metodo de pago. Con el
+            // valor pegado, metodos que no usan banco (Cashea / mas cuotas) se veian como si
+            // se estuviera pagando con Seguros Mercantil. Para esos metodos el valor nunca
+            // llega a la BD: la rama de Cashea guarda "110" fijo.
+            //LimpiarBancosNoVisibles();
+        }
+
+        /// <summary>
+        /// Borra la seleccion de los combos de banco que el metodo de pago actual dejo
+        /// ocultos, para que ningun valor antiguo quede dando vueltas. Se invoca al final de
+        /// CbxMetodosPago_SelectedIndexChanged, que es donde se decide la visibilidad.
+        /// Poner SelectedIndex = -1 dispara CbxBanco_SelectedIndexChanged, pero ese handler
+        /// sale de inmediato cuando el indice es -1, asi que no tiene efecto colateral.
+        /// </summary>
+        private void LimpiarBancosNoVisibles()
+        {
+            if (!CbxBanco.Visible)
+            {
+                CbxBanco.SelectedIndex = -1;
+                CbxBanco.Text = "";
+            }
+
+            if (!CbxBancoRecp.Visible)
+            {
+                CbxBancoRecp.SelectedIndex = -1;
+                CbxBancoRecp.Text = "";
+            }
         }
 
         private void FormatoDataGrid()
@@ -8653,6 +8697,76 @@ namespace CapaVisual_Login
             }
 
             return PermiteAbonar;
+        }
+
+        /// <summary>
+        /// Valida que el banco 112 (SEGUROS MERCANTIL) solo se use en ordenes con la promo 259.
+        /// Revisa ambos combos: pagador (CbxBanco) y receptor (CbxBancoRecp).
+        /// </summary>
+        private bool ValidarBancoSegurosMercantil()
+        {
+            const string COD_SEGUROS_MERCANTIL = "112";
+            const string COD_PROMO_SEGUROS_MERCANTIL = "259";
+
+            // Un banco que no se muestra no se esta usando. El combo conserva el valor que
+            // tenga seleccionado aunque el metodo de pago actual lo tenga oculto, asi que
+            // leerlo sin mirar la visibilidad produce un banco fantasma: con Cashea /
+            // mas cuotas, donde los combos ni siquiera se ven, daba el mensaje de que no se
+            // puede usar Seguros Mercantil cuando el cajero no estaba eligiendo ningun banco.
+            string bancoPagador = CbxBanco.Visible
+                ? (CbxBanco.SelectedValue?.ToString()?.Trim() ?? "")
+                : "";
+            string bancoReceptor = CbxBancoRecp.Visible
+                ? (CbxBancoRecp.SelectedValue?.ToString()?.Trim() ?? "")
+                : "";
+
+            //No se esta usando el 112, no hay nada que validar
+            if (bancoPagador != COD_SEGUROS_MERCANTIL &&
+                bancoReceptor != COD_SEGUROS_MERCANTIL)
+                return true;
+
+            if (OrdenTienePromo(COD_PROMO_SEGUROS_MERCANTIL))
+                return true;
+
+            mensaje = "No puede usar el banco Seguros mercantil en esta venta";
+            _FrmMensajes.co = 2;
+            _FrmMensajes.avisomensaje(mensaje);
+            _FrmMensajes.ShowDialog();
+            return false;
+        }
+
+        /// <summary>
+        /// Devuelve true si alguna linea del detalle de la orden tiene la promo indicada.
+        /// Se recorren todas las lineas porque la orden puede traer mas de una promo.
+        /// </summary>
+        private bool OrdenTienePromo(string codPromo)
+        {
+            try
+            {
+                DataSet DtsDetalle_Orden_consulta = _D_DetalleOrden.OptenerDetalleOrdenCompleto(
+                    TB_CAORDSER.Cod_Sucursal, TB_CAORDSER.NumOrdserv, TB_CAORDSER.Revision, null);
+
+                if (DtsDetalle_Orden_consulta == null || DtsDetalle_Orden_consulta.Tables.Count < 2)
+                    return false;
+
+                foreach (DataRow row in DtsDetalle_Orden_consulta.Tables[1].Rows)
+                {
+                    string cod = row["COD_Prom"]?.ToString()?.Trim() ?? "";
+                    if (cod == codPromo)
+                        return true;
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                //Si no se pudo validar la promo, no se permite el pago
+                mensaje = "Error al validar la promocion de la orden: " + ex.Message;
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje(mensaje);
+                _FrmMensajes.ShowDialog();
+                return false;
+            }
         }
 
 

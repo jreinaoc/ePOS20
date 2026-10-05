@@ -16,6 +16,28 @@ namespace CapaDatos.CargarOrdenes_Datos
         //El uso de la clase StringBuilder nos ayudara a devolver los mensajes 
         public readonly StringBuilder stringBuilder = new StringBuilder();
 
+        /// <summary>
+        /// Ultimo error capturado por los metodos de solo lectura. Permite
+        /// diagnosticar un fallo de conexion sin propagar la excepcion a la UI.
+        /// Vacio = la ultima lectura fue exitosa.
+        /// </summary>
+        public string UltimoError { get; private set; } = string.Empty;
+
+        /// <summary>
+        /// Codigos cortos de diagnostico de la ultima lectura de convenios. La UI solo
+        /// los muestra al cajero; el detalle real queda en el archivo de log.
+        /// </summary>
+        public const int CodigoConveniosSinFalla = 0;
+        public const int CodigoConveniosSinFilas = 1;
+        public const int CodigoConveniosExcepcion = 2;
+
+        /// <summary>
+        /// Ultimo codigo de diagnostico emitido por ObtenerConvenios. Permite separar
+        /// "la consulta no devolvio filas" de "la lectura lanzo excepcion" sin
+        /// exponerle al cajero el mensaje crudo de SQL.
+        /// </summary>
+        public int UltimoCodigoConvenios { get; private set; } = CodigoConveniosSinFalla;
+
         public List <TB_ARTICULO> ObtenerArticulos(string TipoTrabajo, string CodArticulo = "", SqlCommand command = null, bool sugerenciaIA = false)  // Trae el detalle del articulo 
         {
             // Declarar la lista para almacenar los resultados
@@ -2705,23 +2727,121 @@ EXEC pValidoParametrosCRT
 
         }
 
+        /// <summary>
+        /// Lee el catalogo de convenios. No propaga excepciones a la UI: en caso
+        /// de error devuelve null y deja el detalle en stringBuilder / UltimoError.
+        /// La conexion se abre y se cierra de forma explicita con using para no
+        /// agotar el pool de conexiones en reapariciones sucesivas del panel.
+        /// Instrumentacion: deja rastro en %TEMP%\convenios_error.log SOLO cuando hay
+        /// una falla real (excepcion o consulta sin filas). En el camino feliz no se
+        /// escribe nada: el archivo puede directamente no existir, y si aparece es
+        /// porque algo fallo.
+        /// </summary>
         public DataTable ObtenerConvenios()
         {
+            stringBuilder.Clear();
+            UltimoCodigoConvenios = CodigoConveniosSinFalla;
+
+            // NO se loguea nada en el camino feliz (ni una linea de ENTRADA antes de
+            // consultar, ni la conexion abierta, ni el "lectura OK" del cierre).
+            // Motivo: ese log se abrio para cazar el fallo del doble Open() y solo
+            // servia para ensuciar %TEMP% en cada click, porque se escribia siempre,
+            // exito o fallo, y el cajero termina creyendo que hay un error siempre.
+            // Si el archivo no aparece, es que todo funciono bien. Cualquier
+            // escritura nueva debe quedar dentro de una rama de falla.
             try
             {
-                SqlConnection connection = cn.LeerCadena();
-                SqlCommand cmd = connection.CreateCommand();
-                cmd.CommandText = "SELECT Codigo, Nombre, EsConvenio FROM TB_CONVENIOS";
-                cmd.CommandType = CommandType.Text;
                 DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
+
+                using (SqlConnection connection = cn.LeerCadena())
+                {
+                    // Conexion.LeerCadena() ya devuelve la conexion ABIERTA (ver
+                    // Conexion.cs L28-35: si esta cerrada la abre antes de retornarla).
+                    // NO se vuelve a llamar Open() aqui: abrir una conexion que ya esta
+                    // abierta lanza InvalidOperationException ("La conexion no se cerro.
+                    // El estado actual de la conexion es abierta.") y hacia fallar toda
+                    // la carga de convenios.
+                    if (connection.State != ConnectionState.Open)
+                        connection.Open();
+
+                    using (SqlCommand cmd = connection.CreateCommand())
+                    {
+                        cmd.CommandText = "SELECT Codigo, Nombre, EsConvenio FROM TB_CONVENIOS";
+                        cmd.CommandType = CommandType.Text;
+                        cmd.CommandTimeout = 60;
+
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt);
+                        }
+                    }
+                }
+
+                UltimoError = string.Empty;
+
+                // No hubo excepcion: se evalua el resultado de la consulta. El caso
+                // "se ejecuto pero vino vacio" SI se registra porque para el cajero es
+                // un error real aunque no haya excepcion: el panel no puede cargar y
+                // por eso la UI devuelve false. Solo esta rama de falla escribe aqui.
+                if (dt.Rows.Count == 0)
+                {
+                    UltimoCodigoConvenios = CodigoConveniosSinFilas;
+                    LogConvenios("la consulta se ejecuto SIN EXCEPCION pero devolvio 0 filas. Columnas leidas: "
+                        + string.Join(", ", dt.Columns.Cast<DataColumn>().Select(c => c.ColumnName)) + ".");
+                }
+
                 return dt;
             }
             catch (Exception ex)
             {
-                string error = $"Error: {ex.Message}";
+                UltimoCodigoConvenios = CodigoConveniosExcepcion;
+                stringBuilder.AppendLine($"[ObtenerConvenios] {ex.GetType().Name}: {ex.Message}");
+                UltimoError = ex.Message;
+
+                // Antes el error se perdia aqui: solo quedaba en memoria y el panel
+                // se limitaba a devolver false sin dejar rastro. Esta es la razon de
+                // ser del log, junto con el caso de 0 filas: solo hay escritura
+                // cuando hay un fallo real.
+                LogConvenios("EXCEPCION " + ex.GetType().FullName + ": " + ex.Message + Environment.NewLine
+                    + "  StackTrace: " + (string.IsNullOrEmpty(ex.StackTrace) ? "(sin stack trace)" : ex.StackTrace) + Environment.NewLine
+                    + "  InnerException: " + (ex.InnerException == null
+                        ? "(ninguna)"
+                        : ex.InnerException.GetType().FullName + ": " + ex.InnerException.Message) + Environment.NewLine
+                    + "  Traza D_Articulos.stringBuilder: " + stringBuilder.ToString().Replace(Environment.NewLine, " | "));
+
                 return null;
+            }
+        }
+
+        /// <summary>
+        /// Escribe una linea de este metodo en %TEMP%\convenios_error.log con la
+        /// etiqueta que lo identifica. Delega en EscribirLogConvenios, que nunca
+        /// propaga la excepcion.
+        /// </summary>
+        private void LogConvenios(string mensaje)
+        {
+            EscribirLogConvenios("D_Articulos.ObtenerConvenios", mensaje);
+        }
+
+        /// <summary>
+        /// Anade una linea de diagnostico al log de convenios de %TEMP%, el mismo
+        /// archivo que escribe la UI, para poder leer las tres capas (datos, logica y
+        /// presentacion) en un solo archivo y en orden cronologico. Es public para
+        /// que la capa de logica use el mismo archivo. Nunca propaga la excepcion:
+        /// fallar al escribir el log no debe romper la carga.
+        /// </summary>
+        public static void EscribirLogConvenios(string origen, string mensaje)
+        {
+            try
+            {
+                string ruta = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "convenios_error.log");
+                string entrada = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")
+                    + " | [" + origen + "] " + mensaje;
+                System.IO.File.AppendAllText(ruta, entrada + Environment.NewLine);
+            }
+            catch
+            {
+                // Sin log no hay diagnostico, pero la operacion del cajero continua igual.
             }
         }
     }
