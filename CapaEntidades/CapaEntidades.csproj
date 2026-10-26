@@ -168,6 +168,7 @@
     <Compile Include="TB_CTEMAIL.cs" />
     <Compile Include="TB_CTEPPAL.cs" />
     <Compile Include="TB_CTETLF.cs" />
+    <Compile Include="TB_CONVENIO.cs" />
     <Compile Include="TB_EMPAFI.cs" />
     <Compile Include="TB_Examen.cs" />
     <Compile Include="TB_EXAMENCTE.cs" />

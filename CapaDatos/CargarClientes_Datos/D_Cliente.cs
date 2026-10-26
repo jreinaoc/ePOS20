@@ -303,6 +303,212 @@ namespace CapaDatos.CargarClientes_Datos
             return resultado;
         }
 
+        /// <summary>
+        /// Obtiene el cliente pagador de un convenio (TB_CONVENIOS.CTE_NACIOPAGADOR y
+        /// TB_CONVENIOS.CTE_CEDULAPAGADOR) filtrando por el codigo del convenio.
+        ///
+        /// Las columnas CTE_NACIOPAGADOR / CTE_CEDULAPAGADOR son nuevas y todavia pueden
+        /// no existir en la base de datos (el despliegue de las columnas lo realiza el
+        /// DBA). Para que la aplicacion no se rompa, primero se verifica su existencia
+        /// con COL_LENGTH: si no estan, se devuelve null y el formulario se comporta
+        /// exactamente igual que hoy, es decir, sin cliente pagador por convenio.
+        /// </summary>
+        public TB_CONVENIO ObtenerClientePagadorConvenio(string codigoConvenio)
+        {
+            stringBuilder.Clear();
+            TB_CONVENIO resultado = null;
+            SqlConnection connection = null;
+
+            try
+            {
+                if (string.IsNullOrWhiteSpace(codigoConvenio))
+                {
+                    return null;
+                }
+
+                connection = cn.LeerCadena();
+                if (connection.State != ConnectionState.Open)
+                {
+                    connection.Open();
+                }
+
+                // Verificacion de existencia de las columnas nuevas. Se consulta con y
+                // sin esquema porque la tabla puede estar creada en dbo o en el esquema
+                // por defecto del usuario con el que se abre la conexion.
+                using (SqlCommand comandoColumnas = new SqlCommand(
+                    "SELECT CASE WHEN (COL_LENGTH('dbo.TB_CONVENIOS', 'CTE_NACIOPAGADOR') IS NOT NULL AND COL_LENGTH('dbo.TB_CONVENIOS', 'CTE_CEDULAPAGADOR') IS NOT NULL) " +
+                    "OR (COL_LENGTH('TB_CONVENIOS', 'CTE_NACIOPAGADOR') IS NOT NULL AND COL_LENGTH('TB_CONVENIOS', 'CTE_CEDULAPAGADOR') IS NOT NULL) THEN 1 ELSE 0 END",
+                    connection))
+                {
+                    object columnasExistentes = comandoColumnas.ExecuteScalar();
+                    if (columnasExistentes == null || columnasExistentes == DBNull.Value || Convert.ToInt32(columnasExistentes) == 0)
+                    {
+                        // Las columnas todavia no estan en la base de datos: no hay pagador que leer.
+                        return null;
+                    }
+                }
+
+                using (SqlCommand comando = new SqlCommand(
+                    "SELECT CTE_NACIOPAGADOR, CTE_CEDULAPAGADOR FROM TB_CONVENIOS WHERE Codigo = @Codigo",
+                    connection))
+                {
+                    comando.Parameters.AddWithValue("@Codigo", codigoConvenio);
+
+                    using (SqlDataReader reader = comando.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            resultado = new TB_CONVENIO
+                            {
+                                Codigo = codigoConvenio,
+                                CTE_NACIOPAGADOR = reader.IsDBNull(0) ? null : reader.GetValue(0).ToString().Trim(),
+                                CTE_CEDULAPAGADOR = reader.IsDBNull(1) ? null : reader.GetValue(1).ToString().Trim()
+                            };
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                stringBuilder.AppendLine(string.Format("Error al obtener el cliente pagador del convenio {0}: {1}", codigoConvenio, ex.Message));
+            }
+            finally
+            {
+                if (connection != null && connection.State == ConnectionState.Open)
+                {
+                    connection.Close();
+                }
+            }
+
+            return resultado;
+        }
+
+        /// <summary>
+        /// Indica si el cliente puede usar la promocion indicada segun los convenios que tiene
+        /// en TB_CTEPPAL.CodConvenios y la promocion asociada a cada convenio (TB_CONVENIOS.Cod_Prom).
+        ///
+        /// Llama al SP SP_CPOSC_ClienteAplicaPromocionConvenio: el SP resuelve internamente el
+        /// CSV de convenios del cliente y el cruce con TB_CONVENIOS, sin SELECTs sueltos en la
+        /// capa logica.
+        ///
+        /// Devuelve true si aplica (o si no se puede determinar), false solo cuando el SP
+        /// determina que la promocion esta ligada a convenio(s) que el cliente no posee.
+        /// </summary>
+        public bool ClienteAplicaPromocionConvenio(string cedula, string nacio, string codPromo)
+        {
+            stringBuilder.Clear();
+
+            // Ante cualquier problema de conexion o datos se devuelve true para no
+            // bloquear la venta: solo se bloquea cuando el SP dice explicitamente que NO aplica.
+            bool aplica = true;
+            SqlConnection connection = null;
+
+            try
+            {
+                connection = cn.LeerCadena();
+                if (connection.State != ConnectionState.Open)
+                {
+                    connection.Open();
+                }
+
+                using (SqlCommand comando = new SqlCommand("SP_CPOSC_ClienteAplicaPromocionConvenio", connection))
+                {
+                    comando.CommandType = CommandType.StoredProcedure;
+                    comando.Parameters.AddWithValue("@CTE_CedIden", cedula ?? string.Empty);
+                    comando.Parameters.AddWithValue("@CTE_Nacio", nacio ?? string.Empty);
+                    comando.Parameters.AddWithValue("@COD_Prom", codPromo ?? string.Empty);
+
+                    object valor = comando.ExecuteScalar();
+                    if (valor != null && valor != DBNull.Value)
+                    {
+                        aplica = Convert.ToInt32(valor) == 1;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                stringBuilder.AppendLine(string.Format(
+                    "Error al validar la promocion {0} del cliente {1}/{2}: {3}",
+                    codPromo, nacio, cedula, ex.Message));
+                // Ante error se devuelve true para no impedir la venta.
+            }
+            finally
+            {
+                if (connection != null && connection.State == ConnectionState.Open)
+                {
+                    connection.Close();
+                }
+            }
+
+            return aplica;
+        }
+
+        /// <summary>
+        /// Obtiene el nombre del cliente de TB_CTEPPAL (CTE_PNombre + CTE_PApellido)
+        /// a partir de su cedula y nacionalidad.
+        ///
+        /// Se usa, entre otros casos, para leer el nombre del cliente pagador de los
+        /// convenios de alianza (008, 009, 010), que ya fue dado de alta en TB_CTEPPAL.
+        /// Si el cliente no existe o el nombre viene vacio se devuelve null, para que
+        /// quien lo usa decida si deja el valor anterior o lo reemplaza.
+        /// </summary>
+        public string ObtenerNombreCliente(string cedula, string nacio)
+        {
+            stringBuilder.Clear();
+            string resultado = null;
+            SqlConnection connection = null;
+
+            try
+            {
+                if (string.IsNullOrWhiteSpace(cedula) || string.IsNullOrWhiteSpace(nacio))
+                {
+                    return null;
+                }
+
+                connection = cn.LeerCadena();
+                if (connection.State != ConnectionState.Open)
+                {
+                    connection.Open();
+                }
+
+                using (SqlCommand comando = new SqlCommand(
+                    "SELECT TOP 1 CTE_PNombre, CTE_PApellido FROM TB_CTEPPAL WHERE CTE_CedIden = @CTE_CedIden AND CTE_Nacio = @CTE_Nacio",
+                    connection))
+                {
+                    comando.Parameters.AddWithValue("@CTE_CedIden", cedula);
+                    comando.Parameters.AddWithValue("@CTE_Nacio", nacio);
+
+                    using (SqlDataReader reader = comando.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            string primerNombre = reader.IsDBNull(0) ? string.Empty : reader.GetValue(0).ToString().Trim();
+                            string primerApellido = reader.IsDBNull(1) ? string.Empty : reader.GetValue(1).ToString().Trim();
+                            string nombreCompleto = (primerNombre + " " + primerApellido).Trim();
+
+                            if (!string.IsNullOrEmpty(nombreCompleto))
+                            {
+                                resultado = nombreCompleto;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                stringBuilder.AppendLine(string.Format("Error al obtener el nombre del cliente: {0}", ex.Message));
+            }
+            finally
+            {
+                if (connection != null && connection.State == ConnectionState.Open)
+                {
+                    connection.Close();
+                }
+            }
+
+            return resultado;
+        }
+
         public List<TB_MAESEDO> ObtenerEstados()
         {
             List<TB_MAESEDO> listaEstados = new List<TB_MAESEDO>();

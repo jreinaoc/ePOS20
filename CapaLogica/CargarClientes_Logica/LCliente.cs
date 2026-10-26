@@ -371,5 +371,101 @@ public string InsertarEmail(TB_CTEMAIL email)
             return _D_Cliente.ObtenerCodConveniosCliente(cedula, nacio);
         }
 
+        /// <summary>
+        /// Convenios de alianza que tienen cliente pagador asociado en TB_CONVENIOS:
+        /// 008 Alianza Condominio, 009 Alianza Topochal y 010 Alianza Parkplay.
+        /// El orden del arreglo es la prioridad: si el cliente tiene mas de uno, gana
+        /// el primero de la lista.
+        /// </summary>
+        private static readonly string[] CodigosConveniosAlianza = { "008", "009", "010" };
+
+        /// <summary>
+        /// Devuelve el cliente pagador del primer convenio de alianza (008, 009, 010)
+        /// que tenga el cliente en el CSV de convenios recibido.
+        ///
+        /// El CSV llega como "001" o "001,008" (TB_CTEPPAL.CodConvenios). Si el convenio
+        /// de alianza no tiene pagador configurado (nacionalidad o cedula vacias) se
+        /// considera que no hay pagador y se devuelve null, de la misma forma que si el
+        /// cliente no tuviera convenio de alianza.
+        /// </summary>
+        public TB_CONVENIO ObtenerClientePagadorAlianza(string codConveniosCliente)
+        {
+            stringBuilder.Clear();
+
+            if (string.IsNullOrWhiteSpace(codConveniosCliente))
+            {
+                return null;
+            }
+
+            // Codigos de convenio del cliente: "001" o "001,008".
+            string[] codigos = codConveniosCliente.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+
+            foreach (string codigoAlianza in CodigosConveniosAlianza)
+            {
+                bool tieneElConvenio = false;
+
+                foreach (string codigo in codigos)
+                {
+                    if (string.Equals(codigo.Trim(), codigoAlianza, StringComparison.OrdinalIgnoreCase))
+                    {
+                        tieneElConvenio = true;
+                        break;
+                    }
+                }
+
+                if (!tieneElConvenio)
+                {
+                    continue;
+                }
+
+                TB_CONVENIO convenio = _D_Cliente.ObtenerClientePagadorConvenio(codigoAlianza);
+
+                if (convenio == null)
+                {
+                    continue;
+                }
+
+                // Convenio sin pagador configurado: se sigue con el siguiente de la lista.
+                if (string.IsNullOrWhiteSpace(convenio.CTE_NACIOPAGADOR) || string.IsNullOrWhiteSpace(convenio.CTE_CEDULAPAGADOR))
+                {
+                    continue;
+                }
+
+                return convenio;
+            }
+
+            if (_D_Cliente.stringBuilder.Length > 0)
+            {
+                stringBuilder.AppendLine(_D_Cliente.stringBuilder.ToString());
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Nombre del cliente de TB_CTEPPAL (CTE_PNombre + CTE_PApellido) a partir de su
+        /// cedula y nacionalidad. Devuelve null si el cliente no existe o el nombre
+        /// viene vacio.
+        /// </summary>
+        public string ObtenerNombreCliente(string cedula, string nacio)
+        {
+            stringBuilder.Clear();
+            return _D_Cliente.ObtenerNombreCliente(cedula, nacio);
+        }
+
+        /// <summary>
+        /// Indica si el cliente puede usar la promocion indicada segun los convenios que tiene
+        /// en TB_CTEPPAL.CodConvenios y la promocion asociada a cada convenio (TB_CONVENIOS.Cod_Prom).
+        ///
+        /// Devuelve true si aplica (o si no se puede determinar); false solo cuando la promocion
+        /// esta ligada a convenio(s) que el cliente no posee. La validacion se resuelve en un
+        /// unico SP, sin SELECTs sueltos en la capa logica.
+        /// </summary>
+        public bool ClienteAplicaPromocionConvenio(string cedula, string nacio, string codPromo)
+        {
+            stringBuilder.Clear();
+            return _D_Cliente.ClienteAplicaPromocionConvenio(cedula, nacio, codPromo);
+        }
+
     }
 }

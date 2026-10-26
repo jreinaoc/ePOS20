@@ -120,6 +120,16 @@ namespace CapaVisual_Login
         public int idAbonoPagoMovil = 0;
         public string CedulaCtePagador;
         public string NombreCtePagador;
+        // Cliente pagador que corresponde al convenio de alianza (008/009/010) del cliente
+        // de la orden. Se guarda aparte porque el patron "guardar / cargar / restaurar" de
+        // btnIngresar_Click restaura despues el valor previo de txtCedula y ese restore
+        // dejaria sin efecto al pagador del convenio.
+        public string CedulaCtePagadorAlianza;
+        // Nombre del cliente pagador del convenio de alianza. Se guarda junto con la
+        // cedula porque el patron "guardar / cargar / restaurar" de btnIngresar_Click
+        // restaura la cedula y el nombre por separado: si solo se restaurara la cedula
+        // del pagador quedaria el nombre del cliente de la orden (desincronizado).
+        public string NombreCtePagadorAlianza;
 
         //private readonly string _cashea_Uuid_Caja = ConfigurationManager.AppSettings["Cashea_Uuid_Caja"];
         //private readonly string _cashea_Uuid_Caja = ConfigCashea.UuidCaja;
@@ -233,6 +243,27 @@ namespace CapaVisual_Login
             CargarDatosOrden(TB_CAORDSER.NumOrdserv, TB_CAORDSER.Cod_DetVta, TB_CAORDSER.Revision);
             txtCedula.Text = CedulaCtePagador;
             txtNombreCliente.Text = NombreCtePagador;
+
+            // El restore de arriba deja el valor que habia antes de recargar la orden. Si ese
+            // valor es el mismo cliente de la orden (es decir, el usuario no eligio otro
+            // cliente pagador a mano) y el cliente tiene convenio de alianza con cliente
+            // pagador, se deja el pagador del convenio que aplico CargarDatosOrden. Si el
+            // usuario si habia elegido otro pagador, se respeta su eleccion.
+            // Se reponen la cedula Y el nombre del pagador para que no queden
+            // desincronizados (cedula del pagador con nombre del cliente de la orden).
+            if (!string.IsNullOrEmpty(CedulaCtePagadorAlianza)
+                && string.Equals((CedulaCtePagador ?? "").Replace(" ", ""), (TB_CAORDSER.CTE_Nacio + "-" + TB_CAORDSER.CTE_CedIden).Replace(" ", ""), StringComparison.OrdinalIgnoreCase))
+            {
+                txtCedula.Text = CedulaCtePagadorAlianza;
+
+                // El nombre del pagador solo se repone si se pudo resolver desde
+                // TB_CTEPPAL; si no, se conserva el nombre previo (el del cliente de la
+                // orden) en lugar de dejar un nombre inventado.
+                if (!string.IsNullOrEmpty(NombreCtePagadorAlianza))
+                {
+                    txtNombreCliente.Text = NombreCtePagadorAlianza;
+                }
+            }
 
             if (TB_CAORDSER.OrSer_Status == "004" && TB_CAORDSER.Cod_DetVta != "02")
             {
@@ -2414,6 +2445,27 @@ namespace CapaVisual_Login
         {
             try
             {
+                // Refresca la configuracion de servicios externos (CASHEA / GIFTCARD) cada
+                // vez que se abre una orden. La instancia de FrmFacturacion la crea
+                // FrmListaOrdenes una sola vez (L53), asi que el constructor corre una
+                // unica vez y los cambios en TB_CONFIG_SERVICIOSEXTERNOS no se tomaban
+                // hasta reiniciar la aplicacion. Se recarga aqui para tomar los cambios
+                // en cada entrada a la orden sin reiniciar.
+                CargarConfiguracionCashea();
+                CargarConfiguracionGiftCard();
+
+                // Si la configuracion de los metodos de pago externos no quedo cargada, la
+                // orden NO se abre: sin BaseUrl no se puede cobrar con Cashea ni GiftCard.
+                // Se corta antes de tocar la orden para no dejarla cargada a medias.
+                if (string.IsNullOrWhiteSpace(ConfigServiciosExternos.Cashea_BaseUrl)
+                    || string.IsNullOrWhiteSpace(ConfigServiciosExternos.GiftCard_BaseUrl))
+                {
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje("Error: no se pudo cargar la configuracion de los metodos de pago externos (Cashea / GiftCard). No se puede abrir la orden.");
+                    _FrmMensajes.ShowDialog();
+                    return;
+                }
+
                 txtMontoBs.Enabled = false;
                 // Actualizar la entidad TB_tasa 
                 DateTime FechaActiva = _D_Inicio.DiaActivo();
@@ -2461,6 +2513,7 @@ namespace CapaVisual_Login
                 //txtNombreVendedor.Text = TB_USUARIO.USER_NOMBRE + " " + TB_USUARIO.USER_APELLIDO; Muestra El usuario logeado y tiene que aparecer quien creo la orden
                 txtNombreVendedor.Text = _D_DetalleOrden.BuscarUsuarioOrden(TB_CAORDSER.USER_Crea);
                 txtCedula.Text = TB_CAORDSER.CTE_Nacio + "-" + TB_CAORDSER.CTE_CedIden;
+
                 TxtFecha.Text = Convert.ToString(TB_CAORDSER.Fecha).Substring(0, 11);
                 TxtStatus.Text = _L_Facturacion.StatusOrde(TB_CAORDSER.OrSer_Status);
                 TxtMontoBs2.Text = String.Format(CultureInfo.InvariantCulture, "{0:0.00}", TB_CAORDSER.VtaTotal).Replace(".", ",");
@@ -2510,6 +2563,17 @@ namespace CapaVisual_Login
                 {
                     BtnClientePagador.Enabled = true;
                 }
+
+                // Si el cliente de la orden tiene convenio de alianza (008 Alianza Condominio,
+                // 009 Alianza Topochal, 010 Alianza Parkplay) y ese convenio tiene cliente
+                // pagador, se muestran la cedula y el nombre del pagador del convenio en
+                // lugar del cliente de la orden.
+                //
+                // Se aplica DESPUES del bloque de Seguro Mercantil (promocion 259 con saldo
+                // <= 300) porque cuando hay convenio de alianza el pagador del convenio
+                // manda sobre el pagador de la promocion. Cuando no hay convenio de
+                // alianza, el comportamiento es exactamente el de antes.
+                AplicarClientePagadorAlianza(TB_CAORDSER.CTE_CedIden, TB_CAORDSER.CTE_Nacio);
 
                 _L_Facturacion.BuscarTlfCorreo(NumeroOrden);
                 TxtTelefono.Text = _L_Facturacion.TlfCliente;
@@ -2763,6 +2827,81 @@ namespace CapaVisual_Login
                 return;
             }
 
+        }
+
+        /// <summary>
+        /// Coloca en txtCedula y txtNombreCliente el cliente pagador del convenio de
+        /// alianza (008 Alianza Condominio, 009 Alianza Topochal, 010 Alianza Parkplay)
+        /// del cliente de la orden.
+        ///
+        /// Si el cliente no tiene convenio de alianza, o el convenio no tiene cliente
+        /// pagador configurado, no se modifica txtCedula ni txtNombreCliente: el
+        /// formulario se comporta exactamente igual que hoy. Los valores se dejan en
+        /// CedulaCtePagadorAlianza y NombreCtePagadorAlianza para que el patron
+        /// "guardar / cargar / restaurar" de btnIngresar_Click pueda distinguir el
+        /// pagador del convenio de un pagador elegido a mano por el usuario.
+        /// </summary>
+        private void AplicarClientePagadorAlianza(string cedula, string nacio)
+        {
+            CedulaCtePagadorAlianza = null;
+            NombreCtePagadorAlianza = null;
+
+            try
+            {
+                if (string.IsNullOrWhiteSpace(cedula) || string.IsNullOrWhiteSpace(nacio))
+                {
+                    return;
+                }
+
+                // Convenios del cliente (TB_CTEPPAL.CodConvenios): "001" o "001,008".
+                string codConvenios = _L_Cliente.ObtenerCodConveniosCliente(cedula, nacio);
+
+                if (string.IsNullOrWhiteSpace(codConvenios))
+                {
+                    return;
+                }
+
+                TB_CONVENIO pagador = _L_Cliente.ObtenerClientePagadorAlianza(codConvenios);
+
+                if (pagador == null)
+                {
+                    return;
+                }
+
+                // Se escribe siempre con el formato Nacio-Cedula porque el resto del
+                // formulario separa la nacionalidad de la cedula con Substring(0,1) y
+                // Substring(2, ...).
+                CedulaCtePagadorAlianza = pagador.CTE_NACIOPAGADOR + "-" + pagador.CTE_CEDULAPAGADOR;
+                txtCedula.Text = CedulaCtePagadorAlianza;
+
+                // Nombre del cliente pagador del convenio: se lee de TB_CTEPPAL con la
+                // nacionalidad y la cedula del pagador (no el nombre del cliente de la
+                // orden). Si el pagador no tiene fila o el nombre viene vacio, txtNombreCliente
+                // se deja como esta: no se vacia ni se inventa un valor.
+                string nombrePagador = _L_Cliente.ObtenerNombreCliente(pagador.CTE_CEDULAPAGADOR, pagador.CTE_NACIOPAGADOR);
+
+                if (!string.IsNullOrWhiteSpace(nombrePagador))
+                {
+                    NombreCtePagadorAlianza = nombrePagador;
+                    txtNombreCliente.Text = nombrePagador;
+                }
+                else
+                {
+                    Console.WriteLine("No se encontro el nombre del cliente pagador del convenio de alianza: " + CedulaCtePagadorAlianza);
+                }
+
+                // El pagador queda determinado por el convenio, por lo que se desactiva el
+                // boton de cliente pagador para que el cajero no lo cambie.
+                BtnClientePagador.Enabled = false;
+            }
+            catch (Exception ex)
+            {
+                // La carga de la orden no puede fallar por no poder leer el pagador del
+                // convenio: se deja txtCedula como estaba.
+                CedulaCtePagadorAlianza = null;
+                NombreCtePagadorAlianza = null;
+                Console.WriteLine("Error al aplicar el cliente pagador del convenio de alianza: " + ex.Message);
+            }
         }
 
         private void txtMontoBs_Validating(object sender, CancelEventArgs e)
@@ -8201,6 +8340,12 @@ namespace CapaVisual_Login
                     {
                         this.BtnClientePagador.Enabled = false;
                     }
+                    else if (!string.IsNullOrEmpty(CedulaCtePagadorAlianza))
+                    {
+                        //Cliente pagador por convenio de alianza: el pagador lo determina el
+                        //convenio, por lo que el cajero no puede cambiarlo.
+                        this.BtnClientePagador.Enabled = false;
+                    }
                     else
                     {
                         this.BtnClientePagador.Enabled = true;
@@ -11280,6 +11425,7 @@ namespace CapaVisual_Login
                 }
             }
         }
+
 
         private void DgvAbonos_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {

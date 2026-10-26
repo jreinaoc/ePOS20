@@ -2646,6 +2646,7 @@ else if (tabControl.SelectedIndex == 1)
 
         private void btnDetalleOrden_CheckedChanged(object sender, EventArgs e)
         {
+            
             if (validandoCambioTab) return;
 
             try
@@ -2654,23 +2655,23 @@ else if (tabControl.SelectedIndex == 1)
 
                 if (tabControl.SelectedIndex == 0)
                 {
-                    Btn_Tap1_Guardar.PerformClick();
-
-                    // Validación de campos obligatorios
-                    if (Cbx_Tap1_TLF_Local.SelectedIndex == -1 && Cbx_Tap1_TLF_Celular.SelectedIndex == -1 || string.IsNullOrEmpty(Txt_Tap1_Email.Text.Trim()))
+                    // FIX BUG: Primero validar todos los campos obligatorios (incluyendo fecha de nacimiento, teléfono, etc.)
+                    if (!validarvacio())
                     {
-                      
-                        // Mantenerse en el Tab 0
+                        // Si validarvacio() falla, se queda en tab 0 (el mensaje ya fue mostrado por validarvacio)
                         tabControl.SelectedIndex = 0;
                         btnPrincipal.Focus();
                         btnCargarOrden.Enabled = true;
+                        btnCargarOrden.Checked = false;
+                        return;
                     }
-                    else
-                    {
-                        // Cambiar al Tab 2 solo si pasa validación
-                        tabControl.SelectedIndex = 2;
-                        btnCargarOrden.Focus();
-                    }
+
+                    // Todas las validaciones pasaron, guardar cliente y cambiar a tab 2
+                    guardacliente();
+                    tabControl.SelectedIndex = 2;
+                    this.Pnl_2.Location = new Point(5, 0); // Establecer posición en (0, 0)
+
+                    btnCargarOrden.Focus();
                 }
 
             if (tabControl.SelectedIndex == 1)
@@ -2683,7 +2684,9 @@ else if (tabControl.SelectedIndex == 1)
                 if (clienteSinExamenesDirecto && !examenNuevo)
                 {
                     tabControl.SelectedIndex = 2;
-                    btnCargarOrden.Focus();
+                        this.Pnl_2.Location = new Point(5, 0); // Establecer posición en (0, 0)
+
+                        btnCargarOrden.Focus();
                     return;
                 }
                 //Fin Corrección IA
@@ -2719,9 +2722,11 @@ else if (tabControl.SelectedIndex == 1)
                 _L_Trabajo.AgregarTrabajo(nuevoTrabajo);
                 btnCargarOrden.Focus();
                 tabControl.SelectedIndex = 2;
+                    this.Pnl_2.Location = new Point(5, 0); // Establecer posición en (0, 0)
 
-                //ValidarTipoTrabajoTipoExamen(Cbx_Pnl2_Trbajo.SelectedValue.ToString(), Cbx_Tap2_Tipo_Examen.Text);
-                return;
+
+                    //ValidarTipoTrabajoTipoExamen(Cbx_Pnl2_Trbajo.SelectedValue.ToString(), Cbx_Tap2_Tipo_Examen.Text);
+                    return;
             }
 
             if (tabControl.SelectedIndex == 2)
@@ -4960,6 +4965,7 @@ else if (tabControl.SelectedIndex == 1)
 
             mantenervacio = false;
             //TopeExamen = 0;
+            
             if (validarvacio())
             {
                 // Evita doble clic: deshabilita el botón mientras se procesa
@@ -5249,6 +5255,17 @@ else if (tabControl.SelectedIndex == 1)
                     _FrmMensajes.ShowDialog();
                     return;
                 }
+
+                // La promocion puede estar asociada a un convenio (TB_CONVENIOS.Cod_Prom). Si el
+                // cliente no tiene ninguno de esos convenios en TB_CTEPPAL.CodConvenios, no aplica.
+                if (!_L_Cliente.ClienteAplicaPromocionConvenio(Txt_Tap1_Cedula.Text.Trim(), Cbx_Tap1_Nacionalidad.Text.Trim(), Codigo_Promocion))
+                {
+                    _FrmMensajes.co = 2;
+                    _FrmMensajes.avisomensaje("Este cliente no aplica para esta alianza");
+                    _FrmMensajes.ShowDialog();
+                    return;
+                }
+
                 Lbl_Tap3_Articulo1.Text= "Ingresar Articulo "+ " Promo: "+ filaSeleccionada.Cells["Prom_DESCRIP"].Value.ToString();
                 BotonesColor(false, "Promocion");
                 CerrarPanelPromocion();
@@ -10377,6 +10394,14 @@ if (e.KeyCode == Keys.Enter)
                 }
             }
 
+            // FIX: Si los DataGridViews están vacíos (no se abrió el panel), usar codConveniosCliente
+            // que contiene los valores del consolidado o de la BD local
+            if (codigos.Count == 0 && DgvConvenio.Rows.Count == 0 && DgvNoConvenio.Rows.Count == 0)
+            {
+                if (!string.IsNullOrWhiteSpace(codConveniosCliente))
+                    return codConveniosCliente;
+            }
+
             return codigos.Count > 0 ? string.Join(",", codigos) : null;
         }
 
@@ -11178,6 +11203,32 @@ if (e.KeyCode == Keys.Enter)
 
                 // Decide which ComboBox to focus on. You might prioritize Local, or the first one.
                 Cbx_Tap1_TLF_Local.Focus();
+                return false;
+            }
+
+            // FIX: Si hay operador celular seleccionado, validar que el número no esté vacío
+            if (Cbx_Tap1_TLF_Celular.SelectedIndex > -1 && string.IsNullOrEmpty(Txt_Tap1_TLF_Celular.Text.Trim()))
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("Registre un número de celular para continuar");
+                _FrmMensajes.StartPosition = FormStartPosition.Manual;
+                _FrmMensajes.Location = new System.Drawing.Point(600, 300);
+                _FrmMensajes.ShowDialog();
+
+                Txt_Tap1_TLF_Celular.Focus();
+                return false;
+            }
+
+            // FIX: Si hay operador local seleccionado, validar que el número no esté vacío
+            if (Cbx_Tap1_TLF_Local.SelectedIndex > -1 && string.IsNullOrEmpty(Txt_Tap1_TLF_Local.Text.Trim()))
+            {
+                _FrmMensajes.co = 2;
+                _FrmMensajes.avisomensaje("Registre un número de teléfono local para continuar");
+                _FrmMensajes.StartPosition = FormStartPosition.Manual;
+                _FrmMensajes.Location = new System.Drawing.Point(600, 300);
+                _FrmMensajes.ShowDialog();
+
+                Txt_Tap1_TLF_Local.Focus();
                 return false;
             }
 

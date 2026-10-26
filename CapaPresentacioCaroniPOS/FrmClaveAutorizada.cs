@@ -123,6 +123,7 @@ namespace CapaVisual_Login
             CampoCorrect = true;
             if (TxtClave.Text == clave)
             {
+                
                 ClaveCorrecta = true;
                 VariablesGlobales.UsuarioAutorizado_FrmClaveAutorizada = gerente;
                 VariablesGlobales.CodigoUsuarioAutorizado_FrmClaveAutorizada = CbxSelecGerent.SelectedValue.ToString();
